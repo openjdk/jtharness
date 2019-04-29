@@ -38,11 +38,20 @@ import java.io.StringWriter;
  */
 public abstract class JUnitMultiTest extends MultiTest {
 
+    private ClassLoader cl;
+
     /**
      * Creates a new instance of JUnitMultiTest setting specified classloader
      */
     public JUnitMultiTest(ClassLoader cl) {
         this.cl = cl;
+    }
+
+    protected static String exceptionToString(Throwable t) {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter writer = new PrintWriter(stringWriter);
+        t.printStackTrace(writer);
+        return stringWriter.toString();
     }
 
     /**
@@ -61,13 +70,6 @@ public abstract class JUnitMultiTest extends MultiTest {
      * <code>setTestCaseClass()</code> should have been invoked before calling this.
      */
     public abstract Status run0(String... argv);
-
-    protected static String exceptionToString(Throwable t) {
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter writer = new PrintWriter(stringWriter);
-        t.printStackTrace(writer);
-        return stringWriter.toString();
-    }
 
     /**
      * Entry point for standalone mode.
@@ -95,6 +97,4 @@ public abstract class JUnitMultiTest extends MultiTest {
     protected void setClassLoader(ClassLoader cl) {
         this.cl = cl;
     }
-
-    private ClassLoader cl;
 }

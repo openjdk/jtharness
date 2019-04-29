@@ -40,6 +40,9 @@ import java.awt.Dimension;
 
 class TestSuiteErrorsDialog extends ToolDialog {
 
+    private TestSuite testSuite;
+    private JEditorPane body;
+
     TestSuiteErrorsDialog(Component parent, UIFactory uif) {
         super(parent, uif, "tse");
     }
@@ -130,7 +133,4 @@ class TestSuiteErrorsDialog extends ToolDialog {
         }
         return s;
     }
-
-    private TestSuite testSuite;
-    private JEditorPane body;
 }

@@ -51,18 +51,29 @@ import java.util.TreeMap;
  * use the J2SE support for user preferences.
  */
 public class Preferences {
-    /**
-     * An observer interface for use by those that wishing to monitor changes
-     * to user preferences.
-     */
-    public interface Observer {
-        /**
-         * A preference has been changed.
-         *
-         * @param name     the name of the preference that has been changed
-         * @param newValue the new value for the named preference
-         */
-        void updated(String name, String newValue);
+    private static Preferences theOne;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Preferences.class);
+    private File prefsFile;
+    private Map<String, String> props;
+    private Map<String, Observer[]> observers = new Hashtable<>();
+    private boolean isUpToDate;
+    private long fileModifiedTime;
+
+    private Preferences(File file) {
+        prefsFile = file;
+        isUpToDate = true;
+        props = new TreeMap<>();
+
+        try {
+            if (prefsFile != null) {
+                InputStream in = new BufferedInputStream(new FileInputStream(prefsFile));
+                props = PropertyUtils.loadSorted(in);
+                in.close();
+                fileModifiedTime = prefsFile.lastModified();
+            }
+        } catch (IOException ignore) {
+            // ??
+        }
     }
 
     /**
@@ -92,25 +103,6 @@ public class Preferences {
             return new File(s);
         } else {
             return null;
-        }
-    }
-
-    private static Preferences theOne;
-
-    private Preferences(File file) {
-        prefsFile = file;
-        isUpToDate = true;
-        props = new TreeMap<>();
-
-        try {
-            if (prefsFile != null) {
-                InputStream in = new BufferedInputStream(new FileInputStream(prefsFile));
-                props = PropertyUtils.loadSorted(in);
-                in.close();
-                fileModifiedTime = prefsFile.lastModified();
-            }
-        } catch (IOException ignore) {
-            // ??
         }
     }
 
@@ -273,11 +265,17 @@ public class Preferences {
         return props;
     }
 
-    private File prefsFile;
-    private Map<String, String> props;
-    private Map<String, Observer[]> observers = new Hashtable<>();
-    private boolean isUpToDate;
-    private long fileModifiedTime;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Preferences.class);
+    /**
+     * An observer interface for use by those that wishing to monitor changes
+     * to user preferences.
+     */
+    public interface Observer {
+        /**
+         * A preference has been changed.
+         *
+         * @param name     the name of the preference that has been changed
+         * @param newValue the new value for the named preference
+         */
+        void updated(String name, String newValue);
+    }
 }

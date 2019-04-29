@@ -55,44 +55,6 @@ public interface Session {
     // find more appropriate place for it.
 
     /**
-     * Exception signaling of the problem happened while dealing with Session.
-     */
-    class Fault extends Exception {
-        public Fault(String reason) {
-            super(reason);
-        }
-
-        public Fault(Throwable thr) {
-            super(thr);
-        }
-    }
-
-    /**
-     * Root interface for all updates to Session.
-     */
-    interface Update {
-    }
-
-    /**
-     * Root interface for all events happened when state of Session changed.
-     */
-    interface Event {
-    }
-
-
-    /**
-     * Interface for observers of the Session state.
-     */
-    interface Observer {
-        /**
-         * Invoked when state of config has changed
-         *
-         * @param ev - Event describing the change
-         */
-        void updated(Event ev);
-    }
-
-    /**
      * Method to be invoked from outside to change the state of the Session.
      *
      * @param u - object encapsulating data describing the change.
@@ -134,41 +96,12 @@ public interface Session {
     void notifyObservers(Event evn);
 
     /**
-     * Gets test filter by its name.
-     * @param name - should be from the list of supported names.
-     * @return desired filter, if found
-     * @throw new IllegalArgumentException if name is null or unknown.
-     * @see getTestFilterNames
-     */
-    //public TestFilter getTestFilter(String name);
-
-    /**
-     * @return list of names of supported test filters.
-     */
-    //public List<String> getTestFilterNames();
-
-    /**
-     * Saves the config state to the file
-     * @param file destination file
-     * @throws com.sun.javatest.exec.Session.Fault
-     */
-    //public void save(File file) throws Fault;
-
-    /**
      * Saves the config state to the map
      *
      * @param map
      * @throws com.sun.javatest.exec.Session.Fault
      */
     void save(Map<String, String> map);
-
-
-    /**
-     * Restores the config state from the file
-     * @param file - source file
-     * @throws com.sun.javatest.exec.Session.Fault
-     */
-    //public void restore(File file) throws Fault;
 
     /**
      * Restores the config state from the map
@@ -191,11 +124,40 @@ public interface Session {
     List<String> getPropertyNames();
 
     /**
+     * Gets test filter by its name.
+     * @param name - should be from the list of supported names.
+     * @return desired filter, if found
+     * @throw new IllegalArgumentException if name is null or unknown.
+     * @see getTestFilterNames
+     */
+    //public TestFilter getTestFilter(String name);
+
+    /**
+     * @return list of names of supported test filters.
+     */
+    //public List<String> getTestFilterNames();
+
+    /**
+     * Saves the config state to the file
+     * @param file destination file
+     * @throws com.sun.javatest.exec.Session.Fault
+     */
+    //public void save(File file) throws Fault;
+
+    /**
      * @return the value of property or null if unset
      * @throws IllegalArgumentException if case of unknown name
      * @see #getPropertyNames
      */
     String getValue(String name);
+
+
+    /**
+     * Restores the config state from the file
+     * @param file - source file
+     * @throws com.sun.javatest.exec.Session.Fault
+     */
+    //public void restore(File file) throws Fault;
 
     /**
      * @return true if configuration is ready for test execution
@@ -209,5 +171,42 @@ public interface Session {
      * @return The current parameters in use.
      */
     Parameters getParameters();
+
+    /**
+     * Root interface for all updates to Session.
+     */
+    interface Update {
+    }
+
+    /**
+     * Root interface for all events happened when state of Session changed.
+     */
+    interface Event {
+    }
+
+    /**
+     * Interface for observers of the Session state.
+     */
+    interface Observer {
+        /**
+         * Invoked when state of config has changed
+         *
+         * @param ev - Event describing the change
+         */
+        void updated(Event ev);
+    }
+
+    /**
+     * Exception signaling of the problem happened while dealing with Session.
+     */
+    class Fault extends Exception {
+        public Fault(String reason) {
+            super(reason);
+        }
+
+        public Fault(Throwable thr) {
+            super(thr);
+        }
+    }
 
 }

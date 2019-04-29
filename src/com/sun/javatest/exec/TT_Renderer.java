@@ -46,6 +46,15 @@ import java.awt.Component;
  * "Basic" renderer for the test manager (exec tool) tree.
  */
 class TT_Renderer extends DefaultTreeCellRenderer {
+    // state ordering should be of length Status.NUM_STATES
+    private static final int[] stateOrdering = {Status.ERROR, Status.FAILED, Status.NOT_RUN, Status.PASSED};
+    private static final int debug = Debug.getInt(TT_Renderer.class);
+    private static Icon unknownIcon;
+    private Parameters params;
+    private FilterSelectionHandler filterHandler;
+    private TreePanelModel tpm;
+    private UIFactory uif;
+
     /**
      * @param fh The filter configuration object.
      *           This information is needed to make it easy to retrieve the
@@ -60,6 +69,42 @@ class TT_Renderer extends DefaultTreeCellRenderer {
         // this is supposed to be caught during development
         if (stateOrdering.length != Status.NUM_STATES) {
             throw new JavaTestError(uif.getI18NString("tree.unmatched"));
+        }
+    }
+
+    /**
+     * @param loading If true, the result will be appropriate for indicating that
+     *                a folder is still in flux.  False, indicates that normal evaluation
+     *                rules should apply.
+     */
+    private static int selectBranchIconIndex(int[] stats, boolean loading) {
+        /*
+        System.out.println(tn.getName() + " done " +
+        info.getStats()[0] + "  " + info.getStats()[1] + "  " + info.getStats()[2] + "  " +
+        info.getStats()[3]);
+         */
+
+        // in effect this selects in this order:
+        // 1) error (blue)
+        // 2) fail (red)
+        // 3) not run (white)
+        // 4) pass (green)
+        // 5) not runnable (grey)
+
+        for (int i = 0; i != stateOrdering.length; i++) {
+            if (stats[stateOrdering[i]] > 0) {
+                return stateOrdering[i];
+            }
+        }   // for
+
+
+        // must be a filtered-out node
+        if (!loading)
+        //return numBrIcons-1;
+        {
+            return IconFactory.FILTERED_OUT;
+        } else {
+            return Status.NOT_RUN;
         }
     }
 
@@ -225,6 +270,15 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             return null;
         }
     }
+    /*
+    protected static Icon[] leafIcons;
+    protected static Icon[] leafRunIcons;
+    protected static Icon[] brIcons;
+    protected static Icon[] brRunIcons;
+    protected static Icon[] brComputeIcons;
+    protected static final int numLeafIcons = Status.NUM_STATES + 1;
+    protected static final int numBrIcons = Status.NUM_STATES + 1;
+    */
 
     private boolean isFilteredOut(TestResult tr, TestFilter filter) {
         if (filter == null) {
@@ -277,61 +331,5 @@ class TT_Renderer extends DefaultTreeCellRenderer {
             return false;
         }
     }
-
-    /**
-     * @param loading If true, the result will be appropriate for indicating that
-     *                a folder is still in flux.  False, indicates that normal evaluation
-     *                rules should apply.
-     */
-    private static int selectBranchIconIndex(int[] stats, boolean loading) {
-        /*
-        System.out.println(tn.getName() + " done " +
-        info.getStats()[0] + "  " + info.getStats()[1] + "  " + info.getStats()[2] + "  " +
-        info.getStats()[3]);
-         */
-
-        // in effect this selects in this order:
-        // 1) error (blue)
-        // 2) fail (red)
-        // 3) not run (white)
-        // 4) pass (green)
-        // 5) not runnable (grey)
-
-        for (int i = 0; i != stateOrdering.length; i++) {
-            if (stats[stateOrdering[i]] > 0) {
-                return stateOrdering[i];
-            }
-        }   // for
-
-
-        // must be a filtered-out node
-        if (!loading)
-        //return numBrIcons-1;
-        {
-            return IconFactory.FILTERED_OUT;
-        } else {
-            return Status.NOT_RUN;
-        }
-    }
-
-    private Parameters params;
-    private FilterSelectionHandler filterHandler;
-    private TreePanelModel tpm;
-    private UIFactory uif;
-    private static Icon unknownIcon;
-    /*
-    protected static Icon[] leafIcons;
-    protected static Icon[] leafRunIcons;
-    protected static Icon[] brIcons;
-    protected static Icon[] brRunIcons;
-    protected static Icon[] brComputeIcons;
-    protected static final int numLeafIcons = Status.NUM_STATES + 1;
-    protected static final int numBrIcons = Status.NUM_STATES + 1;
-    */
-
-    // state ordering should be of length Status.NUM_STATES
-    private static final int[] stateOrdering = {Status.ERROR, Status.FAILED, Status.NOT_RUN, Status.PASSED};
-
-    private static final int debug = Debug.getInt(TT_Renderer.class);
 }
 

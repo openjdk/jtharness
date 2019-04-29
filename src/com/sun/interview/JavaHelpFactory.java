@@ -158,15 +158,15 @@ public class JavaHelpFactory implements HelpSetFactory {
      * This exception is thrown when a named help set cannot be found.
      */
     public static class HelpNotFoundFault extends Interview.Fault {
-        HelpNotFoundFault(ResourceBundle i18n, String s, String name) {
-            super(i18n, s, name);
-            this.name = name;
-        }
-
         /**
          * The name of the help set that could not be found.
          */
         public final String name;
+
+        HelpNotFoundFault(ResourceBundle i18n, String s, String name) {
+            super(i18n, s, name);
+            this.name = name;
+        }
     }
 
     /**

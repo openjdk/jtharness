@@ -50,6 +50,12 @@ import java.util.Hashtable;
 
 public class Properties2 extends Hashtable<String, Object> {
     /**
+     * A table of hex digits
+     */
+    private static char[] hexDigit = {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
+    /**
      * A property list that contains default values for any keys not
      * found in this property list.
      */
@@ -71,6 +77,15 @@ public class Properties2 extends Hashtable<String, Object> {
         this.defaults = defaults;
     }
 
+    /**
+     * Convert a nibble to a hex character
+     *
+     * @param nibble the nibble to convert.
+     */
+    private static char toHex(int nibble) {
+        return hexDigit[nibble & 0xF];
+    }
+
     public void load(java.util.Properties source) {
         Enumeration<?> e = source.propertyNames();
         while (e.hasMoreElements()) {
@@ -78,7 +93,6 @@ public class Properties2 extends Hashtable<String, Object> {
             put((String) next, source.get(next));
         }   // while
     }
-
 
     /**
      * Reads a property list from an input stream.
@@ -338,7 +352,6 @@ public class Properties2 extends Hashtable<String, Object> {
         return h.keys();
     }
 
-
     /**
      * Prints this property list out to the specified output stream.
      * This method is useful for debugging.
@@ -378,20 +391,4 @@ public class Properties2 extends Hashtable<String, Object> {
             h.put(key, get(key));
         }
     }
-
-    /**
-     * Convert a nibble to a hex character
-     *
-     * @param nibble the nibble to convert.
-     */
-    private static char toHex(int nibble) {
-        return hexDigit[nibble & 0xF];
-    }
-
-    /**
-     * A table of hex digits
-     */
-    private static char[] hexDigit = {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-    };
 }

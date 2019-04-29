@@ -40,6 +40,8 @@ import java.util.Collections;
  */
 public class RandomTestFinder extends TestFinder {
 
+    private TestFinder delegate;
+
     /**
      * Constructor to create RandomTestFinder object when the
      * original TestFinder instance is already created and initialized.
@@ -85,7 +87,5 @@ public class RandomTestFinder extends TestFinder {
     protected void scan(File file) {
         throw new Error("should not be called!");
     }
-
-    private TestFinder delegate;
 
 }

@@ -105,6 +105,13 @@ public class ServiceProperties {
     }
 
     /**
+     * @return returns currently used set of external properties.
+     */
+    public Properties getExternalProperties() {
+        return externalProps;
+    }
+
+    /**
      * Sets external properties. They are interpreted as key-value pairs
      * without variable values. Current resolution of variable properties removes,
      * another will be built at the next
@@ -144,13 +151,6 @@ public class ServiceProperties {
         props.putAll(env.getExtraValues());
 
         setExternalProperties(props);
-    }
-
-    /**
-     * @return returns currently used set of external properties.
-     */
-    public Properties getExternalProperties() {
-        return externalProps;
     }
 
     /**

@@ -60,6 +60,10 @@ class TestResultDescr {
         return file;
     }
 
+    public void setFile(File file) {
+        this.file = file;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -78,10 +82,6 @@ class TestResultDescr {
 
     public void setID(int id) {
         this.id = id;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
     }
 
 }

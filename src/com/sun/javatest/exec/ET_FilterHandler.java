@@ -61,6 +61,28 @@ import java.util.Vector;
  * This class handles all the special filter juggling that exec tool needs to do.
  */
 public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
+    // preferences constants
+    private static final String FILTER_PREFIX = "exec.vfilters";
+    private static final String BTF_PREFIX = FILTER_PREFIX + ".btf";
+    private static final String META_ID = "meta_tsid";
+    private static final String META_NAME = "meta_tsn";
+    private static final String META_CLASS = "meta_class";
+    protected Vector<TestFilter> allFilters;
+    private FilterConfig fConfig;
+    private FilterSelectionHandler fHandler;
+    private ExecModel model;
+    private UIFactory uif;
+    private JComponent parentComponent;
+    private Map<String, String> map;        // saved desktop map to restore from
+    // filters
+    private LastRunFilter ltrFilter;        // last test run
+    private ParameterFilter paramFilter;    // current param filter
+    private BasicCustomTestFilter bctf;     // "custom" filter
+    private AllTestsFilter allFilter;
+    private TestFilter certFilter;          // "certification" filter
+    // custom filter info
+    private TestSuite lastTs;
+
     ET_FilterHandler(JComponent parent, ExecModel model, Harness h, UIFactory uif,
                      Map<String, String> map) {
         this(parent, model, uif);
@@ -308,7 +330,6 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         // do nothing
     }
 
-
     private void updateCustomFilter() {
         // we only go thru here once per init.
         if (lastTs != null) {
@@ -448,31 +469,6 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
                 p.getPreference(FILTER_PREFIX + ".count", "0"));
     }
 
-    private FilterConfig fConfig;
-    private FilterSelectionHandler fHandler;
-    private ExecModel model;
-    private UIFactory uif;
-    private JComponent parentComponent;
-    private Map<String, String> map;        // saved desktop map to restore from
-
-    // filters
-    private LastRunFilter ltrFilter;        // last test run
-    private ParameterFilter paramFilter;    // current param filter
-    private BasicCustomTestFilter bctf;     // "custom" filter
-    private AllTestsFilter allFilter;
-    private TestFilter certFilter;          // "certification" filter
-    protected Vector<TestFilter> allFilters;
-
-    // custom filter info
-    private TestSuite lastTs;
-
-    // preferences constants
-    private static final String FILTER_PREFIX = "exec.vfilters";
-    private static final String BTF_PREFIX = FILTER_PREFIX + ".btf";
-    private static final String META_ID = "meta_tsid";
-    private static final String META_NAME = "meta_tsn";
-    private static final String META_CLASS = "meta_class";
-
     @Override
     public void updated(Event ev) {
         if (ev instanceof BasicSession.E_NewConfig) {
@@ -486,6 +482,8 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
      * want to use here.
      */
     private static class ConstrainedPreferenceMap implements Map<String, String> {
+        private Preferences prefs;
+
         ConstrainedPreferenceMap(Preferences p) {
             prefs = p;
         }
@@ -558,8 +556,6 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
         public String get(String key) {
             return prefs.getPreference(key);
         }
-
-        private Preferences prefs;
     }
 
     private static class FilterWatcher implements FilterSelectionHandler.Observer {

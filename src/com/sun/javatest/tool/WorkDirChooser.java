@@ -45,25 +45,41 @@ import java.util.Map;
 public class WorkDirChooser extends JFileChooser {
 
     /**
+     * A constant to indicate that a new work directory is to be created.
+     *
+     * @see #setMode
+     */
+    public static final int NEW = 0;
+    /**
+     * A constant to indicate that an existing work directory is to be opened.
+     *
+     * @see #setMode
+     */
+    public static final int OPEN_FOR_ANY_TESTSUITE = 1;
+    /**
+     * A constant to indicate that an existing work directory that is to be opened
+     * in conjunction with a specific test suite.
+     *
+     * @see #setMode
+     */
+    public static final int OPEN_FOR_GIVEN_TESTSUITE = 2;
+    private int mode;
+    private TestSuite testSuite;
+    private TestSuiteChooser testSuiteChooser;
+    private WorkDirectory workDir;
+    private boolean allowNoTemplate = false;
+    private UIFactory uif;
+    private SelectedWorkDirApprover swda;
+    private Dimension size;
+    private Map<String, String[]> fileData;
+    private Map<String, Boolean> wdData;
+
+    /**
      * Create a WorkDirChooser, initially showing the user's current directory.
      */
     public WorkDirChooser(boolean usePrefs) {
         this(getDefaultDirFromPrefs(usePrefs));
         size = getPreferredSize();
-    }
-
-    private static File getDefaultDirFromPrefs(boolean usePrefs) {
-        if (!usePrefs) {
-            return new File(System.getProperty("user.dir"));
-        } else {
-            Preferences prefs = Preferences.access();
-            String defaultDir = prefs.getPreference(WorkDirChooseTool.DEFAULT_WD_PREF_NAME);
-            if (defaultDir != null) {
-                return new File(defaultDir);
-            } else {
-                return new File(System.getProperty("user.dir"));
-            }
-        }
     }
 
     /**
@@ -104,27 +120,34 @@ public class WorkDirChooser extends JFileChooser {
         setFileFilter(new WDC_FileFilter(uif.getI18NString("wdc.ft")));
     }
 
-    /**
-     * A constant to indicate that a new work directory is to be created.
-     *
-     * @see #setMode
-     */
-    public static final int NEW = 0;
+    private static File getDefaultDirFromPrefs(boolean usePrefs) {
+        if (!usePrefs) {
+            return new File(System.getProperty("user.dir"));
+        } else {
+            Preferences prefs = Preferences.access();
+            String defaultDir = prefs.getPreference(WorkDirChooseTool.DEFAULT_WD_PREF_NAME);
+            if (defaultDir != null) {
+                return new File(defaultDir);
+            } else {
+                return new File(System.getProperty("user.dir"));
+            }
+        }
+    }
 
-    /**
-     * A constant to indicate that an existing work directory is to be opened.
-     *
-     * @see #setMode
-     */
-    public static final int OPEN_FOR_ANY_TESTSUITE = 1;
+    private static File normalize(File dir) {
+        // check this and all parent directories, in case any one is a work directory
+        for (File d = dir; d != null && !d.getName().isEmpty(); d = d.getParentFile()) {
+            if (WorkDirectory.isWorkDirectory(d)) {
+                // found a parent directory that is a test suite,
+                // so normalize to this directory's parent
+                File p = d.getParentFile();
+                return p != null ? p : dir;
+            }
+        }
 
-    /**
-     * A constant to indicate that an existing work directory that is to be opened
-     * in conjunction with a specific test suite.
-     *
-     * @see #setMode
-     */
-    public static final int OPEN_FOR_GIVEN_TESTSUITE = 2;
+        // no work directory found, so nothing wrong with this dir
+        return dir;
+    }
 
     /**
      * Set whether the chooser is to be used to create a new work directory
@@ -246,40 +269,12 @@ public class WorkDirChooser extends JFileChooser {
         }
     }
 
-    private static File normalize(File dir) {
-        // check this and all parent directories, in case any one is a work directory
-        for (File d = dir; d != null && !d.getName().isEmpty(); d = d.getParentFile()) {
-            if (WorkDirectory.isWorkDirectory(d)) {
-                // found a parent directory that is a test suite,
-                // so normalize to this directory's parent
-                File p = d.getParentFile();
-                return p != null ? p : dir;
-            }
-        }
-
-        // no work directory found, so nothing wrong with this dir
-        return dir;
-    }
-
     private void approveOpenSelection_dirExists(File dir) {
         // the directory exists, but is not a work dir, so just traverse into it
         setCurrentDirectory(dir);
         setSelectedFile(null);
         setSelectedFiles(null);
     }
-
-    private int mode;
-    private TestSuite testSuite;
-    private TestSuiteChooser testSuiteChooser;
-    private WorkDirectory workDir;
-    private boolean allowNoTemplate = false;
-
-    private UIFactory uif;
-    private SelectedWorkDirApprover swda;
-
-    private Dimension size;
-    private Map<String, String[]> fileData;
-    private Map<String, Boolean> wdData;
 
     @Override
     public String getName(File f) {

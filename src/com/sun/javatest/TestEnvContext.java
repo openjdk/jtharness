@@ -48,22 +48,12 @@ import java.util.Vector;
  * A table representing the collection of environments found in a set of environment files.
  */
 public class TestEnvContext {
-    /**
-     * This exception is to report problems using {@link TestEnvContext} objects.
-     */
-    public static class Fault extends Exception {
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
-    }
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestEnvContext.class);
+    private static boolean debug = Boolean.getBoolean("debug." + TestEnvContext.class.getName());
+    private List<Map<String, String>> propTables;
+    private String[] propTableNames;
+    private String[] envNames;
+    private String[] envMenuNames;
 
     /**
      * Create a context from a set of environment (.jte) files.
@@ -347,11 +337,20 @@ public class TestEnvContext {
         v.add(s);
     }
 
-    private List<Map<String, String>> propTables;
-    private String[] propTableNames;
-    private String[] envNames;
-    private String[] envMenuNames;
+    /**
+     * This exception is to report problems using {@link TestEnvContext} objects.
+     */
+    public static class Fault extends Exception {
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
 
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestEnvContext.class);
-    private static boolean debug = Boolean.getBoolean("debug." + TestEnvContext.class.getName());
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
+    }
 }

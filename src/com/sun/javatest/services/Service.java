@@ -244,38 +244,12 @@ public abstract class Service implements MessageHandler {
         return conn.getServiceErrorStream();
     }
 
-
-    public static class NotConnectedException extends Exception {
-        public NotConnectedException(String msg) {
-            super(msg);
-        }
+    /**
+     * @return return used {@link com.sun.javatest.services.Connector}
+     */
+    public Connector getConnector() {
+        return conn;
     }
-
-    public static class ServiceError extends Exception {
-        public ServiceError(String msg) {
-            super(msg);
-        }
-    }
-
-    public static class MalformedParamsException extends Exception {
-        private String descr;
-        private Map<String, String> params;
-
-        public MalformedParamsException(String s, Map<String, String> params) {
-            descr = s;
-            this.params = params;
-        }
-
-        public String getDescription() {
-            return descr;
-        }
-
-        public Map<String, String> getParams() {
-            return params;
-        }
-    }
-
-    // Setters and getters
 
     /**
      * Method to replace default {@link com.sun.javatest.services.LocalConnector}
@@ -287,22 +261,6 @@ public abstract class Service implements MessageHandler {
     }
 
     /**
-     * @return return used {@link com.sun.javatest.services.Connector}
-     */
-    public Connector getConnector() {
-        return conn;
-    }
-
-    /**
-     * Method to set ServiceProperties for this service.
-     *
-     * @param props ServiceProperties of this service
-     */
-    public void setProperties(ServiceProperties props) {
-        this.props = props;
-    }
-
-    /**
      * Method to set ServiceProperties for this service.
      *
      * @return ServiceProperties of this service.
@@ -311,13 +269,15 @@ public abstract class Service implements MessageHandler {
         return props;
     }
 
+    // Setters and getters
+
     /**
-     * Method to set {@code id} for this service.
+     * Method to set ServiceProperties for this service.
      *
-     * @param id unique identifier of the service in test suite.
+     * @param props ServiceProperties of this service
      */
-    public void setId(String id) {
-        this.id = id;
+    public void setProperties(ServiceProperties props) {
+        this.props = props;
     }
 
     /**
@@ -330,12 +290,12 @@ public abstract class Service implements MessageHandler {
     }
 
     /**
-     * Method to set string with description of this service.
+     * Method to set {@code id} for this service.
      *
-     * @param descr description of the service.
+     * @param id unique identifier of the service in test suite.
      */
-    public void setDescription(String descr) {
-        this.descr = descr;
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
@@ -345,6 +305,15 @@ public abstract class Service implements MessageHandler {
      */
     public String getDescription() {
         return descr;
+    }
+
+    /**
+     * Method to set string with description of this service.
+     *
+     * @param descr description of the service.
+     */
+    public void setDescription(String descr) {
+        this.descr = descr;
     }
 
     Logger createLog(Parameters params) {
@@ -390,6 +359,36 @@ public abstract class Service implements MessageHandler {
         msg += "Expected :" + expected.toString() + "\n";
 
         log.log(Level.SEVERE, msg);
+    }
+
+    public static class NotConnectedException extends Exception {
+        public NotConnectedException(String msg) {
+            super(msg);
+        }
+    }
+
+    public static class ServiceError extends Exception {
+        public ServiceError(String msg) {
+            super(msg);
+        }
+    }
+
+    public static class MalformedParamsException extends Exception {
+        private String descr;
+        private Map<String, String> params;
+
+        public MalformedParamsException(String s, Map<String, String> params) {
+            descr = s;
+            this.params = params;
+        }
+
+        public String getDescription() {
+            return descr;
+        }
+
+        public Map<String, String> getParams() {
+            return params;
+        }
     }
 
 //    public void setOutWriter(Writer w) {

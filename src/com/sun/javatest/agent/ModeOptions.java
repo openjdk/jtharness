@@ -31,17 +31,12 @@ import java.awt.Panel;
 import java.awt.TextField;
 
 abstract class ModeOptions extends Panel {
+    private String modeName;
+
     ModeOptions(String modeName) {
         setLayout(new GridBagLayout());
         this.modeName = modeName;
     }
-
-    String getModeName() {
-        return modeName;
-    }
-
-    abstract ConnectionFactory createConnectionFactory(int concurrency)
-            throws BadValue, ConnectionFactory.Fault;
 
     protected static int getInt(String label, TextField field) throws BadValue {
         try {
@@ -51,5 +46,10 @@ abstract class ModeOptions extends Panel {
         }
     }
 
-    private String modeName;
+    String getModeName() {
+        return modeName;
+    }
+
+    abstract ConnectionFactory createConnectionFactory(int concurrency)
+            throws BadValue, ConnectionFactory.Fault;
 }

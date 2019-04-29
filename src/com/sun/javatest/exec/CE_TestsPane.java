@@ -63,6 +63,14 @@ import java.util.Set;
  * Standard values view, initial tests selection panel.
  */
 class CE_TestsPane extends CE_StdPane {
+    private TestsParameters testsParameters;
+    private MutableTestsParameters mutableTestsParameters;
+    private ButtonGroup btnGrp;
+    private JRadioButton allTestsBtn;
+    private JRadioButton selectTestsBtn;
+    private TestTreeSelectionPane testsField;
+    private JButton loadBtn;
+    private FileChooser chooser;
     CE_TestsPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "tests");
 
@@ -274,13 +282,4 @@ class CE_TestsPane extends CE_StdPane {
 
         testsField.setSelection(paths.toArray(new String[paths.size()]));
     }
-
-    private TestsParameters testsParameters;
-    private MutableTestsParameters mutableTestsParameters;
-    private ButtonGroup btnGrp;
-    private JRadioButton allTestsBtn;
-    private JRadioButton selectTestsBtn;
-    private TestTreeSelectionPane testsField;
-    private JButton loadBtn;
-    private FileChooser chooser;
 }

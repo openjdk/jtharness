@@ -40,6 +40,8 @@ import java.util.Enumeration;
 class TP_ResultsSubpanel
         extends TP_PropertySubpanel {
 
+    private TRObserver observer = new TRObserver();
+
     TP_ResultsSubpanel(UIFactory uif) {
         super(uif, "rslt");
         ContextHelpManager.setHelpIDString(this, "browse.resultPropertiesTab.csh");
@@ -104,8 +106,6 @@ class TP_ResultsSubpanel
             }
         }
     }
-
-    private TRObserver observer = new TRObserver();
 
     //------------------------------------------------------------------------------------
 

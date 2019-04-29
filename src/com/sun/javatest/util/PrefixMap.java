@@ -39,6 +39,9 @@ import java.util.Vector;
  * the key names with a specific string.
  */
 public class PrefixMap<V> implements Map<String, V> {
+    private Map<String, V> map;
+    private String prefix;
+
     /**
      * Create a map whose entries are stored in a parent map
      * by prefixing the key names with a specific string.
@@ -178,7 +181,4 @@ public class PrefixMap<V> implements Map<String, V> {
         }
         return c;
     }
-
-    private Map<String, V> map;
-    private String prefix;
 }

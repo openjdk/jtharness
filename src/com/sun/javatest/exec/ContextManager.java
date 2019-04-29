@@ -78,6 +78,42 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     // GUI CUSTOMIZATION
 
     /**
+     * This is the name of system property to turn template support on.
+     * To enable templates you should specify "true" value for this property
+     * or override getExecToolControlFactory() method.
+     */
+    static final String TEMPLATE_ON_PROPERTY = "com.sun.javatest.exec.templateMode";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ContextManager.class);
+    protected File configLoadPath;
+    protected File configSavePath;
+    protected boolean configLoadOutside = true;
+    protected boolean configSaveOutside = true;
+    protected File templateLoadPath;
+    protected File templateSavePath;
+
+    // INTERVIEW ACCESS
+    protected boolean templateLoadOutside = true;
+    protected boolean templateSaveOutside = true;
+    protected File wdPath;
+    protected FeatureManager featureManager = new FeatureManager();
+    // holder for a copy of the current interview and template values
+    //private Session currentConfig;
+    protected InterviewParameters currentConfig = null;
+    protected InterviewParameters currentTemplate = null;
+    private WorkDirectory workdir;
+    private TestSuite testSuite;
+    private InterviewParameters interview;
+
+    // TEMPLATE SAVING BEHAVIOUR
+    private ExecTool parentTool;
+
+    // WORK DIRECTORY OPTIONS
+    private Map<Class<? extends Question>, QuestionRenderer> customRenderers;
+    private volatile boolean pendingRefresh = false;
+
+    // TEMPLATE OPTIONS
+
+    /**
      * Get the custom menu manager for this Test Manager instance.
      *
      * @return The custom menu manager.  If null, it can be assumed that there
@@ -142,7 +178,6 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         return null;
     }
 
-
     /**
      * Get the active test suite.
      *
@@ -152,6 +187,11 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         return testSuite;
     }
 
+    protected void setTestSuite(TestSuite ts) {
+        testSuite = ts;
+    }
+
+    // CONFIGURATION FILE OPTIONS
 
     /**
      * Get the active work directory.
@@ -162,7 +202,9 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         return workdir;
     }
 
-    // INTERVIEW ACCESS
+    protected void setWorkDirectory(WorkDirectory w) {
+        workdir = w;
+    }
 
     /**
      * Get the permanent instance of the interview object used as a holder
@@ -181,6 +223,12 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     public InterviewParameters getInterview() {
         //return interview;
         return getCurrentInterview();
+    }
+
+    void setInterview(InterviewParameters i) {
+        // As interview managed by ExecTool, it should be disposed there.
+//        interview.dispose();
+        interview = i;
     }
 
     /**
@@ -340,7 +388,6 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         parentTool.syncInterview();
     }
 
-
     /**
      * Get feature manager from this ContextManager instance.
      *
@@ -359,8 +406,6 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         this.featureManager = featureManager;
     }
 
-    // TEMPLATE SAVING BEHAVIOUR
-
     /**
      * This method is invoked each time before saving template.
      * The template will be saved only if this method returns true.
@@ -374,7 +419,15 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         return true;
     }
 
-    // WORK DIRECTORY OPTIONS
+    /**
+     * Get the default path for work directory.
+     *
+     * @return The initial directory to load and create work directories.
+     * @see #setDefaultWorkDirPath(File)
+     */
+    public File getDefaultWorkDirPath() {
+        return this.wdPath;
+    }
 
     /**
      * Default path presented to user when they are prompted to create
@@ -394,16 +447,16 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
     /**
-     * Get the default path for work directory.
+     * Get the default path from which template files are loaded.
      *
-     * @return The initial directory to load and create work directories.
-     * @see #setDefaultWorkDirPath(File)
+     * @return The initial directory where template files should be
+     * loaded from.  Null if not set.
+     * @see #setDefaultTemplateLoadPath
+     * @see #setAllowTemplateLoadOutsideDefault
      */
-    public File getDefaultWorkDirPath() {
-        return this.wdPath;
+    public File getDefaultTemplateLoadPath() {
+        return templateLoadPath;
     }
-
-    // TEMPLATE OPTIONS
 
     /**
      * Set the default path from which template files are loaded.
@@ -424,15 +477,15 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
     /**
-     * Get the default path from which template files are loaded.
+     * Get the default path to which template files are saved.
      *
      * @return The initial directory where template files should be
-     * loaded from.  Null if not set.
-     * @see #setDefaultTemplateLoadPath
-     * @see #setAllowTemplateLoadOutsideDefault
+     * saved to.  Null if not set.
+     * @see #setDefaultTemplateSavePath(File)
+     * @see #setAllowTemplateSaveOutsideDefault(boolean)
      */
-    public File getDefaultTemplateLoadPath() {
-        return templateLoadPath;
+    public File getDefaultTemplateSavePath() {
+        return templateSavePath;
     }
 
     /**
@@ -454,15 +507,13 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
     /**
-     * Get the default path to which template files are saved.
+     * Get ability to load templates outside default directory
      *
-     * @return The initial directory where template files should be
-     * saved to.  Null if not set.
-     * @see #setDefaultTemplateSavePath(File)
-     * @see #setAllowTemplateSaveOutsideDefault(boolean)
+     * @return true if the loading outside default directory is allowed or false otherwise
+     * @see #setAllowTemplateLoadOutsideDefault(boolean)
      */
-    public File getDefaultTemplateSavePath() {
-        return templateSavePath;
+    public boolean getAllowTemplateLoadOutsideDefault() {
+        return templateLoadOutside;
     }
 
     /**
@@ -476,14 +527,16 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
     /**
-     * Get ability to load templates outside default directory
+     * Get ability to save templates outside default directory
      *
-     * @return true if the loading outside default directory is allowed or false otherwise
-     * @see #setAllowTemplateLoadOutsideDefault(boolean)
+     * @return true if the saving outside default directory is allowed or false otherwise
+     * @see #setAllowTemplateSaveOutsideDefault(boolean)
      */
-    public boolean getAllowTemplateLoadOutsideDefault() {
-        return templateLoadOutside;
+    public boolean getAllowTemplateSaveOutsideDefault() {
+        return templateSaveOutside;
     }
+
+    // ------------------------ PRIVATE -----------------------------
 
     /**
      * Set ability to save templates outside default directory.
@@ -496,16 +549,16 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
     /**
-     * Get ability to save templates outside default directory
+     * Get the default path from which configuration files are loaded.
      *
-     * @return true if the saving outside default directory is allowed or false otherwise
-     * @see #setAllowTemplateSaveOutsideDefault(boolean)
+     * @return The initial directory where configuration files should be
+     * loaded from.  Null if not set.
+     * @see #setDefaultConfigLoadPath
+     * @see #setAllowConfigLoadOutsideDefault
      */
-    public boolean getAllowTemplateSaveOutsideDefault() {
-        return templateSaveOutside;
+    public File getDefaultConfigLoadPath() {
+        return configLoadPath;
     }
-
-    // CONFIGURATION FILE OPTIONS
 
     /**
      * Set the default path from which configuration files are loaded.
@@ -530,11 +583,11 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      *
      * @return The initial directory where configuration files should be
      * loaded from.  Null if not set.
-     * @see #setDefaultConfigLoadPath
-     * @see #setAllowConfigLoadOutsideDefault
+     * @see #setDefaultConfigSavePath(File)
+     * @see #setAllowConfigSaveOutsideDefault(boolean)
      */
-    public File getDefaultConfigLoadPath() {
-        return configLoadPath;
+    public File getDefaultConfigSavePath() {
+        return configSavePath;
     }
 
     /**
@@ -559,15 +612,13 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     }
 
     /**
-     * Get the default path from which configuration files are loaded.
+     * Get ability to load config outside default directory
      *
-     * @return The initial directory where configuration files should be
-     * loaded from.  Null if not set.
-     * @see #setDefaultConfigSavePath(File)
-     * @see #setAllowConfigSaveOutsideDefault(boolean)
+     * @return true if the loading outside default directory is allowed or false otherwise
+     * @see #setAllowConfigLoadOutsideDefault(boolean)
      */
-    public File getDefaultConfigSavePath() {
-        return configSavePath;
+    public boolean getAllowConfigLoadOutsideDefault() {
+        return configLoadOutside;
     }
 
     /**
@@ -583,11 +634,11 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     /**
      * Get ability to load config outside default directory
      *
-     * @return true if the loading outside default directory is allowed or false otherwise
+     * @return true if the saving outside default directory is allowed or false otherwise
      * @see #setAllowConfigLoadOutsideDefault(boolean)
      */
-    public boolean getAllowConfigLoadOutsideDefault() {
-        return configLoadOutside;
+    public boolean getAllowConfigSaveOutsideDefault() {
+        return configSaveOutside;
     }
 
     /**
@@ -599,17 +650,6 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     public void setAllowConfigSaveOutsideDefault(boolean state) {
         configSaveOutside = state;
     }
-
-    /**
-     * Get ability to load config outside default directory
-     *
-     * @return true if the saving outside default directory is allowed or false otherwise
-     * @see #setAllowConfigLoadOutsideDefault(boolean)
-     */
-    public boolean getAllowConfigSaveOutsideDefault() {
-        return configSaveOutside;
-    }
-
 
     public void loadConfiguration(File file) {
         parentTool.loadInterview(file);
@@ -623,15 +663,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         setWorkDirectory(w);
     }
 
-    protected void setWorkDirectory(WorkDirectory w) {
-        workdir = w;
-    }
-
     protected void openTree(WorkDirectory wd) {
-    }
-
-    protected void setTestSuite(TestSuite ts) {
-        testSuite = ts;
     }
 
     public Map<Class<? extends Question>, QuestionRenderer> getCustomRenderersMap() {
@@ -719,6 +751,17 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     protected void updatedCurrentTemplate(InterviewParameters ip) {
     }
 
+    void setCurrentConfig(SessionExt conf) {
+        setWorkDirectory(conf.getWorkDirectory());
+        currentConfig = conf.getInterviewParameters();
+        if (conf instanceof TemplateSession) {
+            currentTemplate = ((TemplateSession) conf).getTemplate();
+        }
+    }
+
+    void setTool(ExecTool t) {
+        parentTool = t;
+    }
 
     /**
      * Special class for creating dialogs which should be attached to the
@@ -741,66 +784,5 @@ public class ContextManager implements InterviewParameters.TemplateManager,
             super(context.parentTool, uif, key);
         }
     }
-
-    // ------------------------ PRIVATE -----------------------------
-
-    void setInterview(InterviewParameters i) {
-        // As interview managed by ExecTool, it should be disposed there.
-//        interview.dispose();
-        interview = i;
-    }
-
-    void setCurrentConfig(SessionExt conf) {
-        setWorkDirectory(conf.getWorkDirectory());
-        currentConfig = conf.getInterviewParameters();
-        if (conf instanceof TemplateSession) {
-            currentTemplate = ((TemplateSession) conf).getTemplate();
-        }
-    }
-
-
-    void setTool(ExecTool t) {
-        parentTool = t;
-    }
-
-
-    protected File configLoadPath;
-    protected File configSavePath;
-
-    protected boolean configLoadOutside = true;
-    protected boolean configSaveOutside = true;
-
-    protected File templateLoadPath;
-    protected File templateSavePath;
-
-    protected boolean templateLoadOutside = true;
-    protected boolean templateSaveOutside = true;
-
-    protected File wdPath;
-
-
-    protected FeatureManager featureManager = new FeatureManager();
-
-    private WorkDirectory workdir;
-    private TestSuite testSuite;
-    private InterviewParameters interview;
-
-    // holder for a copy of the current interview and template values
-    //private Session currentConfig;
-    protected InterviewParameters currentConfig = null;
-    protected InterviewParameters currentTemplate = null;
-    private ExecTool parentTool;
-    private Map<Class<? extends Question>, QuestionRenderer> customRenderers;
-
-    private volatile boolean pendingRefresh = false;
-
-    /**
-     * This is the name of system property to turn template support on.
-     * To enable templates you should specify "true" value for this property
-     * or override getExecToolControlFactory() method.
-     */
-    static final String TEMPLATE_ON_PROPERTY = "com.sun.javatest.exec.templateMode";
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ContextManager.class);
 
 }

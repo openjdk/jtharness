@@ -61,6 +61,15 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
 class QuestionLogBrowser extends ToolDialog {
+    private static final String SAVE_AS = "SaveAs";
+    private static final String PRINT_SETUP = "PrintSetup";
+    private static final String PRINT = "Print";
+    private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
+    private ExecModel model;
+    private InterviewParameters params;
+    private MultiFormatPane body;
+    private FileChooser fileChooser;
+    private Listener listener;
     QuestionLogBrowser(JComponent parent, ExecModel model, UIFactory uif) {
         super(parent, uif, "qlb");
 
@@ -283,17 +292,4 @@ class QuestionLogBrowser extends ToolDialog {
         }
 
     }
-
-    private ExecModel model;
-    private InterviewParameters params;
-
-    private MultiFormatPane body;
-
-    private FileChooser fileChooser;
-    private Listener listener;
-
-    private static final String SAVE_AS = "SaveAs";
-    private static final String PRINT_SETUP = "PrintSetup";
-    private static final String PRINT = "Print";
-    private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
 }

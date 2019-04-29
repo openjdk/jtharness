@@ -44,6 +44,16 @@ import java.nio.charset.StandardCharsets;
 
 // this code is based upon that found in the sun.net package
 class RequestHandler implements Runnable {
+    private static final String GET = "GET";
+    private static final String POST = "POST";
+    private static final String BAD_METHOD = "405 Method Not Allowed";
+    private static final String HTTP_CONTENT_TYPE = "Content-Type: ";
+    private static final String HTTP_CONTENT_HTML = HTTP_CONTENT_TYPE + "text/html";
+    protected static boolean debug = Boolean.getBoolean("debug." + RequestHandler.class.getName());
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(RequestHandler.class);
+    private Socket soc;
+    private PrintWriter out;
+    private LineNumberReader in;
     /**
      * Construct a handler to take the HTTP request on the given socket.
      * Based on the requested URL, the correct JThttpProvider class will be
@@ -173,17 +183,4 @@ class RequestHandler implements Runnable {
         out.println(code);
         out.println("</body></html>");
     }
-
-
-    private Socket soc;
-    private PrintWriter out;
-    private LineNumberReader in;
-
-    private static final String GET = "GET";
-    private static final String POST = "POST";
-    private static final String BAD_METHOD = "405 Method Not Allowed";
-    private static final String HTTP_CONTENT_TYPE = "Content-Type: ";
-    private static final String HTTP_CONTENT_HTML = HTTP_CONTENT_TYPE + "text/html";
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(RequestHandler.class);
-    protected static boolean debug = Boolean.getBoolean("debug." + RequestHandler.class.getName());
 }

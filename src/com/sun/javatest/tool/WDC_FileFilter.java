@@ -30,6 +30,8 @@ import javax.swing.filechooser.FileFilter;
 import java.io.File;
 
 public class WDC_FileFilter extends FileFilter {
+    private String description;
+
     public WDC_FileFilter(String description) {
         super();
         this.description = description;
@@ -44,7 +46,5 @@ public class WDC_FileFilter extends FileFilter {
     public String getDescription() {
         return description;
     }
-
-    private String description;
 }
 

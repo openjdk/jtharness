@@ -33,6 +33,8 @@ import java.util.Vector;
  * substrings.
  */
 public class StringArray {
+    private static final String[] empty = {};
+
     /**
      * Convert a single whitespace separated string into it's component
      * substrings.  The substrings can be separated by one or more instances of
@@ -212,6 +214,4 @@ public class StringArray {
     private static boolean white(char c) {
         return c == ' ' || c == '\t' || c == '\n';
     }
-
-    private static final String[] empty = {};
 }

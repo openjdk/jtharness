@@ -42,43 +42,26 @@ import java.util.ArrayList;
  */
 
 class MonitorState {
+    private final Object vLock = new Object();
+    // instance vars for MonitorState
+    private Harness harness;
+    private boolean running;
+    private Observer[] obs = new Observer[0];
+    private volatile int[] stats;
+    private ArrayList<TestResult> runningTests = new ArrayList<>(5);
+    /**
+     * Basis for the elapsed time.
+     */
+    private long startTime;
+    private long finishTime;    // only used if startTime != -1 and finishTime >= 0
+    private Dispatcher dispatcher = new Dispatcher();
+
     MonitorState(Harness h) {
         h.addObserver(dispatcher);
         harness = h;
         startTime = -1l;
         finishTime = -1l;
         stats = new int[Status.NUM_STATES];
-    }
-
-    /**
-     * Monitor the harness state.
-     * By definition, all observations will be broadcast on the event thread.
-     * Be short and timely in processing these events.
-     */
-    interface Observer {
-        /**
-         * A new test run is starting.
-         */
-        void starting();
-
-        /**
-         * The tests have stopped running, and the harness is now doing
-         * cleanup.
-         */
-        void postProcessing();
-
-        /**
-         * A test run is being stopped by something.  This is not the same
-         * as finishing.
-         */
-        void stopping();
-
-        /**
-         * A test run is finishing.
-         *
-         * @param allOk Did all the tests pass?
-         */
-        void finished(boolean allOk);
     }
 
     void addObserver(Observer o) {
@@ -225,6 +208,36 @@ class MonitorState {
     private synchronized void resetStats() {
         stats = new int[Status.NUM_STATES];
     }
+    /**
+     * Monitor the harness state.
+     * By definition, all observations will be broadcast on the event thread.
+     * Be short and timely in processing these events.
+     */
+    interface Observer {
+        /**
+         * A new test run is starting.
+         */
+        void starting();
+
+        /**
+         * The tests have stopped running, and the harness is now doing
+         * cleanup.
+         */
+        void postProcessing();
+
+        /**
+         * A test run is being stopped by something.  This is not the same
+         * as finishing.
+         */
+        void stopping();
+
+        /**
+         * A test run is finishing.
+         *
+         * @param allOk Did all the tests pass?
+         */
+        void finished(boolean allOk);
+    }
 
     class Dispatcher implements Harness.Observer {
 
@@ -335,21 +348,5 @@ class MonitorState {
             }
         }
     }
-
-    // instance vars for MonitorState
-    private Harness harness;
-    private boolean running;
-    private Observer[] obs = new Observer[0];
-    private volatile int[] stats;
-
-    private ArrayList<TestResult> runningTests = new ArrayList<>(5);
-    private final Object vLock = new Object();
-
-    /**
-     * Basis for the elapsed time.
-     */
-    private long startTime;
-    private long finishTime;    // only used if startTime != -1 and finishTime >= 0
-    private Dispatcher dispatcher = new Dispatcher();
 }
 

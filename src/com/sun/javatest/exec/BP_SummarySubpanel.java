@@ -69,6 +69,34 @@ import java.util.Arrays;
  */
 class BP_SummarySubpanel extends BP_BranchSubpanel {
 
+    // seven fields:
+    // pass, fail, error, not run, subtotal, filtered out, total
+    private static final int NUM_FIELDS = 7;
+    private static final int SUBTOTAL_INDEX = 4;
+    private static final int FILTERED_INDEX = 5;
+    private static final int TOTAL_INDEX = 6;
+    private static final int NONTOTAL_FIELD_RMARGIN = 10;
+    private static final int TOTAL_FIELD_RMARGIN = 2;
+    private static final int ACTIVE_FREQUENCY = 1000;       // while iterator running
+    private static final int INACTIVE_FREQUENCY = 2500;     // while just waiting for updates
+    private static Color[] pieColors;
+    private static int debug = Debug.getInt(BP_SummarySubpanel.class);
+    protected final int[] stateOrdering = {Status.ERROR, Status.FAILED, Status.NOT_RUN, Status.PASSED};
+    private final int NTFIELD_WIDTH = 5;
+    private final int TFIELD_WIDTH = 7;
+    private CounterThread ct;
+    private int[] stats;
+    private int filtered;
+    private JLabel progLabel;
+    private ProgressMeter pMeter;
+    private /* static */ JLabel[] sTypes;
+    private JTextField[] sValues;
+    private JTextField subtotalTf;
+    private JTextField totalTf;
+    private JTextField folderNameTf;
+    private JTextField filterNameTf;
+    private JTextField filterDescTf;
+    private PieChart pie;
     BP_SummarySubpanel(UIFactory uif, BP_Model bpm, TestTreeModel ttm) {
         super("stats", uif, bpm, ttm, "br.summ");
         init();
@@ -499,6 +527,197 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
         }
     }
 
+    static class Divider extends JComponent {
+
+        int thick = 2;
+        int space = 4;
+
+        /**
+         * Creates a default 2 wide pair of lines.
+         */
+        public Divider() {
+        }
+
+        public Divider(int thickness, int spacing) {
+            thick = thickness;
+            space = spacing;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            if (isOpaque()) {
+                g.setColor(getBackground());
+                g.fillRect(0, 0, getWidth(), getHeight());
+            }
+
+            Insets inset = getInsets();
+            int width = getWidth() - inset.left - inset.right;
+            int height = getHeight() - inset.left - inset.right;
+
+            g.setColor(Color.BLACK);
+
+            /*
+            if (height < 2)
+            return;
+            else if (height < ((thick * 2) + space)) {
+             */
+            // not enough space for two lines, draw one
+            int mid = height / 2;
+            g.fillRect(inset.left, mid - (thick / 2), width, thick);
+        /*
+        g.fillRect(inset.left, mid-(thick/2), width, thick);
+        }
+        //else if (height < ((thick * 2) + space) ) {
+        else {
+        // draws two lines vertically centered, spanning the entire
+        // usable width
+        int mid = height / 2;
+        g.fillRect(inset.left, mid-(space/2)-thick, width, thick);
+        g.fillRect(inset.left, mid+(space/2), width, thick);
+        }
+         */
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return getMinimumSize();
+        }
+
+        @Override
+        public Dimension getMinimumSize() {
+            Insets inset = getInsets();
+            return new Dimension(10 + inset.left + inset.right,
+                    thick * 2 + space + inset.top + inset.bottom);
+        }
+    }
+
+    // incomplete
+    static class Divider2 extends JComponent {
+
+        int thick = 2;
+        int arcWidth = 15;
+
+        public Divider2() {
+        }
+
+        public Divider2(int thickness) {
+            thick = thickness;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            if (isOpaque()) {
+                g.setColor(getBackground());
+                g.fillRect(0, 0, getWidth(), getHeight());
+            }
+
+            Insets inset = getInsets();
+            int width = getWidth() - inset.left - inset.right;
+            int height = getHeight() - inset.left - inset.right;
+
+            g.setColor(UIFactory.Colors.SEPARATOR_FOREGROUND.getValue());
+
+            if (height < 2) {
+                return;
+            } else if (height < (thick * 2)) {
+                // not enough space for two lines, draw one
+                int mid = height / 2;
+                g.fillRect(inset.left, mid - (thick / 2), width, thick);
+            } else {
+                // usable width
+                int mid = height / 2;
+                g.fillRect(inset.left + arcWidth, mid - thick * 2,
+                        width - arcWidth, thick);
+                g.fillArc(inset.left, mid - (thick * 2), width, thick * 2, -90, 0);
+            }
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return getMinimumSize();
+        }
+
+        @Override
+        public Dimension getMinimumSize() {
+            Insets inset = getInsets();
+            return new Dimension(arcWidth * 2 + inset.left + inset.right,
+                    thick * 2 + inset.top + inset.bottom);
+        }
+    }
+
+    private static class LegendIcon implements Icon {
+
+        private Color color, shadowColor;
+        private Image image;
+        private boolean paintShadow;
+
+        LegendIcon(Color c, boolean shadow) {
+            color = c;
+            shadowColor = new Color(0x555555);
+            paintShadow = shadow;
+        }
+
+        // creates a transparent icon
+        LegendIcon() {
+            color = shadowColor = null;
+        }
+
+        @Override
+        public int getIconWidth() {
+            return 16;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return 16;
+        }
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            if (image == null) {
+                image = new BufferedImage(getIconWidth(), getIconHeight(),
+                        BufferedImage.TYPE_INT_ARGB);
+                Graphics imageG = image.getGraphics();
+                paintIt(imageG, paintShadow, color);
+                imageG.dispose();
+            }
+
+            g.drawImage(image, x, y, null);
+        }
+
+        private void paintIt(Graphics g, boolean shadow, Color c) {
+            if (c == null) {
+                return;
+            }
+
+            int x = 2, y = 2, width, height;
+            if (shadow) {
+                width = height = 10;
+            } else {
+                width = height = 12;
+            }
+
+            if (shadow) {
+                g.setColor(shadowColor);
+                g.fillRect(x + 2, y + 2, width, height);
+            }
+
+            /*
+            if (c.equals(Color.WHITE)) {
+            // outline for a white icon
+            g.setColor(Color.BLACK);
+            g.fillRect(x,y,width,height);
+            g.setColor(c);
+            g.fillRect(x,y,width-1,height-1);
+            }
+            else {
+             */
+            g.setColor(c);
+            g.fillRect(x, y, width, height);
+            //}
+        }
+    }
+
     /**
      * Iterates to get the necessary data and updates the GUI.
      * The behavior depends on whether the harness is running or not.  If it is not
@@ -507,6 +726,13 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
      * better behavior from the user's standpoint.
      */
     private class CounterThread extends Thread {
+
+        private volatile boolean stopping;
+        private TestResultTable.TreeNode node;
+        private TT_NodeCache cache;
+        private JTextField[] tfs;
+        private int[] lastStats;        // to optimize out extra GUI refreshes
+        private boolean debug = Debug.getBoolean(BP_SummarySubpanel.class, "CounterThread");
 
         /**
          * @param tn     The node whose stats are to be scanned and placed onscreen.
@@ -524,6 +750,13 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
          */
         TestResultTable.TreeNode getNode() {
             return node;
+        }
+
+        synchronized void setNode(TestResultTable.TreeNode tn) {
+            if (tn != node) {
+                cache = null;
+                node = tn;
+            }
         }
 
         @Override
@@ -648,13 +881,6 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             }
 
             stopping = true;
-        }
-
-        synchronized void setNode(TestResultTable.TreeNode tn) {
-            if (tn != node) {
-                cache = null;
-                node = tn;
-            }
         }
 
         /**
@@ -787,232 +1013,5 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
                 }
             });
         }
-
-        private volatile boolean stopping;
-        private TestResultTable.TreeNode node;
-        private TT_NodeCache cache;
-        private JTextField[] tfs;
-        private int[] lastStats;        // to optimize out extra GUI refreshes
-        private boolean debug = Debug.getBoolean(BP_SummarySubpanel.class, "CounterThread");
     }
-
-    static class Divider extends JComponent {
-
-        /**
-         * Creates a default 2 wide pair of lines.
-         */
-        public Divider() {
-        }
-
-        public Divider(int thickness, int spacing) {
-            thick = thickness;
-            space = spacing;
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            if (isOpaque()) {
-                g.setColor(getBackground());
-                g.fillRect(0, 0, getWidth(), getHeight());
-            }
-
-            Insets inset = getInsets();
-            int width = getWidth() - inset.left - inset.right;
-            int height = getHeight() - inset.left - inset.right;
-
-            g.setColor(Color.BLACK);
-
-            /*
-            if (height < 2)
-            return;
-            else if (height < ((thick * 2) + space)) {
-             */
-            // not enough space for two lines, draw one
-            int mid = height / 2;
-            g.fillRect(inset.left, mid - (thick / 2), width, thick);
-        /*
-        g.fillRect(inset.left, mid-(thick/2), width, thick);
-        }
-        //else if (height < ((thick * 2) + space) ) {
-        else {
-        // draws two lines vertically centered, spanning the entire
-        // usable width
-        int mid = height / 2;
-        g.fillRect(inset.left, mid-(space/2)-thick, width, thick);
-        g.fillRect(inset.left, mid+(space/2), width, thick);
-        }
-         */
-        }
-
-        @Override
-        public Dimension getPreferredSize() {
-            return getMinimumSize();
-        }
-
-        @Override
-        public Dimension getMinimumSize() {
-            Insets inset = getInsets();
-            return new Dimension(10 + inset.left + inset.right,
-                    thick * 2 + space + inset.top + inset.bottom);
-        }
-
-        int thick = 2;
-        int space = 4;
-    }
-
-    // incomplete
-    static class Divider2 extends JComponent {
-
-        public Divider2() {
-        }
-
-        public Divider2(int thickness) {
-            thick = thickness;
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            if (isOpaque()) {
-                g.setColor(getBackground());
-                g.fillRect(0, 0, getWidth(), getHeight());
-            }
-
-            Insets inset = getInsets();
-            int width = getWidth() - inset.left - inset.right;
-            int height = getHeight() - inset.left - inset.right;
-
-            g.setColor(UIFactory.Colors.SEPARATOR_FOREGROUND.getValue());
-
-            if (height < 2) {
-                return;
-            } else if (height < (thick * 2)) {
-                // not enough space for two lines, draw one
-                int mid = height / 2;
-                g.fillRect(inset.left, mid - (thick / 2), width, thick);
-            } else {
-                // usable width
-                int mid = height / 2;
-                g.fillRect(inset.left + arcWidth, mid - thick * 2,
-                        width - arcWidth, thick);
-                g.fillArc(inset.left, mid - (thick * 2), width, thick * 2, -90, 0);
-            }
-        }
-
-        @Override
-        public Dimension getPreferredSize() {
-            return getMinimumSize();
-        }
-
-        @Override
-        public Dimension getMinimumSize() {
-            Insets inset = getInsets();
-            return new Dimension(arcWidth * 2 + inset.left + inset.right,
-                    thick * 2 + inset.top + inset.bottom);
-        }
-
-        int thick = 2;
-        int arcWidth = 15;
-    }
-
-    private static class LegendIcon implements Icon {
-
-        LegendIcon(Color c, boolean shadow) {
-            color = c;
-            shadowColor = new Color(0x555555);
-            paintShadow = shadow;
-        }
-
-        // creates a transparent icon
-        LegendIcon() {
-            color = shadowColor = null;
-        }
-
-        @Override
-        public int getIconWidth() {
-            return 16;
-        }
-
-        @Override
-        public int getIconHeight() {
-            return 16;
-        }
-
-        @Override
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (image == null) {
-                image = new BufferedImage(getIconWidth(), getIconHeight(),
-                        BufferedImage.TYPE_INT_ARGB);
-                Graphics imageG = image.getGraphics();
-                paintIt(imageG, paintShadow, color);
-                imageG.dispose();
-            }
-
-            g.drawImage(image, x, y, null);
-        }
-
-        private void paintIt(Graphics g, boolean shadow, Color c) {
-            if (c == null) {
-                return;
-            }
-
-            int x = 2, y = 2, width, height;
-            if (shadow) {
-                width = height = 10;
-            } else {
-                width = height = 12;
-            }
-
-            if (shadow) {
-                g.setColor(shadowColor);
-                g.fillRect(x + 2, y + 2, width, height);
-            }
-
-            /*
-            if (c.equals(Color.WHITE)) {
-            // outline for a white icon
-            g.setColor(Color.BLACK);
-            g.fillRect(x,y,width,height);
-            g.setColor(c);
-            g.fillRect(x,y,width-1,height-1);
-            }
-            else {
-             */
-            g.setColor(c);
-            g.fillRect(x, y, width, height);
-            //}
-        }
-
-        private Color color, shadowColor;
-        private Image image;
-        private boolean paintShadow;
-    }
-
-    private CounterThread ct;
-    private int[] stats;
-    private int filtered;
-    private JLabel progLabel;
-    private ProgressMeter pMeter;
-    private /* static */ JLabel[] sTypes;
-    private JTextField[] sValues;
-    private JTextField subtotalTf;
-    private JTextField totalTf;
-    private JTextField folderNameTf;
-    private JTextField filterNameTf;
-    private JTextField filterDescTf;
-    private PieChart pie;
-    private static Color[] pieColors;
-    // seven fields:
-    // pass, fail, error, not run, subtotal, filtered out, total
-    private static final int NUM_FIELDS = 7;
-    private static final int SUBTOTAL_INDEX = 4;
-    private static final int FILTERED_INDEX = 5;
-    private static final int TOTAL_INDEX = 6;
-    private static final int NONTOTAL_FIELD_RMARGIN = 10;
-    private static final int TOTAL_FIELD_RMARGIN = 2;
-    private static final int ACTIVE_FREQUENCY = 1000;       // while iterator running
-    private static final int INACTIVE_FREQUENCY = 2500;     // while just waiting for updates
-    private final int NTFIELD_WIDTH = 5;
-    private final int TFIELD_WIDTH = 7;
-    protected final int[] stateOrdering = {Status.ERROR, Status.FAILED, Status.NOT_RUN, Status.PASSED};
-    private static int debug = Debug.getInt(BP_SummarySubpanel.class);
 }

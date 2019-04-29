@@ -47,6 +47,15 @@ import java.util.Map;
 
 
 class PrefsPane extends PreferencesPane {
+    private UIFactory uif;
+    private JCheckBox toolBarChk;
+    private JCheckBox filterWarnChk;
+    private JCheckBox wrapResChk;
+    private ConfigEditorPane configEditorPane;
+    private ReportingPane reportingPane;
+    private RunPane runPane;
+    private PreferencesPane[] childPanes;
+
     PrefsPane(HelpBroker helpBroker) {
         uif = new UIFactory(this, helpBroker);
         initGUI();
@@ -153,17 +162,9 @@ class PrefsPane extends PreferencesPane {
         return p;
     }
 
-
-    private UIFactory uif;
-    private JCheckBox toolBarChk;
-    private JCheckBox filterWarnChk;
-    private JCheckBox wrapResChk;
-    private ConfigEditorPane configEditorPane;
-    private ReportingPane reportingPane;
-    private RunPane runPane;
-    private PreferencesPane[] childPanes;
-
     private class ConfigEditorPane extends PreferencesPane {
+        private JCheckBox moreInfoChk;
+
         ConfigEditorPane() {
             initGUI();
         }
@@ -221,11 +222,11 @@ class PrefsPane extends PreferencesPane {
             p.add(moreInfoChk, c);
             return p;
         }
-
-        private JCheckBox moreInfoChk;
     }
 
     private class ReportingPane extends PreferencesPane {
+        private JTextField bugUrlTf;
+
         ReportingPane() {
             initGUI();
         }
@@ -292,11 +293,17 @@ class PrefsPane extends PreferencesPane {
 
             return p;
         }
-
-        private JTextField bugUrlTf;
     }
 
     private class RunPane extends PreferencesPane {
+        private JTextField bugUrlTf;
+        private JCheckBox tests2RunChk;
+        private JCheckBox testSortingChk;   // deceptive name, see i18n description
+        private JRadioButton defaultRadio;
+        private JRadioButton reverseRadio;
+        private JRadioButton randomRadio;
+        private ButtonGroup sequenceButtons;
+
         RunPane() {
             initGUI();
         }
@@ -396,13 +403,5 @@ class PrefsPane extends PreferencesPane {
             p.add(reverseRadio, c);
             return p;
         }
-
-        private JTextField bugUrlTf;
-        private JCheckBox tests2RunChk;
-        private JCheckBox testSortingChk;   // deceptive name, see i18n description
-        private JRadioButton defaultRadio;
-        private JRadioButton reverseRadio;
-        private JRadioButton randomRadio;
-        private ButtonGroup sequenceButtons;
     }
 }

@@ -44,6 +44,8 @@ public class TestTreeSelectionPane extends TreeSelectionPane {
     }
 
     private static class TRTModel implements Model {
+        private TestResultTable trt;
+
         TRTModel(TestResultTable trt) {
             this.trt = trt;
         }
@@ -128,7 +130,5 @@ public class TestTreeSelectionPane extends TreeSelectionPane {
                 throw new IllegalArgumentException();
             }
         }
-
-        private TestResultTable trt;
     }
 }

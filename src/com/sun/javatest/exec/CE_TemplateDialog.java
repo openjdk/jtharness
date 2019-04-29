@@ -57,6 +57,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 class CE_TemplateDialog extends ToolDialog {
+    private InterviewParameters config;
+    private FileChooser fileChooser;
+    private JTextField fileField;
+    private JButton browseBtn;
+    private JCheckBox testSuiteCheckBox;
+    private JCheckBox workDirCheckBox;
+    private JCheckBox markersCheckBox;
+    private JCheckBox filterCheckBox;
+    private JCheckBox clearCheckBox;
+    private JButton okBtn;
+    private ExecModel model;
+    private Listener listener;
     CE_TemplateDialog(JComponent parent, InterviewParameters config, ExecModel model, UIFactory uif) {
         super(parent, uif, "ct");
 
@@ -252,21 +264,6 @@ class CE_TemplateDialog extends ToolDialog {
             return false;
         }
     }
-
-    private InterviewParameters config;
-    private FileChooser fileChooser;
-    private JTextField fileField;
-    private JButton browseBtn;
-    private JCheckBox testSuiteCheckBox;
-    private JCheckBox workDirCheckBox;
-    private JCheckBox markersCheckBox;
-    private JCheckBox filterCheckBox;
-    private JCheckBox clearCheckBox;
-    private JButton okBtn;
-
-    private ExecModel model;
-
-    private Listener listener;
 
     private class Listener
             implements ActionListener, ChangeListener, DocumentListener {

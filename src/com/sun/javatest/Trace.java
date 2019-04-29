@@ -38,11 +38,18 @@ import java.util.Date;
 
 
 class Trace implements Harness.Observer {
+    private static final Format TIMESTAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+
+    //------methods from Harness.Observer----------------------------------------
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Trace.class);
+    private TextWriter out;
+    private File reportDir;
+    private BackupPolicy backupPolicy;
+    private boolean useTimestamp;
+
     Trace(BackupPolicy backupPolicy) {
         this.backupPolicy = backupPolicy;
     }
-
-    //------methods from Harness.Observer----------------------------------------
 
     @Override
     public synchronized void startingTestRun(Parameters params) {
@@ -56,6 +63,8 @@ class Trace implements Harness.Observer {
             println(i18n, "trace.starting", tsName, tfName);
         }
     }
+
+    //------private data-----------------------------------------------------------
 
     @Override
     public synchronized void startingTest(TestResult tr) {
@@ -119,8 +128,6 @@ class Trace implements Harness.Observer {
         }
     }
 
-    //------private data-----------------------------------------------------------
-
     private void openOutput(Parameters params) {
         try {
             WorkDirectory wd = params.getWorkDirectory();
@@ -140,6 +147,8 @@ class Trace implements Harness.Observer {
             out = null;
         }
     }
+
+    //------private data-----------------------------------------------------------
 
     private void close() {
         if (out != null) {
@@ -179,14 +188,4 @@ class Trace implements Harness.Observer {
     private String timeStamp() {
         return TIMESTAMP_FORMAT.format(new Date());
     }
-
-    //------private data-----------------------------------------------------------
-
-    private TextWriter out;
-    private File reportDir;
-    private BackupPolicy backupPolicy;
-    private boolean useTimestamp;
-
-    private static final Format TIMESTAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Trace.class);
 }

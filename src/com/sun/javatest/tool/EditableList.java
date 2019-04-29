@@ -55,20 +55,31 @@ import java.lang.reflect.Array;
  * A component that displays an editable list of items.
  */
 public class EditableList extends JComponent implements Accessible {
+    // only initialize this if required
+    private static UIFactory defaultUIF;
+    /**
+     * The factory used to create the GUI elements of the component.
+     */
+    protected final UIFactory uif;
+    /**
+     * The list model that contains the elements of the list.
+     */
+    protected DefaultListModel<Object> listModel;
+    private JList<Object> list;
+    private JButton addBtn;
+    private JButton removeBtn;
+    private JButton upBtn;
+    private JButton downBtn;
+    private Listener listener = new Listener();
+    private Renderer renderer = new Renderer();
+    private boolean duplicatesAllowed;
+
     /**
      * Create an empty component, using a standard UIFactory for this class,
      * and using resources beginning with "list.".
      */
     public EditableList() {
         this(new UIFactory(EditableList.class, null), "list");
-    }
-
-    private static UIFactory getDefaultUIF() {
-        // use EditableList.class instead of "this" to get correct i18n
-        if (defaultUIF == null) {
-            defaultUIF = new UIFactory(EditableList.class, null);  // no help required
-        }
-        return defaultUIF;
     }
 
     /**
@@ -101,6 +112,14 @@ public class EditableList extends JComponent implements Accessible {
         setBorder(BorderFactory.createEtchedBorder());
     }
 
+    private static UIFactory getDefaultUIF() {
+        // use EditableList.class instead of "this" to get correct i18n
+        if (defaultUIF == null) {
+            defaultUIF = new UIFactory(EditableList.class, null);  // no help required
+        }
+        return defaultUIF;
+    }
+
     /**
      * Get the accessible context for this pane.
      *
@@ -129,21 +148,6 @@ public class EditableList extends JComponent implements Accessible {
     }
 
     /**
-     * Set the items in the list. Any previous items are removed first.
-     *
-     * @param items the array of items to be put in the list.
-     * @see #getItems
-     */
-    public void setItems(Object... items) {
-        listModel.clear();
-        if (items != null) {
-            for (Object item : items) {
-                listModel.addElement(item);
-            }
-        }
-    }
-
-    /**
      * Remove all entries from the list.
      */
     public void clear() {
@@ -160,6 +164,20 @@ public class EditableList extends JComponent implements Accessible {
         return listModel.toArray();
     }
 
+    /**
+     * Set the items in the list. Any previous items are removed first.
+     *
+     * @param items the array of items to be put in the list.
+     * @see #getItems
+     */
+    public void setItems(Object... items) {
+        listModel.clear();
+        if (items != null) {
+            for (Object item : items) {
+                listModel.addElement(item);
+            }
+        }
+    }
 
     /**
      * Get the items currently in the list, in an array of a specific type.
@@ -185,7 +203,6 @@ public class EditableList extends JComponent implements Accessible {
     public String getToolTipText() {
         return list.getToolTipText();
     }
-
 
     /**
      * Set the tool tip text that appears on the list.
@@ -221,16 +238,6 @@ public class EditableList extends JComponent implements Accessible {
     }
 
     /**
-     * Specify whether or not duplicates should be allowed in the list.
-     *
-     * @param b true if duplicates should be allowed, and false otherwise
-     * @see #isDuplicatesAllowed
-     */
-    public void setDuplicatesAllowed(boolean b) {
-        duplicatesAllowed = b;
-    }
-
-    /**
      * Check whether or not duplicates should be allowed in the list.
      *
      * @return true if duplicates should be allowed, and false otherwise
@@ -238,6 +245,16 @@ public class EditableList extends JComponent implements Accessible {
      */
     public boolean isDuplicatesAllowed() {
         return duplicatesAllowed;
+    }
+
+    /**
+     * Specify whether or not duplicates should be allowed in the list.
+     *
+     * @param b true if duplicates should be allowed, and false otherwise
+     * @see #isDuplicatesAllowed
+     */
+    public void setDuplicatesAllowed(boolean b) {
+        duplicatesAllowed = b;
     }
 
     /**
@@ -359,6 +376,28 @@ public class EditableList extends JComponent implements Accessible {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    private void updateButtons() {
+        boolean enabled = isEnabled();
+        addBtn.setEnabled(enabled);
+        if (list.isSelectionEmpty() || !enabled) {
+            removeBtn.setEnabled(false);
+            upBtn.setEnabled(false);
+            downBtn.setEnabled(false);
+        } else {
+            removeBtn.setEnabled(true);
+            int i = list.getSelectedIndex();
+            upBtn.setEnabled(i > 0);
+            downBtn.setEnabled(i + 1 < listModel.size());
+        }
+    }
+
+    private void swap(int i1, int i2) {
+        Object o1 = listModel.get(i1);
+        Object o2 = listModel.get(i2);
+        listModel.set(i1, o2);
+        listModel.set(i2, o1);
+    }
+
     private class Renderer
             extends DefaultListCellRenderer {
         @Override
@@ -466,48 +505,4 @@ public class EditableList extends JComponent implements Accessible {
             }
         }
     }
-
-    private void updateButtons() {
-        boolean enabled = isEnabled();
-        addBtn.setEnabled(enabled);
-        if (list.isSelectionEmpty() || !enabled) {
-            removeBtn.setEnabled(false);
-            upBtn.setEnabled(false);
-            downBtn.setEnabled(false);
-        } else {
-            removeBtn.setEnabled(true);
-            int i = list.getSelectedIndex();
-            upBtn.setEnabled(i > 0);
-            downBtn.setEnabled(i + 1 < listModel.size());
-        }
-    }
-
-    private void swap(int i1, int i2) {
-        Object o1 = listModel.get(i1);
-        Object o2 = listModel.get(i2);
-        listModel.set(i1, o2);
-        listModel.set(i2, o1);
-    }
-
-    /**
-     * The factory used to create the GUI elements of the component.
-     */
-    protected final UIFactory uif;
-
-    // only initialize this if required
-    private static UIFactory defaultUIF;
-
-    /**
-     * The list model that contains the elements of the list.
-     */
-    protected DefaultListModel<Object> listModel;
-    private JList<Object> list;
-    private JButton addBtn;
-    private JButton removeBtn;
-    private JButton upBtn;
-    private JButton downBtn;
-    private Listener listener = new Listener();
-    private Renderer renderer = new Renderer();
-
-    private boolean duplicatesAllowed;
 }

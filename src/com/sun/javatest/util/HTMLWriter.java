@@ -38,6 +38,197 @@ import java.net.URLEncoder;
  */
 public class HTMLWriter {
     /**
+     * The HTML "a" tag.
+     */
+    public static final String A = "a";
+    /**
+     * The HTML "align" attribute.
+     */
+    public static final String ALIGN = "align";
+    /**
+     * The HTML "b" tag.
+     */
+    public static final String B = "b";
+    /**
+     * The HTML "body" tag.
+     */
+    public static final String BODY = "body";
+    /**
+     * The HTML "border" attribute.
+     */
+    public static final String BORDER = "border";
+    /**
+     * The HTML "br" tag.
+     */
+    public static final String BR = "br";
+    /**
+     * The HTML "classid" attribute.
+     */
+    public static final String CLASSID = "classid";
+    /**
+     * The HTML "code" tag.
+     */
+    public static final String CODE = "code";
+    /**
+     * The HTML "color" attribute.
+     */
+    public static final String COLOR = "color";
+    /**
+     * The HTML "col" attribute value.
+     */
+    public static final String COL = "col";
+    /**
+     * The HTML "font" tag.
+     */
+    public static final String FONT = "font";
+    /**
+     * The HTML "h1" tag.
+     */
+    public static final String H1 = "h1";
+    /**
+     * The HTML "h2" tag.
+     */
+    public static final String H2 = "h2";
+    /**
+     * The HTML "h3" tag.
+     */
+    public static final String H3 = "h3";
+    /**
+     * The HTML "h4" tag.
+     */
+    public static final String H4 = "h4";
+    /**
+     * The HTML "head" tag.
+     */
+    public static final String HEAD = "head";
+    /**
+     * The HTML "href" attribute.
+     */
+    public static final String HREF = "href";
+    /**
+     * The HTML "html" tag.
+     */
+    public static final String HTML = "html";
+    /**
+     * The HTML "hr" tag.
+     */
+    public static final String HR = "hr";
+    /**
+     * The HTML "i" tag.
+     */
+    public static final String I = "i";
+    /**
+     * The HTML "image" tag.
+     */
+    public static final String IMAGE = "image";
+    /**
+     * The HTML "left" attribute value.
+     */
+    public static final String LEFT = "left";
+    public static final String TEXT_LEFT = "text-align:left;";
+    /**
+     * The HTML "li" tag.
+     */
+    public static final String LI = "li";
+    /**
+     * The HTML "link" tag.
+     */
+    public static final String LINK = "link";
+    /**
+     * The HTML "name" attribute.
+     */
+    public static final String NAME = "name";
+    /**
+     * The HTML "id" attribute.
+     */
+    public static final String ID = "id";
+    /**
+     * The HTML "object" tag.
+     */
+    public static final String OBJECT = "object";
+    /**
+     * The HTML "p" tag.
+     */
+    public static final String PARAM = "param";
+    /**
+     * The HTML "param" tag.
+     */
+    public static final String P = "p";
+    /**
+     * The HTML "rel" attribute value.
+     */
+    public static final String REL = "rel";
+    /**
+     * The HTML "right" attribute value.
+     */
+    public static final String RIGHT = "right";
+    public static final String TEXT_RIGHT = "text-align:right;";
+    /**
+     * The HTML "row" attribute value.
+     */
+    public static final String ROW = "row";
+    /**
+     * The HTML "small" tag.
+     */
+    public static final String SMALL = "small";
+    /**
+     * The HTML "src" attribute.
+     */
+    public static final String SRC = "src";
+    /**
+     * The HTML "scope" attribute.
+     */
+    public static final String SCOPE = "scope";
+    /**
+     * The HTML "style" attribute.
+     */
+    public static final String STYLE = "style";
+    /**
+     * The HTML "table" tag.
+     */
+    public static final String TABLE = "table";
+    /**
+     * The HTML "td" tag.
+     */
+    public static final String TD = "td";
+    /**
+     * The HTML "title"attribute.
+     */
+    public static final String TITLE = "title";
+    /**
+     * The HTML "th" tag.
+     */
+    public static final String TH = "th";
+    /**
+     * The HTML "top" attribute value.
+     */
+    public static final String TOP = "top";
+    /**
+     * The HTML "tr" tag.
+     */
+    public static final String TR = "tr";
+    /**
+     * The HTML "type" attribute.
+     */
+    public static final String TYPE = "type";
+    /**
+     * The HTML "ul" tag.
+     */
+    public static final String UL = "ul";
+    /**
+     * The HTML "valign" attribute.
+     */
+    public static final String VALIGN = "valign";
+    /**
+     * The HTML "value" attribute.
+     */
+    public static final String VALUE = "value";
+    private static final int IN_TAG = 1;
+    private static final int IN_BODY = 2;
+    private BufferedWriter out;
+    private int state;
+    private I18NResourceBundle i18n;
+    /**
      * Create an HTMLWriter object, using a default doctype for HTML 3.2.
      *
      * @param out a Writer to which to write the generated HTML
@@ -46,7 +237,6 @@ public class HTMLWriter {
     public HTMLWriter(Writer out) throws IOException {
         this(out, "<!DOCTYPE HTML>");
     }
-
     /**
      * Create an HTMLWriter object, using a specified doctype header.
      *
@@ -63,7 +253,6 @@ public class HTMLWriter {
         this.out.write(docType);
         this.out.newLine();
     }
-
     /**
      * Create an HTMLWriter object, using a specified bundle for l0calizing messages.
      *
@@ -75,8 +264,6 @@ public class HTMLWriter {
         this(out);
         this.i18n = i18n;
     }
-
-
     /**
      * Create an HTMLWriter object, using a specified doctype header and
      * using a specified bundle for localizing messages.
@@ -542,198 +729,4 @@ public class HTMLWriter {
         }
         return false;
     }
-
-    /**
-     * The HTML "a" tag.
-     */
-    public static final String A = "a";
-    /**
-     * The HTML "align" attribute.
-     */
-    public static final String ALIGN = "align";
-    /**
-     * The HTML "b" tag.
-     */
-    public static final String B = "b";
-    /**
-     * The HTML "body" tag.
-     */
-    public static final String BODY = "body";
-    /**
-     * The HTML "border" attribute.
-     */
-    public static final String BORDER = "border";
-    /**
-     * The HTML "br" tag.
-     */
-    public static final String BR = "br";
-    /**
-     * The HTML "classid" attribute.
-     */
-    public static final String CLASSID = "classid";
-    /**
-     * The HTML "code" tag.
-     */
-    public static final String CODE = "code";
-    /**
-     * The HTML "color" attribute.
-     */
-    public static final String COLOR = "color";
-    /**
-     * The HTML "col" attribute value.
-     */
-    public static final String COL = "col";
-    /**
-     * The HTML "font" tag.
-     */
-    public static final String FONT = "font";
-    /**
-     * The HTML "h1" tag.
-     */
-    public static final String H1 = "h1";
-    /**
-     * The HTML "h2" tag.
-     */
-    public static final String H2 = "h2";
-    /**
-     * The HTML "h3" tag.
-     */
-    public static final String H3 = "h3";
-    /**
-     * The HTML "h4" tag.
-     */
-    public static final String H4 = "h4";
-    /**
-     * The HTML "head" tag.
-     */
-    public static final String HEAD = "head";
-    /**
-     * The HTML "href" attribute.
-     */
-    public static final String HREF = "href";
-    /**
-     * The HTML "html" tag.
-     */
-    public static final String HTML = "html";
-    /**
-     * The HTML "hr" tag.
-     */
-    public static final String HR = "hr";
-    /**
-     * The HTML "i" tag.
-     */
-    public static final String I = "i";
-    /**
-     * The HTML "image" tag.
-     */
-    public static final String IMAGE = "image";
-    /**
-     * The HTML "left" attribute value.
-     */
-    public static final String LEFT = "left";
-    public static final String TEXT_LEFT = "text-align:left;";
-    /**
-     * The HTML "li" tag.
-     */
-    public static final String LI = "li";
-    /**
-     * The HTML "link" tag.
-     */
-    public static final String LINK = "link";
-    /**
-     * The HTML "name" attribute.
-     */
-    public static final String NAME = "name";
-    /**
-     * The HTML "id" attribute.
-     */
-    public static final String ID = "id";
-    /**
-     * The HTML "object" tag.
-     */
-    public static final String OBJECT = "object";
-    /**
-     * The HTML "p" tag.
-     */
-    public static final String PARAM = "param";
-    /**
-     * The HTML "param" tag.
-     */
-    public static final String P = "p";
-    /**
-     * The HTML "rel" attribute value.
-     */
-    public static final String REL = "rel";
-    /**
-     * The HTML "right" attribute value.
-     */
-    public static final String RIGHT = "right";
-    public static final String TEXT_RIGHT = "text-align:right;";
-    /**
-     * The HTML "row" attribute value.
-     */
-    public static final String ROW = "row";
-    /**
-     * The HTML "small" tag.
-     */
-    public static final String SMALL = "small";
-    /**
-     * The HTML "src" attribute.
-     */
-    public static final String SRC = "src";
-    /**
-     * The HTML "scope" attribute.
-     */
-    public static final String SCOPE = "scope";
-    /**
-     * The HTML "style" attribute.
-     */
-    public static final String STYLE = "style";
-    /**
-     * The HTML "table" tag.
-     */
-    public static final String TABLE = "table";
-    /**
-     * The HTML "td" tag.
-     */
-    public static final String TD = "td";
-    /**
-     * The HTML "title"attribute.
-     */
-    public static final String TITLE = "title";
-    /**
-     * The HTML "th" tag.
-     */
-    public static final String TH = "th";
-    /**
-     * The HTML "top" attribute value.
-     */
-    public static final String TOP = "top";
-    /**
-     * The HTML "tr" tag.
-     */
-    public static final String TR = "tr";
-    /**
-     * The HTML "type" attribute.
-     */
-    public static final String TYPE = "type";
-    /**
-     * The HTML "ul" tag.
-     */
-    public static final String UL = "ul";
-    /**
-     * The HTML "valign" attribute.
-     */
-    public static final String VALIGN = "valign";
-    /**
-     * The HTML "value" attribute.
-     */
-    public static final String VALUE = "value";
-
-
-    private BufferedWriter out;
-    private int state;
-    private I18NResourceBundle i18n;
-    private static final int IN_TAG = 1;
-    private static final int IN_BODY = 2;
 }

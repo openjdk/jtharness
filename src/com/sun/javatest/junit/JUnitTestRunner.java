@@ -43,6 +43,12 @@ import java.util.Iterator;
  */
 public class JUnitTestRunner extends TestRunner {
 
+    protected BackupPolicy backupPolicy = BackupPolicy.noBackups(); // optional
+    protected ClassLoader loader;
+    // the name of the setting is legacy, but we provide equivalent behavior
+    private boolean jtrIfPassed =
+            System.getProperty("javatest.script.jtrIfPassed", "true").equals("true");
+
     /**
      * Creates a new instance of JUnitTestRunner
      */
@@ -129,10 +135,4 @@ public class JUnitTestRunner extends TestRunner {
     private String[] getTestArgs(TestDescription td) {
         return new String[]{td.getParameter("executeClass")};
     }
-
-    protected BackupPolicy backupPolicy = BackupPolicy.noBackups(); // optional
-    protected ClassLoader loader;
-    // the name of the setting is legacy, but we provide equivalent behavior
-    private boolean jtrIfPassed =
-            System.getProperty("javatest.script.jtrIfPassed", "true").equals("true");
 }

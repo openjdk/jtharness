@@ -37,6 +37,22 @@ import java.io.FileNotFoundException;
  */
 public interface FileOpener {
     /**
+     * Get an ID indicating the type of files this object can handle.
+     *
+     * @return an ID indicating the type of files this object can handle.
+     */
+    String getFileType();
+
+    /**
+     * Open the given file in an appropriate tool.
+     *
+     * @param file the file to be opened
+     * @throws FileNotFoundException is the file cannot be found
+     * @throws FileOpener.Fault      if there is a problem opening the file
+     */
+    void open(File file) throws FileNotFoundException, Fault;
+
+    /**
      * This exception is to report problems that occur while opening a file.
      */
     class Fault extends Exception {
@@ -74,20 +90,4 @@ public interface FileOpener {
             super(i18n.getString(s, o));
         }
     }
-
-    /**
-     * Get an ID indicating the type of files this object can handle.
-     *
-     * @return an ID indicating the type of files this object can handle.
-     */
-    String getFileType();
-
-    /**
-     * Open the given file in an appropriate tool.
-     *
-     * @param file the file to be opened
-     * @throws FileNotFoundException is the file cannot be found
-     * @throws FileOpener.Fault      if there is a problem opening the file
-     */
-    void open(File file) throws FileNotFoundException, Fault;
 }

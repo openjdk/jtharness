@@ -35,6 +35,16 @@ import java.io.IOException;
  */
 abstract public class CommentStream {
     /**
+     * The reader from which to read comments.
+     */
+    protected BufferedReader cs = null;
+    /**
+     * A flag indicating whether comments should be read in "fast scan" mode
+     * or not.
+     */
+    protected boolean fastScan = false;
+
+    /**
      * Initialize a CommentStream.
      *
      * @param br The reader from which to read.
@@ -53,6 +63,8 @@ abstract public class CommentStream {
             cs.close();
         }
     }
+
+    //----------member variables------------------------------------------------
 
     /**
      * Set this comment stream into "fast scan" mode.
@@ -74,17 +86,4 @@ abstract public class CommentStream {
      *                     next comment.
      */
     abstract public String readComment() throws IOException;
-
-    //----------member variables------------------------------------------------
-
-    /**
-     * The reader from which to read comments.
-     */
-    protected BufferedReader cs = null;
-
-    /**
-     * A flag indicating whether comments should be read in "fast scan" mode
-     * or not.
-     */
-    protected boolean fastScan = false;
 }

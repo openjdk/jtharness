@@ -57,8 +57,17 @@ import java.util.Vector;
  * A report generator for sets of test results.
  */
 public class Report implements ReportModel {
+    public static final String MARKER_FILE_NAME = "reportdir.dat";
+    public static final String INDEX_FILE_NAME = "index.html";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Report.class);
+    private InterviewParameters params;     // legacy
+    private TestFilter[] paramFilters;      // legacy
+    private File reportDir;
+    private List<StartGenListener> startGenListeners;
+
     public Report() {
     }
+
 
     /**
      * Creates and initializes an instance of the report generator.
@@ -75,6 +84,9 @@ public class Report implements ReportModel {
         reportDir = dir.getAbsoluteFile();
     }
 
+
+// Report Backup methods-------------------------------------------------------------------
+
     /**
      * Creates and initializes an instance of the report generator.
      *
@@ -88,6 +100,43 @@ public class Report implements ReportModel {
         this(params, dir);
 
         paramFilters = new TestFilter[]{tf};
+    }
+
+    /**
+     * Checks if the input directory contains JT Harness reports.
+     *
+     * @param d The directory to be checked.
+     * @return true if the directory contains JT Harness reports.
+     */
+    public static boolean isReportDirectory(File d) {
+
+        String[] list = d.list();
+        if (list == null) {
+            return false;
+        }
+
+        for (String aList : list) {
+            if (aList.equals(MARKER_FILE_NAME)) {
+                return true;
+            }
+        }
+
+        // no matches
+        return false;
+    }
+
+    public static String[] getHtmlReportFilenames() {
+        return HTMLReport.getReportFilenames();
+    }
+
+    public static void writePrefs(ReportSettings s) {
+        Preferences prefs = Preferences.access();
+        s.write(prefs);
+    }
+
+    public static ReportSettings getSettingsPrefs() {
+        Preferences prefs = Preferences.access();
+        return ReportSettings.create(prefs);
     }
 
     /**
@@ -175,7 +224,6 @@ public class Report implements ReportModel {
         return false;
     }
 
-
     /**
      * Writes a report about a set of test results.
      * This is the execution entry point for batch mode.  The default settings
@@ -248,33 +296,6 @@ public class Report implements ReportModel {
         }
     }
 
-
-    /**
-     * Checks if the input directory contains JT Harness reports.
-     *
-     * @param d The directory to be checked.
-     * @return true if the directory contains JT Harness reports.
-     */
-    public static boolean isReportDirectory(File d) {
-
-        String[] list = d.list();
-        if (list == null) {
-            return false;
-        }
-
-        for (String aList : list) {
-            if (aList.equals(MARKER_FILE_NAME)) {
-                return true;
-            }
-        }
-
-        // no matches
-        return false;
-    }
-
-
-// Report Backup methods-------------------------------------------------------------------
-
     /**
      * This is entry point to report backup mechanism.
      * Invokes methods, which rename existing report subdirs, index.html file;
@@ -305,6 +326,211 @@ public class Report implements ReportModel {
         for (int i = 1; i <= nbackups; i++) {
             updateIndexLinks(new File(dir, INDEX_FILE_NAME + "~" + Integer.toString(i) + "~"), i);
         }
+    }
+
+
+// END Report Backup methods-------------------------------------------------------
+
+    /**
+     * Parses backupped version of index.html file to update links, which points
+     * to files in backupped subdirs. Searchs for subdirs with the same backup
+     * suffix, as selected index.html has. Then checks all links in file to find
+     * those pointing to backupped subdirs and updates them.
+     *
+     * @param index      backupped version of index.html file we work with
+     * @param backupNumb index in backupped version of index.html file we work with
+     */
+    private void updateIndexLinks(File index, int backupNumb) {
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(index), StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = r.readLine()) != null) {
+                sb.append(line);
+                sb.append("\n");
+            }
+        } catch (IOException e) {
+        }
+
+        String oldId = backupNumb == 1 ? "" : "~" + (backupNumb - 1) + "~";
+        String newId = "~" + backupNumb + "~";
+
+        File reportDir = index.getParentFile();
+        File[] files = reportDir.listFiles();
+        List<File> subdirs = new ArrayList<>();
+        for (File file : files) {
+            if (file.isDirectory() &&
+                    file.getName().lastIndexOf(newId) != -1) {
+                subdirs.add(file);
+            }
+        }
+
+        LinkFinder finder = new LinkFinder(index);
+        Vector<String> links = finder.getLinks();
+        for (String link : links) {
+            for (File subdir : subdirs) {
+                String newName = subdir.getName();
+                String oldName = newName.replaceAll(newId, oldId);
+                if (link.lastIndexOf(oldName) != -1) {
+                    StringBuilder newLink = new StringBuilder(link);
+                    int link_start = newLink.indexOf(oldName);
+                    newLink.replace(link_start, link_start + oldName.length(), newName);
+                    int start = sb.indexOf(link);
+                    sb.replace(start, start + link.length(), newLink.toString());
+                    break;
+                }
+            }
+        }
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8))) {
+            writer.write(sb.toString());
+            writer.flush();
+        } catch (IOException ex) {
+        }
+    }
+
+    private void updateStaffFiles(File dir, ReportSettings s, List<ReportLink> links) {
+        updateMarkerFile(dir);
+        updateIndexFile(dir, s, links);
+    }
+
+    private void updateMarkerFile(File dir) {
+        File f = new File(dir, MARKER_FILE_NAME);
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException e) {
+                return;
+            }
+        }
+    }
+
+    private void updateIndexFile(File dir, ReportSettings s, List<ReportLink> links) {
+        File f = new File(dir, INDEX_FILE_NAME);
+        if (f.exists()) {
+            f.delete();
+        }
+        try {
+            f.createNewFile();
+            fillIndexFile(f, s, links);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillIndexFile(File index, ReportSettings s, List<ReportLink> links) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8))) {
+            HTMLWriterEx out = new HTMLWriterEx(writer);
+            out.setI18NResourceBundle(i18n);
+
+            out.startTag(HTMLWriterEx.HTML);
+            out.startTag(HTMLWriterEx.HEAD);
+            out.writeContentMeta();
+            out.startTag(HTMLWriterEx.TITLE);
+            out.writeI18N("index.title");
+
+            out.endTag(HTMLWriterEx.TITLE);
+            out.endTag(HTMLWriterEx.HEAD);
+
+            out.startTag(HTMLWriterEx.BODY);
+
+            out.startTag(HTMLWriterEx.H1);
+            out.write(s.getInterview().getTestSuite().getName());
+            out.endTag(HTMLWriterEx.H1);
+
+            out.newLine();
+            Date date = new Date();
+            SimpleDateFormat format = new SimpleDateFormat(i18n.getString("index.dateFormat"));
+            out.write(i18n.getString("index.date.txt", format.format(date)));
+            out.newLine();
+
+            String[] predefinedFormats = {"html", "text", "xml", "cof"};
+            for (String f : predefinedFormats) {
+                putLink(f, links, out);
+            }
+
+            putCustomLink(predefinedFormats, links, out);
+
+            out.endTag(HTMLWriterEx.BODY);
+            out.endTag(HTMLWriterEx.HTML);
+            out.flush();
+            out.close();
+
+        } catch (IOException e) {
+            //return;
+        }
+    }
+
+    private void putCustomLink(String[] predefinedFormats, List<ReportLink> links, HTMLWriterEx out) throws IOException {
+        for (ReportLink ln : links) {
+            if (!Arrays.asList(predefinedFormats).contains(ln.linkID)) {
+                writeReportLink(out, ln);
+            }
+        }
+    }
+
+    private void putLink(String type, List<ReportLink> links, HTMLWriterEx out) throws IOException {
+        for (ReportLink ln : links) {
+            if (type.equalsIgnoreCase(ln.linkID)) {
+                writeReportLink(out, ln);
+            }
+        }
+    }
+
+    private void writeReportLink(HTMLWriterEx out, ReportLink ln) throws IOException {
+        out.startTag(HTMLWriterEx.P);
+        out.writeLink(ln.linkFile, ln.linkText);
+        out.startTag(HTMLWriterEx.BR);
+        out.write(ln.linkDesk);
+        out.endTag(HTMLWriterEx.P);
+    }
+
+    /**
+     * Gets the report directory that is currently defined.
+     *
+     * @return The report directory.
+     */
+    @Override
+    public File getReportDir() {
+        return reportDir;
+    }
+
+    private ReportLink writeReport(ReportSettings settings, ReportFormat rf) throws IOException {
+        File out = new File(reportDir, rf.getBaseDirName());
+        out.mkdir();
+        notifyStartGenListeners(settings, rf.getReportID());
+        return rf.write(settings, out);
+    }
+
+    //---------- data members -----------------------------------------------
+
+    private void notifyStartGenListeners(ReportSettings s, String reportID) {
+        if (startGenListeners != null) {
+            for (StartGenListener sgl : startGenListeners) {
+                sgl.startReportGeneration(s, reportID);
+            }
+        }
+    }
+
+    public void addStartGenListener(StartGenListener l) {
+        if (startGenListeners == null) {
+            startGenListeners = new ArrayList<>();
+        }
+
+        startGenListeners.add(l);
+    }
+
+    public void removeStartGeneratingListener(StartGenListener l) {
+        if (startGenListeners != null) {
+            startGenListeners.remove(l);
+        }
+    }
+
+    public interface CustomReportManager {
+        CustomReport[] getCustomReports();
+    }
+
+    public interface StartGenListener {
+        void startReportGeneration(ReportSettings s, String reportID);
     }
 
     /**
@@ -418,239 +644,4 @@ public class Report implements ReportModel {
             return links;
         }
     }
-
-
-    /**
-     * Parses backupped version of index.html file to update links, which points
-     * to files in backupped subdirs. Searchs for subdirs with the same backup
-     * suffix, as selected index.html has. Then checks all links in file to find
-     * those pointing to backupped subdirs and updates them.
-     *
-     * @param index      backupped version of index.html file we work with
-     * @param backupNumb index in backupped version of index.html file we work with
-     */
-    private void updateIndexLinks(File index, int backupNumb) {
-        StringBuilder sb = new StringBuilder();
-        try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(index), StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = r.readLine()) != null) {
-                sb.append(line);
-                sb.append("\n");
-            }
-        } catch (IOException e) {
-        }
-
-        String oldId = backupNumb == 1 ? "" : "~" + (backupNumb - 1) + "~";
-        String newId = "~" + backupNumb + "~";
-
-        File reportDir = index.getParentFile();
-        File[] files = reportDir.listFiles();
-        List<File> subdirs = new ArrayList<>();
-        for (File file : files) {
-            if (file.isDirectory() &&
-                    file.getName().lastIndexOf(newId) != -1) {
-                subdirs.add(file);
-            }
-        }
-
-        LinkFinder finder = new LinkFinder(index);
-        Vector<String> links = finder.getLinks();
-        for (String link : links) {
-            for (File subdir : subdirs) {
-                String newName = subdir.getName();
-                String oldName = newName.replaceAll(newId, oldId);
-                if (link.lastIndexOf(oldName) != -1) {
-                    StringBuilder newLink = new StringBuilder(link);
-                    int link_start = newLink.indexOf(oldName);
-                    newLink.replace(link_start, link_start + oldName.length(), newName);
-                    int start = sb.indexOf(link);
-                    sb.replace(start, start + link.length(), newLink.toString());
-                    break;
-                }
-            }
-        }
-
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8))) {
-            writer.write(sb.toString());
-            writer.flush();
-        } catch (IOException ex) {
-        }
-    }
-
-
-    private void updateStaffFiles(File dir, ReportSettings s, List<ReportLink> links) {
-        updateMarkerFile(dir);
-        updateIndexFile(dir, s, links);
-    }
-
-    private void updateMarkerFile(File dir) {
-        File f = new File(dir, MARKER_FILE_NAME);
-        if (!f.exists()) {
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                return;
-            }
-        }
-    }
-
-    private void updateIndexFile(File dir, ReportSettings s, List<ReportLink> links) {
-        File f = new File(dir, INDEX_FILE_NAME);
-        if (f.exists()) {
-            f.delete();
-        }
-        try {
-            f.createNewFile();
-            fillIndexFile(f, s, links);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void fillIndexFile(File index, ReportSettings s, List<ReportLink> links) {
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(index), StandardCharsets.UTF_8))) {
-            HTMLWriterEx out = new HTMLWriterEx(writer);
-            out.setI18NResourceBundle(i18n);
-
-            out.startTag(HTMLWriterEx.HTML);
-            out.startTag(HTMLWriterEx.HEAD);
-            out.writeContentMeta();
-            out.startTag(HTMLWriterEx.TITLE);
-            out.writeI18N("index.title");
-
-            out.endTag(HTMLWriterEx.TITLE);
-            out.endTag(HTMLWriterEx.HEAD);
-
-            out.startTag(HTMLWriterEx.BODY);
-
-            out.startTag(HTMLWriterEx.H1);
-            out.write(s.getInterview().getTestSuite().getName());
-            out.endTag(HTMLWriterEx.H1);
-
-            out.newLine();
-            Date date = new Date();
-            SimpleDateFormat format = new SimpleDateFormat(i18n.getString("index.dateFormat"));
-            out.write(i18n.getString("index.date.txt", format.format(date)));
-            out.newLine();
-
-            String[] predefinedFormats = {"html", "text", "xml", "cof"};
-            for (String f : predefinedFormats) {
-                putLink(f, links, out);
-            }
-
-            putCustomLink(predefinedFormats, links, out);
-
-            out.endTag(HTMLWriterEx.BODY);
-            out.endTag(HTMLWriterEx.HTML);
-            out.flush();
-            out.close();
-
-        } catch (IOException e) {
-            //return;
-        }
-    }
-
-    private void putCustomLink(String[] predefinedFormats, List<ReportLink> links, HTMLWriterEx out) throws IOException {
-        for (ReportLink ln : links) {
-            if (!Arrays.asList(predefinedFormats).contains(ln.linkID)) {
-                writeReportLink(out, ln);
-            }
-        }
-    }
-
-    private void putLink(String type, List<ReportLink> links, HTMLWriterEx out) throws IOException {
-        for (ReportLink ln : links) {
-            if (type.equalsIgnoreCase(ln.linkID)) {
-                writeReportLink(out, ln);
-            }
-        }
-    }
-
-    private void writeReportLink(HTMLWriterEx out, ReportLink ln) throws IOException {
-        out.startTag(HTMLWriterEx.P);
-        out.writeLink(ln.linkFile, ln.linkText);
-        out.startTag(HTMLWriterEx.BR);
-        out.write(ln.linkDesk);
-        out.endTag(HTMLWriterEx.P);
-    }
-
-
-// END Report Backup methods-------------------------------------------------------
-
-    /**
-     * Gets the report directory that is currently defined.
-     *
-     * @return The report directory.
-     */
-    @Override
-    public File getReportDir() {
-        return reportDir;
-    }
-
-    public static String[] getHtmlReportFilenames() {
-        return HTMLReport.getReportFilenames();
-    }
-
-
-    private ReportLink writeReport(ReportSettings settings, ReportFormat rf) throws IOException {
-        File out = new File(reportDir, rf.getBaseDirName());
-        out.mkdir();
-        notifyStartGenListeners(settings, rf.getReportID());
-        return rf.write(settings, out);
-    }
-
-    private void notifyStartGenListeners(ReportSettings s, String reportID) {
-        if (startGenListeners != null) {
-            for (StartGenListener sgl : startGenListeners) {
-                sgl.startReportGeneration(s, reportID);
-            }
-        }
-    }
-
-
-    public static void writePrefs(ReportSettings s) {
-        Preferences prefs = Preferences.access();
-        s.write(prefs);
-    }
-
-    public static ReportSettings getSettingsPrefs() {
-        Preferences prefs = Preferences.access();
-        return ReportSettings.create(prefs);
-    }
-
-    public interface CustomReportManager {
-        CustomReport[] getCustomReports();
-    }
-
-    public interface StartGenListener {
-        void startReportGeneration(ReportSettings s, String reportID);
-    }
-
-    public void addStartGenListener(StartGenListener l) {
-        if (startGenListeners == null) {
-            startGenListeners = new ArrayList<>();
-        }
-
-        startGenListeners.add(l);
-    }
-
-    public void removeStartGeneratingListener(StartGenListener l) {
-        if (startGenListeners != null) {
-            startGenListeners.remove(l);
-        }
-    }
-
-    //---------- data members -----------------------------------------------
-
-    private InterviewParameters params;     // legacy
-    private TestFilter[] paramFilters;      // legacy
-
-    private File reportDir;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Report.class);
-
-    public static final String MARKER_FILE_NAME = "reportdir.dat";
-    public static final String INDEX_FILE_NAME = "index.html";
-
-    private List<StartGenListener> startGenListeners;
 }

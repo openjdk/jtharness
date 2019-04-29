@@ -31,12 +31,12 @@ import com.sun.javatest.tool.UIFactory;
 
 class TP_CustomSubpanel extends TP_Subpanel {
 
+    private CustomTestResultViewer ctrv;
+
     TP_CustomSubpanel(UIFactory uif, CustomTestResultViewer ctrv) {
         super(uif, ctrv.getDescription());
         this.ctrv = ctrv;
     }
-
-    private CustomTestResultViewer ctrv;
 
     @Override
     protected void updateSubpanel(com.sun.javatest.TestResult currTest) {

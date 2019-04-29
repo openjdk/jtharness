@@ -41,6 +41,9 @@ import java.util.ArrayList;
 public class FileTable extends JTable {
 
 
+    ArrayList<Resize> autoResizeColumns; // list of columns to be autoresized
+    private UIFactory uif;
+
     public FileTable(FileSystemTableModel model, UIFactory uif) {
         super(model);
         this.uif = uif;
@@ -152,7 +155,23 @@ public class FileTable extends JTable {
         column.setPreferredWidth(width);
     }
 
+    /**
+     * A simple structure that contains column index and keepSize property
+     */
+    private static class Resize {
+        private int column;
+        private boolean keep;
+
+        public Resize(int column, boolean keepSize) {
+            this.column = column;
+            this.keep = keepSize;
+        }
+    }
+
     private class IconRenderer extends DefaultTableCellRenderer {
+
+        private Icon up;
+        private Icon dir;
 
         {
             up = uif.createIcon("upper");
@@ -192,26 +211,7 @@ public class FileTable extends JTable {
             return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         }
 
-        private Icon up;
-        private Icon dir;
-
     }
-
-    /**
-     * A simple structure that contains column index and keepSize property
-     */
-    private static class Resize {
-        private int column;
-        private boolean keep;
-
-        public Resize(int column, boolean keepSize) {
-            this.column = column;
-            this.keep = keepSize;
-        }
-    }
-
-    ArrayList<Resize> autoResizeColumns; // list of columns to be autoresized
-    private UIFactory uif;
 
 
 }

@@ -40,64 +40,34 @@ import java.util.Vector;
  */
 public abstract class Command {
     /**
-     * This exception is used to report problems with a specific command.
+     * A value to indicate that a command accepts the default desktop mode.
+     * This means that it neither requires nor discourages the use of a desktop
+     * for its use.
+     *
+     * @see #getDesktopMode
+     * @see #DESKTOP_NOT_REQUIRED_DTMODE
+     * @see #DESKTOP_REQUIRED_DTMODE
      */
-    public class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        public Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
-
-        /**
-         * Create a Fault, by wrapping a CommandContext Fault.
-         * The message string will be propagated directly;
-         * the argument fault will be set as the cause for this fault.
-         *
-         * @param e A CommandContext.Fault to wrap.
-         */
-        public Fault(CommandContext.Fault e) {
-            super(e.getMessage(), e);
-        }
-
-        /**
-         * Get the command that created this fault.
-         *
-         * @return the command that created this fault
-         */
-        public Command getCommand() {
-            return Command.this;
-        }
-
-    }
+    public static final int DEFAULT_DTMODE = 0;
+    /**
+     * A value to indicate that a command does not require the use of
+     * a desktop to function.
+     *
+     * @see #getDesktopMode
+     * @see #DEFAULT_DTMODE
+     * @see #DESKTOP_REQUIRED_DTMODE
+     */
+    public static final int DESKTOP_NOT_REQUIRED_DTMODE = 1;
+    /**
+     * A value to indicate that a command requires the use of
+     * a desktop to function.
+     *
+     * @see #getDesktopMode
+     * @see #DEFAULT_DTMODE
+     * @see #DESKTOP_NOT_REQUIRED_DTMODE
+     */
+    public static final int DESKTOP_REQUIRED_DTMODE = 2;
+    private Vector<String> args;
 
     /**
      * Create an instance of a command.
@@ -231,37 +201,6 @@ public abstract class Command {
     }
 
     /**
-     * A value to indicate that a command accepts the default desktop mode.
-     * This means that it neither requires nor discourages the use of a desktop
-     * for its use.
-     *
-     * @see #getDesktopMode
-     * @see #DESKTOP_NOT_REQUIRED_DTMODE
-     * @see #DESKTOP_REQUIRED_DTMODE
-     */
-    public static final int DEFAULT_DTMODE = 0;
-
-    /**
-     * A value to indicate that a command does not require the use of
-     * a desktop to function.
-     *
-     * @see #getDesktopMode
-     * @see #DEFAULT_DTMODE
-     * @see #DESKTOP_REQUIRED_DTMODE
-     */
-    public static final int DESKTOP_NOT_REQUIRED_DTMODE = 1;
-
-    /**
-     * A value to indicate that a command requires the use of
-     * a desktop to function.
-     *
-     * @see #getDesktopMode
-     * @see #DEFAULT_DTMODE
-     * @see #DESKTOP_NOT_REQUIRED_DTMODE
-     */
-    public static final int DESKTOP_REQUIRED_DTMODE = 2;
-
-    /**
      * Check whether this command is an action command or not. Action commands
      * are those that do work such as running tests, writing a report, etc.
      * The default implementation is to return false.
@@ -298,5 +237,63 @@ public abstract class Command {
         }
     }
 
-    private Vector<String> args;
+    /**
+     * This exception is used to report problems with a specific command.
+     */
+    public class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        public Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
+
+        /**
+         * Create a Fault, by wrapping a CommandContext Fault.
+         * The message string will be propagated directly;
+         * the argument fault will be set as the cause for this fault.
+         *
+         * @param e A CommandContext.Fault to wrap.
+         */
+        public Fault(CommandContext.Fault e) {
+            super(e.getMessage(), e);
+        }
+
+        /**
+         * Get the command that created this fault.
+         *
+         * @return the command that created this fault
+         */
+        public Command getCommand() {
+            return Command.this;
+        }
+
+    }
 }

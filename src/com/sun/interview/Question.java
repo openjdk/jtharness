@@ -44,6 +44,36 @@ import java.util.Objects;
 public abstract class Question {
 
     /**
+     * A unique key to identify the resources for this question.
+     */
+    protected final String key;
+    /**
+     * The interview to which this question belongs.
+     */
+    protected Interview interview;
+    /**
+     * A unique tag to identify this question.
+     */
+    protected String tag; // parent tag + baseTag
+    private String baseTag; // tag relative to parent
+    /**
+     * The text of this question.
+     */
+    private String text;
+    /**
+     * The summary of this question.
+     */
+    private String summary;
+    /**
+     *
+     */
+    private Object helpID;
+    /**
+     * A URL for a graphic for this question.
+     */
+    private URL image;
+
+    /**
      * Create a question with a nominated tag.
      *
      * @param interview The interview containing this question.
@@ -133,18 +163,6 @@ public abstract class Question {
     }
 
     /**
-     * Set the text for this question. The text can also be provided
-     * in the containing interview's resource bundle, using the resource name
-     * <i>key</i>.<code>text</code>.
-     *
-     * @param text the text for this question
-     * @see #getText
-     */
-    protected void setText(String text) {
-        this.text = text.trim();
-    }
-
-    /**
      * Get the text for this question. If not specified, the system will
      * try and locate the text in the containing interviews resource bundle,
      * using the resource name <i>key</i><code>.text</code>.
@@ -163,6 +181,18 @@ public abstract class Question {
     }
 
     /**
+     * Set the text for this question. The text can also be provided
+     * in the containing interview's resource bundle, using the resource name
+     * <i>key</i>.<code>text</code>.
+     *
+     * @param text the text for this question
+     * @see #getText
+     */
+    protected void setText(String text) {
+        this.text = text.trim();
+    }
+
+    /**
      * Get any arguments necessary to go with the question text.
      * The text is formatted using the rules specified for
      * {@link java.text.MessageFormat#format}. By default, this
@@ -175,18 +205,6 @@ public abstract class Question {
      */
     protected Object[] getTextArgs() {
         return null;
-    }
-
-    /**
-     * Set the summary text for this question. The text can also be provided
-     * in the containing interview's resource bundle, using the resource name
-     * <i>key</i>.<code>smry</code>.
-     *
-     * @param summary a short summary of the text for this question
-     * @see #getSummary
-     */
-    protected void setSummary(String summary) {
-        this.summary = summary.trim();
     }
 
     /**
@@ -227,25 +245,15 @@ public abstract class Question {
     }
 
     /**
-     * Set the URL for a specific graphic for this question.
+     * Set the summary text for this question. The text can also be provided
+     * in the containing interview's resource bundle, using the resource name
+     * <i>key</i>.<code>smry</code>.
      *
-     * @param resource The name of a resource containing the
-     *                 desired image.
-     * @see #getImage
+     * @param summary a short summary of the text for this question
+     * @see #getSummary
      */
-    public void setImage(String resource) {
-        image = Question.class.getResource(resource);
-    }
-
-    /**
-     * Set the URL for a specific graphic for this question.
-     *
-     * @param u The URL of a resource containing the
-     *          desired image.
-     * @see #getImage
-     */
-    protected void setImage(URL u) {
-        image = u;
+    protected void setSummary(String summary) {
+        this.summary = summary.trim();
     }
 
     /**
@@ -267,6 +275,28 @@ public abstract class Question {
             image = interview.getDefaultImage();
         }
         return image;
+    }
+
+    /**
+     * Set the URL for a specific graphic for this question.
+     *
+     * @param resource The name of a resource containing the
+     *                 desired image.
+     * @see #getImage
+     */
+    public void setImage(String resource) {
+        image = Question.class.getResource(resource);
+    }
+
+    /**
+     * Set the URL for a specific graphic for this question.
+     *
+     * @param u The URL of a resource containing the
+     *          desired image.
+     * @see #getImage
+     */
+    protected void setImage(URL u) {
+        image = u;
     }
 
     /**
@@ -336,7 +366,6 @@ public abstract class Question {
         return interview.hasMarker(this, name);
     }
 
-
     /**
      * Determine if this question is currently "hidden".
      * Hidden questions do not appear on the current path
@@ -355,7 +384,6 @@ public abstract class Question {
     public boolean isHidden() {
         return false;
     }
-
 
     /**
      * Determine if this question is currently enabled.
@@ -578,41 +606,4 @@ public abstract class Question {
         }
         */
     }
-
-    /**
-     * The interview to which this question belongs.
-     */
-    protected Interview interview;
-
-    /**
-     * A unique tag to identify this question.
-     */
-    protected String tag; // parent tag + baseTag
-
-    private String baseTag; // tag relative to parent
-
-    /**
-     * A unique key to identify the resources for this question.
-     */
-    protected final String key;
-
-    /**
-     * The text of this question.
-     */
-    private String text;
-
-    /**
-     * The summary of this question.
-     */
-    private String summary;
-
-    /**
-     *
-     */
-    private Object helpID;
-
-    /**
-     * A URL for a graphic for this question.
-     */
-    private URL image;
 }

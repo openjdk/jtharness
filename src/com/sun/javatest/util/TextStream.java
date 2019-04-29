@@ -36,6 +36,8 @@ import java.io.OutputStream;
  * exceptions.
  */
 public class TextStream extends FilterOutputStream {
+    private boolean autoflush;
+
     /**
      * Creates a new TextStream.
      *
@@ -97,6 +99,4 @@ public class TextStream extends FilterOutputStream {
         print(s);
         write('\n');
     }
-
-    private boolean autoflush;
 }

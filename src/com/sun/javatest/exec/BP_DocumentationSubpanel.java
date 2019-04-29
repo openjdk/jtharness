@@ -38,6 +38,12 @@ import java.net.URL;
 
 public class BP_DocumentationSubpanel extends BP_BranchSubpanel {
 
+    private FilesPane filesPane;
+    private JPanel emptyPane;
+    private ExecModel em;
+    private BP_Model bpm;
+    private URL[] filelist;
+
     /**
      * Creates a new instance of BP_DocumentationSubpanel
      */
@@ -100,12 +106,5 @@ public class BP_DocumentationSubpanel extends BP_BranchSubpanel {
             this.add(p, BorderLayout.CENTER);
         }
     }
-
-
-    private FilesPane filesPane;
-    private JPanel emptyPane;
-    private ExecModel em;
-    private BP_Model bpm;
-    private URL[] filelist;
 
 }

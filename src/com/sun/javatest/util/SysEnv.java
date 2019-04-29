@@ -67,6 +67,10 @@ import java.util.Map;
  * one for each environment variable.
  */
 public class SysEnv {
+    private static String command;
+    private static Map<String, String> values;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(SysEnv.class);
+
     /**
      * Set the command to be executed to access the OS environment variables.
      * To be effective, this method must be set before any of the get methods,
@@ -182,8 +186,4 @@ public class SysEnv {
 
         return "env"; // best guess
     }
-
-    private static String command;
-    private static Map<String, String> values;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(SysEnv.class);
 }

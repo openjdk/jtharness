@@ -46,6 +46,12 @@ import java.awt.event.ActionListener;
  */
 
 class RunProgressMonitor extends Monitor implements MonitorState.Observer {
+    private static final int TIMER_FREQ = 3;
+    private static final int TIMER_INITIAL = 1;
+    private JProgressBar smMeter;
+    private Timer pmTimer;
+    private ActionListener pmUpdate;
+
     RunProgressMonitor(MonitorState ms, UIFactory uif) {
         super(ms, uif);
         ms.addObserver(this);
@@ -111,6 +117,8 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
     public void starting() {
         if (pmUpdate == null) {
             pmUpdate = new ActionListener() {
+                private int lastDone = 0;
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (lastDone != state.getTestsDoneCount()) {
@@ -119,8 +127,6 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
                         smMeter.setValue(lastDone);
                     }
                 }
-
-                private int lastDone = 0;
             };
         }
 
@@ -167,10 +173,4 @@ class RunProgressMonitor extends Monitor implements MonitorState.Observer {
             smMeter.setValue(smMeter.getMaximum());
         }
     }
-
-    private JProgressBar smMeter;
-    private Timer pmTimer;
-    private ActionListener pmUpdate;
-    private static final int TIMER_FREQ = 3;
-    private static final int TIMER_INITIAL = 1;
 }

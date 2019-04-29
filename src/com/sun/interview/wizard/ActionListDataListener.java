@@ -33,6 +33,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class ActionListDataListener implements ListDataListener {
+    private Component src;
+    private ActionListener listener;
+    private String cmd;
+
     ActionListDataListener(Component src, ActionListener listener, String cmd) {
         this.src = src;
         this.listener = listener;
@@ -54,8 +58,4 @@ class ActionListDataListener implements ListDataListener {
         ActionEvent ae = new ActionEvent(src, ActionEvent.ACTION_PERFORMED, cmd);
         listener.actionPerformed(ae);
     }
-
-    private Component src;
-    private ActionListener listener;
-    private String cmd;
 }

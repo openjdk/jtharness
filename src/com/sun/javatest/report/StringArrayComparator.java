@@ -29,17 +29,6 @@ package com.sun.javatest.report;
 import java.util.Comparator;
 
 class StringArrayComparator implements Comparator<String[]> {
-    @Override
-    public int compare(String[] a, String[] b) {
-        for (int i = 0; i < Math.min(a.length, b.length); i++) {
-            int c = compare(a[i], b[i]);
-            if (c != 0) {
-                return c;
-            }
-        }
-        return a.length < b.length ? -1 : a.length == b.length ? 0 : +1;
-    }
-
     private static int compare(String a, String b) {
         if (a == null && b == null) {
             return 0;
@@ -54,5 +43,16 @@ class StringArrayComparator implements Comparator<String[]> {
         }
 
         return a.compareTo(b);
+    }
+
+    @Override
+    public int compare(String[] a, String[] b) {
+        for (int i = 0; i < Math.min(a.length, b.length); i++) {
+            int c = compare(a[i], b[i]);
+            if (c != 0) {
+                return c;
+            }
+        }
+        return a.length < b.length ? -1 : a.length == b.length ? 0 : +1;
     }
 }

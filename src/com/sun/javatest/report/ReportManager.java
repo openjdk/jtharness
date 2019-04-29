@@ -52,6 +52,32 @@ import java.util.ListIterator;
  */
 public class ReportManager
         extends CommandManager {
+    public static final String BUGRPT_URL_PREF = "exec.report.bugurl";
+    // can be improved in the future, perhaps if the filters are represented by objects which we can
+    // query about their name
+    private static final String[] FILTERS = {"lastRun", "currentConfig", "allTests"};
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ReportManager.class);
+
+    public static void writeReport(File reportDir, CommandContext ctx)
+            throws Command.Fault {
+        Command c = new WriteReportCommand(reportDir);
+        c.run(ctx);
+    }
+
+    // copied from exec.ParameterFilter to avoid cross-package dependency
+    private static File[] stringsToFiles(String... tests) {
+        if (tests == null) {
+            return null;
+        }
+
+        File[] files = new File[tests.length];
+        for (int i = 0; i < tests.length; i++) {
+            files[i] = new File(tests[i]);
+        }
+
+        return files;
+    }
+
     @Override
     public HelpTree.Node getHelp() {
         HelpTree.Node[] cmdNodes = {
@@ -65,6 +91,8 @@ public class ReportManager
     private HelpTree.Node getCommandHelp(String name) {
         return new HelpTree.Node(i18n, "rm.help." + name);
     }
+
+    //--------------------------------------------------------------------------
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
@@ -82,25 +110,11 @@ public class ReportManager
         return false;
     }
 
-    public static void writeReport(File reportDir, CommandContext ctx)
-            throws Command.Fault {
-        Command c = new WriteReportCommand(reportDir);
-        c.run(ctx);
-    }
-
-    // can be improved in the future, perhaps if the filters are represented by objects which we can
-    // query about their name
-    private static final String[] FILTERS = {"lastRun", "currentConfig", "allTests"};
-    public static final String BUGRPT_URL_PREF = "exec.report.bugurl";
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ReportManager.class);
-
     //--------------------------------------------------------------------------
 
     static class ReportCommand
             extends Command {
-        static String getName() {
-            return "report";
-        }
+        private File path;
 
         ReportCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
@@ -112,20 +126,21 @@ public class ReportManager
             path = new File(nextArg(argIter));
         }
 
+        static String getName() {
+            return "report";
+        }
+
         @Override
         public void run(CommandContext ctx) {
             ctx.setAutoRunReportDir(path);
         }
-
-        private File path;
     }
 
-    //--------------------------------------------------------------------------
-
     static class WriteReportCommand extends Command {
-        static String getName() {
-            return "writeReport";
-        }
+        private File path;
+        private boolean createFlag;
+        private List<String> types;
+        private String filter;
 
         WriteReportCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -170,6 +185,10 @@ public class ReportManager
         WriteReportCommand(File reportDir) {
             super(reportDir.getPath());
             path = reportDir;
+        }
+
+        static String getName() {
+            return "writeReport";
         }
 
         /**
@@ -256,25 +275,6 @@ public class ReportManager
                         path, e);
             }
         }
-
-        private File path;
-        private boolean createFlag;
-        private List<String> types;
-        private String filter;
-    }
-
-    // copied from exec.ParameterFilter to avoid cross-package dependency
-    private static File[] stringsToFiles(String... tests) {
-        if (tests == null) {
-            return null;
-        }
-
-        File[] files = new File[tests.length];
-        for (int i = 0; i < tests.length; i++) {
-            files[i] = new File(tests[i]);
-        }
-
-        return files;
     }
 
 }

@@ -46,6 +46,8 @@ import java.io.Writer;
  * API to specify a customized report type for the Test Manager.
  */
 public abstract class CustomReport {
+    private ReportSettings env;
+
     public CustomReport() {
     }
 
@@ -142,7 +144,6 @@ public abstract class CustomReport {
                                       InterviewParameters ip, TestFilter filter)
     ;
 
-
     /**
      * Get a short internal name for this report type.  Should be
      * unique within a test suite's set of report types.  The value
@@ -190,12 +191,12 @@ public abstract class CustomReport {
      */
     public abstract String getDescription();
 
+
+    // ------- GUI Related -------
+
     public ReportSettings getReportEnviroment() {
         return env;
     }
-
-
-    // ------- GUI Related -------
 
     /**
      * Get report options panes.
@@ -234,6 +235,10 @@ public abstract class CustomReport {
         env = null;
     }
 
+    public void setEnviroment(ReportSettings envir) {
+        env = envir;
+    }
+
     /**
      * The class ReportException indicates an error during report creation.
      * The harness can print or show Exception's text
@@ -270,13 +275,6 @@ public abstract class CustomReport {
          */
         public abstract String getPanelName();
     }
-
-
-    public void setEnviroment(ReportSettings envir) {
-        env = envir;
-    }
-
-    private ReportSettings env;
 
     //private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ContextManager.class);
 }

@@ -38,6 +38,15 @@ import java.io.Writer;
 
 public class TextWriter extends FilterWriter {
 
+    private boolean autoFlush = false;
+    /**
+     * Line separator string.  This is the value of the line.separator
+     * property at the moment that the stream was created.
+     */
+    private String lineSeparator;
+
+    /* Methods that do not terminate lines */
+
     /**
      * Create a new TextWriter, without automatic line flushing.
      *
@@ -61,8 +70,6 @@ public class TextWriter extends FilterWriter {
         this.autoFlush = autoFlush;
         lineSeparator = System.getProperty("line.separator");
     }
-
-    /* Methods that do not terminate lines */
 
     /**
      * Print a boolean.
@@ -134,6 +141,9 @@ public class TextWriter extends FilterWriter {
         write(s);
     }
 
+
+    /* Methods that do terminate lines */
+
     /**
      * Print a string.
      *
@@ -156,9 +166,6 @@ public class TextWriter extends FilterWriter {
     public void print(Object obj) throws IOException {
         write(String.valueOf(obj));
     }
-
-
-    /* Methods that do terminate lines */
 
     /**
      * Finish the line.
@@ -290,12 +297,4 @@ public class TextWriter extends FilterWriter {
             println();
         }
     }
-
-    private boolean autoFlush = false;
-
-    /**
-     * Line separator string.  This is the value of the line.separator
-     * property at the moment that the stream was created.
-     */
-    private String lineSeparator;
 }

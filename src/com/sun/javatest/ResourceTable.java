@@ -36,6 +36,8 @@ import java.util.TreeSet;
  * A table providing simple named locks for arbitrary resources.
  */
 public class ResourceTable {
+    private Map<String, Thread> table;
+
     /**
      * Create a resource table.
      */
@@ -120,6 +122,4 @@ public class ResourceTable {
         }
         notifyAll();
     }
-
-    private Map<String, Thread> table;
 }

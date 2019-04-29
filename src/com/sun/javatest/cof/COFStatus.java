@@ -113,6 +113,16 @@ public class COFStatus extends COFItem {
     }
 
     /**
+     * Sets the value of the actual property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setActual(String value) {
+        this.actual = value;
+    }
+
+    /**
      * Gets the value of the expected property.
      *
      * @return possible object is
@@ -120,6 +130,16 @@ public class COFStatus extends COFItem {
      */
     public String getExpected() {
         return expected;
+    }
+
+    /**
+     * Sets the value of the expected property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setExpected(String value) {
+        this.expected = value;
     }
 
     LinkedHashMap<String, String> getItemAttributes() {
@@ -142,26 +162,6 @@ public class COFStatus extends COFItem {
      */
     public String getValue() {
         return value;
-    }
-
-    /**
-     * Sets the value of the actual property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setActual(String value) {
-        this.actual = value;
-    }
-
-    /**
-     * Sets the value of the expected property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setExpected(String value) {
-        this.expected = value;
     }
 
     /**

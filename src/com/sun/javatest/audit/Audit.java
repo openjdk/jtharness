@@ -63,6 +63,22 @@ import java.util.Vector;
  * accessed for external analysis.
  */
 public class Audit {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Audit.class);
+    private int testCount;
+    private int[] checksumCounts = new int[TestResult.NUM_CHECKSUM_STATES];
+    private int[] envCounts = new int[2];
+    private int[] statusCounts = new int[5];
+    private boolean badDates = false;
+    private TestDescription[] badTests;
+    private TestResult[] badTestCaseTests;
+    private TestResult[] badTestDescriptions;
+    private TestResult[] badChecksumTests;
+    private Date earliestStart;
+    private Date latestStart;
+    private DateFormat[] dateFormats;
+    private Hashtable<String, Vector<String>> envTable = new Hashtable<>();
+    private PrintStream out;
+
     /**
      * Analyze a set of test results for validity, based on the given parameters.
      *
@@ -75,26 +91,6 @@ public class Audit {
                 params.getExcludeList(),
                 params.getWorkDirectory());
     }
-
-    /**
-     * Create a test finder queue based on the info in the parameters
-     */
-    private static TestFinderQueue getTestFinderQueue(Parameters params) {
-        TestSuite ts = params.getTestSuite();
-        TestFinder tf = ts.getTestFinder();
-
-        TestFinderQueue tfq = new TestFinderQueue();
-        tfq.setTestFinder(tf);
-
-        String[] tests = params.getTests();
-        tfq.setTests(tests);
-
-        TestFilter[] filters = params.getFilters();
-        tfq.setFilters(filters);
-
-        return tfq;
-    }
-
 
     /**
      * Analyze a set of test results for validity, based on the given parameters.
@@ -189,6 +185,63 @@ public class Audit {
         if (!badTestsV.isEmpty()) {
             badTests = badTestsV.toArray(new TestDescription[badTestsV.size()]);
         }
+    }
+
+    /**
+     * Create a test finder queue based on the info in the parameters
+     */
+    private static TestFinderQueue getTestFinderQueue(Parameters params) {
+        TestSuite ts = params.getTestSuite();
+        TestFinder tf = ts.getTestFinder();
+
+        TestFinderQueue tfq = new TestFinderQueue();
+        tfq.setTestFinder(tf);
+
+        String[] tests = params.getTests();
+        tfq.setTests(tests);
+
+        TestFilter[] filters = params.getFilters();
+        tfq.setFilters(filters);
+
+        return tfq;
+    }
+
+    private static boolean equal(TestDescription a, TestDescription b) {
+        if (a == null || b == null) {
+            return a == b;
+        }
+
+        //if (!a.rootRelativeFile.equals(b.rootRelativeFile))
+        //    return false;
+
+        Iterator<String> eA = a.getParameterKeys();
+        Iterator<String> eB = b.getParameterKeys();
+        while (eA.hasNext() && eB.hasNext()) {
+            String keyA = eA.next();
+            String keyB = eB.next();
+            if (!keyA.equals(keyB)) {
+                //System.err.println("mismatch " + a.getRootRelativePath() + " a:" + keyA + " b:" + keyB);
+                return false;
+            }
+
+            String valA = a.getParameter(keyA);
+            String valB = a.getParameter(keyB);
+            if (!(valA.equals(valB) || (keyA.equals("keywords") && keywordMatch(valA, valB)))) {
+                //System.err.println("mismatch " + a.getRootRelativePath() + " key:" + keyA + " a:" + valA + " b:" + valB);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean keywordMatch(String a, String b) {
+        // eek, not very efficient!
+        String[] aa = StringArray.split(a);
+        Arrays.sort(aa);
+        String[] bb = StringArray.split(b);
+        Arrays.sort(bb);
+        return Arrays.equals(aa, bb);
     }
 
     /**
@@ -630,44 +683,6 @@ public class Audit {
         return true;
     }
 
-    private static boolean equal(TestDescription a, TestDescription b) {
-        if (a == null || b == null) {
-            return a == b;
-        }
-
-        //if (!a.rootRelativeFile.equals(b.rootRelativeFile))
-        //    return false;
-
-        Iterator<String> eA = a.getParameterKeys();
-        Iterator<String> eB = b.getParameterKeys();
-        while (eA.hasNext() && eB.hasNext()) {
-            String keyA = eA.next();
-            String keyB = eB.next();
-            if (!keyA.equals(keyB)) {
-                //System.err.println("mismatch " + a.getRootRelativePath() + " a:" + keyA + " b:" + keyB);
-                return false;
-            }
-
-            String valA = a.getParameter(keyA);
-            String valB = a.getParameter(keyB);
-            if (!(valA.equals(valB) || (keyA.equals("keywords") && keywordMatch(valA, valB)))) {
-                //System.err.println("mismatch " + a.getRootRelativePath() + " key:" + keyA + " a:" + valA + " b:" + valB);
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean keywordMatch(String a, String b) {
-        // eek, not very efficient!
-        String[] aa = StringArray.split(a);
-        Arrays.sort(aa);
-        String[] bb = StringArray.split(b);
-        Arrays.sort(bb);
-        return Arrays.equals(aa, bb);
-    }
-
     private Date parseDate(String s) {
         if (dateFormats == null) {
             initDateFormats();
@@ -724,21 +739,4 @@ public class Audit {
 
         dateFormats = v.toArray(new DateFormat[v.size()]);
     }
-
-    private int testCount;
-    private int[] checksumCounts = new int[TestResult.NUM_CHECKSUM_STATES];
-    private int[] envCounts = new int[2];
-    private int[] statusCounts = new int[5];
-    private boolean badDates = false;
-    private TestDescription[] badTests;
-    private TestResult[] badTestCaseTests;
-    private TestResult[] badTestDescriptions;
-    private TestResult[] badChecksumTests;
-    private Date earliestStart;
-    private Date latestStart;
-    private DateFormat[] dateFormats;
-
-    private Hashtable<String, Vector<String>> envTable = new Hashtable<>();
-    private PrintStream out;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Audit.class);
 }

@@ -39,6 +39,11 @@ import java.util.Properties;
 import java.util.Vector;
 
 public class COFData {
+    private Map<Object, Object> data = new HashMap<>();
+    private CustomFilter filter = new CustomFilterAdapter();
+    private MTL mtl;
+    private InterviewParameters ip;
+
     public COFData() {
     }
 
@@ -89,20 +94,14 @@ public class COFData {
         data.putAll(map);
     }
 
-    private Map<Object, Object> data = new HashMap<>();
-
-    private CustomFilter filter = new CustomFilterAdapter();
+    CustomFilter getCustomFilter() {
+        return filter;
+    }
 
     void setCustomFilter(String filterClassName) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class<?> c = Class.forName(filterClassName, true, ClassLoader.getSystemClassLoader());
         filter = (CustomFilter) c.newInstance();
     }
-
-    CustomFilter getCustomFilter() {
-        return filter;
-    }
-
-    private MTL mtl;
 
     MTL getMtl() {
         return mtl;
@@ -112,17 +111,15 @@ public class COFData {
         this.mtl = mtl;
     }
 
-    public void setInterviewParameters(InterviewParameters ip) {
-        this.ip = ip;
-    }
-
     public InterviewParameters getInterviewParameters() {
         return ip;
+    }
+
+    public void setInterviewParameters(InterviewParameters ip) {
+        this.ip = ip;
     }
 
     public boolean isInterviewParametersAvailable() {
         return ip != null;
     }
-
-    private InterviewParameters ip;
 }

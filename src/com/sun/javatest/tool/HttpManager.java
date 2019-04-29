@@ -45,6 +45,11 @@ import java.util.ListIterator;
  * </ul>
  */
 public class HttpManager extends CommandManager {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigManager.class);
+
+    //----------------------------------------------------------------------------
+    private boolean httpFlag;
+
     @Override
     public HelpTree.Node getHelp() {
         String[] cmds = {
@@ -52,8 +57,6 @@ public class HttpManager extends CommandManager {
         };
         return new HelpTree.Node(i18n, "http", cmds);
     }
-
-    //----------------------------------------------------------------------------
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) {
@@ -67,16 +70,13 @@ public class HttpManager extends CommandManager {
         return false;
     }
 
-    private boolean httpFlag;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigManager.class);
-
     private static class HttpCommand extends Command {
-        static String getName() {
-            return "startHttp";
-        }
-
         HttpCommand() {
             super(getName());
+        }
+
+        static String getName() {
+            return "startHttp";
         }
 
         @Override

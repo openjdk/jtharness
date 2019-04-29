@@ -40,48 +40,9 @@ import java.util.ListIterator;
  * A class to parse a series of commands, with the help of their associated command managers.
  */
 public class CommandParser {
-    /**
-     * Thrown when a bad command line argument is encountered.
-     */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The key for the detail message.
-         */
-        Fault(I18NResourceBundle i18n, String key) {
-            super(i18n.getString(key));
-        }
-
-        /**
-         * Create a Fault exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The key for the detail message.
-         * @param arg  An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String key, Object arg) {
-            super(i18n.getString(key, arg));
-        }
-
-        /**
-         * Create a Fault exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The key for the detail message.
-         * @param args An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String key, Object... args) {
-            super(i18n.getString(key, args));
-        }
-
-        Fault(Command.Fault e) {
-            super(e.getMessage(), e);
-        }
-    }
+    static final String TRACE_PREFIX = "+ ";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(CommandParser.class);
+    private CommandManager[] mgrs;
 
     /**
      * Create a parser to parse the commands accepted by a set of command managers.
@@ -90,6 +51,65 @@ public class CommandParser {
      */
     public CommandParser(CommandManager... mgrs) {
         this.mgrs = mgrs;
+    }
+
+    private static String[] trim(String... args) {
+        String[] trimArgs = new String[args.length];
+        for (int i = 0; i < args.length; i++) {
+            trimArgs[i] = args[i].trim();
+        }
+        return trimArgs;
+    }
+
+    private static ListIterator<String> getIterator(final String... args) {
+        return new ListIterator<String>() {
+            private int index;
+
+            @Override
+            public void add(String o) {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public boolean hasNext() {
+                return index < args.length;
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                return index > 0;
+            }
+
+            @Override
+            public String next() {
+                return index < args.length ? args[index++] : null;
+            }
+
+            @Override
+            public int nextIndex() {
+                return index;
+            }
+
+            @Override
+            public String previous() {
+                return index > 0 ? args[--index] : null;
+            }
+
+            @Override
+            public int previousIndex() {
+                return index - 1;
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void set(String obj) {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 
     /**
@@ -274,67 +294,46 @@ public class CommandParser {
         }
     }
 
-    private static String[] trim(String... args) {
-        String[] trimArgs = new String[args.length];
-        for (int i = 0; i < args.length; i++) {
-            trimArgs[i] = args[i].trim();
+    /**
+     * Thrown when a bad command line argument is encountered.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         */
+        Fault(I18NResourceBundle i18n, String key) {
+            super(i18n.getString(key));
         }
-        return trimArgs;
+
+        /**
+         * Create a Fault exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         * @param arg  An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String key, Object arg) {
+            super(i18n.getString(key, arg));
+        }
+
+        /**
+         * Create a Fault exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         * @param args An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String key, Object... args) {
+            super(i18n.getString(key, args));
+        }
+
+        Fault(Command.Fault e) {
+            super(e.getMessage(), e);
+        }
     }
-
-    private static ListIterator<String> getIterator(final String... args) {
-        return new ListIterator<String>() {
-            @Override
-            public void add(String o) {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public boolean hasNext() {
-                return index < args.length;
-            }
-
-            @Override
-            public boolean hasPrevious() {
-                return index > 0;
-            }
-
-            @Override
-            public String next() {
-                return index < args.length ? args[index++] : null;
-            }
-
-            @Override
-            public int nextIndex() {
-                return index;
-            }
-
-            @Override
-            public String previous() {
-                return index > 0 ? args[--index] : null;
-            }
-
-            @Override
-            public int previousIndex() {
-                return index - 1;
-            }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-
-            @Override
-            public void set(String obj) {
-                throw new UnsupportedOperationException();
-            }
-
-            private int index;
-        };
-    }
-
-    private CommandManager[] mgrs;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(CommandParser.class);
-
-    static final String TRACE_PREFIX = "+ ";
 }

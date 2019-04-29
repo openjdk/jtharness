@@ -32,6 +32,8 @@ import java.awt.Component;
 import java.awt.FontMetrics;
 
 public class StringFitter {
+    // a default StringFitter
+    private static StringFitter defaultInstance;
     // a string for replacing truncated parts in the beginning of the string
     private String leftReplaceString = "...";
     // width of leftReplaceString in current FontMetrics
@@ -50,8 +52,6 @@ public class StringFitter {
     private String splitString = "...";
     // width of splitString in current FontMetrics
     private int splitWidth;
-    // a default StringFitter
-    private static StringFitter defaultInstance;
     // current FontMetrics
     private FontMetrics fm;
 
@@ -209,27 +209,6 @@ public class StringFitter {
     }
 
     /**
-     * get current replace string for ending of truncated string
-     */
-    public String getRightReplaceString() {
-        return rightReplaceString;
-    }
-
-    /**
-     * get current split string
-     */
-    public String getSplitString() {
-        return splitString;
-    }
-
-    /**
-     * get current FontMetrics
-     */
-    public FontMetrics getFontMetrics() {
-        return fm;
-    }
-
-    /**
      * set replace string for replacing beginning of the truncated string
      *
      * @param s new replace string
@@ -237,6 +216,13 @@ public class StringFitter {
     public void setLeftReplaceString(String s) {
         leftReplaceString = s;
         leftRSWidth = fm.stringWidth(s);
+    }
+
+    /**
+     * get current replace string for ending of truncated string
+     */
+    public String getRightReplaceString() {
+        return rightReplaceString;
     }
 
     /**
@@ -250,6 +236,13 @@ public class StringFitter {
     }
 
     /**
+     * get current split string
+     */
+    public String getSplitString() {
+        return splitString;
+    }
+
+    /**
      * set split string
      *
      * @param s a string to provide discrete truncation. E.g. if split
@@ -260,6 +253,13 @@ public class StringFitter {
     public void setSplitString(String s) {
         splitString = s;
         splitWidth = fm.stringWidth(s);
+    }
+
+    /**
+     * get current FontMetrics
+     */
+    public FontMetrics getFontMetrics() {
+        return fm;
     }
 
     /**

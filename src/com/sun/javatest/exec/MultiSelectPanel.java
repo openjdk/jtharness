@@ -48,18 +48,20 @@ class MultiSelectPanel
         extends JPanel
         //implements FilterSelectionHandler.Observer
 {
+    private static boolean debug = Debug.getBoolean(MultiSelectPanel.class);
+    private TestTreeModel ttm;
+    private TreePanelModel tpm;
+    private JList<?> nodeList;
+    private DefaultListModel<Object> listModel;
+    private Object[] nodes;
+    private UIFactory uif;
+    private volatile boolean needToUpdateGUIWhenShown;
     MultiSelectPanel(UIFactory uif, TreePanelModel model, TestTreeModel ttm) {
         this.uif = uif;
         this.tpm = model;
         this.ttm = ttm;
 
         initGUI();
-    }
-
-    // XXX use TreePath[] as parameter?
-    void setNodes(Object... nodes) {
-        this.nodes = nodes;
-        updatePanel(nodes);
     }
 
     /**
@@ -151,6 +153,12 @@ class MultiSelectPanel
         return nodes;
     }
 
+    // XXX use TreePath[] as parameter?
+    void setNodes(Object... nodes) {
+        this.nodes = nodes;
+        updatePanel(nodes);
+    }
+
     /**
      * Call when the target node or tree data have changed.  This is called
      * internally to force updates when filters have changed.
@@ -171,16 +179,4 @@ class MultiSelectPanel
     protected void finalize() throws Throwable {
         super.finalize();
     }
-
-    private TestTreeModel ttm;
-    private TreePanelModel tpm;
-    private JList<?> nodeList;
-    private DefaultListModel<Object> listModel;
-    private Object[] nodes;
-
-    private UIFactory uif;
-
-    private volatile boolean needToUpdateGUIWhenShown;
-
-    private static boolean debug = Debug.getBoolean(MultiSelectPanel.class);
 }

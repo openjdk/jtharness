@@ -42,6 +42,18 @@ import java.awt.event.ActionListener;
 
 public class ListQuestionRenderer
         implements QuestionRenderer {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    protected static final String INVALID_VALUE = i18n.getString("list.incomplete.txt");
+    protected static final String INVALID_VALUE_COLOR = i18n.getString("i18n.error.clr");
+
+    protected static Interview getRootInterview(Question q) {
+        Interview i = q.getInterview();
+        while (i.getParent() != null) {
+            i = i.getParent();
+        }
+        return i;
+    }
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         ListQuestion q = (ListQuestion) qq;
@@ -132,17 +144,9 @@ public class ListQuestionRenderer
         return panel;
     }
 
-    protected static Interview getRootInterview(Question q) {
-        Interview i = q.getInterview();
-        while (i.getParent() != null) {
-            i = i.getParent();
-        }
-        return i;
-    }
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
-
     protected static class BodyList extends EditableList {
+        private ListQuestion question;
+
         BodyList(ListQuestion q) {
             super("list", (Object[]) q.getBodies());
             question = q;
@@ -203,7 +207,6 @@ public class ListQuestionRenderer
             }
         }
 
-
         @Override
         protected void itemsChanged() {
             question.setBodies(getBodies(), getSelectedIndex());
@@ -260,10 +263,5 @@ public class ListQuestionRenderer
                 return text;
             }
         }
-
-        private ListQuestion question;
     }
-
-    protected static final String INVALID_VALUE = i18n.getString("list.incomplete.txt");
-    protected static final String INVALID_VALUE_COLOR = i18n.getString("i18n.error.clr");
 }

@@ -36,6 +36,50 @@ import java.util.ResourceBundle;
  * A {@link Question question} to which the response is an floating point number.
  */
 public abstract class FloatQuestion extends Question {
+    private static final ResourceBundle i18n = Interview.i18n;
+    /**
+     * The current response for this question.
+     * This field should be treated as read-only.
+     * Use setValue to change the value.
+     */
+    protected float value = Float.NaN;
+    /**
+     * Suggested values for this question.
+     */
+    protected float[] suggestions;
+    /**
+     * The default response for this question.
+     */
+    private float defaultValue = Float.NaN;
+    /**
+     * The cached string value for this question
+     */
+    private String stringValue;
+    /**
+     * A temporary value, used to avoid changing the API for setValue/setStringValue
+     */
+    private transient String newStringValue;
+    /**
+     * The lower bound for responses to this question
+     */
+    private float min = Float.MIN_VALUE;
+    /**
+     * The upper bound for responses to this question
+     */
+    private float max = Float.MAX_VALUE;
+    /**
+     * The resolution for responses to this question
+     */
+    private float resolution;
+    /**
+     * The hint for the lowest label that might be displayed
+     */
+    private float labelStart;
+    /**
+     * The hint for the increment between labels that might be displayed
+     */
+    private float labelIncrement;
+
     /**
      * Create a question with a nominated tag.
      *
@@ -121,19 +165,6 @@ public abstract class FloatQuestion extends Question {
     }
 
     /**
-     * Set the resolution for responses to this question. Responses
-     * may be rounded to the nearest multiple of the resolution.
-     *
-     * @param resolution the resolution for responses to this question
-     * @see #getResolution
-     * @see #setValue
-     */
-    public void setResolution(float resolution) {
-        this.resolution = resolution;
-    }
-
-
-    /**
      * Get the resolution for responses to this question. Responses
      * may be rounded to the nearest multiple of the resolution.
      *
@@ -143,6 +174,18 @@ public abstract class FloatQuestion extends Question {
      */
     public float getResolution() {
         return resolution;
+    }
+
+    /**
+     * Set the resolution for responses to this question. Responses
+     * may be rounded to the nearest multiple of the resolution.
+     *
+     * @param resolution the resolution for responses to this question
+     * @see #getResolution
+     * @see #setValue
+     */
+    public void setResolution(float resolution) {
+        this.resolution = resolution;
     }
 
     /**
@@ -197,6 +240,43 @@ public abstract class FloatQuestion extends Question {
     }
 
     /**
+     * Set the response to this question to the value represented by
+     * a string-valued argument. Argument is decoded against current locale.
+     *
+     * @param s A string containing the numeric value to be set.
+     *          The number should be in the range of valid values defined for
+     *          this question; if it is not, the value will be retained,
+     *          but isValueValid() will return false.
+     * @throws Interview.Fault This exception is just retained for backwards
+     *                         compatibility; it should never actually be thrown.
+     * @see #getValue
+     * @see #getValue()
+     * @see #setValue(String, Locale)
+     */
+    @Override
+    public void setValue(String s) throws Interview.Fault {
+        setValue(s, Locale.getDefault());
+    }
+
+    /**
+     * Set the current value.
+     *
+     * @param newValue The value to be set. It should be in the range
+     *                 of valid values defined for this question.
+     * @see #getValue
+     */
+    public void setValue(float newValue) {
+        float oldValue = value;
+        value = newValue;
+        stringValue = newStringValue;  // only non-null if called from setValue(String s)
+        newStringValue = null;
+        if (Float.isNaN(value) ? !Float.isNaN(oldValue) : (value != oldValue)) {
+            interview.updatePath(this);
+            interview.setEdited(true);
+        }
+    }
+
+    /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
      *
@@ -223,25 +303,6 @@ public abstract class FloatQuestion extends Question {
         }
 
         return stringValue;
-    }
-
-    /**
-     * Set the response to this question to the value represented by
-     * a string-valued argument. Argument is decoded against current locale.
-     *
-     * @param s A string containing the numeric value to be set.
-     *          The number should be in the range of valid values defined for
-     *          this question; if it is not, the value will be retained,
-     *          but isValueValid() will return false.
-     * @throws Interview.Fault This exception is just retained for backwards
-     *                         compatibility; it should never actually be thrown.
-     * @see #getValue
-     * @see #getValue()
-     * @see #setValue(String, Locale)
-     */
-    @Override
-    public void setValue(String s) throws Interview.Fault {
-        setValue(s, Locale.getDefault());
     }
 
     /**
@@ -297,24 +358,6 @@ public abstract class FloatQuestion extends Question {
         newStringValue = s;
         setValue(f);
         //System.out.println(tag + " [" + s1 + ", in " + l + "] -> [" + f + ", [" + s + "]]" );
-    }
-
-    /**
-     * Set the current value.
-     *
-     * @param newValue The value to be set. It should be in the range
-     *                 of valid values defined for this question.
-     * @see #getValue
-     */
-    public void setValue(float newValue) {
-        float oldValue = value;
-        value = newValue;
-        stringValue = newStringValue;  // only non-null if called from setValue(String s)
-        newStringValue = null;
-        if (Float.isNaN(value) ? !Float.isNaN(oldValue) : (value != oldValue)) {
-            interview.updatePath(this);
-            interview.setEdited(true);
-        }
     }
 
     @Override
@@ -396,59 +439,4 @@ public abstract class FloatQuestion extends Question {
     protected void save(Map<String, String> data) {
         data.put(tag, getStringValue());
     }
-
-    /**
-     * The current response for this question.
-     * This field should be treated as read-only.
-     * Use setValue to change the value.
-     */
-    protected float value = Float.NaN;
-
-    /**
-     * Suggested values for this question.
-     */
-    protected float[] suggestions;
-
-    /**
-     * The default response for this question.
-     */
-    private float defaultValue = Float.NaN;
-
-    /**
-     * The cached string value for this question
-     */
-    private String stringValue;
-
-    /**
-     * A temporary value, used to avoid changing the API for setValue/setStringValue
-     */
-    private transient String newStringValue;
-
-    /**
-     * The lower bound for responses to this question
-     */
-    private float min = Float.MIN_VALUE;
-
-    /**
-     * The upper bound for responses to this question
-     */
-    private float max = Float.MAX_VALUE;
-
-    /**
-     * The resolution for responses to this question
-     */
-    private float resolution;
-
-    /**
-     * The hint for the lowest label that might be displayed
-     */
-    private float labelStart;
-
-    /**
-     * The hint for the increment between labels that might be displayed
-     */
-    private float labelIncrement;
-
-
-    private static final ResourceBundle i18n = Interview.i18n;
 }

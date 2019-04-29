@@ -46,6 +46,8 @@ import java.util.Properties;
 
 public class XMLReportMaker {
 
+    public static final String XML_CHARSET = "UTF-8";
+    private final AttributesImpl emptyAttr = new AttributesImpl();
     private TransformerHandler ser;
 
     XMLReportMaker(Writer w) {
@@ -62,6 +64,64 @@ public class XMLReportMaker {
         }
         ser.getTransformer().setOutputProperties(outputProps);
         ser.setResult(new StreamResult(w));
+    }
+
+    public static void writeCDATA(LexicalHandler lh, ContentHandler ser, String cdata) throws SAXException {
+
+        cdata = convertProhibitedChars(cdata);
+
+        if (lh != null) {
+            int start = 0;
+            int end;
+            while (start < cdata.length()) {
+                end = cdata.length();
+                int xpos = cdata.indexOf("]]>", start);
+                if (xpos != -1) {
+                    end = xpos + 1;
+                }
+                lh.startCDATA();
+                String fragment = cdata.substring(start, end);
+                ser.characters(fragment.toCharArray(), 0, fragment.length());
+                lh.endCDATA();
+                start = end;
+            }
+        }
+    }
+
+    public static String convertProhibitedChars(String cdata) {
+        StringBuilder sb = new StringBuilder();
+        char[] data = cdata.toCharArray();
+        for (char aData : data) {
+            if (prohibited(aData)) {
+                sb.append("\\u");
+                String rX = Integer.toHexString((int) aData);
+                for (int ii = rX.length(); ii < 4; ii++) {
+                    sb.append("0");  //
+                }
+                sb.append(rX);
+            } else {
+                sb.append(aData);
+            }
+        }
+        return sb.toString();
+    }
+
+    // XML 1.0 specification ( http://www.w3.org/TR/2004/REC-xml-20040204/ ) defines legal chars:
+    // Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
+    public static boolean prohibited(int c) {
+        if (c == 0x0009 || c == 0x000A || c == 0x000D) {
+            return false;
+        }
+        if (c >= 0x0020 && c <= 0xD7FF) {
+            return false;
+        }
+        if (c >= 0xE000 && c <= 0xFFFD) {
+            return false;
+        }
+        if (c >= 0x10000 && c <= 0x10FFFF) {
+            return false; // can't be java char, but any way...
+        }
+        return true;
     }
 
     void sDocument() throws SAXException {
@@ -92,7 +152,6 @@ public class XMLReportMaker {
     void eSummary() throws SAXException {
         eE(Scheme.SUMMARY);
     }
-
 
     void sWorkdirectories() throws SAXException {
         sE(Scheme.WDS);
@@ -288,7 +347,6 @@ public class XMLReportMaker {
         eE(Scheme.QUEST);
     }
 
-
     void sListQuestion() throws SAXException {
         sE(Scheme.LIST_QUEST);
     }
@@ -359,7 +417,6 @@ public class XMLReportMaker {
         }
     }
 
-
     private void makeChoice(String ch, String di) throws SAXException {
         AttributesImpl atts = new AttributesImpl();
         if (ch != null) {
@@ -382,7 +439,6 @@ public class XMLReportMaker {
         sE(Scheme.CHOICE, atts);
         eE(Scheme.CHOICE);
     }
-
 
     void makeEntireTestTree() throws SAXException {
         sE(Scheme.ENTTREE);
@@ -430,7 +486,6 @@ public class XMLReportMaker {
         eE(Scheme.TEMPLATE);
     }
 
-
     void makeProperty(String key, String val) throws SAXException {
         AttributesImpl atts = new AttributesImpl();
         atts.addAttribute("", "", Scheme.PR_NAME, "String", key);
@@ -464,7 +519,6 @@ public class XMLReportMaker {
         }
     }
 
-
     private void sE(String name) throws SAXException {
         ser.startElement("", "", name, emptyAttr);
     }
@@ -476,67 +530,6 @@ public class XMLReportMaker {
     private void eE(String name) throws SAXException {
         ser.endElement("", "", name);
     }
-
-    public static void writeCDATA(LexicalHandler lh, ContentHandler ser, String cdata) throws SAXException {
-
-        cdata = convertProhibitedChars(cdata);
-
-        if (lh != null) {
-            int start = 0;
-            int end;
-            while (start < cdata.length()) {
-                end = cdata.length();
-                int xpos = cdata.indexOf("]]>", start);
-                if (xpos != -1) {
-                    end = xpos + 1;
-                }
-                lh.startCDATA();
-                String fragment = cdata.substring(start, end);
-                ser.characters(fragment.toCharArray(), 0, fragment.length());
-                lh.endCDATA();
-                start = end;
-            }
-        }
-    }
-
-    public static String convertProhibitedChars(String cdata) {
-        StringBuilder sb = new StringBuilder();
-        char[] data = cdata.toCharArray();
-        for (char aData : data) {
-            if (prohibited(aData)) {
-                sb.append("\\u");
-                String rX = Integer.toHexString((int) aData);
-                for (int ii = rX.length(); ii < 4; ii++) {
-                    sb.append("0");  //
-                }
-                sb.append(rX);
-            } else {
-                sb.append(aData);
-            }
-        }
-        return sb.toString();
-    }
-
-    // XML 1.0 specification ( http://www.w3.org/TR/2004/REC-xml-20040204/ ) defines legal chars:
-    // Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
-    public static boolean prohibited(int c) {
-        if (c == 0x0009 || c == 0x000A || c == 0x000D) {
-            return false;
-        }
-        if (c >= 0x0020 && c <= 0xD7FF) {
-            return false;
-        }
-        if (c >= 0xE000 && c <= 0xFFFD) {
-            return false;
-        }
-        if (c >= 0x10000 && c <= 0x10FFFF) {
-            return false; // can't be java char, but any way...
-        }
-        return true;
-    }
-
-
-    private final AttributesImpl emptyAttr = new AttributesImpl();
 
     /**
      * Elements and attributes names are defined here
@@ -620,7 +613,5 @@ public class XMLReportMaker {
         private static final String SCH_LOC_VAL = "Report.xsd";
 
     }
-
-    public static final String XML_CHARSET = "UTF-8";
 
 }

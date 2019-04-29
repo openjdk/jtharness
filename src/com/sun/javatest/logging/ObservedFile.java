@@ -34,6 +34,11 @@ import java.util.List;
 import java.util.logging.LogRecord;
 
 public class ObservedFile extends File {
+    private final static boolean debug = false;
+    private final List<FileListener> list = new ArrayList<>();
+    private String recordInexName;
+    private String loggersInexName;
+
     public ObservedFile(String name) {
         super(name);
         recordInexName = name + ".rec.index";
@@ -178,11 +183,6 @@ public class ObservedFile extends File {
         }
 
     }
-
-    private final List<FileListener> list = new ArrayList<>();
-    private final static boolean debug = false;
-    private String recordInexName;
-    private String loggersInexName;
 
     public boolean needToBackup() {
         return length() != 0 || getLoggersInexFile().length() != 0 || getRecordInexFile().length() != 0;

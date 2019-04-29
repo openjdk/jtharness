@@ -32,6 +32,10 @@ import com.sun.javatest.util.I18NResourceBundle;
  * A test filter that filters tests according to their prior execution status.
  */
 public class StatusFilter extends TestFilter {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExcludeListFilter.class);
+    private boolean[] statusValues;
+    private TestResultTable trt;
+
     /**
      * Create a filter that filters tests according to their execution status.
      *
@@ -160,8 +164,4 @@ public class StatusFilter extends TestFilter {
         hash = 67 * hash + (this.trt != null ? this.trt.hashCode() : 0);
         return hash;
     }
-
-    private boolean[] statusValues;
-    private TestResultTable trt;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExcludeListFilter.class);
 }

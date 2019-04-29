@@ -53,6 +53,17 @@ import java.text.MessageFormat;
  * A component that displays an editable list of values.
  */
 public class EditableList extends JPanel {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    protected boolean duplicatesAllowed;
+    protected Listener listener = createListener();
+    protected Renderer renderer = createRenderer();
+    protected DefaultListModel<Object> listModel;
+    protected JList<Object> list;
+    protected JButton addBtn;
+    protected JButton removeBtn;
+    protected JButton upBtn;
+    protected JButton downBtn;
+
     /**
      * Create an EditableList.
      *
@@ -150,16 +161,6 @@ public class EditableList extends JPanel {
     }
 
     /**
-     * Specify whether or not duplicates should be allowed in the list.
-     *
-     * @param b true if duplicates should be allowed, and false otherwise
-     * @see #isDuplicatesAllowed
-     */
-    public void setDuplicatesAllowed(boolean b) {
-        duplicatesAllowed = b;
-    }
-
-    /**
      * Check whether or not duplicates should be allowed in the list.
      *
      * @return true if duplicates should be allowed, and false otherwise
@@ -167,6 +168,16 @@ public class EditableList extends JPanel {
      */
     public boolean isDuplicatesAllowed() {
         return duplicatesAllowed;
+    }
+
+    /**
+     * Specify whether or not duplicates should be allowed in the list.
+     *
+     * @param b true if duplicates should be allowed, and false otherwise
+     * @see #isDuplicatesAllowed
+     */
+    public void setDuplicatesAllowed(boolean b) {
+        duplicatesAllowed = b;
     }
 
     protected Object getDisplayValue(Object item) {
@@ -265,7 +276,6 @@ public class EditableList extends JPanel {
         }
     }
 
-
     protected JButton createButton(String uiKey) {
         JButton b = new JButton(i18n.getString(uiKey + ".btn"));
         b.setName(uiKey);
@@ -286,6 +296,34 @@ public class EditableList extends JPanel {
                 text,
                 title,
                 JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    protected void updateButtons() {
+        if (list.isSelectionEmpty()) {
+            removeBtn.setEnabled(false);
+            upBtn.setEnabled(false);
+            downBtn.setEnabled(false);
+        } else {
+            removeBtn.setEnabled(true);
+            int i = list.getSelectedIndex();
+            upBtn.setEnabled(i > 0);
+            downBtn.setEnabled(i + 1 < listModel.size());
+        }
+    }
+
+    private void swap(int i1, int i2) {
+        Object o1 = listModel.get(i1);
+        Object o2 = listModel.get(i2);
+        listModel.set(i1, o2);
+        listModel.set(i2, o1);
+    }
+
+    protected Listener createListener() {
+        return new Listener();
+    }
+
+    protected Renderer createRenderer() {
+        return new Renderer();
     }
 
     protected class Renderer
@@ -353,45 +391,4 @@ public class EditableList extends JPanel {
         public void mouseReleased(MouseEvent e) {
         }
     }
-
-    protected void updateButtons() {
-        if (list.isSelectionEmpty()) {
-            removeBtn.setEnabled(false);
-            upBtn.setEnabled(false);
-            downBtn.setEnabled(false);
-        } else {
-            removeBtn.setEnabled(true);
-            int i = list.getSelectedIndex();
-            upBtn.setEnabled(i > 0);
-            downBtn.setEnabled(i + 1 < listModel.size());
-        }
-    }
-
-
-    private void swap(int i1, int i2) {
-        Object o1 = listModel.get(i1);
-        Object o2 = listModel.get(i2);
-        listModel.set(i1, o2);
-        listModel.set(i2, o1);
-    }
-
-    protected Listener createListener() {
-        return new Listener();
-    }
-
-    protected Renderer createRenderer() {
-        return new Renderer();
-    }
-
-    protected boolean duplicatesAllowed;
-    protected Listener listener = createListener();
-    protected Renderer renderer = createRenderer();
-    protected DefaultListModel<Object> listModel;
-    protected JList<Object> list;
-    protected JButton addBtn;
-    protected JButton removeBtn;
-    protected JButton upBtn;
-    protected JButton downBtn;
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

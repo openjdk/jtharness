@@ -42,6 +42,7 @@ public abstract class YesNoQuestion extends ChoiceQuestion {
      * A value for a negative response.
      */
     public static final String NO = "No";
+    private static final ResourceBundle i18n = Interview.i18n;
 
     /**
      * Create a question with a nominated tag.
@@ -92,6 +93,4 @@ public abstract class YesNoQuestion extends ChoiceQuestion {
     protected final void setChoices(String... choices) {
         throw new IllegalArgumentException("Cannot set choices for YesNoQuestion");
     }
-
-    private static final ResourceBundle i18n = Interview.i18n;
 }

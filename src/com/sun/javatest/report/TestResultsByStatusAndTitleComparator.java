@@ -32,17 +32,6 @@ import com.sun.javatest.TestResult;
 import java.util.Comparator;
 
 class TestResultsByStatusAndTitleComparator implements Comparator<TestResult> {
-    @Override
-    public int compare(TestResult tr1, TestResult tr2) {
-        Status s1 = tr1.getStatus();
-        Status s2 = tr2.getStatus();
-        if (s1.getType() != s2.getType()) {
-            return s1.getType() < s2.getType() ? -1 : +1;
-        }
-        int x = compare(s1.getReason(), s2.getReason());
-        return x != 0 ? x : compare(tr1.getTestName(), tr2.getTestName());
-    }
-
     private static int compare(String a, String b) {
         if (a == null && b == null) {
             return 0;
@@ -57,5 +46,16 @@ class TestResultsByStatusAndTitleComparator implements Comparator<TestResult> {
         }
 
         return a.compareTo(b);
+    }
+
+    @Override
+    public int compare(TestResult tr1, TestResult tr2) {
+        Status s1 = tr1.getStatus();
+        Status s2 = tr2.getStatus();
+        if (s1.getType() != s2.getType()) {
+            return s1.getType() < s2.getType() ? -1 : +1;
+        }
+        int x = compare(s1.getReason(), s2.getReason());
+        return x != 0 ? x : compare(tr1.getTestName(), tr2.getTestName());
     }
 }

@@ -70,34 +70,12 @@ import java.util.zip.ZipOutputStream;
  * </dl>
  */
 public class BinaryTestWriter {
-    /**
-     * This exception is used to report bad command line arguments.
-     */
-    public static class BadArgs extends Exception {
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param msg A detail message about an error that has been found.
-         */
-        BadArgs(String msg) {
-            super(msg);
-        }
-    }
+    private static final TestDescription[] noTests = {};
+    private PrintStream log = System.out;
 
-    /**
-     * This exception is used to report problems that occur while running.
-     */
-
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault exception.
-         *
-         * @param msg A detail message about a fault that has occurred.
-         */
-        Fault(String msg) {
-            super(msg);
-        }
-    }
+    //------------------------------------------------------------------------------------------
+    private boolean strictFinder = false;
+    private int numFinderErrors = 0;
 
     //------------------------------------------------------------------------------------------
 
@@ -150,7 +128,29 @@ public class BinaryTestWriter {
         out.println("  -strictFinder");
     }
 
-    //------------------------------------------------------------------------------------------
+    /**
+     * Write an int to a data output stream using a variable length encoding.
+     * The int is broken into groups of seven bits, and these are written out
+     * in big-endian order. Leading zeroes are suppressed and all but the last
+     * byte have the top bit set.
+     *
+     * @see BinaryTestFinder#readInt
+     */
+    private static void writeInt(DataOutputStream out, int v) throws IOException {
+        if (v < 0) {
+            throw new IllegalArgumentException();
+        }
+
+        boolean leadZero = true;
+        for (int i = 28; i > 0; i -= 7) {
+            int b = (v >> i) & 0x7f;
+            leadZero = leadZero && (b == 0);
+            if (!leadZero) {
+                out.writeByte(0x80 | b);
+            }
+        }
+        out.writeByte(v & 0x7f);
+    }
 
     /**
      * Main work method.
@@ -272,6 +272,8 @@ public class BinaryTestWriter {
         }
     }
 
+    //------------------------------------------------------------------------------------------
+
     /**
      * Creates and initializes an instance of a test finder
      *
@@ -304,7 +306,6 @@ public class BinaryTestWriter {
         return testFinder;
     }
 
-
     /**
      * Gets and returns the test suite file. Adds testsuite.html or
      * tests/testsuite.html to the end of the path if necessary.
@@ -327,6 +328,8 @@ public class BinaryTestWriter {
             }
         }
     }
+
+    //------------------------------------------------------------------------------------------
 
     /**
      * Create a string containing statistics about a zip file entry.
@@ -415,38 +418,34 @@ public class BinaryTestWriter {
         return testTree.new Node(file.getName(), tests, v.toArray(new TestTree.Node[v.size()]));
     }
 
-    //------------------------------------------------------------------------------------------
-
     /**
-     * Write an int to a data output stream using a variable length encoding.
-     * The int is broken into groups of seven bits, and these are written out
-     * in big-endian order. Leading zeroes are suppressed and all but the last
-     * byte have the top bit set.
-     *
-     * @see BinaryTestFinder#readInt
+     * This exception is used to report bad command line arguments.
      */
-    private static void writeInt(DataOutputStream out, int v) throws IOException {
-        if (v < 0) {
-            throw new IllegalArgumentException();
+    public static class BadArgs extends Exception {
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param msg A detail message about an error that has been found.
+         */
+        BadArgs(String msg) {
+            super(msg);
         }
-
-        boolean leadZero = true;
-        for (int i = 28; i > 0; i -= 7) {
-            int b = (v >> i) & 0x7f;
-            leadZero = leadZero && (b == 0);
-            if (!leadZero) {
-                out.writeByte(0x80 | b);
-            }
-        }
-        out.writeByte(v & 0x7f);
     }
 
-    //------------------------------------------------------------------------------------------
+    /**
+     * This exception is used to report problems that occur while running.
+     */
 
-    private static final TestDescription[] noTests = {};
-    private PrintStream log = System.out;
-    private boolean strictFinder = false;
-    private int numFinderErrors = 0;
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault exception.
+         *
+         * @param msg A detail message about a fault that has occurred.
+         */
+        Fault(String msg) {
+            super(msg);
+        }
+    }
 
     //------------------------------------------------------------------------------------------
 
@@ -459,6 +458,9 @@ public class BinaryTestWriter {
      * @see BinaryTestFinder.StringTable
      */
     static class StringTable {
+        private Map<String, Entry> map = new TreeMap<>();
+        private int writtenSize;
+
         /**
          * Add a new string to the table; if it has already been added,
          * increase its use count.
@@ -570,9 +572,6 @@ public class BinaryTestWriter {
             }
         }
 
-        private Map<String, Entry> map = new TreeMap<>();
-        private int writtenSize;
-
         /**
          * Data for each string in the string table.
          */
@@ -607,6 +606,10 @@ public class BinaryTestWriter {
      * @see BinaryTestFinder.TestTable
      */
     static class TestTable {
+        private Map<TestDescription, Entry> testMap = new HashMap<>();
+        private Vector<TestDescription> tests = new Vector<>();
+        private StringTable stringTable;
+
         /**
          * Create a new TestTable.
          */
@@ -691,10 +694,6 @@ public class BinaryTestWriter {
             }
         }
 
-        private Map<TestDescription, Entry> testMap = new HashMap<>();
-        private Vector<TestDescription> tests = new Vector<>();
-        private StringTable stringTable;
-
         /**
          * Data for each test description in the table.
          */
@@ -719,6 +718,9 @@ public class BinaryTestWriter {
      * @see BinaryTestFinder.TestTable
      */
     static class TestTree {
+        private Node root;
+        private TestTable testTable;
+
         /**
          * Create an test tree. The root node of the tree should be set later.
          */
@@ -769,14 +771,15 @@ public class BinaryTestWriter {
             root.write(o);
         }
 
-        private Node root;
-        private TestTable testTable;
-
         /**
          * A node within the test tree. Each node has a name, a set of test
          * descriptions, and a set of child nodes.
          */
         class Node {
+            private String name;
+            private TestDescription[] tests;
+            private Node[] children;
+
             /**
              * Create a node. The individual test descriptions are added to
              * the tree's test table.
@@ -860,10 +863,6 @@ public class BinaryTestWriter {
                     aChildren.write(o);
                 }
             }
-
-            private String name;
-            private TestDescription[] tests;
-            private Node[] children;
         }
     }
 

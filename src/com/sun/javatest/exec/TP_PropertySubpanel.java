@@ -60,6 +60,8 @@ import java.util.TreeMap;
 
 abstract class TP_PropertySubpanel
         extends TP_Subpanel {
+    private Table table;
+
     protected TP_PropertySubpanel(UIFactory uif, String uiKey) {
         super(uif, uiKey);
         setLayout(new BorderLayout());
@@ -104,10 +106,21 @@ abstract class TP_PropertySubpanel
         }
     }
 
-    private Table table;
-
     private class Table extends JPanel
             implements ComponentListener, Scrollable {
+        private SortedMap<String, Entry> entries;
+        private int maxNameStringWidth = 100;
+        private JTextField nameLabel;
+        private JTextField valueLabel;
+
+        // JComponent
+        private Border headBorder;
+        private Border bodyBorder;
+        private boolean inScrollPane;
+
+        // ComponentListener
+        private boolean pendingValidate;
+
         Table(UIFactory uif) {
             addComponentListener(this);
             setLayout(null);
@@ -152,6 +165,8 @@ abstract class TP_PropertySubpanel
             revalidate();
         }
 
+        // Layout
+
         void reset() {
             //System.err.println("TP_PS.Table: reset");
             entries.clear();
@@ -164,8 +179,6 @@ abstract class TP_PropertySubpanel
             revalidate();
         }
 
-        // JComponent
-
         @Override
         public void addNotify() {
             super.addNotify();
@@ -177,6 +190,8 @@ abstract class TP_PropertySubpanel
             super.removeNotify();
             unconfigureEnclosingScrollPane();
         }
+
+        // Scrollable
 
         @Override
         public void revalidate() {
@@ -207,8 +222,6 @@ abstract class TP_PropertySubpanel
             }
         }
 
-        // ComponentListener
-
         @Override
         public void componentHidden(ComponentEvent e) {
             //System.err.println("TP_PS.Table: componentHidden");
@@ -230,7 +243,7 @@ abstract class TP_PropertySubpanel
             //System.err.println("TP_PS.Table: componentShown");
         }
 
-        // Layout
+        // private
 
         @Override
         public void doLayout() {
@@ -280,8 +293,6 @@ abstract class TP_PropertySubpanel
             return new Dimension(maxNameStringWidth + 400, h);
         }
 
-        // Scrollable
-
         @Override
         public Dimension getPreferredScrollableViewportSize() {
             return getPreferredSize();
@@ -320,8 +331,6 @@ abstract class TP_PropertySubpanel
                     throw new IllegalArgumentException("Invalid orientation: " + orientation);
             }
         }
-
-        // private
 
         private void configureEnclosingScrollPane() {
             //System.err.println("TP_PS.Table: configureEnclosingScrollPane");
@@ -366,16 +375,11 @@ abstract class TP_PropertySubpanel
             }
         }
 
-        private SortedMap<String, Entry> entries;
-        private int maxNameStringWidth = 100;
-        private JTextField nameLabel;
-        private JTextField valueLabel;
-        private Border headBorder;
-        private Border bodyBorder;
-        private boolean inScrollPane;
-        private boolean pendingValidate;
-
         private class Entry {
+            String name;
+            JTextField nameField;
+            String value;
+            JTextArea valueText;
             Entry(String name, String value) {
                 this.name = name;
                 this.value = value;
@@ -394,11 +398,6 @@ abstract class TP_PropertySubpanel
                 valueText.setLineWrap(true);
                 add(valueText);
             }
-
-            String name;
-            JTextField nameField;
-            String value;
-            JTextArea valueText;
         }
 
         private class Header extends JPanel {

@@ -43,7 +43,19 @@ import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
 // Access to the serial ports is handled (internally) via a private interface,
 // Proxy, to a dynamically loaded implementation, ProxyImpl.
 
+interface Proxy {
+    String[] getPortNames();
+
+    ConnectionFactory createConnectionFactory(String port) throws BadValue;
+}
+
+// A private interface for SerialPortModeOptions to access gnu.io
+// functionality, which may or may not be available.
+
 class SerialPortModeOptions extends ModeOptions {
+    private Choice portChoice;
+    private Proxy proxy;
+
     SerialPortModeOptions() {
         super("serial port");
 
@@ -92,18 +104,6 @@ class SerialPortModeOptions extends ModeOptions {
     void setPort(String port) {
         portChoice.select(port);
     }
-
-    private Choice portChoice;
-    private Proxy proxy;
-}
-
-// A private interface for SerialPortModeOptions to access gnu.io
-// functionality, which may or may not be available.
-
-interface Proxy {
-    String[] getPortNames();
-
-    ConnectionFactory createConnectionFactory(String port) throws BadValue;
 }
 
 

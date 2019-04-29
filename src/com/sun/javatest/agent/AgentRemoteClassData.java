@@ -37,11 +37,10 @@ import java.io.IOException;
  */
 class AgentRemoteClassData {
 
+    static final AgentRemoteClassData NO_CLASS_DATA = new AgentRemoteClassData();
     private String className;
     private String codeSource;
     private byte[] byteData;
-
-    static final AgentRemoteClassData NO_CLASS_DATA = new AgentRemoteClassData();
 
     private AgentRemoteClassData() {
     }

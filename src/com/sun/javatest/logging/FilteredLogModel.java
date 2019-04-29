@@ -34,6 +34,15 @@ import java.util.logging.Level;
 
 public class FilteredLogModel extends LogModel {
 
+    private boolean stable = false;
+    private FilterWorker worker;
+    private ArrayList<LiteLogRecord> shownRecords;
+    private LogFilter filter;
+    private List<NewPageListener> pageListeners = new ArrayList<>();
+    private List<FilterChangedListener> filterListeners = new ArrayList<>();
+    private LogFileListener fileListener;
+    private ObservedFile of;
+
     public FilteredLogModel(ObservedFile logFile, String fileName) {
         super(logFile, fileName);
         setFilter(new LogFilter(this));
@@ -48,6 +57,9 @@ public class FilteredLogModel extends LogModel {
         setObservedFile(logFile);
     }
 
+    public LogFilter getFilter() {
+        return filter;
+    }
 
     private void setFilter(LogFilter filter) {
         this.filter = filter;
@@ -57,11 +69,6 @@ public class FilteredLogModel extends LogModel {
             onFilterChanged();
         }
     }
-
-    public LogFilter getFilter() {
-        return filter;
-    }
-
 
     private boolean noFilter() {
         return filter == null || filter.isAllEnabled();
@@ -164,7 +171,6 @@ public class FilteredLogModel extends LogModel {
         }
     }
 
-
     @Override
     public int recordsRead() {
         if (shownRecords != null) {
@@ -173,13 +179,6 @@ public class FilteredLogModel extends LogModel {
             return 0;
         }
     }
-
-    private boolean stable = false;
-    private FilterWorker worker;
-    private ArrayList<LiteLogRecord> shownRecords;
-    private LogFilter filter;
-    private List<NewPageListener> pageListeners = new ArrayList<>();
-    private List<FilterChangedListener> filterListeners = new ArrayList<>();
 
     @Override
     public boolean isStableState() {
@@ -203,6 +202,10 @@ public class FilteredLogModel extends LogModel {
         }
     }
 
+    public interface FilterChangedListener {
+        void onFilterChanged();
+    }
+
     class LogFileListener implements FileListener {
         @Override
         public void fileModified(FileEvent e) {
@@ -218,11 +221,11 @@ public class FilteredLogModel extends LogModel {
 
     private class FilterWorker extends Thread {
 
+        boolean stopFlag = false;
+
         FilterWorker(String name) {
             super(name);
         }
-
-        boolean stopFlag = false;
 
         @Override
         public void run() {
@@ -285,15 +288,12 @@ public class FilteredLogModel extends LogModel {
         }
     }
 
-    private LogFileListener fileListener;
-    private ObservedFile of;
-
-    public interface FilterChangedListener {
-        void onFilterChanged();
-    }
-
-
     public class LogFilter {
+
+        private static final boolean debugFilter = false;
+        private HashMap<String, Boolean> theMap;
+        private FilteredLogModel model;
+        private String substring = "";
 
         public LogFilter(FilteredLogModel model) {
             theMap = new HashMap<>();
@@ -330,15 +330,6 @@ public class FilteredLogModel extends LogModel {
 
         private void onFilterChanged() {
             model.onFilterChanged();
-        }
-
-        public void setSubstring(String substring) {
-            substring = substring.trim().toUpperCase();
-            if (this.substring.equals(substring)) {
-                return;
-            }
-            this.substring = substring;
-            onFilterChanged();
         }
 
         public boolean isApplicable(LogModel.LiteLogRecord rec) {
@@ -408,13 +399,17 @@ public class FilteredLogModel extends LogModel {
             return key;
         }
 
-        private HashMap<String, Boolean> theMap;
-        private FilteredLogModel model;
-        private String substring = "";
-        private static final boolean debugFilter = false;
-
         public String getSubstring() {
             return substring;
+        }
+
+        public void setSubstring(String substring) {
+            substring = substring.trim().toUpperCase();
+            if (this.substring.equals(substring)) {
+                return;
+            }
+            this.substring = substring;
+            onFilterChanged();
         }
 
     }

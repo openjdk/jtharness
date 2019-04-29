@@ -43,6 +43,13 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 class InfoPanel extends JComponent {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    private static final int PREFERRED_WIDTH = 4; // inches
+    private static final int PREFERRED_HEIGHT = 3; // inches
+    private Interview interview;
+    private HelpSet infoHelpSet;
+    private JHelpContentViewer viewer;
+    private Listener listener = new Listener();
     public InfoPanel(Interview interview) {
         this.interview = interview;
         infoHelpSet = Help.getHelpSet(interview);
@@ -81,16 +88,6 @@ class InfoPanel extends JComponent {
         return new Dimension(PREFERRED_WIDTH * tk.getScreenResolution(),
                 PREFERRED_HEIGHT * tk.getScreenResolution());
     }
-
-    private Interview interview;
-    private HelpSet infoHelpSet;
-    private JHelpContentViewer viewer;
-    private Listener listener = new Listener();
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
-
-    private static final int PREFERRED_WIDTH = 4; // inches
-    private static final int PREFERRED_HEIGHT = 3; // inches
 
     private class Listener implements AncestorListener, Interview.Observer {
         // ---------- from AncestorListener -----------

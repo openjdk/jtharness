@@ -43,6 +43,14 @@ import java.util.Map;
 import java.util.Vector;
 
 class StatisticsSection extends HTMLSection {
+    private final I18NResourceBundle i18n;
+    private final String[] headings;
+    private TestResultTable resultTable;
+    private File[] initFiles;
+
+    //-----------------------------------------------------------------------
+    private Map<String, int[]> keywordTable = new HashMap<>();
+    private int[] statusTotals = new int[Status.NUM_STATES];
     StatisticsSection(HTMLReport parent, ReportSettings set, File dir, I18NResourceBundle i18n) {
         super(i18n.getString("stats.title"), set, dir, parent);
         this.i18n = i18n;
@@ -228,15 +236,5 @@ class StatisticsSection extends HTMLSection {
         }
         out.endTag(HTMLWriterEx.TABLE);
     }
-
-    //-----------------------------------------------------------------------
-
-    private TestResultTable resultTable;
-    private File[] initFiles;
-    private Map<String, int[]> keywordTable = new HashMap<>();
-    private int[] statusTotals = new int[Status.NUM_STATES];
-    private final I18NResourceBundle i18n;
-
-    private final String[] headings;
 
 }

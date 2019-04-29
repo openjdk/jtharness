@@ -50,6 +50,17 @@ import java.awt.GridBagLayout;
 import java.io.File;
 
 class PropertiesBrowser extends ToolDialog {
+    private static final int TEST_SUITE_PANE = 0;
+    private static final int WORK_DIRECTORY_PANE = 1;
+    private static final int CONFIGURATION_PANE = 2;
+    private static final int CLASSES_PANE = 3;
+    private static final int NUM_PANES = 4;
+    private TestSuite testSuite;
+    private WorkDirectory workDir;
+    private InterviewParameters config;
+    private Pane[] panes;
+    private String unset;
+
     PropertiesBrowser(JComponent parent, UIFactory uif) {
         super(parent, uif, "props");
     }
@@ -128,19 +139,9 @@ class PropertiesBrowser extends ToolDialog {
         return p;
     }
 
-    private TestSuite testSuite;
-    private WorkDirectory workDir;
-    private InterviewParameters config;
-    private Pane[] panes;
-    private String unset;
-
-    private static final int TEST_SUITE_PANE = 0;
-    private static final int WORK_DIRECTORY_PANE = 1;
-    private static final int CONFIGURATION_PANE = 2;
-    private static final int CLASSES_PANE = 3;
-    private static final int NUM_PANES = 4;
-
     private abstract class Pane extends JPanel {
+        private String key;
+
         Pane(String key) {
             this.key = key;
             setLayout(new GridBagLayout());
@@ -187,11 +188,12 @@ class PropertiesBrowser extends ToolDialog {
         }
 
         abstract void update();
-
-        private String key;
     }
 
     private class TestSuitePane extends Pane {
+        private JTextField path;
+        private JTextField name;
+        private JTextField id;
         TestSuitePane() {
             super("props.ts");
             ContextHelpManager.setHelpIDString(this, "execProps.testSuiteTab.csh");
@@ -212,13 +214,11 @@ class PropertiesBrowser extends ToolDialog {
                 setField(id, testSuite.getID());
             }
         }
-
-        private JTextField path;
-        private JTextField name;
-        private JTextField id;
     }
 
     private class WorkDirectoryPane extends Pane {
+        private JTextField path;
+
         WorkDirectoryPane() {
             super("props.wd");
             ContextHelpManager.setHelpIDString(this, "execProps.workDirTab.csh");
@@ -231,11 +231,16 @@ class PropertiesBrowser extends ToolDialog {
         void update() {
             setField(path, workDir == null ? null : workDir.getPath());
         }
-
-        private JTextField path;
     }
 
     private class ConfigurationPane extends Pane {
+        private JTextField path;
+        private JTextField configName;
+        private JTextField configDesc;
+        private JTextField templatePath;
+        private JTextField state;
+        private String completed;
+        private String incomplete;
         ConfigurationPane() {
             super("props.cfg");
             ContextHelpManager.setHelpIDString(this, "execProps.configTab.csh");
@@ -280,19 +285,13 @@ class PropertiesBrowser extends ToolDialog {
                 }
             }
         }
-
-        private JTextField path;
-        private JTextField configName;
-        private JTextField configDesc;
-
-        private JTextField templatePath;
-
-        private JTextField state;
-        private String completed;
-        private String incomplete;
     }
 
     private class PluginsPane extends Pane {
+        private JTextField testSuiteClassName;
+        private JTextField testFinderClassName;
+        private JTextField testRunnerClassName;
+        private JTextField configClassName;
         PluginsPane() {
             super("props.pi");
             ContextHelpManager.setHelpIDString(this, "execProps.pluginsTab.csh");
@@ -329,10 +328,5 @@ class PropertiesBrowser extends ToolDialog {
                 }
             }
         }
-
-        private JTextField testSuiteClassName;
-        private JTextField testFinderClassName;
-        private JTextField testRunnerClassName;
-        private JTextField configClassName;
     }
 }

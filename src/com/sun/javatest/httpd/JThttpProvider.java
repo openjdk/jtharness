@@ -36,44 +36,8 @@ import java.io.PrintWriter;
  */
 
 public abstract class JThttpProvider {
-    /**
-     * The web server is forwarding the given URL to you for processing.
-     *
-     * @param url The URL that the client requested.
-     * @param out Send raw HTML text to this stream which will be delivered to
-     *            the requestor.  Output should start at the very beginning
-     *            of the document - the content type description.  Close the
-     *            stream when you are done.
-     */
-    public abstract void serviceRequest(httpURL url, PrintWriter out);
-
-    /**
-     * Get the primary URL for this handler.  This is usually the index page
-     * for this object.  If this is not overriden by subclasses, it defaults
-     * to the first registered URL.
-     *
-     * @return Null if it is not possible to determine any URLs to this object.
-     */
-    public String getRootURL() {
-        if (regURLs != null && regURLs.length > 0) {
-            return regURLs[0];
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Find out which URLs this handler is registered for.
-     *
-     * @return The array will never be null; it may be zero length though.
-     */
-    public String[] getRegisteredURLs() {
-        String[] cp = new String[regURLs.length];
-        System.arraycopy(regURLs, 0, cp, 0, regURLs.length);
-        return cp;
-    }
-
-//  ------ non-public methods -------
+    protected static boolean debug = Boolean.getBoolean("debug." + JThttpProvider.class.getName());
+    private String[] regURLs = new String[0];
 
     /**
      * Prints the supplied text to the writer, after filtering and replacing
@@ -86,6 +50,8 @@ public abstract class JThttpProvider {
 
         out.print(filterTags(str));
     }
+
+//  ------ non-public methods -------
 
     /**
      * Prints the supplied text to the writer, after filtering and replacing
@@ -132,6 +98,43 @@ public abstract class JThttpProvider {
         return workStr.toString();
     }
 
+    /**
+     * The web server is forwarding the given URL to you for processing.
+     *
+     * @param url The URL that the client requested.
+     * @param out Send raw HTML text to this stream which will be delivered to
+     *            the requestor.  Output should start at the very beginning
+     *            of the document - the content type description.  Close the
+     *            stream when you are done.
+     */
+    public abstract void serviceRequest(httpURL url, PrintWriter out);
+
+    /**
+     * Get the primary URL for this handler.  This is usually the index page
+     * for this object.  If this is not overriden by subclasses, it defaults
+     * to the first registered URL.
+     *
+     * @return Null if it is not possible to determine any URLs to this object.
+     */
+    public String getRootURL() {
+        if (regURLs != null && regURLs.length > 0) {
+            return regURLs[0];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Find out which URLs this handler is registered for.
+     *
+     * @return The array will never be null; it may be zero length though.
+     */
+    public String[] getRegisteredURLs() {
+        String[] cp = new String[regURLs.length];
+        System.arraycopy(regURLs, 0, cp, 0, regURLs.length);
+        return cp;
+    }
+
     void addRegistredURL(String url) {
         if (url != null) {
             regURLs = DynamicArray.append(regURLs, url);
@@ -149,8 +152,5 @@ public abstract class JThttpProvider {
             }
         }   // for
     }
-
-    private String[] regURLs = new String[0];
-    protected static boolean debug = Boolean.getBoolean("debug." + JThttpProvider.class.getName());
 }
 

@@ -41,6 +41,51 @@ import java.io.File;
 
 public class FileQuestionRenderer
         implements QuestionRenderer {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+
+    /**
+     * Create a chooser with the associated filters.
+     */
+    static JFileChooser createChooser(String title, FileFilter... filters) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle(title);
+
+        if (filters == null || filters.length == 0) {
+            chooser.setAcceptAllFileFilterUsed(true);
+            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        } else {
+            int mode = -1;
+            // removed to implement
+            // add API to disable the all files filter perhaps?
+            // chooser.setAcceptAllFileFilterUsed(false);
+
+            for (FileFilter filter : filters) {
+                chooser.addChoosableFileFilter(SwingFileFilter.wrap(filter));
+                if (filter.acceptsDirectories()) {
+                    if (mode == -1) {
+                        // setting mode to DIRECTORIES_ONLY ignores the possibility
+                        // that the filter might accept (some) files, so set it to
+                        // FILES_AND_DIRECTORIES and leave to filter to hide any
+                        // unacceptable files
+                        // Same issue in FileListQuestionRenderer
+                        mode = JFileChooser.FILES_AND_DIRECTORIES;
+                    } else if (mode == JFileChooser.FILES_ONLY) {
+                        mode = JFileChooser.FILES_AND_DIRECTORIES;
+                    }
+                } else {
+                    if (mode == -1) {
+                        mode = JFileChooser.FILES_ONLY;
+                    } else if (mode == JFileChooser.DIRECTORIES_ONLY) {
+                        mode = JFileChooser.FILES_AND_DIRECTORIES;
+                    }
+                }
+            }
+            chooser.setFileSelectionMode(mode);
+        }
+
+        return chooser;
+    }
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final FileQuestion q = (FileQuestion) qq;
@@ -122,49 +167,6 @@ public class FileQuestionRenderer
         return p;
     }
 
-    /**
-     * Create a chooser with the associated filters.
-     */
-    static JFileChooser createChooser(String title, FileFilter... filters) {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogTitle(title);
-
-        if (filters == null || filters.length == 0) {
-            chooser.setAcceptAllFileFilterUsed(true);
-            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        } else {
-            int mode = -1;
-            // removed to implement
-            // add API to disable the all files filter perhaps?
-            // chooser.setAcceptAllFileFilterUsed(false);
-
-            for (FileFilter filter : filters) {
-                chooser.addChoosableFileFilter(SwingFileFilter.wrap(filter));
-                if (filter.acceptsDirectories()) {
-                    if (mode == -1) {
-                        // setting mode to DIRECTORIES_ONLY ignores the possibility
-                        // that the filter might accept (some) files, so set it to
-                        // FILES_AND_DIRECTORIES and leave to filter to hide any
-                        // unacceptable files
-                        // Same issue in FileListQuestionRenderer
-                        mode = JFileChooser.FILES_AND_DIRECTORIES;
-                    } else if (mode == JFileChooser.FILES_ONLY) {
-                        mode = JFileChooser.FILES_AND_DIRECTORIES;
-                    }
-                } else {
-                    if (mode == -1) {
-                        mode = JFileChooser.FILES_ONLY;
-                    } else if (mode == JFileChooser.DIRECTORIES_ONLY) {
-                        mode = JFileChooser.FILES_AND_DIRECTORIES;
-                    }
-                }
-            }
-            chooser.setFileSelectionMode(mode);
-        }
-
-        return chooser;
-    }
-
     @Override
     public String getInvalidValueMessage(Question q) {
         return null;
@@ -187,6 +189,4 @@ public class FileQuestionRenderer
 
         return allDirType;
     }
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

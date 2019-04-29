@@ -30,18 +30,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 class ID {
-    static class Factory {
-        ID create(String base) {
-            Integer last = map.get(base);
-            int index = (last == null ? 0 : last.intValue() + 1);
-            map.put(base, new Integer(index));
-            return new ID(base, index);
-        }
-
-        Map<String, Integer> map = new HashMap<>();
-    }
+    private String base;
 
     ;
+    private int index;
 
     private ID(String base, int index) {
         this.base = base;
@@ -52,6 +44,14 @@ class ID {
         return (base + ":" + index);
     }
 
-    private String base;
-    private int index;
+    static class Factory {
+        Map<String, Integer> map = new HashMap<>();
+
+        ID create(String base) {
+            Integer last = map.get(base);
+            int index = (last == null ? 0 : last.intValue() + 1);
+            map.put(base, new Integer(index));
+            return new ID(base, index);
+        }
+    }
 }

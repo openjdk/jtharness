@@ -36,33 +36,32 @@ import java.util.Map;
  * {@code java.lang.ProcessBuilder}
  */
 public class ProcessParams implements Serializable {
+    static final long serialVersionUID = -8997083743475612945L;
     private List<String> command;
     private Map<String, String> environment;
     private File workDirectory;
-
-    public void setCommand(List<String> command) {
-        this.command = command;
-    }
 
     public List<String> getCommand() {
         return command;
     }
 
-    public void setEnvironment(Map<String, String> environment) {
-        this.environment = environment;
+    public void setCommand(List<String> command) {
+        this.command = command;
     }
 
     public Map<String, String> getEnvironment() {
         return environment;
     }
 
-    public void setWorkDirectory(File wd) {
-        this.workDirectory = wd;
+    public void setEnvironment(Map<String, String> environment) {
+        this.environment = environment;
     }
 
     public File getWorkDirectory() {
         return workDirectory;
     }
 
-    static final long serialVersionUID = -8997083743475612945L;
+    public void setWorkDirectory(File wd) {
+        this.workDirectory = wd;
+    }
 }

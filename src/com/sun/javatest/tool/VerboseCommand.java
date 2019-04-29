@@ -42,17 +42,6 @@ import java.util.TreeMap;
  */
 public class VerboseCommand extends Command {
     /**
-     * Add a option to the set recognized by this command.
-     *
-     * @param name the name of the option to be accepted.
-     * @param node the help node for this option
-     */
-    public static void addOption(String name, HelpTree.Node node) {
-        ensureAllOptionsInitialized();
-        allOptions.put(name, node);
-    }
-
-    /**
      * The name of the default option. If the verbose command is given without
      * options, then CommandContext.getVerboseOptionValue(DEFAULT) will be set true.
      */
@@ -61,19 +50,12 @@ public class VerboseCommand extends Command {
     private static final String QUIET = "quiet";
     private static final String DATE = "date";
     private static final String NO_PREFIX = "no-";
-
-    private static void ensureAllOptionsInitialized() {
-        if (allOptions == null) {
-            allOptions = new TreeMap<>();
-            allOptions.put(MAX, new HelpTree.Node(i18n, "verb.max"));
-            allOptions.put(QUIET, new HelpTree.Node(i18n, "verb.quiet"));
-        }
-    }
-
+    private static final String CMD = "verbose";
     private static Map<String, HelpTree.Node> allOptions;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(VerboseCommand.class);
 
     //--------------------------------------------------------------------------
-
+    private Map<String, Boolean> optionValues = new HashMap<>();
 
     VerboseCommand(String cmd) throws Fault {
         super(cmd);
@@ -95,6 +77,41 @@ public class VerboseCommand extends Command {
         } else {
             throw new Fault(i18n, "verb.badOpts");
         }
+    }
+
+    /**
+     * Add a option to the set recognized by this command.
+     *
+     * @param name the name of the option to be accepted.
+     * @param node the help node for this option
+     */
+    public static void addOption(String name, HelpTree.Node node) {
+        ensureAllOptionsInitialized();
+        allOptions.put(name, node);
+    }
+
+    private static void ensureAllOptionsInitialized() {
+        if (allOptions == null) {
+            allOptions = new TreeMap<>();
+            allOptions.put(MAX, new HelpTree.Node(i18n, "verb.max"));
+            allOptions.put(QUIET, new HelpTree.Node(i18n, "verb.quiet"));
+        }
+    }
+
+    static HelpTree.Node getHelp() {
+        ensureAllOptionsInitialized();
+
+        HelpTree.Node[] nodes = new HelpTree.Node[allOptions.size()];
+        int i = 0;
+        for (HelpTree.Node node : allOptions.values()) {
+            nodes[i++] = node;
+        }
+
+        return new HelpTree.Node(i18n, "verb", nodes);
+    }
+
+    static String getName() {
+        return CMD;
     }
 
     private void processOptions(String ops) throws Fault {
@@ -139,25 +156,4 @@ public class VerboseCommand extends Command {
             }
         }
     }
-
-    static HelpTree.Node getHelp() {
-        ensureAllOptionsInitialized();
-
-        HelpTree.Node[] nodes = new HelpTree.Node[allOptions.size()];
-        int i = 0;
-        for (HelpTree.Node node : allOptions.values()) {
-            nodes[i++] = node;
-        }
-
-        return new HelpTree.Node(i18n, "verb", nodes);
-    }
-
-    static String getName() {
-        return CMD;
-    }
-
-    private Map<String, Boolean> optionValues = new HashMap<>();
-
-    private static final String CMD = "verbose";
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(VerboseCommand.class);
 }

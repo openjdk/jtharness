@@ -124,6 +124,16 @@ public class COFSWEntity extends COFItem {
     }
 
     /**
+     * Sets the value of the description property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setDescription(String value) {
+        this.description = value;
+    }
+
+    /**
      * Gets the value of the id property.
      *
      * @return possible object is
@@ -131,6 +141,16 @@ public class COFSWEntity extends COFItem {
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * Sets the value of the id property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setId(String value) {
+        this.id = value;
     }
 
     LinkedHashMap<String, String> getItemAttributes() {
@@ -156,46 +176,6 @@ public class COFSWEntity extends COFItem {
     }
 
     /**
-     * Gets the value of the type property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * Gets the value of the version property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getVersion() {
-        return version;
-    }
-
-    /**
-     * Sets the value of the description property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
-
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
-
-    /**
      * Sets the value of the name property.
      *
      * @param value allowed object is
@@ -206,6 +186,16 @@ public class COFSWEntity extends COFItem {
     }
 
     /**
+     * Gets the value of the type property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
      * Sets the value of the type property.
      *
      * @param value allowed object is
@@ -213,6 +203,16 @@ public class COFSWEntity extends COFItem {
      */
     public void setType(String value) {
         this.type = value;
+    }
+
+    /**
+     * Gets the value of the version property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getVersion() {
+        return version;
     }
 
     /**

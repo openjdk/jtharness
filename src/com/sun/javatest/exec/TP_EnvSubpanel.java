@@ -38,6 +38,8 @@ import java.awt.EventQueue;
 
 class TP_EnvSubpanel
         extends TP_PropertySubpanel {
+    private TRObserver observer = new TRObserver();
+
     TP_EnvSubpanel(UIFactory uif) {
         super(uif, "env");
         ContextHelpManager.setHelpIDString(this, "browse.testEnvironmentTab.csh");
@@ -82,8 +84,6 @@ class TP_EnvSubpanel
             }
         }
     }
-
-    private TRObserver observer = new TRObserver();
 
     //------------------------------------------------------------------------------------
 

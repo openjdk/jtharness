@@ -35,6 +35,24 @@ import java.util.ResourceBundle;
  */
 public abstract class ChoiceArrayQuestion extends Question {
     /**
+     * The current (default or latest) response to this question.
+     */
+    protected boolean[] value;
+    /**
+     * The set of legal responses for this question.
+     */
+    private String[] choices;
+    /**
+     * The localized values to display, corresponding 1-1 to the
+     * set of legal responses to this question.
+     */
+    private String[] displayChoices;
+    /**
+     * The default response for this question.
+     */
+    private boolean[] defaultValue;
+
+    /**
      * Create a question with a nominated tag.
      * If this constructor is used, the choices must be supplied separately.
      *
@@ -59,18 +77,8 @@ public abstract class ChoiceArrayQuestion extends Question {
         setChoices(choices, choices);
     }
 
-    /**
-     * Set the names of the choices for this question.
-     * The choices will also be used as the display choices.
-     * The current value will be set to all false;
-     *
-     * @param choices The set of names for the choices for this question.
-     * @throws NullPointerException if choices is null
-     * @see #getChoices
-     * @see #getDisplayChoices
-     */
-    protected void setChoices(String... choices) {
-        setChoices(choices, choices);
+    private static boolean white(char c) {
+        return c == ' ' || c == '\t' || c == '\n';
     }
 
     /**
@@ -145,6 +153,20 @@ public abstract class ChoiceArrayQuestion extends Question {
      */
     public String[] getChoices() {
         return choices;
+    }
+
+    /**
+     * Set the names of the choices for this question.
+     * The choices will also be used as the display choices.
+     * The current value will be set to all false;
+     *
+     * @param choices The set of names for the choices for this question.
+     * @throws NullPointerException if choices is null
+     * @see #getChoices
+     * @see #getDisplayChoices
+     */
+    protected void setChoices(String... choices) {
+        setChoices(choices, choices);
     }
 
     /**
@@ -227,47 +249,6 @@ public abstract class ChoiceArrayQuestion extends Question {
     }
 
     /**
-     * Verify this question is on the current path, and if it is,
-     * return the current value.
-     *
-     * @return the current value of this question
-     * @throws Interview.NotOnPathFault if this question is not on the
-     *                                  current path
-     * @see #getValue
-     */
-    public boolean[] getValueOnPath()
-            throws Interview.NotOnPathFault {
-        interview.verifyPathContains(this);
-        return getValue();
-    }
-
-    @Override
-    public String getStringValue() {
-        if (value == null) {
-            return "";
-        }
-
-        if (value.length != choices.length) {
-            throw new IllegalStateException();
-        }
-
-        StringBuilder sb = new StringBuilder();
-        if (value != null) {
-            for (int i = 0; i < value.length; i++) {
-                if (value[i]) {
-                    if (sb.length() > 0) {
-                        sb.append(' ');
-                    }
-                    sb.append(choices[i].replace(' ', '_'));
-                }
-            }
-        }
-
-        return sb.toString();
-    }
-
-
-    /**
      * Set the current value.
      *
      * @param newValue The value to be set. The value is broken into words,
@@ -300,29 +281,6 @@ public abstract class ChoiceArrayQuestion extends Question {
         }
 
         setValue(bb);
-    }
-
-    @Override
-    public boolean isValueValid() {
-        return true;
-    }
-
-    @Override
-    public boolean isValueAlwaysValid() {
-        return false;
-    }
-
-    private void set(boolean[] bb, String s) {
-        for (int i = 0; i < choices.length; i++) {
-            if (s.equals(choices[i].replace(' ', '_'))) {
-                bb[i] = true;
-                return;
-            }
-        }
-    }
-
-    private static boolean white(char c) {
-        return c == ' ' || c == '\t' || c == '\n';
     }
 
     /**
@@ -362,6 +320,65 @@ public abstract class ChoiceArrayQuestion extends Question {
     }
 
     /**
+     * Verify this question is on the current path, and if it is,
+     * return the current value.
+     *
+     * @return the current value of this question
+     * @throws Interview.NotOnPathFault if this question is not on the
+     *                                  current path
+     * @see #getValue
+     */
+    public boolean[] getValueOnPath()
+            throws Interview.NotOnPathFault {
+        interview.verifyPathContains(this);
+        return getValue();
+    }
+
+    @Override
+    public String getStringValue() {
+        if (value == null) {
+            return "";
+        }
+
+        if (value.length != choices.length) {
+            throw new IllegalStateException();
+        }
+
+        StringBuilder sb = new StringBuilder();
+        if (value != null) {
+            for (int i = 0; i < value.length; i++) {
+                if (value[i]) {
+                    if (sb.length() > 0) {
+                        sb.append(' ');
+                    }
+                    sb.append(choices[i].replace(' ', '_'));
+                }
+            }
+        }
+
+        return sb.toString();
+    }
+
+    @Override
+    public boolean isValueValid() {
+        return true;
+    }
+
+    @Override
+    public boolean isValueAlwaysValid() {
+        return false;
+    }
+
+    private void set(boolean[] bb, String s) {
+        for (int i = 0; i < choices.length; i++) {
+            if (s.equals(choices[i].replace(' ', '_'))) {
+                bb[i] = true;
+                return;
+            }
+        }
+    }
+
+    /**
      * Clear any response to this question, resetting the value
      * back to its initial state.
      */
@@ -369,7 +386,6 @@ public abstract class ChoiceArrayQuestion extends Question {
     public void clear() {
         setValue(defaultValue);
     }
-
 
     /**
      * Save the value for this question in a dictionary, using
@@ -381,25 +397,4 @@ public abstract class ChoiceArrayQuestion extends Question {
     protected void save(Map<String, String> data) {
         data.put(tag, getStringValue());
     }
-
-    /**
-     * The set of legal responses for this question.
-     */
-    private String[] choices;
-
-    /**
-     * The localized values to display, corresponding 1-1 to the
-     * set of legal responses to this question.
-     */
-    private String[] displayChoices;
-
-    /**
-     * The current (default or latest) response to this question.
-     */
-    protected boolean[] value;
-
-    /**
-     * The default response for this question.
-     */
-    private boolean[] defaultValue;
 }

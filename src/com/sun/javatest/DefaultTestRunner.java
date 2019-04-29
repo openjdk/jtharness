@@ -41,6 +41,16 @@ import java.util.Set;
  * and handling timeouts.
  */
 public class DefaultTestRunner extends TestRunner {
+    // constants used by classifyThrowable and i18n key unexpectedThrowable
+    private static final Integer EXCEPTION = Integer.valueOf(0);
+    private static final Integer ERROR = Integer.valueOf(1);
+    private static final Integer THROWABLE = Integer.valueOf(2);
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(DefaultTestRunner.class);
+    private Iterator<TestDescription> testIter;
+    private Set<Thread> activeThreads;
+    private boolean allPassed;
+    private boolean stopping;
+
     @Override
     public synchronized boolean runTests(Iterator<TestDescription> testIter)
             throws InterruptedException {
@@ -241,17 +251,4 @@ public class DefaultTestRunner extends TestRunner {
             return THROWABLE;
         }
     }
-
-    // constants used by classifyThrowable and i18n key unexpectedThrowable
-    private static final Integer EXCEPTION = Integer.valueOf(0);
-    private static final Integer ERROR = Integer.valueOf(1);
-    private static final Integer THROWABLE = Integer.valueOf(2);
-
-
-    private Iterator<TestDescription> testIter;
-    private Set<Thread> activeThreads;
-    private boolean allPassed;
-    private boolean stopping;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(DefaultTestRunner.class);
 }

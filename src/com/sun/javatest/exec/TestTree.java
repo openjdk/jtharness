@@ -48,6 +48,14 @@ import java.util.Enumeration;
  * Tree to render test structure.
  */
 class TestTree extends JTree {
+    //protected static boolean debug = boolean.getboolean("debug." + testtree.class.getname());
+    private static int debug = Debug.getInt("debug." + TestTree.class.getName());
+    private UIFactory uif;
+    private TestTreeModel currModel;
+    private TreePanelModel tpm;
+    private FilterSelectionHandler filterHandler;
+    private EventWatcher watcher = new EventWatcher();
+
     /**
      * @param uif       The UI factory object to use.
      * @param model     The GUI model object.
@@ -164,7 +172,6 @@ class TestTree extends JTree {
         tsm.addSelectionPaths(selectedPaths);
     }
 
-
     /**
      * Record which tree nodes are currently visible.
      *
@@ -247,15 +254,6 @@ class TestTree extends JTree {
             makeVisible(path);
         }   // for
     }
-
-    private UIFactory uif;
-    private TestTreeModel currModel;
-    private TreePanelModel tpm;
-    private FilterSelectionHandler filterHandler;
-    private EventWatcher watcher = new EventWatcher();
-
-    //protected static boolean debug = boolean.getboolean("debug." + testtree.class.getname());
-    private static int debug = Debug.getInt("debug." + TestTree.class.getName());
 
     private class EventWatcher implements TreeModelListener, FilterSelectionHandler.Observer {
         // TreeModelListener - on event thread

@@ -43,44 +43,14 @@ import java.util.Vector;
  * by newline, semicolon or a comment.
  */
 public class LineParser {
-    /**
-     * This exception is used to report problems while using a line parser.
-     */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
-    }
+    private static final I18NResourceBundle i18n =
+            I18NResourceBundle.getBundleForClass(LineParser.class);
+    private File file;
+    private Reader in;
+    private int ch;
+    private int lineNumber;
+    private StringBuffer currWord;
+    private Vector<String> currLine;
 
     /**
      * Create a line parser, reading the data in a given file.
@@ -290,13 +260,42 @@ public class LineParser {
         }
     }
 
-    private File file;
-    private Reader in;
-    private int ch;
-    private int lineNumber;
-    private StringBuffer currWord;
-    private Vector<String> currLine;
+    /**
+     * This exception is used to report problems while using a line parser.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
 
-    private static final I18NResourceBundle i18n =
-            I18NResourceBundle.getBundleForClass(LineParser.class);
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
+    }
 }

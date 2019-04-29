@@ -74,20 +74,34 @@ import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 class BrowserPane extends JPanel {
-    /**
-     * This exception is used to report problems that arise when using
-     * the FilesPane.
-     */
-    static class Fault extends Exception {
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
+    private static final int MAX_ROWS_DISPLAY = 20;
+    static protected boolean debug = Boolean.getBoolean("debug." + BrowserPane.class.getName());
+    private File baseDir;
+    private URL homeURL;
+    private File[] files;
+    private String textHomePage;
+    private JButton homeBtn;
+    private JButton backBtn;
+    private JButton forwardBtn;
+    private JComboBox<URL> selectBox;
 
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-    }
+    //------------------------------------------------------------------------------------
+    private JPanel head;
+    private JPanel body;
+    private JTextField noteField;
+    private HTMLEditorKit htmlKit;
 
+    //------------------------------------------------------------------------------------
+    private JEditorPane textArea;
+    private URL currURL;
+    private History history;
+    private DefaultComboBoxModel<URL> model;
+    private Listener listener = new Listener();
+    private JToolBar toolBar;
+    private UIFactory uif;
+    private Action homeAction;
+    private Action backAction;
+    private Action forwardAction;
     BrowserPane(UIFactory uif) {
         this.uif = uif;
 
@@ -96,12 +110,12 @@ class BrowserPane extends JPanel {
         initGUI();
     }
 
-    void setBaseDirectory(File base) {
-        baseDir = base;
-    }
-
     File getBaseDirectory() {
         return baseDir;
+    }
+
+    void setBaseDirectory(File base) {
+        baseDir = base;
     }
 
     void setFile(URL file) {
@@ -147,8 +161,6 @@ class BrowserPane extends JPanel {
     URL getPage() {
         return textArea.getPage();
     }
-
-    //------------------------------------------------------------------------------------
 
     private void initGUI() {
         setName("fp");
@@ -281,8 +293,6 @@ class BrowserPane extends JPanel {
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
                 BorderLayout.CENTER);
     }
-
-    //------------------------------------------------------------------------------------
 
     private void clear() {
         if (model != null) {
@@ -455,42 +465,26 @@ class BrowserPane extends JPanel {
         return model;
     }
 
-    private File baseDir;
-    private URL homeURL;
-    private File[] files;
-    private String textHomePage;
+    /**
+     * This exception is used to report problems that arise when using
+     * the FilesPane.
+     */
+    static class Fault extends Exception {
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
 
-    private JButton homeBtn;
-    private JButton backBtn;
-    private JButton forwardBtn;
-
-    private JComboBox<URL> selectBox;
-    private JPanel head;
-    private JPanel body;
-    private JTextField noteField;
-
-    private HTMLEditorKit htmlKit;
-    private JEditorPane textArea;
-    private URL currURL;
-
-    private History history;
-
-    private DefaultComboBoxModel<URL> model;
-    private Listener listener = new Listener();
-    private JToolBar toolBar;
-    private UIFactory uif;
-
-    private Action homeAction;
-    private Action backAction;
-    private Action forwardAction;
-
-    private static final int MAX_ROWS_DISPLAY = 20;
-
-    static protected boolean debug = Boolean.getBoolean("debug." + BrowserPane.class.getName());
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+    }
 
     //------------------------------------------------------------------------------------
 
     private static class History {
+        private Vector<URL> entries = new Vector<>();
+        private int index;
+
         boolean hasPrev() {
             return index > 0;
         }
@@ -539,9 +533,6 @@ class BrowserPane extends JPanel {
             entries.clear();
             index = -1;
         }
-
-        private Vector<URL> entries = new Vector<>();
-        private int index;
     }
 
     private class Listener implements HyperlinkListener, ItemListener {

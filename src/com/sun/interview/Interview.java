@@ -59,102 +59,142 @@ public class Interview {
     //----- inner classes ----------------------------------------
 
     /**
-     * This exception is to report problems that occur while updating an interview.
-     */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        public Fault(ResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(ResourceBundle i18n, String s, Object... o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
-    }
-
-    /**
-     * This exception is thrown when a question is expected to be on
-     * the current path, and is not.
-     */
-    public static class NotOnPathFault extends Fault {
-        NotOnPathFault(Question q) {
-            super(i18n, "interview.questionNotOnPath", q.getTag());
-        }
-    }
-
-    /**
-     * Not for use, provided for backwards binary compatibility.
+     * A value indicating that export should ignore all exceptions that arise
+     * while calling each question's export method.
      *
-     * @deprecated No longer used in this API, direct JavaHelp usage was removed.
+     * @see #setExportIgnoreExceptionPolicy
+     * @see #export
      */
-    @Deprecated
-    public static class BadHelpFault extends Fault {
-        public BadHelpFault(ResourceBundle i18n, String s, Object e) {
-            super(i18n, s, e);
-        }
-    }
-
-
+    public static final int EXPORT_IGNORE_ALL_EXCEPTIONS = 0;
     /**
-     * Not for use, provided for backwards binary compatibility.
+     * A value indicating that export should ignore runtime exceptions that arise
+     * while calling each question's export method.
      *
-     * @deprecated No longer used in this API, direct JavaHelp usage was removed.
+     * @see #setExportIgnoreExceptionPolicy
+     * @see #export
      */
-    @Deprecated
-    public static class HelpNotFoundFault extends Fault {
-        public HelpNotFoundFault(ResourceBundle i18n, String s, String name) {
-            super(i18n, s, name);
-        }
-    }
-
-
+    public static final int EXPORT_IGNORE_RUNTIME_EXCEPTIONS = 1;
     /**
-     * An observer interface for receiving notifications as the state of
-     * the interview is updated.
+     * A value indicating that export should not ignore any exceptions that arise
+     * while calling each question's export method.
+     *
+     * @see #setExportIgnoreExceptionPolicy
+     * @see #export
      */
-    public interface Observer {
-        /**
-         * Invoked when the current question in the interview has been changed.
-         *
-         * @param q the new current question
-         */
-        void currentQuestionChanged(Question q);
-
-        /**
-         * Invoked when the set of questions in the current path has been
-         * changed. This is normally because the response to one of the
-         * questions on the path has been changed, thereby causing a change
-         * to its successor questions.
-         */
-        void pathUpdated();
-    }
+    public static final int EXPORT_IGNORE_NO_EXCEPTIONS = 2;
+    /**
+     * Where necessary, the harness interview should behave as it did before the
+     * 3.2 release.  This does not control every single possible change in
+     * behavior, but does control certain behaviors which may cause problems with
+     * interview code written against an earlier version of the harness.
+     *
+     * @see #setInterviewSemantics
+     */
+    public static final int SEMANTIC_PRE_32 = 0;
+    /**
+     * Where necessary, the harness interview should behave as it did for the
+     * 3.2 release.  This does not control every single possible change in
+     * behavior, but does control certain behaviors which may cause problems with
+     * interview code written against an earlier version of the harness.
+     *
+     * @see #setInterviewSemantics
+     */
+    public static final int SEMANTIC_VERSION_32 = 1;
 
     //----- constructors ----------------------------------------
+    /**
+     * Where necessary, the harness interview should behave as it did for the
+     * 4.3 release.  This does not control every single possible change in
+     * behavior, but does control certain behaviors which may cause problems with
+     * interview code written against an earlier version of the harness.
+     *
+     * @see #setInterviewSemantics
+     */
+    public static final int SEMANTIC_VERSION_43 = 2;
+    /**
+     * Where necessary, the harness interview should behave as it did for the
+     * 4.3 release.  This does not control every single possible change in
+     * behavior, but does control certain behaviors which may cause problems with
+     * interview code written against an earlier version of the harness.
+     *
+     * @see #setInterviewSemantics
+     */
+    public static final int SEMANTIC_VERSION_50 = 3;
+
+    //----- basic facilities ----------------------------------------
+    /**
+     * The highest version number currently in use.  Note that the compiler
+     * will probably inline this during compilation, so you will be locked at
+     * the version which you compile against.  This is probably a useful
+     * behavior in this case.
+     *
+     * @see #setInterviewSemantics
+     */
+    public static final int SEMANTIC_MAX_VERSION = 3;
+    // object to create HelpSet and Help ID
+    // in batch mode, this factory should return stubs.
+    protected final static HelpSetFactory helpSetFactory = createHelpFactory();
+    protected final static String QUESTION = "QUESTION";
+    protected final static String INTERVIEW = "INTERVIEW";
+    protected final static String LOCALE = "LOCALE";
+    //protected final static String CHECKSUM = "CHECKSUM";
+    protected final static String MARKERS = "MARKERS";
+    protected final static String MARKERS_PREF = "MARKERS.";
+    protected static final String EXTERNAL_PREF = "EXTERNAL.";
+    protected static final String TEMPLATE_PREF = "TEMPLATE.";
+    static final ResourceBundle i18n = ResourceBundle.getBundle("com.sun.interview.i18n");
+    private static final int EXPORT_NUM_IGNORE_POLICIES = 3;
+    private static final Object[] empty = {};
+    /**
+     * The parent interview, if applicable; otherwise null.
+     */
+    private final Interview parent;
+    /**
+     * The root (most parent) interview; never null
+     */
+    private final Interview root;
+    private int exportIgnoreExceptionPolicy = EXPORT_IGNORE_RUNTIME_EXCEPTIONS;
+    private Observer[] observers = new Observer[0];
+    private String baseTag; // tag relative to parent
+    private String tag; // full tag: parent tag + baseTag
+
+    //---------------------------------------------------------
+    /**
+     * A descriptive title for the interview.
+     */
+    private String title;
+    /**
+     * The first question of the interview.
+     */
+    private Question firstQuestion;
+    /**
+     * Any child interviews.
+     */
+    private Vector<Interview> children = new Vector<>();
+    /**
+     * An index of the questions in this interview.
+     */
+    private Map<String, Question> allQuestions = new LinkedHashMap<>();
+
+    //----- navigation ----------------------------------------
+    /**
+     * The default image for questions in the interview.
+     */
+    private URL defaultImage;
+    private Object helpSet;
+    private String bundleName;
+    private ResourceBundle bundle;
+    private Path path;
+    private Path rawPath;
+    private ArrayList<Question> hiddenPath;
+    private int currIndex;
+    private InterviewQuestion caller;
+    private boolean updateEnabled;
+    private boolean edited;
+    private Map<String, Set<Question>> allMarkers;
+    private Map<String, String> extraValues;        // used in top-level interview only
+    private Map<String, String> templateValues;
+    private int semantics = SEMANTIC_PRE_32;
 
     /**
      * Create a top-level interview.
@@ -189,7 +229,134 @@ public class Interview {
         }
     }
 
-    //----- basic facilities ----------------------------------------
+    //----- path stuff ----------------------------------------
+
+    /**
+     * Initializes the help factory - generally only called once per instance of the
+     * system.
+     *
+     * @return Create the help factory for the interview system.
+     */
+    private static HelpSetFactory createHelpFactory() {
+        try {
+            Class<? extends HelpSetFactory> factoryClass =
+                    Class.forName("com.sun.interview.JavaHelpFactory").asSubclass(HelpSetFactory.class);
+            return factoryClass.getDeclaredConstructor().newInstance();
+        } catch (ClassNotFoundException e) {
+            return HelpSetFactory.DEFAULT;
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            return HelpSetFactory.DEFAULT;
+        }
+
+    }
+
+    /**
+     * Check if the checksum is valid for a set of responses.
+     * When responses are saved to a map, they are checksummed,
+     * so that they can be checked for validity when reloaded.
+     * This method verifies that a set of responses are acceptable
+     * for loading.
+     *
+     * @param data        The set of responses to be checked.
+     * @param okIfOmitted A boolean determining the response if
+     *                    there is no checksum available in the data
+     * @return Always true.
+     * @deprecated As of version 4.4.1, checksums are no longer
+     * calculated or checked.  True is always returned.
+     */
+    public static boolean isChecksumValid(Map<String, String> data, boolean okIfOmitted) {
+        return true;
+    }
+
+    /**
+     * Writes information about current locale to the given map.
+     * <br>
+     * This information is used later to properly restore locale-sensitive values,
+     * like numerics.
+     *
+     * @param data target map to write data to
+     * @see #LOCALE
+     * @see #readLocale(Map)
+     */
+    protected static void writeLocale(Map<String, String> data) {
+        data.put(LOCALE, Locale.getDefault().toString());
+    }
+
+    /**
+     * Reads information about locale from the given map. <br>
+     * Implementation looks for the string keyed by {@link #LOCALE} and then
+     * tries to decode it to valid locale object.
+     *
+     * @param data map with interview values
+     * @return locale, decoded from value taken from map; or default (current) locale
+     * @see #LOCALE
+     * @see #writeLocale(Map)
+     */
+    protected static Locale readLocale(Map<?, ?> data) {
+        Locale result = null;
+        Object o = data.get(LOCALE);
+        if (o != null) {
+            if (o instanceof Locale) {
+                result = (Locale) o;
+            } else if (o instanceof String) {
+                /* try to decode Locale object from its string representation
+                 * @see java.util.Locale#toString()
+                 * Examples: "", "en", "de_DE", "_GB", "en_US_WIN", "de__POSIX", "fr__MAC"
+                 */
+                String s = ((String) o).trim();
+                String language = "", country = "", variant = "";
+                if (!s.isEmpty()) {
+                    try {
+                        // decode language
+                        int i = s.indexOf('_');
+                        if (i == -1) {
+                            // there's no separator in the string. This can be
+                            // only the language
+                            language = s;
+                        } else if (i == 0) {
+                            language = "";
+                        } else {
+                            language = s.substring(0, i);
+                        }
+                        // now decode country
+                        if (i < s.length() - 1) {
+                            s = s.substring(i + 1);
+                            i = s.indexOf('_');
+                            if (i == -1) {
+                                // there's no separator in the remaining string.
+                                // This is a country
+                                country = s;
+                            } else if (i == 0) {
+                                country = "";
+                            } else {
+                                country = s.substring(0, i);
+                            }
+                            // now decode variant
+                            if (i < s.length() - 1) {
+                                variant = s.substring(i + 1);
+                            }
+                        }
+                        result = new Locale(language, country, variant);
+                    } catch (Exception e) {
+                        // suppress exception and use default locale
+                        result = null;
+                    }
+                }
+            }
+        }
+        if (result == null) {
+            result = Locale.getDefault();
+        }
+        return result;
+    }
+
+    // can change this to "assert(b)" in JDK 1.5
+    private static void ASSERT(boolean b) {
+        if (!b) {
+            throw new IllegalStateException();
+        }
+    }
 
     /**
      * Get the parent interview for which this is a child.
@@ -207,16 +374,6 @@ public class Interview {
      */
     public String getTag() {
         return tag;
-    }
-
-    /**
-     * Set a descriptive title to be used to annotate this interview.
-     *
-     * @param title A short descriptive title.
-     * @see #getTitle
-     */
-    protected void setTitle(String title) {
-        this.title = title;
     }
 
     /**
@@ -243,15 +400,13 @@ public class Interview {
     }
 
     /**
-     * Set a default image to be used for the questions of an interview.
+     * Set a descriptive title to be used to annotate this interview.
      *
-     * @param u A URL for the image
-     * @see Question#setImage
-     * @see Question#getImage
-     * @see #getDefaultImage
+     * @param title A short descriptive title.
+     * @see #getTitle
      */
-    protected void setDefaultImage(URL u) {
-        defaultImage = u;
+    protected void setTitle(String title) {
+        this.title = title;
     }
 
     /**
@@ -271,45 +426,15 @@ public class Interview {
     }
 
     /**
-     * Set the base name of the resource bundle used to look up
-     * internationalized strings, such as the title and text of each
-     * question.  If the name starts with '/', it will be treated
-     * as an absolute resource name, and used "as is";
-     * otherwise it will be treated as relative to the
-     * package in which the actual interview class is defined.
-     * The default is the interview tag name if this is a root
-     * interview. If this is a child interview, there is no default
-     * resource bundle.
+     * Set a default image to be used for the questions of an interview.
      *
-     * @param name The name of the resource bundle used to look
-     *             up internationalized strings.
-     * @throws MissingResourceException if the resource bundle
-     *                                  cannot be found.
-     * @see #getResourceBundle
+     * @param u A URL for the image
+     * @see Question#setImage
+     * @see Question#getImage
+     * @see #getDefaultImage
      */
-    protected void setResourceBundle(String name) {
-        // name is not null
-        if (!name.equals(bundleName)) {
-            Class<?> c = getClass();
-            final ClassLoader cl = c.getClassLoader();
-            final String rn;
-            if (name.startsWith("/")) {
-                rn = name.substring(1);
-            } else {
-                String cn = c.getName();
-                String pn = cn.substring(0, cn.lastIndexOf('.'));
-                rn = pn + "." + name;
-            }
-            //System.err.println("INT: looking for bundle: " + rn);
-            bundle = AccessController.doPrivileged(
-                    new PrivilegedAction<ResourceBundle>() {
-                        @Override
-                        public ResourceBundle run() {
-                            return ResourceBundle.getBundle(rn, Locale.getDefault(), cl);
-                        }
-                    });
-            bundleName = name;
-        }
+    protected void setDefaultImage(URL u) {
+        defaultImage = u;
     }
 
     /**
@@ -367,39 +492,45 @@ public class Interview {
     }
 
     /**
-     * Set the name of the help set used to locate the "more info"
-     * for each question. The name should identify a resource containing
-     * a JavaHelp helpset file. If the name starts with '/', it will
-     * be treated as an absolute resource name, and used "as is";
+     * Set the base name of the resource bundle used to look up
+     * internationalized strings, such as the title and text of each
+     * question.  If the name starts with '/', it will be treated
+     * as an absolute resource name, and used "as is";
      * otherwise it will be treated as relative to the
      * package in which the actual interview class is defined.
-     * If help sets are specified for child interviews, they will
-     * automatically be added into the help set for the root interview.
+     * The default is the interview tag name if this is a root
+     * interview. If this is a child interview, there is no default
+     * resource bundle.
      *
-     * @param name The name of the help set containing the "more info"
-     *             for each question.
-     * @throws Interview.HelpNotFoundFault if the help set could not be located
-     * @throws Interview.BadHelpFault      if some problem occurred while opening the help set
-     * @see #getHelpSet
-     * @see #setHelpSet(Object)
+     * @param name The name of the resource bundle used to look
+     *             up internationalized strings.
+     * @throws MissingResourceException if the resource bundle
+     *                                  cannot be found.
+     * @see #getResourceBundle
      */
-    protected void setHelpSet(String name) throws Interview.Fault {
-        setHelpSet(helpSetFactory.createHelpSetObject(name, getClass()));
-    }
-
-
-    /**
-     * Set the help set used to locate the "more info" for each question.
-     * If help sets are specified for child interviews, they will
-     * automatically be added into the help set for the root interview.
-     *
-     * @param hs The help set containing the "more info" for each question
-     *           in this interview.
-     * @see #getHelpSet
-     * @see #setHelpSet(String)
-     */
-    protected void setHelpSet(Object hs) {
-        helpSet = helpSetFactory.updateHelpSetObject(this, hs);
+    protected void setResourceBundle(String name) {
+        // name is not null
+        if (!name.equals(bundleName)) {
+            Class<?> c = getClass();
+            final ClassLoader cl = c.getClassLoader();
+            final String rn;
+            if (name.startsWith("/")) {
+                rn = name.substring(1);
+            } else {
+                String cn = c.getName();
+                String pn = cn.substring(0, cn.lastIndexOf('.'));
+                rn = pn + "." + name;
+            }
+            //System.err.println("INT: looking for bundle: " + rn);
+            bundle = AccessController.doPrivileged(
+                    new PrivilegedAction<ResourceBundle>() {
+                        @Override
+                        public ResourceBundle run() {
+                            return ResourceBundle.getBundle(rn, Locale.getDefault(), cl);
+                        }
+                    });
+            bundleName = name;
+        }
     }
 
     /**
@@ -423,7 +554,6 @@ public class Interview {
         setHelpSet(helpSetFactory.createHelpSetObject(name, file));
     }
 
-
     /**
      * Get the help set used to locate the "more info" for each question. If the
      * help set has not been set explicitly, it defaults to the parent's help
@@ -442,38 +572,39 @@ public class Interview {
     }
 
     /**
-     * Initializes the help factory - generally only called once per instance of the
-     * system.
+     * Set the name of the help set used to locate the "more info"
+     * for each question. The name should identify a resource containing
+     * a JavaHelp helpset file. If the name starts with '/', it will
+     * be treated as an absolute resource name, and used "as is";
+     * otherwise it will be treated as relative to the
+     * package in which the actual interview class is defined.
+     * If help sets are specified for child interviews, they will
+     * automatically be added into the help set for the root interview.
      *
-     * @return Create the help factory for the interview system.
+     * @param name The name of the help set containing the "more info"
+     *             for each question.
+     * @throws Interview.HelpNotFoundFault if the help set could not be located
+     * @throws Interview.BadHelpFault      if some problem occurred while opening the help set
+     * @see #getHelpSet
+     * @see #setHelpSet(Object)
      */
-    private static HelpSetFactory createHelpFactory() {
-        try {
-            Class<? extends HelpSetFactory> factoryClass =
-                    Class.forName("com.sun.interview.JavaHelpFactory").asSubclass(HelpSetFactory.class);
-            return factoryClass.getDeclaredConstructor().newInstance();
-        } catch (ClassNotFoundException e) {
-            return HelpSetFactory.DEFAULT;
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-            return HelpSetFactory.DEFAULT;
-        }
-
+    protected void setHelpSet(String name) throws Interview.Fault {
+        setHelpSet(helpSetFactory.createHelpSetObject(name, getClass()));
     }
 
     /**
-     * Mark this interview as having been edited or not.
+     * Set the help set used to locate the "more info" for each question.
+     * If help sets are specified for child interviews, they will
+     * automatically be added into the help set for the root interview.
      *
-     * @param edited whether or not this interview is marked as edited
+     * @param hs The help set containing the "more info" for each question
+     *           in this interview.
+     * @see #getHelpSet
+     * @see #setHelpSet(String)
      */
-    public void setEdited(boolean edited) {
-        Interview i = this;
-        while (i.parent != null) {
-            i = i.parent;
-        }
-        i.edited = edited;
+    protected void setHelpSet(Object hs) {
+        helpSet = helpSetFactory.updateHelpSetObject(this, hs);
     }
-
 
     /**
      * Determine if this interview as having been edited or not.
@@ -486,6 +617,21 @@ public class Interview {
             i = i.parent;
         }
         return i.edited;
+    }
+
+    //----- markers ---------------------------------
+
+    /**
+     * Mark this interview as having been edited or not.
+     *
+     * @param edited whether or not this interview is marked as edited
+     */
+    public void setEdited(boolean edited) {
+        Interview i = this;
+        while (i.parent != null) {
+            i = i.parent;
+        }
+        i.edited = edited;
     }
 
     /**
@@ -528,8 +674,6 @@ public class Interview {
         // if (parent == null)
         //    path = null;
     }
-
-    //---------------------------------------------------------
 
     /**
      * Get a sub-interview with a given tag name. All descendents are
@@ -582,8 +726,6 @@ public class Interview {
         }
     }
 
-    //----- navigation ----------------------------------------
-
     /**
      * Determine if a question is the first question of the interview.
      *
@@ -615,6 +757,8 @@ public class Interview {
     }
 
 
+    //----- nested interview stuff ---------------------------------
+
     /**
      * Determine if a question has a successor which is neither null
      * nor an ErrorQuestion.
@@ -627,6 +771,8 @@ public class Interview {
         Question qn = q.getNext();
         return qn != null && !(qn instanceof ErrorQuestion);
     }
+
+    //----- load/save stuff ----------------------------------------
 
     /**
      * Start (or restart) the interview. The current question is reset to the first
@@ -874,6 +1020,45 @@ public class Interview {
         return root.path.lastQuestion() instanceof FinalQuestion;
     }
 
+    /*
+    private static void testReadLocale() {
+        String[] samples = new String[] { "", "en", "de_DE", "_GB",
+                "en_US_WIN", "de__POSIX", "fr__MAC" };
+        Map data = new HashMap(1);
+        for (String s : samples) {
+            data.put(LOCALE, s);
+            System.out.println(s + " -> " + readLocale(data));
+            data.clear();
+        }
+    }
+
+    private static long computeChecksum(Map data) {
+        long cs = 0;
+        for (Iterator iter = data.entrySet().iterator(); iter.hasNext(); ) {
+            Map.Entry e = (Map.Entry) (iter.next());
+            String key = (String) (e.getKey());
+            String value = (String)(e.getValue());
+            if (!key.equals(CHECKSUM)) {
+                cs += computeChecksum(key) * computeChecksum(value);
+            }
+        }
+        // ensure result is >= 0 to avoid problems with signed hex numbers
+        return (cs == Long.MIN_VALUE ? 0 : cs < 0 ? -cs : cs);
+    }
+
+    private static long computeChecksum(String s) {
+        if (s == null)
+            return 1;
+        else {
+            long cs = 0;
+            for (int i = 0; i < s.length(); i++) {
+                cs = cs * 37 + s.charAt(i);
+            }
+            return cs;
+        }
+    }
+    */
+
     /**
      * Check if this subinterview has been completed. A subinterview is
      * considered to have been completed if none of the questions from
@@ -887,34 +1072,6 @@ public class Interview {
      */
     protected boolean isInterviewFinishable() {
         return path != null && path.lastQuestion() instanceof FinalQuestion;
-    }
-
-
-    /**
-     * Jump to a specific question in the interview. The question
-     * must be on the current path, but can be either before or
-     * after the current position at the time this is called.
-     *
-     * @param q The question which is to become the current
-     *          question in the interview.
-     * @throws Interview.Fault if the question given is not on the current path.
-     * @see #getCurrentQuestion
-     */
-    public void setCurrentQuestion(Question q) throws Fault {
-        if (q == null) {
-            throw new NullPointerException();
-        }
-
-        if (q == getCurrentQuestion()) {
-            return;
-        }
-
-        boolean ok = root.setCurrentQuestion0(q);
-        if (!ok) {
-            throw new NotOnPathFault(q);
-        }
-
-        notifyCurrentQuestionChanged(q);
     }
 
     private boolean setCurrentQuestion0(Question q) {
@@ -953,6 +1110,33 @@ public class Interview {
         return q;
     }
 
+    /**
+     * Jump to a specific question in the interview. The question
+     * must be on the current path, but can be either before or
+     * after the current position at the time this is called.
+     *
+     * @param q The question which is to become the current
+     *          question in the interview.
+     * @throws Interview.Fault if the question given is not on the current path.
+     * @see #getCurrentQuestion
+     */
+    public void setCurrentQuestion(Question q) throws Fault {
+        if (q == null) {
+            throw new NullPointerException();
+        }
+
+        if (q == getCurrentQuestion()) {
+            return;
+        }
+
+        boolean ok = root.setCurrentQuestion0(q);
+        if (!ok) {
+            throw new NotOnPathFault(q);
+        }
+
+        notifyCurrentQuestionChanged(q);
+    }
+
     private void setCurrentQuestionFromPath(Question... path) {
         root.setCurrentQuestionFromPath0(path);
     }
@@ -965,8 +1149,6 @@ public class Interview {
             }
         }
     }
-
-    //----- path stuff ----------------------------------------
 
     /**
      * Get the set of questions on the current path.
@@ -1025,6 +1207,9 @@ public class Interview {
         }
     }
 
+
+    //----- observers ----------------------------------------
+
     /**
      * Get an iterator for the set of questions on the current path.
      * The first question is determined by the interview; after that,
@@ -1050,7 +1235,6 @@ public class Interview {
         return v.iterator();
     }
 
-
     /**
      * Get an iterator for the set of questions on the current path
      * up to and including the current question.
@@ -1067,7 +1251,6 @@ public class Interview {
         iteratePath0(v, flattenNestedInterviews, false, true);
         return v.iterator();
     }
-
 
     private void iteratePath0(List<Question> l, boolean flattenNestedInterviews, boolean all, boolean addFinal) {
         ensurePathInitialized();
@@ -1088,7 +1271,6 @@ public class Interview {
             }
         }
     }
-
 
     /**
      * Verify that the current path contains a specified question,
@@ -1124,6 +1306,8 @@ public class Interview {
     public boolean pathContains(Interview i) {
         return root.pathContains0(i);
     }
+
+    //----- tag stuff ----------------------------------------
 
     private boolean pathContains0(Object o) {
         ensurePathInitialized();
@@ -1162,6 +1346,8 @@ public class Interview {
         return s;
     }
 
+    //----- adding subinterviews and questions ------------------------
+
     private void getQuestions0(Set<Question> s) {
         s.addAll(allQuestions.values());
 
@@ -1182,6 +1368,8 @@ public class Interview {
         getAllQuestions0(m);
         return m;
     }
+
+    //----- versioning ----------------------------------------
 
     private void getAllQuestions0(Map<String, Question> m) {
         m.putAll(allQuestions);
@@ -1209,6 +1397,8 @@ public class Interview {
         }
         return true;
     }
+
+    //----- external value management ----------------------------------------
 
     /**
      * Create a checklist composed of all checklist items
@@ -1246,7 +1436,6 @@ public class Interview {
         return new Checklist.Item(section, text);
     }
 
-
     /**
      * Create a checklist item based on entries in the interview's resource bundle.
      *
@@ -1261,7 +1450,6 @@ public class Interview {
         return new Checklist.Item(section, text);
     }
 
-
     /**
      * Create a checklist item based on entries in the interview's resource bundle.
      *
@@ -1275,8 +1463,6 @@ public class Interview {
         String text = getI18NString(textKey, textArgs);
         return new Checklist.Item(section, text);
     }
-
-    //----- markers ---------------------------------
 
     /**
      * Add a named marker for a question.
@@ -1458,6 +1644,8 @@ public class Interview {
         }
     }
 
+    //----- internal utilities ----------------------------------------
+
     private void loadMarkers(String name, String tags) {
         int start = -1;
         for (int i = 0; i < tags.length(); i++) {
@@ -1514,9 +1702,6 @@ public class Interview {
         }
     }
 
-
-    //----- nested interview stuff ---------------------------------
-
     /**
      * Return a special type of question used to indicate that
      * a sub-interview interview should be called before proceeding
@@ -1531,8 +1716,6 @@ public class Interview {
     protected Question callInterview(Interview i, Question q) {
         return new InterviewQuestion(this, i, q);
     }
-
-    //----- load/save stuff ----------------------------------------
 
     /**
      * Clear any responses to all the questions in this interview, and then
@@ -1622,24 +1805,6 @@ public class Interview {
     }
 
     /**
-     * Check if the checksum is valid for a set of responses.
-     * When responses are saved to a map, they are checksummed,
-     * so that they can be checked for validity when reloaded.
-     * This method verifies that a set of responses are acceptable
-     * for loading.
-     *
-     * @param data        The set of responses to be checked.
-     * @param okIfOmitted A boolean determining the response if
-     *                    there is no checksum available in the data
-     * @return Always true.
-     * @deprecated As of version 4.4.1, checksums are no longer
-     * calculated or checked.  True is always returned.
-     */
-    public static boolean isChecksumValid(Map<String, String> data, boolean okIfOmitted) {
-        return true;
-    }
-
-    /**
      * Save the state for questions in an archive map. The map
      * will be passed to each question in this interview and in any
      * child interviews, and each question should {@link Question#save save}
@@ -1688,127 +1853,6 @@ public class Interview {
     }
 
     /**
-     * Writes information about current locale to the given map.
-     * <br>
-     * This information is used later to properly restore locale-sensitive values,
-     * like numerics.
-     *
-     * @param data target map to write data to
-     * @see #LOCALE
-     * @see #readLocale(Map)
-     */
-    protected static void writeLocale(Map<String, String> data) {
-        data.put(LOCALE, Locale.getDefault().toString());
-    }
-
-    /**
-     * Reads information about locale from the given map. <br>
-     * Implementation looks for the string keyed by {@link #LOCALE} and then
-     * tries to decode it to valid locale object.
-     *
-     * @param data map with interview values
-     * @return locale, decoded from value taken from map; or default (current) locale
-     * @see #LOCALE
-     * @see #writeLocale(Map)
-     */
-    protected static Locale readLocale(Map<?, ?> data) {
-        Locale result = null;
-        Object o = data.get(LOCALE);
-        if (o != null) {
-            if (o instanceof Locale) {
-                result = (Locale) o;
-            } else if (o instanceof String) {
-                /* try to decode Locale object from its string representation
-                 * @see java.util.Locale#toString()
-                 * Examples: "", "en", "de_DE", "_GB", "en_US_WIN", "de__POSIX", "fr__MAC"
-                 */
-                String s = ((String) o).trim();
-                String language = "", country = "", variant = "";
-                if (!s.isEmpty()) {
-                    try {
-                        // decode language
-                        int i = s.indexOf('_');
-                        if (i == -1) {
-                            // there's no separator in the string. This can be
-                            // only the language
-                            language = s;
-                        } else if (i == 0) {
-                            language = "";
-                        } else {
-                            language = s.substring(0, i);
-                        }
-                        // now decode country
-                        if (i < s.length() - 1) {
-                            s = s.substring(i + 1);
-                            i = s.indexOf('_');
-                            if (i == -1) {
-                                // there's no separator in the remaining string.
-                                // This is a country
-                                country = s;
-                            } else if (i == 0) {
-                                country = "";
-                            } else {
-                                country = s.substring(0, i);
-                            }
-                            // now decode variant
-                            if (i < s.length() - 1) {
-                                variant = s.substring(i + 1);
-                            }
-                        }
-                        result = new Locale(language, country, variant);
-                    } catch (Exception e) {
-                        // suppress exception and use default locale
-                        result = null;
-                    }
-                }
-            }
-        }
-        if (result == null) {
-            result = Locale.getDefault();
-        }
-        return result;
-    }
-
-    /*
-    private static void testReadLocale() {
-        String[] samples = new String[] { "", "en", "de_DE", "_GB",
-                "en_US_WIN", "de__POSIX", "fr__MAC" };
-        Map data = new HashMap(1);
-        for (String s : samples) {
-            data.put(LOCALE, s);
-            System.out.println(s + " -> " + readLocale(data));
-            data.clear();
-        }
-    }
-
-    private static long computeChecksum(Map data) {
-        long cs = 0;
-        for (Iterator iter = data.entrySet().iterator(); iter.hasNext(); ) {
-            Map.Entry e = (Map.Entry) (iter.next());
-            String key = (String) (e.getKey());
-            String value = (String)(e.getValue());
-            if (!key.equals(CHECKSUM)) {
-                cs += computeChecksum(key) * computeChecksum(value);
-            }
-        }
-        // ensure result is >= 0 to avoid problems with signed hex numbers
-        return (cs == Long.MIN_VALUE ? 0 : cs < 0 ? -cs : cs);
-    }
-
-    private static long computeChecksum(String s) {
-        if (s == null)
-            return 1;
-        else {
-            long cs = 0;
-            for (int i = 0; i < s.length(); i++) {
-                cs = cs * 37 + s.charAt(i);
-            }
-            return cs;
-        }
-    }
-    */
-
-    /**
      * Export values for questions on the current path, by calling {@link Question#export}
      * for each question returned by {@link #getPath}.
      * It should  be called on the root interview to export the values for all
@@ -1848,6 +1892,25 @@ public class Interview {
             export0(data, hiddenPath, true);
         }
     }
+
+    /* useful debug routine
+    private void showPath(Interview i, Question q, int depth) {
+        for (int d = 0; d < depth; d++)
+            System.err.print("  ");
+        System.err.println(i.getClass().getName() + " " + i.getTag());
+        for (int p = 0; p < i.path.size(); p++) {
+            for (int d = 0; d < depth; d++)
+                System.err.print("  ");
+            Question pq = i.path.questionAt(p);
+            System.err.print(p + ": " + pq.getClass().getName() + " " + pq.getTag());
+            if (pq == q)
+                System.err.print(" *");
+            System.err.println();
+            if (pq instanceof InterviewQuestion)
+                showPath(((InterviewQuestion)pq).getTargetInterview(), q, depth+1);
+        }
+    }
+    */
 
     private void export0(Map<String, String> data, Iterable<Question> paths, boolean processHidden) {
         for (Question path : paths) {
@@ -1897,7 +1960,6 @@ public class Interview {
         return exportIgnoreExceptionPolicy;
     }
 
-
     /**
      * Set the policy regarding how to treat exceptions that may arise during export.
      * The default value is to ignore runtime exceptions.
@@ -1915,38 +1977,6 @@ public class Interview {
         }
         exportIgnoreExceptionPolicy = policy;
     }
-
-    /**
-     * A value indicating that export should ignore all exceptions that arise
-     * while calling each question's export method.
-     *
-     * @see #setExportIgnoreExceptionPolicy
-     * @see #export
-     */
-    public static final int EXPORT_IGNORE_ALL_EXCEPTIONS = 0;
-
-    /**
-     * A value indicating that export should ignore runtime exceptions that arise
-     * while calling each question's export method.
-     *
-     * @see #setExportIgnoreExceptionPolicy
-     * @see #export
-     */
-    public static final int EXPORT_IGNORE_RUNTIME_EXCEPTIONS = 1;
-
-    /**
-     * A value indicating that export should not ignore any exceptions that arise
-     * while calling each question's export method.
-     *
-     * @see #setExportIgnoreExceptionPolicy
-     * @see #export
-     */
-    public static final int EXPORT_IGNORE_NO_EXCEPTIONS = 2;
-    private static final int EXPORT_NUM_IGNORE_POLICIES = 3;
-    private int exportIgnoreExceptionPolicy = EXPORT_IGNORE_RUNTIME_EXCEPTIONS;
-
-
-    //----- observers ----------------------------------------
 
     /**
      * Add an observer to monitor updates to the interview.
@@ -2016,10 +2046,6 @@ public class Interview {
         }
     }
 
-    private Observer[] observers = new Observer[0];
-
-    //----- tag stuff ----------------------------------------
-
     /**
      * Change the base tag for this interview.
      * This should not be done for most interviews, since the base tag
@@ -2063,8 +2089,6 @@ public class Interview {
         }
     }
 
-    //----- adding subinterviews and questions ------------------------
-
     void add(Interview child) {
         children.add(child);
     }
@@ -2077,7 +2101,19 @@ public class Interview {
         }
     }
 
-    //----- versioning ----------------------------------------
+    /**
+     * Determine which semantics are being used for interview and question
+     * behavior.  This is important because new behavior in future versions
+     * can cause unanticipated code flow, resulting in incorrect behavior of
+     * existing code.
+     *
+     * @return The semantics that the interview is currently using.
+     * @see #setInterviewSemantics
+     * @since 3.2
+     */
+    public int getInterviewSemantics() {
+        return semantics;
+    }
 
     /**
      * This method is being used to toggle changes which are not
@@ -2154,22 +2190,6 @@ public class Interview {
     }
 
     /**
-     * Determine which semantics are being used for interview and question
-     * behavior.  This is important because new behavior in future versions
-     * can cause unanticipated code flow, resulting in incorrect behavior of
-     * existing code.
-     *
-     * @return The semantics that the interview is currently using.
-     * @see #setInterviewSemantics
-     * @since 3.2
-     */
-    public int getInterviewSemantics() {
-        return semantics;
-    }
-
-    //----- external value management ----------------------------------------
-
-    /**
      * Store an "external" value into the configuration.  This is a value
      * not associated with any interview question and in a separate namespace
      * than all the question keys.
@@ -2232,7 +2252,6 @@ public class Interview {
         }
     }
 
-
     /**
      * Retrieve a property from the collection of "external" values being
      * stored in the configuration.
@@ -2279,7 +2298,6 @@ public class Interview {
         }
     }
 
-
     /**
      * Retrieve set of keys for the "external" values being stored in the
      * configuration.
@@ -2315,7 +2333,6 @@ public class Interview {
             return null;
         }
     }
-
 
     /**
      * @see #load(Map)
@@ -2369,8 +2386,6 @@ public class Interview {
         }
     }
 
-    //----- internal utilities ----------------------------------------
-
     private void ensureTemValuesInitialized() {
         if (templateValues == null) {
             templateValues = new HashMap<>();
@@ -2394,7 +2409,6 @@ public class Interview {
         }
     }
 
-
     private Question lookup(String tag) {
         Question q = allQuestions.get(tag);
         // if q is null, search children till we find it
@@ -2414,7 +2428,6 @@ public class Interview {
     public boolean isRoot() {
         return parent == null;
     }
-
 
     /**
      * Get the root interview object for an interview series.
@@ -2492,25 +2505,6 @@ public class Interview {
             }
         }
     }
-
-    /* useful debug routine
-    private void showPath(Interview i, Question q, int depth) {
-        for (int d = 0; d < depth; d++)
-            System.err.print("  ");
-        System.err.println(i.getClass().getName() + " " + i.getTag());
-        for (int p = 0; p < i.path.size(); p++) {
-            for (int d = 0; d < depth; d++)
-                System.err.print("  ");
-            Question pq = i.path.questionAt(p);
-            System.err.print(p + ": " + pq.getClass().getName() + " " + pq.getTag());
-            if (pq == q)
-                System.err.print(" *");
-            System.err.println();
-            if (pq instanceof InterviewQuestion)
-                showPath(((InterviewQuestion)pq).getTargetInterview(), q, depth+1);
-        }
-    }
-    */
 
     private void trimPath(Question q) {
         Object o = q;
@@ -2654,8 +2648,6 @@ public class Interview {
         return getI18NString(key, empty);
     }
 
-    private static final Object[] empty = {};
-
     /**
      * Get an entry from the resource bundle.
      * If the resource cannot be found, a message is printed to the console
@@ -2752,129 +2744,104 @@ public class Interview {
             return null;
         }
     }
+    /**
+     * An observer interface for receiving notifications as the state of
+     * the interview is updated.
+     */
+    public interface Observer {
+        /**
+         * Invoked when the current question in the interview has been changed.
+         *
+         * @param q the new current question
+         */
+        void currentQuestionChanged(Question q);
 
-    // can change this to "assert(b)" in JDK 1.5
-    private static void ASSERT(boolean b) {
-        if (!b) {
-            throw new IllegalStateException();
+        /**
+         * Invoked when the set of questions in the current path has been
+         * changed. This is normally because the response to one of the
+         * questions on the path has been changed, thereby causing a change
+         * to its successor questions.
+         */
+        void pathUpdated();
+    }
+
+    /**
+     * This exception is to report problems that occur while updating an interview.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        public Fault(ResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(ResourceBundle i18n, String s, Object o) {
+            super(MessageFormat.format(i18n.getString(s), o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(ResourceBundle i18n, String s, Object... o) {
+            super(MessageFormat.format(i18n.getString(s), o));
         }
     }
 
     /**
-     * The parent interview, if applicable; otherwise null.
+     * This exception is thrown when a question is expected to be on
+     * the current path, and is not.
      */
-    private final Interview parent;
+    public static class NotOnPathFault extends Fault {
+        NotOnPathFault(Question q) {
+            super(i18n, "interview.questionNotOnPath", q.getTag());
+        }
+    }
 
     /**
-     * The root (most parent) interview; never null
-     */
-    private final Interview root;
-
-    private String baseTag; // tag relative to parent
-
-    private String tag; // full tag: parent tag + baseTag
-
-    /**
-     * A descriptive title for the interview.
-     */
-    private String title;
-
-    /**
-     * The first question of the interview.
-     */
-    private Question firstQuestion;
-
-
-    /**
-     * Any child interviews.
-     */
-    private Vector<Interview> children = new Vector<>();
-
-    /**
-     * An index of the questions in this interview.
-     */
-    private Map<String, Question> allQuestions = new LinkedHashMap<>();
-
-    /**
-     * The default image for questions in the interview.
-     */
-    private URL defaultImage;
-
-    private Object helpSet;
-
-    // object to create HelpSet and Help ID
-    // in batch mode, this factory should return stubs.
-    protected final static HelpSetFactory helpSetFactory = createHelpFactory();
-    private String bundleName;
-    private ResourceBundle bundle;
-
-    private Path path;
-    private Path rawPath;
-    private ArrayList<Question> hiddenPath;
-    private int currIndex;
-    private InterviewQuestion caller;
-    private boolean updateEnabled;
-    private boolean edited;
-
-    private Map<String, Set<Question>> allMarkers;
-    private Map<String, String> extraValues;        // used in top-level interview only
-    private Map<String, String> templateValues;
-
-    private int semantics = SEMANTIC_PRE_32;
-
-    static final ResourceBundle i18n = ResourceBundle.getBundle("com.sun.interview.i18n");
-
-    /**
-     * Where necessary, the harness interview should behave as it did before the
-     * 3.2 release.  This does not control every single possible change in
-     * behavior, but does control certain behaviors which may cause problems with
-     * interview code written against an earlier version of the harness.
+     * Not for use, provided for backwards binary compatibility.
      *
-     * @see #setInterviewSemantics
+     * @deprecated No longer used in this API, direct JavaHelp usage was removed.
      */
-    public static final int SEMANTIC_PRE_32 = 0;
+    @Deprecated
+    public static class BadHelpFault extends Fault {
+        public BadHelpFault(ResourceBundle i18n, String s, Object e) {
+            super(i18n, s, e);
+        }
+    }
 
     /**
-     * Where necessary, the harness interview should behave as it did for the
-     * 3.2 release.  This does not control every single possible change in
-     * behavior, but does control certain behaviors which may cause problems with
-     * interview code written against an earlier version of the harness.
+     * Not for use, provided for backwards binary compatibility.
      *
-     * @see #setInterviewSemantics
+     * @deprecated No longer used in this API, direct JavaHelp usage was removed.
      */
-    public static final int SEMANTIC_VERSION_32 = 1;
-
-    /**
-     * Where necessary, the harness interview should behave as it did for the
-     * 4.3 release.  This does not control every single possible change in
-     * behavior, but does control certain behaviors which may cause problems with
-     * interview code written against an earlier version of the harness.
-     *
-     * @see #setInterviewSemantics
-     */
-    public static final int SEMANTIC_VERSION_43 = 2;
-
-    /**
-     * Where necessary, the harness interview should behave as it did for the
-     * 4.3 release.  This does not control every single possible change in
-     * behavior, but does control certain behaviors which may cause problems with
-     * interview code written against an earlier version of the harness.
-     *
-     * @see #setInterviewSemantics
-     */
-    public static final int SEMANTIC_VERSION_50 = 3;
-
-    /**
-     * The highest version number currently in use.  Note that the compiler
-     * will probably inline this during compilation, so you will be locked at
-     * the version which you compile against.  This is probably a useful
-     * behavior in this case.
-     *
-     * @see #setInterviewSemantics
-     */
-    public static final int SEMANTIC_MAX_VERSION = 3;
+    @Deprecated
+    public static class HelpNotFoundFault extends Fault {
+        public HelpNotFoundFault(ResourceBundle i18n, String s, String name) {
+            super(i18n, s, name);
+        }
+    }
 
     static class Path {
+        private Question[] questions;
+        private int numQuestions;
+
         void addQuestion(Question q) {
             if (questions == null) {
                 questions = new Question[10];
@@ -2953,25 +2920,12 @@ public class Interview {
             numQuestions = newSize;
         }
 
-
         void clear() {
             for (int i = 0; i < numQuestions; i++) {
                 questions[i] = null;
             }
             numQuestions = 0;
         }
-
-        private Question[] questions;
-        private int numQuestions;
     }
-
-    protected final static String QUESTION = "QUESTION";
-    protected final static String INTERVIEW = "INTERVIEW";
-    protected final static String LOCALE = "LOCALE";
-    //protected final static String CHECKSUM = "CHECKSUM";
-    protected final static String MARKERS = "MARKERS";
-    protected final static String MARKERS_PREF = "MARKERS.";
-    protected static final String EXTERNAL_PREF = "EXTERNAL.";
-    protected static final String TEMPLATE_PREF = "TEMPLATE.";
 
 }

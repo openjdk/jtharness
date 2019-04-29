@@ -43,6 +43,10 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
 
 public class TypeInPanel extends JPanel {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    protected JTextField field;
+    protected JComboBox<String> choice;
+
     public TypeInPanel(String uiKey, final Question q, int fieldWidth,
                        String[] suggestions, JButton btn, ActionListener listener) {
         setLayout(new GridBagLayout());
@@ -152,10 +156,5 @@ public class TypeInPanel extends JPanel {
             choice.setSelectedItem(value);
         }
     }
-
-    protected JTextField field;
-    protected JComboBox<String> choice;
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }
 

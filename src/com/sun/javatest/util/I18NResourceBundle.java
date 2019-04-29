@@ -41,6 +41,24 @@ import java.util.ResourceBundle;
  * containing localization data for a class.
  */
 public class I18NResourceBundle extends ResourceBundle {
+    private static final String logClassPrefix = System.getProperty("javatest.i18n.log");
+    private String name;
+    private ResourceBundle delegate;
+    private boolean logging;
+    private ClassLoader classLoader;
+
+    /**
+     * Create a resource bundle for the given name.
+     * The actual resource bundle will not be loaded until it is needed.
+     *
+     * @param name The name of the actual resource bundle to use.
+     */
+    private I18NResourceBundle(String name, boolean logging, ClassLoader cl) {
+        this.name = name;
+        this.logging = logging;
+        this.classLoader = cl;
+    }
+
     /**
      * Get a package-specific resource bundle for a class containing localization data.
      * The bundle is named i18n.properties in the same
@@ -138,18 +156,6 @@ public class I18NResourceBundle extends ResourceBundle {
     }
 
     /**
-     * Create a resource bundle for the given name.
-     * The actual resource bundle will not be loaded until it is needed.
-     *
-     * @param name The name of the actual resource bundle to use.
-     */
-    private I18NResourceBundle(String name, boolean logging, ClassLoader cl) {
-        this.name = name;
-        this.logging = logging;
-        this.classLoader = cl;
-    }
-
-    /**
      * A required internal method for ResourceBundle.
      * Load the actual resource bundle, if it has not yet been loaded,
      * then hand the request off to that bundle.
@@ -210,10 +216,4 @@ public class I18NResourceBundle extends ResourceBundle {
     public String getName() {
         return name;
     }
-
-    private String name;
-    private ResourceBundle delegate;
-    private boolean logging;
-    private ClassLoader classLoader;
-    private static final String logClassPrefix = System.getProperty("javatest.i18n.log");
 }

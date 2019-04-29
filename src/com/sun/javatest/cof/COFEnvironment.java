@@ -73,38 +73,27 @@ import java.util.TimeZone;
 
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
     protected Integer displaydepth;
-
-    private String domainName;
-
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
     protected String encoding;
-
-    private String hostName;
-
     //    @XmlAttribute(required = true)
     protected String id = "env:0";
-
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
     protected String jdk;
-
     //  @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected String machine;
-
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected COFOS os;
-
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected List<COFSWEntity> sw;
-
     //    @XmlElement(name = "system-locale", namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
     protected String systemLocale;
-
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
     protected String timezone;
-
     //    @XmlElement(name = "system-locale", namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
     protected String userLocale;
     protected COFData data;
+    private String domainName;
+    private String hostName;
 
     COFEnvironment(COFData data) {
         this.data = data;
@@ -146,6 +135,16 @@ import java.util.TimeZone;
      */
     public Integer getBits() {
         return bits;
+    }
+
+    /**
+     * Sets the value of the bits property.
+     *
+     * @param value allowed object is
+     *              {@link Integer }
+     */
+    public void setBits(Integer value) {
+        this.bits = value;
     }
 
     private String getCalderaLinuxVersionInfo() {
@@ -190,6 +189,16 @@ import java.util.TimeZone;
     }
 
     /**
+     * Sets the value of the description property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setDescription(String value) {
+        this.description = value;
+    }
+
+    /**
      * Gets the value of the displaydepth property.
      *
      * @return possible object is
@@ -200,6 +209,16 @@ import java.util.TimeZone;
     }
 
     /**
+     * Sets the value of the displaydepth property.
+     *
+     * @param value allowed object is
+     *              {@link Integer }
+     */
+    public void setDisplaydepth(Integer value) {
+        this.displaydepth = value;
+    }
+
+    /**
      * Gets the value of the encoding property.
      *
      * @return possible object is
@@ -207,6 +226,16 @@ import java.util.TimeZone;
      */
     public String getEncoding() {
         return encoding;
+    }
+
+    /**
+     * Sets the value of the encoding property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setEncoding(String value) {
+        this.encoding = value;
     }
 
     private String getGenericLinuxVersionInfo(String fileName) {
@@ -247,6 +276,16 @@ import java.util.TimeZone;
         return id;
     }
 
+    /**
+     * Sets the value of the id property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setId(String value) {
+        this.id = value;
+    }
+
     LinkedHashMap<String, String> getItemAttributes() {
         return xmlAttributes;
     }
@@ -270,6 +309,16 @@ import java.util.TimeZone;
     }
 
     /**
+     * Sets the value of the jdk property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setJdk(String value) {
+        this.jdk = value;
+    }
+
+    /**
      * Gets the value of the machine property.
      *
      * @return possible object is
@@ -280,6 +329,40 @@ import java.util.TimeZone;
     }
 
     /**
+     * Sets the value of the machine property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setMachine(String value) {
+        if (value.endsWith(".unknown")) {
+            try {
+                machine = InetAddress.getLocalHost().getCanonicalHostName();
+                if (machine.indexOf(".") == -1) {
+                    if ("false".equals(data.get("showWarnings"))) {
+                        System.err.println(i18n.getString("environment.badMachineName", machine));
+                    } else {
+                        String warningMessage = data.get("warning", "");
+                        data.put("warning", warningMessage + i18n.getString("environment.badMachineName") + "\n");
+                    }
+                }
+                return;
+            } catch (UnknownHostException e) {
+                if ("false".equals(data.get("showWarnings"))) {
+                    System.err.println(i18n.getString("environment.cantGetLocalhostName", e.getMessage()));
+                    value = value.substring(0, value.indexOf(".unknown") - 1);
+                    System.err.println(i18n.getString("environment.badMachineName", value));
+                } else {
+                    String warningMessage = data.get("warning", "");
+                    value = value.substring(0, value.indexOf(".unknown") - 1);
+                    data.put("warning", warningMessage + i18n.getString("environment.cantGetLocalhostName", e.getMessage()) + "\n" + i18n.getString("environment.badMachineName", value) + "\n");
+                }
+            }
+        }
+        this.machine = value;
+    }
+
+    /**
      * Gets the value of the os property.
      *
      * @return possible object is
@@ -287,6 +370,16 @@ import java.util.TimeZone;
      */
     public COFOS getOs() {
         return os;
+    }
+
+    /**
+     * Sets the value of the os property.
+     *
+     * @param value allowed object is
+     *              {@link OS }
+     */
+    public void setOs(COFOS value) {
+        this.os = value;
     }
 
     String[] getPropOrder() {
@@ -330,6 +423,16 @@ import java.util.TimeZone;
         return systemLocale;
     }
 
+    /**
+     * Sets the value of the systemLocale property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setSystemLocale(String value) {
+        this.systemLocale = value;
+    }
+
     String getTagName() {
         return itemTagName;
     }
@@ -349,6 +452,16 @@ import java.util.TimeZone;
     }
 
     /**
+     * Sets the value of the timezone property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setTimezone(String value) {
+        this.timezone = value;
+    }
+
+    /**
      * Gets the value of the userLocale property.
      *
      * @return possible object is
@@ -356,6 +469,16 @@ import java.util.TimeZone;
      */
     public String getUserLocale() {
         return userLocale;
+    }
+
+    /**
+     * Sets the value of the userLocale property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setUserLocale(String value) {
+        this.userLocale = value;
     }
 
     private void initDefaultHostInfo() {
@@ -421,140 +544,6 @@ import java.util.TimeZone;
                  }
                  }
                  */
-    }
-
-    /**
-     * Sets the value of the bits property.
-     *
-     * @param value allowed object is
-     *              {@link Integer }
-     */
-    public void setBits(Integer value) {
-        this.bits = value;
-    }
-
-    /**
-     * Sets the value of the description property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
-
-    /**
-     * Sets the value of the displaydepth property.
-     *
-     * @param value allowed object is
-     *              {@link Integer }
-     */
-    public void setDisplaydepth(Integer value) {
-        this.displaydepth = value;
-    }
-
-    /**
-     * Sets the value of the encoding property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setEncoding(String value) {
-        this.encoding = value;
-    }
-
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
-
-    /**
-     * Sets the value of the jdk property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setJdk(String value) {
-        this.jdk = value;
-    }
-
-    /**
-     * Sets the value of the machine property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setMachine(String value) {
-        if (value.endsWith(".unknown")) {
-            try {
-                machine = InetAddress.getLocalHost().getCanonicalHostName();
-                if (machine.indexOf(".") == -1) {
-                    if ("false".equals(data.get("showWarnings"))) {
-                        System.err.println(i18n.getString("environment.badMachineName", machine));
-                    } else {
-                        String warningMessage = data.get("warning", "");
-                        data.put("warning", warningMessage + i18n.getString("environment.badMachineName") + "\n");
-                    }
-                }
-                return;
-            } catch (UnknownHostException e) {
-                if ("false".equals(data.get("showWarnings"))) {
-                    System.err.println(i18n.getString("environment.cantGetLocalhostName", e.getMessage()));
-                    value = value.substring(0, value.indexOf(".unknown") - 1);
-                    System.err.println(i18n.getString("environment.badMachineName", value));
-                } else {
-                    String warningMessage = data.get("warning", "");
-                    value = value.substring(0, value.indexOf(".unknown") - 1);
-                    data.put("warning", warningMessage + i18n.getString("environment.cantGetLocalhostName", e.getMessage()) + "\n" + i18n.getString("environment.badMachineName", value) + "\n");
-                }
-            }
-        }
-        this.machine = value;
-    }
-
-    /**
-     * Sets the value of the os property.
-     *
-     * @param value allowed object is
-     *              {@link OS }
-     */
-    public void setOs(COFOS value) {
-        this.os = value;
-    }
-
-    /**
-     * Sets the value of the systemLocale property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setSystemLocale(String value) {
-        this.systemLocale = value;
-    }
-
-    /**
-     * Sets the value of the timezone property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setTimezone(String value) {
-        this.timezone = value;
-    }
-
-    /**
-     * Sets the value of the userLocale property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setUserLocale(String value) {
-        this.userLocale = value;
     }
 
 }

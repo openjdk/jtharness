@@ -40,6 +40,10 @@ import java.util.Map;
  * The ToolManager for {@link AgentMonitorTool agent monitor} window.
  */
 public class AgentMonitorToolManager extends ToolManager {
+    private AgentMonitorTool tool;
+
+    //----------------------------------------------------------------------------
+
     /**
      * Create an agent tool manager.
      *
@@ -70,8 +74,6 @@ public class AgentMonitorToolManager extends ToolManager {
         t.restore(m);
         return t;
     }
-
-    //----------------------------------------------------------------------------
 
     /**
      * Start the {@link AgentMonitorTool agent monitor} window.
@@ -117,7 +119,5 @@ public class AgentMonitorToolManager extends ToolManager {
 
         return tool;
     }
-
-    private AgentMonitorTool tool;
 }
 

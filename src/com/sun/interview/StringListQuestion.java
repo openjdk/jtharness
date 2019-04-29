@@ -33,6 +33,17 @@ import java.util.Vector;
  * A {@link Question question} to which the response is an array of strings.
  */
 public abstract class StringListQuestion extends Question {
+    private static final String[] EMPTY = {};
+    /**
+     * The current response for this question.
+     */
+    protected String[] value;
+    /**
+     * The default response for this question.
+     */
+    private String[] defaultValue;
+    private boolean duplicatesAllowed = true;
+
     /**
      * Create a question with a nominated tag.
      *
@@ -43,6 +54,80 @@ public abstract class StringListQuestion extends Question {
         super(interview, tag);
         clear();
         setDefaultValue(value);
+    }
+
+    /**
+     * Compare two string arrays for equality.
+     *
+     * @param s1 the first array to be compared, or null
+     * @param s2 the other array to be compared, or null
+     * @return true if both parameters are null, or if both are non-null
+     * and are element-wise equal.
+     * @see #equal(String, String)
+     */
+    protected static boolean equal(String[] s1, String... s2) {
+        if (s1 == null || s2 == null) {
+            return s1 == s2;
+        }
+
+        if (s1.length != s2.length) {
+            return false;
+        }
+
+        for (int i = 0; i < s1.length; i++) {
+            if (!equal(s1[i], s2[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Compare two strings for equality.
+     *
+     * @param s1 the first string to be compared, or null
+     * @param s2 the other string to be compared, or null
+     * @return true if both parameters are null, or if both are non-null
+     * and equal.
+     */
+    protected static boolean equal(String s1, String s2) {
+        return s1 == null ? s2 == null : s1.equals(s2);
+    }
+
+    /**
+     * Split a string into a set of newline-separated strings.
+     *
+     * @param s The string to be split, or null
+     * @return an array of strings containing the newline-separated substrings of
+     * the argument.
+     */
+    protected static String[] split(String s) {
+        if (s == null) {
+            return EMPTY;
+        }
+
+        char sep = '\n';
+
+        Vector<String> v = new Vector<>();
+        int start = -1;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == sep) {
+                if (start != -1) {
+                    v.add(s.substring(start, i));
+                }
+                start = -1;
+            } else if (start == -1) {
+                start = i;
+            }
+        }
+        if (start != -1) {
+            v.add(s.substring(start));
+        }
+        if (v.isEmpty()) {
+            return EMPTY;
+        }
+        return v.toArray(new String[v.size()]);
     }
 
     /**
@@ -69,6 +154,16 @@ public abstract class StringListQuestion extends Question {
     }
 
     /**
+     * Check whether or not duplicates should be allowed in the list.
+     *
+     * @return true if duplicates should be allowed, and false otherwise
+     * @see #setDuplicatesAllowed
+     */
+    public boolean isDuplicatesAllowed() {
+        return duplicatesAllowed;
+    }
+
+    /**
      * Specify whether or not duplicates should be allowed in the list.
      * By default, duplicates are allowed.
      *
@@ -80,16 +175,6 @@ public abstract class StringListQuestion extends Question {
     }
 
     /**
-     * Check whether or not duplicates should be allowed in the list.
-     *
-     * @return true if duplicates should be allowed, and false otherwise
-     * @see #setDuplicatesAllowed
-     */
-    public boolean isDuplicatesAllowed() {
-        return duplicatesAllowed;
-    }
-
-    /**
      * Get the current (default or latest) response to this question.
      *
      * @return The current value.
@@ -97,6 +182,38 @@ public abstract class StringListQuestion extends Question {
      */
     public String[] getValue() {
         return value;
+    }
+
+    @Override
+    public void setValue(String s) {
+        setValue(s == null ? null : split(s));
+    }
+
+    /**
+     * Set the current value.
+     *
+     * @param newValue The value to be set.
+     * @see #getValue
+     */
+    public void setValue(String... newValue) {
+        if (newValue != null) {
+            for (String aNewValue : newValue) {
+                if (aNewValue == null || (aNewValue.contains("\n"))) {
+                    throw new IllegalArgumentException();
+                }
+            }
+        }
+
+        if (!equal(newValue, value)) {
+            if (newValue == null) {
+                value = null;
+            } else {
+                value = new String[newValue.length];
+                System.arraycopy(newValue, 0, value, 0, newValue.length);
+            }
+            interview.updatePath(this);
+            interview.setEdited(true);
+        }
     }
 
     /**
@@ -149,38 +266,6 @@ public abstract class StringListQuestion extends Question {
         return false;
     }
 
-    @Override
-    public void setValue(String s) {
-        setValue(s == null ? null : split(s));
-    }
-
-    /**
-     * Set the current value.
-     *
-     * @param newValue The value to be set.
-     * @see #getValue
-     */
-    public void setValue(String... newValue) {
-        if (newValue != null) {
-            for (String aNewValue : newValue) {
-                if (aNewValue == null || (aNewValue.contains("\n"))) {
-                    throw new IllegalArgumentException();
-                }
-            }
-        }
-
-        if (!equal(newValue, value)) {
-            if (newValue == null) {
-                value = null;
-            } else {
-                value = new String[newValue.length];
-                System.arraycopy(newValue, 0, value, 0, newValue.length);
-            }
-            interview.updatePath(this);
-            interview.setEdited(true);
-        }
-    }
-
     /**
      * Clear any response to this question, resetting the value
      * back to its initial state.
@@ -189,7 +274,6 @@ public abstract class StringListQuestion extends Question {
     public void clear() {
         setValue(defaultValue);
     }
-
 
     /**
      * Save the value for this question in a dictionary, using
@@ -203,93 +287,4 @@ public abstract class StringListQuestion extends Question {
             data.put(tag, getStringValue());
         }
     }
-
-    /**
-     * Compare two string arrays for equality.
-     *
-     * @param s1 the first array to be compared, or null
-     * @param s2 the other array to be compared, or null
-     * @return true if both parameters are null, or if both are non-null
-     * and are element-wise equal.
-     * @see #equal(String, String)
-     */
-    protected static boolean equal(String[] s1, String... s2) {
-        if (s1 == null || s2 == null) {
-            return s1 == s2;
-        }
-
-        if (s1.length != s2.length) {
-            return false;
-        }
-
-        for (int i = 0; i < s1.length; i++) {
-            if (!equal(s1[i], s2[i])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
-    /**
-     * Compare two strings for equality.
-     *
-     * @param s1 the first string to be compared, or null
-     * @param s2 the other string to be compared, or null
-     * @return true if both parameters are null, or if both are non-null
-     * and equal.
-     */
-    protected static boolean equal(String s1, String s2) {
-        return s1 == null ? s2 == null : s1.equals(s2);
-    }
-
-    /**
-     * Split a string into a set of newline-separated strings.
-     *
-     * @param s The string to be split, or null
-     * @return an array of strings containing the newline-separated substrings of
-     * the argument.
-     */
-    protected static String[] split(String s) {
-        if (s == null) {
-            return EMPTY;
-        }
-
-        char sep = '\n';
-
-        Vector<String> v = new Vector<>();
-        int start = -1;
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == sep) {
-                if (start != -1) {
-                    v.add(s.substring(start, i));
-                }
-                start = -1;
-            } else if (start == -1) {
-                start = i;
-            }
-        }
-        if (start != -1) {
-            v.add(s.substring(start));
-        }
-        if (v.isEmpty()) {
-            return EMPTY;
-        }
-        return v.toArray(new String[v.size()]);
-    }
-
-    private static final String[] EMPTY = {};
-
-    /**
-     * The current response for this question.
-     */
-    protected String[] value;
-
-    /**
-     * The default response for this question.
-     */
-    private String[] defaultValue;
-
-    private boolean duplicatesAllowed = true;
 }

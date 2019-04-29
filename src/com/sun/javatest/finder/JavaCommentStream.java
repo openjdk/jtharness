@@ -38,6 +38,10 @@ import java.io.IOException;
  * @see CommentStream
  */
 public class JavaCommentStream extends CommentStream {
+    private boolean startLine;
+
+    //-----internal routines----------------------------------------------------
+
     @Override
     public String readComment() throws IOException {
         int c;
@@ -109,8 +113,6 @@ public class JavaCommentStream extends CommentStream {
         return comment.toString();
     } // readComment()
 
-    //-----internal routines----------------------------------------------------
-
     private void putc(StringBuffer s, int c) {
         switch (c) {
             //case '\b':
@@ -145,6 +147,8 @@ public class JavaCommentStream extends CommentStream {
         }
     }
 
+    //----------member variables------------------------------------------------
+
     private void skipString(int term) throws IOException {
         while (true) {
             int c = cs.read();
@@ -159,8 +163,4 @@ public class JavaCommentStream extends CommentStream {
             }
         }
     }
-
-    //----------member variables------------------------------------------------
-
-    private boolean startLine;
 }

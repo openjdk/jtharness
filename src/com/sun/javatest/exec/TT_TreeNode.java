@@ -34,6 +34,8 @@ import java.util.LinkedList;
  * Basic part of the onscreen model of the test tree.
  */
 public abstract class TT_TreeNode implements TreeNode {
+    protected TT_BasicNode parent;
+
     /**
      * Short name that should be shown in user interfaces.
      *
@@ -89,6 +91,4 @@ public abstract class TT_TreeNode implements TreeNode {
     public String toString() {
         return getShortName();
     }
-
-    protected TT_BasicNode parent;
 }

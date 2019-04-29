@@ -65,6 +65,37 @@ import java.awt.event.ComponentListener;
 class BranchPanel
         extends JPanel
         implements FilterSelectionHandler.Observer {
+    // data for tabs beyond Status.NUM_STATES
+    // pass, fail, error, notrun + filtered out
+    protected static final int NUM_TABS = Status.NUM_STATES + 3;//2
+    static final int STATUS_FILTERED = Status.NUM_STATES;
+    private static boolean debug = Debug.getBoolean(BranchPanel.class);
+    protected Parameters params;
+    private TestTreeModel ttm;
+    private JTabbedPane bPane;
+    private JTextField statusTf;
+    private TT_BasicNode currNode;
+    private TreePanelModel tpm;
+    private Harness harness;
+    private ExecModel execModel;
+    private JComponent parent;
+
+    // --- FilterSelectionHandler.Observer ---
+    private FilterSelectionHandler filterHandler;
+    private TT_NodeCache cache;
+    private CacheObserver cacheWatcher = new CacheObserver();
+    private UIFactory uif;
+    private BP_BranchSubpanel currPanel;
+    private BranchModel bModel = new BranchModel();
+    private volatile boolean needToUpdateGUIWhenShown;
+    private volatile boolean needToUpdateData;
+    // panels in the folder
+    private BP_SummarySubpanel summPanel;
+    private BP_DocumentationSubpanel docPanel;
+    private BP_FilteredOutSubpanel foPanel;
+    private BP_TestListSubpanel[] lists;
+    private boolean[] listDisplayStatus;            // which tabs are enabled
+    private BP_BranchSubpanel[] allPanels;
     BranchPanel(UIFactory uif, TreePanelModel model, Harness h, ExecModel em, JComponent parent,
                 FilterSelectionHandler filterHandler, TestTreeModel ttm) {
         this.uif = uif;
@@ -78,13 +109,20 @@ class BranchPanel
 
         filterHandler.addObserver(this);
     }
+    //private TestResultTable lastTrt;
 
-    void setNode(TT_BasicNode tn) {
-        if (tn == currNode) {
-            return;
+    /**
+     * Is the given node along the given path?
+     */
+    private static boolean isAlongPath(TestResultTable.TreeNode[] path,
+                                       TestResultTable.TreeNode node) {
+        for (TestResultTable.TreeNode aPath : path) {
+            if (aPath == node) {
+                return true;
+            }
         }
 
-        updatePanel(tn, currPanel);
+        return false;
     }
 
     /**
@@ -221,7 +259,6 @@ class BranchPanel
         }
     }
 
-
     protected void updatePanel(TT_BasicNode newNode,
                                BP_BranchSubpanel newPanel) {
 
@@ -254,6 +291,15 @@ class BranchPanel
 
     TT_TreeNode getNode() {
         return currNode;
+    }
+    // additional tab constants here
+
+    void setNode(TT_BasicNode tn) {
+        if (tn == currNode) {
+            return;
+        }
+
+        updatePanel(tn, currPanel);
     }
 
     /**
@@ -295,26 +341,10 @@ class BranchPanel
 
     }
 
-    /**
-     * Is the given node along the given path?
-     */
-    private static boolean isAlongPath(TestResultTable.TreeNode[] path,
-                                       TestResultTable.TreeNode node) {
-        for (TestResultTable.TreeNode aPath : path) {
-            if (aPath == node) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
     }
-
-    // --- FilterSelectionHandler.Observer ---
 
     @Override
     public void filterUpdated(TestFilter f) {
@@ -344,43 +374,77 @@ class BranchPanel
         // we don't care here
     }
 
-    private TestTreeModel ttm;
-    private JTabbedPane bPane;
-    private JTextField statusTf;
-    private TT_BasicNode currNode;
-    private TreePanelModel tpm;
-    private Harness harness;
-    private ExecModel execModel;
-    private JComponent parent;
-    private FilterSelectionHandler filterHandler;
-    private TT_NodeCache cache;
-    private CacheObserver cacheWatcher = new CacheObserver();
-    //private TestResultTable lastTrt;
+    /**
+     * Utility class to update text fields on the GUI thread.
+     */
+    static class TextUpdater implements Runnable {
+        static final int UPDATE = 1;    // change the values to the given settings, -1 means no change
+        static final int CLEAR = 2;     // set the labels to blank values
+        static final int WAIT = 3;      // set the labels to show that we are waiting
+        static final int MSG = 4;       // status text field update
+        private int type;
+        private int[] values;
+        private JTextComponent[] tfs;
+        private JTextComponent stf;
+        private String msg;
+        private UIFactory uif;
+        /**
+         * Update, clear or wait messages into the text fields.
+         * Update and wait require all three params to be valid, clear only requires that type
+         * and the text fields.
+         */
+        TextUpdater(int eType, JTextComponent[] tfs, int[] values, UIFactory uif) {
+            type = eType;
+            this.values = values;
+            this.tfs = tfs;
+            this.uif = uif;
+        }
+        /**
+         * Update a single text field.
+         */
+        TextUpdater(JTextComponent tf, String val, UIFactory uif) {
+            type = MSG;
+            stf = tf;
+            msg = val;
+            this.uif = uif;
+        }
 
-    private UIFactory uif;
-    private BP_BranchSubpanel currPanel;
-    private BranchModel bModel = new BranchModel();
+        @Override
+        public void run() {
+            //if (!needUpdate)
+            //    return;
 
-    private volatile boolean needToUpdateGUIWhenShown;
-    private volatile boolean needToUpdateData;
+            //needUpdate = false;
 
-    protected Parameters params;
-
-    // data for tabs beyond Status.NUM_STATES
-    // pass, fail, error, notrun + filtered out
-    protected static final int NUM_TABS = Status.NUM_STATES + 3;//2
-    static final int STATUS_FILTERED = Status.NUM_STATES;
-    // additional tab constants here
-
-    // panels in the folder
-    private BP_SummarySubpanel summPanel;
-    private BP_DocumentationSubpanel docPanel;
-    private BP_FilteredOutSubpanel foPanel;
-    private BP_TestListSubpanel[] lists;
-    private boolean[] listDisplayStatus;            // which tabs are enabled
-    private BP_BranchSubpanel[] allPanels;
-
-    private static boolean debug = Debug.getBoolean(BranchPanel.class);
+            switch (type) {
+                case UPDATE:
+                    for (int i = 0; i < tfs.length; i++) {
+                        // -1 results in "wait..." being printed
+                        if (values[i] >= 0) {
+                            tfs[i].setText(Integer.toString(values[i]));
+                        } else {
+                            tfs[i].setText("");
+                        }
+                    }
+                    break;
+                case CLEAR:
+                    for (JTextComponent tf1 : tfs) {
+                        tf1.setText("");
+                    }
+                    break;
+                case WAIT:
+                    for (JTextComponent tf : tfs) {
+                        tf.setText("wait...");
+                    }
+                    break;
+                case MSG:
+                    stf.setText(msg);
+                    break;
+                default:
+                    throw new JavaTestError(uif.getI18NString("br.noEType2"));
+            }   // switch
+        }
+    }   // counter notifier
 
     /**
      * Implementation of the model.
@@ -471,81 +535,6 @@ class BranchPanel
             }
         }
     }
-
-    /**
-     * Utility class to update text fields on the GUI thread.
-     */
-    static class TextUpdater implements Runnable {
-        /**
-         * Update, clear or wait messages into the text fields.
-         * Update and wait require all three params to be valid, clear only requires that type
-         * and the text fields.
-         */
-        TextUpdater(int eType, JTextComponent[] tfs, int[] values, UIFactory uif) {
-            type = eType;
-            this.values = values;
-            this.tfs = tfs;
-            this.uif = uif;
-        }
-
-        /**
-         * Update a single text field.
-         */
-        TextUpdater(JTextComponent tf, String val, UIFactory uif) {
-            type = MSG;
-            stf = tf;
-            msg = val;
-            this.uif = uif;
-        }
-
-        @Override
-        public void run() {
-            //if (!needUpdate)
-            //    return;
-
-            //needUpdate = false;
-
-            switch (type) {
-                case UPDATE:
-                    for (int i = 0; i < tfs.length; i++) {
-                        // -1 results in "wait..." being printed
-                        if (values[i] >= 0) {
-                            tfs[i].setText(Integer.toString(values[i]));
-                        } else {
-                            tfs[i].setText("");
-                        }
-                    }
-                    break;
-                case CLEAR:
-                    for (JTextComponent tf1 : tfs) {
-                        tf1.setText("");
-                    }
-                    break;
-                case WAIT:
-                    for (JTextComponent tf : tfs) {
-                        tf.setText("wait...");
-                    }
-                    break;
-                case MSG:
-                    stf.setText(msg);
-                    break;
-                default:
-                    throw new JavaTestError(uif.getI18NString("br.noEType2"));
-            }   // switch
-        }
-
-        static final int UPDATE = 1;    // change the values to the given settings, -1 means no change
-        static final int CLEAR = 2;     // set the labels to blank values
-        static final int WAIT = 3;      // set the labels to show that we are waiting
-        static final int MSG = 4;       // status text field update
-
-        private int type;
-        private int[] values;
-        private JTextComponent[] tfs;
-        private JTextComponent stf;
-        private String msg;
-        private UIFactory uif;
-    }   // counter notifier
 
     private class CacheObserver extends TT_NodeCache.TT_NodeCacheObserver {
         CacheObserver() {

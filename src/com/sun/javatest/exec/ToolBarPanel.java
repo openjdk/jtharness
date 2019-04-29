@@ -43,6 +43,10 @@ import java.util.List;
  */
 class ToolBarPanel extends JPanel {
 
+    public static final String PB_PROP_NAME = "PAINT_BORDER";
+    private ToolBarLayout theLayout = new ToolBarLayout();
+    private BevelBorder b = new BevelBorder(BevelBorder.RAISED);
+
     /**
      * Creates a new panel.
      */
@@ -79,6 +83,8 @@ class ToolBarPanel extends JPanel {
      * horisontal separators
      **/
     static class ToolBarLayout extends FlowLayout {
+
+        private int[] separators = new int[0];
 
         public ToolBarLayout() {
             super(FlowLayout.LEFT, 0, 0);
@@ -152,13 +158,7 @@ class ToolBarPanel extends JPanel {
         synchronized int[] getRowPositions() {
             return separators;
         }
-
-        private int[] separators = new int[0];
     }
-
-    private ToolBarLayout theLayout = new ToolBarLayout();
-    private BevelBorder b = new BevelBorder(BevelBorder.RAISED);
-    public static final String PB_PROP_NAME = "PAINT_BORDER";
 
 }
 

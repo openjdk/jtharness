@@ -49,17 +49,34 @@ import java.util.TreeSet;
  */
 public class InterviewSet
         extends Interview {
-    /**
-     * This exception will be thrown when an attempt to made to specify a dependency
-     * that would create a dependency cycle. In other words, A cannot be a dependent
-     * of B if B is already a dependent of A (either directly or indirectly.)
-     */
-    public static class CycleFault extends Fault {
-        CycleFault(Interview dependent, Interview dependency) {
-            super(i18n, "iset.cycle",
-                    dependent.getTag(), dependency.getTag());
+    private FinalQuestion qEnd = new FinalQuestion(this);
+    private List<Interview> children = new ArrayList<>();
+    private Map<Interview, Set<Interview>> dependencies = new HashMap<>();
+    private Question sortedCalls;
+    private NullQuestion sorter = new NullQuestion(this) {
+        @Override
+        public boolean isEnabled() {
+            return false; // always hide this question
         }
-    }
+
+        @Override
+        public Question getNext() {
+            if (sortedCalls == null) {
+                Interview[] cc = sortChildren();
+
+                // have to build the list from the end, backwards,
+                // because of the way InterviewQuestion works
+                Question q = qEnd;
+                for (int i = cc.length - 1; i >= 0; i--) {
+                    q = callInterview(cc[i], q);
+                }
+
+                sortedCalls = q;
+            }
+
+            return sortedCalls;
+        }
+    };
 
     /**
      * Create an interview set.
@@ -219,36 +236,17 @@ public class InterviewSet
         cycleSet.remove(child);
     }
 
-    private NullQuestion sorter = new NullQuestion(this) {
-        @Override
-        public boolean isEnabled() {
-            return false; // always hide this question
+    /**
+     * This exception will be thrown when an attempt to made to specify a dependency
+     * that would create a dependency cycle. In other words, A cannot be a dependent
+     * of B if B is already a dependent of A (either directly or indirectly.)
+     */
+    public static class CycleFault extends Fault {
+        CycleFault(Interview dependent, Interview dependency) {
+            super(i18n, "iset.cycle",
+                    dependent.getTag(), dependency.getTag());
         }
-
-        @Override
-        public Question getNext() {
-            if (sortedCalls == null) {
-                Interview[] cc = sortChildren();
-
-                // have to build the list from the end, backwards,
-                // because of the way InterviewQuestion works
-                Question q = qEnd;
-                for (int i = cc.length - 1; i >= 0; i--) {
-                    q = callInterview(cc[i], q);
-                }
-
-                sortedCalls = q;
-            }
-
-            return sortedCalls;
-        }
-    };
-
-    private FinalQuestion qEnd = new FinalQuestion(this);
-
-    private List<Interview> children = new ArrayList<>();
-    private Map<Interview, Set<Interview>> dependencies = new HashMap<>();
-    private Question sortedCalls;
+    }
 
     private class ChildComparator implements Comparator<Interview> {
         @Override

@@ -54,6 +54,8 @@ import java.net.URL;
  **/
 public class AgentApplet extends Applet implements Agent.Observer {
 
+    private boolean shareAppletContext;
+
     /**
      * Initialize the applet, based on the applet parameters.
      * <p>
@@ -343,7 +345,5 @@ public class AgentApplet extends Applet implements Agent.Observer {
     public synchronized void completed(Agent sl, Connection c) {
         showStatus("COMPLETED (NYI)");
     }
-
-    private boolean shareAppletContext;
 
 }

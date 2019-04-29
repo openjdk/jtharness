@@ -33,6 +33,8 @@ import java.net.ServerSocket;
  * A factory for creating connections to be used by agents running in "passive" mode.
  */
 public class PassiveConnectionFactory implements ConnectionFactory {
+    private ServerSocket serverSocket;
+
     /**
      * Create a factory for creating connections to be used by agents running
      * in "passive" mode.
@@ -91,6 +93,4 @@ public class PassiveConnectionFactory implements ConnectionFactory {
             throw new ConnectionFactory.Fault(e, true);
         }
     }
-
-    private ServerSocket serverSocket;
 }

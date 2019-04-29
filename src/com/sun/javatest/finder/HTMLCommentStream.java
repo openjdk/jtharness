@@ -35,6 +35,10 @@ import java.io.IOException;
  * @see CommentStream
  */
 public class HTMLCommentStream extends CommentStream {
+    private static final String LINESEP = System.getProperty("line.separator");
+
+    //----------member variables------------------------------------------------
+
     @Override
     public String readComment() throws IOException {
         String comment, line;
@@ -80,8 +84,4 @@ public class HTMLCommentStream extends CommentStream {
 
         return comment.replace('\n', ' ').replace('\r', ' ').trim();
     }
-
-    //----------member variables------------------------------------------------
-
-    private static final String LINESEP = System.getProperty("line.separator");
 }

@@ -50,6 +50,134 @@ import java.util.SortedSet;
  */
 class KflSection extends HTMLSection {
 
+    static final String FAIL2PASS = "kfl_fail2pass.html";
+    static final String FAIL2ERROR = "kfl_fail2error.html";
+    static final String FAIL2MISSING = "kfl_fail2missing.html";
+    static final String FAIL2NOTRUN = "kfl_fail2notrun.html";
+    static final String FAIL2FAIL = "kfl_fail2fail.html";
+    static final String NEWFAILURES = "kfl_newfailures.html";
+    static final String OTHER_ERRORS = "kfl_otherErrors.html";
+    static final String TC_FAIL2PASS = "kfl_tc_fail2pass.html";
+    static final String TC_FAIL2ERROR = "kfl_tc_fail2error.html";
+    static final String TC_FAIL2MISSING = "kfl_tc_fail2missing.html";
+    static final String TC_FAIL2NOTRUN = "kfl_tc_fail2notrun.html";
+    static final String TC_NEWFAILURES = "kfl_tc_newfailures.html";
+    private final I18NResourceBundle i18n;
+    /*
+    private void grabResults() {
+    resultTable = settings.ip.getWorkDirectory().getTestResultTable();
+    initFiles = settings.getInitialFiles();
+
+    for (int i = 0; i < lists.length; i++ )
+    lists[i] = new TreeSet(new TestResultsByStatusAndTitleComparator());
+
+    Iterator iter;
+    try {
+    TestFilter[] fs = null;
+
+    // Note: settings.filter should not really be null, modernized clients
+    //   of this class should set the filter before asking for a report.
+    if (settings.filter == null)
+    fs = new TestFilter[0];
+    else
+    fs = new TestFilter[] {settings.filter};
+
+
+    iter = ((initFiles == null)
+    ? resultTable.getIterator(fs)
+    : resultTable.getIterator(initFiles, fs));
+    }
+    catch (TestResultTable.Fault f) {
+    throw new JavaTestError(i18n.getString("result.testResult.err"));
+    }
+
+    for (; iter.hasNext(); ) {
+    TestResult tr = (TestResult) (iter.next());
+    Status s = tr.getStatus();
+    SortedSet list = lists[s == null ? Status.NOT_RUN : s.getType()];
+    list.add(tr);
+    totalFound++;
+    }
+    }
+
+    private void writeCheckFailed() {
+    System.err.println("Writing check failed");
+    System.err.println("  Passed size = " + lists[0].size());
+    System.err.println("  Total size = " + totalFound);
+
+    }
+
+    private void writeStatusFiles() throws IOException {
+    for (int i = 0; i < results.length; i++ ) {
+    // each file is optional
+    if (!settings.isStateFileEnabled(i))
+    continue;
+
+    ReportWriter out = openAuxFile(fileCodes[i], headings[i], i18n);
+    out.write(i18n.getString("result.groupByStatus"));
+    try {
+    SortedSet list = lists[i];
+    if (list.size() > 0) {
+    boolean inList = false;
+    String currentHead = null;
+    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+    TestResult e = (TestResult) (iter.next());
+    String title;
+    try {
+    TestDescription e_td = e.getDescription();
+    title = e_td.getTitle();
+    }
+    catch (TestResult.Fault ex) {
+    title = null;
+    }
+
+    Status e_s = e.getStatus();
+    if (!e_s.getReason().equals(currentHead)) {
+    currentHead = e_s.getReason();
+    if (inList) {
+    inList = false;
+    out.endTag(HTMLWriterEx.UL);
+    out.newLine();
+    }
+    out.startTag(HTMLWriterEx.H4);
+    out.write(currentHead.length() == 0 ? i18n.getString("result.noReason") : currentHead);
+    out.endTag(HTMLWriterEx.H4);
+    out.newLine();
+    }
+    if (!inList) {
+    inList = true;
+    out.startTag(HTMLWriterEx.UL);
+    }
+    out.startTag(HTMLWriterEx.LI);
+
+    //File eFile = e.getFile();
+    String eWRPath = e.getWorkRelativePath();
+    File eFile = new File(workDirRoot, eWRPath.replace('/', File.separatorChar));
+    String eName = e.getTestName();
+    if (eFile == null || e_s.getType() == Status.NOT_RUN)
+    out.write(eName);
+    else
+    out.writeLink(eFile, eName);
+
+    if (title != null)
+    out.write(": " + title);
+    out.newLine();
+    }
+    if (inList) {
+    inList = false;
+    out.endTag(HTMLWriterEx.UL);
+    }
+    }
+    }
+    finally {
+    out.close();
+    }
+    }
+    }
+     */
+    private TestResultTable resultTable;
+    private KflSorter sorter;
+    private KnownFailuresList kfl;
     KflSection(HTMLReport parent, ReportSettings settings, File dir, I18NResourceBundle i18n,
                KflSorter data) {
         super(i18n.getString("kfl.title"), settings, dir, parent);
@@ -417,136 +545,4 @@ class KflSection extends HTMLSection {
     Writer openWriter(String file) throws IOException {
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(reportDir, file)), StandardCharsets.UTF_8));
     }
-
-    /*
-    private void grabResults() {
-    resultTable = settings.ip.getWorkDirectory().getTestResultTable();
-    initFiles = settings.getInitialFiles();
-
-    for (int i = 0; i < lists.length; i++ )
-    lists[i] = new TreeSet(new TestResultsByStatusAndTitleComparator());
-
-    Iterator iter;
-    try {
-    TestFilter[] fs = null;
-
-    // Note: settings.filter should not really be null, modernized clients
-    //   of this class should set the filter before asking for a report.
-    if (settings.filter == null)
-    fs = new TestFilter[0];
-    else
-    fs = new TestFilter[] {settings.filter};
-
-
-    iter = ((initFiles == null)
-    ? resultTable.getIterator(fs)
-    : resultTable.getIterator(initFiles, fs));
-    }
-    catch (TestResultTable.Fault f) {
-    throw new JavaTestError(i18n.getString("result.testResult.err"));
-    }
-
-    for (; iter.hasNext(); ) {
-    TestResult tr = (TestResult) (iter.next());
-    Status s = tr.getStatus();
-    SortedSet list = lists[s == null ? Status.NOT_RUN : s.getType()];
-    list.add(tr);
-    totalFound++;
-    }
-    }
-
-    private void writeCheckFailed() {
-    System.err.println("Writing check failed");
-    System.err.println("  Passed size = " + lists[0].size());
-    System.err.println("  Total size = " + totalFound);
-
-    }
-
-    private void writeStatusFiles() throws IOException {
-    for (int i = 0; i < results.length; i++ ) {
-    // each file is optional
-    if (!settings.isStateFileEnabled(i))
-    continue;
-
-    ReportWriter out = openAuxFile(fileCodes[i], headings[i], i18n);
-    out.write(i18n.getString("result.groupByStatus"));
-    try {
-    SortedSet list = lists[i];
-    if (list.size() > 0) {
-    boolean inList = false;
-    String currentHead = null;
-    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-    TestResult e = (TestResult) (iter.next());
-    String title;
-    try {
-    TestDescription e_td = e.getDescription();
-    title = e_td.getTitle();
-    }
-    catch (TestResult.Fault ex) {
-    title = null;
-    }
-
-    Status e_s = e.getStatus();
-    if (!e_s.getReason().equals(currentHead)) {
-    currentHead = e_s.getReason();
-    if (inList) {
-    inList = false;
-    out.endTag(HTMLWriterEx.UL);
-    out.newLine();
-    }
-    out.startTag(HTMLWriterEx.H4);
-    out.write(currentHead.length() == 0 ? i18n.getString("result.noReason") : currentHead);
-    out.endTag(HTMLWriterEx.H4);
-    out.newLine();
-    }
-    if (!inList) {
-    inList = true;
-    out.startTag(HTMLWriterEx.UL);
-    }
-    out.startTag(HTMLWriterEx.LI);
-
-    //File eFile = e.getFile();
-    String eWRPath = e.getWorkRelativePath();
-    File eFile = new File(workDirRoot, eWRPath.replace('/', File.separatorChar));
-    String eName = e.getTestName();
-    if (eFile == null || e_s.getType() == Status.NOT_RUN)
-    out.write(eName);
-    else
-    out.writeLink(eFile, eName);
-
-    if (title != null)
-    out.write(": " + title);
-    out.newLine();
-    }
-    if (inList) {
-    inList = false;
-    out.endTag(HTMLWriterEx.UL);
-    }
-    }
-    }
-    finally {
-    out.close();
-    }
-    }
-    }
-     */
-    private TestResultTable resultTable;
-    private KflSorter sorter;
-    private KnownFailuresList kfl;
-
-    private final I18NResourceBundle i18n;
-
-    static final String FAIL2PASS = "kfl_fail2pass.html";
-    static final String FAIL2ERROR = "kfl_fail2error.html";
-    static final String FAIL2MISSING = "kfl_fail2missing.html";
-    static final String FAIL2NOTRUN = "kfl_fail2notrun.html";
-    static final String FAIL2FAIL = "kfl_fail2fail.html";
-    static final String NEWFAILURES = "kfl_newfailures.html";
-    static final String OTHER_ERRORS = "kfl_otherErrors.html";
-
-    static final String TC_FAIL2PASS = "kfl_tc_fail2pass.html";
-    static final String TC_FAIL2ERROR = "kfl_tc_fail2error.html";
-    static final String TC_FAIL2MISSING = "kfl_tc_fail2missing.html";
-    static final String TC_FAIL2NOTRUN = "kfl_tc_fail2notrun.html";
-    static final String TC_NEWFAILURES = "kfl_tc_newfailures.html";
 }

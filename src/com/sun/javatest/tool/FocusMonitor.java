@@ -82,12 +82,103 @@ import java.util.Set;
 import java.util.Vector;
 
 class FocusMonitor {
+    private static final Color STD_COLOR = Color.black;
+    private static final Color ERR_COLOR = Color.red;
+    private static final Color WARN_COLOR = Color.yellow;
+    private static final Color HILITE_COLOR = new Color(255, 255, 200);
+    private static final String NEWLINE = System.getProperty("line.separator");
+    private static FocusMonitor focusMonitor;
+    private KeyStroke activateKey;
+    private KeyStroke reportKey;
+    private String reportFile;
+    private JFrame frame;
+    private SummaryPanel prevFocusPanel;
+    private DetailPanel currFocusPanel;
+    private Action reportAction = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            report();
+        }
+    };
+    private SummaryPanel nextFocusPanel;
+    private Component currentComponent;
+    private boolean highlighting;
+    private boolean savedOpaque;
+    private Color savedBackground;
+    private Action activateAction = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            setVisible(true);
+        }
+    };
+
+    private FocusMonitor() {
+        KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        fm.addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                if (e.getPropertyName().equals("focusOwner")) {
+                    update();
+                }
+            }
+        });
+    }
+
     public static FocusMonitor access() {
         if (focusMonitor == null) {
             focusMonitor = new FocusMonitor();
         }
 
         return focusMonitor;
+    }
+
+    private static String getKeysString(Component c, int mode) {
+        if (c == null) {
+            return null;
+        }
+
+        Set<AWTKeyStroke> s = c.getFocusTraversalKeys(mode);
+        StringBuilder sb = new StringBuilder();
+        for (AWTKeyStroke value : s) {
+            if (sb.length() > 0) {
+                sb.append(", ");
+            }
+            sb.append(value);
+        }
+        if (!c.areFocusTraversalKeysSet(mode)) {
+            sb.append(" (inherited)");
+        }
+        return sb.toString();
+    }
+
+    private static String getPath(Component c) {
+        StringBuffer sb = new StringBuffer();
+        appendPath(sb, c);
+        return sb.toString();
+    }
+
+    private static void appendPath(StringBuffer sb, Component c) {
+        Container p = c.getParent();
+        if (p != null) {
+            appendPath(sb, p);
+        }
+        sb.append('/');
+        String name = c.getName();
+        if (name == null || name.isEmpty()) {
+            if (p == null)  // special case, root component, no name
+            {
+                sb.append("(Root component)");
+            } else {
+                for (int i = 0; i < p.getComponentCount(); i++) {
+                    if (p.getComponent(i) == c) {
+                        sb.append(i);
+                        break;
+                    }
+                }   // for
+            }
+        } else {
+            sb.append(name);
+        }
     }
 
     public void setOptions(String... opts) {
@@ -185,18 +276,6 @@ class FocusMonitor {
         } else if (frame != null) {
             frame.setVisible(false);
         }
-    }
-
-    private FocusMonitor() {
-        KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        fm.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent e) {
-                if (e.getPropertyName().equals("focusOwner")) {
-                    update();
-                }
-            }
-        });
     }
 
     private void deactivate() {
@@ -426,92 +505,11 @@ class FocusMonitor {
         return window.getFocusTraversalPolicy().getDefaultComponent(window);
     }
 
-    private static String getKeysString(Component c, int mode) {
-        if (c == null) {
-            return null;
-        }
-
-        Set<AWTKeyStroke> s = c.getFocusTraversalKeys(mode);
-        StringBuilder sb = new StringBuilder();
-        for (AWTKeyStroke value : s) {
-            if (sb.length() > 0) {
-                sb.append(", ");
-            }
-            sb.append(value);
-        }
-        if (!c.areFocusTraversalKeysSet(mode)) {
-            sb.append(" (inherited)");
-        }
-        return sb.toString();
-    }
-
-    private static String getPath(Component c) {
-        StringBuffer sb = new StringBuffer();
-        appendPath(sb, c);
-        return sb.toString();
-    }
-
-    private static void appendPath(StringBuffer sb, Component c) {
-        Container p = c.getParent();
-        if (p != null) {
-            appendPath(sb, p);
-        }
-        sb.append('/');
-        String name = c.getName();
-        if (name == null || name.isEmpty()) {
-            if (p == null)  // special case, root component, no name
-            {
-                sb.append("(Root component)");
-            } else {
-                for (int i = 0; i < p.getComponentCount(); i++) {
-                    if (p.getComponent(i) == c) {
-                        sb.append(i);
-                        break;
-                    }
-                }   // for
-            }
-        } else {
-            sb.append(name);
-        }
-    }
-
-    private Action activateAction = new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            setVisible(true);
-        }
-    };
-
-    private Action reportAction = new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            report();
-        }
-    };
-
-
-    private KeyStroke activateKey;
-    private KeyStroke reportKey;
-    private String reportFile;
-    private JFrame frame;
-    private SummaryPanel prevFocusPanel;
-    private DetailPanel currFocusPanel;
-    private SummaryPanel nextFocusPanel;
-
-    private Component currentComponent;
-    private boolean highlighting;
-    private boolean savedOpaque;
-    private Color savedBackground;
-
-    private static FocusMonitor focusMonitor;
-
-    private static final Color STD_COLOR = Color.black;
-    private static final Color ERR_COLOR = Color.red;
-    private static final Color WARN_COLOR = Color.yellow;
-    private static final Color HILITE_COLOR = new Color(255, 255, 200);
-    private static final String NEWLINE = System.getProperty("line.separator");
-
     private static class Entry {
+        JLabel label;
+        JTextField field;
+        boolean enabled;
+
         Entry(String name) {
             label = new JLabel(name + ": ");
             label.setName(name);
@@ -573,13 +571,14 @@ class FocusMonitor {
                 out.write(NEWLINE);
             }
         }
-
-        JLabel label;
-        JTextField field;
-        boolean enabled;
     }
 
     private static class SummaryPanel extends JPanel {
+        private Vector<Entry> entries = new Vector<>();
+        private Entry name;
+        private Entry path;
+        private Entry type;
+
         SummaryPanel() {
             setName("summary");
             setLayout(new GridBagLayout());
@@ -630,14 +629,19 @@ class FocusMonitor {
 
             entries.add(entry);
         }
-
-        private Vector<Entry> entries = new Vector<>();
-        private Entry name;
-        private Entry path;
-        private Entry type;
     }
 
     private static class DetailPanel extends SummaryPanel {
+        private Entry accName;
+        private Entry accDesc;
+        private Entry toolTip;
+        private Entry text;
+        private Entry labelFor;
+        private Entry mnemonic;
+        private Entry fwdKeys;
+        private Entry bwdKeys;
+        private Entry upKeys;
+        private Entry downKeys;
         DetailPanel() {
             // is accessible
             add(accName = new Entry("acc. name"));
@@ -735,17 +739,6 @@ class FocusMonitor {
             upKeys.setText(getKeysString(c, KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS));
             downKeys.setText(getKeysString(c, KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS));
         }
-
-        private Entry accName;
-        private Entry accDesc;
-        private Entry toolTip;
-        private Entry text;
-        private Entry labelFor;
-        private Entry mnemonic;
-        private Entry fwdKeys;
-        private Entry bwdKeys;
-        private Entry upKeys;
-        private Entry downKeys;
 
     }
 }

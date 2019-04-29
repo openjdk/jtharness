@@ -46,75 +46,21 @@ import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
  **/
 public class AgentMain {
 
-    /**
-     * This exception is used to report bad command line arguments.
-     */
-    public static class BadArgs extends Exception {
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param msg A detail message about an error that has been found.
-         */
-        public BadArgs(String msg) {
-            this(new String[]{msg});
-        }
-
-        /**
-         * Create a BadArgs object.
-         *
-         * @param msgs Detailed message about an error that has been found.
-         */
-        public BadArgs(String... msgs) {
-            super(msgs[0]);
-            this.msgs = msgs;
-        }
-
-        /**
-         * Get the detail messages.
-         *
-         * @return the messages given when this exception was created.
-         */
-        public String[] getMessages() {
-            return msgs;
-        }
-
-        private String[] msgs;
-    }
-
-    /**
-     * This exception is used to report problems that occur while running.
-     */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault exception.
-         *
-         * @param msg A detail message about a fault that has occurred.
-         */
-        public Fault(String msg) {
-            this(new String[]{msg});
-        }
-
-        /**
-         * Create a Fault object.
-         *
-         * @param msgs A detail message about a fault that has been found.
-         */
-        public Fault(String... msgs) {
-            super(msgs[0]);
-            this.msgs = msgs;
-        }
-
-        /**
-         * Get the detail messages.
-         *
-         * @return the messages given when this exception was created.
-         */
-        public String[] getMessages() {
-            return msgs;
-        }
-
-        private String[] msgs;
-    }
+    private static final int ACTIVE = 1;
+    private static final int PASSIVE = 2;
+    private static final int SERIAL = 3;
+    private boolean helpRequested = false;
+    private int mode = 0;
+    private int modeCheck = 0;
+    private String activeHost = null;
+    private int activePort = Agent.defaultActivePort;
+    private int passivePort = Agent.defaultPassivePort;
+    private String serialPort = null;
+    private int concurrency = 1;
+    private String mapFile = null;
+    private Map<String, String> mappedArgs = new HashMap<>();
+    private String observerClassName;
+    private boolean tracing;
 
     /**
      * Create and start an Agent, based on the supplied command line arguments.
@@ -139,6 +85,24 @@ public class AgentMain {
         m.runAndExit(args);
     }
 
+    /**
+     * Unwrap an InvocationTargetException.
+     *
+     * @param t the exception to be unwrapped
+     * @return the argument's target exception if the argument is an
+     * InvocationTargetException; otherwise the argument itself is returned.
+     */
+    protected static Throwable unwrapInvocationTargetException(Throwable t) {
+        if (t instanceof InvocationTargetException) {
+            return ((InvocationTargetException) t).getTargetException();
+        } else {
+            return t;
+        }
+    }
+
+    private static int max(int a, int b) {
+        return a > b ? a : b;
+    }
 
     /**
      * Create and start an Agent, based on the supplied command line arguments.
@@ -520,42 +484,81 @@ public class AgentMain {
     }
 
     /**
-     * Unwrap an InvocationTargetException.
-     *
-     * @param t the exception to be unwrapped
-     * @return the argument's target exception if the argument is an
-     * InvocationTargetException; otherwise the argument itself is returned.
+     * This exception is used to report bad command line arguments.
      */
-    protected static Throwable unwrapInvocationTargetException(Throwable t) {
-        if (t instanceof InvocationTargetException) {
-            return ((InvocationTargetException) t).getTargetException();
-        } else {
-            return t;
+    public static class BadArgs extends Exception {
+        private String[] msgs;
+
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param msg A detail message about an error that has been found.
+         */
+        public BadArgs(String msg) {
+            this(new String[]{msg});
+        }
+
+        /**
+         * Create a BadArgs object.
+         *
+         * @param msgs Detailed message about an error that has been found.
+         */
+        public BadArgs(String... msgs) {
+            super(msgs[0]);
+            this.msgs = msgs;
+        }
+
+        /**
+         * Get the detail messages.
+         *
+         * @return the messages given when this exception was created.
+         */
+        public String[] getMessages() {
+            return msgs;
         }
     }
 
-    private boolean helpRequested = false;
-    private int mode = 0;
-    private int modeCheck = 0;
-    private String activeHost = null;
-    private int activePort = Agent.defaultActivePort;
-    private int passivePort = Agent.defaultPassivePort;
-    private String serialPort = null;
-    private int concurrency = 1;
-    private String mapFile = null;
-    private Map<String, String> mappedArgs = new HashMap<>();
-    private String observerClassName;
-    private boolean tracing;
+    /**
+     * This exception is used to report problems that occur while running.
+     */
+    public static class Fault extends Exception {
+        private String[] msgs;
 
-    private static final int ACTIVE = 1;
-    private static final int PASSIVE = 2;
-    private static final int SERIAL = 3;
+        /**
+         * Create a Fault exception.
+         *
+         * @param msg A detail message about a fault that has occurred.
+         */
+        public Fault(String msg) {
+            this(new String[]{msg});
+        }
 
-    private static int max(int a, int b) {
-        return a > b ? a : b;
+        /**
+         * Create a Fault object.
+         *
+         * @param msgs A detail message about a fault that has been found.
+         */
+        public Fault(String... msgs) {
+            super(msgs[0]);
+            this.msgs = msgs;
+        }
+
+        /**
+         * Get the detail messages.
+         *
+         * @return the messages given when this exception was created.
+         */
+        public String[] getMessages() {
+            return msgs;
+        }
     }
 
     private static class ErrorObserver implements Agent.Observer {
+        private long lastNotRespondMsgTime = 0;
+        private int lastNotRespondMsgInterval =
+                max(Integer.getInteger("notResponding.message.interval", 60).intValue(), 10) * MILLIS_PER_SECOND;
+        private Class<?> connectExceptionClass;
+        private Class<?> unknownHostExceptionClass;
         ErrorObserver() {
             try {
                 connectExceptionClass = Class.forName("java.net.ConnectException", true, ClassLoader.getSystemClassLoader());
@@ -589,10 +592,6 @@ public class AgentMain {
             }
         }
 
-        private long lastNotRespondMsgTime = 0;
-        private int lastNotRespondMsgInterval =
-                max(Integer.getInteger("notResponding.message.interval", 60).intValue(), 10) * MILLIS_PER_SECOND;
-
         @Override
         public void finished(Agent agent) {
         }
@@ -624,8 +623,5 @@ public class AgentMain {
         @Override
         public void completed(Agent agent, Connection c) {
         }
-
-        private Class<?> connectExceptionClass;
-        private Class<?> unknownHostExceptionClass;
     }
 }

@@ -40,6 +40,17 @@ import java.io.PrintWriter;
 public class APIScript extends Script {
     /// XXX this code really needs to be re-visited!
 
+    private static final String TEST_COMPILE = "testCompile";
+
+    //----------private methods-------------------------------------------------
+    private static final String TEST_EXECUTE = "testExecute";
+
+    //----------member variables------------------------------------------------
+    private static final String
+            UNRECOGNIZED_ARG = "Unrecognized argument for script: ";
+    // special option to use compileIfNecessary
+    private String precompileClassDir;
+
     /**
      * The method that interprets the tags provided in the test description and
      * performs actions accordingly.
@@ -88,8 +99,6 @@ public class APIScript extends Script {
         return execute(TEST_EXECUTE, executeClass, executeArgs);
     } // run()
 
-    //----------private methods-------------------------------------------------
-
     private Status decodeArgs(String... args) {
         // decode args
         for (int i = 0; i < args.length; i++) {
@@ -102,15 +111,4 @@ public class APIScript extends Script {
 
         return null;
     } // init()
-
-    //----------member variables------------------------------------------------
-
-    private static final String TEST_COMPILE = "testCompile";
-    private static final String TEST_EXECUTE = "testExecute";
-
-    // special option to use compileIfNecessary
-    private String precompileClassDir;
-
-    private static final String
-            UNRECOGNIZED_ARG = "Unrecognized argument for script: ";
 }

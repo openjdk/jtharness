@@ -37,159 +37,30 @@ import java.util.TreeMap;
  * selectively printed, suitable for simple command line help.
  */
 public class HelpTree {
-    /**
-     * A node within a HelpTree.  A node has a name, a description,
-     * and zero or more child nodes.
-     */
-    public static class Node {
-
-        /**
-         * Create a node, with no children.
-         *
-         * @param name        the name for the node
-         * @param description the description for the node
-         */
-        public Node(String name, String description) {
-            this.name = name;
-            this.description = description;
+    private static final int ALL = 1;
+    private static final int ANY = 2;
+    private Node[] nodes;
+    private int nodeIndent = 4;
+    private int descriptionIndent = 16;
+    private Comparator<Node> nodeComparator = new Comparator<Node>() {
+        @Override
+        public int compare(Node n1, Node n2) {
+            int v = compareStrings(n1.name, n2.name);
+            return v != 0 ? v : compareStrings(n1.description, n2.description);
         }
 
-        /**
-         * Create a node, with given children.
-         *
-         * @param name        the name for the node
-         * @param description the description for the node
-         * @param children    the child nodes for the node
-         */
-        public Node(String name, String description, Node... children) {
-            this.name = name;
-            this.description = description;
-            this.children = children;
-        }
-
-        /**
-         * Create a node, with no children. The name and description are
-         * obtained from a resource bundle, using keys based on a common
-         * prefix. The key for the name will be <i>prefix</i>.name and
-         * the key for the description will be <i>prefix</i>.desc.
-         *
-         * @param i18n   the resource bundle from which to obtain the
-         *               name and description for the node.
-         * @param prefix the prefix for the names of the name and description
-         *               entries in the resource bundle.
-         */
-        public Node(I18NResourceBundle i18n, String prefix) {
-            name = i18n.getString(prefix + ".name");
-            description = i18n.getString(prefix + ".desc");
-        }
-
-        /**
-         * Create a node, with given children. The name and description are
-         * obtained from a resource bundle, using keys based on a common
-         * prefix. The key for the name will be <i>prefix</i>.name and
-         * the key for the description will be <i>prefix</i>.desc.
-         *
-         * @param i18n     the resource bundle from which to obtain the
-         *                 name and description for the node.
-         * @param prefix   the prefix for the names of the name and description
-         *                 entries in the resource bundle.
-         * @param children the child nodes for this node
-         */
-        public Node(I18NResourceBundle i18n, String prefix, Node... children) {
-            this(i18n, prefix);
-            this.children = children;
-        }
-
-        /**
-         * Create a node and its children. The name and description are
-         * obtained from a resource bundle, using keys based on a common
-         * prefix. The key for the name will be <i>prefix</i>.name and
-         * the key for the description will be <i>prefix</i>.desc.
-         * The children will each be created with no children of their
-         * own, using a prefix of <i>prefix</i>.<i>entry</i>.
-         *
-         * @param i18n    the resource bundle from which to obtain the
-         *                name and description for the node.
-         * @param prefix  the prefix for the names of the name and description
-         *                entries in the resource bundle.
-         * @param entries the array of <i>entry</i> names used to create
-         *                the child nodes.
-         */
-        public Node(I18NResourceBundle i18n, String prefix, String... entries) {
-            this(i18n, prefix);
-            children = new Node[entries.length];
-            for (int i = 0; i < children.length; i++) {
-                children[i] = new Node(i18n, prefix + '.' + entries[i]);
+        private int compareStrings(String s1, String s2) {
+            if (s1 == null && s2 == null) {
+                return 0;
             }
-        }
 
-        /**
-         * Get the name of this node.
-         *
-         * @return the name of this node
-         */
-        public final String getName() {
-            return name;
-        }
-
-        /**
-         * Get the description of this node.
-         *
-         * @return the description of this node
-         */
-        public final String getDescription() {
-            return description;
-        }
-
-        /**
-         * Get the number of children of this node.
-         *
-         * @return the number of children of this node
-         */
-        public int getChildCount() {
-            return children == null ? 0 : children.length;
-        }
-
-        /**
-         * Get a specified child of this node.
-         *
-         * @param i the index of the desired child
-         * @return the specified child of this node
-         */
-        public Node getChild(int i) {
-            if (i >= getChildCount()) {
-                throw new IllegalArgumentException();
+            if (s1 == null || s2 == null) {
+                return s1 == null ? -1 : +1;
             }
-            return children[i];
+
+            return s1.toLowerCase().compareTo(s2.toLowerCase());
         }
-
-        private String name;
-        private String description;
-        private Node[] children;
-    }
-
-    /**
-     * A selection of nodes within a HelpTree.
-     *
-     * @see HelpTree#find
-     */
-    public static class Selection {
-        private Selection(Node node) {
-            this(node, null);
-        }
-
-        private Selection(Map<Node, Selection> map) {
-            this(null, map);
-        }
-
-        private Selection(Node node, Map<Node, Selection> map) {
-            this.node = node;
-            this.map = map;
-        }
-
-        private Node node;
-        private Map<Node, Selection> map;
-    }
+    };
 
     /**
      * Create an empty HelpTree object.
@@ -426,16 +297,6 @@ public class HelpTree {
     }
 
     /**
-     * Sets the comparator which will be used in {@link #find(String[]) find} methods
-     * method
-     *
-     * @param comparator Comparator to set
-     */
-    public void setNodeComparator(Comparator<Node> comparator) {
-        nodeComparator = comparator;
-    }
-
-    /**
      * Returns current comparator used in {@link #find(String[]) find} methods
      * method
      *
@@ -443,6 +304,16 @@ public class HelpTree {
      */
     public Comparator<Node> getNodeComparator() {
         return nodeComparator;
+    }
+
+    /**
+     * Sets the comparator which will be used in {@link #find(String[]) find} methods
+     * method
+     *
+     * @param comparator Comparator to set
+     */
+    public void setNodeComparator(Comparator<Node> comparator) {
+        nodeComparator = comparator;
     }
 
     private void write(WrapWriter out, Map<Node, Selection> m) throws IOException {
@@ -535,31 +406,156 @@ public class HelpTree {
         return out instanceof WrapWriter ? (WrapWriter) out : new WrapWriter(out);
     }
 
-    private Node[] nodes;
+    /**
+     * A node within a HelpTree.  A node has a name, a description,
+     * and zero or more child nodes.
+     */
+    public static class Node {
 
-    private int nodeIndent = 4;
-    private int descriptionIndent = 16;
+        private String name;
+        private String description;
+        private Node[] children;
 
-    private static final int ALL = 1;
-    private static final int ANY = 2;
-
-    private Comparator<Node> nodeComparator = new Comparator<Node>() {
-        @Override
-        public int compare(Node n1, Node n2) {
-            int v = compareStrings(n1.name, n2.name);
-            return v != 0 ? v : compareStrings(n1.description, n2.description);
+        /**
+         * Create a node, with no children.
+         *
+         * @param name        the name for the node
+         * @param description the description for the node
+         */
+        public Node(String name, String description) {
+            this.name = name;
+            this.description = description;
         }
 
-        private int compareStrings(String s1, String s2) {
-            if (s1 == null && s2 == null) {
-                return 0;
-            }
-
-            if (s1 == null || s2 == null) {
-                return s1 == null ? -1 : +1;
-            }
-
-            return s1.toLowerCase().compareTo(s2.toLowerCase());
+        /**
+         * Create a node, with given children.
+         *
+         * @param name        the name for the node
+         * @param description the description for the node
+         * @param children    the child nodes for the node
+         */
+        public Node(String name, String description, Node... children) {
+            this.name = name;
+            this.description = description;
+            this.children = children;
         }
-    };
+
+        /**
+         * Create a node, with no children. The name and description are
+         * obtained from a resource bundle, using keys based on a common
+         * prefix. The key for the name will be <i>prefix</i>.name and
+         * the key for the description will be <i>prefix</i>.desc.
+         *
+         * @param i18n   the resource bundle from which to obtain the
+         *               name and description for the node.
+         * @param prefix the prefix for the names of the name and description
+         *               entries in the resource bundle.
+         */
+        public Node(I18NResourceBundle i18n, String prefix) {
+            name = i18n.getString(prefix + ".name");
+            description = i18n.getString(prefix + ".desc");
+        }
+
+        /**
+         * Create a node, with given children. The name and description are
+         * obtained from a resource bundle, using keys based on a common
+         * prefix. The key for the name will be <i>prefix</i>.name and
+         * the key for the description will be <i>prefix</i>.desc.
+         *
+         * @param i18n     the resource bundle from which to obtain the
+         *                 name and description for the node.
+         * @param prefix   the prefix for the names of the name and description
+         *                 entries in the resource bundle.
+         * @param children the child nodes for this node
+         */
+        public Node(I18NResourceBundle i18n, String prefix, Node... children) {
+            this(i18n, prefix);
+            this.children = children;
+        }
+
+        /**
+         * Create a node and its children. The name and description are
+         * obtained from a resource bundle, using keys based on a common
+         * prefix. The key for the name will be <i>prefix</i>.name and
+         * the key for the description will be <i>prefix</i>.desc.
+         * The children will each be created with no children of their
+         * own, using a prefix of <i>prefix</i>.<i>entry</i>.
+         *
+         * @param i18n    the resource bundle from which to obtain the
+         *                name and description for the node.
+         * @param prefix  the prefix for the names of the name and description
+         *                entries in the resource bundle.
+         * @param entries the array of <i>entry</i> names used to create
+         *                the child nodes.
+         */
+        public Node(I18NResourceBundle i18n, String prefix, String... entries) {
+            this(i18n, prefix);
+            children = new Node[entries.length];
+            for (int i = 0; i < children.length; i++) {
+                children[i] = new Node(i18n, prefix + '.' + entries[i]);
+            }
+        }
+
+        /**
+         * Get the name of this node.
+         *
+         * @return the name of this node
+         */
+        public final String getName() {
+            return name;
+        }
+
+        /**
+         * Get the description of this node.
+         *
+         * @return the description of this node
+         */
+        public final String getDescription() {
+            return description;
+        }
+
+        /**
+         * Get the number of children of this node.
+         *
+         * @return the number of children of this node
+         */
+        public int getChildCount() {
+            return children == null ? 0 : children.length;
+        }
+
+        /**
+         * Get a specified child of this node.
+         *
+         * @param i the index of the desired child
+         * @return the specified child of this node
+         */
+        public Node getChild(int i) {
+            if (i >= getChildCount()) {
+                throw new IllegalArgumentException();
+            }
+            return children[i];
+        }
+    }
+
+    /**
+     * A selection of nodes within a HelpTree.
+     *
+     * @see HelpTree#find
+     */
+    public static class Selection {
+        private Node node;
+        private Map<Node, Selection> map;
+
+        private Selection(Node node) {
+            this(node, null);
+        }
+
+        private Selection(Map<Node, Selection> map) {
+            this(null, map);
+        }
+        private Selection(Node node, Map<Node, Selection> map) {
+            this.node = node;
+            this.map = map;
+        }
+    }
 }

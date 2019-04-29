@@ -107,6 +107,52 @@ import java.util.logging.Logger;
 
 class LogViewer extends ToolDialog {
 
+    private static final String AUTOSCROLL_PREF = "logviewer.autoScroll";
+    private static final String WORDWRAP_PREF = "logviewer.wordWrap";
+    private static Set<Integer> windowList = new HashSet<>();
+    private final Level[] levels = {Level.SEVERE, Level.WARNING, Level.INFO, Level.FINE};
+    private final String[] levelNames =
+            {LoggerFactory.getLocalizedLevelName(Level.SEVERE),
+                    LoggerFactory.getLocalizedLevelName(Level.WARNING),
+                    LoggerFactory.getLocalizedLevelName(Level.INFO),
+                    LoggerFactory.getLocalizedLevelName(Level.FINE)};
+    private final int debug = 0;
+    private final int debugPages = 0;
+    private UIFactory uif;
+    private DefaultMutableTreeNode treeRoot;
+    private JComboBox<?> filterCombo;
+    private JTree filterTree;
+    private boolean noWindow = false;
+    private JLabel lblPageCounter;
+    private JButton btnFirst;
+    private JButton btnLast;
+    private JButton btnNext;
+    private JButton btnPrev;
+    private JCheckBox autoScrollCheckBox;
+    private JLabel counter;
+    private JLabel currPage;
+    private JButton btnSave;
+    private JButton btnClear;
+    private JPanel naviPanel;
+    private JScrollPane scrollPane;
+    private LogPane thePane;
+    private JLabel loggerCounter;
+    private JLabel pageCounter;
+    private JLabel processLabel;
+    private WorkDirectory workDir;
+    private Thread editorThread;
+    private StyledDocument doc;
+    private Style styleMsg, styleInfo, styleWarning, styleSevere, styleOther, styleWait, selected;
+    private FilteredLogModel model;
+    private Logger log;
+    private boolean autoScroll = true;
+    private FilterComboBoxListener filterComboBoxListener;
+    private JScrollPane filterTreeScroll;
+    private boolean wordWrap = false;
+    private Preferences prefs = Preferences.access();
+    private int windowCounter = 0;
+    private String working1;
+    private String working2;
     public LogViewer(WorkDirectory workDir, UIFactory uif, Component parent) {
         super(parent, uif, "logviewer");
         String fileName = workDir.getLogFileName();
@@ -582,103 +628,6 @@ class LogViewer extends ToolDialog {
         return ret;
     }
 
-    private class EditorFiller extends Thread {
-        EditorFiller(int from, int to, int pagenum) {
-            super("editorFiller");
-            this.from = from;
-            this.to = to;
-            this.pagenum = pagenum;
-        }
-
-        @Override
-        public void run() {
-            if (noWindow) {
-                return;
-            }
-            if (Thread.currentThread().isInterrupted()) {
-                return;
-            }
-            ArrayList<LogModel.LiteLogRecord> records = model.getRecords();
-            for (int i = from; i <= to && i < records.size() && i >= 0; i++) {
-                if (noWindow) {
-                    return;
-                }
-                LogModel.LiteLogRecord rec = records.get(i);
-                if (rec == null) {
-                    continue;
-                }
-                if (Thread.currentThread().isInterrupted()) {
-                    return;
-                }
-                final String msg = model.getRecordMessage(rec);
-                final int level = rec.severety;
-                String hd = rec.getHeader(model.getLogname(rec.loggerID));
-                final String header = debug > 1 ? "#" + (i + 1) + " " + hd : hd;
-                final String substr = model.getFilter().getSubstring();
-                final int iter = i;
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (noWindow) {
-                            return;
-                        }
-                        synchronized (thePane) {
-                            if (iter <= thePane.fromRec) {
-                                return;
-                            }
-                            thePane.page = pagenum;
-                            thePane.fromRec = iter;
-                        }
-                        try {
-                            int pos = doc.getEndPosition().getOffset() - 1;
-                            if (thePane.getCaret() == null) {
-                                thePane.setCaretPosition(0);
-                            }
-                            int oldPos = thePane.getCaretPosition();
-                            doc.insertString(pos, header, getStyle(level));
-                            doc.insertString(doc.getEndPosition().getOffset() - 1, "\n", getStyle(level));
-
-                            if (substr != null && !substr.isEmpty()) {
-                                String up = header.toUpperCase();
-                                int s = 0;
-                                int ss;
-                                while ((ss = up.indexOf(substr, s)) >= 0) {
-                                    doc.setCharacterAttributes(pos + ss, substr.length(), selected, false);
-                                    s += substr.length();
-                                }
-                            }
-                            pos = doc.getEndPosition().getOffset() - 1;
-                            doc.insertString(pos, msg, styleMsg);
-                            doc.insertString(doc.getEndPosition().getOffset() - 1, "\n", getStyle(level));
-
-                            if (substr != null && !substr.isEmpty()) {
-                                String up = msg.toUpperCase();
-                                int s = 0;
-                                int ss;
-                                while ((ss = up.indexOf(substr, s)) >= 0) {
-                                    doc.setCharacterAttributes(pos + ss, substr.length(), selected, false);
-                                    s += substr.length();
-                                }
-                            }
-                            thePane.setCaretPosition(oldPos);
-                            if (noWindow) {
-                                return;
-                            }
-                        } catch (BadLocationException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                });
-            }
-        }
-
-
-        private int pagenum;
-        private int to;
-        private int from;
-    }
-
-
     private void setRecords(int from, int to, int pagenum) {
         if (editorThread != null && editorThread.isAlive()) {
             editorThread.interrupt();
@@ -692,7 +641,6 @@ class LogViewer extends ToolDialog {
         editorThread.setPriority(Thread.MIN_PRIORITY);
         editorThread.start();
     }
-
 
     private void clearPane(final int from) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -712,7 +660,6 @@ class LogViewer extends ToolDialog {
         });
     }
 
-
     private Style getStyle(int level) {
         if (level < Level.INFO.intValue()) {
             return styleOther;
@@ -724,7 +671,6 @@ class LogViewer extends ToolDialog {
             return styleSevere;
         }
     }
-
 
     private void goLast(ActionEvent evt) {
         // it's important to put it to the end of the queue !
@@ -912,9 +858,245 @@ class LogViewer extends ToolDialog {
 
     }
 
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b);
+        if (!b) {
+            dispose();
+        }
+    }
+
+    @Override
+    public void dispose() {
+        removeWindowFromList();
+        if (noWindow) {
+            return;
+        }
+        noWindow = true;
+        model.dispose();
+        super.dispose();
+        try {
+            doc.remove(0, doc.getLength());
+        } catch (BadLocationException ex) {
+            ex.printStackTrace();
+        }
+        thePane = null;
+        doc = null;
+        model = null;
+        workDir = null;
+        scrollPane = null;
+        if (debug > 1 && log != null) {
+            log.info("LogViewer closed");
+        }
+        log = null;
+    }
+
+    private void removeWindowFromList() {
+        windowList.remove(windowCounter);
+    }
+
+    private void addWindowToList() {
+        for (int i = 1; i < Integer.MAX_VALUE; i++) {
+            if (!windowList.contains(i)) {
+                windowCounter = i;
+                windowList.add(i);
+                return;
+            }
+        }
+        windowCounter = 0;
+    }
+
+    private static class CheckBoxEditor extends DefaultTreeCellEditor {
+        CheckBoxEditor(JTree tree) {
+            super(tree, new DefaultTreeCellRenderer());
+        }
+
+        @Override
+        public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row) {
+            if (value instanceof DefaultMutableTreeNode) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+                Object o = node.getUserObject();
+                if (o instanceof JCheckBox) {
+                    JCheckBox cb = (JCheckBox) o;
+                    cb.setBackground(tree.getBackground());
+                    return cb;
+                }
+            }
+
+            return super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
+        }
+
+        // no expand/collaps !!
+        // edit this to change
+        @Override
+        public boolean isCellEditable(EventObject event) {
+            return true;
+        }
+
+    }
+
+    private static class CustomRenderer extends JComponent
+            implements ListCellRenderer<Object> {
+        @Override
+        public Component getListCellRendererComponent(
+                JList<?> list, Object value, int index, boolean isSelected,
+                boolean cellHasFocus) {
+            if (!(value instanceof JSeparator) && !(value instanceof JCheckBox)) {
+                DefaultListCellRenderer defRend = new DefaultListCellRenderer();
+                return defRend.getListCellRendererComponent(list, value, index,
+                        isSelected, cellHasFocus);
+            } else if (value instanceof JSeparator) {
+                return (JSeparator) value;
+            } else if (value instanceof JCheckBox) {
+                if (isSelected) {
+                    ((JCheckBox) value).setBackground(list.getSelectionBackground());
+                    ((JCheckBox) value).setForeground(list.getSelectionForeground());
+                } else {
+                    ((JCheckBox) value).setBackground(list.getBackground());
+                    ((JCheckBox) value).setForeground(list.getForeground());
+                }
+
+                return (JCheckBox) value;
+            }
+            return this;
+        }
+    }
+
+    private static class FilterTreeItem extends JCheckBox {
+        String logName;
+        int level;
+        public FilterTreeItem(String logName, int level, String levelName) {
+            super(levelName);
+            this.logName = logName;
+            this.level = level;
+        }
+    }
+
+    private static class FilterComboboxItem {
+
+        // true - select all / unselect all
+        // false - select particular level
+        boolean kind;
+        int level;
+        boolean select;
+        private String label;
+
+        public FilterComboboxItem(String txt, Level l) {
+            label = txt;
+            level = l.intValue();
+            kind = false;
+        }
+        public FilterComboboxItem(String txt, boolean s) {
+            label = txt;
+            select = s;
+            kind = true;
+        }
+
+        @Override
+        public String toString() {
+            return label;
+        }
+
+    }
+
+    private class EditorFiller extends Thread {
+        private int pagenum;
+        private int to;
+        private int from;
+        EditorFiller(int from, int to, int pagenum) {
+            super("editorFiller");
+            this.from = from;
+            this.to = to;
+            this.pagenum = pagenum;
+        }
+
+        @Override
+        public void run() {
+            if (noWindow) {
+                return;
+            }
+            if (Thread.currentThread().isInterrupted()) {
+                return;
+            }
+            ArrayList<LogModel.LiteLogRecord> records = model.getRecords();
+            for (int i = from; i <= to && i < records.size() && i >= 0; i++) {
+                if (noWindow) {
+                    return;
+                }
+                LogModel.LiteLogRecord rec = records.get(i);
+                if (rec == null) {
+                    continue;
+                }
+                if (Thread.currentThread().isInterrupted()) {
+                    return;
+                }
+                final String msg = model.getRecordMessage(rec);
+                final int level = rec.severety;
+                String hd = rec.getHeader(model.getLogname(rec.loggerID));
+                final String header = debug > 1 ? "#" + (i + 1) + " " + hd : hd;
+                final String substr = model.getFilter().getSubstring();
+                final int iter = i;
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (noWindow) {
+                            return;
+                        }
+                        synchronized (thePane) {
+                            if (iter <= thePane.fromRec) {
+                                return;
+                            }
+                            thePane.page = pagenum;
+                            thePane.fromRec = iter;
+                        }
+                        try {
+                            int pos = doc.getEndPosition().getOffset() - 1;
+                            if (thePane.getCaret() == null) {
+                                thePane.setCaretPosition(0);
+                            }
+                            int oldPos = thePane.getCaretPosition();
+                            doc.insertString(pos, header, getStyle(level));
+                            doc.insertString(doc.getEndPosition().getOffset() - 1, "\n", getStyle(level));
+
+                            if (substr != null && !substr.isEmpty()) {
+                                String up = header.toUpperCase();
+                                int s = 0;
+                                int ss;
+                                while ((ss = up.indexOf(substr, s)) >= 0) {
+                                    doc.setCharacterAttributes(pos + ss, substr.length(), selected, false);
+                                    s += substr.length();
+                                }
+                            }
+                            pos = doc.getEndPosition().getOffset() - 1;
+                            doc.insertString(pos, msg, styleMsg);
+                            doc.insertString(doc.getEndPosition().getOffset() - 1, "\n", getStyle(level));
+
+                            if (substr != null && !substr.isEmpty()) {
+                                String up = msg.toUpperCase();
+                                int s = 0;
+                                int ss;
+                                while ((ss = up.indexOf(substr, s)) >= 0) {
+                                    doc.setCharacterAttributes(pos + ss, substr.length(), selected, false);
+                                    s += substr.length();
+                                }
+                            }
+                            thePane.setCaretPosition(oldPos);
+                            if (noWindow) {
+                                return;
+                            }
+                        } catch (BadLocationException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }
+    }
 
     private class LogEditorKit extends StyledEditorKit {
 
+
+        ViewFactory fact;
 
         @Override
         public ViewFactory getViewFactory() {
@@ -923,8 +1105,6 @@ class LogViewer extends ToolDialog {
             }
             return fact;
         }
-
-        ViewFactory fact;
 
         class NoWrapLabelView extends LabelView {
             public NoWrapLabelView(Element elem) {
@@ -978,37 +1158,10 @@ class LogViewer extends ToolDialog {
         }
     }
 
-    private static class CheckBoxEditor extends DefaultTreeCellEditor {
-        CheckBoxEditor(JTree tree) {
-            super(tree, new DefaultTreeCellRenderer());
-        }
-
-        @Override
-        public Component getTreeCellEditorComponent(JTree tree, Object value, boolean isSelected, boolean expanded, boolean leaf, int row) {
-            if (value instanceof DefaultMutableTreeNode) {
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
-                Object o = node.getUserObject();
-                if (o instanceof JCheckBox) {
-                    JCheckBox cb = (JCheckBox) o;
-                    cb.setBackground(tree.getBackground());
-                    return cb;
-                }
-            }
-
-            return super.getTreeCellEditorComponent(tree, value, isSelected, expanded, leaf, row);
-        }
-
-        // no expand/collaps !!
-        // edit this to change
-        @Override
-        public boolean isCellEditable(EventObject event) {
-            return true;
-        }
-
-    }
-
     private class CheckBoxRenderer extends JCheckBox
             implements TreeCellRenderer {
+
+        DefaultTreeCellRenderer defRend = new DefaultTreeCellRenderer();
 
         public CheckBoxRenderer() {
             super();
@@ -1034,36 +1187,6 @@ class LogViewer extends ToolDialog {
             return defRend.getTreeCellRendererComponent(tree,
                     value, isSelected, expanded, leaf, row, hasFocus);
         }
-
-        DefaultTreeCellRenderer defRend = new DefaultTreeCellRenderer();
-    }
-
-
-    private static class CustomRenderer extends JComponent
-            implements ListCellRenderer<Object> {
-        @Override
-        public Component getListCellRendererComponent(
-                JList<?> list, Object value, int index, boolean isSelected,
-                boolean cellHasFocus) {
-            if (!(value instanceof JSeparator) && !(value instanceof JCheckBox)) {
-                DefaultListCellRenderer defRend = new DefaultListCellRenderer();
-                return defRend.getListCellRendererComponent(list, value, index,
-                        isSelected, cellHasFocus);
-            } else if (value instanceof JSeparator) {
-                return (JSeparator) value;
-            } else if (value instanceof JCheckBox) {
-                if (isSelected) {
-                    ((JCheckBox) value).setBackground(list.getSelectionBackground());
-                    ((JCheckBox) value).setForeground(list.getSelectionForeground());
-                } else {
-                    ((JCheckBox) value).setBackground(list.getBackground());
-                    ((JCheckBox) value).setForeground(list.getForeground());
-                }
-
-                return (JCheckBox) value;
-            }
-            return this;
-        }
     }
 
     private class LoggersTreeModel extends DefaultTreeModel {
@@ -1088,6 +1211,10 @@ class LogViewer extends ToolDialog {
                                 chh.setSelected(true);
                                 final int level = levels[i].intValue();
                                 chh.addItemListener(new ItemListener() {
+                                    JCheckBox box;
+                                    int l;
+                                    String logName;
+
                                     {
                                         box = chh;
                                         l = level;
@@ -1098,10 +1225,6 @@ class LogViewer extends ToolDialog {
                                     public void itemStateChanged(ItemEvent e) {
                                         model.getFilter().enableLogger(logName, l, box.isSelected());
                                     }
-
-                                    JCheckBox box;
-                                    int l;
-                                    String logName;
                                 });
                                 ch.addChild(chh);
                                 DefaultMutableTreeNode node = new DefaultMutableTreeNode(chh);
@@ -1126,6 +1249,8 @@ class LogViewer extends ToolDialog {
     }
 
     private class PropagatedCheckBox extends JCheckBox {
+        private List<JCheckBox> children = new ArrayList<>();
+
         PropagatedCheckBox(String name) {
             super(name);
             this.addItemListener(new ItemListener() {
@@ -1156,54 +1281,11 @@ class LogViewer extends ToolDialog {
         public void addChild(JCheckBox ch) {
             children.add(ch);
         }
-
-        private List<JCheckBox> children = new ArrayList<>();
     }
-
-
-    private static class FilterTreeItem extends JCheckBox {
-        public FilterTreeItem(String logName, int level, String levelName) {
-            super(levelName);
-            this.logName = logName;
-            this.level = level;
-        }
-
-        String logName;
-        int level;
-    }
-
-    private static class FilterComboboxItem {
-
-        public FilterComboboxItem(String txt, Level l) {
-            label = txt;
-            level = l.intValue();
-            kind = false;
-        }
-
-        public FilterComboboxItem(String txt, boolean s) {
-            label = txt;
-            select = s;
-            kind = true;
-        }
-
-
-        @Override
-        public String toString() {
-            return label;
-        }
-
-        // true - select all / unselect all
-        // false - select particular level
-        boolean kind;
-
-        private String label;
-        int level;
-        boolean select;
-
-    }
-
 
     private class FilterComboBoxListener implements ActionListener {
+        private LoggersTreeModel model;
+
         public FilterComboBoxListener(LoggersTreeModel m) {
             model = m;
         }
@@ -1249,56 +1331,6 @@ class LogViewer extends ToolDialog {
             }
         }
 
-        private LoggersTreeModel model;
-
-    }
-
-    @Override
-    public void setVisible(boolean b) {
-        super.setVisible(b);
-        if (!b) {
-            dispose();
-        }
-    }
-
-    @Override
-    public void dispose() {
-        removeWindowFromList();
-        if (noWindow) {
-            return;
-        }
-        noWindow = true;
-        model.dispose();
-        super.dispose();
-        try {
-            doc.remove(0, doc.getLength());
-        } catch (BadLocationException ex) {
-            ex.printStackTrace();
-        }
-        thePane = null;
-        doc = null;
-        model = null;
-        workDir = null;
-        scrollPane = null;
-        if (debug > 1 && log != null) {
-            log.info("LogViewer closed");
-        }
-        log = null;
-    }
-
-    private void removeWindowFromList() {
-        windowList.remove(windowCounter);
-    }
-
-    private void addWindowToList() {
-        for (int i = 1; i < Integer.MAX_VALUE; i++) {
-            if (!windowList.contains(i)) {
-                windowCounter = i;
-                windowList.add(i);
-                return;
-            }
-        }
-        windowCounter = 0;
     }
 
     private class LV_Scroller extends Thread {
@@ -1371,61 +1403,5 @@ class LogViewer extends ToolDialog {
             }
         }
     }
-
-    private UIFactory uif;
-
-    private final Level[] levels = {Level.SEVERE, Level.WARNING, Level.INFO, Level.FINE};
-    private final String[] levelNames =
-            {LoggerFactory.getLocalizedLevelName(Level.SEVERE),
-                    LoggerFactory.getLocalizedLevelName(Level.WARNING),
-                    LoggerFactory.getLocalizedLevelName(Level.INFO),
-                    LoggerFactory.getLocalizedLevelName(Level.FINE)};
-
-    private DefaultMutableTreeNode treeRoot;
-    private JComboBox<?> filterCombo;
-    private JTree filterTree;
-
-    private boolean noWindow = false;
-    private JLabel lblPageCounter;
-    private JButton btnFirst;
-    private JButton btnLast;
-    private JButton btnNext;
-    private JButton btnPrev;
-    private JCheckBox autoScrollCheckBox;
-    private JLabel counter;
-    private JLabel currPage;
-    private JButton btnSave;
-    private JButton btnClear;
-    private JPanel naviPanel;
-    private JScrollPane scrollPane;
-    private LogPane thePane;
-    private JLabel loggerCounter;
-    private JLabel pageCounter;
-    private JLabel processLabel;
-    private WorkDirectory workDir;
-    private Thread editorThread;
-
-    private StyledDocument doc;
-    private Style styleMsg, styleInfo, styleWarning, styleSevere, styleOther, styleWait, selected;
-    private FilteredLogModel model;
-    private Logger log;
-
-    private final int debug = 0;
-    private final int debugPages = 0;
-    private boolean autoScroll = true;
-
-    private FilterComboBoxListener filterComboBoxListener;
-
-    private JScrollPane filterTreeScroll;
-
-    private boolean wordWrap = false;
-
-    private Preferences prefs = Preferences.access();
-    private static final String AUTOSCROLL_PREF = "logviewer.autoScroll";
-    private static final String WORDWRAP_PREF = "logviewer.wordWrap";
-    private int windowCounter = 0;
-    private static Set<Integer> windowList = new HashSet<>();
-    private String working1;
-    private String working2;
 
 }

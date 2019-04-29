@@ -188,6 +188,32 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
         setI18NTitle("serviceviewer.title");
     }
 
+    @Override
+    public void currentQuestionChanged(Question q) {
+    }
+
+    @Override
+    public void pathUpdated() {
+        ExecTool et = (ExecTool) parent;
+        mgr.setParameters(et.getInterviewParameters());
+    }
+
+    enum Status {
+        ALIVE("Running..."), NOT_ALIVE("Stopped"),
+        NOT_CONNECTED("Not Connected"), ERROR("Error");
+
+        private String str;
+
+        Status(String str) {
+            this.str = str;
+        }
+
+        @Override
+        public String toString() {
+            return str;
+        }
+    }
+
     private class ServicesTableModel extends DefaultTableModel {
         private String[] names = {"ID", "Description", "Status"};
         private Status[] stats = new Status[getRowCount()];
@@ -255,32 +281,6 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
         public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
             stats[rowIndex] = (Status) aValue;
         }
-    }
-
-    enum Status {
-        ALIVE("Running..."), NOT_ALIVE("Stopped"),
-        NOT_CONNECTED("Not Connected"), ERROR("Error");
-
-        private String str;
-
-        Status(String str) {
-            this.str = str;
-        }
-
-        @Override
-        public String toString() {
-            return str;
-        }
-    }
-
-    @Override
-    public void currentQuestionChanged(Question q) {
-    }
-
-    @Override
-    public void pathUpdated() {
-        ExecTool et = (ExecTool) parent;
-        mgr.setParameters(et.getInterviewParameters());
     }
 
 

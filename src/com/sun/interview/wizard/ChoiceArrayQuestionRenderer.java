@@ -53,6 +53,13 @@ import java.awt.event.KeyListener;
 public class ChoiceArrayQuestionRenderer
         implements QuestionRenderer {
 
+    protected static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    protected String[] displayChoices;
+    protected boolean[] values;
+    protected ChoiceArrayQuestion q;
+    protected ActionListener editedListener;
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         q = (ChoiceArrayQuestion) qq;
@@ -131,9 +138,49 @@ public class ChoiceArrayQuestionRenderer
         return 22;
     }
 
-
     protected AbstractTableModel createTableModel() {
         return new TestTableModel();
+    }
+
+    protected KeyListener createKeyListener(AbstractTableModel tm) {
+        return new TestKeyListener(tm);
+    }
+
+    protected void fireEditedEvent(Object src, ActionListener l) {
+        ActionEvent e = new ActionEvent(src,
+                ActionEvent.ACTION_PERFORMED,
+                EDITED);
+        l.actionPerformed(e);
+    }
+
+    protected static class TestKeyListener extends KeyAdapter {
+        protected AbstractTableModel tm;
+
+        public TestKeyListener(AbstractTableModel tm) {
+            this.tm = tm;
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_A) {
+                boolean allSelected = true;
+                for (int i = 0; i < tm.getRowCount(); i++) {
+                    if (tm.getValueAt(i, 0).equals(new Boolean(false))) {
+                        allSelected = false;
+                        break;
+                    }
+
+                }
+                for (int i = 0; i < tm.getRowCount(); i++) {
+                    tm.setValueAt(new Boolean(!allSelected), i, 0);
+                    TableModelEvent ev = new TableModelEvent(tm, i, i,
+                            TableModelEvent.ALL_COLUMNS,
+                            TableModelEvent.UPDATE);
+                    tm.fireTableChanged(ev);
+                }
+            }
+
+        }
     }
 
     protected class TestTableModel extends AbstractTableModel {
@@ -171,55 +218,5 @@ public class ChoiceArrayQuestionRenderer
             return c == 0 ? true : false;
         }
     }
-
-    protected KeyListener createKeyListener(AbstractTableModel tm) {
-        return new TestKeyListener(tm);
-    }
-
-    protected static class TestKeyListener extends KeyAdapter {
-        public TestKeyListener(AbstractTableModel tm) {
-            this.tm = tm;
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_A) {
-                boolean allSelected = true;
-                for (int i = 0; i < tm.getRowCount(); i++) {
-                    if (tm.getValueAt(i, 0).equals(new Boolean(false))) {
-                        allSelected = false;
-                        break;
-                    }
-
-                }
-                for (int i = 0; i < tm.getRowCount(); i++) {
-                    tm.setValueAt(new Boolean(!allSelected), i, 0);
-                    TableModelEvent ev = new TableModelEvent(tm, i, i,
-                            TableModelEvent.ALL_COLUMNS,
-                            TableModelEvent.UPDATE);
-                    tm.fireTableChanged(ev);
-                }
-            }
-
-        }
-
-        protected AbstractTableModel tm;
-    }
-
-    protected String[] displayChoices;
-    protected boolean[] values;
-    protected ChoiceArrayQuestion q;
-    protected ActionListener editedListener;
-
-
-    protected void fireEditedEvent(Object src, ActionListener l) {
-        ActionEvent e = new ActionEvent(src,
-                ActionEvent.ACTION_PERFORMED,
-                EDITED);
-        l.actionPerformed(e);
-    }
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
-    protected static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
 
 }

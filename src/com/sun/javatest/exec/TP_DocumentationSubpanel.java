@@ -39,6 +39,10 @@ import java.net.URL;
 
 public class TP_DocumentationSubpanel extends TP_Subpanel {
 
+    private FilesPane filesPane;
+    private JPanel emptyPane;
+    private URL[] filelist;
+
     /**
      * Creates a new instance of TP_DocumentationSubpanel
      */
@@ -86,8 +90,4 @@ public class TP_DocumentationSubpanel extends TP_Subpanel {
             this.add(p, BorderLayout.CENTER);
         }
     }
-
-    private FilesPane filesPane;
-    private JPanel emptyPane;
-    private URL[] filelist;
 }

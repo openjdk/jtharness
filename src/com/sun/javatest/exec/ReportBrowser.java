@@ -45,6 +45,14 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 
 class ReportBrowser extends ToolDialog {
+    private ExecModel model;
+    private ReportHandler reportHandler;
+    private FilesPane fp;
+    private File reportFile;
+
+    //------------------------------------------------------------------------------
+
+
     public ReportBrowser(JComponent parent, ExecModel model, UIFactory uif, ReportHandler rh) {
         super(parent, uif, "rb");
         this.model = model;
@@ -58,6 +66,10 @@ class ReportBrowser extends ToolDialog {
         } catch (IOException e) {
             uif.showError("rb.load.error", f, e);
         }
+    }
+
+    File getSelectedFile() {
+        return reportFile;
     }
 
     void setSelectedFile(File f) throws IOException {
@@ -76,13 +88,6 @@ class ReportBrowser extends ToolDialog {
         fp.setBaseDirectory(f);
         fp.setFile(f.toURL());
     }
-
-    File getSelectedFile() {
-        return reportFile;
-    }
-
-    //------------------------------------------------------------------------------
-
 
     @Override
     protected void initGUI() {
@@ -117,7 +122,6 @@ class ReportBrowser extends ToolDialog {
         }
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
     }
-
 
     private JMenu createFileMenu(ReportHandler reportHandler) {
         Action newReport = reportHandler.getNewReportAction();
@@ -165,10 +169,5 @@ class ReportBrowser extends ToolDialog {
     private void cleanup() {
         fp.clear();
     }
-
-    private ExecModel model;
-    private ReportHandler reportHandler;
-    private FilesPane fp;
-    private File reportFile;
 
 }

@@ -61,15 +61,6 @@ class XMLReportReader {
     private static final String JAXP_SCHEMA_SOURCE =
             "http://java.sun.com/xml/jaxp/properties/schemaSource";
 
-    Map<Object, Object> readIDs(File file) throws SAXException, IOException, ParserConfigurationException {
-        XMLReader reader = XMLReportReader.createXMLReader(true);
-        IDHandler handler = new IDHandler();
-        reader.setContentHandler(handler);
-        reader.parse(new InputSource(file.getAbsolutePath()));
-
-        return handler.getMap();
-    }
-
     static XMLReader createXMLReader(boolean validating) throws SAXException, ParserConfigurationException {
         SAXParserFactory fact = SAXParserFactory.newInstance();
         fact.setValidating(validating);
@@ -103,6 +94,14 @@ class XMLReportReader {
         return reader;
     }
 
+    Map<Object, Object> readIDs(File file) throws SAXException, IOException, ParserConfigurationException {
+        XMLReader reader = XMLReportReader.createXMLReader(true);
+        IDHandler handler = new IDHandler();
+        reader.setContentHandler(handler);
+        reader.parse(new InputSource(file.getAbsolutePath()));
+
+        return handler.getMap();
+    }
 
     private static class IDHandler extends DefaultHandler {
         private Map<Object, Object> map = new HashMap<>();

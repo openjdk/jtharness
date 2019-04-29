@@ -66,23 +66,19 @@ import java.util.Hashtable;
  * which the user will select one (the "active" one).
  */
 public class FilterConfig {
-    /**
-     * Observe changes to the state of the view.  The changes to the view state
-     * will generally be the result of user actions.
-     */
-    public interface Observer {
-        /**
-         * The state of the given filter has changed.
-         */
-        void filterUpdated(TestFilter f);
-
-        void filterAdded(TestFilter f);
-
-        /**
-         * Removing the active filter will result in an exception.
-         */
-        void filterRemoved(TestFilter f);
-    }
+    private static boolean debug = Debug.getBoolean(FilterConfig.class);
+    // too much overhead to impl. all the methods if we use a Vector
+    // we'll accept the hit when we add a new filter, which isn't that
+    // often
+    private TestFilter[] filters = new TestFilter[0];
+    private UIFactory uif;
+    private ExecModel execModel;
+    private Listener listener = new Listener();
+    private Observer[] obs = new Observer[0];
+    private FilterSelectionHandler[] handlers;
+    //private JDialog editDialog;
+    private FilterEditorPanel fep;
+    private JComponent parentComponent;
 
     public FilterConfig(ExecModel e, JComponent parent, UIFactory uif) {
         // load default filters here instead of ExecTool to avoid instantiating
@@ -282,6 +278,23 @@ public class FilterConfig {
     synchronized void hideEditorDialog(Frame parent) {
         fep.setVisible(false);
     }
+    /**
+     * Observe changes to the state of the view.  The changes to the view state
+     * will generally be the result of user actions.
+     */
+    public interface Observer {
+        /**
+         * The state of the given filter has changed.
+         */
+        void filterUpdated(TestFilter f);
+
+        void filterAdded(TestFilter f);
+
+        /**
+         * Removing the active filter will result in an exception.
+         */
+        void filterRemoved(TestFilter f);
+    }
 
     private class Listener
             extends ComponentAdapter
@@ -298,25 +311,49 @@ public class FilterConfig {
         }
     }
 
-    // too much overhead to impl. all the methods if we use a Vector
-    // we'll accept the hit when we add a new filter, which isn't that
-    // often
-    private TestFilter[] filters = new TestFilter[0];
-    private UIFactory uif;
-    private ExecModel execModel;
-    private Listener listener = new Listener();
-    private Observer[] obs = new Observer[0];
-    private FilterSelectionHandler[] handlers;
-
-    //private JDialog editDialog;
-    private FilterEditorPanel fep;
-    private JComponent parentComponent;
-
-    private static boolean debug = Debug.getBoolean(FilterConfig.class);
-
     private class FilterEditorPanel
             extends ToolDialog
             implements ListSelectionListener, ActionListener {
+        //private boolean focusSet;
+        private static final int EDITABLE = 0;
+        private static final int UNEDITABLE = 1;
+        private static final String CONFIG_ACTIVE = "configa";
+        private static final String CONFIG_EMPTY = "confige";
+        private static final String NAMING_ACTIVE = "naminga";
+        private static final String NAMING_EMPTY = "naminge";
+        private static final String INFO_ACTIVE = "infoa";
+        private static final String INFO_EMPTY = "infoe";
+        private JSplitPane split;
+        private JList<TestFilter> leftList;
+        private DefaultListModel<TestFilter> listModel;
+        private int lastSelected = -1;
+        private TestFilter selectedFilter;
+        // just to help track current state
+        private int mode;
+        // dialog buttons
+        private JButton applyBut;
+        private JButton helpBut;
+        private JButton doneBut;
+        private JButton cancelBut;
+        private JButton createBut;
+        private JButton deleteBut;
+        private JButton resetBut;
+        // info panel components
+        private JTextArea infoDesc;
+        private JTextField infoName;
+        // naming panel
+        private CardLayout nameCards;
+        private JPanel namePanel;
+        private JTextField namingName;
+        // config panel
+        private CardLayout configCards;
+        private JPanel configPanel;
+        private Hashtable<ConfigurableTestFilter, String> configPanelHash;
+        private int configCounter;          // to make a unique string
+        private JComponent EMPTY_CONFIG;
+        private JComponent EMPTY_NAMING;
+        private JComponent EMPTY_INFO;
+        private int NUMBER;
         FilterEditorPanel(Component parent, UIFactory uif) {
             super(parent, uif, "fconfig");
         }
@@ -396,6 +433,7 @@ public class FilterConfig {
                 selectedFilter = f;
             }
         }
+        //private JTextArea infoReason;
 
         // ListSelectionListener
         @Override
@@ -834,56 +872,6 @@ public class FilterConfig {
 
             return -1;
         }
-
-        private JSplitPane split;
-        private JList<TestFilter> leftList;
-        private DefaultListModel<TestFilter> listModel;
-        private int lastSelected = -1;
-        private TestFilter selectedFilter;
-
-        // just to help track current state
-        private int mode;
-        //private boolean focusSet;
-        private static final int EDITABLE = 0;
-        private static final int UNEDITABLE = 1;
-
-        // dialog buttons
-        private JButton applyBut;
-        private JButton helpBut;
-        private JButton doneBut;
-        private JButton cancelBut;
-        private JButton createBut;
-        private JButton deleteBut;
-        private JButton resetBut;
-
-        // info panel components
-        private JTextArea infoDesc;
-        private JTextField infoName;
-        //private JTextArea infoReason;
-
-        // naming panel
-        private CardLayout nameCards;
-        private JPanel namePanel;
-        private JTextField namingName;
-
-        // config panel
-        private CardLayout configCards;
-        private JPanel configPanel;
-        private Hashtable<ConfigurableTestFilter, String> configPanelHash;
-        private int configCounter;          // to make a unique string
-
-        private JComponent EMPTY_CONFIG;
-        private JComponent EMPTY_NAMING;
-        private JComponent EMPTY_INFO;
-
-        private int NUMBER;
-
-        private static final String CONFIG_ACTIVE = "configa";
-        private static final String CONFIG_EMPTY = "confige";
-        private static final String NAMING_ACTIVE = "naminga";
-        private static final String NAMING_EMPTY = "naminge";
-        private static final String INFO_ACTIVE = "infoa";
-        private static final String INFO_EMPTY = "infoe";
     }
 
 }

@@ -56,55 +56,17 @@ import java.lang.reflect.Method;
  */
 public class MultiTest implements Test {
     /**
-     * This exception is thrown when a problem occurs initializing the test.
-     * It may also be used to indicate that the test is not applicable in the
-     * current circumstances and should not be run.
+     * Output to be logged to result file.
      */
-    public static class SetupException extends Exception {
-        /**
-         * Construct a new SetupException object that signals failure
-         * with a corresponding message.
-         *
-         * @param s the string containing a comment
-         */
-        public SetupException(String s) {
-            super(s);
-        }
-
-        /**
-         * Creates a SetupException object which indicates that
-         * this test is not applicable. The cases when it is needed
-         * are rare, so please think twice whether you really need it.
-         *
-         * @param msg a detail string, explaining why the test is "not applicable".
-         * @return an exception object that indicates the test should not be run
-         * because it is not applicable.
-         */
-        public static SetupException notApplicable(String msg) {
-            SetupException e = new SetupException("Test not applicable: " + msg);
-            e.passed = true;
-            return e;
-        }
-
-        /**
-         * Determines whether this SetupException signals failure or not.
-         *
-         * @return true if and only if the test is not applicable and should be
-         * deemed to have "passed, by default".
-         */
-        public boolean isPassed() {
-            return passed;
-
-        }
-
-        /**
-         * Indicate whether this exception was the result of calling {@link #notApplicable}.
-         *
-         * @serial
-         */
-        private boolean passed = false;
-    }
-
+    protected PrintWriter ref;
+    /**
+     * Output to be logged to result file.
+     */
+    protected PrintWriter log;
+    // the set of test cases to be executed
+    private TestCases testCases;
+    // may be set if SetupException is thrown during decodeArgs() or init
+    private boolean testNotApplicable;
 
     /**
      * Run the test cases contained in this object. The test cases are determined
@@ -159,7 +121,6 @@ public class MultiTest implements Test {
             pwRef.flush();
         }
     }
-
 
     /**
      * Initialize the test from the given arguments. The arguments will
@@ -286,19 +247,53 @@ public class MultiTest implements Test {
         return (Status) m.invoke(this, testArgs);
     }
 
-    // the set of test cases to be executed
-    private TestCases testCases;
-
-    // may be set if SetupException is thrown during decodeArgs() or init
-    private boolean testNotApplicable;
-
     /**
-     * Output to be logged to result file.
+     * This exception is thrown when a problem occurs initializing the test.
+     * It may also be used to indicate that the test is not applicable in the
+     * current circumstances and should not be run.
      */
-    protected PrintWriter ref;
+    public static class SetupException extends Exception {
+        /**
+         * Indicate whether this exception was the result of calling {@link #notApplicable}.
+         *
+         * @serial
+         */
+        private boolean passed = false;
 
-    /**
-     * Output to be logged to result file.
-     */
-    protected PrintWriter log;
+        /**
+         * Construct a new SetupException object that signals failure
+         * with a corresponding message.
+         *
+         * @param s the string containing a comment
+         */
+        public SetupException(String s) {
+            super(s);
+        }
+
+        /**
+         * Creates a SetupException object which indicates that
+         * this test is not applicable. The cases when it is needed
+         * are rare, so please think twice whether you really need it.
+         *
+         * @param msg a detail string, explaining why the test is "not applicable".
+         * @return an exception object that indicates the test should not be run
+         * because it is not applicable.
+         */
+        public static SetupException notApplicable(String msg) {
+            SetupException e = new SetupException("Test not applicable: " + msg);
+            e.passed = true;
+            return e;
+        }
+
+        /**
+         * Determines whether this SetupException signals failure or not.
+         *
+         * @return true if and only if the test is not applicable and should be
+         * deemed to have "passed, by default".
+         */
+        public boolean isPassed() {
+            return passed;
+
+        }
+    }
 }

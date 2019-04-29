@@ -56,6 +56,11 @@ import java.util.HashMap;
  * @see com.sun.javatest.TestDescription
  */
 public class JUnitAnnotationTestFinder extends JUnitTestFinder {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(JUnitAnnotationTestFinder.class);
+    protected String currMethod;
+    protected String methodAnnotation = "Lorg/junit/Test;";
+
+
     /**
      * Constructs the list of file names to exclude for pruning in the search
      * for files to examine for test descriptions.
@@ -63,6 +68,8 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
     public JUnitAnnotationTestFinder() {
         exclude(excludeNames);
     }
+
+    //-----internal routines----------------------------------------------------
 
     /**
      * Decode the arg at a specified position in the arg array.  If overridden
@@ -102,7 +109,6 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
         }
     }
 
-
     /**
      * Call to register the methods which are test methods.
      */
@@ -110,8 +116,6 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
     public void foundTestMethod(String name) {
         testMethods.add(name);
     }
-
-    //-----internal routines----------------------------------------------------
 
     /**
      * Scan a directory, looking for more files to scan
@@ -151,6 +155,8 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
             }
         }
     }
+
+    //----------member variables------------------------------------------------
 
     /**
      * Scan a file, looking for comments and in the comments, for test
@@ -278,11 +284,5 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
             }
         }
     }
-
-    //----------member variables------------------------------------------------
-
-    protected String currMethod;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(JUnitAnnotationTestFinder.class);
-    protected String methodAnnotation = "Lorg/junit/Test;";
 }
 

@@ -31,6 +31,15 @@ import com.sun.interview.FileFilter;
 import java.io.File;
 
 class SwingFileFilter extends javax.swing.filechooser.FileFilter {
+    FileFilter filter;
+
+    SwingFileFilter(FileFilter ff) {
+        if (ff == null) {
+            throw new NullPointerException();
+        }
+        filter = ff;
+    }
+
     static javax.swing.filechooser.FileFilter wrap(FileFilter f) {
         return new SwingFileFilter(f);
     }
@@ -43,13 +52,6 @@ class SwingFileFilter extends javax.swing.filechooser.FileFilter {
         }
     }
 
-    SwingFileFilter(FileFilter ff) {
-        if (ff == null) {
-            throw new NullPointerException();
-        }
-        filter = ff;
-    }
-
     @Override
     public boolean accept(File f) {
         return f.isDirectory() || filter.accept(f);
@@ -59,6 +61,4 @@ class SwingFileFilter extends javax.swing.filechooser.FileFilter {
     public String getDescription() {
         return filter.getDescription();
     }
-
-    FileFilter filter;
 }

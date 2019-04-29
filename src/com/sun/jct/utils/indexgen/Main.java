@@ -74,12 +74,74 @@ import java.util.Vector;
  * sorted set of index entries and their references.
  */
 public class Main {
+    private static Iterator<Node> nullIterator = new Iterator<Node>() {
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public Node next() {
+            return null;
+        }
+
+        @Override
+        public void remove() {
+        }
+    };
+    private File[] path;
+    private File[] inFiles;
+    private File htmlOutFile;
+    private File mapOutFile;
+    private File mapDir;
+    private File xmlOutFile;
+    private Reader in;
+    private int c;
+    private int line;
+    private File currFile;
+    private String currName;
+    private Node root;
+    private Comparator<Node> indexComparator = new Comparator<Node>() {
+        @Override
+        public int compare(Node n1, Node n2) {
+            return n1.getName().compareToIgnoreCase(n2.getName());
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            return false;
+        }
+    };
+
+    public Main() {
+    }
+
     /**
-     * An exception to report bad command line arguments.
+     * Create an object based on command line args.
+     * It is an error if no input files or no output file is given.
+     *
+     * @param args Command line args.
+     * @throws Main.BadArgs if problems are found in the given arguments.
+     * @see #main
      */
-    public static class BadArgs extends Exception {
-        BadArgs(String msg) {
-            super(msg);
+    public Main(String... args) {
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equalsIgnoreCase("-htmlout") && i + 1 < args.length) {
+                htmlOutFile = new File(args[++i]);
+            } else if (args[i].equalsIgnoreCase("-xmlout") && i + 1 < args.length) {
+                xmlOutFile = new File(args[++i]);
+            } else if (args[i].equalsIgnoreCase("-mapout") && i + 1 < args.length) {
+                mapOutFile = new File(args[++i]);
+            } else if (args[i].equalsIgnoreCase("-mapdir") && i + 1 < args.length) {
+                mapDir = new File(args[++i]);
+            } else if (args[i].equalsIgnoreCase("-srcPath") && i + 1 < args.length) {
+                path = splitPath(args[++i]);
+            } else {
+                inFiles = new File[args.length - i];
+                for (int j = 0; j < inFiles.length; j++) {
+                    inFiles[j] = new File(args[i++]);
+                }
+            }
         }
     }
 
@@ -129,74 +191,157 @@ public class Main {
         out.println("        HTML files and directories.");
     }
 
-    public Main() {
+    private static String escape(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            switch (s.charAt(i)) {
+                case '<':
+                case '>':
+                case '&':
+                    StringBuilder sb = new StringBuilder(s.length() * 2);
+                    for (int j = 0; j < s.length(); j++) {
+                        char c = s.charAt(j);
+                        switch (c) {
+                            case '<':
+                                sb.append("&lt;");
+                                break;
+                            case '>':
+                                sb.append("&gt;");
+                                break;
+                            case '&':
+                                sb.append("&amp;");
+                                break;
+                            default:
+                                sb.append(c);
+                        }
+                    }
+                    return sb.toString();
+            }
+        }
+        return s;
     }
 
-    /**
-     * Create an object based on command line args.
-     * It is an error if no input files or no output file is given.
-     *
-     * @param args Command line args.
-     * @throws Main.BadArgs if problems are found in the given arguments.
-     * @see #main
-     */
-    public Main(String... args) {
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equalsIgnoreCase("-htmlout") && i + 1 < args.length) {
-                htmlOutFile = new File(args[++i]);
-            } else if (args[i].equalsIgnoreCase("-xmlout") && i + 1 < args.length) {
-                xmlOutFile = new File(args[++i]);
-            } else if (args[i].equalsIgnoreCase("-mapout") && i + 1 < args.length) {
-                mapOutFile = new File(args[++i]);
-            } else if (args[i].equalsIgnoreCase("-mapdir") && i + 1 < args.length) {
-                mapDir = new File(args[++i]);
-            } else if (args[i].equalsIgnoreCase("-srcPath") && i + 1 < args.length) {
-                path = splitPath(args[++i]);
+    private static String[] split(String s, char sep) {
+        Vector<String> v = new Vector<>();
+        int start = -1;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == sep) {
+                if (start != -1) {
+                    v.add(s.substring(start, i).trim());
+                }
+                start = -1;
             } else {
-                inFiles = new File[args.length - i];
-                for (int j = 0; j < inFiles.length; j++) {
-                    inFiles[j] = new File(args[i++]);
+                if (start == -1) {
+                    start = i;
                 }
             }
         }
+        if (start != -1) {
+            v.add(s.substring(start).trim());
+        }
+        return v.toArray(new String[v.size()]);
     }
 
-    public static class Ant extends MatchingTask {
-        private Main m = new Main();
-
-        public void setHtmlOutFile(File file) {
-            m.htmlOutFile = file;
-        }
-
-        public void setXmlOutFile(File file) {
-            m.xmlOutFile = file;
-        }
-
-        public void setMapOutFile(File file) {
-            m.mapOutFile = file;
-        }
-
-        public void setMapDir(File file) {
-            m.mapDir = file;
-        }
-
-        public void setDir(File dir) {
-            getImplicitFileSet().setDir(dir);
-        }
-
-        @Override
-        public void execute() {
-            FileScanner s = getImplicitFileSet().getDirectoryScanner(getProject());
-            m.path = new File[]{s.getBasedir()};
-            m.addFiles(s.getIncludedFiles());
-
-            try {
-                m.run();
-            } catch (BadArgs e) {
-                throw new BuildException(e.getMessage());
-            } catch (IOException e) {
-                throw new BuildException(e);
+    private static File[] splitPath(String s) {
+        Vector<File> files = new Vector<>();
+        int start = -1;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == File.pathSeparatorChar) {
+                if (start != -1) {
+                    files.add(new File(s.substring(start, i)));
+                }
+                start = -1;
+            } else {
+                if (start == -1) {
+                    start = i;
+                }
             }
+        }
+        if (start != -1) {
+            files.add(new File(s.substring(start)));
+        }
+        return files.toArray(new File[files.size()]);
+    }
+
+    private static String getTarget(String key) {
+        String file;
+        String ref;
+
+        int hash = key.lastIndexOf("#");
+        if (hash == -1) {
+            file = key;
+            ref = null;
+        } else {
+            file = key.substring(0, hash);
+            ref = key.substring(hash + 1);
+        }
+
+        if (file.endsWith(".html")) {
+            file = file.substring(0, file.length() - 5);
+        }
+
+        if (ref == null) {
+            key = file;
+        } else {
+            key = file + "#" + ref;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("index.");
+        boolean needUpper = false;
+        for (int i = 0; i < key.length(); i++) {
+            char c = key.charAt(i);
+            if (Character.isLetter(c)) {
+                sb.append(needUpper ? Character.toUpperCase(c) : c);
+                needUpper = false;
+            } else {
+                needUpper = true;
+            }
+        }
+        return sb.toString();
+    }
+
+    private static String escapeString(String text) {
+
+        // check to see if there are any special characters
+        boolean specialChars = false;
+        for (int i = 0; i < text.length() && !specialChars; i++) {
+            switch (text.charAt(i)) {
+                case '<':
+                case '>':
+                case '&':
+                case '"':
+                    specialChars = true;
+            }
+        }
+
+        // if there are special characters rewrite the string with escaped characters
+        // otherwise, return it as is
+        if (specialChars) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < text.length(); i++) {
+                char c = text.charAt(i);
+                switch (c) {
+                    case '<':
+                        sb.append("&lt;");
+                        break;
+                    case '>':
+                        sb.append("&gt;");
+                        break;
+                    case '&':
+                        sb.append("&amp;");
+                        break;
+                    case '"':
+                        sb.append("&quot;");
+                        break;
+                    default:
+                        sb.append(c);
+                }
+            }
+            return sb.toString();
+        } else {
+            return text;
         }
     }
 
@@ -471,35 +616,6 @@ public class Main {
         }
     }
 
-    private static String escape(String s) {
-        for (int i = 0; i < s.length(); i++) {
-            switch (s.charAt(i)) {
-                case '<':
-                case '>':
-                case '&':
-                    StringBuilder sb = new StringBuilder(s.length() * 2);
-                    for (int j = 0; j < s.length(); j++) {
-                        char c = s.charAt(j);
-                        switch (c) {
-                            case '<':
-                                sb.append("&lt;");
-                                break;
-                            case '>':
-                                sb.append("&gt;");
-                                break;
-                            case '&':
-                                sb.append("&amp;");
-                                break;
-                            default:
-                                sb.append(c);
-                        }
-                    }
-                    return sb.toString();
-            }
-        }
-        return s;
-    }
-
     private void addToIndex(String[] path, File file, String ref) {
         Node node = root.getChild(path);
         String href = file.getPath();
@@ -638,175 +754,59 @@ public class Main {
         }
     }
 
-    private static String[] split(String s, char sep) {
-        Vector<String> v = new Vector<>();
-        int start = -1;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == sep) {
-                if (start != -1) {
-                    v.add(s.substring(start, i).trim());
-                }
-                start = -1;
-            } else {
-                if (start == -1) {
-                    start = i;
-                }
-            }
-        }
-        if (start != -1) {
-            v.add(s.substring(start).trim());
-        }
-        return v.toArray(new String[v.size()]);
-    }
-
-    private static File[] splitPath(String s) {
-        Vector<File> files = new Vector<>();
-        int start = -1;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == File.pathSeparatorChar) {
-                if (start != -1) {
-                    files.add(new File(s.substring(start, i)));
-                }
-                start = -1;
-            } else {
-                if (start == -1) {
-                    start = i;
-                }
-            }
-        }
-        if (start != -1) {
-            files.add(new File(s.substring(start)));
-        }
-        return files.toArray(new File[files.size()]);
-    }
-
-    private static String getTarget(String key) {
-        String file;
-        String ref;
-
-        int hash = key.lastIndexOf("#");
-        if (hash == -1) {
-            file = key;
-            ref = null;
-        } else {
-            file = key.substring(0, hash);
-            ref = key.substring(hash + 1);
-        }
-
-        if (file.endsWith(".html")) {
-            file = file.substring(0, file.length() - 5);
-        }
-
-        if (ref == null) {
-            key = file;
-        } else {
-            key = file + "#" + ref;
-        }
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("index.");
-        boolean needUpper = false;
-        for (int i = 0; i < key.length(); i++) {
-            char c = key.charAt(i);
-            if (Character.isLetter(c)) {
-                sb.append(needUpper ? Character.toUpperCase(c) : c);
-                needUpper = false;
-            } else {
-                needUpper = true;
-            }
-        }
-        return sb.toString();
-    }
-
-    private static String escapeString(String text) {
-
-        // check to see if there are any special characters
-        boolean specialChars = false;
-        for (int i = 0; i < text.length() && !specialChars; i++) {
-            switch (text.charAt(i)) {
-                case '<':
-                case '>':
-                case '&':
-                case '"':
-                    specialChars = true;
-            }
-        }
-
-        // if there are special characters rewrite the string with escaped characters
-        // otherwise, return it as is
-        if (specialChars) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < text.length(); i++) {
-                char c = text.charAt(i);
-                switch (c) {
-                    case '<':
-                        sb.append("&lt;");
-                        break;
-                    case '>':
-                        sb.append("&gt;");
-                        break;
-                    case '&':
-                        sb.append("&amp;");
-                        break;
-                    case '"':
-                        sb.append("&quot;");
-                        break;
-                    default:
-                        sb.append(c);
-                }
-            }
-            return sb.toString();
-        } else {
-            return text;
+    /**
+     * An exception to report bad command line arguments.
+     */
+    public static class BadArgs extends Exception {
+        BadArgs(String msg) {
+            super(msg);
         }
     }
 
-    private File[] path;
-    private File[] inFiles;
-    private File htmlOutFile;
-    private File mapOutFile;
-    private File mapDir;
-    private File xmlOutFile;
+    public static class Ant extends MatchingTask {
+        private Main m = new Main();
 
-    private Reader in;
-    private int c;
-    private int line;
+        public void setHtmlOutFile(File file) {
+            m.htmlOutFile = file;
+        }
 
-    private File currFile;
-    private String currName;
-    private Node root;
+        public void setXmlOutFile(File file) {
+            m.xmlOutFile = file;
+        }
 
-    private static Iterator<Node> nullIterator = new Iterator<Node>() {
-        @Override
-        public boolean hasNext() {
-            return false;
+        public void setMapOutFile(File file) {
+            m.mapOutFile = file;
+        }
+
+        public void setMapDir(File file) {
+            m.mapDir = file;
+        }
+
+        public void setDir(File dir) {
+            getImplicitFileSet().setDir(dir);
         }
 
         @Override
-        public Node next() {
-            return null;
-        }
+        public void execute() {
+            FileScanner s = getImplicitFileSet().getDirectoryScanner(getProject());
+            m.path = new File[]{s.getBasedir()};
+            m.addFiles(s.getIncludedFiles());
 
-        @Override
-        public void remove() {
+            try {
+                m.run();
+            } catch (BadArgs e) {
+                throw new BuildException(e.getMessage());
+            } catch (IOException e) {
+                throw new BuildException(e);
+            }
         }
-    };
-
-    private Comparator<Node> indexComparator = new Comparator<Node>() {
-        @Override
-        public int compare(Node n1, Node n2) {
-            return n1.getName().compareToIgnoreCase(n2.getName());
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return false;
-        }
-    };
+    }
 
     private class Node {
+        private String name;
+        private Set<Node> children;
+        private String info;
+
         Node() {
         }
 
@@ -819,12 +819,12 @@ public class Main {
             return name;
         }
 
-        void setInfo(String info) {
-            this.info = info;
-        }
-
         String getInfo() {
             return info;
+        }
+
+        void setInfo(String info) {
+            this.info = info;
         }
 
         Node getChild(String name) {
@@ -861,10 +861,6 @@ public class Main {
             }
             children.add(child);
         }
-
-        private String name;
-        private Set<Node> children;
-        private String info;
     }
 
 }

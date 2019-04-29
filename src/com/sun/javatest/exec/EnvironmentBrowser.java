@@ -61,6 +61,18 @@ import java.util.Comparator;
 
 class EnvironmentBrowser extends ToolDialog {
 
+    private static final int KEY = 0;
+    private static final int VALUE = 1;
+    private static final int DEFINED_IN_FILE = 2;
+    private static final int DEFINED_IN_ENV = 3;
+    static private String[] headings;
+    private InterviewParameters params;
+    private Listener listener;
+    private TestEnvironment env;
+    private ElementsTableModel envTableModel;
+    private JTable table;
+    private JTextArea text;
+
     EnvironmentBrowser(JComponent parent, UIFactory uif) {
         super(parent, uif, "env");
 
@@ -149,18 +161,52 @@ class EnvironmentBrowser extends ToolDialog {
         setComponentListener(listener);
     }
 
-    private InterviewParameters params;
-    private Listener listener;
-    private TestEnvironment env;
-    private ElementsTableModel envTableModel;
-    private JTable table;
-    private JTextArea text;
-    static private String[] headings;
+    private static class EnvEntryComparator implements Comparator<TestEnvironment.Element> {
+        private int sortMode;
+        private String[] inherits;
 
-    private static final int KEY = 0;
-    private static final int VALUE = 1;
-    private static final int DEFINED_IN_FILE = 2;
-    private static final int DEFINED_IN_ENV = 3;
+        EnvEntryComparator(int sortMode, String... inherits) {
+            this.sortMode = sortMode;
+            this.inherits = inherits;
+        }
+
+        @Override
+        public int compare(TestEnvironment.Element e1, TestEnvironment.Element e2) {
+            // the following should be a switch statement, but JDK
+            // 1.1.7 can't compile it: doesn't recognize KEY etc as
+            // constants.
+            if (sortMode == KEY)
+            // key should always be unique, so should be enough to sort on that
+            {
+                return e1.getKey().compareTo(e2.getKey());
+            } else if (sortMode == VALUE) {
+                // value probably unique, but if not, sort on key as well
+                int c = e1.getValue().compareTo(e2.getValue());
+                return c != 0 ? c : e1.getKey().compareTo(e2.getKey());
+            } else if (sortMode == DEFINED_IN_ENV) {
+                // defined_in probably not unique, so sort on key as well
+                int i1 = getInheritsIndex(e1.getDefinedInEnv());
+                int i2 = getInheritsIndex(e2.getDefinedInEnv());
+                return i1 < i2 ? -1 :
+                        i1 > i2 ? +1 : e1.getKey().compareTo(e2.getKey());
+            } else if (sortMode == DEFINED_IN_FILE) {
+                // defined_in probably not unique, so sort on key as well
+                int c = e1.getDefinedInFile().compareTo(e2.getDefinedInFile());
+                return c != 0 ? c : e1.getKey().compareTo(e2.getKey());
+            } else {
+                return 0;
+            }
+        }
+
+        private int getInheritsIndex(String s) {
+            for (int i = 0; i < inherits.length; i++) {
+                if (inherits[i].equals(s)) {
+                    return i;
+                }
+            }
+            return inherits.length;
+        }
+    }
 
     private class Listener
             extends ComponentAdapter
@@ -214,54 +260,10 @@ class EnvironmentBrowser extends ToolDialog {
         }
     }
 
-    private static class EnvEntryComparator implements Comparator<TestEnvironment.Element> {
-        EnvEntryComparator(int sortMode, String... inherits) {
-            this.sortMode = sortMode;
-            this.inherits = inherits;
-        }
-
-        @Override
-        public int compare(TestEnvironment.Element e1, TestEnvironment.Element e2) {
-            // the following should be a switch statement, but JDK
-            // 1.1.7 can't compile it: doesn't recognize KEY etc as
-            // constants.
-            if (sortMode == KEY)
-            // key should always be unique, so should be enough to sort on that
-            {
-                return e1.getKey().compareTo(e2.getKey());
-            } else if (sortMode == VALUE) {
-                // value probably unique, but if not, sort on key as well
-                int c = e1.getValue().compareTo(e2.getValue());
-                return c != 0 ? c : e1.getKey().compareTo(e2.getKey());
-            } else if (sortMode == DEFINED_IN_ENV) {
-                // defined_in probably not unique, so sort on key as well
-                int i1 = getInheritsIndex(e1.getDefinedInEnv());
-                int i2 = getInheritsIndex(e2.getDefinedInEnv());
-                return i1 < i2 ? -1 :
-                        i1 > i2 ? +1 : e1.getKey().compareTo(e2.getKey());
-            } else if (sortMode == DEFINED_IN_FILE) {
-                // defined_in probably not unique, so sort on key as well
-                int c = e1.getDefinedInFile().compareTo(e2.getDefinedInFile());
-                return c != 0 ? c : e1.getKey().compareTo(e2.getKey());
-            } else {
-                return 0;
-            }
-        }
-
-        private int getInheritsIndex(String s) {
-            for (int i = 0; i < inherits.length; i++) {
-                if (inherits[i].equals(s)) {
-                    return i;
-                }
-            }
-            return inherits.length;
-        }
-
-        private int sortMode;
-        private String[] inherits;
-    }
-
     private class ElementsTableModel extends AbstractTableModel {
+        private TestEnvironment.Element[] elems;
+        private TestEnvironment currEnv;
+
         ElementsTableModel() {
             if (headings == null) {
                 headings = new String[4];
@@ -308,7 +310,6 @@ class EnvironmentBrowser extends ToolDialog {
             }
         }
 
-
         @Override
         public synchronized int getRowCount() {
             return elems == null ? 0 : elems.length;
@@ -352,8 +353,5 @@ class EnvironmentBrowser extends ToolDialog {
                     throw new Error();
             }
         }
-
-        private TestEnvironment.Element[] elems;
-        private TestEnvironment currEnv;
     }
 }

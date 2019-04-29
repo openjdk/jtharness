@@ -43,6 +43,45 @@ import java.util.Vector;
  */
 public abstract class BackupPolicy {
     /**
+     * Get a BackupPolicy object which does no backups for any files.
+     *
+     * @return a BackupPolicy object which does no backups for any files
+     */
+    public static BackupPolicy noBackups() {
+        return new BackupPolicy() {
+            @Override
+            public int getNumBackupsToKeep(File file) {
+                return 0;
+            }
+
+            @Override
+            public boolean isBackupRequired(File file) {
+                return false;
+            }
+        };
+    }
+
+    /**
+     * Get a BackupPolicy object which does a set number of backups for all files.
+     *
+     * @param n The number of backups to kept for each file
+     * @return a BackupPolicy object which does a set number of backups for all files
+     */
+    public static BackupPolicy simpleBackups(final int n) {
+        return new BackupPolicy() {
+            @Override
+            public int getNumBackupsToKeep(File file) {
+                return n;
+            }
+
+            @Override
+            public boolean isBackupRequired(File file) {
+                return true;
+            }
+        };
+    }
+
+    /**
      * Backup a file by renaming it to have have a new name of
      * <i>old-name</i>~<i>n</i> where n is chosen to be higher than
      * any other for which a candidate new filename exists.
@@ -209,7 +248,6 @@ public abstract class BackupPolicy {
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charsetName));
     }
 
-
     /**
      * Backup a file and open a new output stream to the file.
      *
@@ -244,43 +282,4 @@ public abstract class BackupPolicy {
      * @return true if backups are enabled for this type of file, and false otherwise
      */
     public abstract boolean isBackupRequired(File file);
-
-    /**
-     * Get a BackupPolicy object which does no backups for any files.
-     *
-     * @return a BackupPolicy object which does no backups for any files
-     */
-    public static BackupPolicy noBackups() {
-        return new BackupPolicy() {
-            @Override
-            public int getNumBackupsToKeep(File file) {
-                return 0;
-            }
-
-            @Override
-            public boolean isBackupRequired(File file) {
-                return false;
-            }
-        };
-    }
-
-    /**
-     * Get a BackupPolicy object which does a set number of backups for all files.
-     *
-     * @param n The number of backups to kept for each file
-     * @return a BackupPolicy object which does a set number of backups for all files
-     */
-    public static BackupPolicy simpleBackups(final int n) {
-        return new BackupPolicy() {
-            @Override
-            public int getNumBackupsToKeep(File file) {
-                return n;
-            }
-
-            @Override
-            public boolean isBackupRequired(File file) {
-                return true;
-            }
-        };
-    }
 }

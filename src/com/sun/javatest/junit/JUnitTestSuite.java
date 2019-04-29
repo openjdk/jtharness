@@ -38,6 +38,8 @@ import java.util.Map;
  * Basic implementation of a test suite for JUnit tests.
  */
 public class JUnitTestSuite extends TestSuite {
+    private ClassLoader cl;
+
     public JUnitTestSuite(File root, Map<String, String> props, ClassLoader loader) {
         super(root, props, loader);
         try {
@@ -70,6 +72,4 @@ public class JUnitTestSuite extends TestSuite {
             return new JUnitTestRunner();
         }
     }
-
-    private ClassLoader cl;
 }

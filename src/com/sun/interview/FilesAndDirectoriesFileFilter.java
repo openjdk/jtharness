@@ -32,6 +32,8 @@ import java.io.File;
  * A filter which accepts all files and directories.
  */
 public class FilesAndDirectoriesFileFilter implements FileFilter {
+    private String description;
+
     /**
      * Create a filter which accepts all files and directories.
      *
@@ -60,6 +62,4 @@ public class FilesAndDirectoriesFileFilter implements FileFilter {
     public String getDescription() {
         return description;
     }
-
-    private String description;
 }

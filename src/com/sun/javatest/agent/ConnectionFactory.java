@@ -33,10 +33,28 @@ package com.sun.javatest.agent;
  */
 public interface ConnectionFactory {
     /**
+     * Create a new connection.
+     *
+     * @return A new connection.
+     * @throws ConnectionFactory.Fault if there is a problem creating the connection
+     */
+    Connection nextConnection() throws Fault;
+
+    /**
+     * Close the connection factory, releasing any resources it may be using.
+     *
+     * @throws ConnectionFactory.Fault if a problem occurs while closing the factory.
+     */
+    void close() throws Fault;
+
+    /**
      * This exception is used to forward exception that might occur when
      * using the connection factory.
      */
     class Fault extends Exception {
+        private Exception exception;
+        private boolean fatal;
+
         /**
          * Create a Fault.
          *
@@ -70,23 +88,5 @@ public interface ConnectionFactory {
         public boolean isFatal() {
             return fatal;
         }
-
-        private Exception exception;
-        private boolean fatal;
     }
-
-    /**
-     * Create a new connection.
-     *
-     * @return A new connection.
-     * @throws ConnectionFactory.Fault if there is a problem creating the connection
-     */
-    Connection nextConnection() throws Fault;
-
-    /**
-     * Close the connection factory, releasing any resources it may be using.
-     *
-     * @throws ConnectionFactory.Fault if a problem occurs while closing the factory.
-     */
-    void close() throws Fault;
 }

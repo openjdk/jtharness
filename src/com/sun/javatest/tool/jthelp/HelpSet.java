@@ -48,10 +48,6 @@ public class HelpSet {
 
     }
 
-    public String getTitle() {
-        return helpTitle;
-    }
-
     public HelpSet(ClassLoader loader, URL url) {
         this(loader, url, "");
     }
@@ -85,6 +81,80 @@ public class HelpSet {
             e.printStackTrace();
         }
 
+    }
+
+    public static HashMap<String, String> readHelpMap(URL url) {
+
+        HashMap<String, String> result = new HashMap<>();
+        XMLStreamReader reader = getXMLReader(url);
+
+        try {
+            while (reader != null && reader.hasNext()) {
+                int Event = reader.next();
+                switch (Event) {
+                    case XMLStreamConstants.START_ELEMENT: {
+                        if ("mapID".equals(reader.getLocalName())) {
+                            String target = reader.getAttributeValue(0);
+                            String htmlurl = reader.getAttributeValue(1);
+                            if (htmlurl.contains("#")) {
+                                htmlurl = htmlurl.substring(0, htmlurl.indexOf("#"));
+                            }
+                            result.put(target, htmlurl);
+                        }
+                    }
+                }
+            }
+        } catch (XMLStreamException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    private static XMLStreamReader getXMLReader(URL url) {
+        XMLInputFactory factory = XMLInputFactory.newInstance();
+        factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+        URLConnection urlc = null;
+        try {
+            urlc = url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        XMLStreamReader reader = null;
+        try {
+            if (urlc != null) {
+                reader = factory.createXMLStreamReader(urlc.getInputStream());
+            }
+        } catch (XMLStreamException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return reader;
+    }
+
+    public static URL findHelpSet(ClassLoader loader, String name) {
+
+        if (loader == null) {
+            return ClassLoader.getSystemClassLoader().getResource(name);
+        }
+
+        URL result = loader.getResource(name);
+
+        if (result == null) {
+            result = loader.getResource("com/sun/javatest/help/" + name);
+        }
+
+        if (result == null && !name.endsWith(".hs")) {
+            result = findHelpSet(loader, name + ".hs");
+        }
+
+        return result;
+
+    }
+
+    public String getTitle() {
+        return helpTitle;
     }
 
     public void add(HelpSet hs) {
@@ -128,77 +198,7 @@ public class HelpSet {
         return result;
     }
 
-    public static HashMap<String, String> readHelpMap(URL url) {
-
-        HashMap<String, String> result = new HashMap<>();
-        XMLStreamReader reader = getXMLReader(url);
-
-        try {
-            while (reader != null && reader.hasNext()) {
-                int Event = reader.next();
-                switch (Event) {
-                    case XMLStreamConstants.START_ELEMENT: {
-                        if ("mapID".equals(reader.getLocalName())) {
-                            String target = reader.getAttributeValue(0);
-                            String htmlurl = reader.getAttributeValue(1);
-                            if (htmlurl.contains("#")) {
-                                htmlurl = htmlurl.substring(0, htmlurl.indexOf("#"));
-                            }
-                            result.put(target, htmlurl);
-                        }
-                    }
-                }
-            }
-        } catch (XMLStreamException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
     public Map<String, URL> getLocalMap() {
         return localMap;
-    }
-
-    private static XMLStreamReader getXMLReader(URL url) {
-        XMLInputFactory factory = XMLInputFactory.newInstance();
-        factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
-        URLConnection urlc = null;
-        try {
-            urlc = url.openConnection();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        XMLStreamReader reader = null;
-        try {
-            if (urlc != null) {
-                reader = factory.createXMLStreamReader(urlc.getInputStream());
-            }
-        } catch (XMLStreamException | IOException e) {
-            e.printStackTrace();
-        }
-
-        return reader;
-    }
-
-    public static URL findHelpSet(ClassLoader loader, String name) {
-
-        if (loader == null) {
-            return ClassLoader.getSystemClassLoader().getResource(name);
-        }
-
-        URL result = loader.getResource(name);
-
-        if (result == null) {
-            result = loader.getResource("com/sun/javatest/help/" + name);
-        }
-
-        if (result == null && !name.endsWith(".hs")) {
-            result = findHelpSet(loader, name + ".hs");
-        }
-
-        return result;
-
     }
 }

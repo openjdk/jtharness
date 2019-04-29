@@ -44,6 +44,13 @@ import java.util.Map;
  * and get custom toolbars.
  */
 public class ToolBarManager {
+    private UIFactory uif;
+    private JMenu toolBarMenu;
+    private TBMenuManager mmanager = new TBMenuManager();
+    private Map<String, JavaTestToolBar> store =
+            Collections.synchronizedMap(new LinkedHashMap<String, JavaTestToolBar>());
+    private ToolBarPanel panel;
+
     public ToolBarManager() {
     }
 
@@ -196,6 +203,27 @@ public class ToolBarManager {
     }
 
     /**
+     * ToolbarMenuAction reflects changing of visible state to the menu
+     **/
+    static class ToolbarMenuAction extends AbstractAction {
+        private JavaTestToolBar theBar;
+
+        public ToolbarMenuAction(JavaTestToolBar bar) {
+            super(bar.getName());
+            theBar = bar;
+        }
+
+        public JavaTestToolBar getBar() {
+            return theBar;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            theBar.setVisible(!theBar.isVisible());
+        }
+    }
+
+    /**
      * TBMenuManager manages toolbar menu and processes adding/removing toolbars
      **/
     class TBMenuManager {
@@ -236,33 +264,5 @@ public class ToolBarManager {
         }
 
     }
-
-    /**
-     * ToolbarMenuAction reflects changing of visible state to the menu
-     **/
-    static class ToolbarMenuAction extends AbstractAction {
-        public JavaTestToolBar getBar() {
-            return theBar;
-        }
-
-        public ToolbarMenuAction(JavaTestToolBar bar) {
-            super(bar.getName());
-            theBar = bar;
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            theBar.setVisible(!theBar.isVisible());
-        }
-
-        private JavaTestToolBar theBar;
-    }
-
-    private UIFactory uif;
-    private JMenu toolBarMenu;
-    private TBMenuManager mmanager = new TBMenuManager();
-    private Map<String, JavaTestToolBar> store =
-            Collections.synchronizedMap(new LinkedHashMap<String, JavaTestToolBar>());
-    private ToolBarPanel panel;
 
 }

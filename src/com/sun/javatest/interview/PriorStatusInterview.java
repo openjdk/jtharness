@@ -49,6 +49,59 @@ import java.util.Objects;
 public class PriorStatusInterview
         extends Interview
         implements Parameters.MutablePriorStatusParameters {
+    // I18N...
+    private static final String PASSED = "passed";
+    private static final String FAILED = "failed";
+    private static final String ERROR = "error";
+    private static final String NOT_RUN = "not_run";
+    private static int[] choiceToStatus = {Status.ERROR, Status.FAILED,
+            Status.NOT_RUN, Status.PASSED};
+    private StatusFilter cachedStatusFilter;
+    private Question qEnd = new FinalQuestion(this);
+    private ChoiceArrayQuestion qStatus = new ChoiceArrayQuestion(this, "status") {
+        {
+            setChoices(new String[]{ERROR, FAILED, NOT_RUN, PASSED}, true);
+        }
+
+        @Override
+        public boolean isValueValid() {
+            // one of the choices must be set
+            for (boolean aValue : value) {
+                if (aValue) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        @Override
+        protected Question getNext() {
+            return qEnd;
+        }
+    };
+
+    //----------------------------------------------------------------------------
+    //
+    // Need status
+    private YesNoQuestion qNeedStatus = new YesNoQuestion(this, "needStatus", YesNoQuestion.NO) {
+        @Override
+        protected Question getNext() {
+            if (value == null) {
+                return null;
+            } else if (Objects.equals(value, YES)) {
+                return qStatus;
+            } else {
+                return qEnd;
+            }
+        }
+    };
+
+
+    //----------------------------------------------------------------------------
+    //
+    // Status
+    private InterviewParameters parent;
     /**
      * Create an interview.
      *
@@ -62,6 +115,21 @@ public class PriorStatusInterview
         setResourceBundle("i18n");
         setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
         setFirstQuestion(qNeedStatus);
+    }
+
+    private static boolean equal(boolean[] b1, boolean... b2) {
+        if (b1 == null || b2 == null) {
+            return b1 == b2;
+        }
+        if (b1.length != b2.length) {
+            return false;
+        }
+        for (int i = 0; i < b1.length; i++) {
+            if (b1[i] != b2[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -138,6 +206,9 @@ public class PriorStatusInterview
         qStatus.setValue(choices);
     }
 
+    //----------------------------------------------------------------------------
+    //
+    // End
 
     /**
      * Get a test filter generated from the status test values in the interview.
@@ -150,58 +221,7 @@ public class PriorStatusInterview
         return cachedStatusFilter;
     }
 
-    //----------------------------------------------------------------------------
-    //
-    // Need status
-
-    private YesNoQuestion qNeedStatus = new YesNoQuestion(this, "needStatus", YesNoQuestion.NO) {
-        @Override
-        protected Question getNext() {
-            if (value == null) {
-                return null;
-            } else if (Objects.equals(value, YES)) {
-                return qStatus;
-            } else {
-                return qEnd;
-            }
-        }
-    };
-
-
-    //----------------------------------------------------------------------------
-    //
-    // Status
-
-    // I18N...
-    private static final String PASSED = "passed";
-    private static final String FAILED = "failed";
-    private static final String ERROR = "error";
-    private static final String NOT_RUN = "not_run";
-    private static int[] choiceToStatus = {Status.ERROR, Status.FAILED,
-            Status.NOT_RUN, Status.PASSED};
-
-    private ChoiceArrayQuestion qStatus = new ChoiceArrayQuestion(this, "status") {
-        {
-            setChoices(new String[]{ERROR, FAILED, NOT_RUN, PASSED}, true);
-        }
-
-        @Override
-        public boolean isValueValid() {
-            // one of the choices must be set
-            for (boolean aValue : value) {
-                if (aValue) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-
-        @Override
-        protected Question getNext() {
-            return qEnd;
-        }
-    };
+    //--------------------------------------------------------
 
     private void updateCachedStatusFilter() {
         WorkDirectory wd = parent.getWorkDirectory();
@@ -217,31 +237,4 @@ public class PriorStatusInterview
         // else
         //   cachedStatusFilter is OK
     }
-
-    private static boolean equal(boolean[] b1, boolean... b2) {
-        if (b1 == null || b2 == null) {
-            return b1 == b2;
-        }
-        if (b1.length != b2.length) {
-            return false;
-        }
-        for (int i = 0; i < b1.length; i++) {
-            if (b1[i] != b2[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private StatusFilter cachedStatusFilter;
-
-    //----------------------------------------------------------------------------
-    //
-    // End
-
-    private Question qEnd = new FinalQuestion(this);
-
-    //--------------------------------------------------------
-
-    private InterviewParameters parent;
 }

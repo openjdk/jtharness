@@ -31,12 +31,6 @@ import com.sun.javatest.TestResult;
 import java.util.Comparator;
 
 class TestResultsByTitleComparator implements Comparator<TestResult> {
-    @Override
-    public int compare(TestResult tr1, TestResult tr2) {
-
-        return compare(tr1.getTestName(), tr2.getTestName());
-    }
-
     private static int compare(String a, String b) {
         if (a == null && b == null) {
             return 0;
@@ -51,5 +45,11 @@ class TestResultsByTitleComparator implements Comparator<TestResult> {
         }
 
         return a.compareTo(b);
+    }
+
+    @Override
+    public int compare(TestResult tr1, TestResult tr2) {
+
+        return compare(tr1.getTestName(), tr2.getTestName());
     }
 }

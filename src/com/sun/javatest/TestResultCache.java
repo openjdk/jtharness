@@ -49,68 +49,86 @@ import java.util.logging.Logger;
  */
 public class TestResultCache {
 
-    /**
-     * Interface which allows an external class to monitor the cache's
-     * activities.
-     */
-    public interface Observer {
-        /**
-         * Called when tests have been read from the cache file.
-         *
-         * @param tests the tests that have been read
-         */
-        void update(Map<String, TestResult> tests);
+    private static final int DEFAULT_COMPRESS_PERCENT_LEVEL = 40;
+    private static final int MIN_TEST_READ_INTERVAL = 10000; // 10 seconds
+    private static final int MIN_TEST_WRITE_INTERVAL = 10000; // 10 seconds
+    private static final int MAX_SHUTDOWN_TIME = 30000; // 30 seconds
+    // lock acquisition and notification parameters
+    private static final long INITIAL_LOCK_NOTIFY_TIME = 20000; // 20 seconds
+    private static final long LOCK_NOTIFY_INTERVAL = 60000;     // 60 second
+    private static final long MAX_LOCK_WAIT_TIME =
+            Integer.getInteger("javatest.trc.timeout", 5).intValue() * 60000;
+    // retry parameters
+    private static final int INITIAL_RETRY_DELAY_TIME = 500;    // 0.5 second
 
-        /**
-         * Called periodically while waiting to access the cache.
-         *
-         * @param timeSoFar the time so far that a client has been waiting to
-         *                  access the cache
-         */
-        void waitingForLock(long timeSoFar);
+    //-------------------------------------------------------------------------------------
+    //
+    // the main worker code
+    private static final int MAX_RETRY_DELAY_TIME = 10000;      // 10 seconds
+    private static final String V1_FILENAME = "ResultCache.jtw";
+    private static final String V1_LOCKNAME = V1_FILENAME + ".lck";
+    private static final String V2_FILENAME = "ResultCache2.jtw";
+    private static final String V2_LOCKNAME = V2_FILENAME + ".lck";
+    // maximum length of reason string written into cache
+    // writeUTF can only write a limited length string, see writeCacheEntry()
+    private static final int MAX_REASON_LENGTH = 256;
 
-        /**
-         * Called when the timed out waiting for access to the cache.
-         */
-        void timeoutWaitingForLock();
+    //-------------------------------------------------------------------------------------
+    //
+    // shutdown handler code
+    // other
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestResultCache.class);
+    private static int workerNumber; // for naming threads
 
-        /**
-         * Called when the cache has been locked.
-         */
-        void acquiredLock();
+    //-------------------------------------------------------------------------------------
+    //
+    // Read a set of tests from the *.jtr files in the work directory
+    private static int debug = Debug.getInt(TestResultCache.class);
+    private static final boolean DEBUG_BASIC = debug >= 1;  // basic messages and stack trace
+    private static final boolean DEBUG_TESTS = debug >= 2;  // details about tests
 
-        /**
-         * Called when the lock on the cache has been released.
-         */
-        void releasedLock();
+    //-------------------------------------------------------------------------------------
+    //
+    // Read the cache
+    private static final boolean DEBUG_WORK = debug >= 3;  // details about work done
+    private static final boolean DEBUG_CHECK_WORK = debug >= 4;  // details when checking for work
 
-        /**
-         * Called when starting to (re)build the cache.
-         *
-         * @param reset currently, always true
-         */
-        void buildingCache(boolean reset);
+    //-------------------------------------------------------------------------------------
+    //
+    // Write the cache
+    private static final boolean DEBUG_SYNC = debug >= 5;  // details about thread syncs
+    // general instance data
+    private Observer observer;
+    private WeakReference<Observer> weakObserver;
 
-        /**
-         * Called when a test has been found to put in the cache.
-         *
-         * @param tr the test that is being put in the cache
-         */
-        void buildingCache(TestResult tr);
+    //-------------------------------------------------------------------------------------
+    //
+    // lock acquisition and release
+    private WorkDirectory workDir;
+    private WeakReference<WorkDirectory> weakWorkDir;
+    private File cacheFile;
+    // default 5 minutes
+    private File lockFile;
+    private Thread worker;
+    private Thread shutdownHandler;
+    // worker thread data
+    private RandomAccessFile raf;
 
-        /**
-         * Called when the cache has been (re)built.
-         */
-        void builtCache();
+    //-------------------------------------------------------------------------------------
+    private int uniqueInitialEntryCount;
 
-        /**
-         * Called when a serious error has occurred and the cache is unable to continue.
-         *
-         * @param t an object identifying the error that occurred
-         */
-        void error(Throwable t);
-    }
-
+    //-------------------------------------------------------------------------------------
+    private int totalEntryCount;
+    private int lastSerial;
+    private long lastFileSize;
+    private boolean updateNeeded;
+    // synchronized data
+    private boolean fullUpdateRequested;
+    private boolean compressNeeded;
+    private boolean compressRequested;
+    private boolean flushRequested;
+    private boolean shutdownRequested;
+    private Queue<TestResult> testsToWrite = new ArrayDeque<>();
     /**
      * Primary constructor for a cache.
      *
@@ -227,12 +245,6 @@ public class TestResultCache {
     boolean workerAlive() {
         return worker != null;
     }
-
-    //-------------------------------------------------------------------------------------
-    //
-    // the main worker code
-
-    private static final int DEFAULT_COMPRESS_PERCENT_LEVEL = 40;
 
     private void doWorkUntilDone() {
         int compressPercentLevel =
@@ -385,9 +397,6 @@ public class TestResultCache {
         }
     }
 
-    private static final int MIN_TEST_READ_INTERVAL = 10000; // 10 seconds
-    private static final int MIN_TEST_WRITE_INTERVAL = 10000; // 10 seconds
-
     private boolean isWorkAvailable(long timeLastWork) {
         if (compressRequested || flushRequested || fullUpdateRequested) {
             if (DEBUG_CHECK_WORK) {
@@ -425,12 +434,6 @@ public class TestResultCache {
 
         return false;
     }
-
-    //-------------------------------------------------------------------------------------
-    //
-    // shutdown handler code
-
-    private static final int MAX_SHUTDOWN_TIME = 30000; // 30 seconds
 
     synchronized void shutdown() {
         if (DEBUG_BASIC) {
@@ -489,10 +492,6 @@ public class TestResultCache {
             // it's ok if shutdown is in process now
         }
     }
-
-    //-------------------------------------------------------------------------------------
-    //
-    // Read a set of tests from the *.jtr files in the work directory
 
     private Map<String, TestResult> readJTRFiles() {
         long start = System.currentTimeMillis();
@@ -577,10 +576,6 @@ public class TestResultCache {
             return tr;
         }
     }
-
-    //-------------------------------------------------------------------------------------
-    //
-    // Read the cache
 
     private Map<String, TestResult> readCache()
             throws IOException {
@@ -672,10 +667,6 @@ public class TestResultCache {
         lastFileSize = raf.length();
         return tests;
     }
-
-    //-------------------------------------------------------------------------------------
-    //
-    // Write the cache
 
     private void writeCache(Map<String, TestResult> tests) throws IOException {
         if (tests == null) {
@@ -777,21 +768,6 @@ public class TestResultCache {
         totalEntryCount++;
     }
 
-    //-------------------------------------------------------------------------------------
-    //
-    // lock acquisition and release
-
-    // lock acquisition and notification parameters
-    private static final long INITIAL_LOCK_NOTIFY_TIME = 20000; // 20 seconds
-    private static final long LOCK_NOTIFY_INTERVAL = 60000;     // 60 second
-    private static final long MAX_LOCK_WAIT_TIME =
-            Integer.getInteger("javatest.trc.timeout", 5).intValue() * 60000;
-    // default 5 minutes
-
-    // retry parameters
-    private static final int INITIAL_RETRY_DELAY_TIME = 500;    // 0.5 second
-    private static final int MAX_RETRY_DELAY_TIME = 10000;      // 10 seconds
-
     private void getLock() throws IOException {
         long start = System.currentTimeMillis();
         int retryDelay = INITIAL_RETRY_DELAY_TIME;
@@ -857,8 +833,6 @@ public class TestResultCache {
         observer.releasedLock();
     }
 
-    //-------------------------------------------------------------------------------------
-
     // When the work thread sleeps, it zaps the main references to observer and workDir
     // to the possibility that the WD and TRT might be GCed, and just retains weak references.
     // These weak references get revived when the worker thread has work to do.
@@ -871,52 +845,65 @@ public class TestResultCache {
             observer = weakObserver.get();
         }
     }
+    /**
+     * Interface which allows an external class to monitor the cache's
+     * activities.
+     */
+    public interface Observer {
+        /**
+         * Called when tests have been read from the cache file.
+         *
+         * @param tests the tests that have been read
+         */
+        void update(Map<String, TestResult> tests);
 
-    //-------------------------------------------------------------------------------------
+        /**
+         * Called periodically while waiting to access the cache.
+         *
+         * @param timeSoFar the time so far that a client has been waiting to
+         *                  access the cache
+         */
+        void waitingForLock(long timeSoFar);
 
-    // general instance data
-    private Observer observer;
-    private WeakReference<Observer> weakObserver;
-    private WorkDirectory workDir;
-    private WeakReference<WorkDirectory> weakWorkDir;
-    private File cacheFile;
-    private File lockFile;
-    private Thread worker;
-    private Thread shutdownHandler;
+        /**
+         * Called when the timed out waiting for access to the cache.
+         */
+        void timeoutWaitingForLock();
 
-    // worker thread data
-    private RandomAccessFile raf;
-    private int uniqueInitialEntryCount;
-    private int totalEntryCount;
-    private int lastSerial;
-    private long lastFileSize;
-    private boolean updateNeeded;
+        /**
+         * Called when the cache has been locked.
+         */
+        void acquiredLock();
 
-    // synchronized data
-    private boolean fullUpdateRequested;
-    private boolean compressNeeded;
-    private boolean compressRequested;
-    private boolean flushRequested;
-    private boolean shutdownRequested;
-    private Queue<TestResult> testsToWrite = new ArrayDeque<>();
+        /**
+         * Called when the lock on the cache has been released.
+         */
+        void releasedLock();
 
-    private static final String V1_FILENAME = "ResultCache.jtw";
-    private static final String V1_LOCKNAME = V1_FILENAME + ".lck";
-    private static final String V2_FILENAME = "ResultCache2.jtw";
-    private static final String V2_LOCKNAME = V2_FILENAME + ".lck";
+        /**
+         * Called when starting to (re)build the cache.
+         *
+         * @param reset currently, always true
+         */
+        void buildingCache(boolean reset);
 
-    // other
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestResultCache.class);
-    private static int workerNumber; // for naming threads
+        /**
+         * Called when a test has been found to put in the cache.
+         *
+         * @param tr the test that is being put in the cache
+         */
+        void buildingCache(TestResult tr);
 
-    // maximum length of reason string written into cache
-    // writeUTF can only write a limited length string, see writeCacheEntry()
-    private static final int MAX_REASON_LENGTH = 256;
+        /**
+         * Called when the cache has been (re)built.
+         */
+        void builtCache();
 
-    private static int debug = Debug.getInt(TestResultCache.class);
-    private static final boolean DEBUG_BASIC = debug >= 1;  // basic messages and stack trace
-    private static final boolean DEBUG_TESTS = debug >= 2;  // details about tests
-    private static final boolean DEBUG_WORK = debug >= 3;  // details about work done
-    private static final boolean DEBUG_CHECK_WORK = debug >= 4;  // details when checking for work
-    private static final boolean DEBUG_SYNC = debug >= 5;  // details about thread syncs
+        /**
+         * Called when a serious error has occurred and the cache is unable to continue.
+         *
+         * @param t an object identifying the error that occurred
+         */
+        void error(Throwable t);
+    }
 }

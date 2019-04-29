@@ -42,43 +42,19 @@ import java.util.Set;
  */
 public abstract class Keywords {
     /**
-     * An exception used to report errors while using a Keywords object.
+     * A constant to indicate that all of a list of keywords should be matched.
      */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
-    }
+    public static final String ALL_OF = "all of";
+    /**
+     * A constant to indicate that any of a list of keywords should be matched.
+     */
+    public static final String ANY_OF = "any of";
+    /**
+     * A constant to indicate that an expression keyword should be matched.
+     */
+    public static final String EXPR = "expr";
+    static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Keywords.class);
+    protected String text;
 
     /**
      * Create a keywords object.
@@ -136,42 +112,6 @@ public abstract class Keywords {
         }
     }
 
-
-    /**
-     * Set the descriptive representation of the kw expression provided by the user.
-     *
-     * @param text Useful text rendering of current kw expression
-     */
-    void setSummary(String text) {
-        this.text = text;
-    }
-
-    /**
-     * Get a human digestable version of the kw represented by this object.
-     *
-     * @return Human readable, fully descriptive rendering of current kw setting
-     */
-    public String getSummary() {
-        return text;
-    }
-
-    protected String text;
-
-    /**
-     * A constant to indicate that all of a list of keywords should be matched.
-     */
-    public static final String ALL_OF = "all of";
-
-    /**
-     * A constant to indicate that any of a list of keywords should be matched.
-     */
-    public static final String ANY_OF = "any of";
-
-    /**
-     * A constant to indicate that an expression keyword should be matched.
-     */
-    public static final String EXPR = "expr";
-
     /**
      * Allow keywords to begin with a numeric or not.
      *
@@ -180,20 +120,6 @@ public abstract class Keywords {
     public static void setAllowNumericKeywords(boolean allowNumericKeywords) {
         ExprParser.allowNumericKeywords = allowNumericKeywords;
     }
-
-    /**
-     * Check if this keywords object accepts, or matches, the specified
-     * set of words. If the keywords type is "any of" or "all of",
-     * the set must have any or of all of the words specified
-     * in the keywords object; if the keywords type is "expr", the
-     * given expression must evaluate to true, when the words in the
-     * expression are true if they are present in the given set of words.
-     *
-     * @param s A set of words to compare against the keywords object.
-     * @return true if the the specified set of words are compatible
-     * with this keywords object.
-     */
-    public abstract boolean accepts(Set<String> s);
 
     private static Set<String> toLowerCase(Set<String> words) {
         if (words == null) {
@@ -227,7 +153,76 @@ public abstract class Keywords {
         return true;
     }
 
-    static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Keywords.class);
+    /**
+     * Get a human digestable version of the kw represented by this object.
+     *
+     * @return Human readable, fully descriptive rendering of current kw setting
+     */
+    public String getSummary() {
+        return text;
+    }
+
+    /**
+     * Set the descriptive representation of the kw expression provided by the user.
+     *
+     * @param text Useful text rendering of current kw expression
+     */
+    void setSummary(String text) {
+        this.text = text;
+    }
+
+    /**
+     * Check if this keywords object accepts, or matches, the specified
+     * set of words. If the keywords type is "any of" or "all of",
+     * the set must have any or of all of the words specified
+     * in the keywords object; if the keywords type is "expr", the
+     * given expression must evaluate to true, when the words in the
+     * expression are true if they are present in the given set of words.
+     *
+     * @param s A set of words to compare against the keywords object.
+     * @return true if the the specified set of words are compatible
+     * with this keywords object.
+     */
+    public abstract boolean accepts(Set<String> s);
+
+    /**
+     * An exception used to report errors while using a Keywords object.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
+    }
 
 }
 
@@ -336,6 +331,16 @@ class AnyKeywords extends SetKeywords {
 //------------------------------------------------------------------------------
 
 class ExprParser {
+    private static final int
+            ID = 0, AND = 1, OR = 2, NOT = 3, LPAREN = 4, RPAREN = 5, END = 6, ERROR = 7;
+    protected static boolean allowNumericKeywords =
+            Boolean.getBoolean("javatest.allowNumericKeywords");
+    private static I18NResourceBundle i18n = Keywords.i18n;
+    private String text;
+    private Set<String> validKeywords;
+    private int index;
+    private int token;
+    private String idValue;
     ExprParser(String text, Set<String> validKeywords) {
         this.text = text;
         this.validKeywords = validKeywords;
@@ -444,18 +449,6 @@ class ExprParser {
         }
         token = END;
     }
-
-    protected static boolean allowNumericKeywords =
-            Boolean.getBoolean("javatest.allowNumericKeywords");
-    private String text;
-    private Set<String> validKeywords;
-    private int index;
-    private int token;
-    private String idValue;
-    private static final int
-            ID = 0, AND = 1, OR = 2, NOT = 3, LPAREN = 4, RPAREN = 5, END = 6, ERROR = 7;
-
-    private static I18NResourceBundle i18n = Keywords.i18n;
 }
 
 //------------------------------------------------------------------------------
@@ -475,6 +468,9 @@ abstract class ExprKeywords extends Keywords {
 //------------------------------------------------------------------------------
 
 abstract class BinaryExprKeywords extends ExprKeywords {
+    protected ExprKeywords left;
+    protected ExprKeywords right;
+
     BinaryExprKeywords(ExprKeywords left, ExprKeywords right) {
         this.left = left;
         this.right = right;
@@ -517,9 +513,6 @@ abstract class BinaryExprKeywords extends ExprKeywords {
         hash = 97 * hash + (this.right != null ? this.right.hashCode() : 0);
         return hash;
     }
-
-    protected ExprKeywords left;
-    protected ExprKeywords right;
 }
 
 class AndExprKeywords extends BinaryExprKeywords {
@@ -550,6 +543,8 @@ class AndExprKeywords extends BinaryExprKeywords {
 //------------------------------------------------------------------------------
 
 class NotExprKeywords extends ExprKeywords {
+    private ExprKeywords expr;
+
     NotExprKeywords(ExprKeywords expr) {
         this.expr = expr;
     }
@@ -581,7 +576,6 @@ class NotExprKeywords extends ExprKeywords {
         return hash;
     }
 
-
     @Override
     int precedence() {
         return 2;
@@ -591,8 +585,6 @@ class NotExprKeywords extends ExprKeywords {
     public String toString() {
         return "!" + expr;
     }
-
-    private ExprKeywords expr;
 }
 
 class OrExprKeywords extends BinaryExprKeywords {
@@ -622,6 +614,8 @@ class OrExprKeywords extends BinaryExprKeywords {
 //------------------------------------------------------------------------------
 
 class ParenExprKeywords extends ExprKeywords {
+    private ExprKeywords expr;
+
     ParenExprKeywords(ExprKeywords expr) {
         this.expr = expr;
     }
@@ -653,7 +647,6 @@ class ParenExprKeywords extends ExprKeywords {
         return hash;
     }
 
-
     @Override
     int precedence() {
         return 2;
@@ -663,11 +656,11 @@ class ParenExprKeywords extends ExprKeywords {
     public String toString() {
         return "(" + expr + ")";
     }
-
-    private ExprKeywords expr;
 }
 
 class TermExprKeywords extends ExprKeywords {
+    private String key;
+
     TermExprKeywords(String key) {
         this.key = key;
     }
@@ -699,7 +692,6 @@ class TermExprKeywords extends ExprKeywords {
         return hash;
     }
 
-
     @Override
     int precedence() {
         return 2;
@@ -709,6 +701,4 @@ class TermExprKeywords extends ExprKeywords {
     public String toString() {
         return key;
     }
-
-    private String key;
 }

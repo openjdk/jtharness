@@ -36,17 +36,9 @@ import com.sun.javatest.util.DynamicArray;
  */
 public abstract class ObservableTestFilter extends TestFilter {
     /**
-     * An observer that is notified when the filter has been changed.
+     * The set of observers for this filter.
      */
-    public interface Observer {
-        /**
-         * A notification message that is called when the filter has
-         * been changed.
-         *
-         * @param filter The filter that has been changed
-         */
-        void filterUpdated(ObservableTestFilter filter);
-    }
+    protected Observer[] observers = new Observer[0];
 
     /**
      * Add an observer to be notified when this filter has been changed.
@@ -80,8 +72,16 @@ public abstract class ObservableTestFilter extends TestFilter {
     }
 
     /**
-     * The set of observers for this filter.
+     * An observer that is notified when the filter has been changed.
      */
-    protected Observer[] observers = new Observer[0];
+    public interface Observer {
+        /**
+         * A notification message that is called when the filter has
+         * been changed.
+         *
+         * @param filter The filter that has been changed
+         */
+        void filterUpdated(ObservableTestFilter filter);
+    }
 }
 

@@ -59,6 +59,23 @@ import java.util.Vector;
 
 public class NavigationPane extends JPanel {
 
+    private static final int MAX_ROWS_DISPLAY = 20;
+    private UIFactory uif;
+    private String uiKey;
+    private History history;
+    private Action homeAction;
+    private Action backAction;
+    private Action forwardAction;
+    private JButton homeBtn;
+    private JButton backBtn;
+    private JButton forwardBtn;
+    private JComboBox<URL> selectBox;
+    private DefaultComboBoxModel<URL> model;
+    private Listener listener = new Listener();
+    private JToolBar toolBar;
+    private MultiFormatPane mediaPane;
+    private URL homeURL;
+
     public NavigationPane(UIFactory uif, MultiFormatPane mediaPane) {
 
         if (mediaPane == null) {
@@ -77,13 +94,13 @@ public class NavigationPane extends JPanel {
         mediaPane.setNavigationPane(this);
     }
 
+    public URL getHomeURL() {
+        return homeURL;
+    }
+
     public void setHomeURL(URL url) {
         homeURL = url;
         homeAction.setEnabled(true);
-    }
-
-    public URL getHomeURL() {
-        return homeURL;
     }
 
     public void setURLs(URL... urls) {
@@ -214,7 +231,6 @@ public class NavigationPane extends JPanel {
         };
     }
 
-
     private DefaultComboBoxModel<URL> createModel() {
         if (model == null) {
             model = new DefaultComboBoxModel<>();
@@ -236,20 +252,11 @@ public class NavigationPane extends JPanel {
         }
     }
 
-    private class Listener implements ItemListener {
-        @Override
-        public void itemStateChanged(ItemEvent e) {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                mediaPane.stopAudio();
-                URL url = (URL) e.getItem();
-                mediaPane.loadPage(url);
-            }
-        }
-    }
-
-
     // History
     private static class History {
+        private Vector<URL> entries = new Vector<>();
+        private int index;
+
         boolean hasPrev() {
             return index > 0;
         }
@@ -298,13 +305,23 @@ public class NavigationPane extends JPanel {
             entries.clear();
             index = -1;
         }
-
-        private Vector<URL> entries = new Vector<>();
-        private int index;
     }
 
+    private class Listener implements ItemListener {
+        @Override
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                mediaPane.stopAudio();
+                URL url = (URL) e.getItem();
+                mediaPane.loadPage(url);
+            }
+        }
+    }
 
     private class Renderer extends DefaultListCellRenderer {
+
+        private Container container;
+        private StringFitter sf;
 
         public Renderer() {
             setPreferredSize(new JLabel("MinSize").getPreferredSize());
@@ -361,36 +378,7 @@ public class NavigationPane extends JPanel {
         private String extractPrefix(String origStr, String target) {
             return (!origStr.startsWith(target)) ? origStr : origStr.substring(target.length());
         }
-
-        private Container container;
-        private StringFitter sf;
     }
-
-
-    private UIFactory uif;
-    private String uiKey;
-
-    private History history;
-
-    private Action homeAction;
-    private Action backAction;
-    private Action forwardAction;
-
-    private JButton homeBtn;
-    private JButton backBtn;
-    private JButton forwardBtn;
-
-    private JComboBox<URL> selectBox;
-
-    private DefaultComboBoxModel<URL> model;
-    private Listener listener = new Listener();
-    private JToolBar toolBar;
-
-    private static final int MAX_ROWS_DISPLAY = 20;
-
-    private MultiFormatPane mediaPane;
-
-    private URL homeURL;
 
 
 }

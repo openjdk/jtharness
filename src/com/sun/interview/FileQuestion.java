@@ -34,6 +34,22 @@ import java.util.Map;
  */
 public abstract class FileQuestion extends Question {
     /**
+     * The current (default or latest) response to this question.
+     */
+    protected File value;
+    /**
+     * Suggested values for this question.
+     */
+    protected File[] suggestions;
+    /**
+     * The default response for this question.
+     */
+    private File defaultValue;
+    private File baseDir;
+    private boolean baseRelativeOnly;
+    private FileFilter[] filters;
+
+    /**
      * Create a question with a nominated tag.
      *
      * @param interview The interview containing this question.
@@ -47,6 +63,18 @@ public abstract class FileQuestion extends Question {
         }
 
         setDefaultValue(value);
+    }
+
+    /**
+     * Determine if two filenames are equal.
+     *
+     * @param f1 the first filename to be compared
+     * @param f2 the other filename to be compared
+     * @return true if both filenames are null, or if both
+     * identify the same filename
+     */
+    protected static boolean equal(File f1, File f2) {
+        return f1 == null ? f2 == null : f1.equals(f2);
     }
 
     /**
@@ -111,26 +139,6 @@ public abstract class FileQuestion extends Question {
     }
 
     /**
-     * Verify this question is on the current path, and if it is,
-     * return the current value.
-     *
-     * @return the current value of this question
-     * @throws Interview.NotOnPathFault if this question is not on the
-     *                                  current path
-     * @see #getValue
-     */
-    public File getValueOnPath()
-            throws Interview.NotOnPathFault {
-        interview.verifyPathContains(this);
-        return getValue();
-    }
-
-    @Override
-    public String getStringValue() {
-        return value == null ? null : value.getPath();
-    }
-
-    /**
      * Set the response to this question to the value represented by
      * a string-valued argument.
      *
@@ -154,6 +162,26 @@ public abstract class FileQuestion extends Question {
             interview.updatePath(this);
             interview.setEdited(true);
         }
+    }
+
+    /**
+     * Verify this question is on the current path, and if it is,
+     * return the current value.
+     *
+     * @return the current value of this question
+     * @throws Interview.NotOnPathFault if this question is not on the
+     *                                  current path
+     * @see #getValue
+     */
+    public File getValueOnPath()
+            throws Interview.NotOnPathFault {
+        interview.verifyPathContains(this);
+        return getValue();
+    }
+
+    @Override
+    public String getStringValue() {
+        return value == null ? null : value.getPath();
     }
 
     @Override
@@ -194,19 +222,6 @@ public abstract class FileQuestion extends Question {
     }
 
     /**
-     * Set a filter used to select valid files for a response
-     * to this question.
-     *
-     * @param filter a filter used to select valid files for a response
-     *               to this question
-     * @see #getFilters
-     * @see #setFilters
-     */
-    public void setFilter(FileFilter filter) {
-        filters = new FileFilter[]{filter};
-    }
-
-    /**
      * Set the filters used to select valid files for a response
      * to this question.
      *
@@ -217,6 +232,19 @@ public abstract class FileQuestion extends Question {
      */
     public void setFilters(FileFilter... filters) {
         this.filters = filters;
+    }
+
+    /**
+     * Set a filter used to select valid files for a response
+     * to this question.
+     *
+     * @param filter a filter used to select valid files for a response
+     *               to this question
+     * @see #getFilters
+     * @see #setFilters
+     */
+    public void setFilter(FileFilter filter) {
+        filters = new FileFilter[]{filter};
     }
 
     /**
@@ -302,38 +330,4 @@ public abstract class FileQuestion extends Question {
             data.put(tag, value.toString());
         }
     }
-
-
-    /**
-     * Determine if two filenames are equal.
-     *
-     * @param f1 the first filename to be compared
-     * @param f2 the other filename to be compared
-     * @return true if both filenames are null, or if both
-     * identify the same filename
-     */
-    protected static boolean equal(File f1, File f2) {
-        return f1 == null ? f2 == null : f1.equals(f2);
-    }
-
-    /**
-     * The current (default or latest) response to this question.
-     */
-    protected File value;
-
-    /**
-     * Suggested values for this question.
-     */
-    protected File[] suggestions;
-
-    /**
-     * The default response for this question.
-     */
-    private File defaultValue;
-
-    private File baseDir;
-
-    private boolean baseRelativeOnly;
-
-    private FileFilter[] filters;
 }

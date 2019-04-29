@@ -81,6 +81,20 @@ import java.net.URL;
  */
 public class ShowFile
         extends JComponent {
+    private static final int DEFAULT_WIDTH = 5;
+    private static final int DEFAULT_HEIGHT = 7;
+    private static JFrame frame;
+    private static JScrollPane scrollPane;
+    private static JTextArea textArea;
+    private static Highlighter.HighlightPainter highlightPainter;
+    private String title;
+    private String path;
+    private String startLine;
+    private String text = "link";
+    private Font font;
+    private Color color = Color.blue;
+    private View view;
+
     public ShowFile() {
         addMouseListener(new MouseAdapter() {
             @Override
@@ -322,19 +336,4 @@ public class ShowFile
         }
         return i;
     }
-
-    private String title;
-    private String path;
-    private String startLine;
-    private String text = "link";
-    private Font font;
-    private Color color = Color.blue;
-    private View view;
-
-    private static JFrame frame;
-    private static JScrollPane scrollPane;
-    private static JTextArea textArea;
-    private static Highlighter.HighlightPainter highlightPainter;
-    private static final int DEFAULT_WIDTH = 5;
-    private static final int DEFAULT_HEIGHT = 7;
 }

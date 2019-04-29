@@ -42,6 +42,11 @@ import java.io.FileNotFoundException;
  */
 public class TestSuiteChooser extends JFileChooser {
 
+    private FileInfoCache cache = new FileInfoCache();
+    private TestSuite selectedTestSuite;
+    private UIFactory uif;
+    private Icon icon;
+
     /**
      * Create a TestSuiteChooser, initially showing the user's current directory.
      */
@@ -88,6 +93,32 @@ public class TestSuiteChooser extends JFileChooser {
         // approveSelection(File) below gets called for all directories:
         // we still have to redispatch according to whether it is a work
         // directory or not.
+    }
+
+    private static boolean isIgnoreable(File f) {
+        // Take care not touch the floppy disk drive on Windows
+        // because if there is no disk in it, the user will get a dialog.
+        // Root directories (such as A:) have an empty name,
+        // so use that to avoid touching the file itself.
+        // This means we can't put a test suite in the root of
+        // the file system, but that is a lesser inconvenience
+        // than floppy dialogs!
+        return f.getName().isEmpty();
+    }
+
+    private static File normalize(File dir) {
+        // check this and all parent directories, in case any one is a test suite
+        for (File d = dir; d != null && !isIgnoreable(d); d = d.getParentFile()) {
+            if (TestSuite.isTestSuite(d)) {
+                // found a parent directory that is a test suite,
+                // so normalize to this directory's parent
+                File p = d.getParentFile();
+                return p != null ? p : dir;
+            }
+        }
+
+        // no test suite found, so nothing wrong with this dir
+        return dir;
     }
 
     /**
@@ -192,37 +223,6 @@ public class TestSuiteChooser extends JFileChooser {
             return b;
         }
     }
-
-    private static boolean isIgnoreable(File f) {
-        // Take care not touch the floppy disk drive on Windows
-        // because if there is no disk in it, the user will get a dialog.
-        // Root directories (such as A:) have an empty name,
-        // so use that to avoid touching the file itself.
-        // This means we can't put a test suite in the root of
-        // the file system, but that is a lesser inconvenience
-        // than floppy dialogs!
-        return f.getName().isEmpty();
-    }
-
-    private static File normalize(File dir) {
-        // check this and all parent directories, in case any one is a test suite
-        for (File d = dir; d != null && !isIgnoreable(d); d = d.getParentFile()) {
-            if (TestSuite.isTestSuite(d)) {
-                // found a parent directory that is a test suite,
-                // so normalize to this directory's parent
-                File p = d.getParentFile();
-                return p != null ? p : dir;
-            }
-        }
-
-        // no test suite found, so nothing wrong with this dir
-        return dir;
-    }
-
-    private FileInfoCache cache = new FileInfoCache();
-    private TestSuite selectedTestSuite;
-    private UIFactory uif;
-    private Icon icon;
 
     private class TSC_FileView extends FileView {
         @Override

@@ -41,6 +41,9 @@ import java.net.URL;
  */
 class Icon extends Component {
 
+    protected Image image;
+    private Dimension imageSize;
+
     public Icon(Image i) {
         image = i;
         waitForSize();
@@ -48,6 +51,8 @@ class Icon extends Component {
         imageSize.width = i.getWidth(this);
         imageSize.height = i.getHeight(this);
     }
+
+    // --- Component methods ----------------------------------------------------
 
     public Icon(String name) {
         Toolkit kit = getToolkit();
@@ -68,8 +73,6 @@ class Icon extends Component {
         imageSize.height = image.getHeight(this);
     }
 
-    // --- Component methods ----------------------------------------------------
-
     @Override
     public Dimension getMinimumSize() {
         return getPreferredSize();
@@ -79,6 +82,8 @@ class Icon extends Component {
     public Dimension getPreferredSize() {
         return imageSize;
     }
+
+    // --- local methods ---------------------------------------------
 
     @Override
     public Dimension getMaximumSize() {
@@ -93,7 +98,7 @@ class Icon extends Component {
         }
     }
 
-    // --- local methods ---------------------------------------------
+    // --- member variables ------------------------------------------
 
     /**
      * provides sychronization with the determination of the image size.
@@ -110,9 +115,4 @@ class Icon extends Component {
     protected Dimension getImageSize() {
         return imageSize;
     }
-
-    // --- member variables ------------------------------------------
-
-    protected Image image;
-    private Dimension imageSize;
 }

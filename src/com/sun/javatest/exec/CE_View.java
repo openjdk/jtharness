@@ -36,6 +36,15 @@ import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 
 abstract class CE_View extends JPanel {
+    static final String FULL = "full";
+    static final String STD = "std";
+    static final String DONE = "done";
+    protected ToolDialog toolDialog;
+    protected InterviewParameters config;
+    protected JHelpContentViewer infoPanel;
+    protected UIFactory uif;
+    protected ActionListener listener;
+
     protected CE_View(InterviewParameters config,
                       JHelpContentViewer infoPanel,
                       UIFactory uif, ActionListener l) {
@@ -55,12 +64,12 @@ abstract class CE_View extends JPanel {
     void refresh() {
     }
 
-    public void setParentToolDialog(ToolDialog d) {
-        toolDialog = d;
-    }
-
     public ToolDialog getParentToolDialog() {
         return toolDialog;
+    }
+
+    public void setParentToolDialog(ToolDialog d) {
+        toolDialog = d;
     }
 
     protected boolean isInfoVisible() {
@@ -73,15 +82,4 @@ abstract class CE_View extends JPanel {
             infoPanel.setCurrentID(helpId);
         }
     }
-
-    protected ToolDialog toolDialog;
-
-    protected InterviewParameters config;
-    protected JHelpContentViewer infoPanel;
-    protected UIFactory uif;
-    protected ActionListener listener;
-
-    static final String FULL = "full";
-    static final String STD = "std";
-    static final String DONE = "done";
 }

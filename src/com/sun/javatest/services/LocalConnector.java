@@ -50,19 +50,19 @@ public class LocalConnector implements Connector {
     }
 
     /**
+     * @return currently used ServiceExecutor.
+     */
+    public ServiceExecutor getExecutor() {
+        return executor;
+    }
+
+    /**
      * Method to replace default executor.
      *
      * @param executor ServiceExecutor to connect with
      */
     public void setExecutor(ServiceExecutor executor) {
         this.executor = executor;
-    }
-
-    /**
-     * @return currently used ServiceExecutor.
-     */
-    public ServiceExecutor getExecutor() {
-        return executor;
     }
 
     @Override

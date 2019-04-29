@@ -74,10 +74,6 @@ public class ProcessExecutor implements ServiceExecutor {
         }
     }
 
-    public static class BadMessageException extends Exception {
-
-    }
-
     @Override
     public Message startService(Message startMsg) {
 
@@ -175,5 +171,9 @@ public class ProcessExecutor implements ServiceExecutor {
         } else {
             return null;
         }
+    }
+
+    public static class BadMessageException extends Exception {
+
     }
 }

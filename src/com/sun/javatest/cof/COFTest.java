@@ -108,17 +108,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 })*/
 public class COFTest extends COFItem {
 
+    protected final static Pattern idPattern = Pattern.compile(".*[^\\w\\.\\[\\]\\(\\)\\{\\},_\\-]([\\w\\.\\[\\]\\(\\)\\{\\},_\\-]+)");
+    protected final static Pattern testCasePattern = Pattern //.compile("^(\\S+): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
+            .compile("^(.*): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
     private static final Date badDate = new Date(0);
     private static final String[] cofStatus = new String[Status.NUM_STATES];
     static long count = 0;
-    private static DateFormat[] dateFormats;
-    protected final static Pattern idPattern = Pattern.compile(".*[^\\w\\.\\[\\]\\(\\)\\{\\},_\\-]([\\w\\.\\[\\]\\(\\)\\{\\},_\\-]+)");
     static boolean noTestCases = false;
-    protected final static Pattern testCasePattern = Pattern //.compile("^(\\S+): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
-            .compile("^(.*): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
     static LinkedHashMap<String, String> xmlAttributes;
     static LinkedHashMap<String, String> xmlElements;
     static String xmlTagName;
+    private static DateFormat[] dateFormats;
 
     static {
         xmlElements = new LinkedHashMap<>();
@@ -145,6 +145,7 @@ public class COFTest extends COFItem {
         cofStatus[Status.NOT_RUN] = "did_not_run";
     }
 
+    final long idNum = count++;
     //    @XmlAttribute
     protected String analysis;
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
@@ -158,7 +159,6 @@ public class COFTest extends COFItem {
     protected Date endtime;
     //    @XmlAttribute(required = true)
     protected String id;
-    final long idNum = count++;
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected String name;
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", type = String.class)
@@ -200,6 +200,78 @@ public class COFTest extends COFItem {
             attributes.getAttribute().add(new COFTestAttribute("javaopt", jo));
         }
 
+    }
+
+    /**
+     * Sets the value of the id property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    //  public void setId(String value) {
+    //          this.id = value;
+    //  }
+    private static void initDateFormats() {
+        Vector<DateFormat> v = new Vector<>();
+
+        // generic Java default
+        // 10-Sep-99 3:25:11 PM
+        v.add(DateFormat.getDateTimeInstance());
+
+        // standard IETF date syntax
+        // Fri, 10 September 1999 03:25:12 PDT
+        v.add(new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:ss zzz"));
+
+        // Unix C time
+        // Fri Sep 10 14:41:37 PDT 1999
+        v.add(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy"));
+
+        // XML time
+        // 1999-09-10T03:25:12.123 (ISO 8601, sect 5.4)
+        v.add(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS"));
+
+        // allow user-specified format
+        String s = System.getProperty("javatest.date.format");
+        if (s != null) {
+            v.add(new SimpleDateFormat(s));
+        }
+
+        dateFormats = v.toArray(new DateFormat[v.size()]);
+    }
+
+    private static Date parseDate(String s) {
+        for (int i = 0; i < dateFormats.length; i++) {
+            try {
+                Date d = dateFormats[i].parse(s);
+                // successfully parsed the date; shuffle the format to the front
+                // to speed up future parses, assuming dates will likely be similar
+                if (i > 0) {
+                    DateFormat tmp = dateFormats[i];
+                    System.arraycopy(dateFormats, 0, dateFormats, 1, i);
+                    dateFormats[0] = tmp;
+                }
+                return d;
+            } catch (ParseException e) {
+                //System.err.println("pattern: " + ((SimpleDateFormat)dateFormats[i]).toPattern());
+                //System.err.println("  value: " + s);
+                //System.err.println("example: " + dateFormats[i].format(new Date()));
+            }
+        }
+
+        return badDate;
+    }
+
+    private static Date parseDate(TestResult tr, String key) {
+        try {
+            String s = tr.getProperty(key);
+            if (s != null && !s.isEmpty()) {
+                return parseDate(s);
+            }
+        } catch (TestResult.Fault e) {
+            System.err.println(e);
+        }
+        // default, if no entry in test result, or if error reloading test result
+        return badDate;
     }
 
     protected void fillTestCases(TestResult tr) {
@@ -305,6 +377,16 @@ public class COFTest extends COFItem {
     }
 
     /**
+     * Sets the value of the analysis property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setAnalysis(String value) {
+        this.analysis = value;
+    }
+
+    /**
      * Gets the value of the appuse property.
      *
      * <p>
@@ -342,6 +424,16 @@ public class COFTest extends COFItem {
     }
 
     /**
+     * Sets the value of the attributes property.
+     *
+     * @param value allowed object is
+     *              {@link COFTestAttributes }
+     */
+    public void setAttributes(COFTestAttributes value) {
+        this.attributes = value;
+    }
+
+    /**
      * Gets the value of the description property.
      *
      * @return possible object is
@@ -352,6 +444,16 @@ public class COFTest extends COFItem {
     }
 
     /**
+     * Sets the value of the description property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setDescription(String value) {
+        this.description = value;
+    }
+
+    /**
      * Gets the value of the endtime property.
      *
      * @return possible object is
@@ -359,6 +461,16 @@ public class COFTest extends COFItem {
      */
     public Date getEndtime() {
         return endtime;
+    }
+
+    /**
+     * Sets the value of the endtime property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setEndtime(Date value) {
+        this.endtime = value;
     }
 
     /**
@@ -406,148 +518,6 @@ public class COFTest extends COFItem {
     }
 
     /**
-     * Gets the value of the starttime property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public Date getStarttime() {
-        return starttime;
-    }
-
-    /**
-     * Gets the value of the status property.
-     *
-     * @return possible object is
-     * {@link COFStatus }
-     */
-    public COFStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * Gets the value of the testcases property.
-     *
-     * @return possible object is
-     * {@link COFTestCases }
-     */
-    public COFTestCases getTestcases() {
-        return testcases;
-    }
-
-    /**
-     * Sets the value of the id property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    //  public void setId(String value) {
-    //          this.id = value;
-    //  }
-    private static void initDateFormats() {
-        Vector<DateFormat> v = new Vector<>();
-
-        // generic Java default
-        // 10-Sep-99 3:25:11 PM
-        v.add(DateFormat.getDateTimeInstance());
-
-        // standard IETF date syntax
-        // Fri, 10 September 1999 03:25:12 PDT
-        v.add(new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:ss zzz"));
-
-        // Unix C time
-        // Fri Sep 10 14:41:37 PDT 1999
-        v.add(new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy"));
-
-        // XML time
-        // 1999-09-10T03:25:12.123 (ISO 8601, sect 5.4)
-        v.add(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS"));
-
-        // allow user-specified format
-        String s = System.getProperty("javatest.date.format");
-        if (s != null) {
-            v.add(new SimpleDateFormat(s));
-        }
-
-        dateFormats = v.toArray(new DateFormat[v.size()]);
-    }
-
-    private static Date parseDate(String s) {
-        for (int i = 0; i < dateFormats.length; i++) {
-            try {
-                Date d = dateFormats[i].parse(s);
-                // successfully parsed the date; shuffle the format to the front
-                // to speed up future parses, assuming dates will likely be similar
-                if (i > 0) {
-                    DateFormat tmp = dateFormats[i];
-                    System.arraycopy(dateFormats, 0, dateFormats, 1, i);
-                    dateFormats[0] = tmp;
-                }
-                return d;
-            } catch (ParseException e) {
-                //System.err.println("pattern: " + ((SimpleDateFormat)dateFormats[i]).toPattern());
-                //System.err.println("  value: " + s);
-                //System.err.println("example: " + dateFormats[i].format(new Date()));
-            }
-        }
-
-        return badDate;
-    }
-
-    private static Date parseDate(TestResult tr, String key) {
-        try {
-            String s = tr.getProperty(key);
-            if (s != null && !s.isEmpty()) {
-                return parseDate(s);
-            }
-        } catch (TestResult.Fault e) {
-            System.err.println(e);
-        }
-        // default, if no entry in test result, or if error reloading test result
-        return badDate;
-    }
-
-    /**
-     * Sets the value of the analysis property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setAnalysis(String value) {
-        this.analysis = value;
-    }
-
-    /**
-     * Sets the value of the attributes property.
-     *
-     * @param value allowed object is
-     *              {@link COFTestAttributes }
-     */
-    public void setAttributes(COFTestAttributes value) {
-        this.attributes = value;
-    }
-
-    /**
-     * Sets the value of the description property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
-
-    /**
-     * Sets the value of the endtime property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setEndtime(Date value) {
-        this.endtime = value;
-    }
-
-    /**
      * Sets the value of the name property.
      *
      * @param value allowed object is
@@ -555,6 +525,16 @@ public class COFTest extends COFItem {
      */
     public void setName(String value) {
         this.name = value;
+    }
+
+    /**
+     * Gets the value of the starttime property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public Date getStarttime() {
+        return starttime;
     }
 
     /**
@@ -568,6 +548,16 @@ public class COFTest extends COFItem {
     }
 
     /**
+     * Gets the value of the status property.
+     *
+     * @return possible object is
+     * {@link COFStatus }
+     */
+    public COFStatus getStatus() {
+        return status;
+    }
+
+    /**
      * Sets the value of the status property.
      *
      * @param value allowed object is
@@ -575,6 +565,16 @@ public class COFTest extends COFItem {
      */
     public void setStatus(COFStatus value) {
         this.status = value;
+    }
+
+    /**
+     * Gets the value of the testcases property.
+     *
+     * @return possible object is
+     * {@link COFTestCases }
+     */
+    public COFTestCases getTestcases() {
+        return testcases;
     }
 
     /**

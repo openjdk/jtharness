@@ -43,46 +43,16 @@ import java.util.MissingResourceException;
  * @see Tool
  */
 public abstract class ToolManager {
-    /**
-     * This exception is used to report problems while using a tool manager.
-     */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        public Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
-    }
+    private static final I18NResourceBundle localI18N =
+            I18NResourceBundle.getBundleForClass(ToolManager.class);
 
     //----------------------------------------------------------------------------
+    /**
+     * The standard resource bundle for this tool manager, defined in the
+     * file <code>i18n.properties</code> in the same package as the tool manager.
+     */
+    protected final I18NResourceBundle i18n;
+    private final Desktop desktop;
 
     /**
      * Create a tool manager to manage tools on a desktop.
@@ -172,6 +142,8 @@ public abstract class ToolManager {
         return null;
     }
 
+    //----------------------------------------------------------------------------
+
     /**
      * Get actions for any items to appear in the desktop Tasks menu.
      *
@@ -233,15 +205,41 @@ public abstract class ToolManager {
     }
 
     /**
-     * The standard resource bundle for this tool manager, defined in the
-     * file <code>i18n.properties</code> in the same package as the tool manager.
+     * This exception is used to report problems while using a tool manager.
      */
-    protected final I18NResourceBundle i18n;
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        public Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
 
-    //----------------------------------------------------------------------------
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
 
-    private final Desktop desktop;
-
-    private static final I18NResourceBundle localI18N =
-            I18NResourceBundle.getBundleForClass(ToolManager.class);
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
+    }
 }

@@ -63,6 +63,15 @@ import java.util.WeakHashMap;
 
 
 class HelpMenu extends JMenu {
+    private static final String HELP = "help";
+    private static final String ABOUT_JAVA = "aboutJava";
+    private static final String ABOUT_JAVATEST = "aboutJavaTest";
+    private static Map<TestSuite, HelpSet[]> docTable = new WeakHashMap<>();  // gives HelpSet[] for TestSuite
+    private static Map<HelpSet, HelpBroker> helpBrokerTable = new WeakHashMap<>(); // gives HelpBroker for HelpSet
+    private Component parent;
+    private Desktop desktop;
+    private UIFactory uif;
+    private Listener listener;
     HelpMenu(Component parent, Desktop desktop, UIFactory uif) {
         this.parent = parent;
         this.desktop = desktop;
@@ -313,19 +322,6 @@ class HelpMenu extends JMenu {
         v.toArray(items);
         return items;
     }
-
-    private Component parent;
-    private Desktop desktop;
-    private UIFactory uif;
-
-    private Listener listener;
-
-    private static Map<TestSuite, HelpSet[]> docTable = new WeakHashMap<>();  // gives HelpSet[] for TestSuite
-    private static Map<HelpSet, HelpBroker> helpBrokerTable = new WeakHashMap<>(); // gives HelpBroker for HelpSet
-
-    private static final String HELP = "help";
-    private static final String ABOUT_JAVA = "aboutJava";
-    private static final String ABOUT_JAVATEST = "aboutJavaTest";
 
     private class Listener
             implements MenuListener, ActionListener {

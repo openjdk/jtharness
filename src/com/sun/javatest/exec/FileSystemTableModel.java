@@ -227,6 +227,8 @@ public class FileSystemTableModel extends AbstractTableModel {
     }
 
     static class FileTableFilter {
+        private String extension;
+
         FileTableFilter(String ext) {
             extension = ext;
         }
@@ -240,8 +242,6 @@ public class FileSystemTableModel extends AbstractTableModel {
             }
             return f.getName().endsWith(extension);
         }
-
-        private String extension;
     }
 
 }

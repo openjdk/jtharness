@@ -60,12 +60,11 @@ import java.util.TreeMap;
  */
 public class XMLServiceReader implements ServiceReader {
 
+    public static final String SERVICES_XML =
+            File.separator + "lib" + File.separator + "services.xml";
     private File xml;
     private Document doc;
     private TestSuite ts;
-
-    public static final String SERVICES_XML =
-            File.separator + "lib" + File.separator + "services.xml";
 
     /**
      * @return value of SERVICE_XML

@@ -31,6 +31,13 @@ import java.io.File;
 import java.util.ResourceBundle;
 
 class FileType extends FileFilter {
+    public static FileType allFiles = new FileType();
+    public static FileType jteFiles = new FileType("jte");
+    public static FileType jtpFiles = new FileType("jtp");
+    public static FileType jtxFiles = new FileType("jtx");
+    private static ResourceBundle i18n = ResourceBundle.getBundle("com.sun.javatest.exec.i18n");
+    private String desc;
+    private String[] extns;
     public FileType() {
     }
 
@@ -76,14 +83,4 @@ class FileType extends FileFilter {
         }
         return false;
     }
-
-    private String desc;
-    private String[] extns;
-
-    private static ResourceBundle i18n = ResourceBundle.getBundle("com.sun.javatest.exec.i18n");
-
-    public static FileType allFiles = new FileType();
-    public static FileType jteFiles = new FileType("jte");
-    public static FileType jtpFiles = new FileType("jtp");
-    public static FileType jtxFiles = new FileType("jtx");
 }

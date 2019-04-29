@@ -75,12 +75,43 @@ import java.util.Vector;
  * &lt;META name="glossaryKeywords" content="<i>space-separated list of keywords</i>"&gt;
  */
 public class Main {
+    private File[] inFiles;
+    private File htmlOutFile;
+    private File mapOutFile;
+    private File mapDir;
+    private File xmlOutFile;
+    private String keyword;
+    private Map<String, Entry> glossary;
+
+    public Main() {
+    }
+
     /**
-     * An exception to report bad command line arguments.
+     * Create an object based on command line args.
+     * It is an error if no input files or no output file is given.
+     *
+     * @param args Command line args.
+     * @throws Main.BadArgs if problems are found in the given arguments.
+     * @see #main
      */
-    public static class BadArgs extends Exception {
-        BadArgs(String msg) {
-            super(msg);
+    public Main(String... args) {
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equalsIgnoreCase("-htmlout") && i + 1 < args.length) {
+                htmlOutFile = new File(args[++i]);
+            } else if (args[i].equalsIgnoreCase("-xmlout") && i + 1 < args.length) {
+                xmlOutFile = new File(args[++i]);
+            } else if (args[i].equalsIgnoreCase("-mapout") && i + 1 < args.length) {
+                mapOutFile = new File(args[++i]);
+            } else if (args[i].equalsIgnoreCase("-mapdir") && i + 1 < args.length) {
+                mapDir = new File(args[++i]);
+            } else if (args[i].equalsIgnoreCase("-key") && i + 1 < args.length) {
+                keyword = args[++i];
+            } else {
+                inFiles = new File[args.length - i];
+                for (int j = 0; j < inFiles.length; j++) {
+                    inFiles[j] = new File(args[i++]);
+                }
+            }
         }
     }
 
@@ -130,78 +161,20 @@ public class Main {
         out.println("        HTML files and directories.");
     }
 
-    public Main() {
-    }
-
-    /**
-     * Create an object based on command line args.
-     * It is an error if no input files or no output file is given.
-     *
-     * @param args Command line args.
-     * @throws Main.BadArgs if problems are found in the given arguments.
-     * @see #main
-     */
-    public Main(String... args) {
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equalsIgnoreCase("-htmlout") && i + 1 < args.length) {
-                htmlOutFile = new File(args[++i]);
-            } else if (args[i].equalsIgnoreCase("-xmlout") && i + 1 < args.length) {
-                xmlOutFile = new File(args[++i]);
-            } else if (args[i].equalsIgnoreCase("-mapout") && i + 1 < args.length) {
-                mapOutFile = new File(args[++i]);
-            } else if (args[i].equalsIgnoreCase("-mapdir") && i + 1 < args.length) {
-                mapDir = new File(args[++i]);
-            } else if (args[i].equalsIgnoreCase("-key") && i + 1 < args.length) {
-                keyword = args[++i];
+    private static String getTarget(String key) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("glossary.");
+        boolean needUpper = false;
+        for (int i = 0; i < key.length(); i++) {
+            char c = key.charAt(i);
+            if (Character.isLetter(c)) {
+                sb.append(needUpper ? Character.toUpperCase(c) : c);
+                needUpper = false;
             } else {
-                inFiles = new File[args.length - i];
-                for (int j = 0; j < inFiles.length; j++) {
-                    inFiles[j] = new File(args[i++]);
-                }
+                needUpper = true;
             }
         }
-    }
-
-    public static class Ant extends MatchingTask {
-        private Main m = new Main();
-
-        public void setHtmlOutFile(File file) {
-            m.htmlOutFile = file;
-        }
-
-        public void setXmlOutFile(File file) {
-            m.xmlOutFile = file;
-        }
-
-        public void setMapOutFile(File file) {
-            m.mapOutFile = file;
-        }
-
-        public void setMapDir(File file) {
-            m.mapDir = file;
-        }
-
-        public void setKeyword(String key) {
-            m.keyword = key;
-        }
-
-        public void setDir(File dir) {
-            getImplicitFileSet().setDir(dir);
-        }
-
-        @Override
-        public void execute() {
-            FileScanner s = getImplicitFileSet().getDirectoryScanner(getProject());
-            m.addFiles(s.getBasedir(), s.getIncludedFiles());
-
-            try {
-                m.run();
-            } catch (BadArgs e) {
-                throw new BuildException(e.getMessage());
-            } catch (IOException e) {
-                throw new BuildException(e);
-            }
-        }
+        return sb.toString();
     }
 
     public void addFiles(File baseDir, String... paths) {
@@ -364,34 +337,220 @@ public class Main {
         return fp.startsWith(dp) ? new File(fp.substring(dp.length())) : file;
     }
 
-    private static String getTarget(String key) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("glossary.");
-        boolean needUpper = false;
-        for (int i = 0; i < key.length(); i++) {
-            char c = key.charAt(i);
-            if (Character.isLetter(c)) {
-                sb.append(needUpper ? Character.toUpperCase(c) : c);
-                needUpper = false;
-            } else {
-                needUpper = true;
-            }
+    /**
+     * An exception to report bad command line arguments.
+     */
+    public static class BadArgs extends Exception {
+        BadArgs(String msg) {
+            super(msg);
         }
-        return sb.toString();
     }
 
-    private File[] inFiles;
-    private File htmlOutFile;
-    private File mapOutFile;
-    private File mapDir;
-    private File xmlOutFile;
-    private String keyword;
-    private Map<String, Entry> glossary;
+    public static class Ant extends MatchingTask {
+        private Main m = new Main();
+
+        public void setHtmlOutFile(File file) {
+            m.htmlOutFile = file;
+        }
+
+        public void setXmlOutFile(File file) {
+            m.xmlOutFile = file;
+        }
+
+        public void setMapOutFile(File file) {
+            m.mapOutFile = file;
+        }
+
+        public void setMapDir(File file) {
+            m.mapDir = file;
+        }
+
+        public void setKeyword(String key) {
+            m.keyword = key;
+        }
+
+        public void setDir(File dir) {
+            getImplicitFileSet().setDir(dir);
+        }
+
+        @Override
+        public void execute() {
+            FileScanner s = getImplicitFileSet().getDirectoryScanner(getProject());
+            m.addFiles(s.getBasedir(), s.getIncludedFiles());
+
+            try {
+                m.run();
+            } catch (BadArgs e) {
+                throw new BuildException(e.getMessage());
+            } catch (IOException e) {
+                throw new BuildException(e);
+            }
+        }
+    }
 
 }
 
 
 class Entry {
+    private static final int NO_COPY = 0, PENDING_COPY = 1, SUPPRESS_COPY = 2, COPY = 3;
+    private File file;
+    private String head1;
+    private String text;
+    private Set<String> keywords;
+    private Reader in;
+
+//    private boolean isArea(String tag) {
+//      return tag.equals("area");
+//    }
+//
+//    /**
+//     * Process the contents of <area ... href=...>
+//     */
+//    private void scanArea() throws IOException {
+//      out.write(pendingCopy.toString());
+//      copyMode = COPY;
+//
+//      skipSpace();
+//      while (c != '>') {
+//          String att = scanIdentifier();
+//          if (att.equalsIgnoreCase("href") && copyMode == COPY) {
+//              // the current character should be a whitespace or =
+//              // either way, we just write out =
+//              out.write('=');
+//              copyMode = NO_COPY;
+//              String target = scanValue();
+//              URL t = new URL(currURL, target);
+//              String link = t.getFile();
+//              if (link.startsWith(basePath))
+//                  link = link.substring(basePath.length());
+//              if (link.endsWith(".html"))
+//                  link = link.substring(0, link.length() - 5);
+//              String ref = t.getRef();
+//              if (ref != null && ref.length() > 0)
+//                  link = link + "!" + ref;
+//              out.write("\"");
+//              out.write('#' + link);
+//              out.write("\" ");
+//              copyMode = COPY;
+//          }
+//          else
+//              scanValue();
+//          skipSpace();
+//      }
+//      nextCh();
+//    }
+    private Writer out;
+    private int c;
+    private boolean inHead1;
+    private int line;
+
+//    private boolean isImage(String tag) {
+//      return tag.equals("img");
+//    }
+//
+//    /**
+//     * Process the contents of <a href=...>
+//     */
+//    private void scanImage() throws IOException {
+//      out.write(pendingCopy.toString());
+//      copyMode = COPY;
+//
+//      skipSpace();
+//      while (c != '>') {
+//          String att = scanIdentifier();
+//          if (att.equalsIgnoreCase("src") && copyMode == COPY) {
+//              // the current character should be a whitespace or =
+//              // either way, we just write out =
+//              out.write('=');
+//              copyMode = NO_COPY;
+//              String src = scanValue();
+//              URL u = new URL(currURL, src);
+//              String srcPath = u.getFile();
+//              // if the path refers to an entry in the /images directory,
+//              // check for a matching entry in the /pdfImages directory
+//              // and use that if found.
+//              int imagesIndex = srcPath.indexOf("/images/");
+//              if (imagesIndex >= 0) {
+//                  String pdfImagePath = srcPath.substring(0, imagesIndex)
+//                      + "/pdfImages/"
+//                      + srcPath.substring(imagesIndex + "/images/".length());
+//                  if (new File(pdfImagePath).exists())
+//                      srcPath = pdfImagePath;
+//              }
+//              out.write('"');
+//              out.write(srcPath);
+//              out.write('"');
+//              copyMode = COPY;
+//          }
+//          else if (att.equalsIgnoreCase("usemap") && copyMode == COPY) {
+//              // the current character should be a whitespace or =
+//              // either way, we just write out =
+//              out.write('=');
+//              copyMode = NO_COPY;
+//              String target = scanValue();
+//              URL t = new URL(currURL, target);
+//              String link = t.getFile();
+//              if (link.startsWith(basePath))
+//                  link = link.substring(basePath.length());
+//              if (link.endsWith(".html"))
+//                  link = link.substring(0, link.length() - 5);
+//              String ref = t.getRef();
+//              if (ref != null && ref.length() > 0)
+//                  link = link + "!" + ref;
+//              out.write("\"");
+//              out.write('#' + link);
+//              out.write("\" ");
+//              copyMode = COPY;
+//          }
+//          else
+//              scanValue();
+//          skipSpace();
+//      }
+//      nextCh();
+//    }
+    private int copyMode;
+    private StringBuffer pendingCopy = new StringBuffer();
+
+//    private boolean isMap(String tag) {
+//      return tag.equals("map");
+//    }
+//
+//    /**
+//     * Process the contents of <map name=...>
+//     */
+//    private void scanMap() throws IOException {
+//      out.write(pendingCopy.toString());
+//      copyMode = COPY;
+//
+//      skipSpace();
+//      while (c != '>') {
+//          String att = scanIdentifier();
+//          if (att.equalsIgnoreCase("name") && copyMode == COPY) {
+//              // the current character should be a whitespace or =
+//              // either way, we just write out =
+//              out.write('=');
+//              copyMode = NO_COPY;
+//              String oldName = scanValue();
+//              String name = currURL.getFile();
+//              if (name.startsWith(basePath))
+//                  name = name.substring(basePath.length());
+//              if (name.endsWith(".html"))
+//                  name = name.substring(0, name.length() - 5);
+//              name = name + "!" + oldName;
+//              out.write('"');
+//              out.write(name);
+//              out.write('"');
+//              copyMode = COPY;
+//          }
+//          else
+//              scanValue();
+//          skipSpace();
+//      }
+//      nextCh();
+//    }
+    private int hIndent;
+    private int[] hNums = new int[6];
+
     Entry(File f) throws IOException {
         file = f;
         Reader in = new BufferedReader(new FileReader(f));
@@ -404,6 +563,57 @@ class Entry {
         // System.err.println(text);
         // System.err.println();
         // System.err.println();
+    }
+
+    private static String escape(String s) {
+        for (int i = 0; i < s.length(); i++) {
+            switch (s.charAt(i)) {
+                case '<':
+                case '>':
+                case '&':
+                    StringBuilder sb = new StringBuilder(s.length() * 2);
+                    for (int j = 0; j < s.length(); j++) {
+                        char c = s.charAt(j);
+                        switch (c) {
+                            case '<':
+                                sb.append("&lt;");
+                                break;
+                            case '>':
+                                sb.append("&gt;");
+                                break;
+                            case '&':
+                                sb.append("&amp;");
+                                break;
+                            default:
+                                sb.append(c);
+                        }
+                    }
+                    return sb.toString();
+            }
+        }
+        return s;
+    }
+
+    private static String[] split(String s) {
+        Vector<String> strings = new Vector<>();
+        int start = -1;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (Character.isLetterOrDigit(c) || c == '_') {
+                if (start == -1) {
+                    start = i;
+                }
+            } else {
+                if (start != -1) {
+                    strings.add(s.substring(start, i));
+                }
+                start = -1;
+            }
+        }
+        if (start != -1) {
+            strings.add(s.substring(start));
+        }
+        return strings.toArray(new String[strings.size()]);
     }
 
     File getFile() {
@@ -512,47 +722,6 @@ class Entry {
 
     }
 
-//    private boolean isArea(String tag) {
-//      return tag.equals("area");
-//    }
-//
-//    /**
-//     * Process the contents of <area ... href=...>
-//     */
-//    private void scanArea() throws IOException {
-//      out.write(pendingCopy.toString());
-//      copyMode = COPY;
-//
-//      skipSpace();
-//      while (c != '>') {
-//          String att = scanIdentifier();
-//          if (att.equalsIgnoreCase("href") && copyMode == COPY) {
-//              // the current character should be a whitespace or =
-//              // either way, we just write out =
-//              out.write('=');
-//              copyMode = NO_COPY;
-//              String target = scanValue();
-//              URL t = new URL(currURL, target);
-//              String link = t.getFile();
-//              if (link.startsWith(basePath))
-//                  link = link.substring(basePath.length());
-//              if (link.endsWith(".html"))
-//                  link = link.substring(0, link.length() - 5);
-//              String ref = t.getRef();
-//              if (ref != null && ref.length() > 0)
-//                  link = link + "!" + ref;
-//              out.write("\"");
-//              out.write('#' + link);
-//              out.write("\" ");
-//              copyMode = COPY;
-//          }
-//          else
-//              scanValue();
-//          skipSpace();
-//      }
-//      nextCh();
-//    }
-
     private boolean isBody(String tag) {
         return tag.equals("body");
     }
@@ -641,71 +810,6 @@ class Entry {
         }
     }
 
-//    private boolean isImage(String tag) {
-//      return tag.equals("img");
-//    }
-//
-//    /**
-//     * Process the contents of <a href=...>
-//     */
-//    private void scanImage() throws IOException {
-//      out.write(pendingCopy.toString());
-//      copyMode = COPY;
-//
-//      skipSpace();
-//      while (c != '>') {
-//          String att = scanIdentifier();
-//          if (att.equalsIgnoreCase("src") && copyMode == COPY) {
-//              // the current character should be a whitespace or =
-//              // either way, we just write out =
-//              out.write('=');
-//              copyMode = NO_COPY;
-//              String src = scanValue();
-//              URL u = new URL(currURL, src);
-//              String srcPath = u.getFile();
-//              // if the path refers to an entry in the /images directory,
-//              // check for a matching entry in the /pdfImages directory
-//              // and use that if found.
-//              int imagesIndex = srcPath.indexOf("/images/");
-//              if (imagesIndex >= 0) {
-//                  String pdfImagePath = srcPath.substring(0, imagesIndex)
-//                      + "/pdfImages/"
-//                      + srcPath.substring(imagesIndex + "/images/".length());
-//                  if (new File(pdfImagePath).exists())
-//                      srcPath = pdfImagePath;
-//              }
-//              out.write('"');
-//              out.write(srcPath);
-//              out.write('"');
-//              copyMode = COPY;
-//          }
-//          else if (att.equalsIgnoreCase("usemap") && copyMode == COPY) {
-//              // the current character should be a whitespace or =
-//              // either way, we just write out =
-//              out.write('=');
-//              copyMode = NO_COPY;
-//              String target = scanValue();
-//              URL t = new URL(currURL, target);
-//              String link = t.getFile();
-//              if (link.startsWith(basePath))
-//                  link = link.substring(basePath.length());
-//              if (link.endsWith(".html"))
-//                  link = link.substring(0, link.length() - 5);
-//              String ref = t.getRef();
-//              if (ref != null && ref.length() > 0)
-//                  link = link + "!" + ref;
-//              out.write("\"");
-//              out.write('#' + link);
-//              out.write("\" ");
-//              copyMode = COPY;
-//          }
-//          else
-//              scanValue();
-//          skipSpace();
-//      }
-//      nextCh();
-//    }
-
     private boolean isLink(String tag) {
         return tag.equals("a");
     }
@@ -767,44 +871,6 @@ class Entry {
         }
         nextCh();
     }
-
-//    private boolean isMap(String tag) {
-//      return tag.equals("map");
-//    }
-//
-//    /**
-//     * Process the contents of <map name=...>
-//     */
-//    private void scanMap() throws IOException {
-//      out.write(pendingCopy.toString());
-//      copyMode = COPY;
-//
-//      skipSpace();
-//      while (c != '>') {
-//          String att = scanIdentifier();
-//          if (att.equalsIgnoreCase("name") && copyMode == COPY) {
-//              // the current character should be a whitespace or =
-//              // either way, we just write out =
-//              out.write('=');
-//              copyMode = NO_COPY;
-//              String oldName = scanValue();
-//              String name = currURL.getFile();
-//              if (name.startsWith(basePath))
-//                  name = name.substring(basePath.length());
-//              if (name.endsWith(".html"))
-//                  name = name.substring(0, name.length() - 5);
-//              name = name + "!" + oldName;
-//              out.write('"');
-//              out.write(name);
-//              out.write('"');
-//              copyMode = COPY;
-//          }
-//          else
-//              scanValue();
-//          skipSpace();
-//      }
-//      nextCh();
-//    }
 
     private boolean isMeta(String tag) {
         return tag.equals("meta");
@@ -991,71 +1057,4 @@ class Entry {
             line++;
         }
     }
-
-    private static String escape(String s) {
-        for (int i = 0; i < s.length(); i++) {
-            switch (s.charAt(i)) {
-                case '<':
-                case '>':
-                case '&':
-                    StringBuilder sb = new StringBuilder(s.length() * 2);
-                    for (int j = 0; j < s.length(); j++) {
-                        char c = s.charAt(j);
-                        switch (c) {
-                            case '<':
-                                sb.append("&lt;");
-                                break;
-                            case '>':
-                                sb.append("&gt;");
-                                break;
-                            case '&':
-                                sb.append("&amp;");
-                                break;
-                            default:
-                                sb.append(c);
-                        }
-                    }
-                    return sb.toString();
-            }
-        }
-        return s;
-    }
-
-    private static String[] split(String s) {
-        Vector<String> strings = new Vector<>();
-        int start = -1;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (Character.isLetterOrDigit(c) || c == '_') {
-                if (start == -1) {
-                    start = i;
-                }
-            } else {
-                if (start != -1) {
-                    strings.add(s.substring(start, i));
-                }
-                start = -1;
-            }
-        }
-        if (start != -1) {
-            strings.add(s.substring(start));
-        }
-        return strings.toArray(new String[strings.size()]);
-    }
-
-    private File file;
-    private String head1;
-    private String text;
-    private Set<String> keywords;
-
-    private Reader in;
-    private Writer out;
-    private int c;
-    private boolean inHead1;
-    private int line;
-    private int copyMode;
-    private static final int NO_COPY = 0, PENDING_COPY = 1, SUPPRESS_COPY = 2, COPY = 3;
-    private StringBuffer pendingCopy = new StringBuffer();
-    private int hIndent;
-    private int[] hNums = new int[6];
 }

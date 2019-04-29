@@ -717,6 +717,22 @@ public class SelectionTree extends JTree {
         return v.toArray(new String[v.size()]);
     }
 
+    public void setSelection(String... paths) {
+        if (paths == null || paths.length == 0) {
+            ((SelectionTreeNode) getModel().getRoot()).changeSelection(SelectionType.SELECTED);
+        } else {
+            ((SelectionTreeNode) getModel().getRoot()).changeSelection(SelectionType.UNSELECTED);
+            if (paths != null) {
+                for (String path : paths) {
+                    SelectionTreeNode node = getNode((SelectionTreeNode) getModel().getRoot(), path);
+                    if (node != null) {
+                        node.changeSelection(SelectionType.SELECTED);
+                    }
+                }
+            }
+        }
+    }
+
     private void getSelection(SelectionTreeNode node, Vector<String> v) {
         switch (node.getSelectionType()) {
             case UNSELECTED:
@@ -755,22 +771,6 @@ public class SelectionTree extends JTree {
     @Override
     public boolean isSelectionEmpty() {
         return ((SelectionTreeNode) getModel().getRoot()).getSelectionType() == SelectionType.UNSELECTED;
-    }
-
-    public void setSelection(String... paths) {
-        if (paths == null || paths.length == 0) {
-            ((SelectionTreeNode) getModel().getRoot()).changeSelection(SelectionType.SELECTED);
-        } else {
-            ((SelectionTreeNode) getModel().getRoot()).changeSelection(SelectionType.UNSELECTED);
-            if (paths != null) {
-                for (String path : paths) {
-                    SelectionTreeNode node = getNode((SelectionTreeNode) getModel().getRoot(), path);
-                    if (node != null) {
-                        node.changeSelection(SelectionType.SELECTED);
-                    }
-                }
-            }
-        }
     }
 
     private SelectionTreeNode getNode(SelectionTreeNode node, String path) {

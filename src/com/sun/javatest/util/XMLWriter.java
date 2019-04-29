@@ -37,6 +37,13 @@ import java.util.Date;
  * A class to facilitate writing XML via a stream.
  */
 public class XMLWriter {
+    private static final int IN_TAG = 1;
+    private static final int IN_BODY = 2;
+    private BufferedWriter out;
+    private int state;
+    private I18NResourceBundle i18n;
+    private DateFormat dateFormatter;
+
     /**
      * Create an XMLWriter object, using a default header.
      *
@@ -75,7 +82,6 @@ public class XMLWriter {
         this(out);
         this.i18n = i18n;
     }
-
 
     /**
      * Create an XMLWriter object, using a specified doctype header and
@@ -382,11 +388,4 @@ public class XMLWriter {
     public void writeI18N(String key, Object... args) throws IOException {
         write(i18n.getString(key, args));
     }
-
-    private BufferedWriter out;
-    private int state;
-    private I18NResourceBundle i18n;
-    private DateFormat dateFormatter;
-    private static final int IN_TAG = 1;
-    private static final int IN_BODY = 2;
 }

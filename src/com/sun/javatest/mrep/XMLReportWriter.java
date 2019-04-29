@@ -154,12 +154,10 @@ class XMLReportWriter {
 
 class CopyHandler extends DefaultHandler {
 
-    private ContentHandler ser;
-    private LexicalHandler lh;
-
     // are we collect workdirs or not
     private final boolean isWorkDir;
-
+    private ContentHandler ser;
+    private LexicalHandler lh;
     // is it need to write
     private boolean needWrite;
 

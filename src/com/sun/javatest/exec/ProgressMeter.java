@@ -51,6 +51,20 @@ import java.awt.event.MouseListener;
  * an array of numbers.
  */
 class ProgressMeter extends JComponent implements Accessible {
+    private static final int SCALE = 1024;
+    private static I18NResourceBundle i18n;
+    private boolean indet;
+    private Timer indetTimer;
+    private Color[] colors;
+    private String[] actions;
+    private int[] values;
+    private ActionListener actionListener;
+    private MouseListener mouseListener;
+    private MonitorState state;
+    private PM_AccessibleContext ac;
+    private volatile Thread myThread;
+
+
     ProgressMeter(Color[] colors, MonitorState m) {
         this(colors);
         this.state = m;
@@ -186,7 +200,6 @@ class ProgressMeter extends JComponent implements Accessible {
         return new Dimension(50, 15);
     }
 
-
     public synchronized void set(int... v) {
         int total = 0;
         for (int aV : v) {
@@ -253,23 +266,11 @@ class ProgressMeter extends JComponent implements Accessible {
         return -1;
     }
 
-    private boolean indet;
-    private Timer indetTimer;
-
-    private Color[] colors;
-    private String[] actions;
-    private int[] values;
-    private static final int SCALE = 1024;
-    private ActionListener actionListener;
-    private MouseListener mouseListener;
-    private MonitorState state;
-    private PM_AccessibleContext ac;
-    private volatile Thread myThread;
-    private static I18NResourceBundle i18n;
-
     private class PM_AccessibleContext
             extends JComponent.AccessibleJComponent
             implements AccessibleValue /*, AccessibleText*/ {
+        private ProgressMeter pm;
+
         PM_AccessibleContext(ProgressMeter pm) {
             //super();
             this.pm = pm;
@@ -339,20 +340,18 @@ class ProgressMeter extends JComponent implements Accessible {
             return Integer.valueOf(0);
         }
 
+        // specialized methods
+
         @Override
         public boolean setCurrentAccessibleValue(Number n) {
             // not a valid action
             return false;
         }
 
-        // specialized methods
-
         /**
          * External notification that the PM has changed.
          */
         void notifyNewStats() {
         }
-
-        private ProgressMeter pm;
     }
 }

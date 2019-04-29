@@ -44,65 +44,57 @@ import java.util.Vector;
  * the creator should be sure to call the init() method before use.
  */
 public abstract class TestFinder {
+    private static final TestDescription[] noTests = {};
+    private static final File userDir = new File(System.getProperty("user.dir"));
     /**
-     * This exception is to report serious problems that occur while
-     * finding tests.
+     * A boolean to enable trace output while debugging test finders.
      */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n   A resource bundle in which to find the detail message.
-         * @param msgKey The key for the detail message.
-         */
-        public Fault(I18NResourceBundle i18n, String msgKey) {
-            super(i18n.getString(msgKey));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n   A resource bundle in which to find the detail message.
-         * @param msgKey The key for the detail message.
-         * @param arg    An argument to be formatted with the detail message by
-         *               {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String msgKey, Object arg) {
-            super(i18n.getString(msgKey, arg));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n   A resource bundle in which to find the detail message.
-         * @param msgKey The key for the detail message.
-         * @param args   An array of arguments to be formatted with the detail message by
-         *               {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String msgKey, Object... args) {
-            super(i18n.getString(msgKey, args));
-        }
-    }
-
+    protected static boolean debug = Boolean.getBoolean("debug." + TestFinder.class.getName());
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestFinder.class);
     /**
-     * This interface is used to report significant errors found while
-     * reading files, but which are not of themselves serious enough
-     * to stop reading further. More serious errors can be reported by
-     * throwing TestFinder.Fault.
+     * The environment passed in when the test finder was initialized.
+     * It is not used by the basic test finder code, but may be used
+     * by individual test finders to modify test descriptions as they are
+     * read.
      *
-     * @see TestFinder#error
-     * @see TestFinder#localizedError
-     * @see TestFinder.Fault
+     * @deprecated This feature was available in earlier versions of
+     * JT Harness but does not interact well with JT Harness 3.0's GUI features.
+     * Use with discretion, if at all.
      */
-    public interface ErrorHandler {
-        /**
-         * Report an error found while reading a file.
-         *
-         * @param msg A detail string identifying the error
-         */
-        void error(String msg);
-    }
+    protected TestEnvironment env;
+    // cache for canonicalized lists of keywords
+    private Map<String, String> keywordCache = new HashMap<>();
+    //----------member variables------------------------------------------------
+    private File root;
+    private File rootDir;
+    private ErrorHandler errHandler;
 
+    //--------------------------------------------------------------------------
+    private Comparator<String> comp = getDefaultComparator();
+    private Vector<File> files;
+    private Vector<TestDescription> tests;
+
+    //--------------------------------------------------------------------------
+    private Map<String, Integer> testsInFile = new HashMap<>();
+    private Vector<String> errorMessages = new Vector<>();
+
+    /**
+     * Get the default to be used when the user does not want to specify
+     * their own.  The default is a US Locale Collator.
+     *
+     * @return The comparator which would be used if a custom one was not provided.
+     */
+    protected static Comparator<String> getDefaultComparator() {
+        // this is the default
+        final Collator c = Collator.getInstance(Locale.US);
+        c.setStrength(Collator.PRIMARY);
+        return new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+                return c.compare(s1, s2);
+            }
+        };
+    }
 
     /**
      * Initialize the data required by the finder.
@@ -192,6 +184,17 @@ public abstract class TestFinder {
     }
 
     /**
+     * Get the root file of the test suite, as passed in to the
+     * <code>init</code> method.
+     *
+     * @return the root file of the test suite
+     * @see #setRoot
+     */
+    public File getRoot() {
+        return root;
+    }
+
+    /**
      * Set the test suite root file or directory.
      *
      * @param testSuiteRoot The path to be set as the root of the
@@ -212,16 +215,8 @@ public abstract class TestFinder {
                 root : new File(root.getParent());
     }
 
-    /**
-     * Get the root file of the test suite, as passed in to the
-     * <code>init</code> method.
-     *
-     * @return the root file of the test suite
-     * @see #setRoot
-     */
-    public File getRoot() {
-        return root;
-    }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Get the root directory of the test suite; this is either the
@@ -234,7 +229,16 @@ public abstract class TestFinder {
         return rootDir;
     }
 
-    //--------------------------------------------------------------------------
+    /**
+     * Get the current comparator being used.
+     *
+     * @return The current comparator, may be null.
+     * @see #setComparator
+     * @since 3.2
+     */
+    public Comparator<String> getComparator() {
+        return comp;
+    }
 
     /**
      * Incoming files and test descriptions are sorted by their name during
@@ -253,37 +257,6 @@ public abstract class TestFinder {
         comp = c;
 
     }
-
-    /**
-     * Get the current comparator being used.
-     *
-     * @return The current comparator, may be null.
-     * @see #setComparator
-     * @since 3.2
-     */
-    public Comparator<String> getComparator() {
-        return comp;
-    }
-
-    /**
-     * Get the default to be used when the user does not want to specify
-     * their own.  The default is a US Locale Collator.
-     *
-     * @return The comparator which would be used if a custom one was not provided.
-     */
-    protected static Comparator<String> getDefaultComparator() {
-        // this is the default
-        final Collator c = Collator.getInstance(Locale.US);
-        c.setStrength(Collator.PRIMARY);
-        return new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return c.compare(s1, s2);
-            }
-        };
-    }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Get the registered error handler.
@@ -336,6 +309,9 @@ public abstract class TestFinder {
     protected void error(I18NResourceBundle i18n, String key, Object arg) {
         localizedError(i18n.getString(key, arg));
     }
+
+
+    //--------------------------------------------------------------------------
 
     /**
      * Report an error to the error handler.
@@ -398,9 +374,6 @@ public abstract class TestFinder {
     public synchronized void clearErrors() {
         errorMessages.clear();
     }
-
-
-    //--------------------------------------------------------------------------
 
     /**
      * Determine whether a location corresponds to a directory (folder) or
@@ -503,9 +476,6 @@ public abstract class TestFinder {
         entries.put(name, value);
     }
 
-    // cache for canonicalized lists of keywords
-    private Map<String, String> keywordCache = new HashMap<>();
-
     /**
      * "normalize" the test description entries read from a file.
      * By default, this is a no-op;  however, the method can be overridden
@@ -517,9 +487,6 @@ public abstract class TestFinder {
     protected Map<String, String> normalize(Map<String, String> entries) {
         return entries;
     }
-
-
-    //--------------------------------------------------------------------------
 
     /**
      * Report that data for a test description has been found.
@@ -653,8 +620,6 @@ public abstract class TestFinder {
         }
     }
 
-    private static final TestDescription[] noTests = {};
-
     /**
      * Report that another file that needs to be read has been found.
      *
@@ -733,38 +698,63 @@ public abstract class TestFinder {
             return files.toArray(new File[files.size()]);
         }
     }
-
-
-    //----------member variables------------------------------------------------
-    private File root;
-    private File rootDir;
-
     /**
-     * The environment passed in when the test finder was initialized.
-     * It is not used by the basic test finder code, but may be used
-     * by individual test finders to modify test descriptions as they are
-     * read.
+     * This interface is used to report significant errors found while
+     * reading files, but which are not of themselves serious enough
+     * to stop reading further. More serious errors can be reported by
+     * throwing TestFinder.Fault.
      *
-     * @deprecated This feature was available in earlier versions of
-     * JT Harness but does not interact well with JT Harness 3.0's GUI features.
-     * Use with discretion, if at all.
+     * @see TestFinder#error
+     * @see TestFinder#localizedError
+     * @see TestFinder.Fault
      */
-    protected TestEnvironment env;
-    private ErrorHandler errHandler;
-    private Comparator<String> comp = getDefaultComparator();
-
-    private Vector<File> files;
-    private Vector<TestDescription> tests;
-
-    private Map<String, Integer> testsInFile = new HashMap<>();
-
-    private Vector<String> errorMessages = new Vector<>();
+    public interface ErrorHandler {
+        /**
+         * Report an error found while reading a file.
+         *
+         * @param msg A detail string identifying the error
+         */
+        void error(String msg);
+    }
 
     /**
-     * A boolean to enable trace output while debugging test finders.
+     * This exception is to report serious problems that occur while
+     * finding tests.
      */
-    protected static boolean debug = Boolean.getBoolean("debug." + TestFinder.class.getName());
-    private static final File userDir = new File(System.getProperty("user.dir"));
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestFinder.class);
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n   A resource bundle in which to find the detail message.
+         * @param msgKey The key for the detail message.
+         */
+        public Fault(I18NResourceBundle i18n, String msgKey) {
+            super(i18n.getString(msgKey));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n   A resource bundle in which to find the detail message.
+         * @param msgKey The key for the detail message.
+         * @param arg    An argument to be formatted with the detail message by
+         *               {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String msgKey, Object arg) {
+            super(i18n.getString(msgKey, arg));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n   A resource bundle in which to find the detail message.
+         * @param msgKey The key for the detail message.
+         * @param args   An array of arguments to be formatted with the detail message by
+         *               {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String msgKey, Object... args) {
+            super(i18n.getString(msgKey, args));
+        }
+    }
 
 }

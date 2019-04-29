@@ -42,6 +42,14 @@ import java.util.Iterator;
 
 class HarnessHttpHandler extends JThttpProvider
         implements Harness.Observer {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HarnessHttpHandler.class);
+    // ------------ instance vars ------------
+    private Harness harness;
+    private boolean debug = false;
+    private String magicToken;
+    private int[] stats = new int[Status.NUM_STATES];
+    private TestFinderQueue tfq;
+
     HarnessHttpHandler(Harness harness) {
         this.harness = harness;
         harness.addObserver(this);
@@ -549,14 +557,6 @@ class HarnessHttpHandler extends JThttpProvider
 
         out.println("</Table>");
     }
-
-    // ------------ instance vars ------------
-    private Harness harness;
-    private boolean debug = false;
-    private String magicToken;
-    private int[] stats = new int[Status.NUM_STATES];
-    private TestFinderQueue tfq;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HarnessHttpHandler.class);
 
     // ------------ Harness.Observer ------------
     @Override

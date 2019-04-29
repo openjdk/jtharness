@@ -68,6 +68,85 @@ import java.awt.event.WindowEvent;
  */
 abstract public class ToolDialog {
     /**
+     * Mask used for ToolDialog initialization. With this mask ToolDialog will create simple dialog without minimize and maximize buttons that can be modal.
+     *
+     * @see #DIALOG
+     * @see #FREE
+     * @see #MODAL
+     * @see ToolDialog#ToolDialog(java.awt.Component, com.sun.javatest.tool.UIFactory, java.lang.String, int)
+     */
+    public static final int DIALOG = 0x000000;
+    /**
+     * Mask used for ToolDialog initialization. with this mask ToolDialog will create dialog with minimize and maximize buttons that can be used separately of main window and can't be modal.
+     *
+     * @see #DIALOG
+     * @see ToolDialog#ToolDialog(java.awt.Component, com.sun.javatest.tool.UIFactory, java.lang.String, int)
+     */
+    public static final int FRAME = 0x000001;
+    /**
+     * Mask that allows free floating to dialog created with DIALOG mask. Doesn't affect dialogs created with <code>FRAME</code> mask.
+     *
+     * @see #FRAME
+     * @see #DIALOG
+     * @see ToolDialog#ToolDialog(java.awt.Component, com.sun.javatest.tool.UIFactory, java.lang.String, int)
+     */
+    public static final int FREE = 0x000010;
+    /**
+     * Mask that sets default modality (as JDialog.setModal(true)) to dialog created with DIALOG mask that blocks all AWT
+     * frames. Doesn't affect dialogs created with <code>FRAME</code> mask.
+     *
+     * @see #FRAME
+     * @see #DIALOG
+     * @see ToolDialog#ToolDialog(java.awt.Component, com.sun.javatest.tool.UIFactory, java.lang.String, int)
+     */
+    public static final int MODAL = 0x000100;
+    /**
+     * Mask that enables blocking input to all top-level windows (without any owner) from the same document except those from its own child hierarchy.
+     *
+     * @see java.awt.Dialog.ModalityType#DOCUMENT_MODAL
+     */
+    public static final int MODAL_DOCUMENT = 0x001100;
+    /**
+     * Mask that enables blocking input to all top-level windows from the same Java application except those from its own child hierarchy..
+     *
+     * @see java.awt.Dialog.ModalityType#APPLICATION_MODAL
+     */
+    public static final int MODAL_APPLICATION = 0x010100;
+    /**
+     * Mask that enables blocking input to all top-level windows run from the same toolkit except those from its own child hierarchy.
+     *
+     * @see java.awt.Dialog.ModalityType#TOOLKIT_MODAL
+     */
+    public static final int MODAL_TOOLKIT = 0x011100;
+    /**
+     * Parent component of this dialog.
+     */
+    protected final Component parent;
+    /**
+     * Factory associated with this dialog instance.
+     */
+    protected final UIFactory uif;
+    /**
+     * Parent tool of this dialog.
+     */
+    protected Tool tool;
+    private String uiKey;
+    private Tool.Observer defaultDisposeHandler;
+    private Container dialog; // JDialog or JInternalFrame, as provided by desktop
+    private String title;
+    private JMenuBar menuBar;
+    private Container main;
+    private Container body;
+    private JButton[] buttons;
+    private JButton cancelButton;
+    private JButton defaultButton;
+    private String helpID;
+    private ComponentListener componentListener;
+    private int defaultCloseOperation = WindowConstants.HIDE_ON_CLOSE;
+    private Restorer restorer = new Restorer();
+    private int type;
+
+    /**
      * Create standard ToolDialog.
      *
      * @param parent The parent component of this dialog.
@@ -105,6 +184,15 @@ abstract public class ToolDialog {
         setTool(parent);
     }
 
+    /**
+     * Get the tool for which this is a dialog.
+     *
+     * @return the tool for which this is a dialog
+     */
+    public Tool getTool() {
+        return tool;
+    }
+
     public void setTool(Component parent) {
         Tool t = (Tool) (parent instanceof Tool ? parent
                 : SwingUtilities.getAncestorOfClass(Tool.class, parent));
@@ -113,7 +201,6 @@ abstract public class ToolDialog {
             setTool(t);
         }
     }
-
 
     protected void setTool(Tool t) {
 
@@ -146,16 +233,6 @@ abstract public class ToolDialog {
 
     }
 
-
-    /**
-     * Get the tool for which this is a dialog.
-     *
-     * @return the tool for which this is a dialog
-     */
-    public Tool getTool() {
-        return tool;
-    }
-
     /**
      * Check if the dialog is currently showing on the screen.
      *
@@ -175,25 +252,6 @@ abstract public class ToolDialog {
      */
     public boolean isVisible() {
         return dialog != null && dialog.isVisible();
-    }
-
-    /**
-     * packs the dialog. The method is useful when it's necessary to call pack
-     * separately from <code>setVisible(boolean)</code>
-     *
-     * @see #setVisible
-     */
-    public void pack() {
-        if (dialog == null) {
-            ensureDialogInitialized();
-        }
-
-        if (dialog instanceof Window) // JDialog and JFrame
-        {
-            ((Window) dialog).pack();
-        } else {
-            ((JInternalFrame) dialog).pack();
-        }
     }
 
     /**
@@ -223,6 +281,25 @@ abstract public class ToolDialog {
                 restorer.save();
                 dialog.setVisible(false);
             }
+        }
+    }
+
+    /**
+     * packs the dialog. The method is useful when it's necessary to call pack
+     * separately from <code>setVisible(boolean)</code>
+     *
+     * @see #setVisible
+     */
+    public void pack() {
+        if (dialog == null) {
+            ensureDialogInitialized();
+        }
+
+        if (dialog instanceof Window) // JDialog and JFrame
+        {
+            ((Window) dialog).pack();
+        } else {
+            ((JInternalFrame) dialog).pack();
         }
     }
 
@@ -516,7 +593,6 @@ abstract public class ToolDialog {
         dialog.setSize(width, height);
     }
 
-
     /**
      * Get the location of the dialog. An exception will be thrown if the dialog has not
      * yet been shown, or if it is has been disposed since it was shown on the screen.
@@ -759,7 +835,6 @@ abstract public class ToolDialog {
         }
     }
 
-
     /**
      * Initialize the content pane of the dialog.
      * If there are no buttons, the content pane is simply the client-supplied body;
@@ -842,90 +917,6 @@ abstract public class ToolDialog {
         }
     }
 
-    /**
-     * Parent component of this dialog.
-     */
-    protected final Component parent;
-
-    /**
-     * Factory associated with this dialog instance.
-     */
-    protected final UIFactory uif;
-
-    /**
-     * Parent tool of this dialog.
-     */
-    protected Tool tool;
-
-    private String uiKey;
-    private Tool.Observer defaultDisposeHandler;
-
-    private Container dialog; // JDialog or JInternalFrame, as provided by desktop
-    private String title;
-    private JMenuBar menuBar;
-    private Container main;
-    private Container body;
-    private JButton[] buttons;
-    private JButton cancelButton;
-    private JButton defaultButton;
-    private String helpID;
-    private ComponentListener componentListener;
-    private int defaultCloseOperation = WindowConstants.HIDE_ON_CLOSE;
-    private Restorer restorer = new Restorer();
-    private int type;
-
-    /**
-     * Mask used for ToolDialog initialization. With this mask ToolDialog will create simple dialog without minimize and maximize buttons that can be modal.
-     *
-     * @see #DIALOG
-     * @see #FREE
-     * @see #MODAL
-     * @see ToolDialog#ToolDialog(java.awt.Component, com.sun.javatest.tool.UIFactory, java.lang.String, int)
-     */
-    public static final int DIALOG = 0x000000;
-    /**
-     * Mask used for ToolDialog initialization. with this mask ToolDialog will create dialog with minimize and maximize buttons that can be used separately of main window and can't be modal.
-     *
-     * @see #DIALOG
-     * @see ToolDialog#ToolDialog(java.awt.Component, com.sun.javatest.tool.UIFactory, java.lang.String, int)
-     */
-    public static final int FRAME = 0x000001;
-    /**
-     * Mask that allows free floating to dialog created with DIALOG mask. Doesn't affect dialogs created with <code>FRAME</code> mask.
-     *
-     * @see #FRAME
-     * @see #DIALOG
-     * @see ToolDialog#ToolDialog(java.awt.Component, com.sun.javatest.tool.UIFactory, java.lang.String, int)
-     */
-    public static final int FREE = 0x000010;
-    /**
-     * Mask that sets default modality (as JDialog.setModal(true)) to dialog created with DIALOG mask that blocks all AWT
-     * frames. Doesn't affect dialogs created with <code>FRAME</code> mask.
-     *
-     * @see #FRAME
-     * @see #DIALOG
-     * @see ToolDialog#ToolDialog(java.awt.Component, com.sun.javatest.tool.UIFactory, java.lang.String, int)
-     */
-    public static final int MODAL = 0x000100;
-    /**
-     * Mask that enables blocking input to all top-level windows (without any owner) from the same document except those from its own child hierarchy.
-     *
-     * @see java.awt.Dialog.ModalityType#DOCUMENT_MODAL
-     */
-    public static final int MODAL_DOCUMENT = 0x001100;
-    /**
-     * Mask that enables blocking input to all top-level windows from the same Java application except those from its own child hierarchy..
-     *
-     * @see java.awt.Dialog.ModalityType#APPLICATION_MODAL
-     */
-    public static final int MODAL_APPLICATION = 0x010100;
-    /**
-     * Mask that enables blocking input to all top-level windows run from the same toolkit except those from its own child hierarchy.
-     *
-     * @see java.awt.Dialog.ModalityType#TOOLKIT_MODAL
-     */
-    public static final int MODAL_TOOLKIT = 0x011100;
-
     protected Restorer getRestorer() {
         return restorer;
     }
@@ -936,17 +927,15 @@ abstract public class ToolDialog {
 
     public class Restorer {
 
-        // default value for key is outer's uiKey
-        private String windowKey = ToolDialog.this.uiKey;
-        private int restorePolicy = RESTORE_NOTHING;
         public final static int RESTORE_NOTHING = 0x0;
         public final static int RESTORE_ALL = 0x1;
-
         private final static String POS_X = ".pos.x";
         private final static String POS_Y = ".pos.y";
         private final static String SIZE_H = ".size.height";
         private final static String SIZE_W = ".size.weight";
-
+        // default value for key is outer's uiKey
+        private String windowKey = ToolDialog.this.uiKey;
+        private int restorePolicy = RESTORE_NOTHING;
         private Preferences prefs = Preferences.access();
 
         // ---

@@ -40,11 +40,11 @@ import java.util.logging.StreamHandler;
 
 public class WorkDirLogHandler extends StreamHandler {
 
-    private void open(File fname) throws IOException {
-        bout = new BufferedOutputStream(new FileOutputStream(fname.toString()));
-        setOutputStream(bout);
-        first = true;
-    }
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(WorkDirLogHandler.class);
+    private String pattern;
+    private BufferedOutputStream bout;
+    private ObservedFile of = null;
+    private boolean first;
 
     public WorkDirLogHandler(ObservedFile of) {
         setLevel(Level.ALL);
@@ -53,6 +53,11 @@ public class WorkDirLogHandler extends StreamHandler {
         this.of = of;
     }
 
+    private void open(File fname) throws IOException {
+        bout = new BufferedOutputStream(new FileOutputStream(fname.toString()));
+        setOutputStream(bout);
+        first = true;
+    }
 
     @Override
     public void publish(LogRecord record) {
@@ -137,13 +142,5 @@ public class WorkDirLogHandler extends StreamHandler {
             of.fireFileEvent(new FileEvent(of, FileEvent.ERASED));
         }
     }
-
-    private String pattern;
-    private BufferedOutputStream bout;
-    private ObservedFile of = null;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(WorkDirLogHandler.class);
-
-    private boolean first;
 }
 

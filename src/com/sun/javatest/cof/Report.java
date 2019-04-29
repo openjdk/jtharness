@@ -41,10 +41,8 @@ public class Report extends COFItem {
     static final LinkedHashMap<String, String> xmlAttributes;
 
     static final LinkedHashMap<String, String> xmlElements;
-
-    static String xmlTagName;
-
     private static final String XSI_NS = "http://www.w3.org/2001/XMLSchema-instance";
+    static String xmlTagName;
 
     static {
         xmlElements = new LinkedHashMap<>();
@@ -142,6 +140,16 @@ public class Report extends COFItem {
     }
 
     /**
+     * Sets the value of the analysis property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setAnalysis(String value) {
+        this.analysis = value;
+    }
+
+    /**
      * Gets the value of the annotations property.
      *
      * @return possible object is
@@ -149,6 +157,16 @@ public class Report extends COFItem {
      */
     public COFReportAnnotations getAnnotations() {
         return annotations;
+    }
+
+    /**
+     * Sets the value of the annotations property.
+     *
+     * @param value allowed object is
+     *              {@link COFReportAnnotations }
+     */
+    public void setAnnotations(COFReportAnnotations value) {
+        this.annotations = value;
     }
 
     /**
@@ -185,6 +203,10 @@ public class Report extends COFItem {
         return applications;
     }
 
+    public void setApplications(COFApplications value) {
+        this.applications = value;
+    }
+
     /**
      * @return Returns the cofNS.
      */
@@ -203,6 +225,16 @@ public class Report extends COFItem {
     }
 
     /**
+     * Sets the value of the date property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setDate(Date value) {
+        this.date = value;
+    }
+
+    /**
      * Gets the value of the environments property.
      *
      * @return possible object is
@@ -216,6 +248,16 @@ public class Report extends COFItem {
     }
 
     /**
+     * Sets the value of the environments property.
+     *
+     * @param value allowed object is
+     *              {@link Environments }
+     */
+    public void setEnvironments(COFEnvironments value) {
+        this.environments = value;
+    }
+
+    /**
      * Gets the value of the harness property.
      *
      * @return possible object is
@@ -223,6 +265,16 @@ public class Report extends COFItem {
      */
     public String getHarness() {
         return harness;
+    }
+
+    /**
+     * Sets the value of the harness property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setHarness(String value) {
+        this.harness = value;
     }
 
     LinkedHashMap<String, String> getItemAttributes() {
@@ -248,6 +300,16 @@ public class Report extends COFItem {
     }
 
     /**
+     * Sets the value of the operator property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setOperator(String value) {
+        this.operator = value;
+    }
+
+    /**
      * @return Returns the schemaLocation.
      */
     public String getSchemaLocation() {
@@ -262,6 +324,16 @@ public class Report extends COFItem {
      */
     public COFSWEntities getSwentities() {
         return swentities;
+    }
+
+    /**
+     * Sets the value of the swentities property.
+     *
+     * @param value allowed object is
+     *              {@link COFSWEntities }
+     */
+    public void setSwentities(COFSWEntities value) {
+        this.swentities = value;
     }
 
     /**
@@ -285,97 +357,6 @@ public class Report extends COFItem {
     }
 
     /**
-     * Gets the value of the version property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getVersion() {
-        return version;
-    }
-
-    /**
-     * @return Returns the xsiNS.
-     */
-    public String getXsiNS() {
-        return XSI_NS;
-    }
-
-    /**
-     * Sets the value of the analysis property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setAnalysis(String value) {
-        this.analysis = value;
-    }
-
-    /**
-     * Sets the value of the annotations property.
-     *
-     * @param value allowed object is
-     *              {@link COFReportAnnotations }
-     */
-    public void setAnnotations(COFReportAnnotations value) {
-        this.annotations = value;
-    }
-
-    /**
-     * Sets the value of the date property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setDate(Date value) {
-        this.date = value;
-    }
-
-    /**
-     * Sets the value of the environments property.
-     *
-     * @param value allowed object is
-     *              {@link Environments }
-     */
-    public void setEnvironments(COFEnvironments value) {
-        this.environments = value;
-    }
-
-    /**
-     * Sets the value of the harness property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setHarness(String value) {
-        this.harness = value;
-    }
-
-    /**
-     * Sets the value of the operator property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setOperator(String value) {
-        this.operator = value;
-    }
-
-    /**
-     * Sets the value of the swentities property.
-     *
-     * @param value allowed object is
-     *              {@link COFSWEntities }
-     */
-    public void setSwentities(COFSWEntities value) {
-        this.swentities = value;
-    }
-
-    public void setApplications(COFApplications value) {
-        this.applications = value;
-    }
-
-    /**
      * Sets the value of the testsuites property.
      *
      * @param value allowed object is
@@ -386,6 +367,16 @@ public class Report extends COFItem {
     }
 
     /**
+     * Gets the value of the version property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getVersion() {
+        return version;
+    }
+
+    /**
      * Sets the value of the version property.
      *
      * @param value allowed object is
@@ -393,5 +384,12 @@ public class Report extends COFItem {
      */
     public void setVersion(String value) {
         this.version = value;
+    }
+
+    /**
+     * @return Returns the xsiNS.
+     */
+    public String getXsiNS() {
+        return XSI_NS;
     }
 }

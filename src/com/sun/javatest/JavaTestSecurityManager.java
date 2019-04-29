@@ -42,6 +42,11 @@ import java.util.PropertyPermission;
  */
 
 public class JavaTestSecurityManager extends SecurityManager {
+    static private boolean allowExit = false; // no overrides on this one; API control only
+    static private boolean allowPropertiesAccess = true;   // see initializer
+    static private boolean verbose =
+            Boolean.getBoolean("javatest.security.verbose");
+
     {
         // use user specified value if given
         String s = System.getProperty("javatest.security.allowPropertiesAccess");
@@ -261,11 +266,6 @@ public class JavaTestSecurityManager extends SecurityManager {
         allowPropertiesAccess = bool;
         return prev;
     }
-
-    static private boolean allowExit = false; // no overrides on this one; API control only
-    static private boolean allowPropertiesAccess = true;   // see initializer
-    static private boolean verbose =
-            Boolean.getBoolean("javatest.security.verbose");
 }
 
 class NewJavaTestSecurityManager extends JavaTestSecurityManager {

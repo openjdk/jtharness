@@ -66,6 +66,31 @@ import java.util.TreeSet;
  */
 public abstract class PropertiesQuestion extends CompositeQuestion {
     /**
+     * The current (default or latest) response to this question.
+     */
+    protected Properties value;
+    /**
+     * The localized values to display, corresponding 1-1 to the
+     * set of property keys.  Null indicates that no i18n presentation values
+     * are provided.
+     */
+    private Map<String, String> presentationKeys;
+    /**
+     * Indexed like everything else, by property key, the value is a
+     * ValueConstraint.
+     */
+    private Map<String, ValueConstraints> constraints;
+    /**
+     * The default response for this question.
+     */
+    private Properties defaultValue;
+    /**
+     * Record of key groupings.  Key is the group name string, the value is
+     * a ArrayList.
+     */
+    private Map<String, ArrayList<String>> keyGroups;
+
+    /**
      * Create a question with a nominated tag.
      * If this constructor is used, the choices must be supplied separately.
      *
@@ -110,6 +135,29 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         String blank = "";
         setKeys(keys, true);
         setDefaultValue(value);
+    }
+
+    protected static Properties load(String s) {
+        Properties2 p2 = new Properties2();
+
+        try {
+            p2.load(new StringReader(s));
+        } catch (IOException e) {
+            //e.printStackTrace();
+            // what to do?!  source should be really stable since it is a
+            // String
+        }
+
+        // repopulate a J2SE properties object
+        Properties p = new Properties();
+
+        Enumeration<?> e = p2.propertyNames();
+        while (e.hasMoreElements()) {
+            Object next = e.nextElement();
+            p.put(next, p2.get(next));
+        }   // while
+
+        return p;
     }
 
     /**
@@ -217,6 +265,46 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
     }
 
     /**
+     * Set the current value.
+     *
+     * @param newValue Value represented as a single string.  May not be null.  May be
+     *                 an empty string.
+     * @see #getValue
+     */
+    @Override
+    public void setValue(String newValue) {
+        if (value == null || value.isEmpty()) {
+            return;
+        }
+
+        // parse newValue and inject into properties object
+        if (newValue == null) {
+            throw new NullPointerException();
+        }
+
+        setValue(load(newValue));
+    }
+
+    /**
+     * Private because we need to maintain internal consistency, especially with
+     * the i18n info.
+     */
+    public void setValue(Properties props) {
+        if (props == null) {
+            value = null;
+        } else {
+            value = (Properties) props.clone();
+        }
+        // what to do about read-only and other tagging values?  flush?
+        // remove the extra ones?
+        // should work ok for now if we just leave it, probably safer to leave
+        // it
+
+        interview.updatePath(this);
+        interview.setEdited(true);
+    }
+
+    /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
      *
@@ -248,26 +336,30 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         return result.toString();
     }
 
+    // extra special features
+
+    // ------------- MISC METHODS -------------
+
     /**
-     * Set the current value.
-     *
-     * @param newValue Value represented as a single string.  May not be null.  May be
-     *                 an empty string.
-     * @see #getValue
+     * Make the given value read-only.  It may be viewed, and used for
+     * export, but not be modified by the user.
+     * @throws IllegalArgumentException If the given key does not exist
+     *      in the quuestion's property table.
      */
-    @Override
-    public void setValue(String newValue) {
-        if (value == null || value.isEmpty()) {
-            return;
-        }
+     /*
+    public void setReadOnlyValue(String key) {
+        if (value == null)
+            throw new IllegalArgumentException("Question does not have a value yet.");
 
-        // parse newValue and inject into properties object
-        if (newValue == null) {
-            throw new NullPointerException();
-        }
+        if (readOnlyKeys == null)
+            readOnlyKeys = new HashSet();
 
-        setValue(load(newValue));
+        if (value.getProperty(key) == null)
+            throw new IllegalArgumentException("No such key: " + key);
+
+        readOnlyKeys.add(key);
     }
+     */
 
     /**
      * Set a specific property within this question.
@@ -323,6 +415,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         setValue(defaultValue);
     }
 
+    // ------------- UPDATE METHODS -------------
+
     /**
      * Load the value for this question from a dictionary, using
      * the tag as the key.
@@ -335,29 +429,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         if (o != null) {
             setValue(load(o));
         }
-    }
-
-    protected static Properties load(String s) {
-        Properties2 p2 = new Properties2();
-
-        try {
-            p2.load(new StringReader(s));
-        } catch (IOException e) {
-            //e.printStackTrace();
-            // what to do?!  source should be really stable since it is a
-            // String
-        }
-
-        // repopulate a J2SE properties object
-        Properties p = new Properties();
-
-        Enumeration<?> e = p2.propertyNames();
-        while (e.hasMoreElements()) {
-            Object next = e.nextElement();
-            p.put(next, p2.get(next));
-        }   // while
-
-        return p;
     }
 
     /**
@@ -379,31 +450,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         data.put(tag, sw.toString());
     }
 
-    // extra special features
-
-    // ------------- MISC METHODS -------------
-
-    /**
-     * Make the given value read-only.  It may be viewed, and used for
-     * export, but not be modified by the user.
-     * @throws IllegalArgumentException If the given key does not exist
-     *      in the quuestion's property table.
-     */
-     /*
-    public void setReadOnlyValue(String key) {
-        if (value == null)
-            throw new IllegalArgumentException("Question does not have a value yet.");
-
-        if (readOnlyKeys == null)
-            readOnlyKeys = new HashSet();
-
-        if (value.getProperty(key) == null)
-            throw new IllegalArgumentException("No such key: " + key);
-
-        readOnlyKeys.add(key);
-    }
-     */
-
     /**
      * Determine if a value is read-only.
      */
@@ -415,6 +461,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
             return true;
         }
     }
+
+    // ------------- GROUP MANAGEMENT -------------
 
     /**
      * Determine if the given property is visible to the user.
@@ -510,27 +558,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         return null;
     }
 
-    // ------------- UPDATE METHODS -------------
-
-    /**
-     * Private because we need to maintain internal consistency, especially with
-     * the i18n info.
-     */
-    public void setValue(Properties props) {
-        if (props == null) {
-            value = null;
-        } else {
-            value = (Properties) props.clone();
-        }
-        // what to do about read-only and other tagging values?  flush?
-        // remove the extra ones?
-        // should work ok for now if we just leave it, probably safer to leave
-        // it
-
-        interview.updatePath(this);
-        interview.setEdited(true);
-    }
-
     /**
      * Update the given properties.  New properties cannot be added this way.
      *
@@ -588,8 +615,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
     }
 
-    // ------------- GROUP MANAGEMENT -------------
-
     /**
      * Create a new group.
      *
@@ -608,6 +633,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         ArrayList<String> al = new ArrayList<>();
         keyGroups.put(name, al);
     }
+
+    // ------------ PRESENTATION ---------------
 
     /**
      * Set the presentation group to which the key(s) should belong.
@@ -705,6 +732,9 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
     }
 
+
+    // ------------ TYPING and CONSTRAINTS ---------------
+
     /**
      * Get the keys which are registered with the given group.
      *
@@ -797,8 +827,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         return ret;        // no groups in use
     }
 
-    // ------------ PRESENTATION ---------------
-
     /**
      * Get the display (localized) name of the group.
      * The resource necessary is the question tag, with the group name and ".group"
@@ -842,9 +870,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         // XXX upgrade to be customizable
         return Interview.i18n.getString("props.value.name");
     }
-
-
-    // ------------ TYPING and CONSTRAINTS ---------------
 
     /**
      * Apply constraints to a value.
@@ -934,40 +959,15 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
     }
 
-    /**
-     * The localized values to display, corresponding 1-1 to the
-     * set of property keys.  Null indicates that no i18n presentation values
-     * are provided.
-     */
-    private Map<String, String> presentationKeys;
-
-    /**
-     * Indexed like everything else, by property key, the value is a
-     * ValueConstraint.
-     */
-    private Map<String, ValueConstraints> constraints;
-
-    /**
-     * The current (default or latest) response to this question.
-     */
-    protected Properties value;
-
-    /**
-     * The default response for this question.
-     */
-    private Properties defaultValue;
-
-    /**
-     * Record of key groupings.  Key is the group name string, the value is
-     * a ArrayList.
-     */
-    private Map<String, ArrayList<String>> keyGroups;
-
     // these are now represented in ValueConstraints
     //private HashSet readOnlyKeys;
     //private HashSet hiddenKeys;
 
     public static class ValueConstraints {
+        private boolean visible = true;
+        private boolean readonly = false;
+        private boolean allowUnset = true;
+
         public ValueConstraints() {
             this(false, true);
         }
@@ -978,6 +978,15 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
 
         /**
+         * Determine if this value is a read-only value.  The default is false.
+         *
+         * @return True if read-only, false otherwise.
+         */
+        public boolean isReadOnly() {
+            return readonly;
+        }
+
+        /**
          * Determine whether this value should be readable only, by the
          * interview user.  The default state is false.
          *
@@ -985,6 +994,15 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
          */
         public void setReadOnly(boolean state) {
             readonly = state;
+        }
+
+        /**
+         * Is this property (and value) visible?  True by default.
+         *
+         * @return True if it should be visible, false otherwise.
+         */
+        public boolean isVisible() {
+            return visible;
         }
 
         /**
@@ -1000,21 +1018,14 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
 
         /**
-         * Determine if this value is a read-only value.  The default is false.
+         * Is an unset response allowed.  The default is true, unless indicated
+         * otherwise by a subclass.
          *
-         * @return True if read-only, false otherwise.
+         * @return True if the unsetting the answer is allowed.
+         * @see #setUnsetAllowed
          */
-        public boolean isReadOnly() {
-            return readonly;
-        }
-
-        /**
-         * Is this property (and value) visible?  True by default.
-         *
-         * @return True if it should be visible, false otherwise.
-         */
-        public boolean isVisible() {
-            return visible;
+        public boolean isUnsetAllowed() {
+            return allowUnset;
         }
 
         /**
@@ -1028,17 +1039,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
          */
         public void setUnsetAllowed(boolean state) {
             allowUnset = state;
-        }
-
-        /**
-         * Is an unset response allowed.  The default is true, unless indicated
-         * otherwise by a subclass.
-         *
-         * @return True if the unsetting the answer is allowed.
-         * @see #setUnsetAllowed
-         */
-        public boolean isUnsetAllowed() {
-            return allowUnset;
         }
 
         /**
@@ -1060,13 +1060,27 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
                 return null;
             }
         }
-
-        private boolean visible = true;
-        private boolean readonly = false;
-        private boolean allowUnset = true;
     }
 
     public static class IntConstraints extends ValueConstraints {
+        /**
+         * Suggested values for this value's response.
+         */
+        protected int[] suggestions;
+        /**
+         * Is the user allowed to supply their own value or are they required
+         * to use one of the suggestions?
+         */
+        protected boolean custom = true;
+        /**
+         * The lower bound for responses to this value.
+         */
+        private int min = Integer.MIN_VALUE + 1;
+        /**
+         * The upper bound for responses to this value.
+         */
+        private int max = Integer.MAX_VALUE;
+
         public IntConstraints() {
             super();
         }
@@ -1147,15 +1161,12 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
 
         /**
-         * Are user specified values allowed?  If not, there must be
-         * suggestions present.
-         *
-         * @throws IllegalStateException If no suggestions have been
-         *                               provided.
-         * @see #setSuggestions
+         * Supply some possible values that the user may want to
+         * select from.
          */
-        public void setCustomValuesAllowed(boolean state) {
-            custom = state;
+        public void setSuggestions(int... sugs) {
+            suggestions = new int[sugs.length];
+            System.arraycopy(sugs, 0, suggestions, 0, sugs.length);
         }
 
         /**
@@ -1169,12 +1180,15 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
 
         /**
-         * Supply some possible values that the user may want to
-         * select from.
+         * Are user specified values allowed?  If not, there must be
+         * suggestions present.
+         *
+         * @throws IllegalStateException If no suggestions have been
+         *                               provided.
+         * @see #setSuggestions
          */
-        public void setSuggestions(int... sugs) {
-            suggestions = new int[sugs.length];
-            System.arraycopy(sugs, 0, suggestions, 0, sugs.length);
+        public void setCustomValuesAllowed(boolean state) {
+            custom = state;
         }
 
         /**
@@ -1210,33 +1224,37 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
                 return null;
             }
         }
-
-        /**
-         * Suggested values for this value's response.
-         */
-        protected int[] suggestions;
-
-        /**
-         * Is the user allowed to supply their own value or are they required
-         * to use one of the suggestions?
-         */
-        protected boolean custom = true;
-
-        /**
-         * The lower bound for responses to this value.
-         */
-        private int min = Integer.MIN_VALUE + 1;
-
-        /**
-         * The upper bound for responses to this value.
-         */
-        private int max = Integer.MAX_VALUE;
     }
 
     /**
      * Constraints specifying a floating point type.
      */
     public static class FloatConstraints extends ValueConstraints {
+        /**
+         * Current value set for the suggested response values.
+         *
+         * @see #setSuggestions(float[])
+         * @see #getSuggestions()
+         */
+        protected float[] suggestions;
+        /**
+         * Is the user allowed to supply their own value or are they required
+         * to use one of the suggestions?
+         */
+        protected boolean custom = true;
+        /**
+         * The lower bound for responses to this value.
+         */
+        private float min = Float.MIN_VALUE;
+        /**
+         * The upper bound for responses to this value.
+         */
+        private float max = Float.MAX_VALUE;
+        /**
+         * The resolution for responses to this question
+         */
+        private float resolution = Float.NaN;
+
         public FloatConstraints() {
             super();
         }
@@ -1322,28 +1340,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
 
         /**
-         * Are user specified values allowed?  If not, there must be
-         * suggestions present.
-         *
-         * @throws IllegalStateException If no suggestions have been
-         *                               provided.
-         * @see #setSuggestions
-         */
-        public void setCustomValuesAllowed(boolean state) {
-            custom = state;
-        }
-
-        /**
-         * Are custom user values allowed?
-         *
-         * @see #setCustomValuesAllowed
-         * @see #setSuggestions
-         */
-        public boolean isCustomValuesAllowed() {
-            return custom;
-        }
-
-        /**
          * Supply some possible values that the user may want to
          * select from.
          *
@@ -1357,15 +1353,25 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
 
         /**
-         * Set the resolution for responses to this question. Responses
-         * may be rounded to the nearest multiple of the resolution.
+         * Are custom user values allowed?
          *
-         * @param resolution the resolution for responses to this question
-         * @see #getResolution
-         * @see #setValue
+         * @see #setCustomValuesAllowed
+         * @see #setSuggestions
          */
-        public void setResolution(float resolution) {
-            this.resolution = resolution;
+        public boolean isCustomValuesAllowed() {
+            return custom;
+        }
+
+        /**
+         * Are user specified values allowed?  If not, there must be
+         * suggestions present.
+         *
+         * @throws IllegalStateException If no suggestions have been
+         *                               provided.
+         * @see #setSuggestions
+         */
+        public void setCustomValuesAllowed(boolean state) {
+            custom = state;
         }
 
         /**
@@ -1378,6 +1384,18 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
          */
         public float getResolution() {
             return resolution;
+        }
+
+        /**
+         * Set the resolution for responses to this question. Responses
+         * may be rounded to the nearest multiple of the resolution.
+         *
+         * @param resolution the resolution for responses to this question
+         * @see #getResolution
+         * @see #setValue
+         */
+        public void setResolution(float resolution) {
+            this.resolution = resolution;
         }
 
         /**
@@ -1413,41 +1431,25 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
                 return null;
             }
         }
-
-        /**
-         * Current value set for the suggested response values.
-         *
-         * @see #setSuggestions(float[])
-         * @see #getSuggestions()
-         */
-        protected float[] suggestions;
-
-        /**
-         * Is the user allowed to supply their own value or are they required
-         * to use one of the suggestions?
-         */
-        protected boolean custom = true;
-
-        /**
-         * The lower bound for responses to this value.
-         */
-        private float min = Float.MIN_VALUE;
-
-        /**
-         * The upper bound for responses to this value.
-         */
-        private float max = Float.MAX_VALUE;
-
-        /**
-         * The resolution for responses to this question
-         */
-        private float resolution = Float.NaN;
     }
 
     /**
      * Value restrictions for string type responses.
      */
     public static class StringConstraints extends ValueConstraints {
+        /**
+         * Current value set for the suggested response values.
+         *
+         * @see #setSuggestions(String[])
+         * @see #getSuggestions()
+         */
+        protected String[] suggestions;
+        protected boolean custom = true;
+        /**
+         * The nominal maximum length for the string.
+         */
+        protected int nominalMaxLength;
+
         public StringConstraints() {
             super();
         }
@@ -1482,6 +1484,16 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
 
         /**
+         * Determine what the current value suggestions are.
+         *
+         * @return Null if there are no suggested values, otherwise an array of
+         * length greater than zero.
+         */
+        public String[] getSuggestions() {
+            return suggestions;
+        }
+
+        /**
          * Supply some possible values that the user may want to
          * select from.
          *
@@ -1497,13 +1509,16 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
 
         /**
-         * Determine what the current value suggestions are.
+         * Can the user provide whatever string answer they wish, or must they
+         * choose only from the suggested values.  An assumption is that if
+         * this value is false, then there are available suggestions for this
+         * value.
          *
-         * @return Null if there are no suggested values, otherwise an array of
-         * length greater than zero.
+         * @see #setCustomValuesAllowed
+         * @see #setSuggestions
          */
-        public String[] getSuggestions() {
-            return suggestions;
+        public boolean isCustomValuesAllowed() {
+            return custom;
         }
 
         /**
@@ -1517,19 +1532,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         public void setCustomValuesAllowed(boolean state) {
             custom = state;
             // XXX need to throw exception which javadoc threatens
-        }
-
-        /**
-         * Can the user provide whatever string answer they wish, or must they
-         * choose only from the suggested values.  An assumption is that if
-         * this value is false, then there are available suggestions for this
-         * value.
-         *
-         * @see #setCustomValuesAllowed
-         * @see #setSuggestions
-         */
-        public boolean isCustomValuesAllowed() {
-            return custom;
         }
 
         /**
@@ -1551,20 +1553,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         public void setNominalMaxLength(int nominalMaxLength) {
             this.nominalMaxLength = nominalMaxLength;
         }
-
-        /**
-         * Current value set for the suggested response values.
-         *
-         * @see #setSuggestions(String[])
-         * @see #getSuggestions()
-         */
-        protected String[] suggestions;
-        protected boolean custom = true;
-
-        /**
-         * The nominal maximum length for the string.
-         */
-        protected int nominalMaxLength;
     }
 
     /**
@@ -1576,6 +1564,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         public final static String NO = "No";
         public final static String TRUE = "True";
         public final static String FALSE = "False";
+        private boolean yesno = false;
 
         public BooleanConstraints() {
             super();
@@ -1626,8 +1615,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         public boolean isYesNo() {
             return yesno;
         }
-
-        private boolean yesno = false;
     }
 
     /**
@@ -1635,8 +1622,32 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
      * widgets to be rendered for the user when appropriate.
      */
     public static class FilenameConstraints extends ValueConstraints {
+        /**
+         * Current value set for the suggested response values.
+         *
+         * @see #setSuggestions(File[])
+         * @see #getSuggestions()
+         */
+        protected File[] suggestions;
+        private File baseDir;
+        private boolean baseRelativeOnly;
+        private FileFilter[] filters;
+
         public FilenameConstraints() {
             super();
+        }
+
+        /**
+         * @param baseDir      Base directory where selection should begin from.
+         * @param relativeOnly Force the result of this value to be relative
+         *                     to the base location.  This is limited on some filesystem types
+         *                     of course, where relative paths from one place to another are not
+         *                     always possible.
+         */
+        public FilenameConstraints(File baseDir, boolean relativeOnly) {
+            this();
+            this.baseDir = baseDir;
+            this.baseRelativeOnly = relativeOnly;
         }
 
         @Override
@@ -1661,19 +1672,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
         }
 
         /**
-         * @param baseDir      Base directory where selection should begin from.
-         * @param relativeOnly Force the result of this value to be relative
-         *                     to the base location.  This is limited on some filesystem types
-         *                     of course, where relative paths from one place to another are not
-         *                     always possible.
-         */
-        public FilenameConstraints(File baseDir, boolean relativeOnly) {
-            this();
-            this.baseDir = baseDir;
-            this.baseRelativeOnly = relativeOnly;
-        }
-
-        /**
          * Get the filters used to select valid files for a response
          * to this question.
          *
@@ -1683,19 +1681,6 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
          */
         public FileFilter[] getFilters() {
             return filters;
-        }
-
-        /**
-         * Set a filter used to select valid files for a response
-         * to this question.  Use this method, or setFilters(), not both.
-         *
-         * @param filter a filter used to select valid files for a response
-         *               to this question
-         * @see #getFilters
-         * @see #setFilters
-         */
-        public void setFilter(FileFilter filter) {
-            filters = new FileFilter[]{filter};
         }
 
         /**
@@ -1710,6 +1695,19 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
          */
         public void setFilters(FileFilter... filters) {
             this.filters = filters;
+        }
+
+        /**
+         * Set a filter used to select valid files for a response
+         * to this question.  Use this method, or setFilters(), not both.
+         *
+         * @param filter a filter used to select valid files for a response
+         *               to this question
+         * @see #getFilters
+         * @see #setFilters
+         */
+        public void setFilter(FileFilter filter) {
+            filters = new FileFilter[]{filter};
         }
 
         /**
@@ -1758,6 +1756,10 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
             baseRelativeOnly = b;
         }
 
+        public File[] getSuggestions() {
+            return suggestions;
+        }
+
         /**
          * Supply some possible values that the user may want to
          * select from.  The <code>getPath()</code> string will be used for
@@ -1768,21 +1770,5 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
             suggestions = new File[sugs.length];
             System.arraycopy(sugs, 0, suggestions, 0, sugs.length);
         }
-
-        public File[] getSuggestions() {
-            return suggestions;
-        }
-
-        private File baseDir;
-        private boolean baseRelativeOnly;
-        private FileFilter[] filters;
-
-        /**
-         * Current value set for the suggested response values.
-         *
-         * @see #setSuggestions(File[])
-         * @see #getSuggestions()
-         */
-        protected File[] suggestions;
     }
 }

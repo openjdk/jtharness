@@ -40,6 +40,12 @@ import java.io.File;
 public interface HelpSetFactory {
 
     /**
+     * The very default implementation of the HelpSetFactory interface.
+     * It should be used in case when help is not required (command line mode)
+     */
+    HelpSetFactory DEFAULT = new Default();
+
+    /**
      * Creates an instance of HelpSet.
      * Real implementation should create of javax.help.HelpSet, when a
      * stub implementation just object.
@@ -66,13 +72,6 @@ public interface HelpSetFactory {
     Object updateHelpSetObject(Interview interview, Object object);
 
     Object createHelpID(Object hs, String str);
-
-
-    /**
-     * The very default implementation of the HelpSetFactory interface.
-     * It should be used in case when help is not required (command line mode)
-     */
-    HelpSetFactory DEFAULT = new Default();
 
     class Default implements HelpSetFactory {
         private static final Object EMPTY = new Object();

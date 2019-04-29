@@ -117,25 +117,65 @@ import java.util.Properties;
  */
 public class Wizard extends JComponent {
     /**
-     * A minimal main program to invoke the wizard on a specified interview.
-     *
-     * @param args Only one argument is accepted: the name of a class which is
-     *             a subtype of {@link Interview}.
+     * Action command for the okListener for {@link #showInDialog}.
      */
-    public static void main(String... args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-
-            Class<? extends Interview> ic =
-                    Class.forName(args[0], true, ClassLoader.getSystemClassLoader()).asSubclass(Interview.class);
-            Interview i = ic.getDeclaredConstructor().newInstance();
-            Wizard w = new Wizard(i);
-            w.showInFrame(true);
-        } catch (Throwable e) {
-            e.printStackTrace();
-            System.exit(1);
+    public static final String OK = "OK";
+    private static final KeyStroke enterKey = KeyStroke.getKeyStroke("ENTER");
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    private static final String[][] fileMenuData = {
+            {"new", "performNew"},
+            {"open", "performOpen"},
+            {"save", "performSave"},
+            {"saveAs", "performSaveAs"},
+            null,
+            {"exportLog", "performExportLog"}
+    };
+    private static final String[][] helpMenuData = {
+            {"help", "performHelp", "F1"}
+    };
+    private static final String[][] searchMenuData = {
+            {"find", "performFind", "control F"},
+            {"findNext", "performFindNext", "F3"},
+    };
+    private final FileFilter jtiFilter = new ExtensionFileFilter(".jti");
+    private final FileFilter htmlFilter =
+            new ExtensionFileFilter(".htm", ".html");
+    private ActionListener performer = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            perform(e.getActionCommand());
         }
-    }
+    };
+    private Interview interview;
+    private Exporter[] exporters;
+    private String title;
+    private JMenuBar menuBar;
+    private JMenu fileMenu;
+    //private JPanel main;
+    private JComponent main;
+    private JPanel body;
+    private PathPanel pathPanel;
+    private QuestionPanel questionPanel;
+    private InfoPanel infoPanel;
+    private JToolBar buttonPanel;
+    private JButton cancelBtn;
+    private JButton backBtn;
+    private JButton nextBtn;
+    private JButton okBtn;
+    private JToggleButton infoBtn;
+    private Window window;
+    private ActionListener okListener;
+    private SearchDialog searchDialog;
+    private boolean initialInfoVisible = true;
+    private Listener listener = new Listener();
+    // help for Help menu and context sensitive help (F1)
+    private HelpSet helpHelpSet;
+    private HelpBroker helpHelpBroker;
+    private String helpHelpPrefix;
+    private JMenu helpMenu;
+    private File currFile;
+    private File defaultFile;
+    private boolean exitOnClose;
 
     /**
      * Create a wizard to present an interview.
@@ -155,6 +195,27 @@ public class Wizard extends JComponent {
     public Wizard(Interview i, Exporter... e) {
         interview = i;
         exporters = e;
+    }
+
+    /**
+     * A minimal main program to invoke the wizard on a specified interview.
+     *
+     * @param args Only one argument is accepted: the name of a class which is
+     *             a subtype of {@link Interview}.
+     */
+    public static void main(String... args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+
+            Class<? extends Interview> ic =
+                    Class.forName(args[0], true, ClassLoader.getSystemClassLoader()).asSubclass(Interview.class);
+            Interview i = ic.getDeclaredConstructor().newInstance();
+            Wizard w = new Wizard(i);
+            w.showInFrame(true);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     /**
@@ -281,7 +342,6 @@ public class Wizard extends JComponent {
         this.helpMenu = helpMenu;
     }
 
-
     /**
      * Show the wizard in a frame centered on the screen.
      *
@@ -339,11 +399,6 @@ public class Wizard extends JComponent {
 
         window = f;
     }
-
-    /**
-     * Action command for the okListener for {@link #showInDialog}.
-     */
-    public static final String OK = "OK";
 
     /**
      * Show the wizard in a dialog.
@@ -988,73 +1043,11 @@ public class Wizard extends JComponent {
         return response == JOptionPane.YES_OPTION;
     }
 
-    private ActionListener performer = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            perform(e.getActionCommand());
-        }
-    };
-
-    private Interview interview;
-    private Exporter[] exporters;
-    private String title;
-    private JMenuBar menuBar;
-    private JMenu fileMenu;
-    //private JPanel main;
-    private JComponent main;
-    private JPanel body;
-    private PathPanel pathPanel;
-    private QuestionPanel questionPanel;
-    private InfoPanel infoPanel;
-    private JToolBar buttonPanel;
-    private JButton cancelBtn;
-    private JButton backBtn;
-    private JButton nextBtn;
-    private JButton okBtn;
-    private JToggleButton infoBtn;
-    private Window window;
-    private ActionListener okListener;
-    private SearchDialog searchDialog;
-    private boolean initialInfoVisible = true;
-    private Listener listener = new Listener();
-
-    // help for Help menu and context sensitive help (F1)
-    private HelpSet helpHelpSet;
-    private HelpBroker helpHelpBroker;
-    private String helpHelpPrefix;
-    private JMenu helpMenu;
-
-    private File currFile;
-    private File defaultFile;
-    private boolean exitOnClose;
-
-    private final FileFilter jtiFilter = new ExtensionFileFilter(".jti");
-    private final FileFilter htmlFilter =
-            new ExtensionFileFilter(".htm", ".html");
-
-    private static final KeyStroke enterKey = KeyStroke.getKeyStroke("ENTER");
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
-
-    private static final String[][] fileMenuData = {
-            {"new", "performNew"},
-            {"open", "performOpen"},
-            {"save", "performSave"},
-            {"saveAs", "performSaveAs"},
-            null,
-            {"exportLog", "performExportLog"}
-    };
-
-    private static final String[][] helpMenuData = {
-            {"help", "performHelp", "F1"}
-    };
-
-    private static final String[][] searchMenuData = {
-            {"find", "performFind", "control F"},
-            {"findNext", "performFindNext", "F3"},
-    };
-
     private static class ExtensionFileFilter extends FileFilter {
+        private String[] extns;
+        private String description;
+
+
         ExtensionFileFilter(String extn) {
             this.extns = new String[]{extn};
         }
@@ -1062,7 +1055,6 @@ public class Wizard extends JComponent {
         ExtensionFileFilter(String... extns) {
             this.extns = extns;
         }
-
 
         ExtensionFileFilter(String[] extns, String description) {
             this.extns = extns;
@@ -1097,9 +1089,6 @@ public class Wizard extends JComponent {
             }
             return description;
         }
-
-        private String[] extns;
-        private String description;
     }
 
     private class ExportMenu extends JMenu implements ActionListener, PopupMenuListener {

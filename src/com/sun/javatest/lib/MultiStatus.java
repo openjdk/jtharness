@@ -58,12 +58,21 @@ import java.io.PrintWriter;
  */
 public class MultiStatus {
 
+    // These values accumulate the aggregate outcome, without requiring
+    // the individual outcomes be stored
+    private int iTestCases = 0;
+    private int iPassed = 0;
+    private int iFail = 0;
+    private int iError = 0;
+    private int iBad = 0;
+    private String firstTestCase = "";
+    private PrintWriter out = null;
+
     /**
      * Create a MultiStatus object to accumulate individual Status objects.
      */
     public MultiStatus() {
     }
-
     /**
      * Create a MultiStatus object to accumulate individual Status objects.
      *
@@ -72,6 +81,53 @@ public class MultiStatus {
      */
     public MultiStatus(PrintWriter out) {
         this.out = out;
+    }
+
+    /**
+     * Generates a Status object that reflects an array of Status objects.
+     * Uses the algorithm above to generate an overall status from an array of
+     * Status objects.  This method prints out the individual Status values from
+     * each test case to the PrintWriter supplied.  If the PrintWriter is null,
+     * no output is generated.
+     *
+     * @param testIDs an array of names used to identify the individual test cases.
+     * @param status  an array of Status objects giving the outcomes of the individual test cases.
+     * @param out     a PrintWriter that can be used to output the individual test case
+     *                status values. If null, no output is generated.
+     * @return the aggregate status of the array of Status objects.
+     */
+    public static Status overallStatus(String testIDs[], Status status[], PrintWriter out) {
+
+        /* Check the number of tests against the number of statuses */
+        if (testIDs.length != status.length) {
+            return Status.failed("mismatched array sizes; test cases: " + testIDs.length +
+                    " statuses: " + status.length);
+        }
+
+        /* Loop through status objects, check types,
+         * increment appropriate counters, and identify the
+         * first test that should be listed in the aggregate status.
+         */
+
+        MultiStatus ms = new MultiStatus(out);
+        for (int i = 0; i < status.length; ++i) {
+            ms.add(testIDs[i], status[i]);
+        }
+
+        return ms.getStatus();
+    }
+
+    /**
+     * Generates a Status object that reflects an array of Status objects.
+     * Uses the algorithm above to generate an overall status from an array of
+     * Status objects.  This method does not output any information
+     *
+     * @param testIDs an array of names used to identify the individual test cases.
+     * @param status  an array of Status objects giving the outcomes of the individual test cases.
+     * @return overall status of the specified array of Status objects.
+     */
+    public static Status overallStatus(String testIDs[], Status... status) {
+        return MultiStatus.overallStatus(testIDs, status, null);
     }
 
     /**
@@ -192,64 +248,4 @@ public class MultiStatus {
             return Status.passed(summary);
         }
     }
-
-
-    /**
-     * Generates a Status object that reflects an array of Status objects.
-     * Uses the algorithm above to generate an overall status from an array of
-     * Status objects.  This method prints out the individual Status values from
-     * each test case to the PrintWriter supplied.  If the PrintWriter is null,
-     * no output is generated.
-     *
-     * @param testIDs an array of names used to identify the individual test cases.
-     * @param status  an array of Status objects giving the outcomes of the individual test cases.
-     * @param out     a PrintWriter that can be used to output the individual test case
-     *                status values. If null, no output is generated.
-     * @return the aggregate status of the array of Status objects.
-     */
-    public static Status overallStatus(String testIDs[], Status status[], PrintWriter out) {
-
-        /* Check the number of tests against the number of statuses */
-        if (testIDs.length != status.length) {
-            return Status.failed("mismatched array sizes; test cases: " + testIDs.length +
-                    " statuses: " + status.length);
-        }
-
-        /* Loop through status objects, check types,
-         * increment appropriate counters, and identify the
-         * first test that should be listed in the aggregate status.
-         */
-
-        MultiStatus ms = new MultiStatus(out);
-        for (int i = 0; i < status.length; ++i) {
-            ms.add(testIDs[i], status[i]);
-        }
-
-        return ms.getStatus();
-    }
-
-
-    /**
-     * Generates a Status object that reflects an array of Status objects.
-     * Uses the algorithm above to generate an overall status from an array of
-     * Status objects.  This method does not output any information
-     *
-     * @param testIDs an array of names used to identify the individual test cases.
-     * @param status  an array of Status objects giving the outcomes of the individual test cases.
-     * @return overall status of the specified array of Status objects.
-     */
-    public static Status overallStatus(String testIDs[], Status... status) {
-        return MultiStatus.overallStatus(testIDs, status, null);
-    }
-
-    // These values accumulate the aggregate outcome, without requiring
-    // the individual outcomes be stored
-    private int iTestCases = 0;
-    private int iPassed = 0;
-    private int iFail = 0;
-    private int iError = 0;
-    private int iBad = 0;
-    private String firstTestCase = "";
-
-    private PrintWriter out = null;
 }

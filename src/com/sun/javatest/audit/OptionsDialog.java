@@ -57,6 +57,21 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 class OptionsDialog extends ToolDialog {
+    static final String OK = "OK";
+    private Tool tool;
+    private ActionListener okListener;
+    private JPanel body;
+    private JComboBox<String> tsField;
+    private JButton tsBtn;
+    private TestSuiteChooser testSuiteChooser;
+    private JComboBox<String> wdField;
+    private JButton wdBtn;
+    private WorkDirChooser workDirChooser;
+    private JComboBox<String> cfField;
+    private JButton cfBtn;
+    private JFileChooser configFileChooser;
+    private Listener listener;
+
     OptionsDialog(Tool tool, ActionListener okListener, UIFactory uif) {
         super(tool, uif, "opts");
         this.tool = tool;
@@ -335,26 +350,6 @@ class OptionsDialog extends ToolDialog {
             field.addItem(value);
         }
     }
-
-    private Tool tool;
-    private ActionListener okListener;
-    private JPanel body;
-
-    private JComboBox<String> tsField;
-    private JButton tsBtn;
-    private TestSuiteChooser testSuiteChooser;
-
-    private JComboBox<String> wdField;
-    private JButton wdBtn;
-    private WorkDirChooser workDirChooser;
-
-    private JComboBox<String> cfField;
-    private JButton cfBtn;
-    private JFileChooser configFileChooser;
-
-    private Listener listener;
-
-    static final String OK = "OK";
 
     private class Listener
             extends ComponentAdapter

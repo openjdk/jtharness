@@ -42,6 +42,11 @@ import java.util.Date;
  */
 public class LogFile {
 
+    private static I18NResourceBundle local_i18n = I18NResourceBundle.getBundleForClass(LogFile.class);
+    private File file;
+    private Writer out;
+    private boolean logError;
+
     /**
      * Create a log file object to which log messages can be written.
      * The messages will be written to System.err.
@@ -168,10 +173,4 @@ public class LogFile {
             pw.flush();
         }
     }
-
-    private File file;
-    private Writer out;
-    private boolean logError;
-
-    private static I18NResourceBundle local_i18n = I18NResourceBundle.getBundleForClass(LogFile.class);
 }

@@ -42,6 +42,39 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 class DetailsBrowser extends JDialog {
+    private JTextField tagField;
+    private JTextField keyField;
+
+    /*
+    private void update(Question q) {
+        tagField.setText(q.getTag());
+        keyField.setText(q.getKey());
+        try {
+            if (helpSet != null) {
+                try {
+                    Map.HelpID mid = Map.HelpID.create(q.getKey(), helpSet);
+                    URL u = helpSet.getLocalMap().getURLFromID(mid);
+                    urlField.setText(u.toString());
+                }
+                catch (MalformedURLException e) {
+                    urlField.setText(e.toString());
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    */
+    private JTextField hsField;
+
+    /*private void update(Map.HelpID id, URL u) {
+        hsField.setText(id.getHelpSet().getTitle());
+        idField.setText(id.getIDString());
+        urlField.setText(u.toString());
+    }*/
+    private JTextField idField;
+    private JTextField urlField;
     DetailsBrowser(Component parent, Interview interview, JHelpContentViewer infoPanel) {
         super(getFrameParent(parent), "Configuration Editor Details Browser", false);
         //setUndecorated(false);
@@ -129,54 +162,19 @@ class DetailsBrowser extends JDialog {
 
     }
 
+    private static Frame getFrameParent(Component c) {
+        return (Frame) SwingUtilities.getAncestorOfClass(Frame.class, c);
+    }
+
     void setQuestionInfoEnabled(boolean on) {
         keyField.setEnabled(on);
         tagField.setEnabled(on);
     }
 
-    /*
-    private void update(Question q) {
-        tagField.setText(q.getTag());
-        keyField.setText(q.getKey());
-        try {
-            if (helpSet != null) {
-                try {
-                    Map.HelpID mid = Map.HelpID.create(q.getKey(), helpSet);
-                    URL u = helpSet.getLocalMap().getURLFromID(mid);
-                    urlField.setText(u.toString());
-                }
-                catch (MalformedURLException e) {
-                    urlField.setText(e.toString());
-                }
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    */
-
     private void update(Question q) {
         tagField.setText(q.getTag());
         keyField.setText(q.getKey());
     }
-
-    /*private void update(Map.HelpID id, URL u) {
-        hsField.setText(id.getHelpSet().getTitle());
-        idField.setText(id.getIDString());
-        urlField.setText(u.toString());
-    }*/
-
-    private static Frame getFrameParent(Component c) {
-        return (Frame) SwingUtilities.getAncestorOfClass(Frame.class, c);
-    }
-
-
-    private JTextField tagField;
-    private JTextField keyField;
-    private JTextField hsField;
-    private JTextField idField;
-    private JTextField urlField;
 
     /*private class Listener
         implements HelpModelListener, Interview.Observer

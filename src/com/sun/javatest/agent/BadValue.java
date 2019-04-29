@@ -30,6 +30,8 @@ package com.sun.javatest.agent;
  * This exception is used to report bad user-specifed data.
  */
 public class BadValue extends Exception {
+    private String[] msgs;
+
     /**
      * Create a BadValue exception.
      *
@@ -62,6 +64,4 @@ public class BadValue extends Exception {
     public String[] getMessages() {
         return msgs;
     }
-
-    private String[] msgs;
 }

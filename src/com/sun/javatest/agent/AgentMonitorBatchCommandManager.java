@@ -44,10 +44,14 @@ import static com.sun.javatest.agent.Agent.MILLIS_PER_SECOND;
  */
 public class AgentMonitorBatchCommandManager extends CommandManager {
 
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AgentMonitorBatchCommandManager.class);
+
     @Override
     public HelpTree.Node getHelp() {
         return new HelpTree.Node(i18n, "cmgr.help", getCommands());
     }
+
+    //----------------------------------------------------------------------------
 
     String[] getCommands() {
         return new String[]{
@@ -56,8 +60,6 @@ public class AgentMonitorBatchCommandManager extends CommandManager {
                 StartAgentPoolCommand.getName(),
         };
     }
-
-    //----------------------------------------------------------------------------
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
@@ -80,14 +82,10 @@ public class AgentMonitorBatchCommandManager extends CommandManager {
         return false;
     }
 
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AgentMonitorBatchCommandManager.class);
-
     //----------------------------------------------------------------------------
 
     private static class AgentPoolPortCommand extends Command {
-        static String getName() {
-            return "agentPoolPort";
-        }
+        private int port;
 
         AgentPoolPortCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -103,22 +101,22 @@ public class AgentMonitorBatchCommandManager extends CommandManager {
             }
         }
 
+        static String getName() {
+            return "agentPoolPort";
+        }
+
         @Override
         public void run(CommandContext ctx) {
             AgentManager mgr = AgentManager.access();
             ActiveAgentPool pool = mgr.getActiveAgentPool();
             pool.setPort(port);
         }
-
-        private int port;
     }
 
     //----------------------------------------------------------------------------
 
     private static class AgentPoolTimeoutCommand extends Command {
-        static String getName() {
-            return "agentPoolTimeout";
-        }
+        private int timeout;
 
         AgentPoolTimeoutCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -134,22 +132,23 @@ public class AgentMonitorBatchCommandManager extends CommandManager {
             }
         }
 
+        static String getName() {
+            return "agentPoolTimeout";
+        }
+
         @Override
         public void run(CommandContext ctx) {
             AgentManager mgr = AgentManager.access();
             ActiveAgentPool pool = mgr.getActiveAgentPool();
             pool.setTimeout(timeout * MILLIS_PER_SECOND);
         }
-
-        private int timeout;
     }
 
     //----------------------------------------------------------------------------
 
     private static class StartAgentPoolCommand extends Command {
-        static String getName() {
-            return "startAgentPool";
-        }
+        private AgentPoolPortCommand portSubcommand;
+        private AgentPoolTimeoutCommand timeoutSubcommand;
 
         StartAgentPoolCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
@@ -167,6 +166,10 @@ public class AgentMonitorBatchCommandManager extends CommandManager {
                     break;
                 }
             }
+        }
+
+        static String getName() {
+            return "startAgentPool";
         }
 
         @Override
@@ -197,9 +200,6 @@ public class AgentMonitorBatchCommandManager extends CommandManager {
                 addArg(args[i]);
             }
         }
-
-        private AgentPoolPortCommand portSubcommand;
-        private AgentPoolTimeoutCommand timeoutSubcommand;
     }
 }
 

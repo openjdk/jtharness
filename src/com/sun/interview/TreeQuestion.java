@@ -35,71 +35,16 @@ import java.util.Vector;
  * nodes within a tree. The nodes are identified by their paths.
  */
 public abstract class TreeQuestion extends Question {
+    private static String[] empty = {};
     /**
-     * An interface that provides the model for the tree whose nodes
-     * are selected by a TreeQuestion.
+     * The current response for this question.
      */
-    public interface Model {
-        /**
-         * Get the root node of the tree.
-         *
-         * @return the root node of the tree.
-         */
-        Object getRoot();
-
-        /**
-         * Get the number of children of a specified node.
-         *
-         * @param node the node for which to get the number of children
-         * @return the number of children of the specified node
-         */
-        int getChildCount(Object node);
-
-        /**
-         * Get a child of a specified node, or null if no such child exists.
-         *
-         * @param node  the node for which to get the child
-         * @param index the index of the child; this should be a
-         *              number greater than or equal to zero and less than the number
-         *              of children of the node.
-         * @return the specified child, or null if index does not identify a
-         * valid child.
-         * @see #getChildCount
-         */
-        Object getChild(Object node, int index);
-
-        /**
-         * Get the name of a specified node. The name will be used to
-         * construct paths. At a minimum, it should not contain '/'.
-         *
-         * @param node the node whose name is required
-         * @return the name of the specified node
-         */
-        String getName(Object node);
-
-        /**
-         * Get the full path from the root node of a specified node.
-         *
-         * @param node the node whose path is required
-         * @return the path of the specified node from the root node,
-         * as composed from the names of this node and its ancestors,
-         * using '/' to separate the individual names.
-         */
-        String getPath(Object node);
-
-        /**
-         * Determine if this a node is a leaf node.
-         * This is primarily an attribute of the node's actual type,
-         * and is not necessarily the same as having zero children.
-         * (A leaf node implies zero children, but zero children does
-         * not imply a node is a leaf.)
-         *
-         * @param node the node to check for being a leaf
-         * @return true if the specified node is a leaf node, and
-         * false otherwise.
-         */
-        boolean isLeaf(Object node);
-    }
+    protected String[] value;
+    private Model model;
+    /**
+     * The default response for this question.
+     */
+    private String[] defaultValue;
 
     /**
      * Create a tree question with a nominated tag and tree model.
@@ -113,6 +58,59 @@ public abstract class TreeQuestion extends Question {
         this.model = model;
         clear();
         setDefaultValue(value);
+    }
+
+    public static String[] split(String s) {
+        if (s == null) {
+            return empty;
+        }
+
+        Vector<String> v = new Vector<>();
+        int start = -1;
+        for (int i = 0; i < s.length(); i++) {
+            if (white(s.charAt(i))) {
+                if (start != -1) {
+                    v.add(s.substring(start, i));
+                }
+                start = -1;
+            } else if (start == -1) {
+                start = i;
+            }
+        }
+
+        if (start != -1) {
+            v.add(s.substring(start));
+        }
+
+        if (v.isEmpty()) {
+            return empty;
+        }
+
+        return v.toArray(new String[v.size()]);
+    }
+
+    public static String join(String... paths) {
+        if (paths == null || paths.length == 0) {
+            return "";
+        }
+
+        int l = paths.length - 1; // allow for spaces between words
+        for (String path : paths) {
+            l += path.length();
+        }
+
+        StringBuilder sb = new StringBuilder(l);
+        sb.append(paths[0]);
+        for (int i = 1; i < paths.length; i++) {
+            sb.append(' ');
+            sb.append(paths[i]);
+        }
+
+        return sb.toString();
+    }
+
+    public static boolean white(char c) {
+        return c == ' ' || c == '\t' || c == '\n';
     }
 
     /**
@@ -157,90 +155,9 @@ public abstract class TreeQuestion extends Question {
         return value;
     }
 
-    /**
-     * Verify this question is on the current path, and if it is,
-     * return the current value.
-     *
-     * @return the current value of this question
-     * @throws Interview.NotOnPathFault if this question is not on the
-     *                                  current path
-     * @see #getValue
-     */
-    public String[] getValueOnPath()
-            throws Interview.NotOnPathFault {
-        interview.verifyPathContains(this);
-        return getValue();
-    }
-
     @Override
     public void setValue(String newValue) {
         setValue(split(newValue));
-    }
-
-    /**
-     * Set the current response to this question.
-     *
-     * @param newValue a set of strings (or null if none), representing
-     *                 paths to nodes within the tree represented by the tree model
-     * @see #getValue
-     */
-    public void setValue(String... newValue) {
-        String[] oldValue;
-        if (newValue == null) {
-            oldValue = value;
-            value = null;
-        } else {
-            // could arguably validate paths here and throw Fault if invalid
-            oldValue = value;
-            /* leave this for clients to do, if they want
-            // sort and remove duplicates from the array
-            TreeSet ts = new TreeSet(Arrays.asList(newValue));
-            value = (String[]) (ts.toArray(new String[ts.size()]));
-            */
-            value = newValue;
-        }
-
-        if (!Arrays.equals(value, oldValue)) {
-            interview.updatePath(this);
-            interview.setEdited(true);
-        }
-    }
-
-    /**
-     * Set the current response to this question. The response is
-     * set to the paths of a set of specified nodes within the tree
-     * represented by the tree model.
-     *
-     * @param nodes a set of nodes (or null if none) within
-     *              the tree represented by the tree model, whose paths will
-     *              be set as the current response to the question
-     * @see #getValue
-     */
-    public void setValue(Object... nodes) {
-        if (nodes == null) {
-            setValue((String[]) null);
-            return;
-        }
-
-        String[] paths = new String[nodes.length];
-        for (int i = 0; i < nodes.length; i++) {
-            paths[i] = model.getPath(nodes[i]);
-        }
-    }
-
-    @Override
-    public String getStringValue() {
-        return join(value);
-    }
-
-    @Override
-    public boolean isValueValid() {
-        return true;
-    }
-
-    @Override
-    public boolean isValueAlwaysValid() {
-        return false;
     }
 
     /*
@@ -313,6 +230,87 @@ public abstract class TreeQuestion extends Question {
     */
 
     /**
+     * Set the current response to this question.
+     *
+     * @param newValue a set of strings (or null if none), representing
+     *                 paths to nodes within the tree represented by the tree model
+     * @see #getValue
+     */
+    public void setValue(String... newValue) {
+        String[] oldValue;
+        if (newValue == null) {
+            oldValue = value;
+            value = null;
+        } else {
+            // could arguably validate paths here and throw Fault if invalid
+            oldValue = value;
+            /* leave this for clients to do, if they want
+            // sort and remove duplicates from the array
+            TreeSet ts = new TreeSet(Arrays.asList(newValue));
+            value = (String[]) (ts.toArray(new String[ts.size()]));
+            */
+            value = newValue;
+        }
+
+        if (!Arrays.equals(value, oldValue)) {
+            interview.updatePath(this);
+            interview.setEdited(true);
+        }
+    }
+
+    /**
+     * Set the current response to this question. The response is
+     * set to the paths of a set of specified nodes within the tree
+     * represented by the tree model.
+     *
+     * @param nodes a set of nodes (or null if none) within
+     *              the tree represented by the tree model, whose paths will
+     *              be set as the current response to the question
+     * @see #getValue
+     */
+    public void setValue(Object... nodes) {
+        if (nodes == null) {
+            setValue((String[]) null);
+            return;
+        }
+
+        String[] paths = new String[nodes.length];
+        for (int i = 0; i < nodes.length; i++) {
+            paths[i] = model.getPath(nodes[i]);
+        }
+    }
+
+    /**
+     * Verify this question is on the current path, and if it is,
+     * return the current value.
+     *
+     * @return the current value of this question
+     * @throws Interview.NotOnPathFault if this question is not on the
+     *                                  current path
+     * @see #getValue
+     */
+    public String[] getValueOnPath()
+            throws Interview.NotOnPathFault {
+        interview.verifyPathContains(this);
+        return getValue();
+    }
+
+    @Override
+    public String getStringValue() {
+        return join(value);
+    }
+
+    @Override
+    public boolean isValueValid() {
+        return true;
+    }
+
+    @Override
+    public boolean isValueAlwaysValid() {
+        return false;
+    }
+
+    /**
      * Clear any response to this question, resetting the value
      * back to its initial state.
      */
@@ -344,70 +342,69 @@ public abstract class TreeQuestion extends Question {
         data.put(tag, join(value));
     }
 
-    public static String[] split(String s) {
-        if (s == null) {
-            return empty;
-        }
-
-        Vector<String> v = new Vector<>();
-        int start = -1;
-        for (int i = 0; i < s.length(); i++) {
-            if (white(s.charAt(i))) {
-                if (start != -1) {
-                    v.add(s.substring(start, i));
-                }
-                start = -1;
-            } else if (start == -1) {
-                start = i;
-            }
-        }
-
-        if (start != -1) {
-            v.add(s.substring(start));
-        }
-
-        if (v.isEmpty()) {
-            return empty;
-        }
-
-        return v.toArray(new String[v.size()]);
-    }
-
-    public static String join(String... paths) {
-        if (paths == null || paths.length == 0) {
-            return "";
-        }
-
-        int l = paths.length - 1; // allow for spaces between words
-        for (String path : paths) {
-            l += path.length();
-        }
-
-        StringBuilder sb = new StringBuilder(l);
-        sb.append(paths[0]);
-        for (int i = 1; i < paths.length; i++) {
-            sb.append(' ');
-            sb.append(paths[i]);
-        }
-
-        return sb.toString();
-    }
-
-    public static boolean white(char c) {
-        return c == ' ' || c == '\t' || c == '\n';
-    }
-
-    private static String[] empty = {};
-
-    private Model model;
-
     /**
-     * The current response for this question.
+     * An interface that provides the model for the tree whose nodes
+     * are selected by a TreeQuestion.
      */
-    protected String[] value;
+    public interface Model {
+        /**
+         * Get the root node of the tree.
+         *
+         * @return the root node of the tree.
+         */
+        Object getRoot();
 
-    /**
-     * The default response for this question.
-     */
-    private String[] defaultValue;
+        /**
+         * Get the number of children of a specified node.
+         *
+         * @param node the node for which to get the number of children
+         * @return the number of children of the specified node
+         */
+        int getChildCount(Object node);
+
+        /**
+         * Get a child of a specified node, or null if no such child exists.
+         *
+         * @param node  the node for which to get the child
+         * @param index the index of the child; this should be a
+         *              number greater than or equal to zero and less than the number
+         *              of children of the node.
+         * @return the specified child, or null if index does not identify a
+         * valid child.
+         * @see #getChildCount
+         */
+        Object getChild(Object node, int index);
+
+        /**
+         * Get the name of a specified node. The name will be used to
+         * construct paths. At a minimum, it should not contain '/'.
+         *
+         * @param node the node whose name is required
+         * @return the name of the specified node
+         */
+        String getName(Object node);
+
+        /**
+         * Get the full path from the root node of a specified node.
+         *
+         * @param node the node whose path is required
+         * @return the path of the specified node from the root node,
+         * as composed from the names of this node and its ancestors,
+         * using '/' to separate the individual names.
+         */
+        String getPath(Object node);
+
+        /**
+         * Determine if this a node is a leaf node.
+         * This is primarily an attribute of the node's actual type,
+         * and is not necessarily the same as having zero children.
+         * (A leaf node implies zero children, but zero children does
+         * not imply a node is a leaf.)
+         *
+         * @param node the node to check for being a leaf
+         * @return true if the specified node is a leaf node, and
+         * false otherwise.
+         */
+        boolean isLeaf(Object node);
+    }
 }

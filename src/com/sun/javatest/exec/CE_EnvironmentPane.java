@@ -49,6 +49,14 @@ import java.io.IOException;
 import java.util.Arrays;
 
 class CE_EnvironmentPane extends CE_StdPane {
+    private EnvParameters envParameters;
+    private LegacyEnvParameters legacyEnvParameters;
+    private TestSuite testSuite;
+    private JLabel envFilesLabel;
+    private EditableFileList envFilesField;
+    private JFileChooser envFilesChooser;
+    private JLabel envNameLabel;
+    private JComboBox<String> envNameField;
     CE_EnvironmentPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "env");
         ContextHelpManager.setHelpIDString(this, "confEdit.envTab.csh");
@@ -282,14 +290,5 @@ class CE_EnvironmentPane extends CE_StdPane {
             return null;
         }
     }
-
-    private EnvParameters envParameters;
-    private LegacyEnvParameters legacyEnvParameters;
-    private TestSuite testSuite;
-    private JLabel envFilesLabel;
-    private EditableFileList envFilesField;
-    private JFileChooser envFilesChooser;
-    private JLabel envNameLabel;
-    private JComboBox<String> envNameField;
 
 }

@@ -41,12 +41,40 @@ import java.io.FileNotFoundException;
  *
  */
 public class SelectedWorkDirApprover {
+    static final String JTM = ".jtm";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(SelectedWorkDirApprover.class);
+    private FileInfoCache cache = new FileInfoCache();
+    private int mode;
+    private TestSuiteChooser testSuiteChooser;
+    private WorkDirectory workDir;
+
+    //-------------------------------------------------------------------------
+    private Component parent;
+    private boolean approveOpenSelection_dirExists = false;
+    private UIFactory uif = new UIFactory(SelectedWorkDirApprover.class, new JTHelpBroker());
+
+    //-------------------------------------------------------------------------
+    private boolean allowNoTemplate = false;
+    // flag which is set if work dir is loaded when expected to be created
+    private boolean openInsteadOfCreate = false;
+
     /**
      * Create a WorkDirChooser, initially showing the user's current directory.
      */
     public SelectedWorkDirApprover(int mode, Component parent) {
         this.mode = mode;
         this.parent = parent;
+    }
+
+    public static boolean isIgnoreable(File f) {
+        // Take care not touch the floppy disk drive on Windows
+        // because if there is no disk in it, the user will get a dialog.
+        // Root directories (such as A:) have an empty name,
+        // so use that to avoid touching the file itself.
+        // This means we can't put a work directory in the root of
+        // the file system, but that is a lesser inconvenience
+        // than those floppy dialogs!
+        return f.getName().isEmpty();
     }
 
     public void setMode(int mode) {
@@ -135,8 +163,6 @@ public class SelectedWorkDirApprover {
             return false;
         }
     }
-
-    //-------------------------------------------------------------------------
 
     public boolean approveOpenSelection(File dir, TestSuite testSuite) {
         if (dir.exists()) {
@@ -268,8 +294,6 @@ public class SelectedWorkDirApprover {
         return true;
     }
 
-    //-------------------------------------------------------------------------
-
     public boolean isWorkDirectory(File f) {
         if (isIgnoreable(f)) {
             return false;
@@ -283,17 +307,6 @@ public class SelectedWorkDirApprover {
         } else {
             return b;
         }
-    }
-
-    public static boolean isIgnoreable(File f) {
-        // Take care not touch the floppy disk drive on Windows
-        // because if there is no disk in it, the user will get a dialog.
-        // Root directories (such as A:) have an empty name,
-        // so use that to avoid touching the file itself.
-        // This means we can't put a work directory in the root of
-        // the file system, but that is a lesser inconvenience
-        // than those floppy dialogs!
-        return f.getName().isEmpty();
     }
 
     public boolean isApprovedOpenSelection_dirExists() {
@@ -315,20 +328,4 @@ public class SelectedWorkDirApprover {
     public boolean isOpenedInsteadOfCreated() {
         return openInsteadOfCreate;
     }
-
-    private FileInfoCache cache = new FileInfoCache();
-
-    private int mode;
-    private TestSuiteChooser testSuiteChooser;
-    private WorkDirectory workDir;
-    private Component parent;
-    private boolean approveOpenSelection_dirExists = false;
-
-    private UIFactory uif = new UIFactory(SelectedWorkDirApprover.class, new JTHelpBroker());
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(SelectedWorkDirApprover.class);
-
-    private boolean allowNoTemplate = false;
-    static final String JTM = ".jtm";
-    // flag which is set if work dir is loaded when expected to be created
-    private boolean openInsteadOfCreate = false;
 }

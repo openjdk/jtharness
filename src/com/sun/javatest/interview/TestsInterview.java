@@ -61,114 +61,11 @@ import java.util.TreeSet;
 public class TestsInterview
         extends Interview
         implements Parameters.MutableTestsParameters {
-    /**
-     * Create an interview.
-     *
-     * @param parent The parent interview of which this is a child.
-     * @throws Interview.Fault if there is a problem while creating the interview.
-     */
-    public TestsInterview(InterviewParameters parent)
-            throws Interview.Fault {
-        super(parent, "tests");
-        this.parent = parent;
-        setResourceBundle("i18n");
-        setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
-        setFirstQuestion(qNeedTests);
-    }
-
-
-    public void dispose() {
-        cachedTestsValue = null;
-        cachedTestsError = null;
-        cachedTestsErrorArgs = null;
-    }
-
-
-    /**
-     * Get the initial files from the interview.
-     *
-     * @return a list of initial files to be read, to determine the tests to be selected
-     * @see #setTests
-     */
-    @Override
-    public String[] getTests() {
-        if (Objects.equals(qNeedTests.getValue(), YesNoQuestion.YES)) {
-            if (Objects.equals(qTreeOrFile.getValue(), TREE)) {
-                return qTestTree.getValue();
-            } else if (Objects.equals(qTreeOrFile.getValue(), FILE)) {
-                return getTests(qTestFile.getValue());
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public void setTests(String... tests) {
-        if (tests == null) {
-            setTestsMode(ALL_TESTS);
-        } else {
-            setTestsMode(SPECIFIED_TESTS);
-            setSpecifiedTests(tests);
-        }
-    }
-
-    @Override
-    public int getTestsMode() {
-        return Objects.equals(qNeedTests.getValue(), YesNoQuestion.YES) ? SPECIFIED_TESTS : ALL_TESTS;
-    }
-
-    @Override
-    public void setTestsMode(int mode) {
-        switch (mode) {
-            case ALL_TESTS:
-                qNeedTests.setValue(YesNoQuestion.NO);
-                break;
-
-            case SPECIFIED_TESTS:
-                qNeedTests.setValue(YesNoQuestion.YES);
-                break;
-
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-
-    @Override
-    public String[] getSpecifiedTests() {
-        // return paths sorted and uniqified
-        //String[] v = qTests.getValue();
-
-        String[] v;
-        if (Objects.equals(qTreeOrFile.getValue(), TREE)) {
-            v = qTestTree.getValue();
-        } else if (Objects.equals(qTreeOrFile.getValue(), FILE)) {
-            v = getTests(qTestFile.getValue());
-        } else {
-            v = null;
-        }
-
-        if (v == null) {
-            return null;
-        }
-
-        TreeSet<String> ts = new TreeSet<>(Arrays.asList(v));
-        return ts.toArray(new String[ts.size()]);
-
-    }
-
-    @Override
-    public void setSpecifiedTests(String... tests) {
-        qTreeOrFile.setValue(TREE);
-        qTestTree.setValue(tests);
-    }
-
-    //----------------------------------------------------------------------------
-    //
-    // Need tests
-
+    private static final String FILE = "file";
+    private static final String TREE = "tree";
+    protected TreeOrFileChoiceQuestion qTreeOrFile = createTreeOrFileChoiceQuestion(this, "treeOrFile");
+    protected Question cachedTestsError;
+    protected Question qEnd = new FinalQuestion(this);
     private YesNoQuestion qNeedTests = new YesNoQuestion(this, "needTests", YesNoQuestion.NO) {
         @Override
         protected Question getNext() {
@@ -181,74 +78,36 @@ public class TestsInterview
             }
         }
     };
+    private Question qNoTestsError = new ErrorQuestion(this, "noTests");
+    private String[] cachedTestsValue;
+
+    //----------------------------------------------------------------------------
+    //
+    // Need tests
+    private Object[] cachedTestsErrorArgs;
 
     //----------------------------------------------------------------------------
     //
     // Tree or file
-
-    private static final String FILE = "file";
-    private static final String TREE = "tree";
-
-    /**
-     * Represents Tests Selection Choice Question. Extracted to separate class
-     * for extensibility purposes
-     */
-    public class TreeOrFileChoiceQuestion extends ChoiceQuestion {
-
-        public TreeOrFileChoiceQuestion(Interview interview, String tag) {
-            super(interview, tag);
-            setChoices(getTestSelectionChoices(), true);
-        }
-
-        /**
-         * Should be overridden if more selection choices are needed
-         *
-         * @return array of test selection choices
-         */
-        protected String[] getTestSelectionChoices() {
-            return new String[]{TREE, FILE};
-        }
-
+    private Question qCantFindFileError = new ErrorQuestion(this, "cantFindFile") {
         @Override
-        public void setValue(String newValue) {
-            if (!Objects.equals(newValue, value)) {
-                cachedTestsError = null;
-                cachedTestsErrorArgs = null;
-                cachedTestsValue = null;
-            }
-
-            super.setValue(newValue);
+        protected Object[] getTextArgs() {
+            return cachedTestsErrorArgs;
         }
-
+    };
+    private Question qCantReadFileError = new ErrorQuestion(this, "cantReadFile") {
         @Override
-        protected Question getNext() {
-            if (Objects.equals(value, TREE)) {
-                return qTestTree;
-            } else {
-                return qTestFile;
-            }
+        protected Object[] getTextArgs() {
+            return cachedTestsErrorArgs;
         }
-
-    }
-
-    protected TreeOrFileChoiceQuestion qTreeOrFile = createTreeOrFileChoiceQuestion(this, "treeOrFile");
-
-    /**
-     * creation of {#link TreeOrFileChoiceQuestion} is extracted into separate class
-     * to enable 'hooks' and return {#link TreeOrFileChoiceQuestion} sub class
-     *
-     * @param interview
-     * @param tag
-     * @return Instance of TreeOrFileChoiceQuestion
-     */
-    protected TreeOrFileChoiceQuestion createTreeOrFileChoiceQuestion(Interview interview, String tag) {
-        return new TreeOrFileChoiceQuestion(interview, tag);
-    }
-
-    //----------------------------------------------------------------------------
-    //
-    // file
-
+    };
+    private ErrorQuestion qBadTestsError = new ErrorQuestion(this, "badTests") {
+        @Override
+        protected Object[] getTextArgs() {
+            return cachedTestsErrorArgs;
+        }
+    };
+    private InterviewParameters parent;
     protected FileQuestion qTestFile = new FileQuestion(this, "testFile") {
         @Override
         public boolean isValueValid() {
@@ -276,51 +135,9 @@ public class TestsInterview
         }
     };
 
-    protected String[] getTests(File file) {
-        ArrayList<String> paths = new ArrayList<>();
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
-            String line;
-            while ((line = in.readLine()) != null) {
-                line = line.trim();
-                if (line.isEmpty() || line.startsWith("#")) {
-                    continue;
-                }
-                int sp = line.indexOf(' ');
-                paths.add(sp == -1 ? line : line.substring(0, sp));
-            }
-            in.close();
-        } catch (FileNotFoundException e) {
-            cachedTestsError = qCantFindFileError;
-            cachedTestsErrorArgs = new Object[]{file};
-            return null;
-        } catch (IOException e) {
-            cachedTestsError = qCantFindFileError;
-            cachedTestsErrorArgs = new Object[]{file, e.toString()};
-            return null;
-        }
-
-        return paths.toArray(new String[paths.size()]);
-    }
-
-    private Question qCantFindFileError = new ErrorQuestion(this, "cantFindFile") {
-        @Override
-        protected Object[] getTextArgs() {
-            return cachedTestsErrorArgs;
-        }
-    };
-
-    private Question qCantReadFileError = new ErrorQuestion(this, "cantReadFile") {
-        @Override
-        protected Object[] getTextArgs() {
-            return cachedTestsErrorArgs;
-        }
-    };
-
     //----------------------------------------------------------------------------
     //
-    // Tests
-
+    // file
     private TreeQuestion.Model model = new TreeQuestion.Model() {
         @Override
         public Object getRoot() {
@@ -413,7 +230,6 @@ public class TestsInterview
             }
         }
     };
-
     protected TreeQuestion qTestTree = new TreeQuestion(this, "tests", model) {
         /* Ugly, this would seem to be helpful, but it precludes getting to the
            ErrorQuestion
@@ -441,6 +257,175 @@ public class TestsInterview
             }
         }
     };
+
+    /**
+     * Create an interview.
+     *
+     * @param parent The parent interview of which this is a child.
+     * @throws Interview.Fault if there is a problem while creating the interview.
+     */
+    public TestsInterview(InterviewParameters parent)
+            throws Interview.Fault {
+        super(parent, "tests");
+        this.parent = parent;
+        setResourceBundle("i18n");
+        setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
+        setFirstQuestion(qNeedTests);
+    }
+
+    private static boolean equal(String[] s1, String... s2) {
+        if (s1 == null || s2 == null) {
+            return s1 == s2;
+        }
+
+        if (s1.length != s2.length) {
+            return false;
+        }
+
+        for (int i = 0; i < s1.length; i++) {
+            if (!Objects.equals(s1[i], s2[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    //----------------------------------------------------------------------------
+    //
+    // Tests
+
+    public void dispose() {
+        cachedTestsValue = null;
+        cachedTestsError = null;
+        cachedTestsErrorArgs = null;
+    }
+
+    /**
+     * Get the initial files from the interview.
+     *
+     * @return a list of initial files to be read, to determine the tests to be selected
+     * @see #setTests
+     */
+    @Override
+    public String[] getTests() {
+        if (Objects.equals(qNeedTests.getValue(), YesNoQuestion.YES)) {
+            if (Objects.equals(qTreeOrFile.getValue(), TREE)) {
+                return qTestTree.getValue();
+            } else if (Objects.equals(qTreeOrFile.getValue(), FILE)) {
+                return getTests(qTestFile.getValue());
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    //----------------------------------------------------------------------------
+
+    @Override
+    public void setTests(String... tests) {
+        if (tests == null) {
+            setTestsMode(ALL_TESTS);
+        } else {
+            setTestsMode(SPECIFIED_TESTS);
+            setSpecifiedTests(tests);
+        }
+    }
+
+    @Override
+    public int getTestsMode() {
+        return Objects.equals(qNeedTests.getValue(), YesNoQuestion.YES) ? SPECIFIED_TESTS : ALL_TESTS;
+    }
+
+    @Override
+    public void setTestsMode(int mode) {
+        switch (mode) {
+            case ALL_TESTS:
+                qNeedTests.setValue(YesNoQuestion.NO);
+                break;
+
+            case SPECIFIED_TESTS:
+                qNeedTests.setValue(YesNoQuestion.YES);
+                break;
+
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public String[] getSpecifiedTests() {
+        // return paths sorted and uniqified
+        //String[] v = qTests.getValue();
+
+        String[] v;
+        if (Objects.equals(qTreeOrFile.getValue(), TREE)) {
+            v = qTestTree.getValue();
+        } else if (Objects.equals(qTreeOrFile.getValue(), FILE)) {
+            v = getTests(qTestFile.getValue());
+        } else {
+            v = null;
+        }
+
+        if (v == null) {
+            return null;
+        }
+
+        TreeSet<String> ts = new TreeSet<>(Arrays.asList(v));
+        return ts.toArray(new String[ts.size()]);
+
+    }
+
+    @Override
+    public void setSpecifiedTests(String... tests) {
+        qTreeOrFile.setValue(TREE);
+        qTestTree.setValue(tests);
+    }
+
+    /**
+     * creation of {#link TreeOrFileChoiceQuestion} is extracted into separate class
+     * to enable 'hooks' and return {#link TreeOrFileChoiceQuestion} sub class
+     *
+     * @param interview
+     * @param tag
+     * @return Instance of TreeOrFileChoiceQuestion
+     */
+    protected TreeOrFileChoiceQuestion createTreeOrFileChoiceQuestion(Interview interview, String tag) {
+        return new TreeOrFileChoiceQuestion(interview, tag);
+    }
+
+    //----------------------------------------------------------------------------
+    //
+    // End
+
+    protected String[] getTests(File file) {
+        ArrayList<String> paths = new ArrayList<>();
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+            String line;
+            while ((line = in.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty() || line.startsWith("#")) {
+                    continue;
+                }
+                int sp = line.indexOf(' ');
+                paths.add(sp == -1 ? line : line.substring(0, sp));
+            }
+            in.close();
+        } catch (FileNotFoundException e) {
+            cachedTestsError = qCantFindFileError;
+            cachedTestsErrorArgs = new Object[]{file};
+            return null;
+        } catch (IOException e) {
+            cachedTestsError = qCantFindFileError;
+            cachedTestsErrorArgs = new Object[]{file, e.toString()};
+            return null;
+        }
+
+        return paths.toArray(new String[paths.size()]);
+    }
 
     //----------------------------------------------------------------------------
 
@@ -494,47 +479,48 @@ public class TestsInterview
         }
     }
 
-    private Question qNoTestsError = new ErrorQuestion(this, "noTests");
+    //--------------------------------------------------------
 
-    private ErrorQuestion qBadTestsError = new ErrorQuestion(this, "badTests") {
+    /**
+     * Represents Tests Selection Choice Question. Extracted to separate class
+     * for extensibility purposes
+     */
+    public class TreeOrFileChoiceQuestion extends ChoiceQuestion {
+
+        public TreeOrFileChoiceQuestion(Interview interview, String tag) {
+            super(interview, tag);
+            setChoices(getTestSelectionChoices(), true);
+        }
+
+        /**
+         * Should be overridden if more selection choices are needed
+         *
+         * @return array of test selection choices
+         */
+        protected String[] getTestSelectionChoices() {
+            return new String[]{TREE, FILE};
+        }
+
         @Override
-        protected Object[] getTextArgs() {
-            return cachedTestsErrorArgs;
-        }
-    };
+        public void setValue(String newValue) {
+            if (!Objects.equals(newValue, value)) {
+                cachedTestsError = null;
+                cachedTestsErrorArgs = null;
+                cachedTestsValue = null;
+            }
 
-    private String[] cachedTestsValue;
-    protected Question cachedTestsError;
-    private Object[] cachedTestsErrorArgs;
-
-    //----------------------------------------------------------------------------
-    //
-    // End
-
-    protected Question qEnd = new FinalQuestion(this);
-
-    //----------------------------------------------------------------------------
-
-    private static boolean equal(String[] s1, String... s2) {
-        if (s1 == null || s2 == null) {
-            return s1 == s2;
+            super.setValue(newValue);
         }
 
-        if (s1.length != s2.length) {
-            return false;
-        }
-
-        for (int i = 0; i < s1.length; i++) {
-            if (!Objects.equals(s1[i], s2[i])) {
-                return false;
+        @Override
+        protected Question getNext() {
+            if (Objects.equals(value, TREE)) {
+                return qTestTree;
+            } else {
+                return qTestFile;
             }
         }
 
-        return true;
     }
-
-    //--------------------------------------------------------
-
-    private InterviewParameters parent;
 }
 

@@ -36,6 +36,9 @@ import javax.swing.JPanel;
  */
 public abstract class CustomTestResultViewer extends JPanel {
 
+    final static String visibleProperetyName = "visibleTab";
+    private boolean isVisible = true;
+
     /**
      * This method is called by the harness and it indicates to the viewer that it should
      * check the given TestResult object for changes.<br>
@@ -71,6 +74,17 @@ public abstract class CustomTestResultViewer extends JPanel {
     public abstract String getDescription();
 
     /**
+     * Determines whether this viewer should be visible when its
+     * parent is visible
+     *
+     * @return <code>true</code> if the viewer is visible,
+     * <code>false</code> otherwise
+     */
+    public boolean isViewerVisible() {
+        return isVisible;
+    }
+
+    /**
      * Makes the viewer visible or invisible.
      *
      * @param aFlag true to make the viewer visible; false to
@@ -81,17 +95,6 @@ public abstract class CustomTestResultViewer extends JPanel {
             firePropertyChange(visibleProperetyName, isVisible, aFlag);
             isVisible = aFlag;
         }
-    }
-
-    /**
-     * Determines whether this viewer should be visible when its
-     * parent is visible
-     *
-     * @return <code>true</code> if the viewer is visible,
-     * <code>false</code> otherwise
-     */
-    public boolean isViewerVisible() {
-        return isVisible;
     }
 
     /**
@@ -107,9 +110,5 @@ public abstract class CustomTestResultViewer extends JPanel {
     public void onCangedTestResult(TestResult newTR, boolean isActive) {
         return;
     }
-
-
-    private boolean isVisible = true;
-    final static String visibleProperetyName = "visibleTab";
 
 }

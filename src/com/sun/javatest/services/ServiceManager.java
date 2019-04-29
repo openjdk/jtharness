@@ -86,31 +86,6 @@ public class ServiceManager implements Harness.Observer {
 
 
     /**
-     * Enum of all supported service's starting modes.
-     * <p>
-     * {@code UP_FRONT} - all required services are started at the beginning of
-     * test run.
-     * <p>
-     * {@code LAZY} - each service is started, when first test, which requires
-     * this service, is going to be run.
-     * <p>
-     * {@code MANUALLY} - no one of services starts.
-     */
-    public static enum StartMode {
-        LAZY("lazy"), UP_FRONT("up_front"), MANUALLY("manually");
-
-        private String key;
-
-        StartMode(String s) {
-            key = s;
-        }
-
-        public String getKey() {
-            return key;
-        }
-    }
-
-    /**
      * Constructor to create ServiceManager for services of given test suite.
      * During initialization, reads from test suite information about specified
      * services.
@@ -133,6 +108,10 @@ public class ServiceManager implements Harness.Observer {
         watchDog.start();
     }
 
+    public Harness getHarness() {
+        return harness;
+    }
+
     /**
      * Links this ServiceManager with {@link com.sun.javatest.Harness}.
      * Set itself as Harness observer, creates logger for service-related
@@ -145,10 +124,6 @@ public class ServiceManager implements Harness.Observer {
         harness.addObserver(this);
 
         setParameters(harness.getParameters());
-    }
-
-    public Harness getHarness() {
-        return harness;
     }
 
     public void setParameters(Parameters p) {
@@ -195,7 +170,6 @@ public class ServiceManager implements Harness.Observer {
     public void setErrorWriter(String sID, Writer err) {
         writer.setErrorWriter(sID, err);
     }
-
 
     /**
      * Returns all services it manages.
@@ -343,7 +317,6 @@ public class ServiceManager implements Harness.Observer {
         }
     }
 
-
     @Override
     public void finishedTest(TestResult tr) {
         // Needs do nothing here for now;
@@ -420,6 +393,103 @@ public class ServiceManager implements Harness.Observer {
         }
 
         writer.finish();
+    }
+
+    public void addObserver(Observer o) {
+        if (watchDog != null) {
+            watchDog.addObserver(o);
+        }
+    }
+
+    public void removeObserver(Observer o) {
+        if (watchDog != null) {
+            watchDog.removeObserver(o);
+        }
+    }
+
+    /**
+     * Enum of all supported service's starting modes.
+     * <p>
+     * {@code UP_FRONT} - all required services are started at the beginning of
+     * test run.
+     * <p>
+     * {@code LAZY} - each service is started, when first test, which requires
+     * this service, is going to be run.
+     * <p>
+     * {@code MANUALLY} - no one of services starts.
+     */
+    public static enum StartMode {
+        LAZY("lazy"), UP_FRONT("up_front"), MANUALLY("manually");
+
+        private String key;
+
+        StartMode(String s) {
+            key = s;
+        }
+
+        public String getKey() {
+            return key;
+        }
+    }
+
+    public interface Observer {
+        void handleAlive(String sID, boolean alive);
+
+        void handleNotConnected(String sID, NotConnectedException ex);
+
+        void handleError(String sID, ServiceError ex);
+    }
+
+    public static class ServiceCommandManager extends CommandManager {
+        private static StartMode mode = StartMode.UP_FRONT;
+        private I18NResourceBundle i18n =
+                I18NResourceBundle.getBundleForClass(this.getClass());
+
+        public static StartMode getMode() {
+            return mode;
+        }
+
+        @Override
+        public Node getHelp() {
+            String[] cmds = {
+                    ServiceStartCommand.getName()
+            };
+            return new HelpTree.Node(i18n, "cmds", cmds);
+        }
+
+        @Override
+        public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) {
+            if (isMatch(cmd, ServiceStartCommand.getName())) {
+                if (!argIter.hasNext()) {
+                    return false;
+                }
+                String val = argIter.next();
+                for (StartMode m : StartMode.values()) {
+                    if (m.getKey().equalsIgnoreCase(val)) {
+                        mode = m;
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            return false;
+        }
+
+        private static class ServiceStartCommand extends Command {
+
+            ServiceStartCommand() {
+                super(getName());
+            }
+
+            static String getName() {
+                return "startServices";
+            }
+
+            @Override
+            public void run(CommandContext ctx) {
+            }
+        }
     }
 
     private class WritingThread extends Thread {
@@ -652,80 +722,6 @@ public class ServiceManager implements Harness.Observer {
             }
         }
 
-    }
-
-    public interface Observer {
-        void handleAlive(String sID, boolean alive);
-
-        void handleNotConnected(String sID, NotConnectedException ex);
-
-        void handleError(String sID, ServiceError ex);
-    }
-
-    public void addObserver(Observer o) {
-        if (watchDog != null) {
-            watchDog.addObserver(o);
-        }
-    }
-
-    public void removeObserver(Observer o) {
-        if (watchDog != null) {
-            watchDog.removeObserver(o);
-        }
-    }
-
-    public static class ServiceCommandManager extends CommandManager {
-        private static StartMode mode = StartMode.UP_FRONT;
-
-        public static StartMode getMode() {
-            return mode;
-        }
-
-        @Override
-        public Node getHelp() {
-            String[] cmds = {
-                    ServiceStartCommand.getName()
-            };
-            return new HelpTree.Node(i18n, "cmds", cmds);
-        }
-
-        @Override
-        public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) {
-            if (isMatch(cmd, ServiceStartCommand.getName())) {
-                if (!argIter.hasNext()) {
-                    return false;
-                }
-                String val = argIter.next();
-                for (StartMode m : StartMode.values()) {
-                    if (m.getKey().equalsIgnoreCase(val)) {
-                        mode = m;
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            return false;
-        }
-
-        private static class ServiceStartCommand extends Command {
-
-            static String getName() {
-                return "startServices";
-            }
-
-            ServiceStartCommand() {
-                super(getName());
-            }
-
-            @Override
-            public void run(CommandContext ctx) {
-            }
-        }
-
-
-        private I18NResourceBundle i18n =
-                I18NResourceBundle.getBundleForClass(this.getClass());
     }
 
 }

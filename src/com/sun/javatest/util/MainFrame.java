@@ -45,18 +45,31 @@ import java.util.Locale;
  * one top-level Frame.
  */
 public class MainFrame {
-    /**
-     * Set a context that can be subsequently accessed via @link(#acquireFrame)
-     * and @link(#releaseFrame).
-     *
-     * @param c The container to be registered
-     * @throws ClassCastException if the container being registered is not a frame
-     * @see #getContext
-     * @deprecated replaced by @link(#setFrame)
-     */
-    public static synchronized void setContext(Container c) {
-        setFrame((Frame) c);
-    }
+    private static Frame frame;
+    private static boolean inUse;
+    // saved state of context while it is in use by others
+    private static LayoutManager savedLayout;
+    private static Component[] savedComponents;
+    private static String savedName;
+    private static Rectangle savedBounds;
+    private static Color savedBackground;
+    private static Color savedForeground;
+    private static String savedTitle;
+    private static int savedState;
+    private static Image savedIconImage;
+    private static Cursor savedCursor;
+    private static Font savedFont;
+    private static Locale savedLocale;
+    private static boolean savedResizable;
+    private static boolean savedEnabled;
+    private static String initialTitle;
+    private static int initialState;
+    private static Image initialIconImage;
+    private static Cursor initialCursor;
+    private static Font initialFont;
+    private static Locale initialLocale;
+    private static boolean initialResizable;
+    private static boolean initialEnabled;
 
     /**
      * Set a frame that can be subsequently accessed via @link(#acquireFrame)
@@ -67,7 +80,6 @@ public class MainFrame {
     public static synchronized void setFrame(Frame f) {
         frame = f;
     }
-
 
     /**
      * Try to acquire exclusive access to a shared context previously registered
@@ -87,6 +99,19 @@ public class MainFrame {
         } catch (InterruptedException e) {
             return null;
         }
+    }
+
+    /**
+     * Set a context that can be subsequently accessed via @link(#acquireFrame)
+     * and @link(#releaseFrame).
+     *
+     * @param c The container to be registered
+     * @throws ClassCastException if the container being registered is not a frame
+     * @see #getContext
+     * @deprecated replaced by @link(#setFrame)
+     */
+    public static synchronized void setContext(Container c) {
+        setFrame((Frame) c);
     }
 
     /**
@@ -162,7 +187,6 @@ public class MainFrame {
         return frame;
     }
 
-
     /**
      * Release access to the previously acquired context. The context is reset
      * to its state before  @link(#acquireContext) was called, and made available
@@ -177,7 +201,6 @@ public class MainFrame {
     public static void restoreContext(Container c) {
         releaseFrame((Frame) c);
     }
-
 
     /**
      * Release access to the previously acquired frame. The frame is reset
@@ -228,32 +251,4 @@ public class MainFrame {
         inUse = false;
         MainFrame.class.notify();
     }
-
-    private static Frame frame;
-    private static boolean inUse;
-
-    // saved state of context while it is in use by others
-    private static LayoutManager savedLayout;
-    private static Component[] savedComponents;
-    private static String savedName;
-    private static Rectangle savedBounds;
-    private static Color savedBackground;
-    private static Color savedForeground;
-    private static String savedTitle;
-    private static int savedState;
-    private static Image savedIconImage;
-    private static Cursor savedCursor;
-    private static Font savedFont;
-    private static Locale savedLocale;
-    private static boolean savedResizable;
-    private static boolean savedEnabled;
-
-    private static String initialTitle;
-    private static int initialState;
-    private static Image initialIconImage;
-    private static Cursor initialCursor;
-    private static Font initialFont;
-    private static Locale initialLocale;
-    private static boolean initialResizable;
-    private static boolean initialEnabled;
 }

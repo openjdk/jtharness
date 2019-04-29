@@ -41,6 +41,17 @@ import java.util.Map;
  */
 public abstract class JUnitTestFinder extends TestFinder {
 
+    protected static final String[] excludeNames = {
+            "SCCS", "deleted_files", ".svn"
+    };
+    protected boolean verbose = false;
+    protected Map<String, String> tdValues = new HashMap<>();
+    protected boolean scanClasses = false;
+    protected File currFile;
+    protected Map<String, String> excludeList = new HashMap<>();
+    protected Map<String, Class<?>> extensionTable = new HashMap<>();
+    protected List<String> testMethods;
+
     /**
      * Creates a new instance of JUnitTestFinder
      */
@@ -155,15 +166,4 @@ public abstract class JUnitTestFinder extends TestFinder {
     public void foundTestMethod(String name) {
         testMethods.add(name);
     }
-
-    protected boolean verbose = false;
-    protected Map<String, String> tdValues = new HashMap<>();
-    protected boolean scanClasses = false;
-    protected File currFile;
-    protected Map<String, String> excludeList = new HashMap<>();
-    protected Map<String, Class<?>> extensionTable = new HashMap<>();
-    protected List<String> testMethods;
-    protected static final String[] excludeNames = {
-            "SCCS", "deleted_files", ".svn"
-    };
 }

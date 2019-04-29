@@ -36,6 +36,9 @@ import java.util.Enumeration;
  */
 public class TT_TestNode extends TT_TreeNode {
 
+    private TestResult tr;
+    private String shortN;      // stored, expensive to recalculate
+
     TT_TestNode(TT_BasicNode parent, TestResult tr) {
         this.tr = tr;
         this.parent = parent;
@@ -138,7 +141,4 @@ public class TT_TestNode extends TT_TreeNode {
         }
         return sb.toString();
     }
-
-    private TestResult tr;
-    private String shortN;      // stored, expensive to recalculate
 }

@@ -50,6 +50,17 @@ import java.util.zip.ZipFile;
  */
 
 public class BinaryTestFinder extends TestFinder {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BinaryTestFinder.class);
+    private File jtdFile;
+    private ZipFile zipFile;
+    private ZipEntry stringsEntry;
+    private ZipEntry testsEntry;
+    private ZipEntry treeEntry;
+    private boolean zipFileRead;
+    private StringTable stringTable;
+    private TestTable testTable;
+    private TestTree testTree;
+
     /**
      * Create an uninitialized binary test finder. Use one of the init
      * methods to initialize it.
@@ -71,6 +82,8 @@ public class BinaryTestFinder extends TestFinder {
         openBinaryFile(true);
     }
 
+    //------------------------------------------------------------------------------------------
+
     /**
      * Create and initialize a binary test finder.
      *
@@ -84,6 +97,23 @@ public class BinaryTestFinder extends TestFinder {
      */
     public BinaryTestFinder(File testSuiteRoot, File jtdFile) throws Fault {
         init(testSuiteRoot, jtdFile);
+    }
+
+    //------------------------------------------------------------------------------------------
+
+    /**
+     * Read an int from a stream using a variable length encoding.
+     * The integer is read in 7 bit chunks in big-endian order, with
+     * the top bit in each byte indicating more data to be read.
+     */
+    private static int readInt(DataInputStream in) throws IOException {
+        int n = 0;
+        int b;
+        while ((b = in.readUnsignedByte()) >= 0x80) {
+            n = (n << 7) | (b & 0x7f);
+        }
+        n = (n << 7) | b;
+        return n;
     }
 
     /**
@@ -352,37 +382,6 @@ public class BinaryTestFinder extends TestFinder {
     //------------------------------------------------------------------------------------------
 
     /**
-     * Read an int from a stream using a variable length encoding.
-     * The integer is read in 7 bit chunks in big-endian order, with
-     * the top bit in each byte indicating more data to be read.
-     */
-    private static int readInt(DataInputStream in) throws IOException {
-        int n = 0;
-        int b;
-        while ((b = in.readUnsignedByte()) >= 0x80) {
-            n = (n << 7) | (b & 0x7f);
-        }
-        n = (n << 7) | b;
-        return n;
-    }
-
-    //------------------------------------------------------------------------------------------
-
-    private File jtdFile;
-    private ZipFile zipFile;
-    private ZipEntry stringsEntry;
-    private ZipEntry testsEntry;
-    private ZipEntry treeEntry;
-    private boolean zipFileRead;
-    private StringTable stringTable;
-    private TestTable testTable;
-    private TestTree testTree;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BinaryTestFinder.class);
-
-    //------------------------------------------------------------------------------------------
-
-    /**
      * A StringTable is an array of strings. References to these strings
      * are written either as an index into the string array, or as zero
      * followed by the string inline.
@@ -390,13 +389,7 @@ public class BinaryTestFinder extends TestFinder {
      * @see BinaryTestWriter.StringTable
      */
     static class StringTable {
-        /**
-         * Read a string table from a entry called "strings" in a zip file.
-         */
-        static StringTable read(ZipFile zf, ZipEntry ze) throws IOException {
-            DataInputStream in = new DataInputStream(new BufferedInputStream(zf.getInputStream(ze)));
-            return new StringTable(in);
-        }
+        private String[] strings;
 
         /**
          * Read a string table from a stream.
@@ -407,6 +400,14 @@ public class BinaryTestFinder extends TestFinder {
             for (int i = 0; i < count; i++) {
                 strings[i] = in.readUTF();
             }
+        }
+
+        /**
+         * Read a string table from a entry called "strings" in a zip file.
+         */
+        static StringTable read(ZipFile zf, ZipEntry ze) throws IOException {
+            DataInputStream in = new DataInputStream(new BufferedInputStream(zf.getInputStream(ze)));
+            return new StringTable(in);
         }
 
         /**
@@ -429,8 +430,6 @@ public class BinaryTestFinder extends TestFinder {
         String get(int i) {
             return strings[i];
         }
-
-        private String[] strings;
     }
 
     //------------------------------------------------------------------------------------------
@@ -439,6 +438,18 @@ public class BinaryTestFinder extends TestFinder {
      * A TestTable is a collection of TestDescriptions.
      */
     static class TestTable {
+        private ByteArrayInputStream bais;
+        private StringTable stringTable;
+
+        /**
+         * Create a TestTable from a byte array as written by BinaryTestWriter.
+         * The data of the entry is stored, and analyzed as required.
+         */
+        TestTable(byte[] data, StringTable stringTable) {
+            bais = new ByteArrayInputStream(data);
+            this.stringTable = stringTable;
+        }
+
         /**
          * Read a test table from an entry called "tests" in a zip file.
          * The data of the entry is read and stored, but only analyzed
@@ -451,15 +462,6 @@ public class BinaryTestFinder extends TestFinder {
                 total += in.read(bytes, total, bytes.length - total);
             }
             return new TestTable(bytes, stringTable);
-        }
-
-        /**
-         * Create a TestTable from a byte array as written by BinaryTestWriter.
-         * The data of the entry is stored, and analyzed as required.
-         */
-        TestTable(byte[] data, StringTable stringTable) {
-            bais = new ByteArrayInputStream(data);
-            this.stringTable = stringTable;
         }
 
         /**
@@ -483,9 +485,6 @@ public class BinaryTestFinder extends TestFinder {
             }
             return new TestDescription(root, file, m);
         }
-
-        private ByteArrayInputStream bais;
-        private StringTable stringTable;
     }
 
     //------------------------------------------------------------------------------------------
@@ -495,6 +494,15 @@ public class BinaryTestFinder extends TestFinder {
      * descriptions is stored in a test table.
      */
     static class TestTree {
+        private Node root;
+
+        /**
+         * Create a test tree from a root node.
+         */
+        TestTree(Node root) {
+            this.root = root;
+        }
+
         /**
          * Read a test tree from an entry called "tree" in a zip file.
          */
@@ -505,20 +513,11 @@ public class BinaryTestFinder extends TestFinder {
         }
 
         /**
-         * Create a test tree from a root node.
-         */
-        TestTree(Node root) {
-            this.root = root;
-        }
-
-        /**
          * Get the node for a path within the tree.
          */
         Node getNode(String path) {
             return path.isEmpty() ? root : root.getNode(path);
         }
-
-        private Node root;
 
         /**
          * A node within the test tree. It has a name, a set of indices that can be
@@ -526,6 +525,10 @@ public class BinaryTestFinder extends TestFinder {
          * nodes.
          */
         static class Node {
+            private String name;
+            private int[] testIndexes;
+            private Node[] children;
+
             /**
              * Read a node from an input stream. The node is represented as
              * a name, a count, followed by that many test indexes into the
@@ -575,10 +578,6 @@ public class BinaryTestFinder extends TestFinder {
                 }
                 return testTable.get(root, path, testIndexes[index]);
             }
-
-            private String name;
-            private int[] testIndexes;
-            private Node[] children;
         }
     }
 }

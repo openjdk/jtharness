@@ -41,6 +41,11 @@ import java.awt.Component;
 import java.awt.Font;
 
 class RenderingUtilities {
+    private static I18NResourceBundle i18n =
+            I18NResourceBundle.getBundleForClass(RenderingUtilities.class);
+    private static TestCellRenderer tlRend;
+    private static FilterCellRenderer flRend;
+
     static ListCellRenderer<Object> createTestListRenderer() {
         return new TestCellRenderer(i18n);
     }
@@ -53,17 +58,16 @@ class RenderingUtilities {
         return new FilterCellRenderer(i18n);
     }
 
-    private static I18NResourceBundle i18n =
-            I18NResourceBundle.getBundleForClass(RenderingUtilities.class);
-    private static TestCellRenderer tlRend;
-    private static FilterCellRenderer flRend;
-
     // --------- Inner classes -------
 
     /**
      * Render a list of tests (TestResult objects).
      */
     static class TestCellRenderer extends JLabel implements ListCellRenderer<Object> {
+        private I18NResourceBundle i18n;
+        // border to pad left and right
+        private Border spacerBorder = BorderFactory.createEmptyBorder(0, 3, 0, 3);
+
         public TestCellRenderer(I18NResourceBundle i18n) {
             setOpaque(false);
             this.i18n = i18n;
@@ -123,10 +127,6 @@ class RenderingUtilities {
                 setOpaque(false);
             }
         }
-
-        private I18NResourceBundle i18n;
-        // border to pad left and right
-        private Border spacerBorder = BorderFactory.createEmptyBorder(0, 3, 0, 3);
     }
 
     /**
@@ -135,6 +135,8 @@ class RenderingUtilities {
      * @see com.sun.javatest.TestFilter#getName()
      */
     static class FilterCellRenderer extends JLabel implements ListCellRenderer<TestFilter> {
+        private I18NResourceBundle i18n;
+
         public FilterCellRenderer(I18NResourceBundle i18n) {
             setOpaque(false);
             this.i18n = i18n;
@@ -180,8 +182,6 @@ class RenderingUtilities {
                 setFont(getFont().deriveFont(Font.PLAIN));
             }
         }
-
-        private I18NResourceBundle i18n;
     }
     // end inner classes
 }

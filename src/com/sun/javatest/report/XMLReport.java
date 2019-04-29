@@ -72,6 +72,11 @@ import java.util.Map;
  */
 public class XMLReport implements ReportFormat {
 
+    // The name of the root file for a set of report files.
+    static final String REPORT_NAME = "report.xml";
+    private static final String ID = "xml";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(XMLReport.class);
+
     @Override
     public ReportLink write(ReportSettings sett, File dir) throws IOException {
 
@@ -383,7 +388,6 @@ public class XMLReport implements ReportFormat {
         }
     }
 
-
     private void writeInterview(XMLReportMaker maker, ReportSettings sett) throws SAXException {
 
         maker.sInterview();
@@ -528,12 +532,5 @@ public class XMLReport implements ReportFormat {
         }
 
     }
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(XMLReport.class);
-
-    // The name of the root file for a set of report files.
-    static final String REPORT_NAME = "report.xml";
-
-    private static final String ID = "xml";
 
 }

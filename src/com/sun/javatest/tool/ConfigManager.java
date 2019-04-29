@@ -70,6 +70,13 @@ import java.util.Vector;
  */
 public class ConfigManager
         extends CommandManager {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigManager.class);
+
+    static Command getOpenCommand(File file)
+            throws Command.Fault {
+        return new OpenCommand(file);
+    }
+
     @Override
     public HelpTree.Node getHelp() {
         Object[] childData = {
@@ -205,19 +212,10 @@ public class ConfigManager
         return false;
     }
 
-    static Command getOpenCommand(File file)
-            throws Command.Fault {
-        return new OpenCommand(file);
-    }
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigManager.class);
-
     //--------------------------------------------------------------------------
 
     private static class ConcurrencyCommand extends Command {
-        static String getName() {
-            return "concurrency";
-        }
+        private int value;
 
         ConcurrencyCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -245,6 +243,10 @@ public class ConfigManager
             }
         }
 
+        static String getName() {
+            return "concurrency";
+        }
+
         @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
@@ -256,17 +258,13 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.conc.notEditable");
             }
         }
-
-        private int value;
     }
 
 
     //--------------------------------------------------------------------------
 
     private static class ConfigCommand extends Command {
-        static String getName() {
-            return "config";
-        }
+        private File path;
 
         ConfigCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -282,6 +280,10 @@ public class ConfigManager
             super(path.getPath());
 
             this.path = path;
+        }
+
+        static String getName() {
+            return "config";
         }
 
         @Override
@@ -322,16 +324,12 @@ public class ConfigManager
                 throw new Fault(e);
             }
         }
-
-        private File path;
     }
 
     //--------------------------------------------------------------------------
 
     private static class WriteConfigCommand extends Command {
-        static String getName() {
-            return "writeConfig";
-        }
+        private File path;
 
         WriteConfigCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -352,6 +350,10 @@ public class ConfigManager
             this.path = path;
         }
 
+        static String getName() {
+            return "writeConfig";
+        }
+
         @Override
         public void run(CommandContext ctx) throws Fault {
             try {
@@ -367,16 +369,12 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.writeConfig.badConfig", path, e.getMessage());
             }   // catch
         }
-
-        private File path;
     }
 
     //--------------------------------------------------------------------------
 
     private static class EnvCommand extends Command {
-        static String getName() {
-            return "env";
-        }
+        private String name;
 
         EnvCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -386,6 +384,10 @@ public class ConfigManager
             }
 
             name = nextArg(argIter);
+        }
+
+        static String getName() {
+            return "env";
         }
 
         @Override
@@ -399,16 +401,12 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.env.notEditable");
             }
         }
-
-        private String name;
     }
 
     //--------------------------------------------------------------------------
 
     private static class EnvFilesCommand extends Command {
-        static String[] getNames() {
-            return new String[]{"envfile", "envfiles"};
-        }
+        private File[] files;
 
         EnvFilesCommand(ListIterator<String> argIter) throws Fault {
             super(getNames()[0]);
@@ -433,6 +431,10 @@ public class ConfigManager
             v.toArray(files);
         }
 
+        static String[] getNames() {
+            return new String[]{"envfile", "envfiles"};
+        }
+
         @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
@@ -444,16 +446,12 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.envFiles.notEditable");
             }
         }
-
-        private File[] files;
     }
 
     //--------------------------------------------------------------------------
 
     private static class ExcludeListCommand extends Command {
-        static String getName() {
-            return "excludeList";
-        }
+        private File[] files;
 
         ExcludeListCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
@@ -479,6 +477,10 @@ public class ConfigManager
             v.toArray(files);
         }
 
+        static String getName() {
+            return "excludeList";
+        }
+
         @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
@@ -491,15 +493,11 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.excl.notEditable");
             }
         }
-
-        private File[] files;
     }
     //--------------------------------------------------------------------------
 
     private static class KflCommand extends Command {
-        static String getName() {
-            return "kfl";
-        }
+        private File[] files;
 
         KflCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
@@ -525,6 +523,10 @@ public class ConfigManager
             v.toArray(files);
         }
 
+        static String getName() {
+            return "kfl";
+        }
+
         @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
@@ -538,15 +540,11 @@ public class ConfigManager
 //          else
 //              throw new Fault(i18n, "cnfg.excl.notEditable");
         }
-
-        private File[] files;
     }
     //--------------------------------------------------------------------------
 
     private static class OpenCommand extends Command {
-        static String getName() {
-            return "open";
-        }
+        private Command cmdForFile;
 
         OpenCommand(File file) throws Fault {
             super(file.getPath());
@@ -562,6 +560,10 @@ public class ConfigManager
 
             String arg = nextArg(argIter);
             cmdForFile = getCommandForFile(new File(arg));
+        }
+
+        static String getName() {
+            return "open";
         }
 
         @Override
@@ -605,16 +607,12 @@ public class ConfigManager
 
             throw new Fault(i18n, "cnfg.open.unknownFileType", file);
         }
-
-        private Command cmdForFile;
     }
 
     //--------------------------------------------------------------------------
 
     private static class KeywordsCommand extends Command {
-        static String getName() {
-            return "keywords";
-        }
+        private String expr;
 
         KeywordsCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -625,6 +623,10 @@ public class ConfigManager
             }
 
             expr = nextArg(argIter);
+        }
+
+        static String getName() {
+            return "keywords";
         }
 
         @Override
@@ -643,8 +645,6 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.keywords.notEditable");
             }
         }
-
-        private String expr;
     }
 
     //--------------------------------------------------------------------------
@@ -693,6 +693,8 @@ public class ConfigManager
     //--------------------------------------------------------------------------
 
     private static class ParamFileCommand extends ParamsBaseCommand {
+        private File path;
+
         ParamFileCommand(File path) {
             super(path.getPath());
             this.path = path;
@@ -714,32 +716,12 @@ public class ConfigManager
                         path, e);
             }
         }
-
-        private File path;
     }
 
     //--------------------------------------------------------------------------
 
     private static class ParamsCommand extends ParamsBaseCommand {
-        static String getName() {
-            return "params";
-        }
-
-        static HelpTree.Node getHelp() {
-            String[] opts = {
-                    "testSuite", "t",
-                    "keywords",
-                    "status",
-                    "exclude",
-                    "envfile",
-                    "env",
-                    "conc",
-                    "timeout",
-                    "report", "r",
-                    "workdir", "w"
-            };
-            return new HelpTree.Node(i18n, "cnfg.params", opts);
-        }
+        private FileParameters params;
 
         ParamsCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -760,20 +742,36 @@ public class ConfigManager
             }
         }
 
+        static String getName() {
+            return "params";
+        }
+
+        static HelpTree.Node getHelp() {
+            String[] opts = {
+                    "testSuite", "t",
+                    "keywords",
+                    "status",
+                    "exclude",
+                    "envfile",
+                    "env",
+                    "conc",
+                    "timeout",
+                    "report", "r",
+                    "workdir", "w"
+            };
+            return new HelpTree.Node(i18n, "cnfg.params", opts);
+        }
+
         @Override
         public void run(CommandContext ctx) throws Fault {
             setParameters(ctx, params);
         }
-
-        private FileParameters params;
     }
 
     //--------------------------------------------------------------------------
 
     private static class PriorStatusCommand extends Command {
-        static String getName() {
-            return "priorStatus";
-        }
+        private boolean[] values;
 
         PriorStatusCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -808,17 +806,8 @@ public class ConfigManager
             }
         }
 
-        @Override
-        public void run(CommandContext ctx) throws Fault {
-            InterviewParameters p = getConfig(ctx);
-            if (p.getPriorStatusParameters() instanceof Parameters.MutablePriorStatusParameters) {
-                Parameters.MutablePriorStatusParameters sParams =
-                        (Parameters.MutablePriorStatusParameters) p.getPriorStatusParameters();
-                sParams.setPriorStatusMode(Parameters.MutablePriorStatusParameters.MATCH_PRIOR_STATUS);
-                sParams.setMatchPriorStatusValues(values);
-            } else {
-                throw new Fault(i18n, "cnfg.status.notEditable");
-            }
+        static String getName() {
+            return "priorStatus";
         }
 
         private static String[] split(String s) {
@@ -849,16 +838,27 @@ public class ConfigManager
             return v.toArray(new String[v.size()]);
         }
 
-        private boolean[] values;
+        @Override
+        public void run(CommandContext ctx) throws Fault {
+            InterviewParameters p = getConfig(ctx);
+            if (p.getPriorStatusParameters() instanceof Parameters.MutablePriorStatusParameters) {
+                Parameters.MutablePriorStatusParameters sParams =
+                        (Parameters.MutablePriorStatusParameters) p.getPriorStatusParameters();
+                sParams.setPriorStatusMode(Parameters.MutablePriorStatusParameters.MATCH_PRIOR_STATUS);
+                sParams.setMatchPriorStatusValues(values);
+            } else {
+                throw new Fault(i18n, "cnfg.status.notEditable");
+            }
+        }
     }
 
 
     //--------------------------------------------------------------------------
 
     private static class SetCommand extends Command {
-        static String getName() {
-            return "set";
-        }
+        private File file;
+        private String tag;
+        private String value;
 
         SetCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -880,6 +880,33 @@ public class ConfigManager
                 }
                 value = nextArg(argIter);
             }
+        }
+
+        static String getName() {
+            return "set";
+        }
+
+        private static String getPathTrace(Question... path) {
+            String lineSep = System.getProperty("line.separator");
+            StringBuilder sb = new StringBuilder();
+            for (Question q : path) {
+                sb.append(q.getTag());
+                if (!(q instanceof NullQuestion)) {
+                    String s = q.getStringValue();
+                    sb.append(" (");
+                    if (s == null) {
+                        sb.append("null");
+                    } else if (s.length() < 32) {
+                        sb.append(s);
+                    } else {
+                        sb.append(s.substring(0, 32));
+                        sb.append("...");
+                    }
+                    sb.append(")");
+                }
+                sb.append(lineSep); // arguably better to do it later when printing to terminal
+            }
+            return sb.toString();
         }
 
         @Override
@@ -949,29 +976,6 @@ public class ConfigManager
             }
         }
 
-        private static String getPathTrace(Question... path) {
-            String lineSep = System.getProperty("line.separator");
-            StringBuilder sb = new StringBuilder();
-            for (Question q : path) {
-                sb.append(q.getTag());
-                if (!(q instanceof NullQuestion)) {
-                    String s = q.getStringValue();
-                    sb.append(" (");
-                    if (s == null) {
-                        sb.append("null");
-                    } else if (s.length() < 32) {
-                        sb.append(s);
-                    } else {
-                        sb.append(s.substring(0, 32));
-                        sb.append("...");
-                    }
-                    sb.append(")");
-                }
-                sb.append(lineSep); // arguably better to do it later when printing to terminal
-            }
-            return sb.toString();
-        }
-
         private Map<String, String> loadFile(File file) throws Fault {
             try (FileInputStream fis = new FileInputStream(file);
                  InputStream in = new BufferedInputStream(fis)) {
@@ -983,10 +987,6 @@ public class ConfigManager
                         file, e.getMessage());
             }
         }
-
-        private File file;
-        private String tag;
-        private String value;
     }
 
     //--------------------------------------------------------------------------
@@ -995,9 +995,9 @@ public class ConfigManager
      * Sets "external" interview values from the command line.
      */
     private static class SetXCommand extends Command {
-        static String getName() {
-            return "setX";
-        }
+        private File file;
+        private String name;
+        private String value;
 
         SetXCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -1019,6 +1019,10 @@ public class ConfigManager
                 }
                 value = nextArg(argIter);
             }
+        }
+
+        static String getName() {
+            return "setX";
         }
 
         @Override
@@ -1055,18 +1059,12 @@ public class ConfigManager
                         file, e.getMessage());
             }
         }
-
-        private File file;
-        private String name;
-        private String value;
     }
 
     //--------------------------------------------------------------------------
 
     private static class TestsCommand extends Command {
-        static String getName() {
-            return "tests";
-        }
+        private String[] tests;
 
         TestsCommand(ListIterator<String> argIter) throws Fault {
             super(getName());
@@ -1092,6 +1090,10 @@ public class ConfigManager
             v.toArray(tests);
         }
 
+        static String getName() {
+            return "tests";
+        }
+
         @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
@@ -1104,16 +1106,13 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.tests.notEditable");
             }
         }
-
-        private String[] tests;
     }
 
     //--------------------------------------------------------------------------
 
     private static class TestSuiteCommand extends Command {
-        static String[] getNames() {
-            return new String[]{"testsuite", "ts"};
-        }
+        private File path;
+        private boolean preferFlag;
 
         TestSuiteCommand(Iterator<String> argIter) throws Fault {
             super(getNames()[0]);
@@ -1137,6 +1136,10 @@ public class ConfigManager
         TestSuiteCommand(File path) {
             super(path.getPath());
             this.path = path;
+        }
+
+        static String[] getNames() {
+            return new String[]{"testsuite", "ts"};
         }
 
         @Override
@@ -1309,9 +1312,6 @@ public class ConfigManager
             }
         }
 
-        private File path;
-        private boolean preferFlag;
-
         private Map<String, String> collectSpecificData(String prefix, Map<String, String> p) {
             Set<Entry<String, String>> s = p.entrySet();
             Iterator<Entry<String, String>> it = s.iterator();
@@ -1335,9 +1335,7 @@ public class ConfigManager
     //--------------------------------------------------------------------------
 
     private static class TimeoutFactorCommand extends Command {
-        static String getName() {
-            return "timeoutfactor";
-        }
+        private float value;
 
         TimeoutFactorCommand(Iterator<String> argIter) throws Fault {
             super(getName());
@@ -1365,6 +1363,10 @@ public class ConfigManager
             }
         }
 
+        static String getName() {
+            return "timeoutfactor";
+        }
+
         @Override
         public void run(CommandContext ctx) throws Fault {
             InterviewParameters p = getConfig(ctx);
@@ -1376,16 +1378,14 @@ public class ConfigManager
                 throw new Fault(i18n, "cnfg.tf.notEditable");
             }
         }
-
-        private float value;
     }
 
     //--------------------------------------------------------------------------
 
     private static class WorkDirectoryCommand extends Command {
-        static String[] getNames() {
-            return new String[]{"workdirectory", "workdir", "wd"};
-        }
+        private File path;
+        private boolean createFlag;
+        private boolean overwriteFlag;
 
         WorkDirectoryCommand(Iterator<String> argIter) throws Fault {
             super(getNames()[0]);
@@ -1407,57 +1407,6 @@ public class ConfigManager
 
             // drop through if path not given
             throw new Fault(i18n, "cnfg.wd.missingArg");
-        }
-
-        WorkDirectoryCommand(File path) {
-            super(path.getPath());
-            this.path = path;
-        }
-
-        @Override
-        public void run(CommandContext ctx) throws Fault {
-            /*OLD
-            TestSuite ts = ctx.getTestSuite();
-            WorkDirectory wd = ctx.getWorkDirectory();
-
-            if (wd != null)
-                throw new Fault(i18n, "cnfg.workDirAlreadySet");
-
-            if (createFlag)
-                wd = createWorkDirectory(ts);
-            else
-                wd = openWorkDirectory(ts);
-
-            try {
-                ctx.setWorkDirectory(wd);
-            }
-            catch (TestSuite.Fault e) {
-                throw new Fault(i18n, "cnfg.wd.cantOpenTestSuiteForWorkDir", e.getMessage());
-            }
-            */
-            if (!createFlag) {
-                if (!path.exists()) {
-                    throw new Fault(i18n, "cnfg.wd.cantFindWorkDir", path);
-                }
-                if (!WorkDirectory.isWorkDirectory(path)
-                        && !WorkDirectory.isEmptyDirectory(path)) {
-                    throw new Fault(i18n, "cnfg.wd.notAWorkDirectory", path);
-                }
-            }
-
-            if (overwriteFlag) {
-                remove(path);
-                if (path.exists()) {
-                    throw new Fault(i18n, "cnfg.wd.cantRemoveWorkDir", path);
-                }
-            }
-
-            try {
-                ctx.setWorkDirectory(path, createFlag);
-            } catch (CommandContext.Fault e) {
-                throw new Fault(e);
-            }
-
         }
 
         /*OLD
@@ -1520,6 +1469,61 @@ public class ConfigManager
         }
         */
 
+        WorkDirectoryCommand(File path) {
+            super(path.getPath());
+            this.path = path;
+        }
+
+        static String[] getNames() {
+            return new String[]{"workdirectory", "workdir", "wd"};
+        }
+
+        @Override
+        public void run(CommandContext ctx) throws Fault {
+            /*OLD
+            TestSuite ts = ctx.getTestSuite();
+            WorkDirectory wd = ctx.getWorkDirectory();
+
+            if (wd != null)
+                throw new Fault(i18n, "cnfg.workDirAlreadySet");
+
+            if (createFlag)
+                wd = createWorkDirectory(ts);
+            else
+                wd = openWorkDirectory(ts);
+
+            try {
+                ctx.setWorkDirectory(wd);
+            }
+            catch (TestSuite.Fault e) {
+                throw new Fault(i18n, "cnfg.wd.cantOpenTestSuiteForWorkDir", e.getMessage());
+            }
+            */
+            if (!createFlag) {
+                if (!path.exists()) {
+                    throw new Fault(i18n, "cnfg.wd.cantFindWorkDir", path);
+                }
+                if (!WorkDirectory.isWorkDirectory(path)
+                        && !WorkDirectory.isEmptyDirectory(path)) {
+                    throw new Fault(i18n, "cnfg.wd.notAWorkDirectory", path);
+                }
+            }
+
+            if (overwriteFlag) {
+                remove(path);
+                if (path.exists()) {
+                    throw new Fault(i18n, "cnfg.wd.cantRemoveWorkDir", path);
+                }
+            }
+
+            try {
+                ctx.setWorkDirectory(path, createFlag);
+            } catch (CommandContext.Fault e) {
+                throw new Fault(e);
+            }
+
+        }
+
         private void remove(File path) {
             if (path.exists()) {
                 if (path.isDirectory()) {
@@ -1543,9 +1547,5 @@ public class ConfigManager
                 path.delete();
             }
         }
-
-        private File path;
-        private boolean createFlag;
-        private boolean overwriteFlag;
     }
 }

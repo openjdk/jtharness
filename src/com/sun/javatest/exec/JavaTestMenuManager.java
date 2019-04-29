@@ -52,6 +52,25 @@ import java.util.ArrayList;
  * the responsibility of the architect to manage keystroke mneumonics.
  */
 public abstract class JavaTestMenuManager {
+    public static final int FILE_PRIMARY = 0;
+    public static final int FILE_OTHER = 2;
+    public static final int CONFIG_PRIMARY = 4;
+    public static final int CONFIG_VIEW = 5;
+    public static final int CONFIG_OTHER = 6;
+    public static final int RUN_PRIMARY = 7;
+    public static final int RUN_OTHER = 8;
+    public static final int WINDOWS_MAIN = 9;
+    public static final int PRESENTATION = 10;
+    public static final int PREFERENCES = 11;
+    public static final int LOG_VIEW = 12;
+    public static final int LOG_CONFIG = 13;
+    public static final int HELP_PRIMARY = 14;
+    public static final int HELP_TESTSUITE = 15;
+    public static final int HELP_ABOUT = 16;
+    public static final int TOOLS_OTHER = 17;
+    private static final int NUM_POSITIONS = 18;
+    private ArrayList<JMenuItem>[] bank;
+
     /**
      * Get the menu items to go into the specified position in the menu system.
      * See the constants in this class for the possible value.
@@ -109,30 +128,4 @@ public abstract class JavaTestMenuManager {
 
         bank[position].add(item);
     }
-
-    public static final int FILE_PRIMARY = 0;
-    public static final int FILE_OTHER = 2;
-
-    public static final int CONFIG_PRIMARY = 4;
-    public static final int CONFIG_VIEW = 5;
-    public static final int CONFIG_OTHER = 6;
-
-    public static final int RUN_PRIMARY = 7;
-    public static final int RUN_OTHER = 8;
-
-    public static final int WINDOWS_MAIN = 9;
-    public static final int PRESENTATION = 10;
-    public static final int PREFERENCES = 11;
-
-    public static final int LOG_VIEW = 12;
-    public static final int LOG_CONFIG = 13;
-
-    public static final int HELP_PRIMARY = 14;
-    public static final int HELP_TESTSUITE = 15;
-    public static final int HELP_ABOUT = 16;
-
-    public static final int TOOLS_OTHER = 17;
-
-    private static final int NUM_POSITIONS = 18;
-    private ArrayList<JMenuItem>[] bank;
 }

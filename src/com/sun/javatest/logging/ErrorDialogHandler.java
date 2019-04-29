@@ -47,9 +47,25 @@ import java.util.logging.StreamHandler;
 
 public class ErrorDialogHandler extends StreamHandler {
 
+    private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ErrorDialogHandler.class);
+    private String[] argsToArr = new String[1];
+
     public ErrorDialogHandler() {
         super();
         super.setLevel(Level.CONFIG);
+    }
+
+    private static int getI18NMnemonic(String key) {
+        String keyString = i18n.getString(key);
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(keyString);
+        if (keyStroke != null) {
+            return keyStroke.getKeyCode();
+        } else
+        //System.err.println("WARNING: bad mnemonic keystroke for " + key + ": " + keyString);
+        {
+            return 0;
+        }
     }
 
     @Override
@@ -199,22 +215,5 @@ public class ErrorDialogHandler extends StreamHandler {
                 JOptionPane.INFORMATION_MESSAGE,
                 null);
     }
-
-    private static int getI18NMnemonic(String key) {
-        String keyString = i18n.getString(key);
-        KeyStroke keyStroke = KeyStroke.getKeyStroke(keyString);
-        if (keyStroke != null) {
-            return keyStroke.getKeyCode();
-        } else
-        //System.err.println("WARNING: bad mnemonic keystroke for " + key + ": " + keyString);
-        {
-            return 0;
-        }
-    }
-
-
-    private String[] argsToArr = new String[1];
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ErrorDialogHandler.class);
-    private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
 }
 

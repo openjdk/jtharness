@@ -36,6 +36,10 @@ import java.io.IOException;
  * via a serial port.
  */
 public class SerialPortConnectionFactory implements ConnectionFactory {
+    private CommPortIdentifier portId;
+    private String app;
+    private int timeout;
+
     /**
      * Create a factory for creating connections to be used by agents
      * communicating via a serial port.
@@ -85,8 +89,4 @@ public class SerialPortConnectionFactory implements ConnectionFactory {
     @Override
     public void close() {
     }
-
-    private CommPortIdentifier portId;
-    private String app;
-    private int timeout;
 }

@@ -94,6 +94,61 @@ import java.util.Vector;
 
 
 class QuickStartWizard extends ToolDialog {
+    /**
+     * This is the name of system property to turn QuickStartWizard off.
+     * You should specify "true" value for this property to disable
+     * QuickStartWizard.
+     */
+    static final String QSW_OFF_PROPERTY = "com.sun.javatest.qswDisabled";
+    static final String QSW_OFF_FILE = "qswDisabled";
+    private static final int UNSET = 0, NEW = 1, RESUME = 2, BROWSE = 3;
+    private static final boolean qswDisabled = initQSWDisabled();
+    private Pane currPane;
+    private Pane taskPane;
+    private ConfigPane configPane;
+    private Pane testSuitePane;
+    private Pane newWorkDirPane;
+    private Pane openWorkDirPane;
+    private Pane endPane;
+
+
+    //private ExecTool tool;
+    private int task;
+    // indicates using jtm or jti templates
+    private boolean jtmTemplate = true;
+    private Map<String, String> configData;
+    private File configFile;
+    private Properties jtmData;
+    private File jtmFile;
+    private QSW_Listener qswListener;
+    private Icon logoIcon;
+    private InterviewParameters config;
+    private ContextManager contextManager;
+    private TestSuite testSuite;
+    private WorkDirectory workDir;
+    private boolean showConfigEditorFlag;
+    private boolean runTestsFlag;
+    private File installDir;
+    private File installParentDir;
+    private boolean installDirIsTestSuite;
+    private boolean installParentDirIsTestSuite;
+    private File userDir;
+    private boolean userDirIsTestSuite;
+    private boolean userDirIsWorkDirectory;
+    private JPanel body;
+    private JPanel main;
+    private JTextField head;
+    private JTextField foot;
+    private JButton backBtn;
+    private JButton nextBtn;
+    private JButton doneBtn;
+    private Listener listener = new Listener();
+    private KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+    private Vector<Pane> history = new Vector<>();
+    private boolean allowConfigLoadOutsideDefault;
+    private File defaultConfigSavePath;
+    private boolean allowConfigSaveOutsideDefault;
+    private File defaultConfigLoadPath;
     QuickStartWizard(JComponent parent, Icon logoIcon,
                      QSW_Listener finisher, UIFactory uif) {
         super(parent, uif, "qsw");
@@ -101,6 +156,33 @@ class QuickStartWizard extends ToolDialog {
         this.qswListener = finisher;
     }
 
+    static boolean isQswDisabled() {
+        return qswDisabled;
+    }
+
+    /**
+     * @return true, if disable
+     */
+    private static boolean initQSWDisabled() {
+        if (Boolean.parseBoolean(System.getProperty(QSW_OFF_PROPERTY))) {
+            return true;
+        }
+        try {
+            return ResourceLoader.getResourceFile(QSW_OFF_FILE, null) != null;
+        } catch (Exception ignore) {
+            return false;
+        }
+    }
+
+    private static boolean canonicalEquals(File f1, File f2) {
+        try {
+            File c1 = f1.getCanonicalFile();
+            File c2 = f2.getCanonicalFile();
+            return c1.equals(c2);
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
     @Override
     protected void initGUI() {
@@ -322,86 +404,10 @@ class QuickStartWizard extends ToolDialog {
 */
     }
 
-
-    //private ExecTool tool;
-
-    private Pane currPane;
-    private Pane taskPane;
-    private ConfigPane configPane;
-    private Pane testSuitePane;
-    private Pane newWorkDirPane;
-    private Pane openWorkDirPane;
-    private Pane endPane;
-
-    private int task;
-    private static final int UNSET = 0, NEW = 1, RESUME = 2, BROWSE = 3;
-    // indicates using jtm or jti templates
-    private boolean jtmTemplate = true;
-
-    private Map<String, String> configData;
-    private File configFile;
-    private Properties jtmData;
-    private File jtmFile;
-
-    private QSW_Listener qswListener;
-    private Icon logoIcon;
-    private InterviewParameters config;
-    private ContextManager contextManager;
-    private TestSuite testSuite;
-    private WorkDirectory workDir;
-    private boolean showConfigEditorFlag;
-    private boolean runTestsFlag;
-
-    private File installDir;
-    private File installParentDir;
-    private boolean installDirIsTestSuite;
-    private boolean installParentDirIsTestSuite;
-    private File userDir;
-    private boolean userDirIsTestSuite;
-    private boolean userDirIsWorkDirectory;
-
-    private JPanel body;
-    private JPanel main;
-    private JTextField head;
-    private JTextField foot;
-    private JButton backBtn;
-    private JButton nextBtn;
-    private JButton doneBtn;
-    private Listener listener = new Listener();
-    private KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
-    private Vector<Pane> history = new Vector<>();
-    private boolean allowConfigLoadOutsideDefault;
-    private File defaultConfigSavePath;
-    private boolean allowConfigSaveOutsideDefault;
-    private File defaultConfigLoadPath;
-
-    /**
-     * This is the name of system property to turn QuickStartWizard off.
-     * You should specify "true" value for this property to disable
-     * QuickStartWizard.
-     */
-    static final String QSW_OFF_PROPERTY = "com.sun.javatest.qswDisabled";
-
-    static final String QSW_OFF_FILE = "qswDisabled";
-
-    private static final boolean qswDisabled = initQSWDisabled();
-
-    static boolean isQswDisabled() {
-        return qswDisabled;
-    }
-
-    /**
-     * @return true, if disable
-     */
-    private static boolean initQSWDisabled() {
-        if (Boolean.parseBoolean(System.getProperty(QSW_OFF_PROPERTY))) {
-            return true;
-        }
-        try {
-            return ResourceLoader.getResourceFile(QSW_OFF_FILE, null) != null;
-        } catch (Exception ignore) {
-            return false;
-        }
+    @Override
+    protected void windowClosingAction(AWTEvent e) {
+        setVisible(false);
+        closeExecTool(e);
     }
 
     private class Listener implements ActionListener {
@@ -420,7 +426,16 @@ class QuickStartWizard extends ToolDialog {
         }
     }
 
+    //------------------------------------------------------------------------------
+
     private class FilePanel extends JPanel {
+
+        private JLabel label;
+        private JTextField field;
+        private JComboBox<String> combo;
+        private JComponent currPathComp;
+        private JButton button;
+        private DocumentListener listener;
 
         FilePanel(String key, final JFileChooser chooser) {
             uif.initPanel(this, key, new BorderLayout(), false);
@@ -546,16 +561,20 @@ class QuickStartWizard extends ToolDialog {
                 currPathComp = newPathComp;
             }
         }
-
-        private JLabel label;
-        private JTextField field;
-        private JComboBox<String> combo;
-        private JComponent currPathComp;
-        private JButton button;
-        private DocumentListener listener;
     }
 
+    //------------------------------------------------------------------------------
+
     private abstract class Pane extends JPanel {
+        private ChangeListener changeListener = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                Pane.this.stateChanged();
+            }
+        };
+        private String paneKey;
+        private String head;
+
         Pane(String key) {
             paneKey = key;
             setLayout(new GridBagLayout());
@@ -706,21 +725,17 @@ class QuickStartWizard extends ToolDialog {
             add(textArea, c);
             return textArea;
         }
-
-        private ChangeListener changeListener = new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                Pane.this.stateChanged();
-            }
-        };
-
-        private String paneKey;
-        private String head;
     }
 
     //------------------------------------------------------------------------------
 
     private class TaskPane extends Pane {
+        private ButtonGroup bg = new ButtonGroup();
+        private JRadioButton newRun;
+        private JRadioButton resumeRun;
+        private JRadioButton browse;
+
+
         TaskPane() {
             super("qsw.tsk");
             addText();
@@ -743,7 +758,6 @@ class QuickStartWizard extends ToolDialog {
             nextBtn.setEnabled(task != UNSET);
         }
 
-
         @Override
         Pane getNext() {
 
@@ -751,17 +765,20 @@ class QuickStartWizard extends ToolDialog {
                     : task == RESUME ? openWorkDirPane
                     : null;
         }
-
-
-        private ButtonGroup bg = new ButtonGroup();
-        private JRadioButton newRun;
-        private JRadioButton resumeRun;
-        private JRadioButton browse;
     }
 
     //------------------------------------------------------------------------------
 
     private class ConfigPane extends Pane {
+        private ButtonGroup bg = new ButtonGroup();
+        private JRadioButton newConfig;
+        private JRadioButton fileConfig;
+        private JRadioButton jtmConfig;
+        private FilePanel filePanel;
+        private FilePanel jtmPanel;
+        private FileChooser jtiChooser;
+        private FileChooser jtmChooser;
+        private long configLastModified;
         ConfigPane() {
             super("qsw.cfg");
             addText();
@@ -780,7 +797,6 @@ class QuickStartWizard extends ToolDialog {
 
         }
 
-
         void tuneTemplateFilter() {
             if (contextManager != null &&
                     contextManager.getFeatureManager() != null &&
@@ -789,7 +805,6 @@ class QuickStartWizard extends ToolDialog {
                         uif.getI18NString("qsw.cfg.jtiFiles"));
             }
         }
-
 
         private void tunePane() {
 
@@ -805,13 +820,11 @@ class QuickStartWizard extends ToolDialog {
             }
         }
 
-
         @Override
         void stateChanged() {
             showError(null);
             updateNextButton();
         }
-
 
         @Override
         void updateNextButton() {
@@ -900,7 +913,6 @@ class QuickStartWizard extends ToolDialog {
 
         }
 
-
         private File chkConfigFile(FilePanel panel, Properties data) {
             String path = panel.getPath();
             File file = null;
@@ -939,22 +951,12 @@ class QuickStartWizard extends ToolDialog {
             return file;
         }
 
-        private ButtonGroup bg = new ButtonGroup();
-        private JRadioButton newConfig;
-        private JRadioButton fileConfig;
-        private JRadioButton jtmConfig;
-        private FilePanel filePanel;
-        private FilePanel jtmPanel;
-        private FileChooser jtiChooser;
-        private FileChooser jtmChooser;
-
-        private long configLastModified;
-
     }
 
-    //------------------------------------------------------------------------------
-
     private class TestSuitePane extends Pane {
+        private FilePanel testSuitePanel;
+        private TestSuiteChooser chooser;
+
         TestSuitePane() {
             super("qsw.ts");
             addText();
@@ -1074,24 +1076,18 @@ class QuickStartWizard extends ToolDialog {
 
             // return (config == null ? null : task == NEW ? (Pane) newWorkDirPane : (Pane) endPane);
         }
-
-        private FilePanel testSuitePanel;
-        private TestSuiteChooser chooser;
     }
 
-    //------------------------------------------------------------------------------
-
     private abstract class WorkDirPane extends Pane {
+        protected final JTextArea textArea;
+        protected final FilePanel workDirPanel;
+        protected WorkDirChooser chooser;
         WorkDirPane(String key) {
             super(key);
             textArea = addText();
             chooser = new WorkDirChooser(true);
             workDirPanel = addFile("file", chooser);
         }
-
-        protected final JTextArea textArea;
-        protected final FilePanel workDirPanel;
-        protected WorkDirChooser chooser;
     }
 
     private class CreateWorkDirPane extends WorkDirPane {
@@ -1152,15 +1148,7 @@ class QuickStartWizard extends ToolDialog {
         }
     }
 
-    private static boolean canonicalEquals(File f1, File f2) {
-        try {
-            File c1 = f1.getCanonicalFile();
-            File c2 = f2.getCanonicalFile();
-            return c1.equals(c2);
-        } catch (IOException e) {
-            return false;
-        }
-    }
+    //------------------------------------------------------------------------------
 
     private class OpenWorkDirPane extends WorkDirPane {
         OpenWorkDirPane() {
@@ -1257,9 +1245,12 @@ class QuickStartWizard extends ToolDialog {
         }
     }
 
-    //------------------------------------------------------------------------------
-
     private class EndPane extends Pane {
+        private JTextArea configTextArea;
+        private JCheckBox configCheck;
+        private JTextArea runTestsTextArea;
+        private JCheckBox runTestsCheck;
+
         EndPane() {
             super("qsw.end");
             configTextArea = addText(false);
@@ -1330,17 +1321,6 @@ class QuickStartWizard extends ToolDialog {
             showConfigEditorFlag = configCheck.isSelected();
             runTestsFlag = runTestsCheck.isSelected();
         }
-
-        private JTextArea configTextArea;
-        private JCheckBox configCheck;
-        private JTextArea runTestsTextArea;
-        private JCheckBox runTestsCheck;
-    }
-
-    @Override
-    protected void windowClosingAction(AWTEvent e) {
-        setVisible(false);
-        closeExecTool(e);
     }
 
 }

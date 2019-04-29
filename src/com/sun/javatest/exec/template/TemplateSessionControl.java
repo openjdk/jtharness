@@ -81,6 +81,9 @@ import java.util.logging.Logger;
  */
 public class TemplateSessionControl extends BasicSessionControl {
 
+    private static boolean debug = Debug.getBoolean(TemplateSessionControl.class);
+    private static KeyStroke tEditorAccelerator =
+            KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK);
     final InterviewParameters template; // short cut to the template instance
     protected Action newTemplateAction;
     protected Action showTemplateAction;
@@ -88,14 +91,10 @@ public class TemplateSessionControl extends BasicSessionControl {
     protected Action checkUpdatesAction;
     protected TemplateEditor templateEditor;
     protected TemplateSession templateSession;
-    private FileHistory.Listener configTemplateHistoryListener;
-    private JMenu menuHistory;
-    private static boolean debug = Debug.getBoolean(TemplateSessionControl.class);
     protected UIFactory uifOrig;
     protected TU_dialog tu_dialog;
-
-    private static KeyStroke tEditorAccelerator =
-            KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK);
+    private FileHistory.Listener configTemplateHistoryListener;
+    private JMenu menuHistory;
 
     public TemplateSessionControl(JComponent parent, UIFactory uif, TestSuite ts,
                                   ContextManager cm, UIFactory uifOrig) throws Fault {

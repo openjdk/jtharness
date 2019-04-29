@@ -43,6 +43,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 class CE_PriorStatusPane extends CE_StdPane {
+    private static final String ANY_OF = "anyOf";
+    private static final String ALL = "all";
+    private PriorStatusParameters priorStatusParameters;
+    private MutablePriorStatusParameters mutablePriorStatusParameters;
+    private JCheckBox selectCheck;
+    private JCheckBox[] statusChecks = new JCheckBox[Status.NUM_STATES];
+
     CE_PriorStatusPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "status");
 
@@ -76,7 +83,6 @@ class CE_PriorStatusPane extends CE_StdPane {
             mutablePriorStatusParameters = null;
         }
     }
-
 
     @Override
     void load() {
@@ -204,12 +210,4 @@ class CE_PriorStatusPane extends CE_StdPane {
             statusCheck.setEnabled(enable);
         }
     }
-
-    private PriorStatusParameters priorStatusParameters;
-    private MutablePriorStatusParameters mutablePriorStatusParameters;
-    private JCheckBox selectCheck;
-    private JCheckBox[] statusChecks = new JCheckBox[Status.NUM_STATES];
-
-    private static final String ANY_OF = "anyOf";
-    private static final String ALL = "all";
 }

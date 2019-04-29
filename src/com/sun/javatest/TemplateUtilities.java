@@ -40,6 +40,14 @@ import java.util.Properties;
  */
 public class TemplateUtilities {
 
+    private static final String TRUE = "true";
+    private static final String TEMPLATE_PREF = "TEMPLATE.";
+    private static final String TEMPLATE_FILE = "template.data";
+    /**
+     * Name of the property in the file which contains the path to the template.
+     */
+    private static final String TEMPL_FILE_PROP = "file";
+
     /**
      * Get the path to the template associated with the work dir.
      *
@@ -90,6 +98,15 @@ public class TemplateUtilities {
             return null;
         }
     }
+
+    /*
+    public static ConfigInfo getConfigInfo(TestSuite ts, File f)
+                        throws IOException {
+        //InterviewParameters ip = ts.createInterview();
+        //ip.load(f);
+        return new ConfigInfo(f);
+    }
+    */
 
     /**
      * Associate a template file with a work directory.  None of the
@@ -154,7 +171,6 @@ public class TemplateUtilities {
 
     }
 
-
     public static boolean isTemplate(File f) throws IOException {
         Properties p = new Properties();
         InputStream in = new FileInputStream(f);
@@ -168,16 +184,12 @@ public class TemplateUtilities {
         return new ConfigInfo(f);
     }
 
-    /*
-    public static ConfigInfo getConfigInfo(TestSuite ts, File f)
-                        throws IOException {
-        //InterviewParameters ip = ts.createInterview();
-        //ip.load(f);
-        return new ConfigInfo(f);
-    }
-    */
-
     public static class ConfigInfo {
+        String name;
+        String description;
+        boolean isTemplate;
+        String templateUrl;
+
         ConfigInfo(File f) throws IOException {
             // this file is read manually to avoid initializing the
             // interview which is a very heavyweight process
@@ -204,19 +216,5 @@ public class TemplateUtilities {
         public String getTemplatePath() {
             return templateUrl;
         }
-
-        String name;
-        String description;
-        boolean isTemplate;
-        String templateUrl;
     }
-
-    private static final String TRUE = "true";
-    private static final String TEMPLATE_PREF = "TEMPLATE.";
-    private static final String TEMPLATE_FILE = "template.data";
-
-    /**
-     * Name of the property in the file which contains the path to the template.
-     */
-    private static final String TEMPL_FILE_PROP = "file";
 }

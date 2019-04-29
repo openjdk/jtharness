@@ -39,30 +39,6 @@ import java.util.ListIterator;
  */
 public abstract class CommandManager {
     /**
-     * Get an object embodying the command line help for the commands managed
-     * by this CommandManager.
-     *
-     * @return an object embodying the command line help for the commands managed
-     * by this CommandManager
-     */
-    public abstract HelpTree.Node getHelp();
-
-    /**
-     * Parse a command (and any arguments it might take).
-     *
-     * @param cmd     the command to be parsed
-     * @param argIter an iterator from which to get any arguments that
-     *                might be required by the option
-     * @param ctx     a context object to use while parsing the command
-     * @return true if the command is recognized and successfully parsed,
-     * or false if the command is not recognized by this command manager
-     * @throws Command.Fault if the command is recognized by this command manager
-     *                       but could not be successfully parsed or otherwise handled.
-     */
-    public abstract boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
-            throws Command.Fault;
-
-    /**
      * A convenience routine for subtypes to use to see if one string matches another.
      * The two strings match if they are equal, ignoring case.
      *
@@ -111,4 +87,28 @@ public abstract class CommandManager {
             return false;
         }
     }
+
+    /**
+     * Get an object embodying the command line help for the commands managed
+     * by this CommandManager.
+     *
+     * @return an object embodying the command line help for the commands managed
+     * by this CommandManager
+     */
+    public abstract HelpTree.Node getHelp();
+
+    /**
+     * Parse a command (and any arguments it might take).
+     *
+     * @param cmd     the command to be parsed
+     * @param argIter an iterator from which to get any arguments that
+     *                might be required by the option
+     * @param ctx     a context object to use while parsing the command
+     * @return true if the command is recognized and successfully parsed,
+     * or false if the command is not recognized by this command manager
+     * @throws Command.Fault if the command is recognized by this command manager
+     *                       but could not be successfully parsed or otherwise handled.
+     */
+    public abstract boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
+            throws Command.Fault;
 }

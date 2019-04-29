@@ -72,7 +72,22 @@ import java.util.Objects;
 
 class TP_OutputSubpanel extends TP_Subpanel {
 
+    public static final String LINE_WRAP_PREF = "testOutput.lineWrap";
     String currentTOCEntry = null;
+    private boolean wrap = true;
+    private Preferences prefs = Preferences.access();
+    private Icon streamIcon;
+    private JList toc;
+    private JTextField titleField;
+    private JPanel body;
+    private JPanel main;
+    private JTextArea textArea;
+    private JEditorPane htmlArea;
+    private DefaultListModel<TOCEntry> tocEntries;
+    private Listener listener = new Listener();
+    private TRObserver observer = new TRObserver();
+    private StyleSheet styleSheet;
+    private HTMLEditorKit htmlEditorKit;
 
     TP_OutputSubpanel(UIFactory uif) {
         super(uif, "out");
@@ -550,7 +565,6 @@ class TP_OutputSubpanel extends TP_Subpanel {
         }
     }
 
-
     private TOCEntry findTOCEntry(TestResult.Section section) {
         if (tocEntries == null) {
             return null;
@@ -640,25 +654,6 @@ class TP_OutputSubpanel extends TP_Subpanel {
         }
         return styleSheet;
     }
-
-    private boolean wrap = true;
-    private Preferences prefs = Preferences.access();
-    public static final String LINE_WRAP_PREF = "testOutput.lineWrap";
-    private Icon streamIcon;
-    private JList toc;
-    private JTextField titleField;
-    private JPanel body;
-    private JPanel main;
-    private JTextArea textArea;
-
-    private JEditorPane htmlArea;
-
-    private DefaultListModel<TOCEntry> tocEntries;
-    private Listener listener = new Listener();
-    private TRObserver observer = new TRObserver();
-
-    private StyleSheet styleSheet;
-    private HTMLEditorKit htmlEditorKit;
 
     //------------------------------------------------------------------------------------
 
@@ -796,6 +791,9 @@ class TP_OutputSubpanel extends TP_Subpanel {
     //------------------------------------------------------------------------------------
 
     private class TOCEntry {
+        private TestResult.Section section;
+        private String outputName;  // null for section entry
+
         // create an entry that will show the test result status
         TOCEntry() {
             section = null;
@@ -891,9 +889,6 @@ class TP_OutputSubpanel extends TP_Subpanel {
             }
             return s;
         }
-
-        private TestResult.Section section;
-        private String outputName;  // null for section entry
     }
 
     private class TOCRenderer extends DefaultListCellRenderer {

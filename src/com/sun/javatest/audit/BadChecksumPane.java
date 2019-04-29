@@ -30,6 +30,8 @@ import com.sun.javatest.tool.UIFactory;
 import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 class BadChecksumPane extends ListPane {
+    private Audit currAudit;
+
     BadChecksumPane(UIFactory uif) {
         super("badChecksum", uif);
         ContextHelpManager.setHelpIDString(this, "audit.badChecksumTab.csh");
@@ -44,6 +46,4 @@ class BadChecksumPane extends ListPane {
             setData((Object[]) currAudit.getBadChecksumTests());
         }
     }
-
-    private Audit currAudit;
 }

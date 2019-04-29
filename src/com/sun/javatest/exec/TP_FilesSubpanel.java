@@ -41,6 +41,8 @@ import java.net.URL;
  */
 
 class TP_FilesSubpanel extends TP_Subpanel {
+    private FilesPane filesPane;
+
     TP_FilesSubpanel(UIFactory uif) {
         super(uif, "files");
         setLayout(new BorderLayout());
@@ -82,8 +84,6 @@ class TP_FilesSubpanel extends TP_Subpanel {
         filesPane.setBaseDirectory(subpanelDesc.getDir());
         filesPane.setFiles(urls);
     }
-
-    private FilesPane filesPane;
 }
 
 

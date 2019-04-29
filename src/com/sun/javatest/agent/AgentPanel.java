@@ -59,9 +59,33 @@ import java.util.Vector;
  * in either an {@link AgentFrame} or an {@link AgentApplet}.
  */
 class AgentPanel extends ScrollPane {
-    public interface MapReader {
-        ConfigValuesMap read(String name) throws IOException;
-    }
+    private static final String[] statusCodes =
+            {"PASS", "FAIL", "CHCK", "ERR ", "!RUN"};
+    private MapReader mapReader;
+    private Deck deck;
+    private ErrorPanel errorPanel;
+    private HelpPanel helpPanel;
+    private Panel mainPanel;
+    private Folder mainFolder;
+    private ButtonPanel buttonPanel;
+    private ParamPanel paramPanel;
+    private StatsPanel statsPanel;
+    private TaskPanel taskPanel;
+
+
+    //-------------------------------------------------------------------
+    private HistoryList historyList;
+
+    //-------------------------------------------------------------------
+    private AgentObserver agentObs;
+
+    //-------------------------------------------------------------------
+    //
+    // The following are private methods for the GUI
+    private Agent.Observer userObs;
+    private boolean tracing;
+    private PrintStream traceOut;
+    private Agent currAgent;
 
     /**
      * Create a standard AgentPanel to control and monitor a Agent.
@@ -71,6 +95,14 @@ class AgentPanel extends ScrollPane {
     public AgentPanel(ModeOptions[] modeOptions, MapReader mr) {
         mapReader = mr;
         initGUI(modeOptions);
+    }
+
+    private static int getInt(String label, TextField field) throws BadValue {
+        try {
+            return Integer.parseInt(field.getText(), 10);
+        } catch (NumberFormatException e) {
+            throw new BadValue("Bad value in `" + label + "' field");
+        }
     }
 
     /**
@@ -222,9 +254,6 @@ class AgentPanel extends ScrollPane {
         // that it is finished
     }
 
-
-    //-------------------------------------------------------------------
-
     @Override
     public Dimension getPreferredSize() {
         Insets i = getInsets();
@@ -232,16 +261,10 @@ class AgentPanel extends ScrollPane {
         return new Dimension(i.left + d.width + i.right, i.top + d.height + i.bottom);
     }
 
-    //-------------------------------------------------------------------
-
     void showTask(TaskState task) {
         mainFolder.show(taskPanel);
         taskPanel.setTask(task);
     }
-
-    //-------------------------------------------------------------------
-    //
-    // The following are private methods for the GUI
 
     private void initGUI(ModeOptions... modeOptions) {
         agentObs = new AgentObserver();
@@ -313,37 +336,9 @@ class AgentPanel extends ScrollPane {
         deck.show(mainPanel);
     }
 
-    private static int getInt(String label, TextField field) throws BadValue {
-        try {
-            return Integer.parseInt(field.getText(), 10);
-        } catch (NumberFormatException e) {
-            throw new BadValue("Bad value in `" + label + "' field");
-        }
+    public interface MapReader {
+        ConfigValuesMap read(String name) throws IOException;
     }
-
-
-    private MapReader mapReader;
-
-    private Deck deck;
-    private ErrorPanel errorPanel;
-    private HelpPanel helpPanel;
-    private Panel mainPanel;
-    private Folder mainFolder;
-    private ButtonPanel buttonPanel;
-    private ParamPanel paramPanel;
-    private StatsPanel statsPanel;
-    private TaskPanel taskPanel;
-    private HistoryList historyList;
-    private AgentObserver agentObs;
-    private Agent.Observer userObs;
-
-    private boolean tracing;
-    private PrintStream traceOut;
-
-    private Agent currAgent;
-
-    private static final String[] statusCodes =
-            {"PASS", "FAIL", "CHCK", "ERR ", "!RUN"};
 
 
     //-------------------------------------------------------------------
@@ -352,10 +347,7 @@ class AgentPanel extends ScrollPane {
     //-------------------------------------------------------------------
 
     private static class TaskState {
-        TaskState(Connection c) {
-            connection = c;
-        }
-
+        static final int TEST = 0, COMMAND = 1, MAIN = 2;
         Connection connection;
         int mode;
         String tag;
@@ -363,9 +355,170 @@ class AgentPanel extends ScrollPane {
         String[] args;
         Status status;
 
-        static final int TEST = 0, COMMAND = 1, MAIN = 2;
+        TaskState(Connection c) {
+            connection = c;
+        }
     }
 
+
+    //-------------------------------------------------------------------
+
+    private static class StatsPanel extends Panel {
+        private Vector<TaskState> tasks = new Vector<>();
+        private int[] statusCounts = new int[Status.NUM_STATES];
+        private int exceptionsCount;
+        private TextField activeField;
+        private TextField[] statusFields = new TextField[Status.NUM_STATES];
+        private TextField exceptionsField;
+
+        StatsPanel() {
+            setLayout(new GridBagLayout());
+
+            GridBagConstraints lc = new GridBagConstraints();
+            lc.anchor = GridBagConstraints.EAST;
+            GridBagConstraints fc = new GridBagConstraints();
+            fc.weightx = 1;
+            fc.anchor = GridBagConstraints.WEST;
+            fc.gridwidth = GridBagConstraints.REMAINDER;
+
+            activeField = addField("currently active:", lc, fc);
+            statusFields[Status.PASSED] = addField("passed:", lc, fc);
+            statusFields[Status.FAILED] = addField("failed:", lc, fc);
+            statusFields[Status.ERROR] = addField("error:", lc, fc);
+            statusFields[Status.NOT_RUN] = addField("not run:", lc, fc);
+            exceptionsField = addField("exceptions:", lc, fc);
+        }
+
+        void reset() {
+            tasks.clear();
+            for (int i = 0; i < statusCounts.length; i++) {
+                statusCounts[i] = 0;
+            }
+            exceptionsCount = 0;
+            activeField.setText("0");
+            for (int i = 0; i < statusCounts.length; i++) {
+                statusFields[i].setText("0");
+            }
+            exceptionsField.setText("0");
+        }
+
+        void startedTask(TaskState task) {
+            tasks.add(task);
+            activeField.setText(String.valueOf(tasks.size()));
+        }
+
+        void finishedTask(TaskState task, boolean completedNormally) {
+            int index = tasks.indexOf(task);
+            if (index == -1) {
+                return;
+            }
+            tasks.remove(index);
+            activeField.setText(String.valueOf(tasks.size()));
+            if (!completedNormally) {
+                exceptionsField.setText(String.valueOf(++exceptionsCount));
+            }
+            if (task.status != null) {
+                int t = task.status.getType();
+                statusFields[t].setText(String.valueOf(++statusCounts[t]));
+            }
+        }
+
+        private TextField addField(String name, GridBagConstraints lc, GridBagConstraints fc) {
+            add(new Label(name), lc);
+            TextField f = new TextField("0", 10);
+            f.setEditable(false);
+            add(f, fc);
+            return f;
+        }
+    }
+
+    //-------------------------------------------------------------------
+
+    private static class TaskPanel extends Panel {
+        private TaskState task;
+        private Label clientField;
+        private Label tagField;
+        private Label classField;
+        private TextField argsField;
+        private Label resultField;
+        TaskPanel() {
+            setLayout(new GridBagLayout());
+
+            GridBagConstraints lc = new GridBagConstraints();
+            lc.anchor = GridBagConstraints.EAST;
+            GridBagConstraints fc = new GridBagConstraints();
+            fc.weightx = 1;
+            fc.fill = GridBagConstraints.HORIZONTAL;
+            fc.gridwidth = GridBagConstraints.REMAINDER;
+
+            Label clientLabel = new Label("client:");
+            add(clientLabel, lc);
+
+            clientField = new Label("");
+            add(clientField, fc);
+
+            Label tagLabel = new Label("request:");
+            add(tagLabel, lc);
+
+            tagField = new Label("");
+            add(tagField, fc);
+
+            Label classLabel = new Label("class:");
+            add(classLabel, lc);
+
+            classField = new Label("");
+            add(classField, fc);
+
+            Label argsLabel = new Label("args:");
+            add(argsLabel, lc);
+
+            argsField = new TextField("");
+            // make it a text field to support scrolling of very long fields
+            argsField.setEditable(false);
+            add(argsField, fc);
+
+            Label resultLabel = new Label("result:");
+            add(resultLabel, lc);
+
+            resultField = new Label("");
+            add(resultField, fc);
+        }
+
+        TaskState getTask() {
+            return task;
+        }
+
+        void setTask(TaskState ts) {
+            task = ts;
+            update();
+        }
+
+        void update() {
+            if (task == null) {
+                clientField.setText("");
+                tagField.setText("");
+                classField.setText("");
+                argsField.setText("");
+                resultField.setText("");
+            } else {
+                clientField.setText(task.connection.getName());
+                tagField.setText(task.tag);
+                classField.setText(task.className);
+                String a = "";
+                if (task.args != null) {
+                    for (int i = 0; i < task.args.length; i++) {
+                        a += task.args[i] + " ";
+                    }
+                }
+                argsField.setText(a);
+                if (task.status == null) {
+                    resultField.setText("");
+                } else {
+                    resultField.setText(task.status.toString());
+                }
+            }
+        }
+    }
 
     //-------------------------------------------------------------------
 
@@ -530,6 +683,10 @@ class AgentPanel extends ScrollPane {
     //-------------------------------------------------------------------
 
     private class ButtonPanel extends Panel implements ActionListener {
+        private Button startButton;
+        private Button stopButton;
+        private Button helpButton;
+
         ButtonPanel() {
             setLayout(new GridBagLayout());
             GridBagConstraints c = new GridBagConstraints();
@@ -568,10 +725,6 @@ class AgentPanel extends ScrollPane {
         void setStopEnabled(boolean b) {
             stopButton.setEnabled(b);
         }
-
-        private Button startButton;
-        private Button stopButton;
-        private Button helpButton;
     }
 
     //-------------------------------------------------------------------
@@ -610,6 +763,7 @@ class AgentPanel extends ScrollPane {
             ackError();
         }
     }
+
 
     //-------------------------------------------------------------------
 
@@ -704,9 +858,13 @@ class AgentPanel extends ScrollPane {
         }
     }
 
+
     //-------------------------------------------------------------------
 
     private class HistoryList extends List implements ItemListener {
+        private int maxTasks = 10;
+        private Vector<TaskState> tasks = new Vector<>();
+
         HistoryList() {
             super(5, false);
             super.addItemListener(this);
@@ -787,15 +945,18 @@ class AgentPanel extends ScrollPane {
         private String getKey(String state, String detail) {
             return state + " " + detail;
         }
-
-        private int maxTasks = 10;
-        private Vector<TaskState> tasks = new Vector<>();
     }
-
 
     //-------------------------------------------------------------------
 
     private class ParamPanel extends Panel implements ItemListener {
+        private Choice modeChoice;
+        private Deck modeDeck;
+        private TextField mapFileField;
+        private Label concurrencyLabel;
+        private TextField concurrencyField;
+        private int retryDelay; // not currently in GUI
+
         ParamPanel(ModeOptions... modeOptions) {
             setLayout(new GridBagLayout());
 
@@ -935,177 +1096,5 @@ class AgentPanel extends ScrollPane {
                 }
             }
         }
-
-        private Choice modeChoice;
-        private Deck modeDeck;
-        private TextField mapFileField;
-        private Label concurrencyLabel;
-        private TextField concurrencyField;
-        private int retryDelay; // not currently in GUI
-    }
-
-
-    //-------------------------------------------------------------------
-
-    private static class StatsPanel extends Panel {
-        StatsPanel() {
-            setLayout(new GridBagLayout());
-
-            GridBagConstraints lc = new GridBagConstraints();
-            lc.anchor = GridBagConstraints.EAST;
-            GridBagConstraints fc = new GridBagConstraints();
-            fc.weightx = 1;
-            fc.anchor = GridBagConstraints.WEST;
-            fc.gridwidth = GridBagConstraints.REMAINDER;
-
-            activeField = addField("currently active:", lc, fc);
-            statusFields[Status.PASSED] = addField("passed:", lc, fc);
-            statusFields[Status.FAILED] = addField("failed:", lc, fc);
-            statusFields[Status.ERROR] = addField("error:", lc, fc);
-            statusFields[Status.NOT_RUN] = addField("not run:", lc, fc);
-            exceptionsField = addField("exceptions:", lc, fc);
-        }
-
-        void reset() {
-            tasks.clear();
-            for (int i = 0; i < statusCounts.length; i++) {
-                statusCounts[i] = 0;
-            }
-            exceptionsCount = 0;
-            activeField.setText("0");
-            for (int i = 0; i < statusCounts.length; i++) {
-                statusFields[i].setText("0");
-            }
-            exceptionsField.setText("0");
-        }
-
-        void startedTask(TaskState task) {
-            tasks.add(task);
-            activeField.setText(String.valueOf(tasks.size()));
-        }
-
-        void finishedTask(TaskState task, boolean completedNormally) {
-            int index = tasks.indexOf(task);
-            if (index == -1) {
-                return;
-            }
-            tasks.remove(index);
-            activeField.setText(String.valueOf(tasks.size()));
-            if (!completedNormally) {
-                exceptionsField.setText(String.valueOf(++exceptionsCount));
-            }
-            if (task.status != null) {
-                int t = task.status.getType();
-                statusFields[t].setText(String.valueOf(++statusCounts[t]));
-            }
-        }
-
-        private TextField addField(String name, GridBagConstraints lc, GridBagConstraints fc) {
-            add(new Label(name), lc);
-            TextField f = new TextField("0", 10);
-            f.setEditable(false);
-            add(f, fc);
-            return f;
-        }
-
-
-        private Vector<TaskState> tasks = new Vector<>();
-
-        private int[] statusCounts = new int[Status.NUM_STATES];
-        private int exceptionsCount;
-
-        private TextField activeField;
-        private TextField[] statusFields = new TextField[Status.NUM_STATES];
-        private TextField exceptionsField;
-    }
-
-    //-------------------------------------------------------------------
-
-    private static class TaskPanel extends Panel {
-        TaskPanel() {
-            setLayout(new GridBagLayout());
-
-            GridBagConstraints lc = new GridBagConstraints();
-            lc.anchor = GridBagConstraints.EAST;
-            GridBagConstraints fc = new GridBagConstraints();
-            fc.weightx = 1;
-            fc.fill = GridBagConstraints.HORIZONTAL;
-            fc.gridwidth = GridBagConstraints.REMAINDER;
-
-            Label clientLabel = new Label("client:");
-            add(clientLabel, lc);
-
-            clientField = new Label("");
-            add(clientField, fc);
-
-            Label tagLabel = new Label("request:");
-            add(tagLabel, lc);
-
-            tagField = new Label("");
-            add(tagField, fc);
-
-            Label classLabel = new Label("class:");
-            add(classLabel, lc);
-
-            classField = new Label("");
-            add(classField, fc);
-
-            Label argsLabel = new Label("args:");
-            add(argsLabel, lc);
-
-            argsField = new TextField("");
-            // make it a text field to support scrolling of very long fields
-            argsField.setEditable(false);
-            add(argsField, fc);
-
-            Label resultLabel = new Label("result:");
-            add(resultLabel, lc);
-
-            resultField = new Label("");
-            add(resultField, fc);
-        }
-
-        TaskState getTask() {
-            return task;
-        }
-
-        void setTask(TaskState ts) {
-            task = ts;
-            update();
-        }
-
-        void update() {
-            if (task == null) {
-                clientField.setText("");
-                tagField.setText("");
-                classField.setText("");
-                argsField.setText("");
-                resultField.setText("");
-            } else {
-                clientField.setText(task.connection.getName());
-                tagField.setText(task.tag);
-                classField.setText(task.className);
-                String a = "";
-                if (task.args != null) {
-                    for (int i = 0; i < task.args.length; i++) {
-                        a += task.args[i] + " ";
-                    }
-                }
-                argsField.setText(a);
-                if (task.status == null) {
-                    resultField.setText("");
-                } else {
-                    resultField.setText(task.status.toString());
-                }
-            }
-        }
-
-        private TaskState task;
-
-        private Label clientField;
-        private Label tagField;
-        private Label classField;
-        private TextField argsField;
-        private Label resultField;
     }
 }

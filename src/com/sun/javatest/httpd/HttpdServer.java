@@ -44,6 +44,19 @@ import java.net.Socket;
 
 // this code is based upon that found in the sun.net package
 public class HttpdServer implements Runnable {
+    /**
+     * Maximum number of ports above the given port number to try to attach to.
+     */
+    private static final int MAX_PORT_SEARCH = 10;
+    static protected boolean debug = Boolean.getBoolean("debug." + HttpdServer.class.getName());
+    private static ServerSocket socket;
+    private static String baseURL;
+    /**
+     * Is the web server running in this instance of JT Harness?
+     */
+    private static boolean active;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HttpdServer.class);
+
     public HttpdServer() {
         try {
             init();
@@ -52,6 +65,64 @@ public class HttpdServer implements Runnable {
             //e.printStackTrace();
             throw new IllegalStateException(i18n.getString("server.cantInit"));
         }
+    }
+
+    /**
+     * Get the local port on which the server is listening
+     */
+    public static int getLocalPort() {
+        if (socket == null) {
+            throw new IllegalStateException();
+        }
+
+        return socket.getLocalPort();
+    }
+
+    /**
+     * Is the webserver active?
+     */
+    public static boolean isActive() {
+        return active;
+    }
+
+    private static void setActive() {
+        active = true;
+    }
+
+    /**
+     * Find out the fully qualified base address of the webserver.
+     * Typical output would be http://hostname.domain:port/
+     */
+    private static String getBaseUrl() {
+        return baseURL;
+    }
+
+    // ---- FOR DEBUGGING ----
+    public static void main(String... args) {
+        System.out.println("Starting JT Harness httpd in debug mode.");
+
+        JThttpProvider prov = new JThttpProvider() {
+            @Override
+            public void serviceRequest(httpURL url, PrintWriter out) {
+                PageGenerator.generateDocType(out, PageGenerator.HTML32);
+                out.println("<html>");
+                out.println("<Body>");
+                out.println("<h2>Hello, this is the JT Harness web server.</h2>");
+                out.println("Running in test mode, no harness.");
+                out.println("</Body>");
+                out.println("</html>");
+
+                out.close();
+            }
+        };
+
+        RootRegistry.getInstance().addHandler("/", "Root JT Harness URL", prov);
+
+        HttpdServer server = new HttpdServer();
+        debug = true;
+
+        Thread thr = new Thread(server);
+        thr.start();
     }
 
     @Override
@@ -77,37 +148,6 @@ public class HttpdServer implements Runnable {
             }
         }
 
-    }
-
-    /**
-     * Get the local port on which the server is listening
-     */
-    public static int getLocalPort() {
-        if (socket == null) {
-            throw new IllegalStateException();
-        }
-
-        return socket.getLocalPort();
-    }
-
-    /**
-     * Is the webserver active?
-     */
-    public static boolean isActive() {
-        return active;
-    }
-
-    private static void setActive() {
-        active = true;
-    }
-
-
-    /**
-     * Find out the fully qualified base address of the webserver.
-     * Typical output would be http://hostname.domain:port/
-     */
-    private static String getBaseUrl() {
-        return baseURL;
     }
 
     /**
@@ -155,51 +195,5 @@ public class HttpdServer implements Runnable {
 
         }   // for
     }   // init()
-
-    // ---- FOR DEBUGGING ----
-    public static void main(String... args) {
-        System.out.println("Starting JT Harness httpd in debug mode.");
-
-        JThttpProvider prov = new JThttpProvider() {
-            @Override
-            public void serviceRequest(httpURL url, PrintWriter out) {
-                PageGenerator.generateDocType(out, PageGenerator.HTML32);
-                out.println("<html>");
-                out.println("<Body>");
-                out.println("<h2>Hello, this is the JT Harness web server.</h2>");
-                out.println("Running in test mode, no harness.");
-                out.println("</Body>");
-                out.println("</html>");
-
-                out.close();
-            }
-        };
-
-        RootRegistry.getInstance().addHandler("/", "Root JT Harness URL", prov);
-
-        HttpdServer server = new HttpdServer();
-        debug = true;
-
-        Thread thr = new Thread(server);
-        thr.start();
-    }
-
-    private static ServerSocket socket;
-    private static String baseURL;
-
-    /**
-     * Maximum number of ports above the given port number to try to attach to.
-     */
-    private static final int MAX_PORT_SEARCH = 10;
-
-    /**
-     * Is the web server running in this instance of JT Harness?
-     */
-    private static boolean active;
-
-    static protected boolean debug = Boolean.getBoolean("debug." + HttpdServer.class.getName());
-
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HttpdServer.class);
 }
 

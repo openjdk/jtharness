@@ -37,6 +37,61 @@ import java.awt.Color;
  */
 public class I18NUtils {
     /**
+     * A convenience redefinition of {@link Status#PASSED Status.PASSED}.
+     */
+    public static final int PASSED = Status.PASSED;
+    /**
+     * A convenience redefinition of {@link Status#FAILED Status.FAILED}.
+     */
+    public static final int FAILED = Status.FAILED;
+    /**
+     * A convenience redefinition of {@link Status#ERROR Status.ERROR}.
+     */
+    public static final int ERROR = Status.ERROR;
+    /**
+     * A convenience redefinition of {@link Status#NOT_RUN Status.NOT_RUN}.
+     */
+    public static final int NOT_RUN = Status.NOT_RUN;
+    /**
+     * A constant indicating that an icon should be represented as "filtered out".
+     */
+    public static final int FILTERED_OUT = Status.NUM_STATES;
+    /**
+     * A constant indicating the number of different value "state" values.
+     */
+    public static final int NUM_STATES = FILTERED_OUT + 1;
+    private static final String PASS_COLOR_PREF = "color.passed";
+    private static final String FAIL_COLOR_PREF = "color.failed";
+    private static final String ERR_COLOR_PREF = "color.error";
+    private static final String NOTRUN_COLOR_PREF = "color.notrun";
+    private static final String FILTERED_COLOR_PREF = "color.filter";
+    private static I18NResourceBundle i18n =
+            I18NResourceBundle.getBundleForClass(I18NUtils.class);
+    private static Color passedColor;
+    private static Color failedColor;
+    private static Color errorColor;
+    private static Color notRunColor;
+    private static Color filteredOutColor;
+    /**
+     * Localized status strings.
+     */
+    private static String[] STATUS_STRINGS;
+
+    static {
+        passedColor = getPreferredColor(PASS_COLOR_PREF, "i18n.passed",
+                0x00ff00, true);
+        failedColor = getPreferredColor(FAIL_COLOR_PREF, "i18n.failed",
+                0xff0000, true);
+        errorColor = getPreferredColor(ERR_COLOR_PREF, "i18n.error",
+                0x3f3fff, true);
+        notRunColor = getPreferredColor(NOTRUN_COLOR_PREF, "i18n.notRun",
+                0xffffff, true);
+        filteredOutColor = getPreferredColor(FILTERED_COLOR_PREF,
+                "i18n.filtered",
+                0xa999999, true);
+    }
+
+    /**
      * Get the base color for a test status.
      *
      * @param status the status for which the color is required: one of
@@ -210,67 +265,4 @@ public class I18NUtils {
         result = getI18NColor(bundle, backup);
         return result;
     }
-
-    private static I18NResourceBundle i18n =
-            I18NResourceBundle.getBundleForClass(I18NUtils.class);
-    private static Color passedColor;
-    private static Color failedColor;
-    private static Color errorColor;
-    private static Color notRunColor;
-    private static Color filteredOutColor;
-
-    private static final String PASS_COLOR_PREF = "color.passed";
-    private static final String FAIL_COLOR_PREF = "color.failed";
-    private static final String ERR_COLOR_PREF = "color.error";
-    private static final String NOTRUN_COLOR_PREF = "color.notrun";
-    private static final String FILTERED_COLOR_PREF = "color.filter";
-
-    static {
-        passedColor = getPreferredColor(PASS_COLOR_PREF, "i18n.passed",
-                0x00ff00, true);
-        failedColor = getPreferredColor(FAIL_COLOR_PREF, "i18n.failed",
-                0xff0000, true);
-        errorColor = getPreferredColor(ERR_COLOR_PREF, "i18n.error",
-                0x3f3fff, true);
-        notRunColor = getPreferredColor(NOTRUN_COLOR_PREF, "i18n.notRun",
-                0xffffff, true);
-        filteredOutColor = getPreferredColor(FILTERED_COLOR_PREF,
-                "i18n.filtered",
-                0xa999999, true);
-    }
-
-    /**
-     * A convenience redefinition of {@link Status#PASSED Status.PASSED}.
-     */
-    public static final int PASSED = Status.PASSED;
-
-    /**
-     * A convenience redefinition of {@link Status#FAILED Status.FAILED}.
-     */
-    public static final int FAILED = Status.FAILED;
-
-    /**
-     * A convenience redefinition of {@link Status#ERROR Status.ERROR}.
-     */
-    public static final int ERROR = Status.ERROR;
-
-    /**
-     * A convenience redefinition of {@link Status#NOT_RUN Status.NOT_RUN}.
-     */
-    public static final int NOT_RUN = Status.NOT_RUN;
-
-    /**
-     * A constant indicating that an icon should be represented as "filtered out".
-     */
-    public static final int FILTERED_OUT = Status.NUM_STATES;
-
-    /**
-     * A constant indicating the number of different value "state" values.
-     */
-    public static final int NUM_STATES = FILTERED_OUT + 1;
-
-    /**
-     * Localized status strings.
-     */
-    private static String[] STATUS_STRINGS;
 }

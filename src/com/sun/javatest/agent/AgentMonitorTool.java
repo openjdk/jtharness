@@ -70,6 +70,11 @@ public class AgentMonitorTool extends Tool {
     private static AgentMonitorTool theOne;
     */
 
+    private AgentManager agentManager = AgentManager.access();
+    private ActiveAgentPool activeAgentPool = agentManager.getActiveAgentPool();
+    private JMenuBar menuBar;
+    private AgentPoolSubpanel agentPoolSubpanel;
+    private CurrentAgentsSubpanel currAgentsSubpanel;
     AgentMonitorTool(AgentMonitorToolManager m) {
         super(m, "agentMonitor", "agent.window.csh");
         setI18NTitle("tool.title");
@@ -141,16 +146,18 @@ public class AgentMonitorTool extends Tool {
         }
     }
 
-    private AgentManager agentManager = AgentManager.access();
-    private ActiveAgentPool activeAgentPool = agentManager.getActiveAgentPool();
-    private JMenuBar menuBar;
-    private AgentPoolSubpanel agentPoolSubpanel;
-    private CurrentAgentsSubpanel currAgentsSubpanel;
-
     //----------nested classes-------------------------------------------------------
 
     private class AgentPoolSubpanel extends JPanel
             implements ItemListener, ActiveAgentPool.Observer {
+        private JCheckBox listeningCheck;
+        private JLabel portLabel;
+        private JTextField portField;
+        private JLabel timeoutLabel;
+        private JTextField timeoutField;
+        private JList<String> list;
+        private DefaultListModel<String> listData;
+
         AgentPoolSubpanel() {
             setName("tool.pool");
             setBorder(uif.createTitledBorder("tool.pool"));
@@ -337,18 +344,24 @@ public class AgentMonitorTool extends Tool {
             timeoutLabel.setEnabled(enable);
             timeoutField.setEnabled(enable);
         }
-
-        private JCheckBox listeningCheck;
-        private JLabel portLabel;
-        private JTextField portField;
-        private JLabel timeoutLabel;
-        private JTextField timeoutField;
-        private JList<String> list;
-        private DefaultListModel<String> listData;
     }
 
     private class CurrentAgentsSubpanel extends JPanel
             implements ListSelectionListener, AgentManager.Observer {
+        private JList<Entry> list;
+        private DefaultListModel<Entry> listData;
+        private Entry selectedEntry;
+        private JLabel addressLabel;
+        private JTextField addressField;
+        private JLabel tagLabel;
+        private JTextField tagField;
+        private JLabel requestLabel;
+        private JTextField requestField;
+        private JLabel execLabel;
+        private JTextField execField;
+        private JLabel argsLabel;
+        private JTextField argsField;
+        private JCheckBox localizeArgsCheck;
         CurrentAgentsSubpanel() {
             setName("tool.curr");
             setBorder(uif.createTitledBorder("tool.curr"));
@@ -487,6 +500,12 @@ public class AgentMonitorTool extends Tool {
         }
 
         private class Entry {
+            Connection connection;
+            String tag;
+            String request;
+            String executable;
+            String[] args;
+            boolean localizeArgs;
             Entry(Connection connection,
                   String tag, String request, String executable, String[] args,
                   boolean localizeArgs) {
@@ -503,28 +522,6 @@ public class AgentMonitorTool extends Tool {
                 return uif.getI18NString("tool.entry",
                         connection.getName(), tag);
             }
-
-            Connection connection;
-            String tag;
-            String request;
-            String executable;
-            String[] args;
-            boolean localizeArgs;
         }
-
-        private JList<Entry> list;
-        private DefaultListModel<Entry> listData;
-        private Entry selectedEntry;
-        private JLabel addressLabel;
-        private JTextField addressField;
-        private JLabel tagLabel;
-        private JTextField tagField;
-        private JLabel requestLabel;
-        private JTextField requestField;
-        private JLabel execLabel;
-        private JTextField execField;
-        private JLabel argsLabel;
-        private JTextField argsField;
-        private JCheckBox localizeArgsCheck;
     }
 }

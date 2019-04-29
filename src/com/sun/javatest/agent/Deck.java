@@ -35,6 +35,9 @@ import java.awt.LayoutManager;
 import java.awt.Panel;
 
 class Deck extends Panel {
+    private Cursor waitCursor = new Cursor(Cursor.WAIT_CURSOR);
+    private int cardNum;
+
     public Deck() {
         super(new CardLayout());
     }
@@ -94,7 +97,4 @@ class Deck extends Panel {
         //setVisible(savedVisible);
         parent.setCursor(savedCursor);
     }
-
-    private Cursor waitCursor = new Cursor(Cursor.WAIT_CURSOR);
-    private int cardNum;
 }

@@ -42,6 +42,23 @@ import java.io.Writer;
  */
 public class WriterStream extends OutputStream {
     /**
+     * We hope there is no encoding, where one unicode char encodes in more than
+     * 50 bytes.
+     */
+    private static int MAX_BUFF_SIZE = 50;
+    /**
+     * Number of writings in the buffer, after which we check it's content.
+     * Have an influence on performance of our writing algorithm.
+     * 3 is reasonable number for popular encodings, where ASCII symbols encoded
+     * using 1 byte; better than 2.
+     */
+    private static int PERIOD_SIZE = 3;
+    private String charsetName;
+    private byte[] buff = new byte[MAX_BUFF_SIZE];
+    private int index = 0;
+    private Writer writer;
+
+    /**
      * Create a stream that writes to a writer.
      *
      * @param w the writer
@@ -137,25 +154,5 @@ public class WriterStream extends OutputStream {
             }
         }
     }
-
-    private String charsetName;
-
-    /**
-     * We hope there is no encoding, where one unicode char encodes in more than
-     * 50 bytes.
-     */
-    private static int MAX_BUFF_SIZE = 50;
-
-    /**
-     * Number of writings in the buffer, after which we check it's content.
-     * Have an influence on performance of our writing algorithm.
-     * 3 is reasonable number for popular encodings, where ASCII symbols encoded
-     * using 1 byte; better than 2.
-     */
-    private static int PERIOD_SIZE = 3;
-
-    private byte[] buff = new byte[MAX_BUFF_SIZE];
-    private int index = 0;
-    private Writer writer;
 
 }

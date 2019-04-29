@@ -77,6 +77,26 @@ import java.util.HashSet;
  * Standard values, keyword pane.
  */
 class CE_KeywordsPane extends CE_StdPane {
+    private static final String ALL_OF = "allOf";
+    private static final String ANY_OF = "anyOf";
+    private static final String EXPR = "expr";
+    private static final String IGNORE = "ignore";
+    private static final String AND = "and";
+    private static final String OR = "or";
+    private static final String NOT = "not";
+    private static final String PARENS = "parens";
+    private KeywordsParameters keywordsParameters;
+    private MutableKeywordsParameters mutableKeywordsParameters;
+    private JCheckBox selectCheck;
+    private JComboBox<String> keywordsChoice;
+    private JTextField keywordsField;
+    private JButton keywordBtn;
+    private JPopupMenu keywordPopup;
+    private JButton opBtn;
+    private JPopupMenu opPopup;
+    private Listener listener = new Listener();
+    private boolean keywordChooser;
+    private String[] keywords;
     CE_KeywordsPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "keywords");
 
@@ -293,6 +313,46 @@ class CE_KeywordsPane extends CE_StdPane {
         }
     }
 
+    private void enableKeywordFields() {
+        boolean b = selectCheck.isEnabled() && selectCheck.isSelected();
+        keywordsChoice.setEnabled(b);
+        keywordsField.setEnabled(b);
+        opBtn.setEnabled(b && keywordsChoice.getSelectedItem().equals(EXPR));
+        keywordBtn.setEnabled(b && (keywordPopup != null || keywordChooser));
+    }
+
+    private static class DropDownIcon implements Icon {
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            JComponent component = (JComponent) c;
+            int iconWidth = getIconWidth();
+
+            g.translate(x, y);
+            g.setColor(component.isEnabled() ?
+                    UIFactory.Colors.CONTROL_INFO.getValue() :
+                    UIFactory.Colors.CONTROL_SHADOW.getValue());
+            g.drawLine(0, 0, iconWidth - 1, 0);
+            g.drawLine(1, 1, 1 + (iconWidth - 3), 1);
+            g.drawLine(2, 2, 2 + (iconWidth - 5), 2);
+            g.drawLine(3, 3, 3 + (iconWidth - 7), 3);
+            g.drawLine(4, 4, 4 + (iconWidth - 9), 4);
+
+            g.translate(-x, -y);
+        }
+
+        @Override
+        public int getIconWidth() {
+            return 10;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return 5;
+        }
+
+    }
+
     private class KeywordChooser extends JDialog {
 
         private JScrollPane sp;
@@ -399,39 +459,6 @@ class CE_KeywordsPane extends CE_StdPane {
 
     }
 
-
-    private void enableKeywordFields() {
-        boolean b = selectCheck.isEnabled() && selectCheck.isSelected();
-        keywordsChoice.setEnabled(b);
-        keywordsField.setEnabled(b);
-        opBtn.setEnabled(b && keywordsChoice.getSelectedItem().equals(EXPR));
-        keywordBtn.setEnabled(b && (keywordPopup != null || keywordChooser));
-    }
-
-    private KeywordsParameters keywordsParameters;
-    private MutableKeywordsParameters mutableKeywordsParameters;
-    private JCheckBox selectCheck;
-    private JComboBox<String> keywordsChoice;
-    private JTextField keywordsField;
-    private JButton keywordBtn;
-    private JPopupMenu keywordPopup;
-    private JButton opBtn;
-    private JPopupMenu opPopup;
-    private Listener listener = new Listener();
-
-    private static final String ALL_OF = "allOf";
-    private static final String ANY_OF = "anyOf";
-    private static final String EXPR = "expr";
-    private static final String IGNORE = "ignore";
-
-    private static final String AND = "and";
-    private static final String OR = "or";
-    private static final String NOT = "not";
-    private static final String PARENS = "parens";
-
-    private boolean keywordChooser;
-    private String[] keywords;
-
     private class Listener
             implements ActionListener, ChangeListener, ItemListener {
         // ---------- ActionListener -----------------------------------
@@ -517,37 +544,5 @@ class CE_KeywordsPane extends CE_StdPane {
         public void itemStateChanged(ItemEvent e) {
             enableKeywordFields();
         }
-    }
-
-    private static class DropDownIcon implements Icon {
-
-        @Override
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            JComponent component = (JComponent) c;
-            int iconWidth = getIconWidth();
-
-            g.translate(x, y);
-            g.setColor(component.isEnabled() ?
-                    UIFactory.Colors.CONTROL_INFO.getValue() :
-                    UIFactory.Colors.CONTROL_SHADOW.getValue());
-            g.drawLine(0, 0, iconWidth - 1, 0);
-            g.drawLine(1, 1, 1 + (iconWidth - 3), 1);
-            g.drawLine(2, 2, 2 + (iconWidth - 5), 2);
-            g.drawLine(3, 3, 3 + (iconWidth - 7), 3);
-            g.drawLine(4, 4, 4 + (iconWidth - 9), 4);
-
-            g.translate(-x, -y);
-        }
-
-        @Override
-        public int getIconWidth() {
-            return 10;
-        }
-
-        @Override
-        public int getIconHeight() {
-            return 5;
-        }
-
     }
 }

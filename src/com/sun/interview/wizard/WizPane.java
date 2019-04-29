@@ -54,6 +54,23 @@ import java.util.Map;
  * panel to display question-specific help, and an optional button area.
  */
 public class WizPane extends JPanel {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    private static String DETAILS = "details";
+    private static String FIND_NEXT = "findNext";
+    private Listener listener = new Listener();
+    private Interview interview;
+    private boolean infoEnabled;
+    // help for context sensitive help (F1)
+    private HelpBroker helpHelpBroker;
+    private String helpHelpPrefix = "wizard.";
+    private JComponent main;
+    private JPanel body;
+    private PathPanel pathPanel;
+    private QuestionPanel questionPanel;
+    private JPanel buttonPanel;
+    private InfoPanel infoPanel;
+    private SearchDialog searchDialog;
+
     /**
      * Create a WizPane object for a specified interview.
      *
@@ -514,6 +531,10 @@ public class WizPane extends JPanel {
 
         add(main);
     }
+    /*
+    private DetailsBrowser detailsBrowser;
+    private static final KeyStroke detailsKey = KeyStroke.getKeyStroke("shift alt D");
+    */
 
     private void setInfo(JComponent jc, String uiKey) {
         jc.setName(uiKey);
@@ -544,31 +565,4 @@ public class WizPane extends JPanel {
             }
         }
     }
-
-    private Listener listener = new Listener();
-
-
-    private Interview interview;
-    private boolean infoEnabled;
-
-    // help for context sensitive help (F1)
-    private HelpBroker helpHelpBroker;
-    private String helpHelpPrefix = "wizard.";
-
-    private JComponent main;
-    private JPanel body;
-    private PathPanel pathPanel;
-    private QuestionPanel questionPanel;
-    private JPanel buttonPanel;
-    private InfoPanel infoPanel;
-    private SearchDialog searchDialog;
-    /*
-    private DetailsBrowser detailsBrowser;
-    private static final KeyStroke detailsKey = KeyStroke.getKeyStroke("shift alt D");
-    */
-
-    private static String DETAILS = "details";
-    private static String FIND_NEXT = "findNext";
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

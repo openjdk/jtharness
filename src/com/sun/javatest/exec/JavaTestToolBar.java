@@ -44,6 +44,12 @@ import java.util.ResourceBundle;
  */
 public class JavaTestToolBar extends JToolBar {
 
+    final static String USER_TOOLBAR_PREF = "JavaTestToolBar.toolbar_";
+    private boolean inMenu = false;
+    private ResourceBundle theBundle;
+    private String id;
+    private Map<String, Object> state = new HashMap<>();
+
     /**
      * Creates using specified ResourceBundle a new tool bar with
      * the specified menu controlled state.
@@ -86,7 +92,6 @@ public class JavaTestToolBar extends JToolBar {
     public String getId() {
         return id;
     }
-
 
     /**
      * Get the long description of this toolbar's purpose.
@@ -190,6 +195,8 @@ public class JavaTestToolBar extends JToolBar {
      **/
     static class ToolBarBorder extends BevelBorder {
 
+        private int lIn = 5;
+
         public ToolBarBorder() {
             super(BevelBorder.RAISED);
         }
@@ -235,13 +242,5 @@ public class JavaTestToolBar extends JToolBar {
             }
         }
 
-        private int lIn = 5;
-
     }
-
-    final static String USER_TOOLBAR_PREF = "JavaTestToolBar.toolbar_";
-    private boolean inMenu = false;
-    private ResourceBundle theBundle;
-    private String id;
-    private Map<String, Object> state = new HashMap<>();
 }

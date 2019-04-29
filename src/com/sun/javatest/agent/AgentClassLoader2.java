@@ -42,9 +42,10 @@ import java.util.MissingResourceException;
 
 class AgentClassLoader2 extends InstantiationClassLoader {
 
-    private CodeSource cs = null;
-    private final HashMap<CodeSource, ProtectionDomain> pdcache = new HashMap<>(11);
     private static volatile AgentClassLoader2 instance = null;
+    private final HashMap<CodeSource, ProtectionDomain> pdcache = new HashMap<>(11);
+    private CodeSource cs = null;
+    private Agent.Task parent;
 
     private AgentClassLoader2(Agent.Task parent, ClassLoader cl) {
         super(cl);
@@ -69,20 +70,6 @@ class AgentClassLoader2 extends InstantiationClassLoader {
         this(parent, parent.getClass().getClassLoader());
     }
 
-    private ProtectionDomain getProtectionDomain(CodeSource cs) {
-        ProtectionDomain pd = null;
-        synchronized (pdcache) {
-            pd = pdcache.get(cs);
-            if (pd == null) {
-                PermissionCollection perms = new Permissions();
-                pd = new ProtectionDomain(cs, perms, this, null);
-                pdcache.put(cs, pd);
-            }
-        }
-        return pd;
-    }
-
-
     /*
      * Returns shared instance of classloader for tests where it is required.
      */
@@ -96,6 +83,19 @@ class AgentClassLoader2 extends InstantiationClassLoader {
         }
         instance.parent = parent;
         return instance;
+    }
+
+    private ProtectionDomain getProtectionDomain(CodeSource cs) {
+        ProtectionDomain pd = null;
+        synchronized (pdcache) {
+            pd = pdcache.get(cs);
+            if (pd == null) {
+                PermissionCollection perms = new Permissions();
+                pd = new ProtectionDomain(cs, perms, this, null);
+                pdcache.put(cs, pd);
+            }
+        }
+        return pd;
     }
 
     public Class<?> loadClassLocal(String name) throws ClassNotFoundException {
@@ -112,7 +112,6 @@ class AgentClassLoader2 extends InstantiationClassLoader {
 
         return target;
     }
-
 
     @Override
     public Class<?> findClass(String className) throws ClassNotFoundException {
@@ -143,6 +142,26 @@ class AgentClassLoader2 extends InstantiationClassLoader {
         throw new ClassNotFoundException();
     }
 
+/*
+    @Override
+    public synchronized InputStream getResourceAsStream(String resourceName) {
+        // check local classpath first
+        // the resource should already be absolute, if we've got here
+        // through getClass().getResourceAsStream()
+        InputStream in = getClass().getResourceAsStream(resourceName);
+        if (in == null) {
+            try {
+                // if not found here, try remote load from Agent Manager
+                byte[] data = parent.getResourceData(resourceName);
+                in = new ByteArrayInputStream(data);
+            }
+            catch (Exception e) {
+                // ignore
+            }
+        }
+        return in;
+    }*/
+
     @Override
     protected URL findResource(String name) {
         URL u = null;
@@ -171,28 +190,6 @@ class AgentClassLoader2 extends InstantiationClassLoader {
         return u;
     }
 
-/*
-    @Override
-    public synchronized InputStream getResourceAsStream(String resourceName) {
-        // check local classpath first
-        // the resource should already be absolute, if we've got here
-        // through getClass().getResourceAsStream()
-        InputStream in = getClass().getResourceAsStream(resourceName);
-        if (in == null) {
-            try {
-                // if not found here, try remote load from Agent Manager
-                byte[] data = parent.getResourceData(resourceName);
-                in = new ByteArrayInputStream(data);
-            }
-            catch (Exception e) {
-                // ignore
-            }
-        }
-        return in;
-    }*/
-
-    private Agent.Task parent;
-
     @Override
     public ClassLoader newClassLoaderInstance(ClassLoader parentCL) throws InstantiationStateException {
         if (instance == null || !instance.equals(this)) {
@@ -206,6 +203,8 @@ class AgentClassLoader2 extends InstantiationClassLoader {
     }
 
     private class AgentURLStreamHandler extends URLStreamHandler {
+        private byte[] bytes;
+
         AgentURLStreamHandler(byte... bytes) {
             super();
             this.bytes = bytes;
@@ -215,11 +214,11 @@ class AgentClassLoader2 extends InstantiationClassLoader {
         protected URLConnection openConnection(URL url) {
             return new AgentURLConnection(url, bytes);
         }
-
-        private byte[] bytes;
     }
 
     private class AgentURLConnection extends URLConnection {
+        private byte[] bytes;
+
         AgentURLConnection(URL url) {
             // do not use this constructor for now, bytes are already available
             super(url);
@@ -255,11 +254,14 @@ class AgentClassLoader2 extends InstantiationClassLoader {
             return new ByteArrayInputStream(bytes);
         }
 
-
         @Override
         public String getContentEncoding() {
             return null;
         }
+
+       /* public long getContentLengthLong() {
+            EXISTS in Java 7
+        }*/
 
         @Override
         public int getContentLength() {
@@ -270,11 +272,6 @@ class AgentClassLoader2 extends InstantiationClassLoader {
                 return -1;
             }
         }
-
-       /* public long getContentLengthLong() {
-            EXISTS in Java 7
-        }*/
-
 
         @Override
         public String getContentType() {
@@ -317,7 +314,5 @@ class AgentClassLoader2 extends InstantiationClassLoader {
         public long getLastModified() {
             return 0l;       // unknown
         }
-
-        private byte[] bytes;
     }
 }

@@ -40,6 +40,32 @@ import com.sun.javatest.Parameters;
 public class ConcurrencyInterview
         extends Interview
         implements Parameters.MutableConcurrencyParameters {
+    protected int maxValue = Parameters.ConcurrencyParameters.MAX_CONCURRENCY;
+    private IntQuestion qConcurrency;
+    private Question qEnd = new FinalQuestion(this);
+    private Interview parent;
+
+    //----------------------------------------------------------------------------
+    //
+    // Concurrency
+
+    /*
+    private IntQuestion qConcurrency = new IntQuestion(this, "concurrency") {
+        {
+            setBounds(Parameters.ConcurrencyParameters.MIN_CONCURRENCY,
+                      maxValue);
+        }
+
+        protected Question getNext() {
+            return qEnd;
+        }
+
+        public void clear() {
+            setValue(1);
+        }
+    };
+    */
+
     /**
      * Create an interview.
      *
@@ -52,6 +78,10 @@ public class ConcurrencyInterview
         // existing JT code should be using the two param constructor
         this(parent, Parameters.ConcurrencyParameters.MAX_CONCURRENCY);
     }
+
+    //----------------------------------------------------------------------------
+    //
+    // End
 
     /**
      * Create an interview.
@@ -94,6 +124,8 @@ public class ConcurrencyInterview
         setFirstQuestion(qConcurrency);
     }
 
+    //--------------------------------------------------------
+
     /**
      * Get the concurrency value from the interview.
      *
@@ -115,38 +147,4 @@ public class ConcurrencyInterview
     public void setConcurrency(int conc) {
         qConcurrency.setValue(conc);
     }
-
-    //----------------------------------------------------------------------------
-    //
-    // Concurrency
-
-    /*
-    private IntQuestion qConcurrency = new IntQuestion(this, "concurrency") {
-        {
-            setBounds(Parameters.ConcurrencyParameters.MIN_CONCURRENCY,
-                      maxValue);
-        }
-
-        protected Question getNext() {
-            return qEnd;
-        }
-
-        public void clear() {
-            setValue(1);
-        }
-    };
-    */
-
-    private IntQuestion qConcurrency;
-
-    //----------------------------------------------------------------------------
-    //
-    // End
-
-    private Question qEnd = new FinalQuestion(this);
-
-    //--------------------------------------------------------
-
-    protected int maxValue = Parameters.ConcurrencyParameters.MAX_CONCURRENCY;
-    private Interview parent;
 }

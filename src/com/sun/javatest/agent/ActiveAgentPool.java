@@ -43,378 +43,17 @@ import java.util.Vector;
  * until they are required.
  */
 public class ActiveAgentPool {
-    /**
-     * An exception which is thrown when no agent is available for use.
-     */
-    public static class NoAgentException extends Exception {
-        /**
-         * Create an exception to indicate that no agent is available for use.
-         *
-         * @param msg A string giving additional details.
-         */
-        public NoAgentException(String msg) {
-            super(msg);
-        }
-    }
-
-    /**
-     * An Observer class to monitor activity of the active agent pool.
-     */
-    public interface Observer {
-        /**
-         * Called when a connection to an agent is added to the active agent pool.
-         *
-         * @param c The connection that has been added to the pool.
-         */
-        void addedToPool(Connection c);
-
-        /**
-         * Called when a connection to an agent is removed from the active agent pool,
-         * because it is about to be used to handle a task.
-         *
-         * @param c The connection that has been removed from the pool.
-         */
-        void removedFromPool(Connection c);
-    }
+    private static int entryWatcherCount;
+    private static boolean debug = Boolean.getBoolean("debug.ActiveAgentPool");
 
     //--------------------------------------------------------------------------
-
-    /**
-     * An entry requesting an active agent that is available for
-     * use.
-     */
-    class Entry implements Connection {
-        Entry(Socket socket) throws IOException {
-            this.socket = socket;
-            socketInput = socket.getInputStream();
-            socketOutput = socket.getOutputStream();
-        }
-
-        @Override
-        public String getName() {
-            if (name == null) {
-                StringBuilder sb = new StringBuilder(32);
-                sb.append(socket.getInetAddress().getHostName());
-                sb.append(",port=");
-                sb.append(socket.getPort());
-                sb.append(",localport=");
-                sb.append(socket.getLocalPort());
-                name = sb.toString();
-            }
-            return name;
-        }
-
-        @Override
-        public synchronized InputStream getInputStream() {
-            // If there is no read outstanding in the watcher thread and
-            // no buffered data available take the fast way out and simply
-            // use the real socket stream.
-            if (!reading && data == null) {
-                return socketInput;
-            }
-
-            // If there is a read outstanding in the watcher  thread, or if there
-            // is already buffered data available, create a stream to return that
-            // data first.
-            return new InputStream() {
-                @Override
-                public int read() throws IOException {
-                    // don't bother to optimize method this because stream should
-                    // be wrapped in a BufferedInputStream
-                    byte[] b = new byte[1];
-                    int n = read(b);
-                    if (n == -1) {
-                        return -1;
-                    } else {
-                        n = 0xFF & b[0];
-                        return n;
-                    }
-                }
-
-                @Override
-                public int read(byte[] buffer, int offset, int count) throws IOException {
-                    if (count == 0) // we ought to check
-                    {
-                        return 0;
-                    }
-
-                    try {
-                        // if the watcher thread has a read outstanding, wait for it to
-                        // complete
-                        waitWhileReading();
-//                  }
-//                  catch (InterruptedException ignore) {
-//                  }
-//
-//                        if (data == null) {
-//                            // no data available: must have been used already;
-//                            // simply delegate to socketInput
-//                            return socketInput.read(buffer, offset, count);
-//                        }
-                        if (data == null) {
-                            return new InterruptableReader().read(buffer, offset, count);
-                        }
-                    } catch (InterruptedException ie) {
-                        InterruptedIOException iio =
-                                new InterruptedIOException("Test execution timeout");
-                        iio.fillInStackTrace();
-                        throw iio;
-                    }
-                    try {
-                        if (data instanceof Integer) {
-                            int i = ((Integer) data).intValue();
-                            if (i == -1) {
-                                return -1;
-                            } else {
-                                buffer[offset] = (byte) i;
-                                return 1;
-                            }
-                        } else {
-                            IOException e = (IOException) data;
-                            e.fillInStackTrace();
-                            throw e;
-                        }
-                    } finally {
-                        data = null;
-                    }
-                }
-
-                @Override
-                public void close() throws IOException {
-                    socketInput.close();
-                }
-            };
-        }
-
-        /*
-         * This class made to read form socket input stream from separate thread.
-         * Thread, from which reading invokes (let's call it 'main'), waits
-         * before end of reading from socket.
-         * Waiting allows harness to interrupt 'main' thread and thus manage
-         * timeout situation correctly.
-         * The same thing is made for passive agent.
-         * See <code>PassiveConnectionFactory.nextConnection()</code> and
-         * <code>AgentManager.connectToPassiveAgent()</code> methods where
-         * InterruptableSocketConnection used instead of usual SocketConnection.
-         */
-        private class InterruptableReader {
-            private IOException ioe;
-            private int n;
-
-            public int read(byte[] buffer, int offset, int count)
-                    throws IOException, InterruptedException {
-                synchronized (Entry.this) {
-                    ioe = null;
-                    n = -1;
-
-                    readInThread(buffer, offset, count);
-                    waitWhileReading();
-
-                    if (ioe != null) {
-                        throw ioe;
-                    }
-
-                    return n;
-                }
-            }
-
-            private void readInThread(byte[] buffer, int offset, int count) {
-                final byte[] b = buffer;
-                final int o = offset;
-                final int c = count;
-
-                Thread reader = new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            n = socketInput.read(b, o, c);
-                        } catch (IOException io) {
-                            ioe = io;
-                        } finally {
-                            synchronized (Entry.this) {
-                                reading = false;
-                                Entry.this.notifyAll();
-                            }
-                        }
-                    }
-                };
-                reading = true;
-                reader.start();
-            }
-        }
-
-        @Override
-        public OutputStream getOutputStream() {
-            return socketOutput;
-        }
-
-        @Override
-        public synchronized void close() throws IOException {
-            socketInput.close();
-            socketOutput.close();
-            closed = true;
-            notifyAll();
-        }
-
-        @Override
-        public synchronized boolean isClosed() {
-            return closed;
-        }
-
-        @Override
-        public synchronized void waitUntilClosed(int timeout) throws InterruptedException {
-            long now = System.currentTimeMillis();
-            long end = now + timeout;
-            while (now < end && !closed) {
-                wait(end - now);
-                now = System.currentTimeMillis();
-            }
-        }
-
-        void readAhead() {
-            synchronized (this) {
-                if (!entries.contains(this))
-                // if this entry has already been removed from the agent pool,
-                // there is no need to monitor the socket, so exit without reading.
-                // This is an optimization only; the entry could be being removed
-                // right now, but the synchronized block we are in will handle
-                // everything OK.
-                {
-                    return;
-                }
-
-                // mark this object as busy doing a read; other synchronized methods
-                // (ie getInputStream()) should take this into account
-                reading = true;
-            }
-
-            // initiate a blocking read call on the socket, in the hope of being
-            // notified if the socket gets closed prematurely. If it does
-            // (i.e. if the read terminates while the entry is still in the pool),
-            // the entry is removed from the pool and the socket closed.
-            // Otherwise, if the entry is removed from the pool while the read is blocked,
-            // then when the read terminates the data will be saved for use by the
-            // new owner (via getInputStream), and the thread will be marked as no
-            // longer doing a read.
-            try {
-                data = Integer.valueOf(socketInput.read());
-            } catch (IOException e) {
-                data = e;
-            } finally {
-                synchronized (this) {
-                    boolean ok = entries.remove(this);
-                    if (ok)
-                    // The read has unblocked prematurely and no one else
-                    // owns the entry (since we managed to remove it ourselves.
-                    // Drop the socket.
-                    {
-                        closeNoExceptions(this);
-                    }
-
-                    reading = false;
-                    notifyAll();
-                }
-            }
-        }
-
-        private synchronized void waitWhileReading() throws InterruptedException {
-            while (reading) {
-                wait();
-            }
-        }
-
-        private final Socket socket;
-        private InputStream socketInput;
-        private OutputStream socketOutput;
-        private String name;
-        private boolean reading;
-        private Object data;
-        private boolean closed;
-    }
-
-
-    class Entries {
-        synchronized boolean contains(Entry e) {
-            return v.contains(e);
-        }
-
-        synchronized Enumeration<Connection> elements() {
-            return ((Vector<Connection>) v.clone()).elements();
-        }
-
-        synchronized void add(final Entry e) {
-            v.add(e);
-            notifyAddedToPool(e);
-            notifyAll();
-            Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    e.readAhead();
-                }
-            };
-            Thread t = new Thread(r, "ActiveAgentPool.EntryWatcher" + entryWatcherCount++);
-            t.start();
-        }
-
-        synchronized boolean remove(Entry e) {
-            if (v.contains(e)) {
-                v.remove(e);
-                notifyRemovedFromPool(e);
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        synchronized Entry next() {
-            Entry e = null;
-            if (!v.isEmpty()) {
-                e = v.get(0);
-                v.remove(0);
-                notifyRemovedFromPool(e);
-            }
-            return e;
-        }
-
-        synchronized Entry next(int timeout) throws InterruptedException {
-            long end = System.currentTimeMillis() + timeout;
-            for (long t = timeout; t > 0; t = end - System.currentTimeMillis()) {
-                if (v.isEmpty()) {
-                    wait(t);
-                }
-
-                Entry e = next();
-                if (e != null) {
-                    return e;
-                }
-            }
-            return null;
-        }
-
-        synchronized void addObserver(Observer o) {
-            observers = DynamicArray.append(observers, o);
-        }
-
-
-        synchronized void deleteObserver(Observer o) {
-            observers = DynamicArray.remove(observers, o);
-        }
-
-        private synchronized void notifyAddedToPool(Entry e) {
-            for (Observer observer : observers) {
-                observer.addedToPool(e);
-            }
-        }
-
-        private synchronized void notifyRemovedFromPool(Entry e) {
-            for (Observer observer : observers) {
-                observer.removedFromPool(e);
-            }
-        }
-
-        private Vector<Entry> v = new Vector<>();
-        private Observer[] observers = new Observer[0];
-    }
+    private final int MAX_ERRORS = 10;
+    private Thread worker;
+    private int counter;
+    private Entries entries = new Entries();
+    private ServerSocket serverSocket;
+    private int timeout = 3 * 60 * 1000;  // 3 minutes
+    private int port = Agent.defaultActivePort;
 
     /**
      * Listen for requests from active agents. Active agents announce their
@@ -448,7 +87,6 @@ public class ActiveAgentPool {
                 serverSocket.getLocalPort() : port;
     }
 
-
     /**
      * Set the port currently to be used to listen for requests from active agents.
      *
@@ -469,7 +107,6 @@ public class ActiveAgentPool {
     public synchronized int getTimeout() {
         return timeout;
     }
-
 
     /**
      * Set the timeout to be used when waiting for requests from active agents.
@@ -634,7 +271,6 @@ public class ActiveAgentPool {
         entries.addObserver(o);
     }
 
-
     /**
      * Remove an observer that had been previously registered to monitor events.
      *
@@ -664,14 +300,372 @@ public class ActiveAgentPool {
         } catch (IOException ignore) {
         }
     }
+    /**
+     * An Observer class to monitor activity of the active agent pool.
+     */
+    public interface Observer {
+        /**
+         * Called when a connection to an agent is added to the active agent pool.
+         *
+         * @param c The connection that has been added to the pool.
+         */
+        void addedToPool(Connection c);
 
-    private Thread worker;
-    private int counter;
-    private Entries entries = new Entries();
-    private ServerSocket serverSocket;
-    private int timeout = 3 * 60 * 1000;  // 3 minutes
-    private int port = Agent.defaultActivePort;
-    private final int MAX_ERRORS = 10;
-    private static int entryWatcherCount;
-    private static boolean debug = Boolean.getBoolean("debug.ActiveAgentPool");
+        /**
+         * Called when a connection to an agent is removed from the active agent pool,
+         * because it is about to be used to handle a task.
+         *
+         * @param c The connection that has been removed from the pool.
+         */
+        void removedFromPool(Connection c);
+    }
+
+    /**
+     * An exception which is thrown when no agent is available for use.
+     */
+    public static class NoAgentException extends Exception {
+        /**
+         * Create an exception to indicate that no agent is available for use.
+         *
+         * @param msg A string giving additional details.
+         */
+        public NoAgentException(String msg) {
+            super(msg);
+        }
+    }
+
+    /**
+     * An entry requesting an active agent that is available for
+     * use.
+     */
+    class Entry implements Connection {
+        private final Socket socket;
+        private InputStream socketInput;
+        private OutputStream socketOutput;
+        private String name;
+        private boolean reading;
+        private Object data;
+        private boolean closed;
+
+        Entry(Socket socket) throws IOException {
+            this.socket = socket;
+            socketInput = socket.getInputStream();
+            socketOutput = socket.getOutputStream();
+        }
+
+        @Override
+        public String getName() {
+            if (name == null) {
+                StringBuilder sb = new StringBuilder(32);
+                sb.append(socket.getInetAddress().getHostName());
+                sb.append(",port=");
+                sb.append(socket.getPort());
+                sb.append(",localport=");
+                sb.append(socket.getLocalPort());
+                name = sb.toString();
+            }
+            return name;
+        }
+
+        @Override
+        public synchronized InputStream getInputStream() {
+            // If there is no read outstanding in the watcher thread and
+            // no buffered data available take the fast way out and simply
+            // use the real socket stream.
+            if (!reading && data == null) {
+                return socketInput;
+            }
+
+            // If there is a read outstanding in the watcher  thread, or if there
+            // is already buffered data available, create a stream to return that
+            // data first.
+            return new InputStream() {
+                @Override
+                public int read() throws IOException {
+                    // don't bother to optimize method this because stream should
+                    // be wrapped in a BufferedInputStream
+                    byte[] b = new byte[1];
+                    int n = read(b);
+                    if (n == -1) {
+                        return -1;
+                    } else {
+                        n = 0xFF & b[0];
+                        return n;
+                    }
+                }
+
+                @Override
+                public int read(byte[] buffer, int offset, int count) throws IOException {
+                    if (count == 0) // we ought to check
+                    {
+                        return 0;
+                    }
+
+                    try {
+                        // if the watcher thread has a read outstanding, wait for it to
+                        // complete
+                        waitWhileReading();
+//                  }
+//                  catch (InterruptedException ignore) {
+//                  }
+//
+//                        if (data == null) {
+//                            // no data available: must have been used already;
+//                            // simply delegate to socketInput
+//                            return socketInput.read(buffer, offset, count);
+//                        }
+                        if (data == null) {
+                            return new InterruptableReader().read(buffer, offset, count);
+                        }
+                    } catch (InterruptedException ie) {
+                        InterruptedIOException iio =
+                                new InterruptedIOException("Test execution timeout");
+                        iio.fillInStackTrace();
+                        throw iio;
+                    }
+                    try {
+                        if (data instanceof Integer) {
+                            int i = ((Integer) data).intValue();
+                            if (i == -1) {
+                                return -1;
+                            } else {
+                                buffer[offset] = (byte) i;
+                                return 1;
+                            }
+                        } else {
+                            IOException e = (IOException) data;
+                            e.fillInStackTrace();
+                            throw e;
+                        }
+                    } finally {
+                        data = null;
+                    }
+                }
+
+                @Override
+                public void close() throws IOException {
+                    socketInput.close();
+                }
+            };
+        }
+
+        @Override
+        public OutputStream getOutputStream() {
+            return socketOutput;
+        }
+
+        @Override
+        public synchronized void close() throws IOException {
+            socketInput.close();
+            socketOutput.close();
+            closed = true;
+            notifyAll();
+        }
+
+        @Override
+        public synchronized boolean isClosed() {
+            return closed;
+        }
+
+        @Override
+        public synchronized void waitUntilClosed(int timeout) throws InterruptedException {
+            long now = System.currentTimeMillis();
+            long end = now + timeout;
+            while (now < end && !closed) {
+                wait(end - now);
+                now = System.currentTimeMillis();
+            }
+        }
+
+        void readAhead() {
+            synchronized (this) {
+                if (!entries.contains(this))
+                // if this entry has already been removed from the agent pool,
+                // there is no need to monitor the socket, so exit without reading.
+                // This is an optimization only; the entry could be being removed
+                // right now, but the synchronized block we are in will handle
+                // everything OK.
+                {
+                    return;
+                }
+
+                // mark this object as busy doing a read; other synchronized methods
+                // (ie getInputStream()) should take this into account
+                reading = true;
+            }
+
+            // initiate a blocking read call on the socket, in the hope of being
+            // notified if the socket gets closed prematurely. If it does
+            // (i.e. if the read terminates while the entry is still in the pool),
+            // the entry is removed from the pool and the socket closed.
+            // Otherwise, if the entry is removed from the pool while the read is blocked,
+            // then when the read terminates the data will be saved for use by the
+            // new owner (via getInputStream), and the thread will be marked as no
+            // longer doing a read.
+            try {
+                data = Integer.valueOf(socketInput.read());
+            } catch (IOException e) {
+                data = e;
+            } finally {
+                synchronized (this) {
+                    boolean ok = entries.remove(this);
+                    if (ok)
+                    // The read has unblocked prematurely and no one else
+                    // owns the entry (since we managed to remove it ourselves.
+                    // Drop the socket.
+                    {
+                        closeNoExceptions(this);
+                    }
+
+                    reading = false;
+                    notifyAll();
+                }
+            }
+        }
+
+        private synchronized void waitWhileReading() throws InterruptedException {
+            while (reading) {
+                wait();
+            }
+        }
+
+        /*
+         * This class made to read form socket input stream from separate thread.
+         * Thread, from which reading invokes (let's call it 'main'), waits
+         * before end of reading from socket.
+         * Waiting allows harness to interrupt 'main' thread and thus manage
+         * timeout situation correctly.
+         * The same thing is made for passive agent.
+         * See <code>PassiveConnectionFactory.nextConnection()</code> and
+         * <code>AgentManager.connectToPassiveAgent()</code> methods where
+         * InterruptableSocketConnection used instead of usual SocketConnection.
+         */
+        private class InterruptableReader {
+            private IOException ioe;
+            private int n;
+
+            public int read(byte[] buffer, int offset, int count)
+                    throws IOException, InterruptedException {
+                synchronized (Entry.this) {
+                    ioe = null;
+                    n = -1;
+
+                    readInThread(buffer, offset, count);
+                    waitWhileReading();
+
+                    if (ioe != null) {
+                        throw ioe;
+                    }
+
+                    return n;
+                }
+            }
+
+            private void readInThread(byte[] buffer, int offset, int count) {
+                final byte[] b = buffer;
+                final int o = offset;
+                final int c = count;
+
+                Thread reader = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            n = socketInput.read(b, o, c);
+                        } catch (IOException io) {
+                            ioe = io;
+                        } finally {
+                            synchronized (Entry.this) {
+                                reading = false;
+                                Entry.this.notifyAll();
+                            }
+                        }
+                    }
+                };
+                reading = true;
+                reader.start();
+            }
+        }
+    }
+
+    class Entries {
+        private Vector<Entry> v = new Vector<>();
+        private Observer[] observers = new Observer[0];
+
+        synchronized boolean contains(Entry e) {
+            return v.contains(e);
+        }
+
+        synchronized Enumeration<Connection> elements() {
+            return ((Vector<Connection>) v.clone()).elements();
+        }
+
+        synchronized void add(final Entry e) {
+            v.add(e);
+            notifyAddedToPool(e);
+            notifyAll();
+            Runnable r = new Runnable() {
+                @Override
+                public void run() {
+                    e.readAhead();
+                }
+            };
+            Thread t = new Thread(r, "ActiveAgentPool.EntryWatcher" + entryWatcherCount++);
+            t.start();
+        }
+
+        synchronized boolean remove(Entry e) {
+            if (v.contains(e)) {
+                v.remove(e);
+                notifyRemovedFromPool(e);
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        synchronized Entry next() {
+            Entry e = null;
+            if (!v.isEmpty()) {
+                e = v.get(0);
+                v.remove(0);
+                notifyRemovedFromPool(e);
+            }
+            return e;
+        }
+
+        synchronized Entry next(int timeout) throws InterruptedException {
+            long end = System.currentTimeMillis() + timeout;
+            for (long t = timeout; t > 0; t = end - System.currentTimeMillis()) {
+                if (v.isEmpty()) {
+                    wait(t);
+                }
+
+                Entry e = next();
+                if (e != null) {
+                    return e;
+                }
+            }
+            return null;
+        }
+
+        synchronized void addObserver(Observer o) {
+            observers = DynamicArray.append(observers, o);
+        }
+
+        synchronized void deleteObserver(Observer o) {
+            observers = DynamicArray.remove(observers, o);
+        }
+
+        private synchronized void notifyAddedToPool(Entry e) {
+            for (Observer observer : observers) {
+                observer.addedToPool(e);
+            }
+        }
+
+        private synchronized void notifyRemovedFromPool(Entry e) {
+            for (Observer observer : observers) {
+                observer.removedFromPool(e);
+            }
+        }
+    }
 }

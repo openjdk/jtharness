@@ -40,6 +40,10 @@ import java.util.Map;
  * The ToolManager for {@link AuditTool audit tool} window.
  */
 public class AuditToolManager extends ToolManager {
+    private AuditTool tool;
+
+    //----------------------------------------------------------------------------
+
     public AuditToolManager(Desktop desktop) {
         super(desktop);
     }
@@ -56,8 +60,6 @@ public class AuditToolManager extends ToolManager {
         };
         return new Action[]{a};
     }
-
-    //----------------------------------------------------------------------------
 
     /**
      * Start the {@link AuditTool audit tool} window.
@@ -76,15 +78,14 @@ public class AuditToolManager extends ToolManager {
         return t;
     }
 
+    //----------------------------------------------------------------------------
+
     @Override
     public Tool restoreTool(Map<String, String> m) {
         AuditTool t = getTool();
         t.restore(m);
         return t;
     }
-
-    //----------------------------------------------------------------------------
-
 
     AuditTool getTool() {
         if (tool == null) {
@@ -109,7 +110,5 @@ public class AuditToolManager extends ToolManager {
 
         return tool;
     }
-
-    private AuditTool tool;
 }
 

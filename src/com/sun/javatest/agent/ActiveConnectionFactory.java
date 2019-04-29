@@ -34,6 +34,9 @@ import java.net.UnknownHostException;
  * A factory for creating connections to be used by agents running in "active" mode.
  */
 public class ActiveConnectionFactory implements ConnectionFactory {
+    private String host;
+    private int port;
+
     /**
      * Create a factory for creating connections to be used by agents running
      * in "active" mode.
@@ -88,7 +91,4 @@ public class ActiveConnectionFactory implements ConnectionFactory {
     @Override
     public void close() {
     }
-
-    private String host;
-    private int port;
 }

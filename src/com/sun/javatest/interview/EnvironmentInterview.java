@@ -55,170 +55,64 @@ import java.util.Iterator;
 public class EnvironmentInterview
         extends Interview
         implements Parameters.LegacyEnvParameters {
-    /**
-     * Create an interview.
-     *
-     * @param parent The parent interview of which this is a child.
-     * @throws Interview.Fault if there is a problem while creating the interview.
-     */
-    public EnvironmentInterview(InterviewParameters parent)
-            throws Interview.Fault {
-        super(parent, "environment");
-        this.parent = parent;
-        setResourceBundle("i18n");
-        setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
-        setFirstQuestion(qEnvFiles);
-    }
-
-    /**
-     * Get the environment files specified in the interview.
-     *
-     * @return the list of files specified in the interview
-     * @see #setEnvFiles
-     */
-    @Override
-    public File[] getEnvFiles() {
-        return qEnvFiles.getValue();
-    }
-
-    @Override
-    public File[] getAbsoluteEnvFiles() {
-        TestSuite ts = parent.getTestSuite();
-        File tsRootDir = ts == null ? null : ts.getRootDir();
-        return getAbsoluteFiles(tsRootDir, getEnvFiles());
-    }
-
-    /**
-     * Set the environment files for the interview.
-     *
-     * @param files the environment files for the interview
-     * @see #getEnvFiles
-     */
-    @Override
-    public void setEnvFiles(File... files) {
-        qEnvFiles.setValue(files);
-    }
-
-    /**
-     * Get the environment name specified in the interview.
-     *
-     * @return the environment name specified in the interview
-     * @see #setEnvName
-     */
-    @Override
-    public String getEnvName() {
-        return qEnv.getValue();
-    }
-
-    /**
-     * Set the environment name for the interview.
-     *
-     * @param name the environment name for the interview
-     * @see #getEnvName
-     */
-    @Override
-    public void setEnvName(String name) {
-        qEnv.setValue(name);
-    }
-
-    /**
-     * Get the environment specified by the environment files and environment name,
-     * or null, if it cannot be determined.
-     *
-     * @return the environment determined by the interview, or null if it cannot be determined.
-     * @see #getEnvFiles
-     * @see #getEnvName
-     */
-    @Override
-    public TestEnvironment getEnv() {
-        updateCachedEnv();
-        return cachedEnv;
-    }
-
-
-    //----------------------------------------------------------------------------
-    //
-    // Env files
-
-    private FileListQuestion qEnvFiles = new FileListQuestion(this, "envFiles") {
-        {
-            // I18N...
-            setFilter(new ExtensionFileFilter(".jte", "Environment File"));
-            setDuplicatesAllowed(false);
-        }
-
-        @Override
-        public File getBaseDirectory() {
-            TestSuite ts = parent.getTestSuite();
-            if (ts == null) {
-                return null;
-            } else {
-                File r = ts.getRoot();
-                return r.isDirectory() ? r : r.getParentFile();
-            }
-        }
-
-        @Override
-        protected Question getNext() {
-            updateCachedEnvTable();
-            if (cachedEnvTableError != null) {
-                return qEnvTableError;
-            } else if (cachedEnvTable == null || cachedEnvTable.getEnvNames().length == 0) {
-                return qNoEnvs;
-            } else {
-                return qEnv;
-            }
-        }
-    };
-
-    private TestEnvContext getEnvTable() {
-        updateCachedEnvTable();
-        return cachedEnvTable;
-    }
-
-    private void updateCachedEnvTable() {
-        File[] absFiles = getAbsoluteEnvFiles();
-        if (!equal(cachedEnvTable_absFiles, absFiles)) {
-            try {
-                cachedEnvTable = new TestEnvContext(absFiles);
-                cachedEnvTableError = null;
-            } catch (TestEnvContext.Fault e) {
-                cachedEnvTable = null;
-                cachedEnvTableError = e.getMessage();
-            }
-            cachedEnvTable_absFiles = absFiles;
-        }
-    }
-
     private TestEnvContext cachedEnvTable;
     private File[] cachedEnvTable_absFiles;
     private String cachedEnvTableError;
-
-
-    //----------------------------------------------------------------------------
-    //
-    // No Env
-
     private ErrorQuestion qNoEnvs = new ErrorQuestion(this, "noEnvs");
-
-
-    //----------------------------------------------------------------------------
-    //
-    // Env Table Error
-
     private ErrorQuestion qEnvTableError = new ErrorQuestion(this, "envTableError") {
         @Override
         protected Object[] getTextArgs() {
             return new Object[]{cachedEnvTableError};
         }
     };
+    private TestEnvironment cachedEnv;
+    private TestEnvContext cachedEnv_envTable;
+
+
+    //----------------------------------------------------------------------------
+    //
+    // Env files
+    private String cachedEnv_envName;
+    private Question cachedEnvError;
+    private Object[] cachedEnvErrorArgs;
+    private ErrorQuestion qEnvError = new ErrorQuestion(this, "envError") {
+        @Override
+        protected Object[] getTextArgs() {
+            return cachedEnvErrorArgs;
+        }
+    };
+    private ErrorQuestion qEnvNotFound = new ErrorQuestion(this, "envNotFound") {
+        @Override
+        protected Object[] getTextArgs() {
+            return cachedEnvErrorArgs;
+        }
+    };
+    private ErrorQuestion qEnvUndefinedEntry = new ErrorQuestion(this, "envUndefinedEntry") {
+        @Override
+        protected Object[] getTextArgs() {
+            return cachedEnvErrorArgs;
+        }
+    };
+
+
+    //----------------------------------------------------------------------------
+    //
+    // No Env
+    private Question qEnd = new FinalQuestion(this);
+
+
+    //----------------------------------------------------------------------------
+    //
+    // Env Table Error
+    private InterviewParameters parent;
 
 
     //----------------------------------------------------------------------------
     //
     // Env
-
     private StringQuestion qEnv = new StringQuestion(this, "env") {
+        private TestEnvContext cachedEnvTable;
+
         @Override
         public String[] getSuggestions() {
             // ensure the choices are up to date with envTable;
@@ -253,9 +147,213 @@ public class EnvironmentInterview
                 }
             }
         }
-
-        private TestEnvContext cachedEnvTable;
     };
+    private FileListQuestion qEnvFiles = new FileListQuestion(this, "envFiles") {
+        {
+            // I18N...
+            setFilter(new ExtensionFileFilter(".jte", "Environment File"));
+            setDuplicatesAllowed(false);
+        }
+
+        @Override
+        public File getBaseDirectory() {
+            TestSuite ts = parent.getTestSuite();
+            if (ts == null) {
+                return null;
+            } else {
+                File r = ts.getRoot();
+                return r.isDirectory() ? r : r.getParentFile();
+            }
+        }
+
+        @Override
+        protected Question getNext() {
+            updateCachedEnvTable();
+            if (cachedEnvTableError != null) {
+                return qEnvTableError;
+            } else if (cachedEnvTable == null || cachedEnvTable.getEnvNames().length == 0) {
+                return qNoEnvs;
+            } else {
+                return qEnv;
+            }
+        }
+    };
+
+    /**
+     * Create an interview.
+     *
+     * @param parent The parent interview of which this is a child.
+     * @throws Interview.Fault if there is a problem while creating the interview.
+     */
+    public EnvironmentInterview(InterviewParameters parent)
+            throws Interview.Fault {
+        super(parent, "environment");
+        this.parent = parent;
+        setResourceBundle("i18n");
+        setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
+        setFirstQuestion(qEnvFiles);
+    }
+
+    private static File[] getAbsoluteFiles(File baseDir, File... files) {
+        if (files == null) {
+            return null;
+        }
+
+        if (baseDir == null) {
+            return files;
+        }
+
+        boolean allAbsolute = true;
+        for (int i = 0; i < files.length && allAbsolute; i++) {
+            allAbsolute = files[i].isAbsolute();
+        }
+
+        if (allAbsolute) {
+            return files;
+        }
+
+        File[] absoluteFiles = new File[files.length];
+        for (int i = 0; i < files.length; i++) {
+            File f = files[i];
+            absoluteFiles[i] = f.isAbsolute() ? f : new File(baseDir, f.getPath());
+        }
+
+        return absoluteFiles;
+    }
+
+    private static boolean equal(File f1, File f2) {
+        return f1 == null ? f2 == null : f1.equals(f2);
+    }
+
+    private static boolean equal(File[] f1, File... f2) {
+        if (f1 == null || f2 == null) {
+            return f1 == f2;
+        }
+
+        if (f1.length != f2.length) {
+            return false;
+        }
+
+        for (int i = 0; i < f1.length; i++) {
+            if (!equal(f1[i], f2[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean equal(String s1, String s2) {
+        return s1 == null ? s2 == null : s1.equals(s2);
+    }
+
+
+    //----------------------------------------------------------------------------
+    //
+    // Env Error
+
+    /**
+     * Get the environment files specified in the interview.
+     *
+     * @return the list of files specified in the interview
+     * @see #setEnvFiles
+     */
+    @Override
+    public File[] getEnvFiles() {
+        return qEnvFiles.getValue();
+    }
+
+    //----------------------------------------------------------------------------
+    //
+    // Env Not Found
+
+    /**
+     * Set the environment files for the interview.
+     *
+     * @param files the environment files for the interview
+     * @see #getEnvFiles
+     */
+    @Override
+    public void setEnvFiles(File... files) {
+        qEnvFiles.setValue(files);
+    }
+
+    //----------------------------------------------------------------------------
+    //
+    // Env Undefined Entry
+
+    @Override
+    public File[] getAbsoluteEnvFiles() {
+        TestSuite ts = parent.getTestSuite();
+        File tsRootDir = ts == null ? null : ts.getRootDir();
+        return getAbsoluteFiles(tsRootDir, getEnvFiles());
+    }
+
+    //----------------------------------------------------------------------------
+    //
+    // End
+
+    /**
+     * Get the environment name specified in the interview.
+     *
+     * @return the environment name specified in the interview
+     * @see #setEnvName
+     */
+    @Override
+    public String getEnvName() {
+        return qEnv.getValue();
+    }
+
+    //---------------------------------------------------------------------
+
+    /**
+     * Set the environment name for the interview.
+     *
+     * @param name the environment name for the interview
+     * @see #getEnvName
+     */
+    @Override
+    public void setEnvName(String name) {
+        qEnv.setValue(name);
+    }
+
+    //----------------------------------------------------------------------------
+
+    /**
+     * Get the environment specified by the environment files and environment name,
+     * or null, if it cannot be determined.
+     *
+     * @return the environment determined by the interview, or null if it cannot be determined.
+     * @see #getEnvFiles
+     * @see #getEnvName
+     */
+    @Override
+    public TestEnvironment getEnv() {
+        updateCachedEnv();
+        return cachedEnv;
+    }
+
+    private TestEnvContext getEnvTable() {
+        updateCachedEnvTable();
+        return cachedEnvTable;
+    }
+
+    private void updateCachedEnvTable() {
+        File[] absFiles = getAbsoluteEnvFiles();
+        if (!equal(cachedEnvTable_absFiles, absFiles)) {
+            try {
+                cachedEnvTable = new TestEnvContext(absFiles);
+                cachedEnvTableError = null;
+            } catch (TestEnvContext.Fault e) {
+                cachedEnvTable = null;
+                cachedEnvTableError = e.getMessage();
+            }
+            cachedEnvTable_absFiles = absFiles;
+        }
+    }
+
+
+    //--------------------------------------------------------
 
     private void updateCachedEnv() {
         TestEnvContext envTable = getEnvTable();
@@ -298,112 +396,4 @@ public class EnvironmentInterview
             cachedEnv_envName = envName;
         }
     }
-
-    private TestEnvironment cachedEnv;
-    private TestEnvContext cachedEnv_envTable;
-    private String cachedEnv_envName;
-    private Question cachedEnvError;
-    private Object[] cachedEnvErrorArgs;
-
-
-    //----------------------------------------------------------------------------
-    //
-    // Env Error
-
-    private ErrorQuestion qEnvError = new ErrorQuestion(this, "envError") {
-        @Override
-        protected Object[] getTextArgs() {
-            return cachedEnvErrorArgs;
-        }
-    };
-
-    //----------------------------------------------------------------------------
-    //
-    // Env Not Found
-
-    private ErrorQuestion qEnvNotFound = new ErrorQuestion(this, "envNotFound") {
-        @Override
-        protected Object[] getTextArgs() {
-            return cachedEnvErrorArgs;
-        }
-    };
-
-    //----------------------------------------------------------------------------
-    //
-    // Env Undefined Entry
-
-    private ErrorQuestion qEnvUndefinedEntry = new ErrorQuestion(this, "envUndefinedEntry") {
-        @Override
-        protected Object[] getTextArgs() {
-            return cachedEnvErrorArgs;
-        }
-    };
-
-    //----------------------------------------------------------------------------
-    //
-    // End
-
-    private Question qEnd = new FinalQuestion(this);
-
-    //---------------------------------------------------------------------
-
-    private static File[] getAbsoluteFiles(File baseDir, File... files) {
-        if (files == null) {
-            return null;
-        }
-
-        if (baseDir == null) {
-            return files;
-        }
-
-        boolean allAbsolute = true;
-        for (int i = 0; i < files.length && allAbsolute; i++) {
-            allAbsolute = files[i].isAbsolute();
-        }
-
-        if (allAbsolute) {
-            return files;
-        }
-
-        File[] absoluteFiles = new File[files.length];
-        for (int i = 0; i < files.length; i++) {
-            File f = files[i];
-            absoluteFiles[i] = f.isAbsolute() ? f : new File(baseDir, f.getPath());
-        }
-
-        return absoluteFiles;
-    }
-
-    //----------------------------------------------------------------------------
-
-    private static boolean equal(File f1, File f2) {
-        return f1 == null ? f2 == null : f1.equals(f2);
-    }
-
-    private static boolean equal(File[] f1, File... f2) {
-        if (f1 == null || f2 == null) {
-            return f1 == f2;
-        }
-
-        if (f1.length != f2.length) {
-            return false;
-        }
-
-        for (int i = 0; i < f1.length; i++) {
-            if (!equal(f1[i], f2[i])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean equal(String s1, String s2) {
-        return s1 == null ? s2 == null : s1.equals(s2);
-    }
-
-
-    //--------------------------------------------------------
-
-    private InterviewParameters parent;
 }

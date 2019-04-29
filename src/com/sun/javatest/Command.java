@@ -36,6 +36,8 @@ import java.io.PrintWriter;
  * Custom implementations can also be used.
  */
 public abstract class Command {
+    private ClassLoader loader;
+
     /**
      * The method that that does the work of the command.
      *
@@ -49,17 +51,6 @@ public abstract class Command {
     public abstract Status run(String[] args, PrintWriter out1, PrintWriter out2);
 
     /**
-     * Set a class loader that to be used if this command needs to dynamically
-     * load additional classes.
-     *
-     * @param cl the class loader to be used
-     * @see #getClassLoader
-     */
-    public void setClassLoader(ClassLoader cl) {
-        loader = cl;
-    }
-
-    /**
      * Get the class loader to be used if this command needs to dynamically
      * load additional classes.
      *
@@ -70,5 +61,14 @@ public abstract class Command {
         return loader;
     }
 
-    private ClassLoader loader;
+    /**
+     * Set a class loader that to be used if this command needs to dynamically
+     * load additional classes.
+     *
+     * @param cl the class loader to be used
+     * @see #getClassLoader
+     */
+    public void setClassLoader(ClassLoader cl) {
+        loader = cl;
+    }
 }

@@ -42,6 +42,13 @@ import java.text.NumberFormat;
 
 public class IntQuestionRenderer
         implements QuestionRenderer {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    protected int lwb;
+    protected int upb;
+    protected long range;
+    protected int[] suggs;
+    protected JButton resetBtn;
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         IntQuestion q = (IntQuestion) qq;
@@ -158,13 +165,4 @@ public class IntQuestionRenderer
 
         return panel;
     }
-
-    protected int lwb;
-    protected int upb;
-    protected long range;
-    protected int[] suggs;
-
-    protected JButton resetBtn;
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

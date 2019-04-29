@@ -64,6 +64,38 @@ import java.util.logging.Logger;
  */
 public class TU_dialog extends JDialog {
 
+    protected static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TU_ViewManager.class);
+    protected static final String logName = i18n.getString("tu.logname");
+    public final UIFactory uif;
+    public final InterviewParameters interview;
+    public final Frame parent;
+    public final ContextManager context;
+    public final TemplateSession sesssion;
+    protected Logger log;
+
+    protected JButton btnChangeNow;
+    protected JButton btnDontChange;
+    protected JButton btnLater;
+    protected JButton btnClose;
+
+    protected JLabel temName;
+    protected JLabel updTime;
+    protected JPanel tabConflicts;
+    protected JPanel tabUpdates;
+    protected JTabbedPane tabs;
+    //protected JTextArea msgConflict;
+    protected JTextArea msgUpdate;
+    protected JPanel buttonPanel;
+
+    protected JEditorPane jEditorPane1;
+    protected JEditorPane jEditorPane2;
+    protected JScrollPane jScrollPane1;
+    protected JScrollPane jScrollPane2;
+
+    protected InterviewPropagator propagator;
+    protected boolean hasUpdates;
+    protected boolean hasConflicts;
+
     /**
      * Constructs a new Dialog. Doesn't show it.
      *
@@ -81,6 +113,24 @@ public class TU_dialog extends JDialog {
         this.sesssion = tSession;
         this.context = context;
         this.parent = parent;
+    }
+
+    static Logger makeLogger(WorkDirectory workDir) {
+        Logger res = null;
+        try {
+            res = workDir.getTestSuite().createLog(workDir, null, logName);
+        } catch (TestSuite.DuplicateLogNameFault ex) {
+            try {
+                res = workDir.getTestSuite().getLog(workDir, logName);
+            } catch (TestSuite.NoSuchLogFault exe) {
+                exe.printStackTrace();
+            }
+        }
+        return res;
+    }
+
+    static Logger makeNotificationLogger(WorkDirectory workDir) {
+        return workDir.getTestSuite().getNotificationLog(workDir);
     }
 
     /**
@@ -259,7 +309,6 @@ public class TU_dialog extends JDialog {
         }
     }
 
-
     protected void updateData() {
 
         if (interview.getTemplatePath() != null) {
@@ -291,59 +340,5 @@ public class TU_dialog extends JDialog {
             }
         }
     }
-
-    static Logger makeLogger(WorkDirectory workDir) {
-        Logger res = null;
-        try {
-            res = workDir.getTestSuite().createLog(workDir, null, logName);
-        } catch (TestSuite.DuplicateLogNameFault ex) {
-            try {
-                res = workDir.getTestSuite().getLog(workDir, logName);
-            } catch (TestSuite.NoSuchLogFault exe) {
-                exe.printStackTrace();
-            }
-        }
-        return res;
-    }
-
-    static Logger makeNotificationLogger(WorkDirectory workDir) {
-        return workDir.getTestSuite().getNotificationLog(workDir);
-    }
-
-
-    protected Logger log;
-
-    protected JButton btnChangeNow;
-    protected JButton btnDontChange;
-    protected JButton btnLater;
-    protected JButton btnClose;
-
-    protected JLabel temName;
-    protected JLabel updTime;
-    protected JPanel tabConflicts;
-    protected JPanel tabUpdates;
-    protected JTabbedPane tabs;
-    //protected JTextArea msgConflict;
-    protected JTextArea msgUpdate;
-    protected JPanel buttonPanel;
-
-    protected JEditorPane jEditorPane1;
-    protected JEditorPane jEditorPane2;
-    protected JScrollPane jScrollPane1;
-    protected JScrollPane jScrollPane2;
-
-    protected InterviewPropagator propagator;
-
-    protected static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TU_ViewManager.class);
-    protected static final String logName = i18n.getString("tu.logname");
-
-    protected boolean hasUpdates;
-    protected boolean hasConflicts;
-
-    public final UIFactory uif;
-    public final InterviewParameters interview;
-    public final Frame parent;
-    public final ContextManager context;
-    public final TemplateSession sesssion;
 
 }

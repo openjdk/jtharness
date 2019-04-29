@@ -46,6 +46,108 @@ import java.util.TreeSet;
  * HTML format of the report.
  */
 public class HTMLReport implements ReportFormat {
+    // The name of the root file for a set of report files.
+    static final String REPORT_NAME = "report.html";
+    static final String NEW_REPORT_NAME = "index.html";
+    // html anchors to be used in the output
+    static final String[] anchors = {
+            "selection",
+            "execution",
+            "kfl",
+            "locations",
+            "keywordSummary"
+    };
+    // The following must be kept in sync with the preceding list
+    static final int
+            SELECT_ANCHOR = 0,
+            EXEC_ANCHOR = 1,
+            KFL_ANCHOR = 2,
+            LOC_ANCHOR = 3,
+            KEYWORD_ANCHOR = 4;
+    static final String SECOND_FAILED_REPORT = "failed_gr.html";
+    static final String SECOND_PASSED_REPORT = "passed_gr.html";
+
+
+    // --------------- Utility Methods --------------------------------------
+    static final String SECOND_ERROR_REPORT = "error_gr.html";
+    static final String[] files = {
+            REPORT_NAME,
+            NEW_REPORT_NAME,
+            "config.html",
+            "env.html",
+            "excluded.html",
+            "passed.html",
+            "failed.html",
+            "error.html",
+            "notRun.html",
+            KflSection.FAIL2PASS,
+            KflSection.FAIL2ERROR,
+            KflSection.FAIL2MISSING,
+            KflSection.NEWFAILURES,
+            SECOND_PASSED_REPORT,
+            SECOND_FAILED_REPORT,
+            SECOND_ERROR_REPORT
+    };
+    // The following must be kept in sync with the preceding list
+    static final int
+            REPORT_HTML = 0,
+            INDEX_HTML = 1,
+            CONFIG_HTML = 2,
+            ENV_HTML = 3,
+            EXCLUDED_HTML = 4,
+            PASSED_HTML = 5,
+            FAILED_HTML = 6,
+            ERROR_HTML = 7,
+            NOTRUN_HTML = 8,
+            KFL_F2P = 9,
+            KFL_F2E = 10,
+            KFL_F2M = 11,
+            KFL_NEW = 12,
+            PASSED_HTML_2 = 13,
+            FAILED_HTML_2 = 14,
+            ERROR_HTML_2 = 15;
+    private static final String ID = "html";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HTMLReport.class);
+    /**
+     * The charset to request for the report output.
+     * Defaulted to UTF-8, if this is not available at runtime, code will use
+     * the default charset provided by the runtime.
+     *
+     * @see java.nio.charset.Charset#defaultCharset
+     */
+    protected Charset reportCharset;
+    /**
+     * Default charset to use.  This is checked against the runtime availability
+     * before being used.
+     */
+    protected String DEFAULT_CHARSET = "UTF-8";
+
+    // ----------------------------------------------------------------------
+    File reportDir;
+    private TreeSet<TestResult>[] results;
+    private KflSorter kflSorter;
+
+    /**
+     * Gets the standard report file name used in JT Harness.
+     * Note that this returns the file names which are used for the main
+     * report only, not the aux. HTML files.
+     *
+     * @return The report name.
+     */
+    public static String[] getReportFilenames() {
+        return new String[]{REPORT_NAME, NEW_REPORT_NAME};
+    }
+
+    /**
+     * Gets the file name based one the input code.
+     *
+     * @param code The code name for the file.
+     * @return The file name.
+     */
+    public static String getFile(int code) {
+        return files[code];
+    }
+
     @Override
     public ReportLink write(ReportSettings s, File dir) throws IOException {
         reportDir = dir;
@@ -206,30 +308,6 @@ public class HTMLReport implements ReportFormat {
         return Collections.<ReportFormat>emptyList();
     }
 
-
-    // --------------- Utility Methods --------------------------------------
-
-    /**
-     * Gets the standard report file name used in JT Harness.
-     * Note that this returns the file names which are used for the main
-     * report only, not the aux. HTML files.
-     *
-     * @return The report name.
-     */
-    public static String[] getReportFilenames() {
-        return new String[]{REPORT_NAME, NEW_REPORT_NAME};
-    }
-
-    /**
-     * Gets the file name based one the input code.
-     *
-     * @param code The code name for the file.
-     * @return The file name.
-     */
-    public static String getFile(int code) {
-        return files[code];
-    }
-
     File getReportDirectory() {
         return reportDir;
     }
@@ -242,19 +320,17 @@ public class HTMLReport implements ReportFormat {
         return new BufferedWriter(osw);
     }
 
-    public void setResults(TreeSet<TestResult>... results) {
-        this.results = results;
-    }
-
     TreeSet<TestResult>[] getResults() {
         return results;
+    }
+
+    public void setResults(TreeSet<TestResult>... results) {
+        this.results = results;
     }
 
     public void setKflData(KflSorter s) {
         kflSorter = s;
     }
-
-    // ----------------------------------------------------------------------
 
     private void initCharset() {
         String userCS = System.getProperty("javatest.report.html.charset");
@@ -279,99 +355,14 @@ public class HTMLReport implements ReportFormat {
         }
     }
 
-    private static final String ID = "html";
-
-    /**
-     * The charset to request for the report output.
-     * Defaulted to UTF-8, if this is not available at runtime, code will use
-     * the default charset provided by the runtime.
-     *
-     * @see java.nio.charset.Charset#defaultCharset
-     */
-    protected Charset reportCharset;
-
-    /**
-     * Default charset to use.  This is checked against the runtime availability
-     * before being used.
-     */
-    protected String DEFAULT_CHARSET = "UTF-8";
-
-    File reportDir;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HTMLReport.class);
-
-    private TreeSet<TestResult>[] results;
-    private KflSorter kflSorter;
-
-    // The name of the root file for a set of report files.
-    static final String REPORT_NAME = "report.html";
-    static final String NEW_REPORT_NAME = "index.html";
-
-    // html anchors to be used in the output
-    static final String[] anchors = {
-            "selection",
-            "execution",
-            "kfl",
-            "locations",
-            "keywordSummary"
-    };
-
-    // The following must be kept in sync with the preceding list
-    static final int
-            SELECT_ANCHOR = 0,
-            EXEC_ANCHOR = 1,
-            KFL_ANCHOR = 2,
-            LOC_ANCHOR = 3,
-            KEYWORD_ANCHOR = 4;
-
-    static final String SECOND_FAILED_REPORT = "failed_gr.html";
-    static final String SECOND_PASSED_REPORT = "passed_gr.html";
-    static final String SECOND_ERROR_REPORT = "error_gr.html";
-
-    static final String[] files = {
-            REPORT_NAME,
-            NEW_REPORT_NAME,
-            "config.html",
-            "env.html",
-            "excluded.html",
-            "passed.html",
-            "failed.html",
-            "error.html",
-            "notRun.html",
-            KflSection.FAIL2PASS,
-            KflSection.FAIL2ERROR,
-            KflSection.FAIL2MISSING,
-            KflSection.NEWFAILURES,
-            SECOND_PASSED_REPORT,
-            SECOND_FAILED_REPORT,
-            SECOND_ERROR_REPORT
-    };
-
-    // The following must be kept in sync with the preceding list
-    static final int
-            REPORT_HTML = 0,
-            INDEX_HTML = 1,
-            CONFIG_HTML = 2,
-            ENV_HTML = 3,
-            EXCLUDED_HTML = 4,
-            PASSED_HTML = 5,
-            FAILED_HTML = 6,
-            ERROR_HTML = 7,
-            NOTRUN_HTML = 8,
-            KFL_F2P = 9,
-            KFL_F2E = 10,
-            KFL_F2M = 11,
-            KFL_NEW = 12,
-            PASSED_HTML_2 = 13,
-            FAILED_HTML_2 = 14,
-            ERROR_HTML_2 = 15;
-
     // -------------------- Inner Class --------------------------------------
 
     /**
      * Duplicates output onto n writers.
      */
     static class DuplexWriter extends Writer {
+        private Writer[] targets;
+
         public DuplexWriter(Writer... writers) {
             if (writers == null) {
                 return;
@@ -435,8 +426,6 @@ public class HTMLReport implements ReportFormat {
                 target.write(str, off, len);
             }
         }
-
-        private Writer[] targets;
     }
 
 }

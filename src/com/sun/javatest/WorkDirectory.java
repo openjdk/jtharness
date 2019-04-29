@@ -56,107 +56,79 @@ import java.util.TreeMap;
  */
 public class WorkDirectory {
 
-    /**
-     * This exception is used to report problems that arise when using
-     * work directories.
-     */
-    public static class Fault extends Exception {
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
-    }
-
-
-    /**
-     * Signals that the template pointed to by that directory is missing.
-     */
-    public static class TemplateMissingFault extends Fault {
-        TemplateMissingFault(I18NResourceBundle i18n, String key, File f, String template) {
-            super(i18n, key, f.getPath(), template);
-        }
-
-        TemplateMissingFault(I18NResourceBundle i18n, String key, File f, String template, Throwable t) {
-            super(i18n, key, f.getPath(), template, t.toString());
-        }
-    }
+    public static final String JTDATA = "jtData";
+    private static final String TESTSUITE = "testsuite";
+    private static final String WD_INFO = "wdinfo";
+    private static final String PREV_WD_PATH = "prev.wd.path";
+    private static final String TESTSUITE_ID = "id";
+    private static final String TESTSUITE_NAME = "name";
+    private static final String TESTSUITE_ROOT = "root";
+    private static final String TESTSUITE_TESTCOUNT = "testCount";
+    private static final String TEST_ANNOTATION_FILE = "test_annotations.dat";
+    private static HashMap<File, WeakReference<WorkDirectory>> dirMap = new HashMap<>(2);     // must be manually synchronized
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(WorkDirectory.class);
+    private File root;
+    private TestSuite testSuite;
+    private String testSuiteID;
+    private String oldWDpath;
+    private int testCount = -1;
+    private TestResultTable testResultTable;
+    private Map<String, Map<String, String>> annotationMap;
+    private File jtData;
+    private String logFileName;
+    private LogFile logFile;
 
     /**
-     * Signals that there is a serious, unrecoverable problem when trying to
-     * open or create a work directory.
+     * Create a WorkDirectory object for a given directory and testsuite.
+     * The directory is assumed to be valid (exists(), isDirectory(), canRead() etc)
      */
-    public static class BadDirectoryFault extends Fault {
-        BadDirectoryFault(I18NResourceBundle i18n, String key, File f) {
-            super(i18n, key, f.getPath());
+    private WorkDirectory(File root, TestSuite testSuite, Map<String, String> tsInfo) {
+        if (root == null || testSuite == null) {
+            throw new NullPointerException();
+        }
+        this.root = root;
+        this.testSuite = testSuite;
+        jtData = new File(root, JTDATA);
+
+        if (jtData != null) {
+            File loggerFile = getSystemFile(LoggerFactory.LOGFILE_NAME + "." + LoggerFactory.LOGFILE_EXTENSION);
+            logFileName = loggerFile.getAbsolutePath();
+            testSuite.setLogFilePath(this);
+            try {
+                loggerFile.createNewFile();
+            } catch (IOException ioe) {
+                testSuite.getNotificationLog(this).throwing("WorkDirectory", "WorkDirectory(File,TestSuite,Map)", ioe);
+            }
+
         }
 
-        BadDirectoryFault(I18NResourceBundle i18n, String key, File f, Throwable t) {
-            super(i18n, key, f.getPath(), t.toString());
-        }
-    }
+        // should consider saving parameter interview here;
+        // -- possibly conditionally (don't need to write it in case of normal open)
 
-    /**
-     * Signals that a directory (while valid in itself) is not a valid work directory.
-     */
-    public static class NotWorkDirectoryFault extends Fault {
-        NotWorkDirectoryFault(I18NResourceBundle i18n, String key, File f) {
-            super(i18n, key, f.getPath());
+        if (tsInfo != null) {
+            String testC = tsInfo.get(TESTSUITE_TESTCOUNT);
+            int tc;
+            if (testC == null) {
+                tc = -1;
+            } else {
+                try {
+                    tc = Integer.parseInt(testC);
+                } catch (NumberFormatException e) {
+                    tc = -1;
+                }
+            }
+            testCount = tc;
+        } else {
+            testCount = testSuite.getEstimatedTestCount();
         }
-    }
 
-    /**
-     * Signals that a work directory already exists when an attempt is made
-     * to create one.
-     */
-    public static class WorkDirectoryExistsFault extends Fault {
-        WorkDirectoryExistsFault(I18NResourceBundle i18n, String key, File f) {
-            super(i18n, key, f.getPath());
+        testSuiteID = testSuite.getID();
+        if (testSuiteID == null) {
+            testSuiteID = "";
         }
-    }
 
-    /**
-     * Signals that a work directory does not match the given test suite.
-     */
-    public static class MismatchFault extends Fault {
-        MismatchFault(I18NResourceBundle i18n, String key, File f) {
-            super(i18n, key, f.getPath());
-        }
-    }
+        doWDinfo(jtData, testSuite);
 
-    /**
-     * Signals that there is a problem trying to determine the test suite
-     * appropriate for the work directory.
-     */
-    public static class TestSuiteFault extends Fault {
-        TestSuiteFault(I18NResourceBundle i18n, String key, File f, Object o) {
-            super(i18n, key, f.getPath(), o);
-        }
-    }
-
-    /**
-     * Signals that there is a problem trying to initialize from the data in
-     * the work directory.
-     */
-    public static class InitializationFault extends Fault {
-        InitializationFault(I18NResourceBundle i18n, String key, File f, Object o) {
-            super(i18n, key, f.getPath(), o);
-        }
-    }
-
-    /**
-     * Signals that a problem occurred while trying to purge files in work directory.
-     */
-    public static class PurgeFault extends Fault {
-        PurgeFault(I18NResourceBundle i18n, String key, File f, Object o) {
-            super(i18n, key, f.getPath(), o);
-        }
     }
 
     /**
@@ -364,10 +336,6 @@ public class WorkDirectory {
         }
     }
 
-    public String getLogFileName() {
-        return logFileName;
-    }
-
     private static boolean mkdirs(File dir, ArrayList<File> undoList) {
         File parent = dir.getParentFile();
         if (parent != null && !parent.exists()) {
@@ -543,7 +511,6 @@ public class WorkDirectory {
         return null;
     }
 
-
     /**
      * Open an existing work directory, using the default test suite associated with it.
      *
@@ -702,59 +669,31 @@ public class WorkDirectory {
         return wd;
     }
 
-    /**
-     * Create a WorkDirectory object for a given directory and testsuite.
-     * The directory is assumed to be valid (exists(), isDirectory(), canRead() etc)
-     */
-    private WorkDirectory(File root, TestSuite testSuite, Map<String, String> tsInfo) {
-        if (root == null || testSuite == null) {
-            throw new NullPointerException();
-        }
-        this.root = root;
-        this.testSuite = testSuite;
-        jtData = new File(root, JTDATA);
-
-        if (jtData != null) {
-            File loggerFile = getSystemFile(LoggerFactory.LOGFILE_NAME + "." + LoggerFactory.LOGFILE_EXTENSION);
-            logFileName = loggerFile.getAbsolutePath();
-            testSuite.setLogFilePath(this);
-            try {
-                loggerFile.createNewFile();
-            } catch (IOException ioe) {
-                testSuite.getNotificationLog(this).throwing("WorkDirectory", "WorkDirectory(File,TestSuite,Map)", ioe);
-            }
-
-        }
-
-        // should consider saving parameter interview here;
-        // -- possibly conditionally (don't need to write it in case of normal open)
-
-        if (tsInfo != null) {
-            String testC = tsInfo.get(TESTSUITE_TESTCOUNT);
-            int tc;
-            if (testC == null) {
-                tc = -1;
-            } else {
-                try {
-                    tc = Integer.parseInt(testC);
-                } catch (NumberFormatException e) {
-                    tc = -1;
-                }
-            }
-            testCount = tc;
-        } else {
-            testCount = testSuite.getEstimatedTestCount();
-        }
-
-        testSuiteID = testSuite.getID();
-        if (testSuiteID == null) {
-            testSuiteID = "";
-        }
-
-        doWDinfo(jtData, testSuite);
-
+    private static Map<String, String> loadTestSuiteInfo(File jtData) throws FileNotFoundException, IOException {
+        return loadInfo(jtData, TESTSUITE);
     }
 
+    private static Map<String, String> loadWdInfo(File jtData) throws FileNotFoundException, IOException {
+        return loadInfo(jtData, WD_INFO);
+    }
+
+    private static Map<String, String> loadInfo(File jtData, String name) throws FileNotFoundException, IOException {
+        try (InputStream in = new BufferedInputStream(new FileInputStream(new File(jtData, name)))) {
+            return PropertyUtils.load(in);
+        }
+    }
+
+    private static File canonicalize(File dir) throws BadDirectoryFault {
+        try {
+            return dir.getCanonicalFile();
+        } catch (IOException e) {
+            throw new BadDirectoryFault(i18n, "wd.cantCanonicalize", dir, e);
+        }
+    }
+
+    public String getLogFileName() {
+        return logFileName;
+    }
 
     private void doWDinfo(File jtData, TestSuite testSuite) {
         try {
@@ -822,6 +761,8 @@ public class WorkDirectory {
         return new File(jtData, name);
     }
 
+    // ------------ PRIVATE --------------
+
     /**
      * Get the test suite for this work directory.
      *
@@ -864,7 +805,6 @@ public class WorkDirectory {
             }
         }
     }
-
 
     /**
      * Get a test result table containing the test results in this work directory.
@@ -1103,8 +1043,6 @@ public class WorkDirectory {
         saveAnnotations();
     }
 
-    // ------------ PRIVATE --------------
-
     /**
      * Load or save the annotations to secondary storage (disk).
      * Methods should call this before attempting to access annotations, in
@@ -1254,21 +1192,6 @@ public class WorkDirectory {
         return result;
     }
 
-    private static Map<String, String> loadTestSuiteInfo(File jtData) throws FileNotFoundException, IOException {
-        return loadInfo(jtData, TESTSUITE);
-    }
-
-    private static Map<String, String> loadWdInfo(File jtData) throws FileNotFoundException, IOException {
-        return loadInfo(jtData, WD_INFO);
-    }
-
-    private static Map<String, String> loadInfo(File jtData, String name) throws FileNotFoundException, IOException {
-        try (InputStream in = new BufferedInputStream(new FileInputStream(new File(jtData, name)))) {
-            return PropertyUtils.load(in);
-        }
-    }
-
-
     private synchronized void saveTestSuiteInfo() throws IOException {
         Properties p = new Properties();
         p.put(TESTSUITE_ROOT, testSuite.getPath());
@@ -1288,7 +1211,6 @@ public class WorkDirectory {
         saveInfo(p, TESTSUITE, "JT Harness Work Directory: Test Suite Info");
     }
 
-
     private synchronized void saveInfo(Properties p, String name, String descr) throws IOException {
         File f = File.createTempFile(name, ".new", jtData);
         OutputStream out = new BufferedOutputStream(new FileOutputStream(f));
@@ -1305,35 +1227,105 @@ public class WorkDirectory {
         }
     }
 
-    private static File canonicalize(File dir) throws BadDirectoryFault {
-        try {
-            return dir.getCanonicalFile();
-        } catch (IOException e) {
-            throw new BadDirectoryFault(i18n, "wd.cantCanonicalize", dir, e);
+    /**
+     * This exception is used to report problems that arise when using
+     * work directories.
+     */
+    public static class Fault extends Exception {
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
         }
     }
 
-    private File root;
-    private TestSuite testSuite;
-    private String testSuiteID;
-    private String oldWDpath;
-    private int testCount = -1;
-    private TestResultTable testResultTable;
-    private Map<String, Map<String, String>> annotationMap;
-    private File jtData;
-    private String logFileName;
-    private LogFile logFile;
-    private static HashMap<File, WeakReference<WorkDirectory>> dirMap = new HashMap<>(2);     // must be manually synchronized
-    public static final String JTDATA = "jtData";
-    private static final String TESTSUITE = "testsuite";
-    private static final String WD_INFO = "wdinfo";
-    private static final String PREV_WD_PATH = "prev.wd.path";
-    private static final String TESTSUITE_ID = "id";
-    private static final String TESTSUITE_NAME = "name";
-    private static final String TESTSUITE_ROOT = "root";
-    private static final String TESTSUITE_TESTCOUNT = "testCount";
+    /**
+     * Signals that the template pointed to by that directory is missing.
+     */
+    public static class TemplateMissingFault extends Fault {
+        TemplateMissingFault(I18NResourceBundle i18n, String key, File f, String template) {
+            super(i18n, key, f.getPath(), template);
+        }
 
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(WorkDirectory.class);
+        TemplateMissingFault(I18NResourceBundle i18n, String key, File f, String template, Throwable t) {
+            super(i18n, key, f.getPath(), template, t.toString());
+        }
+    }
 
-    private static final String TEST_ANNOTATION_FILE = "test_annotations.dat";
+    /**
+     * Signals that there is a serious, unrecoverable problem when trying to
+     * open or create a work directory.
+     */
+    public static class BadDirectoryFault extends Fault {
+        BadDirectoryFault(I18NResourceBundle i18n, String key, File f) {
+            super(i18n, key, f.getPath());
+        }
+
+        BadDirectoryFault(I18NResourceBundle i18n, String key, File f, Throwable t) {
+            super(i18n, key, f.getPath(), t.toString());
+        }
+    }
+
+    /**
+     * Signals that a directory (while valid in itself) is not a valid work directory.
+     */
+    public static class NotWorkDirectoryFault extends Fault {
+        NotWorkDirectoryFault(I18NResourceBundle i18n, String key, File f) {
+            super(i18n, key, f.getPath());
+        }
+    }
+
+    /**
+     * Signals that a work directory already exists when an attempt is made
+     * to create one.
+     */
+    public static class WorkDirectoryExistsFault extends Fault {
+        WorkDirectoryExistsFault(I18NResourceBundle i18n, String key, File f) {
+            super(i18n, key, f.getPath());
+        }
+    }
+
+    /**
+     * Signals that a work directory does not match the given test suite.
+     */
+    public static class MismatchFault extends Fault {
+        MismatchFault(I18NResourceBundle i18n, String key, File f) {
+            super(i18n, key, f.getPath());
+        }
+    }
+
+    /**
+     * Signals that there is a problem trying to determine the test suite
+     * appropriate for the work directory.
+     */
+    public static class TestSuiteFault extends Fault {
+        TestSuiteFault(I18NResourceBundle i18n, String key, File f, Object o) {
+            super(i18n, key, f.getPath(), o);
+        }
+    }
+
+    /**
+     * Signals that there is a problem trying to initialize from the data in
+     * the work directory.
+     */
+    public static class InitializationFault extends Fault {
+        InitializationFault(I18NResourceBundle i18n, String key, File f, Object o) {
+            super(i18n, key, f.getPath(), o);
+        }
+    }
+
+    /**
+     * Signals that a problem occurred while trying to purge files in work directory.
+     */
+    public static class PurgeFault extends Fault {
+        PurgeFault(I18NResourceBundle i18n, String key, File f, Object o) {
+            super(i18n, key, f.getPath(), o);
+        }
+    }
 }

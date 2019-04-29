@@ -32,6 +32,22 @@ import com.sun.javatest.TestResult;
 import java.util.Comparator;
 
 class TestResultsByFileComparator implements Comparator<TestResult> {
+    private static int compare(String a, String b) {
+        if (a == null && b == null) {
+            return 0;
+        }
+
+        if (a == null) {
+            return -1;
+        }
+
+        if (b == null) {
+            return +1;
+        }
+
+        return a.compareTo(b);
+    }
+
     @Override
     public int compare(TestResult a, TestResult b) {
 
@@ -54,21 +70,5 @@ class TestResultsByFileComparator implements Comparator<TestResult> {
             // bad files go at the end ?
             return 1;
         }
-    }
-
-    private static int compare(String a, String b) {
-        if (a == null && b == null) {
-            return 0;
-        }
-
-        if (a == null) {
-            return -1;
-        }
-
-        if (b == null) {
-            return +1;
-        }
-
-        return a.compareTo(b);
     }
 }

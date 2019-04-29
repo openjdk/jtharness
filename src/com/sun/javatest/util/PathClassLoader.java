@@ -41,6 +41,10 @@ import java.util.zip.ZipFile;
  * zip files and jar files.
  */
 public class PathClassLoader extends ClassLoader {
+    private File[] path;
+    private Map<String, Class<?>> classes = new Hashtable<>();
+    private Map<File, ZipFile> zips = new Hashtable<>();
+
     /**
      * Create a PathClassLoader, specifying a path.
      *
@@ -53,6 +57,7 @@ public class PathClassLoader extends ClassLoader {
     public PathClassLoader(String pathString) {
         this.path = split(pathString);
     }
+
 
     /**
      * Create a PathClassLoader, specifying a path and a
@@ -115,7 +120,6 @@ public class PathClassLoader extends ClassLoader {
 
         return cl;
     }
-
 
     private synchronized Class<?> locateClass(String name)
             throws ClassNotFoundException {
@@ -204,8 +208,4 @@ public class PathClassLoader extends ClassLoader {
             v.add(new File(s));
         }
     }
-
-    private File[] path;
-    private Map<String, Class<?>> classes = new Hashtable<>();
-    private Map<File, ZipFile> zips = new Hashtable<>();
 }

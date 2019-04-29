@@ -37,6 +37,8 @@ import java.util.Vector;
  * both directions is necessary.
  */
 public class OrderedTwoWayTable {
+    private Vector<Object> keys, values;
+
     public OrderedTwoWayTable() {
         keys = new Vector<>();
         values = new Vector<>();
@@ -141,8 +143,6 @@ public class OrderedTwoWayTable {
 
         return -1;
     }
-
-    private Vector<Object> keys, values;
 }
 
 

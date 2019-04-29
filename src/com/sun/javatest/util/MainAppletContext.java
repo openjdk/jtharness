@@ -51,16 +51,6 @@ public class MainAppletContext {
     private static boolean started = false;
 
     /**
-     * Set the AppletContext in use, so that it might be shared.
-     *
-     * @param ctx the AppletContext to be shared.
-     * @see #getAppletContext
-     */
-    public static void setAppletContext(AppletContext ctx) {
-        context = ctx;
-    }
-
-    /**
      * Get the current AppletContext.
      *
      * @return the current AppletContext, or null if it has been set.
@@ -68,6 +58,16 @@ public class MainAppletContext {
      */
     public static AppletContext getAppletContext() {
         return context;
+    }
+
+    /**
+     * Set the AppletContext in use, so that it might be shared.
+     *
+     * @param ctx the AppletContext to be shared.
+     * @see #getAppletContext
+     */
+    public static void setAppletContext(AppletContext ctx) {
+        context = ctx;
     }
 
     /**
@@ -102,16 +102,6 @@ public class MainAppletContext {
     }
 
     /**
-     * Set the applet to be identified as the JT Harness Agent applet.
-     *
-     * @param applet the Javatest Agent applet
-     * @see #getAgentApplet
-     */
-    public static void setAgentApplet(Applet applet) {
-        agentApplet = applet;
-    }
-
-    /**
      * Get the applet that has been identified as the JT Harness Agent applet.
      *
      * @return the Javatest Agent applet
@@ -122,13 +112,13 @@ public class MainAppletContext {
     }
 
     /**
-     * Set a flag to indicate that the agent applet has been started.
+     * Set the applet to be identified as the JT Harness Agent applet.
      *
-     * @param value a boolean value indicating whether the agent applet has been
-     *              started or not.
+     * @param applet the Javatest Agent applet
+     * @see #getAgentApplet
      */
-    public static synchronized void setStarted(boolean value) {
-        started = value;
+    public static void setAgentApplet(Applet applet) {
+        agentApplet = applet;
     }
 
     /**
@@ -139,5 +129,15 @@ public class MainAppletContext {
      */
     public static synchronized boolean isStarted() {
         return started;
+    }
+
+    /**
+     * Set a flag to indicate that the agent applet has been started.
+     *
+     * @param value a boolean value indicating whether the agent applet has been
+     *              started or not.
+     */
+    public static synchronized void setStarted(boolean value) {
+        started = value;
     }
 }

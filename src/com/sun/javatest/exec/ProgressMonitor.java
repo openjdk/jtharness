@@ -58,6 +58,19 @@ import java.lang.reflect.InvocationTargetException;
 
 class ProgressMonitor extends ToolDialog {
 
+    private static final int UPDATE_FREQUENCY = 1000;
+    private static int componentCount; // for generating names
+    private MonitorState state;
+
+    //----------member variables-----------------------------------------------------
+    private TreePanelModel tpm;
+    private ProgressSubpanel progressSubpanel;
+    private ActivitySubpanel activitySubpanel;
+    private TimeSubpanel timeSubpanel;
+    private MemorySubpanel memorySubpanel;
+    private StatusSubpanel[] subpanels;
+    private volatile boolean running;
+    private Listener listener = new Listener();
     ProgressMonitor(Component parent, UIFactory uif, MonitorState state) {
         super(parent, uif, "pm", FRAME);
 
@@ -191,28 +204,35 @@ class ProgressMonitor extends ToolDialog {
         this.tpm = tpm;
     }
 
-    //----------member variables-----------------------------------------------------
-
-    private MonitorState state;
-    private TreePanelModel tpm;
-
-    private ProgressSubpanel progressSubpanel;
-    private ActivitySubpanel activitySubpanel;
-    private TimeSubpanel timeSubpanel;
-    private MemorySubpanel memorySubpanel;
-
-    private StatusSubpanel[] subpanels;
-
-    private volatile boolean running;
-    private Listener listener = new Listener();
-
-    private static final int UPDATE_FREQUENCY = 1000;
-    private static int componentCount; // for generating names
-
 
     //----------nested classes-------------------------------------------------------
 
+    private abstract static class StatusSubpanel extends JPanel {
+        /**
+         * Refresh any data in this subpanel.
+         * This method is always called on the event dispatch thread.
+         */
+        abstract void update();
+
+        /**
+         * Test run is starting.  This method can be ignored if it does not apply.
+         */
+        void starting() {
+        }
+
+        void postProcessing() {
+        }
+
+        /**
+         * Test run is finishing.  This method can be ignored if it does not apply.
+         */
+        void stopping() {
+        }
+    }
+
     class Listener implements MonitorState.Observer, ActionListener {
+        private Timer timer;
+
         Listener() {
             timer = new Timer(UPDATE_FREQUENCY, this);
         }
@@ -264,34 +284,17 @@ class ProgressMonitor extends ToolDialog {
 
             timer.stop();
         }
-
-        private Timer timer;
-    }
-
-    private abstract static class StatusSubpanel extends JPanel {
-        /**
-         * Refresh any data in this subpanel.
-         * This method is always called on the event dispatch thread.
-         */
-        abstract void update();
-
-        /**
-         * Test run is starting.  This method can be ignored if it does not apply.
-         */
-        void starting() {
-        }
-
-        void postProcessing() {
-        }
-
-        /**
-         * Test run is finishing.  This method can be ignored if it does not apply.
-         */
-        void stopping() {
-        }
     }
 
     private class ProgressSubpanel extends StatusSubpanel {
+        private JTextField passTf;
+        private JTextField failTf;
+
+        //--------------------------------------------------------------------------------
+        private JTextField errorTf;
+        private JTextField notRunTf;
+        private ProgressMeter meter;
+        private int[] meterStats;
         ProgressSubpanel() {
             setBorder(uif.createTitledBorder("pm.prog"));
             setLayout(new GridBagLayout());
@@ -394,8 +397,6 @@ class ProgressMonitor extends ToolDialog {
             updateAll();
         }
 
-        //--------------------------------------------------------------------------------
-
         private void updateAll() {
             meter.update();
 
@@ -418,17 +419,17 @@ class ProgressMonitor extends ToolDialog {
                 }
             }
         }
-
-        private JTextField passTf;
-        private JTextField failTf;
-        private JTextField errorTf;
-        private JTextField notRunTf;
-
-        private ProgressMeter meter;
-        private int[] meterStats;
     }
 
     private class ActivitySubpanel extends StatusSubpanel {
+        private JComponent idleCard;
+        private JComponent runningCard;
+        private JTextField fileField;
+        private DefaultListModel<TestResult> testListData;
+        private String rootDir;
+
+        //------------------------------------------------------------------
+
         ActivitySubpanel() {
             setBorder(uif.createTitledBorder("pm.activity"));
             setLayout(new CardLayout());
@@ -462,8 +463,6 @@ class ProgressMonitor extends ToolDialog {
                 testListData.addElement(aRt);
             }
         }
-
-        //------------------------------------------------------------------
 
         private JComponent createSimpleCard(String uiKey) {
             JPanel card = new JPanel();
@@ -523,16 +522,13 @@ class ProgressMonitor extends ToolDialog {
             ((CardLayout) getLayout()).show(this, comp.getName());
             //setVisible(true);
         }
-
-        private JComponent idleCard;
-        private JComponent runningCard;
-
-        private JTextField fileField;
-        private DefaultListModel<TestResult> testListData;
-        private String rootDir;
     }
 
     private class TimeSubpanel extends StatusSubpanel {
+        private JTextField elapsedField;
+        private JTextField estimatedRemainingField;
+        //private ProgressMeter meter;
+        private int[] meterStats = new int[2];
         TimeSubpanel() {
             setLayout(new GridBagLayout());
             Border b1 = uif.createTitledBorder("pm.time");
@@ -579,14 +575,14 @@ class ProgressMonitor extends ToolDialog {
             long remain = state.getEstimatedTime();
             estimatedRemainingField.setText(ElapsedTimeMonitor.millisToString(remain));
         }
-
-        private JTextField elapsedField;
-        private JTextField estimatedRemainingField;
-        //private ProgressMeter meter;
-        private int[] meterStats = new int[2];
     }
 
     private class MemorySubpanel extends StatusSubpanel {
+        private JTextField usedField;
+        private JTextField totalField;
+        private ProgressMeter meter;
+        private int[] meterStats = new int[2];
+        private Runtime runtime = Runtime.getRuntime();
         MemorySubpanel() {
             setLayout(new GridBagLayout());
             Border b1 = uif.createTitledBorder("pm.memory");
@@ -642,11 +638,5 @@ class ProgressMonitor extends ToolDialog {
             totalField.setText(totalMem + "K");
 
         }
-
-        private JTextField usedField;
-        private JTextField totalField;
-        private ProgressMeter meter;
-        private int[] meterStats = new int[2];
-        private Runtime runtime = Runtime.getRuntime();
     }
 }

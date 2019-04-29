@@ -58,6 +58,22 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 class ExcludeListBrowser extends ToolDialog {
+    private static final int TEST_NAME_COL = 0;
+    private static final int TEST_CASE_COL = 1;
+    private static final int BUG_COL = 2;
+    private static final int KEYWORDS_COL = 3;
+    private static final int SYNOPSIS_COL = 4;
+    private static final int COLUMN_COUNT = 5;
+    private InterviewParameters params;
+    private File[] files;
+    private ExcludeList list;
+    private ExcludeListTableModel model;
+    private JTable table;
+    private JTextField synopsisField;
+    private JTextField kwField;
+    private JTextField bugIdsField;
+    private Listener listener;
+    private String[] columnNames;
     ExcludeListBrowser(Container parent, UIFactory uif) {
         super(parent, uif, "elb");
 
@@ -233,19 +249,6 @@ class ExcludeListBrowser extends ToolDialog {
         return sb.toString();
     }
 
-
-    private InterviewParameters params;
-    private File[] files;
-    private ExcludeList list;
-
-    private ExcludeListTableModel model;
-    private JTable table;
-    private JTextField synopsisField;
-    private JTextField kwField;
-    private JTextField bugIdsField;
-
-    private Listener listener;
-
     private class Listener
             extends ComponentAdapter
             implements Interview.Observer {
@@ -272,16 +275,9 @@ class ExcludeListBrowser extends ToolDialog {
         }
     }
 
-    private static final int TEST_NAME_COL = 0;
-    private static final int TEST_CASE_COL = 1;
-    private static final int BUG_COL = 2;
-    private static final int KEYWORDS_COL = 3;
-    private static final int SYNOPSIS_COL = 4;
-    private static final int COLUMN_COUNT = 5;
-
-    private String[] columnNames;
-
     private class ExcludeListTableModel implements TableModel {
+        private ExcludeList.Entry[] entries;
+
         ExcludeListTableModel(ExcludeList list) {
             if (columnNames == null) {
                 columnNames = new String[COLUMN_COUNT];
@@ -382,8 +378,6 @@ class ExcludeListBrowser extends ToolDialog {
         public void setValueAt(Object aValue, int rowIndex, int colIndex) {
             throw new UnsupportedOperationException();
         }
-
-        private ExcludeList.Entry[] entries;
 
     }
 }

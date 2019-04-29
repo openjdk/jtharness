@@ -84,6 +84,25 @@ import java.util.Vector;
 
 class PathPanel extends JPanel
         implements Scrollable {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+
+    // ---------- Component stuff ---------------------------------------
+    private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
+
+    // ---------- Scrollable stuff ---------------------------------------
+    private static Color INVALID_VALUE_COLOR = i18n.getErrorColor();
+    private QuestionPanel questionPanel;
+    private Interview interview;
+    private PathList pathList;
+    private JList<Object> list;
+
+    // ---------- end of Scrollable stuff -----------------------------------
+    private String moreText;
+    // client parameters
+    private boolean markersEnabled;
+    private boolean markersFilterEnabled;
+    private String markerName = null; // theoretically settable
+
     public PathPanel(QuestionPanel questionPanel, Interview interview) {
         this.questionPanel = questionPanel;  //uugh; but needed for autosaving answers before changing questions
         this.interview = interview;
@@ -91,14 +110,10 @@ class PathPanel extends JPanel
         initGUI();
     }
 
-    // ---------- Component stuff ---------------------------------------
-
     @Override
     public Dimension getPreferredSize() {
         return list.getPreferredSize(); // should not be necessary
     }
-
-    // ---------- Scrollable stuff ---------------------------------------
 
     @Override
     public Dimension getPreferredScrollableViewportSize() {
@@ -127,8 +142,6 @@ class PathPanel extends JPanel
     public boolean getScrollableTracksViewportWidth() {
         return true;
     }
-
-    // ---------- end of Scrollable stuff -----------------------------------
 
     boolean getMarkersEnabled() {
         return markersEnabled;
@@ -234,20 +247,126 @@ class PathPanel extends JPanel
         }
     }
 
-    private QuestionPanel questionPanel;
-    private Interview interview;
-    private PathList pathList;
-    private JList<Object> list;
-    private String moreText;
+    private JMenu createMenu() {
+        return (JMenu) new Menu(Menu.JMENU).getComponent();
+    }
 
-    // client parameters
-    private boolean markersEnabled;
-    private boolean markersFilterEnabled;
-    private String markerName = null; // theoretically settable
+    //-----------------------------------------------------------------------
 
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
-    private static Color INVALID_VALUE_COLOR = i18n.getErrorColor();
-    private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
+    private JPopupMenu createPopupMenu() {
+        return (JPopupMenu) new Menu(Menu.JPOPUPMENU).getComponent();
+    }
+
+    private static class MarkerIcon implements Icon {
+        private static final int iconWidth = 8;
+        private static final int iconHeight = 16;
+        private static final int iconIndent = 3;
+        private boolean on;
+        private BufferedImage image;
+
+        MarkerIcon(boolean on) {
+            this.on = on;
+        }
+
+        @Override
+        public int getIconWidth() {
+            return iconWidth;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return iconHeight;
+        }
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            if (on) {
+                if (image == null) {
+                    image = new BufferedImage(getIconWidth(), getIconHeight(),
+                            BufferedImage.TYPE_INT_ARGB);
+                    paintMe(image);
+                }
+                g.drawImage(image, x, y, null);
+            }
+        }
+
+        private void paintMe(BufferedImage image) {
+            Graphics g = image.getGraphics();
+
+            int x0 = 0;
+            int y0 = 0;
+
+            int x1 = Math.min(iconWidth, iconHeight);
+            int y1 = x1;
+
+            int[] xx = {
+                    x0 + iconIndent,
+                    x1,
+                    x1,
+                    x1 - iconIndent,
+                    x0,
+                    x0 + iconIndent,
+            };
+
+            int[] yy = {
+                    y0,
+                    y1 - iconIndent,
+                    y1,
+                    y1,
+                    y0 + iconIndent,
+                    y0 + iconIndent
+            };
+
+            g.setColor(new Color(102, 102, 153));//g.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
+            g.fillPolygon(xx, yy, xx.length);
+        }
+    }
+
+    private static class EllipsisIcon implements Icon {
+        private static final int iconWidth = 48;
+        private static final int iconHeight = 6;
+        private static final int dots = 3;
+        private static final int dotWidth = 2;
+        private static final int dotHeight = 1;
+        private static final int dotSep = 4;
+        private static final int dotIndent = 20;
+        private BufferedImage image;
+
+        @Override
+        public int getIconWidth() {
+            return iconWidth;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return iconHeight;
+        }
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            if (image == null) {
+                image = new BufferedImage(getIconWidth(), getIconHeight(),
+                        BufferedImage.TYPE_INT_ARGB);
+                paintMe(image);
+            }
+            g.drawImage(image, x, y, null);
+        }
+
+        private void paintMe(BufferedImage image) {
+            Graphics g = image.getGraphics();
+            g.setColor(Color.black);
+
+            for (int iy = 0; iy < dotHeight; iy++) {
+                int y = (iconHeight - dotHeight) / 2 + iy;
+                for (int ix = 0; ix < dots; ix++) {
+                    int x = dotIndent + ix * (dotWidth + dotSep);
+                    g.drawLine(x, y, x + dotWidth - 1, y);
+                }
+            }
+        }
+    }
+
+    //-----------------------------------------------------------------------
 
     private class PathList
             extends AbstractListModel<Object>
@@ -256,6 +375,36 @@ class PathPanel extends JPanel
             MouseListener,
             Interview.Observer {
         //----- navigation support for WizPane -----------------------
+
+        private JLabel sample = new JLabel() {
+            @Override
+            public Dimension getMaximumSize() {
+                return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+            }
+        };
+        // currPath and currQuestion give info as obtained from the interview
+        private Question[] currPath = new Question[0];
+        private Question currQuestion;
+
+        //----- state support for menus -----------------------------
+        // currEntries and currIndex give displayable entries
+        // entries may be Question, List<Question>, or String
+        private Object[] currEntries = new Object[0];
+        private int currIndex;
+
+        //----- actions ------------------------
+        // currEnabled gives state of markersEnabled as used to construct list
+        private boolean currEnabled;
+        // currMarks gives which questions are currently showing a mark
+        private boolean[] currMarks;
+        // autoOpenSet gives which non-markered questions should be displayed
+        private Set<Question> autoOpenSet = new HashSet<>();
+        private Icon markerIcon = new MarkerIcon(true);
+        private Icon noMarkerIcon = new MarkerIcon(false);
+        private Icon ellipsisIcon = new EllipsisIcon();
+        private JPopupMenu popupMenu;
+
+        //----- from AbstractListModel -----------
 
         Question getNextVisible() {
             for (int i = currIndex + 1; i < currEntries.length; i++) {
@@ -277,6 +426,8 @@ class PathPanel extends JPanel
             return null;
         }
 
+        //----- from ListCellRenderer -----------
+
         Question getLastVisible() {
             for (int i = currEntries.length - 1; i >= 0; i--) {
                 Object e = currEntries[i];
@@ -286,8 +437,6 @@ class PathPanel extends JPanel
             }
             return null;
         }
-
-        //----- state support for menus -----------------------------
 
         boolean isQuestionVisible(Question q) {
             for (Object e : currEntries) {
@@ -299,6 +448,8 @@ class PathPanel extends JPanel
             }
             return false;
         }
+
+        //----- from ActionListener -----------
 
         boolean isQuestionAutoOpened(Question q) {
             // only return true if the preceding marked question is in the autoOpen set
@@ -321,11 +472,13 @@ class PathPanel extends JPanel
             return false;
         }
 
-        //----- actions ------------------------
+        //----- from ListSelectionListener -----------
 
         void markCurrentQuestion() {
             setQuestionMarked(interview.getCurrentQuestion(), true);
         }
+
+        // ---------- from AncestorListener -----------
 
         void unmarkCurrentQuestion() {
             setQuestionMarked(interview.getCurrentQuestion(), false);
@@ -345,6 +498,8 @@ class PathPanel extends JPanel
         void openCurrentEntry() {
             openEntry(currIndex);
         }
+
+        //----- from MouseListener -----------
 
         void openEntry(int index) {
             Object o = currEntries[index];
@@ -404,8 +559,6 @@ class PathPanel extends JPanel
             update();
         }
 
-        //----- from AbstractListModel -----------
-
         @Override
         public int getSize() {
             return currEntries == null ? 0 : currEntries.length;
@@ -415,15 +568,6 @@ class PathPanel extends JPanel
         public Object getElementAt(int index) {
             return index < currEntries.length ? currEntries[index] : null;
         }
-
-        //----- from ListCellRenderer -----------
-
-        private JLabel sample = new JLabel() {
-            @Override
-            public Dimension getMaximumSize() {
-                return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
-            }
-        };
 
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
@@ -518,8 +662,6 @@ class PathPanel extends JPanel
             return sample;
         }
 
-        //----- from ActionListener -----------
-
         // invoked by keyboard "enter"
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -544,7 +686,7 @@ class PathPanel extends JPanel
             }
         }
 
-        //----- from ListSelectionListener -----------
+        //----- from Interview.Observer -----------
 
         // invoked by mouse selection (or by list.setSelectedXXX ??)
         @Override
@@ -592,8 +734,6 @@ class PathPanel extends JPanel
             }
         }
 
-        // ---------- from AncestorListener -----------
-
         @Override
         public void ancestorAdded(AncestorEvent e) {
             interview.addObserver(this);
@@ -608,8 +748,6 @@ class PathPanel extends JPanel
         public void ancestorRemoved(AncestorEvent e) {
             interview.removeObserver(this);
         }
-
-        //----- from MouseListener -----------
 
         @Override
         public void mouseEntered(MouseEvent e) {
@@ -681,8 +819,6 @@ class PathPanel extends JPanel
             }
         }
 
-        //----- from Interview.Observer -----------
-
         @Override
         public void pathUpdated() {
             update(interview.getPath(), interview.getCurrentQuestion());
@@ -704,7 +840,6 @@ class PathPanel extends JPanel
             list.setSelectedIndex(currIndex);
             list.ensureIndexIsVisible(currIndex);
         }
-
 
         void update() {
             update(currPath, currQuestion);
@@ -852,48 +987,42 @@ class PathPanel extends JPanel
             return v.toArray(new Object[v.size()]);
         }
 
-
-        // currPath and currQuestion give info as obtained from the interview
-        private Question[] currPath = new Question[0];
-        private Question currQuestion;
-
-        // currEntries and currIndex give displayable entries
-        // entries may be Question, List<Question>, or String
-        private Object[] currEntries = new Object[0];
-        private int currIndex;
-
-        // currEnabled gives state of markersEnabled as used to construct list
-        private boolean currEnabled;
-
-        // currMarks gives which questions are currently showing a mark
-        private boolean[] currMarks;
-
-        // autoOpenSet gives which non-markered questions should be displayed
-        private Set<Question> autoOpenSet = new HashSet<>();
-
-        private Icon markerIcon = new MarkerIcon(true);
-        private Icon noMarkerIcon = new MarkerIcon(false);
-        private Icon ellipsisIcon = new EllipsisIcon();
-
-        private JPopupMenu popupMenu;
-
     }
 
     //-----------------------------------------------------------------------
-
-    private JMenu createMenu() {
-        return (JMenu) new Menu(Menu.JMENU).getComponent();
-    }
-
-    private JPopupMenu createPopupMenu() {
-        return (JPopupMenu) new Menu(Menu.JPOPUPMENU).getComponent();
-    }
 
     private class Menu
             implements ActionListener, ChangeListener, MenuListener, PopupMenuListener {
 
         static final int JMENU = 0, JPOPUPMENU = 1;
+        private static final String ENABLE = "enable";
+        private static final String FILTER = "filter";
+        private static final String MARK = "mark";
+        private static final String UNMARK = "unmark";
+        private static final String CLEAR = "clear";
+        private static final String OPEN_GROUP = "open";
 
+        // ---------- from ActionListener -----------
+        private static final String CLOSE_GROUP = "close";
+
+        // ---------- from ChangeListener -----------
+        private static final String CLEAR_MARKED = "clearMarked";
+
+        // ---------- from MenuListener -----------
+        private static final String REMOVE_MARKERS = "remove";
+        private int type;
+        private JComponent comp;
+
+        // ---------- from PopupMenuListener -----------
+        private JCheckBoxMenuItem enableItem;
+        private JCheckBoxMenuItem filterItem;
+        private JMenuItem markItem;
+        private JMenuItem unmarkItem;
+        private JMenuItem clearItem;
+        private JMenuItem openGroupItem;
+        private JMenuItem closeGroupItem;
+        private JMenuItem clearMarkedItem;
+        private JMenuItem removeAllItem;
         Menu(int type) {
             this.type = type;
 
@@ -1031,8 +1160,6 @@ class PathPanel extends JPanel
             mi.setMnemonic(mne);
         }
 
-        // ---------- from ActionListener -----------
-
         @Override
         public void actionPerformed(ActionEvent e) {
             String cmd = e.getActionCommand();
@@ -1071,8 +1198,6 @@ class PathPanel extends JPanel
             }
         }
 
-        // ---------- from ChangeListener -----------
-
         @Override
         public void stateChanged(ChangeEvent e) {
             Object src = e.getSource();
@@ -1087,8 +1212,6 @@ class PathPanel extends JPanel
             }
         }
 
-        // ---------- from MenuListener -----------
-
         @Override
         public void menuSelected(MenuEvent e) {
             updateItems();
@@ -1102,8 +1225,6 @@ class PathPanel extends JPanel
         public void menuCanceled(MenuEvent e) {
         }
 
-        // ---------- from PopupMenuListener -----------
-
         @Override
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
             updateItems();
@@ -1116,142 +1237,6 @@ class PathPanel extends JPanel
         @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
         }
-
-        private int type;
-        private JComponent comp;
-        private JCheckBoxMenuItem enableItem;
-        private JCheckBoxMenuItem filterItem;
-        private JMenuItem markItem;
-        private JMenuItem unmarkItem;
-        private JMenuItem clearItem;
-        private JMenuItem openGroupItem;
-        private JMenuItem closeGroupItem;
-        private JMenuItem clearMarkedItem;
-        private JMenuItem removeAllItem;
-
-        private static final String ENABLE = "enable";
-        private static final String FILTER = "filter";
-        private static final String MARK = "mark";
-        private static final String UNMARK = "unmark";
-        private static final String CLEAR = "clear";
-        private static final String OPEN_GROUP = "open";
-        private static final String CLOSE_GROUP = "close";
-
-        private static final String CLEAR_MARKED = "clearMarked";
-        private static final String REMOVE_MARKERS = "remove";
-    }
-
-    //-----------------------------------------------------------------------
-
-    private static class MarkerIcon implements Icon {
-        MarkerIcon(boolean on) {
-            this.on = on;
-        }
-
-        @Override
-        public int getIconWidth() {
-            return iconWidth;
-        }
-
-        @Override
-        public int getIconHeight() {
-            return iconHeight;
-        }
-
-        @Override
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (on) {
-                if (image == null) {
-                    image = new BufferedImage(getIconWidth(), getIconHeight(),
-                            BufferedImage.TYPE_INT_ARGB);
-                    paintMe(image);
-                }
-                g.drawImage(image, x, y, null);
-            }
-        }
-
-        private void paintMe(BufferedImage image) {
-            Graphics g = image.getGraphics();
-
-            int x0 = 0;
-            int y0 = 0;
-
-            int x1 = Math.min(iconWidth, iconHeight);
-            int y1 = x1;
-
-            int[] xx = {
-                    x0 + iconIndent,
-                    x1,
-                    x1,
-                    x1 - iconIndent,
-                    x0,
-                    x0 + iconIndent,
-            };
-
-            int[] yy = {
-                    y0,
-                    y1 - iconIndent,
-                    y1,
-                    y1,
-                    y0 + iconIndent,
-                    y0 + iconIndent
-            };
-
-            g.setColor(new Color(102, 102, 153));//g.setColor(MetalLookAndFeel.getPrimaryControlDarkShadow());
-            g.fillPolygon(xx, yy, xx.length);
-        }
-
-        private boolean on;
-        private BufferedImage image;
-        private static final int iconWidth = 8;
-        private static final int iconHeight = 16;
-        private static final int iconIndent = 3;
-    }
-
-    //-----------------------------------------------------------------------
-
-    private static class EllipsisIcon implements Icon {
-        @Override
-        public int getIconWidth() {
-            return iconWidth;
-        }
-
-        @Override
-        public int getIconHeight() {
-            return iconHeight;
-        }
-
-        @Override
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (image == null) {
-                image = new BufferedImage(getIconWidth(), getIconHeight(),
-                        BufferedImage.TYPE_INT_ARGB);
-                paintMe(image);
-            }
-            g.drawImage(image, x, y, null);
-        }
-
-        private void paintMe(BufferedImage image) {
-            Graphics g = image.getGraphics();
-            g.setColor(Color.black);
-
-            for (int iy = 0; iy < dotHeight; iy++) {
-                int y = (iconHeight - dotHeight) / 2 + iy;
-                for (int ix = 0; ix < dots; ix++) {
-                    int x = dotIndent + ix * (dotWidth + dotSep);
-                    g.drawLine(x, y, x + dotWidth - 1, y);
-                }
-            }
-        }
-
-        private BufferedImage image;
-        private static final int iconWidth = 48;
-        private static final int iconHeight = 6;
-        private static final int dots = 3;
-        private static final int dotWidth = 2;
-        private static final int dotHeight = 1;
-        private static final int dotSep = 4;
-        private static final int dotIndent = 20;
     }
 
 }

@@ -31,6 +31,8 @@ import com.sun.javatest.tool.jthelp.ContextHelpManager;
 
 
 class BadTestCaseTestsPane extends ListPane {
+    private Audit currAudit;
+
     BadTestCaseTestsPane(UIFactory uif) {
         super("badTestCaseTests", uif);
         ContextHelpManager.setHelpIDString(this, "audit.badTestCasesTab.csh");
@@ -45,6 +47,4 @@ class BadTestCaseTestsPane extends ListPane {
             setData((Object[]) currAudit.getBadTestCaseTests());
         }
     }
-
-    private Audit currAudit;
 }

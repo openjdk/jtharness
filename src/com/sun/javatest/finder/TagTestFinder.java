@@ -51,6 +51,17 @@ import java.util.Map;
  * @see TestFinder
  */
 public class TagTestFinder extends TestFinder {
+    //private int testDescNumber;
+    private static final String[] excludeNames = {
+            "SCCS", "deleted_files", ".svn", ".git", ".hg"
+    };
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TagTestFinder.class);
+    private File currFile;
+    private Map<String, String> excludeList = new HashMap<>();
+    private Map<String, Class<? extends CommentStream>> extensionTable = new HashMap<>();
+    private boolean fastScan = false;
+    private String initialTag = "test";
+
     /**
      * Constructs the list of file names to exclude for pruning in the search
      * for files to examine for test descriptions.  This constructor also sets
@@ -125,6 +136,9 @@ public class TagTestFinder extends TestFinder {
         excludeList.put(name, name);
     }
 
+
+    //-----internal routines----------------------------------------------------
+
     /**
      * Exclude all files with particular names from being scanned.
      * This will typically be for directories like SCCS, Codemgr_wsdata, etc
@@ -189,18 +203,7 @@ public class TagTestFinder extends TestFinder {
         return extensionTable.get(extn);
     }
 
-    /**
-     * Set the initial tag to be checked for in a test description.
-     * If set to null, no initial tag is required.  The default value
-     * for the initial tag is "test".  (i.e. @test must appear in the
-     * test description.)
-     *
-     * @param tag The tag to be checked for.
-     * @see #getInitialTag
-     */
-    public void setInitialTag(String tag) {
-        initialTag = tag;
-    }
+    //----------member variables------------------------------------------------
 
     /**
      * Get the current value of the initial tag that is checked for
@@ -213,8 +216,18 @@ public class TagTestFinder extends TestFinder {
         return initialTag;
     }
 
-
-    //-----internal routines----------------------------------------------------
+    /**
+     * Set the initial tag to be checked for in a test description.
+     * If set to null, no initial tag is required.  The default value
+     * for the initial tag is "test".  (i.e. @test must appear in the
+     * test description.)
+     *
+     * @param tag The tag to be checked for.
+     * @see #getInitialTag
+     */
+    public void setInitialTag(String tag) {
+        initialTag = tag;
+    }
 
     /**
      * Scan a directory, looking for more files to scan
@@ -335,7 +348,6 @@ public class TagTestFinder extends TestFinder {
         }
     }
 
-
     /**
      * Given a comment, find all tags of interest.  Return a map
      * containing the name-value pairs for those tags.  If a duplicate
@@ -426,20 +438,5 @@ public class TagTestFinder extends TestFinder {
         }
         return end;
     }
-
-    //----------member variables------------------------------------------------
-
-    private File currFile;
-    private Map<String, String> excludeList = new HashMap<>();
-    private Map<String, Class<? extends CommentStream>> extensionTable = new HashMap<>();
-    private boolean fastScan = false;
-    private String initialTag = "test";
-
-    //private int testDescNumber;
-    private static final String[] excludeNames = {
-            "SCCS", "deleted_files", ".svn", ".git", ".hg"
-    };
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TagTestFinder.class);
 
 }

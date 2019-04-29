@@ -44,6 +44,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class TT_BasicNode extends TT_TreeNode {
 
+    private final ArrayList<TT_TreeNode> children = new ArrayList<>();
+    private final AtomicBoolean isUpdated = new AtomicBoolean(false);
+    private TRT_TreeNode tn;
+    private Comparator<String> comp;
+    private boolean debug = Debug.getBoolean(TT_BasicNode.class);
+
     TT_BasicNode(TT_BasicNode parent, TRT_TreeNode tn, Comparator<String> comp) {
         this.comp = comp;
         this.parent = parent;
@@ -466,10 +472,4 @@ public class TT_BasicNode extends TT_TreeNode {
             }
         }
     }
-
-    private final ArrayList<TT_TreeNode> children = new ArrayList<>();
-    private TRT_TreeNode tn;
-    private Comparator<String> comp;
-    private final AtomicBoolean isUpdated = new AtomicBoolean(false);
-    private boolean debug = Debug.getBoolean(TT_BasicNode.class);
 }

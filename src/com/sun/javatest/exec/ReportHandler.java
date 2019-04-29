@@ -56,6 +56,21 @@ import java.util.Map;
  * Class to handle report create/open operations in exec tool.
  */
 class ReportHandler implements ET_ReportControl, HarnessAware {
+    private static final String REPORT_PREFIX = "report";
+    private Action newReportAction;
+    private Action openReportAction;
+    private JComponent parent;
+    private UIFactory uif;
+    private FileHistory.Listener reportHistoryListener;
+    private FileHistory history;
+    private File lastOpenPath;
+    private Map<String, String> lastState;
+    private ExecModel model;
+    private NewReportDialog newReportD;
+    private ReportBrowser reportBrowser;
+    private ReportDirChooser reportDirChooser;
+    private WorkDirectory workDir;
+
     ReportHandler(JComponent parent, ExecModel model, UIFactory uif) {
         this.parent = parent;
         this.model = model;
@@ -67,6 +82,9 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         this(parent, model, uif);
         setHarness(harness);
     }
+
+    //----------------------------------------------------------------------------
+    // internal methods
 
     @Override
     public JMenu getMenu() {
@@ -325,9 +343,6 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         return null;
     }
 
-    //----------------------------------------------------------------------------
-    // internal methods
-
     // cannot use instance initialization for the actions because they depend
     // on uif being initialized in the constructor
     private void initActions() {
@@ -357,22 +372,4 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
         });
 
     }
-
-    private Action newReportAction;
-    private Action openReportAction;
-
-    private static final String REPORT_PREFIX = "report";
-
-    private JComponent parent;
-    private UIFactory uif;
-
-    private FileHistory.Listener reportHistoryListener;
-    private FileHistory history;
-    private File lastOpenPath;
-    private Map<String, String> lastState;
-    private ExecModel model;
-    private NewReportDialog newReportD;
-    private ReportBrowser reportBrowser;
-    private ReportDirChooser reportDirChooser;
-    private WorkDirectory workDir;
 }

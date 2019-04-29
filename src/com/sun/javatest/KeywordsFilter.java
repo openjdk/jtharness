@@ -32,6 +32,9 @@ import com.sun.javatest.util.I18NResourceBundle;
  * A test filter that filters tests according to the keywords on a test description.
  */
 public class KeywordsFilter extends TestFilter {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(KeywordsFilter.class);
+    private Keywords keywords;
+
     /**
      * Create a filter that filters tests according to a Keywords object.
      *
@@ -90,7 +93,4 @@ public class KeywordsFilter extends TestFilter {
         KeywordsFilter other = (KeywordsFilter) o;
         return keywords.equals(other.keywords);
     }
-
-    private Keywords keywords;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(KeywordsFilter.class);
 }

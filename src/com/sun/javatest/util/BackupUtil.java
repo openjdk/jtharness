@@ -260,36 +260,6 @@ public class BackupUtil {
         }
     }
 
-    private static class LayerFilter implements FileFilter {
-        private String suffix;
-
-        public LayerFilter(String suffix) {
-            this.suffix = suffix;
-        }
-
-        @Override
-        public boolean accept(File file) {
-            if (!file.isDirectory()) {
-                return false;
-            }
-
-            if (suffix.isEmpty()) {
-                if (!file.getName().endsWith("~")) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                if (file.getName().endsWith(suffix)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-
-    }
-
     /**
      * backups all files in the directory. No rename of directory. Not - recursive
      */
@@ -344,5 +314,35 @@ public class BackupUtil {
             deleted = dir.delete();
         }
         return deleted;
+    }
+
+    private static class LayerFilter implements FileFilter {
+        private String suffix;
+
+        public LayerFilter(String suffix) {
+            this.suffix = suffix;
+        }
+
+        @Override
+        public boolean accept(File file) {
+            if (!file.isDirectory()) {
+                return false;
+            }
+
+            if (suffix.isEmpty()) {
+                if (!file.getName().endsWith("~")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                if (file.getName().endsWith(suffix)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+
     }
 }

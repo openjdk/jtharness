@@ -62,6 +62,62 @@ import java.util.regex.Pattern;
  */
 public class KflSorter {
 
+    protected static final Pattern testCasePattern = Pattern //.compile("^(\\S+): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
+            .compile("^(.*): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
+    //    interface KflObserver {
+//        public void passToFail(TestResult tr);
+//        public void failToPass(TestResult tr);
+//    }
+    protected SortedSet<TestDiff> fail2pass;
+    protected SortedSet<TestDiff> fail2error;
+    protected SortedSet<TestDiff> fail2notrun;
+    protected SortedSet<TestDiff> missing;
+    protected SortedSet<TestDiff> newFailures;
+    protected SortedSet<TestDiff> otherErrors;
+    protected SortedSet<TestDiff> fail2fail;
+    protected SortedSet<TestDiff> tc_missing;
+    protected SortedSet<TestDiff> tc_fail2pass;
+
+    /**
+     * Add all test cases for a test which match the given status to the tree set.
+     * @param entry The corresponding KFL entry.
+     * @param
+     * @param set the data set to add the selected test cases to
+     * @return the number of test cases which matched the status
+     */
+//    private int addStatusTestCases(final KnownFailuresList.Entry entry,
+//            final String url, final TestResult tr, int status,
+//            Transitions t, Map<String, Status> tcs, TreeSet set) {
+//        // could check enableTestCases flag before processing
+//
+//        // add all test cases from this entry
+//        int problems = 0;
+//
+//        //String[] tcs = entry.getTestCaseList();
+//        if (tcs == null || tcs.isEmpty())
+//            return 0;
+//
+//        for (String key: tcs.keySet()) {
+//            Status stat = tcs.get(key);
+//
+//            if (stat.getType() == status) {
+//                if(set.add(new TestDiff(url, key, tr, t)))
+//                    problems++;
+//            }
+//        }
+//
+//        return problems;
+//    }
+    protected SortedSet<TestDiff> tc_fail2error;
+    protected SortedSet<TestDiff> tc_fail2notrun;
+    protected SortedSet<TestDiff> tc_newFailures;
+    protected KnownFailuresList kfl;
+    //protected TestCaseList tcl;
+    protected TestResultTable trt;
+    protected int errorCount;
+    protected int tcErrorCount;
+    private boolean enableTestCases;
+    private boolean processF2f, processF2e, processMissing = true;
     /**
      * @param kfl       Effective known failures list to use - merge them in advance
      *                  if multiple KFLs are needed.
@@ -86,6 +142,58 @@ public class KflSorter {
         tc_newFailures = new TreeSet<>();
 
         enableTestCases = testcases;
+    }
+
+    private static Map<String, Status> getTestCases(TestResult tr) {
+        Map<String, Status> result = new LinkedHashMap<>();
+
+        if (tr.isShrunk() && tr.isReloadable()) {
+            tr.getSectionTitles();
+        }
+
+        int sCount = tr.getSectionCount();
+        if (sCount == 0 && tr.getStatus().getType() != Status.NOT_RUN) {
+            //sCount = tr.getSectionCount();
+        }
+
+        for (int i = 0; i < sCount; i++) {
+            try {
+                String sectionOut = tr.getSection(i).getOutput("out1");
+                if (sectionOut == null) {
+                    continue;
+                }
+                BufferedReader reader = new BufferedReader(new StringReader(
+                        sectionOut));
+                String s = reader.readLine();
+                while (s != null) {
+                    Matcher m = testCasePattern.matcher(s);
+                    if (m.matches()) {
+                        String tcName = m.group(1);
+                        // checking for space helps eliminate false matches
+                        if (tcName == null || tcName.contains(" ") ||
+                                tcName.contains("\t")) {
+                            s = reader.readLine();
+                            continue;
+                        }
+                        Status stat = Status.parse(m.group(2));
+                        if (result.containsKey(tcName)) {
+                            // testcases with the same name are marked as passed
+                            // only if all these testcases are passed
+                            if (!stat.isPassed()) {
+                                result.put(tcName, stat);
+                            }
+                        } else {
+                            result.put(tcName, stat);
+                        }
+                    }
+                    s = reader.readLine();
+                }
+            } catch (IOException | TestResult.ReloadFault e) {
+                // TODO Auto-generated catch block
+            }
+        }
+
+        return result.isEmpty() ? null : result;
     }
 
     //    KFL_Sorter(KnownFailuresList kfl, TestCaseList tcl) {
@@ -459,38 +567,6 @@ public class KflSorter {
     }
 
     /**
-     * Add all test cases for a test which match the given status to the tree set.
-     * @param entry The corresponding KFL entry.
-     * @param
-     * @param set the data set to add the selected test cases to
-     * @return the number of test cases which matched the status
-     */
-//    private int addStatusTestCases(final KnownFailuresList.Entry entry,
-//            final String url, final TestResult tr, int status,
-//            Transitions t, Map<String, Status> tcs, TreeSet set) {
-//        // could check enableTestCases flag before processing
-//
-//        // add all test cases from this entry
-//        int problems = 0;
-//
-//        //String[] tcs = entry.getTestCaseList();
-//        if (tcs == null || tcs.isEmpty())
-//            return 0;
-//
-//        for (String key: tcs.keySet()) {
-//            Status stat = tcs.get(key);
-//
-//            if (stat.getType() == status) {
-//                if(set.add(new TestDiff(url, key, tr, t)))
-//                    problems++;
-//            }
-//        }
-//
-//        return problems;
-//    }
-
-
-    /**
      * Add all test cases from the test result, listed in the KFL entry
      * which match the given status.
      * Effectively - iterate test cases in result (tcs), if it is listed in the
@@ -543,7 +619,6 @@ public class KflSorter {
 
         return problems;
     }
-
 
     private boolean hasTestCases(KnownFailuresList.Entry... es) {
         if (es == null || es.length == 0) {
@@ -598,58 +673,9 @@ public class KflSorter {
     synchronized int getTestCasesErrorCount() {
         return tcErrorCount;
     }
-
-
-    private static Map<String, Status> getTestCases(TestResult tr) {
-        Map<String, Status> result = new LinkedHashMap<>();
-
-        if (tr.isShrunk() && tr.isReloadable()) {
-            tr.getSectionTitles();
-        }
-
-        int sCount = tr.getSectionCount();
-        if (sCount == 0 && tr.getStatus().getType() != Status.NOT_RUN) {
-            //sCount = tr.getSectionCount();
-        }
-
-        for (int i = 0; i < sCount; i++) {
-            try {
-                String sectionOut = tr.getSection(i).getOutput("out1");
-                if (sectionOut == null) {
-                    continue;
-                }
-                BufferedReader reader = new BufferedReader(new StringReader(
-                        sectionOut));
-                String s = reader.readLine();
-                while (s != null) {
-                    Matcher m = testCasePattern.matcher(s);
-                    if (m.matches()) {
-                        String tcName = m.group(1);
-                        // checking for space helps eliminate false matches
-                        if (tcName == null || tcName.contains(" ") ||
-                                tcName.contains("\t")) {
-                            s = reader.readLine();
-                            continue;
-                        }
-                        Status stat = Status.parse(m.group(2));
-                        if (result.containsKey(tcName)) {
-                            // testcases with the same name are marked as passed
-                            // only if all these testcases are passed
-                            if (!stat.isPassed()) {
-                                result.put(tcName, stat);
-                            }
-                        } else {
-                            result.put(tcName, stat);
-                        }
-                    }
-                    s = reader.readLine();
-                }
-            } catch (IOException | TestResult.ReloadFault e) {
-                // TODO Auto-generated catch block
-            }
-        }
-
-        return result.isEmpty() ? null : result;
+    public enum Transitions {
+        FAIL2PASS, FAIL2ERROR, FAIL2MISSING, FAIL2NOTRUN, FAIL2FAIL, NEWFAILURES,
+        OTHER_ERRORS, TC_FAIL2MISSING, TC_FAIL2PASS, TC_PASS2ERROR, TC_FAIL2NOTRUN, TC_FAIL2ERROR, TC_NEWFAILURES
     }
 
     /**
@@ -658,6 +684,13 @@ public class KflSorter {
      * then queried again and again for different purposes.
      */
     public static class TestDiff implements Comparable<TestDiff> {
+        private TestResult tr;
+        private String url;
+        private String tc;
+        private boolean resultMismatch = false;
+        private boolean caseMismatch = false;
+        private KnownFailuresList.Entry kflEntry;
+
         public TestDiff(String url, TestResult tr, Transitions type) {
             this.tr = tr;
             this.url = url;
@@ -683,7 +716,6 @@ public class KflSorter {
         public boolean isTestMismatch() {
             return resultMismatch;
         }
-
 
         /**
          * Get the full name for this entry, including the test case.
@@ -759,46 +791,5 @@ public class KflSorter {
                 return n;*/
             return n;
         }
-
-        private TestResult tr;
-        private String url;
-        private String tc;
-        private boolean resultMismatch = false;
-        private boolean caseMismatch = false;
-        private KnownFailuresList.Entry kflEntry;
     }
-
-    public enum Transitions {
-        FAIL2PASS, FAIL2ERROR, FAIL2MISSING, FAIL2NOTRUN, FAIL2FAIL, NEWFAILURES,
-        OTHER_ERRORS, TC_FAIL2MISSING, TC_FAIL2PASS, TC_PASS2ERROR, TC_FAIL2NOTRUN, TC_FAIL2ERROR, TC_NEWFAILURES
-    }
-
-    //    interface KflObserver {
-//        public void passToFail(TestResult tr);
-//        public void failToPass(TestResult tr);
-//    }
-    protected SortedSet<TestDiff> fail2pass;
-    protected SortedSet<TestDiff> fail2error;
-    protected SortedSet<TestDiff> fail2notrun;
-    protected SortedSet<TestDiff> missing;
-    protected SortedSet<TestDiff> newFailures;
-    protected SortedSet<TestDiff> otherErrors;
-    protected SortedSet<TestDiff> fail2fail;
-
-    protected SortedSet<TestDiff> tc_missing;
-    protected SortedSet<TestDiff> tc_fail2pass;
-    protected SortedSet<TestDiff> tc_fail2error;
-    protected SortedSet<TestDiff> tc_fail2notrun;
-    protected SortedSet<TestDiff> tc_newFailures;
-
-    protected KnownFailuresList kfl;
-    //protected TestCaseList tcl;
-    protected TestResultTable trt;
-    protected int errorCount;
-    protected int tcErrorCount;
-    private boolean enableTestCases;
-    private boolean processF2f, processF2e, processMissing = true;
-
-    protected static final Pattern testCasePattern = Pattern //.compile("^(\\S+): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
-            .compile("^(.*): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
 }

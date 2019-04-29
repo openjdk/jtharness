@@ -47,6 +47,42 @@ import java.util.Map;
  */
 
 public class ProviderRegistry {
+    protected static boolean debug = Boolean.getBoolean("debug." + ProviderRegistry.class.getName());
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ProviderRegistry.class);
+    /**
+     * Maps the url to a HandlerEntry
+     */
+    protected Map<String, Object> url2prov = new Hashtable<>();
+    protected JThttpProvider myProvider;
+
+    /**
+     * Process a directory name before it is stored or looked up.
+     * <p>
+     * The default implementation of this method removes the leading and
+     * trailing slashes and whitespace.  A null in will result in null out.
+     */
+    static String stripDirName(String in) {
+        if (in == null) {
+            return null;
+        }
+
+        int startTrim = 0;
+        if (in.charAt(0) == '/') {
+            startTrim = 1;
+        }
+
+        int nextSlash = in.indexOf('/', startTrim);
+        String processedURL = null;
+        // grab only the first directory name
+        if (nextSlash != -1) {
+            processedURL = in.substring(startTrim, nextSlash);
+        } else {
+            processedURL = in.substring(startTrim, in.length());
+        }
+
+        return processedURL;
+    }
+
     /**
      * @param url     Root relative path that this handler should be associated with.
      * @param descrip Informative description of this handler/url
@@ -117,6 +153,8 @@ public class ProviderRegistry {
 
         return deleteHandler(disassembleURL(url), obj);
     }
+
+// ---------- Protected or better -----------
 
     /**
      * Remove all URL registrations that point to the supplied handler.
@@ -211,8 +249,6 @@ public class ProviderRegistry {
         return url2prov.isEmpty();
     }
 
-// ---------- Protected or better -----------
-
     /**
      * Find out if there is a handler or sub-registry with the given name.
      */
@@ -232,34 +268,6 @@ public class ProviderRegistry {
         if (debug) {
             System.out.println("PR-Removed " + name + " from hashtable." + obj);
         }
-    }
-
-    /**
-     * Process a directory name before it is stored or looked up.
-     * <p>
-     * The default implementation of this method removes the leading and
-     * trailing slashes and whitespace.  A null in will result in null out.
-     */
-    static String stripDirName(String in) {
-        if (in == null) {
-            return null;
-        }
-
-        int startTrim = 0;
-        if (in.charAt(0) == '/') {
-            startTrim = 1;
-        }
-
-        int nextSlash = in.indexOf('/', startTrim);
-        String processedURL = null;
-        // grab only the first directory name
-        if (nextSlash != -1) {
-            processedURL = in.substring(startTrim, nextSlash);
-        } else {
-            processedURL = in.substring(startTrim, in.length());
-        }
-
-        return processedURL;
     }
 
     /**
@@ -418,16 +426,15 @@ public class ProviderRegistry {
         return result;
     }
 
-    /**
-     * Maps the url to a HandlerEntry
-     */
-    protected Map<String, Object> url2prov = new Hashtable<>();
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ProviderRegistry.class);
-    protected static boolean debug = Boolean.getBoolean("debug." + ProviderRegistry.class.getName());
-    protected JThttpProvider myProvider;
-
     private static class HandlerEntry {
+        /**
+         * Of the form "/harness" or "/harness/", relative to the root.
+         */
+        private String url;
+        private String descrip;
+        private JThttpProvider obj;
+        private boolean hidden;
+
         HandlerEntry(String url, String descrip, JThttpProvider obj) {
             this.url = url;
             this.descrip = descrip;
@@ -449,17 +456,11 @@ public class ProviderRegistry {
         public JThttpProvider getProvider() {
             return obj;
         }
-
-        /**
-         * Of the form "/harness" or "/harness/", relative to the root.
-         */
-        private String url;
-        private String descrip;
-        private JThttpProvider obj;
-        private boolean hidden;
     }
 
     protected static class IndexHandler extends JThttpProvider {
+        private Map<String, Object> urlMap;
+
         IndexHandler(Map<String, Object> ht) {
             urlMap = ht;
         }
@@ -515,8 +516,6 @@ public class ProviderRegistry {
             out.println("</ul>");
             out.println();
         }
-
-        private Map<String, Object> urlMap;
     }
 }
 

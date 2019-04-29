@@ -50,28 +50,17 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 class FilterSelectionHandler {
-    /**
-     * Observe changes to the state of the view.  The changes to the view state
-     * will generally be the result of user actions.
-     */
-    public interface Observer {
-        /**
-         * The state of the given filter has changed.
-         */
-        void filterUpdated(TestFilter f);
-
-        /**
-         * The system is requesting a different filter.
-         */
-        void filterSelected(TestFilter f);
-
-        void filterAdded(TestFilter f);
-
-        /**
-         * Removing the active filter will result in an exception.
-         */
-        void filterRemoved(TestFilter f);
-    }
+    private static boolean debug = Debug.getBoolean(FilterConfig.class);
+    private FilterConfig filterConfig;
+    private UIFactory uif;
+    private TestFilter activeFilter;
+    private JComboBox<TestFilter> selectBox;
+    private JButton configButton;
+    private JMenu editMenu;
+    private ButtonGroup menuGroup;
+    private Listener listener;
+    private Observer[] obs = new Observer[0];
+    private OrderedTwoWayTable filterMenuTable;     // filter, menu item
 
     FilterSelectionHandler(FilterConfig fc, UIFactory uif) {
         this.filterConfig = fc;
@@ -366,20 +355,28 @@ class FilterSelectionHandler {
         }
 
     }
+    /**
+     * Observe changes to the state of the view.  The changes to the view state
+     * will generally be the result of user actions.
+     */
+    public interface Observer {
+        /**
+         * The state of the given filter has changed.
+         */
+        void filterUpdated(TestFilter f);
 
-    private FilterConfig filterConfig;
-    private UIFactory uif;
+        /**
+         * The system is requesting a different filter.
+         */
+        void filterSelected(TestFilter f);
 
-    private TestFilter activeFilter;
-    private JComboBox<TestFilter> selectBox;
-    private JButton configButton;
-    private JMenu editMenu;
-    private ButtonGroup menuGroup;
+        void filterAdded(TestFilter f);
 
-    private Listener listener;
-    private Observer[] obs = new Observer[0];
-    private OrderedTwoWayTable filterMenuTable;     // filter, menu item
-    private static boolean debug = Debug.getBoolean(FilterConfig.class);
+        /**
+         * Removing the active filter will result in an exception.
+         */
+        void filterRemoved(TestFilter f);
+    }
 
     class Listener implements ActionListener, FilterConfig.Observer {
         @Override

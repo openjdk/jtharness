@@ -42,6 +42,14 @@ import java.util.Map;
  * Standard template for creation of an Action to be used in a Tool.
  */
 public abstract class ToolAction implements Action {
+    private String name;
+    private String desc;
+    private Integer mnemonic;
+    private Icon icon;
+    private Map<String, Object> misc;
+    private boolean enabled = true;
+    private WeakReference<PropertyChangeListener>[] listeners = new WeakReference[0];
+
     /**
      * Construct an action with a specific mnemonic.  This is the
      * non-internationalized version and not recommended.  See
@@ -107,6 +115,16 @@ public abstract class ToolAction implements Action {
         this(i18n.getString(key + ".act"),
                 i18n.getString(key + ".tip"),
                 getMnemonic(i18n, key + ".mne"));
+    }
+
+    private static int getMnemonic(I18NResourceBundle i18n, String key) {
+        String keyString = i18n.getString(key);
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(keyString);
+        return keyStroke == null ? 0 : keyStroke.getKeyCode();
+    }
+
+    private static boolean equal(Object a, Object b) {
+        return a == null ? b == null : a.equals(b);
     }
 
     /**
@@ -240,24 +258,4 @@ public abstract class ToolAction implements Action {
             }
         }
     }
-
-
-    private static int getMnemonic(I18NResourceBundle i18n, String key) {
-        String keyString = i18n.getString(key);
-        KeyStroke keyStroke = KeyStroke.getKeyStroke(keyString);
-        return keyStroke == null ? 0 : keyStroke.getKeyCode();
-    }
-
-    private static boolean equal(Object a, Object b) {
-        return a == null ? b == null : a.equals(b);
-    }
-
-    private String name;
-    private String desc;
-    private Integer mnemonic;
-    private Icon icon;
-    private Map<String, Object> misc;
-    private boolean enabled = true;
-
-    private WeakReference<PropertyChangeListener>[] listeners = new WeakReference[0];
 }

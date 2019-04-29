@@ -39,6 +39,19 @@ import java.util.Properties;
  * this meta-information stored in a work directory.
  */
 public class LastRunInfo {
+    // file in the work dir
+    private static final String FILENAME = "lastRun.txt";
+    // keys for properties
+    private static final String START = "startTime";
+    private static final String FINISH = "finishTime";
+    private static final String CONFIG = "configName";
+    private static final String TEST_URLS = "testURLs";
+    private static final String SEP = " ";
+    private String configName;
+    private long startTime;
+    private long finishTime;
+    private List<String> testURLs;
+
     private LastRunInfo() {
     }
 
@@ -66,77 +79,6 @@ public class LastRunInfo {
 
         configName = p.getProperty(CONFIG);
         testURLs = split(p.getProperty(TEST_URLS));
-    }
-
-    /**
-     * When did the last test run start.
-     * Warning - the time information stored in a test result is only accurate to
-     * one second, so everything below a 1000ms can't be compared reliably.  If you are
-     * comparing times to a TestResult, it is suggested that you either remove the ms
-     * from the return value or do something other than compare the integers.
-     *
-     * @return The time (in milliseconds) at which the last test run started.
-     * @see java.util.Date
-     */
-    public long getStartTime() {
-        return startTime;
-    }
-
-    /**
-     * When did the last test run end.
-     * Warning - the time information stored in a test result is only accurate to
-     * one second, so everything below a 1000ms can't be compared reliably.  If you are
-     * comparing times to a TestResult, it is suggested that you either remove the ms
-     * from the return value or do something other than compare the integers.
-     *
-     * @return The time (in milliseconds) at which the last test run completed (for
-     * any reason).
-     * @see java.util.Date
-     */
-    public long getFinishTime() {
-        return finishTime;
-    }
-
-    /**
-     * When did the last test run start.
-     *
-     * @return The time (in milliseconds) at which the last test run started.
-     * May be zero if the information is not available.
-     * @see java.util.Date
-     */
-    public Date getStartDate() {
-        return new Date(startTime);
-    }
-
-    /**
-     * When did the last test run end.
-     *
-     * @return The time (in milliseconds) at which the last test run completed (for
-     * any reason).  May be zero if the information is not available.
-     * @see java.util.Date
-     */
-    public Date getFinishDate() {
-        return new Date(finishTime);
-    }
-
-    /**
-     * Get the name of the configuration that was used in the last
-     * test run.
-     *
-     * @return Configuration name as it appeared in the configuration.  May be
-     * null or empty string if this information is not available.
-     */
-    public String getConfigName() {
-        return configName;
-    }
-
-    /**
-     * Get the URLs of the tests that were executed in the last test run.
-     *
-     * @return String array of testURLs executed.
-     */
-    public List<String> getTestURLs() {
-        return testURLs;
     }
 
     /**
@@ -230,19 +172,74 @@ public class LastRunInfo {
         }
     }
 
-    private String configName;
-    private long startTime;
-    private long finishTime;
-    private List<String> testURLs;
+    /**
+     * When did the last test run start.
+     * Warning - the time information stored in a test result is only accurate to
+     * one second, so everything below a 1000ms can't be compared reliably.  If you are
+     * comparing times to a TestResult, it is suggested that you either remove the ms
+     * from the return value or do something other than compare the integers.
+     *
+     * @return The time (in milliseconds) at which the last test run started.
+     * @see java.util.Date
+     */
+    public long getStartTime() {
+        return startTime;
+    }
 
-    // file in the work dir
-    private static final String FILENAME = "lastRun.txt";
+    /**
+     * When did the last test run end.
+     * Warning - the time information stored in a test result is only accurate to
+     * one second, so everything below a 1000ms can't be compared reliably.  If you are
+     * comparing times to a TestResult, it is suggested that you either remove the ms
+     * from the return value or do something other than compare the integers.
+     *
+     * @return The time (in milliseconds) at which the last test run completed (for
+     * any reason).
+     * @see java.util.Date
+     */
+    public long getFinishTime() {
+        return finishTime;
+    }
 
-    // keys for properties
-    private static final String START = "startTime";
-    private static final String FINISH = "finishTime";
-    private static final String CONFIG = "configName";
-    private static final String TEST_URLS = "testURLs";
+    /**
+     * When did the last test run start.
+     *
+     * @return The time (in milliseconds) at which the last test run started.
+     * May be zero if the information is not available.
+     * @see java.util.Date
+     */
+    public Date getStartDate() {
+        return new Date(startTime);
+    }
 
-    private static final String SEP = " ";
+    /**
+     * When did the last test run end.
+     *
+     * @return The time (in milliseconds) at which the last test run completed (for
+     * any reason).  May be zero if the information is not available.
+     * @see java.util.Date
+     */
+    public Date getFinishDate() {
+        return new Date(finishTime);
+    }
+
+    /**
+     * Get the name of the configuration that was used in the last
+     * test run.
+     *
+     * @return Configuration name as it appeared in the configuration.  May be
+     * null or empty string if this information is not available.
+     */
+    public String getConfigName() {
+        return configName;
+    }
+
+    /**
+     * Get the URLs of the tests that were executed in the last test run.
+     *
+     * @return String array of testURLs executed.
+     */
+    public List<String> getTestURLs() {
+        return testURLs;
+    }
 }

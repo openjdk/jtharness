@@ -54,6 +54,58 @@ import java.lang.reflect.Method;
  **/
 
 public class AgentFrame extends Frame {
+    // action commands
+    private static final String EXIT = "Exit";
+    private Listener listener = new Listener();
+    private AgentPanel panel;
+    private boolean tracing;
+
+    /**
+     * Create a AgentFrame.
+     *
+     * @param modeOptions An array of option panels for different connection modes.
+     */
+    public AgentFrame(ModeOptions... modeOptions) {
+        super(Agent.PRODUCT_NAME);
+
+        ExitCount.inc();
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                setVisible(false);
+                AgentFrame.this.dispose();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                ExitCount.dec();
+            }
+        });
+
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints c = new GridBagConstraints();
+
+        panel = new AgentPanel(modeOptions, new AgentPanel.MapReader() {
+            @Override
+            public ConfigValuesMap read(String name) throws IOException {
+                // Experiments indicate that the following code works OK
+                // on versions of PersonalJava that do not support local file systems.
+                // Just specify the map file as an http: URL.
+                if (name == null || name.isEmpty()) {
+                    return null;
+                } else {
+                    return ConfigValuesMap.readFileOrURL(name);
+                }
+            }
+        });
+
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.weighty = 1;
+        add(panel, c);
+    }
+
     /**
      * Create and start a AgentFrame, based on the supplied command line arguments.
      *
@@ -290,52 +342,6 @@ public class AgentFrame extends Frame {
         System.exit(exitCode);
     }
 
-    /**
-     * Create a AgentFrame.
-     *
-     * @param modeOptions An array of option panels for different connection modes.
-     */
-    public AgentFrame(ModeOptions... modeOptions) {
-        super(Agent.PRODUCT_NAME);
-
-        ExitCount.inc();
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                setVisible(false);
-                AgentFrame.this.dispose();
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-                ExitCount.dec();
-            }
-        });
-
-        setLayout(new GridBagLayout());
-
-        GridBagConstraints c = new GridBagConstraints();
-
-        panel = new AgentPanel(modeOptions, new AgentPanel.MapReader() {
-            @Override
-            public ConfigValuesMap read(String name) throws IOException {
-                // Experiments indicate that the following code works OK
-                // on versions of PersonalJava that do not support local file systems.
-                // Just specify the map file as an http: URL.
-                if (name == null || name.isEmpty()) {
-                    return null;
-                } else {
-                    return ConfigValuesMap.readFileOrURL(name);
-                }
-            }
-        });
-
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.weighty = 1;
-        add(panel, c);
-    }
-
     private void showCentered() {
         pack();
 
@@ -354,11 +360,4 @@ public class AgentFrame extends Frame {
             }
         }
     }
-
-    private Listener listener = new Listener();
-    private AgentPanel panel;
-    private boolean tracing;
-
-    // action commands
-    private static final String EXIT = "Exit";
 }

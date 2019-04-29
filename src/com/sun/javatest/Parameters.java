@@ -319,6 +319,17 @@ public interface Parameters {
      */
     interface MutableTestsParameters extends TestsParameters {
         /**
+         * A constant used to indicate that all tests in the test
+         * suite should be run.
+         */
+        int ALL_TESTS = 1;
+        /**
+         * A constant used to indicate that specified tests in the test
+         * suite should be run.
+         */
+        int SPECIFIED_TESTS = 2;
+
+        /**
          * Specify the tests to be executed.
          *
          * @param tests If null, set the tests mode to ALL_TESTS;
@@ -377,18 +388,6 @@ public interface Parameters {
          * @see #getTests
          */
         void setSpecifiedTests(String... tests);
-
-        /**
-         * A constant used to indicate that all tests in the test
-         * suite should be run.
-         */
-        int ALL_TESTS = 1;
-
-        /**
-         * A constant used to indicate that specified tests in the test
-         * suite should be run.
-         */
-        int SPECIFIED_TESTS = 2;
     }
 
     //----------------------------------------------------------------------------
@@ -418,6 +417,42 @@ public interface Parameters {
      * from the test run.
      */
     interface MutableExcludeListParameters extends ExcludeListParameters {
+        /**
+         * A constant used to indicate that no exclude list is required.
+         */
+        int NO_EXCLUDE_LIST = 1;
+        /**
+         * A constant used to indicate that the default exclude list
+         * (if any) for the test suite should be used.
+         *
+         * @see TestSuite#hasInitialExcludeList
+         */
+        int INITIAL_EXCLUDE_LIST = 2;
+        /**
+         * A constant used to indicate that the latest exclude list
+         * (if any) for the test suite should be used.
+         *
+         * @see TestSuite#hasLatestExcludeList
+         */
+        int LATEST_EXCLUDE_LIST = 3;
+        /**
+         * A constant used to indicate that a client-supplied set
+         * of exclude files should be used.
+         */
+        int CUSTOM_EXCLUDE_LIST = 4;
+        /**
+         * A constant used to indicate that the website used to
+         * supply the latest exclude list should be checked every
+         * so many days, to see if a newer version is available.
+         */
+        int CHECK_EVERY_X_DAYS = 1;
+        /**
+         * A constant used to indicate that the website used to
+         * supply the latest exclude list should be checked on every
+         * test run to see if a newer version is available.
+         */
+        int CHECK_EVERY_RUN = 2;
+
         /**
          * Get the set of files which define the exclude list. The files
          * are all returned as absolute files.
@@ -461,33 +496,6 @@ public interface Parameters {
          * @see #CUSTOM_EXCLUDE_LIST
          */
         void setExcludeMode(int mode);
-
-        /**
-         * A constant used to indicate that no exclude list is required.
-         */
-        int NO_EXCLUDE_LIST = 1;
-
-        /**
-         * A constant used to indicate that the default exclude list
-         * (if any) for the test suite should be used.
-         *
-         * @see TestSuite#hasInitialExcludeList
-         */
-        int INITIAL_EXCLUDE_LIST = 2;
-
-        /**
-         * A constant used to indicate that the latest exclude list
-         * (if any) for the test suite should be used.
-         *
-         * @see TestSuite#hasLatestExcludeList
-         */
-        int LATEST_EXCLUDE_LIST = 3;
-
-        /**
-         * A constant used to indicate that a client-supplied set
-         * of exclude files should be used.
-         */
-        int CUSTOM_EXCLUDE_LIST = 4;
 
         /**
          * Get the files used to define the exclude list when the
@@ -552,20 +560,6 @@ public interface Parameters {
         void setLatestExcludeAutoCheckMode(int mode);
 
         /**
-         * A constant used to indicate that the website used to
-         * supply the latest exclude list should be checked every
-         * so many days, to see if a newer version is available.
-         */
-        int CHECK_EVERY_X_DAYS = 1;
-
-        /**
-         * A constant used to indicate that the website used to
-         * supply the latest exclude list should be checked on every
-         * test run to see if a newer version is available.
-         */
-        int CHECK_EVERY_RUN = 2;
-
-        /**
          * Get the interval, in days, to be used when automatically
          * checking for exclude list updates and the auto check mode
          * is set to CHECK_EVERY_X_DAYS.
@@ -611,6 +605,32 @@ public interface Parameters {
      */
     interface MutableKeywordsParameters extends KeywordsParameters {
         /**
+         * A constant used to indicate that no keyword filtering
+         * should be used.
+         */
+        int NO_KEYWORDS = 1;
+        /**
+         * A constant used to indicate that only tests matching the
+         * specified keywords should be selected.
+         */
+        int MATCH_KEYWORDS = 2;
+        /**
+         * A constant used to indicate that tests that match any of
+         * the given keywords should be selected.
+         */
+        int ANY_OF = 1;
+        /**
+         * A constant used to indicate that tests that match all of
+         * the given keywords should be selected.
+         */
+        int ALL_OF = 2;
+        /**
+         * A constant used to indicate that tests that match the
+         * given keyword expression should be selected.
+         */
+        int EXPR = 3;
+
+        /**
          * Set the details of the keywords to be used, if any,
          * to filter tests for execution.
          *
@@ -649,18 +669,6 @@ public interface Parameters {
          * @see #MATCH_KEYWORDS
          */
         void setKeywordsMode(int mode);
-
-        /**
-         * A constant used to indicate that no keyword filtering
-         * should be used.
-         */
-        int NO_KEYWORDS = 1;
-
-        /**
-         * A constant used to indicate that only tests matching the
-         * specified keywords should be selected.
-         */
-        int MATCH_KEYWORDS = 2;
 
         /**
          * Get a value which indicates how to interpret the match value,
@@ -707,24 +715,6 @@ public interface Parameters {
          */
         void setMatchKeywords(int mode, String value);
 
-        /**
-         * A constant used to indicate that tests that match any of
-         * the given keywords should be selected.
-         */
-        int ANY_OF = 1;
-
-        /**
-         * A constant used to indicate that tests that match all of
-         * the given keywords should be selected.
-         */
-        int ALL_OF = 2;
-
-        /**
-         * A constant used to indicate that tests that match the
-         * given keyword expression should be selected.
-         */
-        int EXPR = 3;
-
     }
 
     //----------------------------------------------------------------------------
@@ -759,6 +749,18 @@ public interface Parameters {
      * status.
      */
     interface MutablePriorStatusParameters extends PriorStatusParameters {
+        /**
+         * A constant used to indicate that a test's prior execution status
+         * should not be taken into account when selecting tests for execution.
+         */
+        int NO_PRIOR_STATUS = 1;
+        /**
+         * A constant used to indicate that tests should be selected
+         * for execution if their status matched one of the matching
+         * prior status values.
+         */
+        int MATCH_PRIOR_STATUS = 2;
+
         /**
          * Set which prior status values should be used, if any, to select tests
          * for execution.
@@ -797,19 +799,6 @@ public interface Parameters {
          * @see #MATCH_PRIOR_STATUS
          */
         void setPriorStatusMode(int mode);
-
-        /**
-         * A constant used to indicate that a test's prior execution status
-         * should not be taken into account when selecting tests for execution.
-         */
-        int NO_PRIOR_STATUS = 1;
-
-        /**
-         * A constant used to indicate that tests should be selected
-         * for execution if their status matched one of the matching
-         * prior status values.
-         */
-        int MATCH_PRIOR_STATUS = 2;
 
         /**
          * Get an array of booleans which identify which tests to be run,
@@ -930,6 +919,15 @@ public interface Parameters {
      */
     interface ConcurrencyParameters {
         /**
+         * The lowest permitted value for the concurrency.
+         */
+        int MIN_CONCURRENCY = 1;
+        /**
+         * The highest allowed value for the concurrency.
+         */
+        int MAX_CONCURRENCY = 256;
+
+        /**
          * Get an integer specifying the maximum number of tests that may
          * be run in parallel.
          *
@@ -938,16 +936,6 @@ public interface Parameters {
          * @see Parameters#getConcurrency
          */
         int getConcurrency();
-
-        /**
-         * The lowest permitted value for the concurrency.
-         */
-        int MIN_CONCURRENCY = 1;
-
-        /**
-         * The highest allowed value for the concurrency.
-         */
-        int MAX_CONCURRENCY = 256;
     }
 
     //----------------------------------------------------------------------------
@@ -976,6 +964,15 @@ public interface Parameters {
      */
     interface TimeoutFactorParameters {
         /**
+         * The lowest permitted value for timeout factor.
+         */
+        float MIN_TIMEOUT_FACTOR = 0.1f;
+        /**
+         * The highest permitted value for timeout factor.
+         */
+        float MAX_TIMEOUT_FACTOR = 100.f;
+
+        /**
          * Get an integer specifying a scale factor to be applied to the
          * standard timeout for the test.
          *
@@ -984,16 +981,6 @@ public interface Parameters {
          * @see Parameters#getTimeoutFactor
          */
         float getTimeoutFactor();
-
-        /**
-         * The lowest permitted value for timeout factor.
-         */
-        float MIN_TIMEOUT_FACTOR = 0.1f;
-
-        /**
-         * The highest permitted value for timeout factor.
-         */
-        float MAX_TIMEOUT_FACTOR = 100.f;
     }
 
     //----------------------------------------------------------------------------

@@ -43,6 +43,95 @@ import java.util.List;
  * A component to allow selection of nodes in a tree.
  */
 public class TreeSelectionPane extends JComponent implements Accessible {
+    private static I18NResourceBundle i18n =
+            I18NResourceBundle.getBundleForClass(TreeSelectionPane.class);
+    private AccessibleContext accessibleContext;
+    private SelectionTree tree;
+    private UIFactory uif;
+
+    /**
+     * Create a TreeSelectionPane, using a specified tree model.
+     *
+     * @param model the model for the tree from which nodes may be selected
+     */
+    TreeSelectionPane(Model model) {
+        uif = new UIFactory(getClass(), null);
+
+        setLayout(new BorderLayout());
+        SelectNode rootNode = new SelectNode(model, model.getRoot());
+        tree = new SelectionTree(rootNode, null, true);
+        tree.setName("tsp.tree");
+        AccessibleContext ac = tree.getAccessibleContext();
+        ac.setAccessibleName(i18n.getString("tsp.tree.name"));
+        ac.setAccessibleDescription(i18n.getString("tsp.tree.desc"));
+
+        JScrollPane sp = uif.createScrollPane(tree);
+        add(sp);
+    }
+
+    /**
+     * Get the accessible context for this pane.
+     *
+     * @return the accessible context for this pane
+     */
+    @Override
+    public AccessibleContext getAccessibleContext() {
+        if (accessibleContext == null) {
+            accessibleContext = new AccessibleJComponent() {
+            };
+        }
+        return accessibleContext;
+    }
+
+    /**
+     * Get the current selection, represented as a set of paths to the
+     * selected nodes.
+     *
+     * @return the current selection, represented as a set of paths to the
+     * selected nodes
+     * @see #setSelection
+     */
+    public String[] getSelection() {
+        return tree.getSelection();
+    }
+
+    /**
+     * Set the current selection, by means of a set of paths to the
+     * nodes to be selected.
+     *
+     * @param paths a set of paths to the nodes to be selected
+     * @see #getSelection
+     * @see #clear
+     */
+    public void setSelection(String... paths) {
+        tree.setSelection(paths);
+    }
+
+    /**
+     * Check if the selection is empty.
+     *
+     * @return true if the selection is empty
+     */
+    public boolean isSelectionEmpty() {
+        return tree.isSelectionEmpty();
+    }
+
+    /**
+     * Clear the current selection.
+     *
+     * @see #getSelection
+     * @see #setSelection
+     */
+    public void clear() {
+        tree.setSelection(null);
+    }
+
+    @Override
+    public void setEnabled(boolean b) {
+        super.setEnabled(b);
+        // propogate enabled-ness onto tree
+        tree.setEnabled(b);
+    }
     /**
      * The model for the tree whose nodes can be selected in a TreeSelectionPane.
      */
@@ -101,26 +190,6 @@ public class TreeSelectionPane extends JComponent implements Accessible {
          * @return true if the node is a leaf node, and false otherwise
          */
         boolean isLeaf(Object node);
-    }
-
-    /**
-     * Create a TreeSelectionPane, using a specified tree model.
-     *
-     * @param model the model for the tree from which nodes may be selected
-     */
-    TreeSelectionPane(Model model) {
-        uif = new UIFactory(getClass(), null);
-
-        setLayout(new BorderLayout());
-        SelectNode rootNode = new SelectNode(model, model.getRoot());
-        tree = new SelectionTree(rootNode, null, true);
-        tree.setName("tsp.tree");
-        AccessibleContext ac = tree.getAccessibleContext();
-        ac.setAccessibleName(i18n.getString("tsp.tree.name"));
-        ac.setAccessibleDescription(i18n.getString("tsp.tree.desc"));
-
-        JScrollPane sp = uif.createScrollPane(tree);
-        add(sp);
     }
 
     protected static class SelectNode implements SelectionElement {
@@ -190,75 +259,4 @@ public class TreeSelectionPane extends JComponent implements Accessible {
             return name;
         }
     }
-
-    /**
-     * Get the accessible context for this pane.
-     *
-     * @return the accessible context for this pane
-     */
-    @Override
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJComponent() {
-            };
-        }
-        return accessibleContext;
-    }
-
-    /**
-     * Get the current selection, represented as a set of paths to the
-     * selected nodes.
-     *
-     * @return the current selection, represented as a set of paths to the
-     * selected nodes
-     * @see #setSelection
-     */
-    public String[] getSelection() {
-        return tree.getSelection();
-    }
-
-    /**
-     * Set the current selection, by means of a set of paths to the
-     * nodes to be selected.
-     *
-     * @param paths a set of paths to the nodes to be selected
-     * @see #getSelection
-     * @see #clear
-     */
-    public void setSelection(String... paths) {
-        tree.setSelection(paths);
-    }
-
-    /**
-     * Check if the selection is empty.
-     *
-     * @return true if the selection is empty
-     */
-    public boolean isSelectionEmpty() {
-        return tree.isSelectionEmpty();
-    }
-
-    /**
-     * Clear the current selection.
-     *
-     * @see #getSelection
-     * @see #setSelection
-     */
-    public void clear() {
-        tree.setSelection(null);
-    }
-
-    @Override
-    public void setEnabled(boolean b) {
-        super.setEnabled(b);
-        // propogate enabled-ness onto tree
-        tree.setEnabled(b);
-    }
-
-    private AccessibleContext accessibleContext;
-    private SelectionTree tree;
-    private static I18NResourceBundle i18n =
-            I18NResourceBundle.getBundleForClass(TreeSelectionPane.class);
-
-    private UIFactory uif;
 }

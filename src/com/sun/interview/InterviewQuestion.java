@@ -29,6 +29,9 @@ package com.sun.interview;
 import java.util.Map;
 
 class InterviewQuestion extends Question {
+    private Interview targetInterview;
+    private Question next;
+
     /**
      * An internal class used to indicate that a nested interview should
      * be executed.
@@ -136,7 +139,4 @@ class InterviewQuestion extends Question {
     protected void save(Map<String, String> data) {
         // no need to super.save(data)
     }
-
-    private Interview targetInterview;
-    private Question next;
 }

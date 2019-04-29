@@ -51,12 +51,36 @@ import java.util.TreeMap;
  * A utility to merge JavaHelp map files.
  */
 public class Main {
+    private File[] inFiles;
+    private File outFile;
+    private Map<String, String> map;
+    private Reader in;
+    private int c;
+    private File currFile;
+    private int line;
+
+    public Main() {
+    }
+
     /**
-     * An exception to report bad command line arguments.
+     * Create an object based on command line args.
+     * It is an error if no input files or no output file is given.
+     *
+     * @param args Command line args.
+     * @throws Main.BadArgs if problems are found in the given arguments.
+     * @see #main
      */
-    public static class BadArgs extends Exception {
-        BadArgs(String msg) {
-            super(msg);
+    public Main(String... args) {
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("-o") && i + 1 < args.length) {
+                outFile = new File(args[++i]);
+            } else {
+                inFiles = new File[args.length - i];
+                for (int j = 0; j < inFiles.length; j++) {
+                    inFiles[j] = new File(args[i++]);
+                }
+            }
+
         }
     }
 
@@ -98,59 +122,6 @@ public class Main {
         out.println("        Output file.");
         out.println("files...");
         out.println("        Input files to be merged.");
-    }
-
-    public Main() {
-    }
-
-    /**
-     * Create an object based on command line args.
-     * It is an error if no input files or no output file is given.
-     *
-     * @param args Command line args.
-     * @throws Main.BadArgs if problems are found in the given arguments.
-     * @see #main
-     */
-    public Main(String... args) {
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-o") && i + 1 < args.length) {
-                outFile = new File(args[++i]);
-            } else {
-                inFiles = new File[args.length - i];
-                for (int j = 0; j < inFiles.length; j++) {
-                    inFiles[j] = new File(args[i++]);
-                }
-            }
-
-        }
-    }
-
-    public static class Ant extends MatchingTask {
-        private Main m = new Main();
-        private List<FileSet> fileSets = new ArrayList<>();
-
-        public void setOutFile(File file) {
-            m.outFile = file;
-        }
-
-        public void addFileSet(FileSet fs) {
-            fileSets.add(fs);
-        }
-
-        @Override
-        public void execute() {
-            for (FileSet fs : fileSets) {
-                FileScanner s = fs.getDirectoryScanner(getProject());
-                m.addFiles(s.getBasedir(), s.getIncludedFiles());
-            }
-            try {
-                m.run();
-            } catch (BadArgs e) {
-                throw new BuildException(e.getMessage());
-            } catch (IOException e) {
-                throw new BuildException(e);
-            }
-        }
     }
 
     public void addFiles(File baseDir, String... paths) {
@@ -384,7 +355,6 @@ public class Main {
         }
     }
 
-
     /**
      * Skip the contents of a tag i.e. <...>
      */
@@ -410,7 +380,6 @@ public class Main {
         nextCh();
     }
 
-
     /**
      * Read the next character.
      */
@@ -421,14 +390,41 @@ public class Main {
         }
     }
 
+    /**
+     * An exception to report bad command line arguments.
+     */
+    public static class BadArgs extends Exception {
+        BadArgs(String msg) {
+            super(msg);
+        }
+    }
 
-    private File[] inFiles;
-    private File outFile;
-    private Map<String, String> map;
+    public static class Ant extends MatchingTask {
+        private Main m = new Main();
+        private List<FileSet> fileSets = new ArrayList<>();
 
-    private Reader in;
-    private int c;
-    private File currFile;
-    private int line;
+        public void setOutFile(File file) {
+            m.outFile = file;
+        }
+
+        public void addFileSet(FileSet fs) {
+            fileSets.add(fs);
+        }
+
+        @Override
+        public void execute() {
+            for (FileSet fs : fileSets) {
+                FileScanner s = fs.getDirectoryScanner(getProject());
+                m.addFiles(s.getBasedir(), s.getIncludedFiles());
+            }
+            try {
+                m.run();
+            } catch (BadArgs e) {
+                throw new BuildException(e.getMessage());
+            } catch (IOException e) {
+                throw new BuildException(e);
+            }
+        }
+    }
 
 }

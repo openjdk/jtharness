@@ -36,6 +36,9 @@ import java.util.Map;
  */
 public class CustomPropagationController {
 
+    private InterviewPropagator.TestRefresher refresher;
+    private InterviewParameters ip;
+
     /**
      * Invoked when a template propagation event occurs.
      *
@@ -71,7 +74,6 @@ public class CustomPropagationController {
         return false;
     }
 
-
     /**
      * Request that the harness reload the test suite structure from the
      * test suite.  If called on the GUI event thread, it will start a new
@@ -95,25 +97,19 @@ public class CustomPropagationController {
         this.ip = ip;
     }
 
-
     /**
      * EventType.Start - propagation starting event
      * EventType.TemplateLoaded - external template data loaded and accessible
      * EventType.Finish - propagation finishing event
      */
     public static class EventType {
-        private int code;
-
-        private EventType(int i) {
-            code = i;
-        }
-
         public final static EventType Start = new EventType(0);
         public final static EventType TemplateLoaded = new EventType(1);
         public final static EventType Finish = new EventType(2);
+        private int code;
+        private EventType(int i) {
+            code = i;
+        }
     }
-
-    private InterviewPropagator.TestRefresher refresher;
-    private InterviewParameters ip;
 
 }

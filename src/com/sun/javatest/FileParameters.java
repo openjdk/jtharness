@@ -48,17 +48,25 @@ public class FileParameters
         BasicParameters
         implements
         Parameters.LegacyEnvParameters {
-    /**
-     * Determine if the specified file is a parameter file,
-     * as determined by whether its extension is .jtp or not.
-     *
-     * @param file the file to be checked
-     * @return true if the specified file is a parameter file,
-     * and false otherwise
-     */
-    public static boolean isParameterFile(File file) {
-        return file.getPath().endsWith(PARAMFILE_EXTN);
-    }
+    private static final String PARAMFILE_EXTN = ".jtp";
+    private static final I18NResourceBundle i18n =
+            I18NResourceBundle.getBundleForClass(FileParameters.class);
+    private File[] envFiles;
+    private File[] cachedAbsEnvFiles;
+
+    //---------------------------------------------------------------------
+    private File cachedAbsEnvFiles_base;
+    private File[] cachedAbsEnvFiles_envFiles;
+    private String envName;
+    private TestEnvContext cachedEnvTable;
+    private File[] cachedEnvTable_absEnvFiles;
+    private String envTableError;
+    private TestEnvironment cachedEnv;
+    private TestEnvContext cachedEnv_envTable;
+    private String cachedEnv_envName;
+    private String envError;
+    private File reportDir;
+    private String legacyTsPath;        // always a directory
 
     /**
      * Create an empty FileParameters object.
@@ -100,7 +108,6 @@ public class FileParameters
         setTimeoutFactor(p.get("javasoft.sqe.javatest.execution.timeFactor"));
         setReportDir(p.get("javasoft.sqe.javatest.results.reportDir"));
     }
-
     /**
      * Create a FileParameters object, based on command-line-like args.
      * The args that are accepted are:
@@ -215,7 +222,17 @@ public class FileParameters
         setReportDir(adjustPath(reportDirArg));
     }
 
-    //---------------------------------------------------------------------
+    /**
+     * Determine if the specified file is a parameter file,
+     * as determined by whether its extension is .jtp or not.
+     *
+     * @param file the file to be checked
+     * @return true if the specified file is a parameter file,
+     * and false otherwise
+     */
+    public static boolean isParameterFile(File file) {
+        return file.getPath().endsWith(PARAMFILE_EXTN);
+    }
 
     @Override
     public Parameters.EnvParameters getEnvParameters() {
@@ -225,12 +242,6 @@ public class FileParameters
     @Override
     public File[] getEnvFiles() {
         return envFiles;
-    }
-
-    @Override
-    public File[] getAbsoluteEnvFiles() {
-        updateAbsoluteEnvFiles();
-        return cachedAbsEnvFiles;
     }
 
     @Override
@@ -248,6 +259,12 @@ public class FileParameters
             ff[i] = new File(makeLegacyTsRelative(f[i]));
         }
         setEnvFiles(ff);
+    }
+
+    @Override
+    public File[] getAbsoluteEnvFiles() {
+        updateAbsoluteEnvFiles();
+        return cachedAbsEnvFiles;
     }
 
     @Override
@@ -278,6 +295,8 @@ public class FileParameters
         return cachedEnv;
     }
 
+    //---------------------------------------------------------------------
+
     private void updateAbsoluteEnvFiles() {
         TestSuite ts = getTestSuite();
         File base = ts == null ? null : ts.getRootDir();
@@ -303,6 +322,8 @@ public class FileParameters
             }
         }
     }
+
+    //---------------------------------------------------------------------
 
     private void updateEnv() {
         TestEnvContext envTable = getEnvTable();
@@ -344,25 +365,12 @@ public class FileParameters
         envError = null;
     }
 
+    //---------------------------------------------------------------------
+
     private boolean isEnvOK() {
         updateEnv();
         return envTableError == null && envError == null;
     }
-
-    private File[] envFiles;
-    private File[] cachedAbsEnvFiles;
-    private File cachedAbsEnvFiles_base;
-    private File[] cachedAbsEnvFiles_envFiles;
-    private String envName;
-
-    private TestEnvContext cachedEnvTable;
-    private File[] cachedEnvTable_absEnvFiles;
-    private String envTableError;
-
-    private TestEnvironment cachedEnv;
-    private TestEnvContext cachedEnv_envTable;
-    private String cachedEnv_envName;
-    private String envError;
 
     //---------------------------------------------------------------------
 
@@ -370,6 +378,8 @@ public class FileParameters
     public boolean isValid() {
         return super.isValid() && isEnvOK();
     }
+
+    //---------------------------------------------------------------------
 
     @Override
     public String getErrorMessage() {
@@ -413,8 +423,6 @@ public class FileParameters
     private void setWorkDirectory(String path) {
         setWorkDirectory(path == null ? null : new File(path));
     }
-
-    //---------------------------------------------------------------------
 
     private void setTests(String tests) {
         setTests(StringArray.split(tests));
@@ -477,8 +485,6 @@ public class FileParameters
         }
     }
 
-    //---------------------------------------------------------------------
-
     private void setConcurrency(String conc) {
         if (conc == null) {
             setConcurrency(1);
@@ -490,8 +496,6 @@ public class FileParameters
             }
         }
     }
-
-    //---------------------------------------------------------------------
 
     private void setTimeoutFactor(String tf) {
         if (tf == null) {
@@ -536,10 +540,6 @@ public class FileParameters
         }
     }
 
-    private File reportDir;
-
-    //---------------------------------------------------------------------
-
     /**
      * Makes the given path relative to the user's CWD if it is a
      * relative value.  So "tests" may be turned into
@@ -579,10 +579,4 @@ public class FileParameters
             }
         }
     }
-
-    private String legacyTsPath;        // always a directory
-    private static final String PARAMFILE_EXTN = ".jtp";
-
-    private static final I18NResourceBundle i18n =
-            I18NResourceBundle.getBundleForClass(FileParameters.class);
 }

@@ -57,11 +57,91 @@ import java.util.Set;
 
 public class InterviewPropagator {
 
+    private static final String PROP_STYLESHEET = "stylesheet.css";
+    private static final int NEW_TEMPLATE = 0;
+    private static final int OLD_TEMPLATE = 1;
+    private static final int CONFIGURATION = 2;
+    private static final int QUESTION_TEXT = 3;
+    private static ViewManager view;
+    private static TestRefresher refresher;
+    private I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(InterviewPropagator.class);
+    private String notAvailable = i18n.getString("tmpltProp.notAvailable");
+    private InterviewParameters interview;
+    private PropogateMap pm;
+    private String[] ignorableProps;
+    private String[] ignorablePrefs;
+
     InterviewPropagator(InterviewParameters par, String[] igProps, String... igPrefs) {
         interview = par;
         ignorableProps = igProps;
         ignorablePrefs = igPrefs;
     }
+
+    /**
+     * Converts string representation of property question to Properties2 object
+     *
+     * @param str - string representation of property question
+     * @return corresponding Properties2 object
+     * @throws IOException
+     */
+    public static Properties2 stringToProperties2(String str) throws IOException {
+        Properties2 result = new Properties2();
+        if (str != null) {
+            result.load(new StringReader(str));
+        }
+        return result;
+    }
+
+    /**
+     * Properties2 object to its string representation.
+     * Used for property question processing
+     *
+     * @param pr - Properties2 object
+     * @return corresponding string representation
+     */
+    public static String properties2ToString(Properties2 pr) {
+        StringWriter sw = new StringWriter();
+        pr.save(sw, null);
+        return sw.toString();
+    }
+
+    /**
+     * Returns is the specified question is properties question
+     *
+     * @param key       - question key
+     * @param interview - InterviewParameters object
+     * @return true if the specified question is properties question, otherwise false
+     */
+    public static boolean isPropertyQuestion(String key, InterviewParameters interview) {
+        return isPropertyQuestion(key, interview.getAllQuestions());
+    }
+
+    /**
+     * Returns is the specified question is properties question
+     *
+     * @param key  - question key
+     * @param allQ - question map
+     * @return true if the specified question is properties question, otherwise false
+     */
+    public static boolean isPropertyQuestion(String key, Map<String, Question> allQ) {
+        Question q = allQ.get(key);
+        if (q != null) {
+            return q instanceof PropertiesQuestion;
+        }
+        return false;
+    }
+
+    public static void setViewManager(ViewManager v) {
+        view = v;
+    }
+
+    public static void setTestRefresher(TestRefresher r) {
+        refresher = r;
+    }
+
+    //
+    // utility functions (offered as external API)
+    //
 
     boolean checkForUpdate() {
 
@@ -262,7 +342,6 @@ public class InterviewPropagator {
         }
     }
 
-
     private boolean isIgnorableTemplateProperty(String propertyName) {
         return isSystemIgnorableTemplateProperty(propertyName) || !interview.isUpdatableKey(propertyName);
     }
@@ -287,7 +366,6 @@ public class InterviewPropagator {
         return false;
     }
 
-
     private boolean isFromTemplate() {
         return !interview.isTemplate() && interview.getTemplatePath() != null;
     }
@@ -302,7 +380,6 @@ public class InterviewPropagator {
         return result;
     }
 
-
     /**
      * Gets current PropogateMap
      *
@@ -311,7 +388,6 @@ public class InterviewPropagator {
     public InterviewPropagator.PropogateMap getPropagateMap() {
         return pm;
     }
-
 
     /**
      * Accepts all changes from template to the current configuration
@@ -368,7 +444,6 @@ public class InterviewPropagator {
         acceptTemplateDatafromMap(map, false);
     }
 
-
     private void acceptTemplateDatafromMap(Map<String, String[]> map, boolean templateOnly) {
         for (String key : map.keySet()) {
             String[] vals = map.get(key);
@@ -413,70 +488,29 @@ public class InterviewPropagator {
             view.notifyError(message, interview);
         }
     }
+    public interface ViewManager {
+        void showView(InterviewPropagator prop, InterviewParameters interview);
 
-    //
-    // utility functions (offered as external API)
-    //
+        void logException(Throwable th, InterviewParameters interview);
 
-    /**
-     * Converts string representation of property question to Properties2 object
-     *
-     * @param str - string representation of property question
-     * @return corresponding Properties2 object
-     * @throws IOException
-     */
-    public static Properties2 stringToProperties2(String str) throws IOException {
-        Properties2 result = new Properties2();
-        if (str != null) {
-            result.load(new StringReader(str));
-        }
-        return result;
+        void notifyError(String message, InterviewParameters interview);
     }
-
-    /**
-     * Properties2 object to its string representation.
-     * Used for property question processing
-     *
-     * @param pr - Properties2 object
-     * @return corresponding string representation
-     */
-    public static String properties2ToString(Properties2 pr) {
-        StringWriter sw = new StringWriter();
-        pr.save(sw, null);
-        return sw.toString();
+    public interface TestRefresher {
+        void refreshTestTree(InterviewParameters ip);
     }
-
-    /**
-     * Returns is the specified question is properties question
-     *
-     * @param key       - question key
-     * @param interview - InterviewParameters object
-     * @return true if the specified question is properties question, otherwise false
-     */
-    public static boolean isPropertyQuestion(String key, InterviewParameters interview) {
-        return isPropertyQuestion(key, interview.getAllQuestions());
-    }
-
-    /**
-     * Returns is the specified question is properties question
-     *
-     * @param key  - question key
-     * @param allQ - question map
-     * @return true if the specified question is properties question, otherwise false
-     */
-    public static boolean isPropertyQuestion(String key, Map<String, Question> allQ) {
-        Question q = allQ.get(key);
-        if (q != null) {
-            return q instanceof PropertiesQuestion;
-        }
-        return false;
-    }
-
 
     /**
      * Propagation data model.
      */
     public class PropogateMap {
+
+        private Set<String> propQs = new HashSet<>();
+        private Map<String, String[]> conflictMap = new LinkedHashMap<>();
+        private Map<String, String[]> updateMap = new LinkedHashMap<>();
+        private Map<String, String[]> partialUpdateMap = new LinkedHashMap<>();
+        private File conflictReport;
+        private File updateReport;
+        private boolean debug = false;
 
         void add(String key, String templV, String oldTemplV, String confV, String questionText, boolean isPropQ) {
 
@@ -490,7 +524,6 @@ public class InterviewPropagator {
                 add(conflictMap, key, templV, oldTemplV, confV, questionText, isPropQ, updateMap);
             }
         }
-
 
         private void add(Map<String, String[]> aMap, String key, String templV, String oldTemplV, String confV, String questionText, boolean isPropQ, Map<String, String[]> updateMap) {
 
@@ -751,7 +784,6 @@ public class InterviewPropagator {
             }
         }
 
-
         /**
          * Returns temporary file with html conflict report
          */
@@ -789,53 +821,7 @@ public class InterviewPropagator {
             propQs.clear();
         }
 
-
-        private Set<String> propQs = new HashSet<>();
-        private Map<String, String[]> conflictMap = new LinkedHashMap<>();
-        private Map<String, String[]> updateMap = new LinkedHashMap<>();
-        private Map<String, String[]> partialUpdateMap = new LinkedHashMap<>();
-        private File conflictReport;
-        private File updateReport;
-
-        private boolean debug = false;
-
     }
-
-    public interface ViewManager {
-        void showView(InterviewPropagator prop, InterviewParameters interview);
-
-        void logException(Throwable th, InterviewParameters interview);
-
-        void notifyError(String message, InterviewParameters interview);
-    }
-
-    public static void setViewManager(ViewManager v) {
-        view = v;
-    }
-
-    public interface TestRefresher {
-        void refreshTestTree(InterviewParameters ip);
-    }
-
-    public static void setTestRefresher(TestRefresher r) {
-        refresher = r;
-    }
-
-    private I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(InterviewPropagator.class);
-    private String notAvailable = i18n.getString("tmpltProp.notAvailable");
-    private static final String PROP_STYLESHEET = "stylesheet.css";
-
-    private static final int NEW_TEMPLATE = 0;
-    private static final int OLD_TEMPLATE = 1;
-    private static final int CONFIGURATION = 2;
-    private static final int QUESTION_TEXT = 3;
-
-    private static ViewManager view;
-    private static TestRefresher refresher;
-    private InterviewParameters interview;
-    private PropogateMap pm;
-    private String[] ignorableProps;
-    private String[] ignorablePrefs;
 }
 
 

@@ -66,6 +66,12 @@ import java.lang.reflect.Modifier;
  * in any specific release of JDK.)
  */
 public class JavaCompileCommand extends Command {
+    private static final Status passed = Status.passed("Compilation successful");
+    private static final Status failed = Status.failed("Compilation failed");
+    public static boolean defaultVerbose = Boolean.getBoolean("javatest.JavaCompileCommand.verbose");
+    private boolean verbose = defaultVerbose;
+    private PrintWriter log;
+
     /**
      * A stand-alone entry point for this command. An instance of this
      * command is created, and its <code>run</code> method invoked,
@@ -89,6 +95,11 @@ public class JavaCompileCommand extends Command {
         s.exit();
     }
 
+    private static String[] shift(String[] args, int n) {
+        String[] newArgs = new String[args.length - n];
+        System.arraycopy(args, n, newArgs, 0, newArgs.length);
+        return newArgs;
+    }
 
     /**
      * Invoke a specified compiler, or the default, javac.
@@ -301,17 +312,4 @@ public class JavaCompileCommand extends Command {
             return null;
         }
     }
-
-    private static String[] shift(String[] args, int n) {
-        String[] newArgs = new String[args.length - n];
-        System.arraycopy(args, n, newArgs, 0, newArgs.length);
-        return newArgs;
-    }
-
-    public static boolean defaultVerbose = Boolean.getBoolean("javatest.JavaCompileCommand.verbose");
-    private boolean verbose = defaultVerbose;
-    private PrintWriter log;
-
-    private static final Status passed = Status.passed("Compilation successful");
-    private static final Status failed = Status.failed("Compilation failed");
 }

@@ -42,6 +42,8 @@ import java.awt.event.ActionListener;
 
 public class YesNoQuestionRenderer implements QuestionRenderer {
 
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         YesNoQuestion q = (YesNoQuestion) qq;
@@ -130,7 +132,5 @@ public class YesNoQuestionRenderer implements QuestionRenderer {
                 EDITED);
         l.actionPerformed(e);
     }
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 
 }

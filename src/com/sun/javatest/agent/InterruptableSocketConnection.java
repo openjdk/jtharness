@@ -48,6 +48,9 @@ public class InterruptableSocketConnection extends SocketConnection {
 
     class InterruptableInputStream extends InputStream {
 
+        private boolean reading = false;
+        private Object data;
+
         @Override
         public int read() throws IOException {
             byte[] b = new byte[1];
@@ -87,9 +90,6 @@ public class InterruptableSocketConnection extends SocketConnection {
                 wait();
             }
         }
-
-        private boolean reading = false;
-        private Object data;
 
         class InterruptableReader {
             private IOException ioe;

@@ -39,6 +39,8 @@ import java.awt.event.ActionListener;
 
 public class StringQuestionRenderer
         implements QuestionRenderer {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+
     @Override
     public JComponent getQuestionRendererComponent(Question q, ActionListener listener) {
         StringQuestion sq = (StringQuestion) q;
@@ -105,6 +107,4 @@ public class StringQuestionRenderer
             }
         };
     }
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

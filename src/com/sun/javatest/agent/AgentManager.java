@@ -58,6 +58,17 @@ public class AgentManager {
 
     //--------------------------------------------------------------------------
 
+    private static final AgentManager theManager = new AgentManager();
+    private static final int PASSIVE_AGENT_RETRY_LIMIT = 12;
+    private Observer[] observers = new Observer[0];
+
+    //--------------------------------------------------------------------------
+    private ActiveAgentPool pool = new ActiveAgentPool();
+
+    // private, so others can't create additional managers
+    private AgentManager() {
+    }
+
     /**
      * Access the one single instance of the AgentManager.
      *
@@ -65,42 +76,6 @@ public class AgentManager {
      */
     public static AgentManager access() {
         return theManager;
-    }
-
-    // private, so others can't create additional managers
-    private AgentManager() {
-    }
-
-    private static final AgentManager theManager = new AgentManager();
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * An Observer class to monitor Agent activity.
-     */
-    public interface Observer {
-        /**
-         * Called when a task starts a request.
-         *
-         * @param connection   The connection used to communicate with the agent.
-         * @param tag          A tag used to identify the request.
-         * @param request      The type of the request.
-         * @param executable   The class to be executed.
-         * @param args         Arguments to be passed to the class to be executed.
-         * @param localizeArgs Whether or not to localize the args remotely, using the
-         *                     agent's map facility.
-         */
-        void started(Connection connection,
-                     String tag, String request, String executable, String[] args,
-                     boolean localizeArgs);
-
-        /**
-         * Called when a task completes a request.
-         *
-         * @param connection The connection used to communicate with the agent.
-         * @param status     The outcome of the request.
-         */
-        void finished(Connection connection, Status status);
     }
 
     /**
@@ -130,15 +105,13 @@ public class AgentManager {
         }
     }
 
+    //--------------------------------------------------------------------------
+
     private synchronized void notifyFinished(Connection connection, Status status) {
         for (Observer observer : observers) {
             observer.finished(connection, status);
         }
     }
-
-    private Observer[] observers = new Observer[0];
-
-    //--------------------------------------------------------------------------
 
     /**
      * Get the active agent pool, which is a holding area for
@@ -150,8 +123,6 @@ public class AgentManager {
     public ActiveAgentPool getActiveAgentPool() {
         return pool;
     }
-
-    private ActiveAgentPool pool = new ActiveAgentPool();
 
     //--------------------------------------------------------------------------
 
@@ -231,7 +202,33 @@ public class AgentManager {
         }
     }
 
-    private static final int PASSIVE_AGENT_RETRY_LIMIT = 12;
+    /**
+     * An Observer class to monitor Agent activity.
+     */
+    public interface Observer {
+        /**
+         * Called when a task starts a request.
+         *
+         * @param connection   The connection used to communicate with the agent.
+         * @param tag          A tag used to identify the request.
+         * @param request      The type of the request.
+         * @param executable   The class to be executed.
+         * @param args         Arguments to be passed to the class to be executed.
+         * @param localizeArgs Whether or not to localize the args remotely, using the
+         *                     agent's map facility.
+         */
+        void started(Connection connection,
+                     String tag, String request, String executable, String[] args,
+                     boolean localizeArgs);
+
+        /**
+         * Called when a task completes a request.
+         *
+         * @param connection The connection used to communicate with the agent.
+         * @param status     The outcome of the request.
+         */
+        void finished(Connection connection, Status status);
+    }
 
 
     //--------------------------------------------------------------------------
@@ -240,6 +237,14 @@ public class AgentManager {
      * A Task provides the ability to do work remotely on an agent.
      */
     public class Task {
+
+        private Connection connection;
+        private DataInputStream in;
+        private DataOutputStream out;
+        private File[] classPath;
+        private boolean sharedCl;
+        private int timeout = 0;
+        private Hashtable<File, ZipFile> zips = new Hashtable<>();
 
         /**
          * Create a connection to a agent retrieved from the agent pool.
@@ -286,7 +291,6 @@ public class AgentManager {
         public void setClassPath(String path) {
             classPath = split(path);
         }
-
 
         /**
          * Set the classpath to be used for incoming requests for classes
@@ -671,15 +675,6 @@ public class AgentManager {
                 v.add(new File(s));
             }
         }
-
-        private Connection connection;
-        private DataInputStream in;
-        private DataOutputStream out;
-
-        private File[] classPath;
-        private boolean sharedCl;
-        private int timeout = 0;
-        private Hashtable<File, ZipFile> zips = new Hashtable<>();
     }
 
 }

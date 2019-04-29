@@ -45,14 +45,12 @@ import java.util.Objects;
  */
 public class TemplateSession extends BasicSession {
 
+    static final String TEMPLATE_PROP_NAME = "Template";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TemplateSession.class);
     /**
      * Instance of the template
      */
     protected final InterviewParameters templ;
-
-    static final String TEMPLATE_PROP_NAME = "Template";
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TemplateSession.class);
 
     /**
      * Creates a TemplateSession instance for the passed testSuite object.

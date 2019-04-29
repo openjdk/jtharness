@@ -64,6 +64,19 @@ import java.util.List;
 
 class FilesPane extends JPanel {
 
+    static final String OK = "OK";
+    //keys for option values used for save & restore
+    static final String REPORT_DIR = "reportDir";
+    private UIFactory uif;
+    private Listener listener;
+    private List<JTextField> merged;
+    private JButton resultBtn;
+    private JButton[] buttons;
+    private JButton nextBtn;
+    private JTextField resultField;
+    private JFileChooser xmlFileChooser;
+    private ReportDirChooser reportDirChooser;
+
     FilesPane(UIFactory uif, final ActionListener nextListener) {
         this.uif = uif;
         this.listener = new Listener();
@@ -160,6 +173,46 @@ class FilesPane extends JPanel {
 
     }
 
+    static boolean isXMLReport(File f) {
+
+        String schemaLocation = "xsi:noNamespaceSchemaLocation=\"Report.xsd\"";
+        String formatVersion = "formatVersion=\"v1\"";
+
+        if (!f.getName().endsWith(".xml")) {
+            return false;
+        }
+        try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))) {
+            boolean hasSchema, hasVersion = false;
+
+            // line 1
+            String line = r.readLine();
+            hasSchema = hasLineContent(line, schemaLocation);
+            hasVersion = hasLineContent(line, formatVersion);
+
+            // line 2
+            line = r.readLine();
+            hasSchema = hasSchema || hasLineContent(line, schemaLocation);
+            hasVersion = hasVersion || hasLineContent(line, formatVersion);
+            return hasSchema && hasVersion;
+        } catch (IOException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Determines if a String contains the target String.
+     *
+     * @return True if target is a substring of line, false otherwise and
+     * false if either argument is null.
+     */
+    private static boolean hasLineContent(String line, String target) {
+        if (line == null || target == null) {
+            return false;
+        }
+
+        return line.contains(target) ? true : false;
+    }
+
     boolean checkInput() {
         String[] merged = getXmlFiles();
 
@@ -195,7 +248,6 @@ class FilesPane extends JPanel {
 
         return true;
     }
-
 
     private void enableNext() {
         nextBtn.setEnabled(isNextEnabled());
@@ -242,8 +294,114 @@ class FilesPane extends JPanel {
         return !error && resDirEnabled;
     }
 
+    private void chooseXmlReportFile(JTextField field) {
+        if (xmlFileChooser == null) {
+            xmlFileChooser = new JFileChooser();
+            xmlFileChooser.setFileView(new XMLReportView());
+            xmlFileChooser.setCurrentDirectory(null);
+            xmlFileChooser.addChoosableFileFilter(new FileFilter() {
+                @Override
+                public boolean accept(File f) {
+                    return f.isDirectory() || isXMLReport(f);
+                }
+
+                @Override
+                public String getDescription() {
+                    return uif.getI18NString("files.xmlFiles");
+                }
+            });
+        }
+
+        if (!field.getText().trim().isEmpty()) {
+            File entered = new File(field.getText());
+            if (entered.exists()) {
+                xmlFileChooser.setCurrentDirectory(entered);
+            }
+        }
+
+        int action = xmlFileChooser.showOpenDialog(null);
+        if (action != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        File cf = xmlFileChooser.getSelectedFile();
+        String cfp;
+        if (cf == null) {
+            cfp = "";
+        } else {
+            cfp = cf.getPath();
+            if (!cfp.endsWith(".xml")) {
+                cfp += ".xml";
+            }
+        }
+        field.setText(cfp);
+    }
+
+    JButton[] getButtons() {
+        return buttons;
+    }
+
+    private void showReportChooserDialog() {
+
+        if (reportDirChooser == null) {
+            reportDirChooser = new ReportDirChooser();
+        }
+        reportDirChooser.setMode(ReportDirChooser.NEW);
+        File f = new File(getResultDir());
+        if (f.exists() && f.isDirectory()) {
+            reportDirChooser.setCurrentDirectory(f);
+        }
+        int option = reportDirChooser.showDialog(resultField);
+        if (option != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        resultField.setText(reportDirChooser.getSelectedFile().getAbsolutePath());
+    }
+
+    String getResultDir() {
+        return resultField.getText();
+    }
+
+    String[] getXmlFiles() {
+        int l = 0;
+        for (JTextField aMerged1 : merged) {
+            String s = aMerged1.getText().trim();
+            if (s != null && !s.isEmpty()) {
+                l++;
+            }
+        }
+
+        String[] result = new String[l];
+        l = 0;
+        for (JTextField aMerged : merged) {
+            String s = aMerged.getText().trim();
+            if (s != null && !s.isEmpty()) {
+                result[l++] = s;
+            }
+        }
+        return result;
+    }
+
+    private static class XMLReportView extends FileView {
+
+        private Icon icon;
+
+        public XMLReportView() {
+            super();
+            icon = IconFactory.getReportIcon();
+        }
+
+        @Override
+        public Icon getIcon(File f) {
+            return isXMLReport(f) ? icon : null;
+        }
+    }
 
     class MergedSubPanel extends JPanel {
+
+        private java.util.List<JButton> mergedBtns;
+        private JButton addMore;
 
         MergedSubPanel(UIFactory uif) {
             setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
@@ -318,161 +476,7 @@ class FilesPane extends JPanel {
             this.updateUI();
         }
 
-        private java.util.List<JButton> mergedBtns;
-        private JButton addMore;
-
     }
-
-    private void chooseXmlReportFile(JTextField field) {
-        if (xmlFileChooser == null) {
-            xmlFileChooser = new JFileChooser();
-            xmlFileChooser.setFileView(new XMLReportView());
-            xmlFileChooser.setCurrentDirectory(null);
-            xmlFileChooser.addChoosableFileFilter(new FileFilter() {
-                @Override
-                public boolean accept(File f) {
-                    return f.isDirectory() || isXMLReport(f);
-                }
-
-                @Override
-                public String getDescription() {
-                    return uif.getI18NString("files.xmlFiles");
-                }
-            });
-        }
-
-        if (!field.getText().trim().isEmpty()) {
-            File entered = new File(field.getText());
-            if (entered.exists()) {
-                xmlFileChooser.setCurrentDirectory(entered);
-            }
-        }
-
-        int action = xmlFileChooser.showOpenDialog(null);
-        if (action != JFileChooser.APPROVE_OPTION) {
-            return;
-        }
-
-        File cf = xmlFileChooser.getSelectedFile();
-        String cfp;
-        if (cf == null) {
-            cfp = "";
-        } else {
-            cfp = cf.getPath();
-            if (!cfp.endsWith(".xml")) {
-                cfp += ".xml";
-            }
-        }
-        field.setText(cfp);
-    }
-
-    JButton[] getButtons() {
-        return buttons;
-    }
-
-    private void showReportChooserDialog() {
-
-        if (reportDirChooser == null) {
-            reportDirChooser = new ReportDirChooser();
-        }
-        reportDirChooser.setMode(ReportDirChooser.NEW);
-        File f = new File(getResultDir());
-        if (f.exists() && f.isDirectory()) {
-            reportDirChooser.setCurrentDirectory(f);
-        }
-        int option = reportDirChooser.showDialog(resultField);
-        if (option != JFileChooser.APPROVE_OPTION) {
-            return;
-        }
-
-        resultField.setText(reportDirChooser.getSelectedFile().getAbsolutePath());
-    }
-
-    static boolean isXMLReport(File f) {
-
-        String schemaLocation = "xsi:noNamespaceSchemaLocation=\"Report.xsd\"";
-        String formatVersion = "formatVersion=\"v1\"";
-
-        if (!f.getName().endsWith(".xml")) {
-            return false;
-        }
-        try (BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8))) {
-            boolean hasSchema, hasVersion = false;
-
-            // line 1
-            String line = r.readLine();
-            hasSchema = hasLineContent(line, schemaLocation);
-            hasVersion = hasLineContent(line, formatVersion);
-
-            // line 2
-            line = r.readLine();
-            hasSchema = hasSchema || hasLineContent(line, schemaLocation);
-            hasVersion = hasVersion || hasLineContent(line, formatVersion);
-            return hasSchema && hasVersion;
-        } catch (IOException ex) {
-            return false;
-        }
-    }
-
-    /**
-     * Determines if a String contains the target String.
-     *
-     * @return True if target is a substring of line, false otherwise and
-     * false if either argument is null.
-     */
-    private static boolean hasLineContent(String line, String target) {
-        if (line == null || target == null) {
-            return false;
-        }
-
-        return line.contains(target) ? true : false;
-    }
-
-    private static class XMLReportView extends FileView {
-
-        public XMLReportView() {
-            super();
-            icon = IconFactory.getReportIcon();
-        }
-
-        @Override
-        public Icon getIcon(File f) {
-            return isXMLReport(f) ? icon : null;
-        }
-
-        private Icon icon;
-    }
-
-    private UIFactory uif;
-
-    private Listener listener;
-
-    String getResultDir() {
-        return resultField.getText();
-    }
-
-    String[] getXmlFiles() {
-        int l = 0;
-        for (JTextField aMerged1 : merged) {
-            String s = aMerged1.getText().trim();
-            if (s != null && !s.isEmpty()) {
-                l++;
-            }
-        }
-
-        String[] result = new String[l];
-        l = 0;
-        for (JTextField aMerged : merged) {
-            String s = aMerged.getText().trim();
-            if (s != null && !s.isEmpty()) {
-                result[l++] = s;
-            }
-        }
-        return result;
-    }
-
-    private List<JTextField> merged;
-    static final String OK = "OK";
 
     private class Listener extends ComponentAdapter implements ActionListener, FocusListener, KeyListener {
         // ComponentListener
@@ -515,16 +519,4 @@ class FilesPane extends JPanel {
             enableNext();
         }
     }
-
-    private JButton resultBtn;
-    private JButton[] buttons;
-    private JButton nextBtn;
-
-    private JTextField resultField;
-
-    private JFileChooser xmlFileChooser;
-    private ReportDirChooser reportDirChooser;
-
-    //keys for option values used for save & restore
-    static final String REPORT_DIR = "reportDir";
 }

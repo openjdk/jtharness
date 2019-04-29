@@ -32,6 +32,8 @@ import com.sun.javatest.util.I18NResourceBundle;
  * Basic filter which accepts all tests presented to it.
  */
 public class AllTestsFilter extends TestFilter {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AllTestsFilter.class);
+
     @Override
     public String getName() {
         return i18n.getString("allTestsFilter.name");
@@ -51,6 +53,4 @@ public class AllTestsFilter extends TestFilter {
     public boolean accepts(TestDescription td) {
         return true;
     }
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AllTestsFilter.class);
 }

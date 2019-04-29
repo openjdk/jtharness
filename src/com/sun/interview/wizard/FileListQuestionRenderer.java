@@ -40,6 +40,8 @@ import java.io.File;
 
 public class FileListQuestionRenderer
         implements QuestionRenderer {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final FileListQuestion q = (FileListQuestion) qq;
@@ -114,6 +116,4 @@ public class FileListQuestionRenderer
     public String getInvalidValueMessage(Question q) {
         return null;
     }
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

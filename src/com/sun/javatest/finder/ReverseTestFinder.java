@@ -40,6 +40,9 @@ import java.io.File;
  */
 public class ReverseTestFinder extends TestFinder {
 
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TagTestFinder.class);
+    private TestFinder delegate;
+
     /**
      * Default constructor
      */
@@ -142,9 +145,5 @@ public class ReverseTestFinder extends TestFinder {
         System.arraycopy(args, n, result, 0, result.length);
         return result;
     }
-
-    private TestFinder delegate;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TagTestFinder.class);
 
 }

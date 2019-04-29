@@ -43,6 +43,14 @@ import java.util.TooManyListenersException;
  * A connection via a serial port.
  */
 public class SerialPortConnection implements Connection {
+    private static final int baudRate =
+            Integer.getInteger("javatest.serialPort.baudRate", 38400).intValue();
+    private String name;
+    private SerialPort port;
+    private InputStream portInputStream;
+    private OutputStream portOutputStream;
+    private boolean closed;
+
     /**
      * Create a connection via a serial port.
      *
@@ -136,6 +144,13 @@ public class SerialPortConnection implements Connection {
         waitUntilReady();
     }
 
+    private static SerialPort open(CommPortIdentifier cpi, String app, int timeout) throws PortInUseException {
+        if (cpi.getPortType() != CommPortIdentifier.PORT_SERIAL) {
+            throw new IllegalArgumentException("not a serial port: " + cpi.getName());
+        }
+        return (SerialPort) cpi.open(app, timeout);
+    }
+
     @Override
     public String getName() {
         return port.getName();
@@ -205,13 +220,6 @@ public class SerialPortConnection implements Connection {
         }
     }
 
-    private static SerialPort open(CommPortIdentifier cpi, String app, int timeout) throws PortInUseException {
-        if (cpi.getPortType() != CommPortIdentifier.PORT_SERIAL) {
-            throw new IllegalArgumentException("not a serial port: " + cpi.getName());
-        }
-        return (SerialPort) cpi.open(app, timeout);
-    }
-
     private synchronized void updateReadyStatus() {
         if (port.isDSR() || port.isCD()) {
             notifyAll();
@@ -267,13 +275,4 @@ public class SerialPortConnection implements Connection {
                 return "?" + flowControl + "?";
         }
     }
-
-    private String name;
-    private SerialPort port;
-    private InputStream portInputStream;
-    private OutputStream portOutputStream;
-    private boolean closed;
-
-    private static final int baudRate =
-            Integer.getInteger("javatest.serialPort.baudRate", 38400).intValue();
 }

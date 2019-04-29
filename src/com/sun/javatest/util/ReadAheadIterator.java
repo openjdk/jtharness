@@ -57,6 +57,54 @@ public class ReadAheadIterator<T> implements Iterator<T> {
      * @see #ReadAheadIterator
      */
     public static final int FULL = 2;
+    /**
+     * The default amount for LIMITED read ahead.
+     */
+    private static final int DEFAULT_LIMITED_READAHEAD = 100;
+    /**
+     * A counter for generating names for worker threads.
+     */
+    private static int workerNum;
+    /**
+     * The queue to hold the items that have been read from the underlying source iterator.
+     */
+    private final Queue<T> queue = new ArrayDeque<>();
+    /**
+     * The underlying source iterator.  If the worker thread is running, it alone
+     * should access this iterator; otherwise, access to this should be synchronized,
+     * along with everything else.
+     *
+     * @see #worker
+     */
+    private final Iterator<T> source;
+    /**
+     * A value indicating whether the underlying source iterator has more values to be read.
+     * Use this instead of source.hasNext() when the worker thread is running.
+     */
+    private boolean sourceHasNext;
+    /**
+     * A minimum size for the queue. If the queue falls below this size, and if there
+     * are more items to be read, the worker thread will be woken up to replenish the queue.
+     * This may happen if the mode is set to PARTIAL and the worker thread fills the queue.
+     */
+    private int minQueueSize;
+    /**
+     * Set a maximum size for the queue, which is derived from the type and amount of
+     * read ahead, given to setMode.
+     * If the worker thread determines the queue size is bigger than this value, it will
+     * wait until the size goes below minQueueSize.
+     */
+    private int maxQueueSize;
+    /**
+     * The number of items (i.e. not including null) returned from next().
+     */
+    private int usedCount;
+    /**
+     * The worker thread that does the read ahead. While it is set, the worker thread
+     * should be the only one to access the underlying source iterator, which it will
+     * do unsynchronized.
+     */
+    private Thread worker;
 
     /**
      * Create a ReadAheadIterator.
@@ -98,6 +146,10 @@ public class ReadAheadIterator<T> implements Iterator<T> {
     public synchronized boolean isReadAheadComplete() {
         return worker == null ? !source.hasNext() : !sourceHasNext;
     }
+
+    //------------------------------------------------------------------------------------------
+    //
+    // Instance variables: access to all of these (except source) must be synchronized.
 
     /**
      * Get the number of items read (so far) from the underlying source iterator.
@@ -304,65 +356,4 @@ public class ReadAheadIterator<T> implements Iterator<T> {
             }
         }
     }
-
-    //------------------------------------------------------------------------------------------
-    //
-    // Instance variables: access to all of these (except source) must be synchronized.
-
-    /**
-     * The queue to hold the items that have been read from the underlying source iterator.
-     */
-    private final Queue<T> queue = new ArrayDeque<>();
-
-    /**
-     * The underlying source iterator.  If the worker thread is running, it alone
-     * should access this iterator; otherwise, access to this should be synchronized,
-     * along with everything else.
-     *
-     * @see #worker
-     */
-    private final Iterator<T> source;
-
-    /**
-     * A value indicating whether the underlying source iterator has more values to be read.
-     * Use this instead of source.hasNext() when the worker thread is running.
-     */
-    private boolean sourceHasNext;
-
-    /**
-     * A minimum size for the queue. If the queue falls below this size, and if there
-     * are more items to be read, the worker thread will be woken up to replenish the queue.
-     * This may happen if the mode is set to PARTIAL and the worker thread fills the queue.
-     */
-    private int minQueueSize;
-
-    /**
-     * Set a maximum size for the queue, which is derived from the type and amount of
-     * read ahead, given to setMode.
-     * If the worker thread determines the queue size is bigger than this value, it will
-     * wait until the size goes below minQueueSize.
-     */
-    private int maxQueueSize;
-
-    /**
-     * The number of items (i.e. not including null) returned from next().
-     */
-    private int usedCount;
-
-    /**
-     * The worker thread that does the read ahead. While it is set, the worker thread
-     * should be the only one to access the underlying source iterator, which it will
-     * do unsynchronized.
-     */
-    private Thread worker;
-
-    /**
-     * A counter for generating names for worker threads.
-     */
-    private static int workerNum;
-
-    /**
-     * The default amount for LIMITED read ahead.
-     */
-    private static final int DEFAULT_LIMITED_READAHEAD = 100;
 }

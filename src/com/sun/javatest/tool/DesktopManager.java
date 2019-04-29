@@ -39,6 +39,13 @@ import java.util.ListIterator;
  * </ul>
  */
 public class DesktopManager extends CommandManager {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigManager.class);
+    private boolean firstTimeFlag;
+    private boolean resumeFlag;
+
+
+    //----------------------------------------------------------------------------
+
     @Override
     public HelpTree.Node getHelp() {
         String[] cmds = {"cleanDesktop", "newDesktop", "resume", "laf"};
@@ -67,9 +74,6 @@ public class DesktopManager extends CommandManager {
         return d;
     }
 
-
-    //----------------------------------------------------------------------------
-
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
             throws Command.Fault {
@@ -87,10 +91,6 @@ public class DesktopManager extends CommandManager {
         }
         return false;
     }
-
-    private boolean firstTimeFlag;
-    private boolean resumeFlag;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigManager.class);
 
     private static class NewDesktopCommand extends Command {
         NewDesktopCommand() {

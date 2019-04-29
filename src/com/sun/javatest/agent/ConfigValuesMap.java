@@ -51,6 +51,59 @@ import java.util.Vector;
  * provided by environment files.
  */
 public class ConfigValuesMap {
+    private boolean tracing;
+    private PrintStream traceOut;
+    private String[] fromValues;
+    private String[] toValues;
+
+    /**
+     * Create a map by reading it from a given stream.
+     * The '\u0020' sequence could be used to specify space symbol in the values.
+     *
+     * @param r The reader from which to read the map data. The reader is closed
+     *          after it has been completely read
+     * @throws IOException if problems occur while reading the map data.
+     */
+    public ConfigValuesMap(Reader r) throws IOException {
+        BufferedReader in =
+                r instanceof BufferedReader ? (BufferedReader) r : new BufferedReader(r);
+        // data arrives in rows, but we want it in columns
+        Vector<String> from = new Vector<>();
+        Vector<String> to = new Vector<>();
+        String line;
+        while ((line = in.readLine()) != null) {
+            line = line.trim();
+            if (!line.isEmpty() && !line.startsWith("#")) {
+                String[] row = StringArray.split(line);
+                if (row.length < 2) {
+                    throw new IOException("format error in map file, line is: " + line);
+                }
+                from.add(row[0].replaceAll("\\Q\\u0020\\E", " "));
+                to.add(row[1].replaceAll("\\Q\\u0020\\E", " "));
+            }
+        }
+        in.close();
+
+        fromValues = from.toArray(new String[from.size()]);
+        toValues = to.toArray(new String[to.size()]);
+    }
+
+    /**
+     * Creates a map from the specified <code>java.util.Map</code>.
+     *
+     * @param map the java.util.Map instance to take key-value pairs from
+     */
+    public ConfigValuesMap(Map<String, String> map) {
+        fromValues = new String[map.size()];
+        toValues = new String[map.size()];
+        int index = 0;
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            fromValues[index] = entry.getKey();
+            toValues[index] = entry.getValue();
+            index++;
+        }
+    }
+
     /**
      * Read a map from a specified file.  This code is deliberately
      * written to tolerate Java platforms without a file system ...
@@ -92,7 +145,6 @@ public class ConfigValuesMap {
         return new ConfigValuesMap(new InputStreamReader(u.openStream(), StandardCharsets.UTF_8.name()));
     }
 
-
     /**
      * Read a map from a local file (if the name does not begin with http:)
      * or from a URL if it does.  The method is simply a wrapper that delegates
@@ -113,38 +165,6 @@ public class ConfigValuesMap {
 
     private static IOException fileSystemProblem(Throwable t) {
         return new IOException("problem accessing file system: " + t);
-    }
-
-    /**
-     * Create a map by reading it from a given stream.
-     * The '\u0020' sequence could be used to specify space symbol in the values.
-     *
-     * @param r The reader from which to read the map data. The reader is closed
-     *          after it has been completely read
-     * @throws IOException if problems occur while reading the map data.
-     */
-    public ConfigValuesMap(Reader r) throws IOException {
-        BufferedReader in =
-                r instanceof BufferedReader ? (BufferedReader) r : new BufferedReader(r);
-        // data arrives in rows, but we want it in columns
-        Vector<String> from = new Vector<>();
-        Vector<String> to = new Vector<>();
-        String line;
-        while ((line = in.readLine()) != null) {
-            line = line.trim();
-            if (!line.isEmpty() && !line.startsWith("#")) {
-                String[] row = StringArray.split(line);
-                if (row.length < 2) {
-                    throw new IOException("format error in map file, line is: " + line);
-                }
-                from.add(row[0].replaceAll("\\Q\\u0020\\E", " "));
-                to.add(row[1].replaceAll("\\Q\\u0020\\E", " "));
-            }
-        }
-        in.close();
-
-        fromValues = from.toArray(new String[from.size()]);
-        toValues = to.toArray(new String[to.size()]);
     }
 
     /**
@@ -179,22 +199,6 @@ public class ConfigValuesMap {
     }
 
     /**
-     * Creates a map from the specified <code>java.util.Map</code>.
-     *
-     * @param map the java.util.Map instance to take key-value pairs from
-     */
-    public ConfigValuesMap(Map<String, String> map) {
-        fromValues = new String[map.size()];
-        toValues = new String[map.size()];
-        int index = 0;
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            fromValues[index] = entry.getKey();
-            toValues[index] = entry.getValue();
-            index++;
-        }
-    }
-
-    /**
      * Enumerate the entries of the map.
      *
      * @return an enumeration of the translation entries within the map
@@ -215,9 +219,4 @@ public class ConfigValuesMap {
             traceOut = null;
         }
     }
-
-    private boolean tracing;
-    private PrintStream traceOut;
-    private String[] fromValues;
-    private String[] toValues;
 }

@@ -40,6 +40,27 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
     private static HashMap<InterviewParameters, TU_dialog> store =
             new HashMap<>();
 
+    /**
+     * Registers InterviewParameters instance and TU_dialog instance
+     * associated with it
+     *
+     * @param ip
+     * @param tud
+     */
+    static synchronized void register(InterviewParameters ip, TU_dialog tud) {
+        store.put(ip, tud);
+        TU_ViewManager tuv = new TU_ViewManager();
+        InterviewPropagator.setViewManager(tuv);
+        InterviewPropagator.setTestRefresher(tuv);
+    }
+
+    /**
+     * Unregisters InterviewParameters.
+     */
+    static synchronized void unregister(InterviewParameters ip) {
+        store.remove(ip);
+    }
+
     @Override
     public void showView(InterviewPropagator prop, InterviewParameters intTerview) {
         TU_dialog tud = store.get(intTerview);
@@ -74,27 +95,6 @@ class TU_ViewManager implements InterviewPropagator.ViewManager, InterviewPropag
                 }
             }
         }
-    }
-
-    /**
-     * Registers InterviewParameters instance and TU_dialog instance
-     * associated with it
-     *
-     * @param ip
-     * @param tud
-     */
-    static synchronized void register(InterviewParameters ip, TU_dialog tud) {
-        store.put(ip, tud);
-        TU_ViewManager tuv = new TU_ViewManager();
-        InterviewPropagator.setViewManager(tuv);
-        InterviewPropagator.setTestRefresher(tuv);
-    }
-
-    /**
-     * Unregisters InterviewParameters.
-     */
-    static synchronized void unregister(InterviewParameters ip) {
-        store.remove(ip);
     }
 
     @Override

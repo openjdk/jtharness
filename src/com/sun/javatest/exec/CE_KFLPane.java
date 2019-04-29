@@ -49,6 +49,14 @@ import java.io.File;
  */
 class CE_KFLPane extends CE_StdPane {
 
+    private File[] kflFiles;
+    private JToolBar toolBar;
+    private ButtonGroup btnGrp;
+    private JRadioButton customBtn;
+    private JRadioButton noneBtn;
+    private CustomPanel customPanel;
+    private Listener listener = new Listener();
+
     CE_KFLPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "kfl");
 
@@ -147,14 +155,6 @@ class CE_KFLPane extends CE_StdPane {
         toolBar.add(customBtn);
     }
 
-    private File[] kflFiles;
-    private JToolBar toolBar;
-    private ButtonGroup btnGrp;
-    private JRadioButton customBtn;
-    private JRadioButton noneBtn;
-    private CustomPanel customPanel;
-    private Listener listener = new Listener();
-
     private class Listener implements ChangeListener {
 
         @Override
@@ -168,6 +168,9 @@ class CE_KFLPane extends CE_StdPane {
     }
 
     private class CustomPanel extends JPanel {
+
+        private EditableFileList filesField;
+        private JLabel filesLabel;
 
         CustomPanel() {
             super(new GridBagLayout());
@@ -240,8 +243,5 @@ class CE_KFLPane extends CE_StdPane {
                 config.setKnownFailureFiles(null);
             }
         }
-
-        private EditableFileList filesField;
-        private JLabel filesLabel;
     }
 }

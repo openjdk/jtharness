@@ -49,104 +49,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Vector;
 
 public class Main {
-    /**
-     * Thrown when a bad command line argument is encountered.
-     */
-    public static class BadArgs extends Exception {
-        /**
-         * Serialization support
-         */
-        private static final long serialVersionUID = 4638654313770205243L;
-
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The key for the detail message.
-         */
-        BadArgs(I18NResourceBundle i18n, String key) {
-            super(i18n.getString(key));
-        }
-
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The key for the detail message.
-         * @param arg  An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        BadArgs(I18NResourceBundle i18n, String key, Object arg) {
-            super(i18n.getString(key, arg));
-        }
-
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The key for the detail message.
-         * @param args An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        BadArgs(I18NResourceBundle i18n, String key, Object[] args) {
-            super(i18n.getString(key, args));
-        }
-    }
-
-    /**
-     * This exception is used to report problems that occur while the program is running.
-     */
-    public static class Fault extends Exception {
-        /**
-         * Serialization support
-         */
-        private static final long serialVersionUID = -4066018402688615825L;
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String s, Object[] o) {
-            super(i18n.getString(s, o));
-        }
-
-        Fault(Exception t) {
-            super(t.getMessage(), t);
-        }
-    }
-
     private static final String COF_SCHEMA = "COF2_0_2.xsd";
-
     private static I18NResourceBundle i18n = I18NResourceBundle
             .getBundleForClass(Main.class);
-
     private static File suiteCopy;
+    File dir = null;
+    File tsPath = null;
+    Vector<Object> data = new Vector<>();
+    InterviewParameters ip = null;
+    private boolean xsdFlag = false;
 
     private static void exit(int exitCode) {
         System.exit(exitCode);
@@ -236,13 +147,26 @@ public class Main {
         out.println(i18n.getString("main.copyright.txt"));
     }
 
-
     public static void setGenerateTestCases(boolean enable) {
         COFTest.noTestCases = !enable;
         if (!enable) {
             COFTest.xmlElements.remove("testcases");
         } else {
             COFTest.xmlElements.put("testcases", "testcases");
+        }
+    }
+
+    public static void copyFile(File in, File out) {
+        try {
+            FileChannel sourceChannel = new FileInputStream(in).getChannel();
+            FileChannel destinationChannel = new FileOutputStream(out).getChannel();
+            sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
+            sourceChannel.close();
+            destinationChannel.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getLocalizedMessage());
+        } catch (IOException e) {
+            System.out.println(e.getLocalizedMessage());
         }
     }
 
@@ -453,36 +377,108 @@ public class Main {
         return r;
     }
 
-    public static void copyFile(File in, File out) {
-        try {
-            FileChannel sourceChannel = new FileInputStream(in).getChannel();
-            FileChannel destinationChannel = new FileOutputStream(out).getChannel();
-            sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
-            sourceChannel.close();
-            destinationChannel.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getLocalizedMessage());
-        } catch (IOException e) {
-            System.out.println(e.getLocalizedMessage());
-        }
+    public boolean getXsdFlag() {
+        return xsdFlag;
     }
 
     public void setXsdFlag(boolean xsd) {
         this.xsdFlag = xsd;
     }
 
-    public boolean getXsdFlag() {
-        return xsdFlag;
-    }
-
     public void setInterviewParameters(InterviewParameters ip) {
         this.ip = ip;
     }
 
-    File dir = null;
-    File tsPath = null;
-    Vector<Object> data = new Vector<>();
-    InterviewParameters ip = null;
-    private boolean xsdFlag = false;
+    /**
+     * Thrown when a bad command line argument is encountered.
+     */
+    public static class BadArgs extends Exception {
+        /**
+         * Serialization support
+         */
+        private static final long serialVersionUID = 4638654313770205243L;
+
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         */
+        BadArgs(I18NResourceBundle i18n, String key) {
+            super(i18n.getString(key));
+        }
+
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         * @param arg  An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        BadArgs(I18NResourceBundle i18n, String key, Object arg) {
+            super(i18n.getString(key, arg));
+        }
+
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         * @param args An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        BadArgs(I18NResourceBundle i18n, String key, Object[] args) {
+            super(i18n.getString(key, args));
+        }
+    }
+
+    /**
+     * This exception is used to report problems that occur while the program is running.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Serialization support
+         */
+        private static final long serialVersionUID = -4066018402688615825L;
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object[] o) {
+            super(i18n.getString(s, o));
+        }
+
+        Fault(Exception t) {
+            super(t.getMessage(), t);
+        }
+    }
 
 }

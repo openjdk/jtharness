@@ -58,6 +58,15 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
 class ChecklistBrowser extends ToolDialog {
+    private static final String SAVE_AS = "SaveAs";
+    private static final String PRINT_SETUP = "PrintSetup";
+    private static final String PRINT = "Print";
+    private ExecModel model;
+    private InterviewParameters params;
+    private MultiFormatPane body;
+    private FileChooser fileChooser;
+    private Listener listener;
+
     ChecklistBrowser(JComponent parent, ExecModel model, UIFactory uif) {
         super(parent, uif, "cb");
 
@@ -267,10 +276,6 @@ class ChecklistBrowser extends ToolDialog {
         model.print(body);
     }
 
-    private static final String SAVE_AS = "SaveAs";
-    private static final String PRINT_SETUP = "PrintSetup";
-    private static final String PRINT = "Print";
-
     private class Listener
             extends ComponentAdapter
             implements ActionListener, Interview.Observer {
@@ -310,11 +315,4 @@ class ChecklistBrowser extends ToolDialog {
         }
 
     }
-
-    private ExecModel model;
-    private InterviewParameters params;
-
-    private MultiFormatPane body;
-    private FileChooser fileChooser;
-    private Listener listener;
 }

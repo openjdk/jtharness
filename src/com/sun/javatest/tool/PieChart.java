@@ -43,12 +43,19 @@ import java.awt.image.BufferedImage;
  * data.
  */
 public class PieChart extends JComponent /* implements Accessible*/ {
+    private static final int OFFSETX = 7;
+    private static final int OFFSETY = 7;
+
+    // could provide methods which take percentage, floats, floats, long, etc...
+    private static final float MIN_SLICE = 2.0f;            // min. of 3 degrees
+    private int[] slices;
+    private Color[] colors;
+
     /**
      * Create an empty pie chart.  Using this constructor is not recommended.
      */
     private PieChart() {
     }
-
     /**
      * Constructs a pie chart with the given initial distribution and colors.
      *
@@ -66,8 +73,6 @@ public class PieChart extends JComponent /* implements Accessible*/ {
         this();
         setValue(dist, colors);
     }
-
-    // could provide methods which take percentage, floats, floats, long, etc...
 
     /**
      * Sets the pie chart to the given distribution and corresponding colors.
@@ -223,10 +228,4 @@ public class PieChart extends JComponent /* implements Accessible*/ {
         }   // for
 
     }
-
-    private int[] slices;
-    private Color[] colors;
-    private static final int OFFSETX = 7;
-    private static final int OFFSETY = 7;
-    private static final float MIN_SLICE = 2.0f;            // min. of 3 degrees
 }

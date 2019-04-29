@@ -38,6 +38,43 @@ import java.io.File;
  * A Script to compile/execute a standard test.
  */
 public class StdTestScript extends Script {
+    /**
+     * An integer signifying that the execution mode is unknown.
+     */
+    public static final int UNKNOWN = 0;
+    /**
+     * An integer signifying that the execution mode is to perform
+     * a certification run, executing precompiled classes.
+     */
+    public static final int CERTIFY = 1;
+    /**
+     * An integer signifying that the execution mode is to precompile
+     * but not otherwise execute the tests.
+     */
+    public static final int PRECOMPILE = 2;
+    /**
+     * An integer signifying that the execution mode is to compile
+     * and execute the tests.
+     */
+    public static final int DEVELOPER = 3;
+    private int mode = getDefaultMode();
+
+    private static int parseMode(String m) {
+        if (m == null || m.equals("certify")) {
+            return CERTIFY;
+        } else if (m.equals("precompile")) {
+            return PRECOMPILE;
+        } else if (m.equals("developer")) {
+            return DEVELOPER;
+        } else {
+            return UNKNOWN;
+        }
+    }
+
+    private static int getDefaultMode() {
+        return parseMode(System.getProperty("javatest.stdTestScript.defaultMode"));
+    }
+
     @Override
     public Status run(String[] args, TestDescription td, TestEnvironment env) {
         try {
@@ -187,45 +224,4 @@ public class StdTestScript extends Script {
     private void setMode(String mode) {
         setMode(parseMode(mode));
     }
-
-    private static int parseMode(String m) {
-        if (m == null || m.equals("certify")) {
-            return CERTIFY;
-        } else if (m.equals("precompile")) {
-            return PRECOMPILE;
-        } else if (m.equals("developer")) {
-            return DEVELOPER;
-        } else {
-            return UNKNOWN;
-        }
-    }
-
-    private static int getDefaultMode() {
-        return parseMode(System.getProperty("javatest.stdTestScript.defaultMode"));
-    }
-
-    /**
-     * An integer signifying that the execution mode is unknown.
-     */
-    public static final int UNKNOWN = 0;
-
-    /**
-     * An integer signifying that the execution mode is to perform
-     * a certification run, executing precompiled classes.
-     */
-    public static final int CERTIFY = 1;
-
-    /**
-     * An integer signifying that the execution mode is to precompile
-     * but not otherwise execute the tests.
-     */
-    public static final int PRECOMPILE = 2;
-
-    /**
-     * An integer signifying that the execution mode is to compile
-     * and execute the tests.
-     */
-    public static final int DEVELOPER = 3;
-
-    private int mode = getDefaultMode();
 }

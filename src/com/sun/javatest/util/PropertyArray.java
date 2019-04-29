@@ -50,26 +50,15 @@ import java.util.Vector;
 // This code was derived from that in com.sun.javatest.util.Properties.
 
 public class PropertyArray {
+    private static final String lineSeparator = System.getProperty("line.separator");
     /**
-     * A class used to report problems that may occur when using PropertyArray.
+     * A table of hex digits
      */
-    public static class PropertyArrayError extends Error {
-        /**
-         * Create a PropertyArrayError object.
-         */
-        public PropertyArrayError() {
-            super();
-        }
-
-        /**
-         * Create a PropertyArrayError object.
-         *
-         * @param msg a detail message for the error
-         */
-        public PropertyArrayError(String msg) {
-            super(msg);
-        }
-    }
+    private static char[] hexDigit = {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
+    private String[] dataA;
+    private boolean locked;
 
     /**
      * Create a mutable object.
@@ -89,6 +78,8 @@ public class PropertyArray {
         // member I suppose...
         locked = false;
     }
+
+    // --------------- STATIC METHODS ----------------
 
     /**
      * Create a immutable object, from data read from on a stream in
@@ -130,8 +121,6 @@ public class PropertyArray {
             dataA[i] = data[i];
         }
     }
-
-    // --------------- STATIC METHODS ----------------
 
     /**
      * Get a compact array containing the names and values of entries
@@ -292,6 +281,8 @@ public class PropertyArray {
         return props;
     }
 
+    // --------------- INSTANCE METHODS ----------------
+
     /**
      * Write an array of properties to a stream.
      * The data is written using the format for standard Java property files.
@@ -402,112 +393,6 @@ public class PropertyArray {
         };
     }
 
-    // --------------- INSTANCE METHODS ----------------
-
-    /**
-     * Get the data in this PropertyArray as a standard Properties object.
-     *
-     * @return a Properties object containing the same data as this PropertyArray
-     */
-    public Map<String, String> getProperties() {
-        return getProperties(dataA);
-    }
-
-    /**
-     * Check if the property array is mutable.
-     *
-     * @return true if data can be stored in this array, and false otherwise
-     */
-    public boolean isMutable() {
-        return !locked;
-    }
-
-    /**
-     * Get the number of properties stored in the property array.
-     *
-     * @return the number of properties stored in the property array
-     */
-    public int size() {
-        if (dataA == null) {
-            return 0;
-        } else {
-            return dataA.length / 2;
-        }
-    }
-
-    /**
-     * Get the value of a named property.
-     *
-     * @param key the name of the desired property
-     * @return the value of the property, or null if it was not found
-     */
-    public String get(String key) {
-        return get(dataA, key);
-    }
-
-    /**
-     * Get a copy of the data in this PropertyArray.
-     *
-     * @return a copy of the data, or null if there is no data.
-     */
-    public String[] getArray() {
-        if (dataA == null || dataA.length == 0) {
-            return null;
-        }
-
-        return shallowCopy(dataA);
-    }
-
-    /**
-     * Put a property into the PropertyArray.
-     *
-     * @param key   the name of the property to be added
-     * @param value the value of the property to be added
-     * @return the previous value (if any) of this property
-     * @throws PropertyArrayError if a null key or value is supplied.
-     */
-    public String put(String key, String value) {
-        String old = null;
-
-        if (locked == true) {
-            throw new IllegalStateException("PropertyArray is immutable.");
-        }
-
-        if (key == null || value == null) {
-            // i'd like to make null values legal but...
-            throw new PropertyArrayError(
-                    "A key or value was null.  Null keys and values are illegal");
-        }
-
-        Vector<String> vec = copyOutOf(dataA);
-        old = insert(vec, key, value);
-        dataA = vec.toArray(new String[vec.size()]);
-
-        return old;
-    }
-
-    /**
-     * Remove a property.
-     *
-     * @param key the name of the property to be removed
-     */
-    public void remove(String key) {
-        dataA = remove(dataA, key);
-    }
-
-    /**
-     * Save the properties to a stream. The data is written using the format
-     * for a standard Java properties file.
-     *
-     * @param out the stream to which to write the data
-     * @throws IOException if an error occurred while writing the data
-     */
-    public void save(Writer out) throws IOException {
-        save(dataA, out);
-    }
-
-    // --------------- PRIVATE ----------------
-
     /**
      * Put a new value in, overwriting existing values.
      *
@@ -606,16 +491,129 @@ public class PropertyArray {
     }
 
     /**
-     * A table of hex digits
+     * Get the data in this PropertyArray as a standard Properties object.
+     *
+     * @return a Properties object containing the same data as this PropertyArray
      */
-    private static char[] hexDigit = {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-    };
+    public Map<String, String> getProperties() {
+        return getProperties(dataA);
+    }
 
-    private static final String lineSeparator = System.getProperty("line.separator");
+    // --------------- PRIVATE ----------------
 
-    private String[] dataA;
-    private boolean locked;
+    /**
+     * Check if the property array is mutable.
+     *
+     * @return true if data can be stored in this array, and false otherwise
+     */
+    public boolean isMutable() {
+        return !locked;
+    }
+
+    /**
+     * Get the number of properties stored in the property array.
+     *
+     * @return the number of properties stored in the property array
+     */
+    public int size() {
+        if (dataA == null) {
+            return 0;
+        } else {
+            return dataA.length / 2;
+        }
+    }
+
+    /**
+     * Get the value of a named property.
+     *
+     * @param key the name of the desired property
+     * @return the value of the property, or null if it was not found
+     */
+    public String get(String key) {
+        return get(dataA, key);
+    }
+
+    /**
+     * Get a copy of the data in this PropertyArray.
+     *
+     * @return a copy of the data, or null if there is no data.
+     */
+    public String[] getArray() {
+        if (dataA == null || dataA.length == 0) {
+            return null;
+        }
+
+        return shallowCopy(dataA);
+    }
+
+    /**
+     * Put a property into the PropertyArray.
+     *
+     * @param key   the name of the property to be added
+     * @param value the value of the property to be added
+     * @return the previous value (if any) of this property
+     * @throws PropertyArrayError if a null key or value is supplied.
+     */
+    public String put(String key, String value) {
+        String old = null;
+
+        if (locked == true) {
+            throw new IllegalStateException("PropertyArray is immutable.");
+        }
+
+        if (key == null || value == null) {
+            // i'd like to make null values legal but...
+            throw new PropertyArrayError(
+                    "A key or value was null.  Null keys and values are illegal");
+        }
+
+        Vector<String> vec = copyOutOf(dataA);
+        old = insert(vec, key, value);
+        dataA = vec.toArray(new String[vec.size()]);
+
+        return old;
+    }
+
+    /**
+     * Remove a property.
+     *
+     * @param key the name of the property to be removed
+     */
+    public void remove(String key) {
+        dataA = remove(dataA, key);
+    }
+
+    /**
+     * Save the properties to a stream. The data is written using the format
+     * for a standard Java properties file.
+     *
+     * @param out the stream to which to write the data
+     * @throws IOException if an error occurred while writing the data
+     */
+    public void save(Writer out) throws IOException {
+        save(dataA, out);
+    }
+
+    /**
+     * A class used to report problems that may occur when using PropertyArray.
+     */
+    public static class PropertyArrayError extends Error {
+        /**
+         * Create a PropertyArrayError object.
+         */
+        public PropertyArrayError() {
+            super();
+        }
+
+        /**
+         * Create a PropertyArrayError object.
+         *
+         * @param msg a detail message for the error
+         */
+        public PropertyArrayError(String msg) {
+            super(msg);
+        }
+    }
 
 
 }

@@ -41,6 +41,11 @@ import java.util.Map;
  * @deprecated use PathClassLoader
  */
 public class DirectoryClassLoader extends ClassLoader {
+    private File loadDir;
+    private Map<String, Class<?>> classes = new Hashtable<>();
+
+    //----------ClassLoader methods---------------------------------------------
+
     /**
      * Constructor that provides the name of the directory in which to search
      * for a given class.
@@ -60,8 +65,6 @@ public class DirectoryClassLoader extends ClassLoader {
     public DirectoryClassLoader(String dirName) {
         loadDir = new File(dirName);
     }
-
-    //----------ClassLoader methods---------------------------------------------
 
     /**
      * Attempt to load a class if it is not already loaded, and optionally
@@ -120,6 +123,8 @@ public class DirectoryClassLoader extends ClassLoader {
         }
     }
 
+    //----------internal methods------------------------------------------------
+
     /**
      * Finds the resource with the given name. A resource is some data
      * (images, audio, text, etc) that can be accessed by class code
@@ -150,6 +155,8 @@ public class DirectoryClassLoader extends ClassLoader {
         return url;
     }
 
+    //----------Data members----------------------------------------------------
+
     /**
      * Finds the resource with the given name. Class loader
      * implementations should override this method to specify where to
@@ -173,8 +180,6 @@ public class DirectoryClassLoader extends ClassLoader {
             return null;
         }
     }
-
-    //----------internal methods------------------------------------------------
 
     private synchronized Class<?> locateClass(String name)
             throws ClassNotFoundException {
@@ -212,9 +217,4 @@ public class DirectoryClassLoader extends ClassLoader {
         }
 
     }
-
-    //----------Data members----------------------------------------------------
-
-    private File loadDir;
-    private Map<String, Class<?>> classes = new Hashtable<>();
 }

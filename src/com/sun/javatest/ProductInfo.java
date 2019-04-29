@@ -51,6 +51,14 @@ import java.util.StringTokenizer;
  */
 public class ProductInfo {
     /**
+     * IMPORTANT: from java.text.SimpleDateFormat specification: "Date formats are not synchronized.
+     * If multiple threads access a format concurrently, it must be synchronized externally"
+     */
+    private static final DateFormat BUILD_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private static Properties info;
+    private static File javatestClassDir;
+
+    /**
      * The name of this product.
      *
      * @return a string identifying the name of this product.
@@ -67,12 +75,6 @@ public class ProductInfo {
     public static String getVersion() {
         return getProperty("version");
     }
-
-    /**
-     * IMPORTANT: from java.text.SimpleDateFormat specification: "Date formats are not synchronized.
-     * If multiple threads access a format concurrently, it must be synchronized externally"
-     */
-    private static final DateFormat BUILD_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     /**
      * Returns detailed version string of this product.
@@ -308,8 +310,5 @@ public class ProductInfo {
 
         return info.getProperty(name, "unset");
     }
-
-    private static Properties info;
-    private static File javatestClassDir;
 
 }

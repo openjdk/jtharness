@@ -48,6 +48,9 @@ import javax.swing.JLabel;
  * @see IconLabelBeanInfo
  */
 public class IconLabel extends JLabel {
+    private String type;
+    private String state;
+
     @Override
     public float getAlignmentY() {
         return .7f;
@@ -138,7 +141,4 @@ public class IconLabel extends JLabel {
     public void setState(String state) {
         this.state = state;
     }
-
-    private String type;
-    private String state;
 }

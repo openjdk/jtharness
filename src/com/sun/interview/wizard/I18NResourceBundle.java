@@ -38,6 +38,25 @@ import java.util.ResourceBundle;
  * containing localization data for a class.
  */
 class I18NResourceBundle extends ResourceBundle {
+    private static I18NResourceBundle defaultBundle;
+    private static String logClassPrefix = System.getProperty("i18n.log");
+    private String name;
+    private ResourceBundle delegate;
+    private ClassLoader classLoader;
+    private boolean logging;
+
+    /**
+     * Create a resource bundle for the given name.
+     * The actual resource bundle will not be loaded until it is needed.
+     *
+     * @arg name The name of the actual resource bundle to use.
+     */
+    private I18NResourceBundle(String name, boolean logging, ClassLoader cl) {
+        this.name = name;
+        this.logging = logging;
+        this.classLoader = cl;
+    }
+
     static I18NResourceBundle getDefaultBundle() {
         if (defaultBundle == null) {
             defaultBundle = getBundleForClass(I18NResourceBundle.class);
@@ -45,8 +64,6 @@ class I18NResourceBundle extends ResourceBundle {
 
         return defaultBundle;
     }
-
-    private static I18NResourceBundle defaultBundle;
 
     /**
      * Get a package-specific resource bundle for a class containing localization data.
@@ -132,19 +149,6 @@ class I18NResourceBundle extends ResourceBundle {
         return getColor("i18n.error", 0xff0000);
     }
 
-
-    /**
-     * Create a resource bundle for the given name.
-     * The actual resource bundle will not be loaded until it is needed.
-     *
-     * @arg name The name of the actual resource bundle to use.
-     */
-    private I18NResourceBundle(String name, boolean logging, ClassLoader cl) {
-        this.name = name;
-        this.logging = logging;
-        this.classLoader = cl;
-    }
-
     /**
      * A required internal method for ResourceBundle.
      * Load the actual resource bundle, if it has not yet been loaded,
@@ -184,11 +188,4 @@ class I18NResourceBundle extends ResourceBundle {
     private void showError(String key, String name) {
         System.err.println("WARNING: missing resource: " + key + " for " + name);
     }
-
-    private String name;
-    private ResourceBundle delegate;
-    private ClassLoader classLoader;
-    private boolean logging;
-
-    private static String logClassPrefix = System.getProperty("i18n.log");
 }

@@ -48,6 +48,9 @@ import java.util.Map;
  * </ul>
  */
 public class EnvironmentManager extends CommandManager {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigManager.class);
+
+
     EnvironmentManager() {
         // flush any prior tables
         TestEnvironment.clearDefaultPropTables();
@@ -60,7 +63,6 @@ public class EnvironmentManager extends CommandManager {
         }
         TestEnvironment.addDefaultPropTable(i18n.getString("env.def.sysProps"), m);
     }
-
 
     @Override
     public HelpTree.Node getHelp() {
@@ -86,11 +88,12 @@ public class EnvironmentManager extends CommandManager {
         return false;
     }
 
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigManager.class);
-
     //--------------------------------------------------------------------------
 
     private static class ENameValueCommand extends Command {
+        private String name;
+        private String value;
+
         ENameValueCommand(String name, String value) {
             super("E" + name + "=" + value);
             this.name = name;
@@ -103,9 +106,6 @@ public class EnvironmentManager extends CommandManager {
             m.put(name, value);
             TestEnvironment.addDefaultPropTable(i18n.getString("env.def.cmdLine"), m);
         }
-
-        private String name;
-        private String value;
     }
 
     //--------------------------------------------------------------------------

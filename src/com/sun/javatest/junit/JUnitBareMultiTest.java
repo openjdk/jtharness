@@ -46,11 +46,27 @@ import java.util.Vector;
  */
 public class JUnitBareMultiTest extends JUnitMultiTest {
 
+    protected TestCase testCaseClass;
+    protected SortedMap<String, Method> tests;
+    protected String testCases[] = null;
+    protected List<String> excludeTestCases = new Vector<>();
+
     /**
      * Creates a new instance of JUnitBareMultiTest using specified ClassLoader
      */
     public JUnitBareMultiTest(ClassLoader loader) {
         super(loader);
+    }
+
+    /**
+     * Entry point for direct execution, not used by the harness.
+     * Note that the provided class name should be a subclass of TestCase.
+     */
+    public static void main(String... args) {
+        String executeClass = System.getProperty("javaTestExecuteClass");
+        JUnitMultiTest multiTest = new JUnitBareMultiTest(ClassLoader.getSystemClassLoader());
+        multiTest.setup(executeClass);
+        multiTest.run0(args);
     }
 
     /**
@@ -77,17 +93,6 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
             ms.add(method.getName(), status);
         }
         return ms.getStatus();
-    }
-
-    /**
-     * Entry point for direct execution, not used by the harness.
-     * Note that the provided class name should be a subclass of TestCase.
-     */
-    public static void main(String... args) {
-        String executeClass = System.getProperty("javaTestExecuteClass");
-        JUnitMultiTest multiTest = new JUnitBareMultiTest(ClassLoader.getSystemClassLoader());
-        multiTest.setup(executeClass);
-        multiTest.run0(args);
     }
 
     /**
@@ -159,10 +164,4 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
             tests = null;
         }
     }
-
-    protected TestCase testCaseClass;
-    protected SortedMap<String, Method> tests;
-
-    protected String testCases[] = null;
-    protected List<String> excludeTestCases = new Vector<>();
 }

@@ -111,198 +111,71 @@ import java.util.ResourceBundle;
  */
 public class UIFactory {
 
-    public static enum Colors {
-        /**
-         * Color used for highlighting incorrect input fields
-         */
-        INPUT_INVALID(local_i18n.getString("colorprefs.colors.input.invalid.defvalue")),
-        /**
-         * Color used for highlighting correct input fields
-         */
-        INPUT_VALID(local_i18n.getString("colorprefs.colors.input.valid.defvalue")),
-        /**
-         * Default background color for input fields
-         */
-        INPUT_DEFAULT(local_i18n.getString("colorprefs.colors.input.default.defvalue")),
-
-        MENU_BACKGROUND(UIManager.getColor("Menu.background"), 255, false),
-        SEPARATOR_FOREGROUND(UIManager.getColor("Separator.foreground"), 255, false),
-        CONTROL_INFO(Color.RED, 255, false),
-        CONTROL_SHADOW(Color.RED, 255, false),
-        TEXT_HIGHLIGHT_COLOR(new JTextField().getSelectionColor(), 255, false),
-        TEXT_COLOR(new JLabel().getForeground(), 255, false),
-        TEXT_SELECTED_COLOR(new JTextField().getSelectedTextColor(), 255, false),
-        WINDOW_BACKGROUND(UIManager.getColor("Panel.background"), 255, false),
-        PRIMARY_CONTROL_HIGHLIGHT(Color.WHITE, 255, false),
-        PRIMARY_CONTROL_INFO(Color.BLACK, 255, false),
-        BUTTON_DISABLED_FOREGROUND(Color.WHITE, 255, false),//UIManager.getDefaults().getColor("Button.disabledForeground")
-
-        // these three are used for icon drawing only
-        PRIMARY_CONTROL_SHADOW(MetalLookAndFeel.getPrimaryControlShadow(), 255, false),
-        PRIMARY_CONTROL(MetalLookAndFeel.getPrimaryControl(), 255, false),
-        PRIMARY_CONTROL_DARK_SHADOW(MetalLookAndFeel.getPrimaryControlDarkShadow(), 255, false),
-
-        BLACK(Color.BLACK, 255, false),
-        TRANSPARENT(new Color(255, 255, 255, 0), false);
-
-        private final String defaultColor;
-        private Color color = null;
-        private boolean configurable;
-
-        Colors(Color defaultColor) {
-            this(defaultColor, true);
-        }
-
-        Colors(Color defaultColor, int alpha) {
-            this(new Color(defaultColor.getRed(), defaultColor.getGreen(), defaultColor.getBlue(), alpha), true);
-        }
-
-        Colors(Color defaultColor, int alpha, boolean configurable) {
-            this(new Color(defaultColor.getRed(), defaultColor.getGreen(), defaultColor.getBlue(), alpha), configurable);
-        }
-
-        Colors(Color defaultColor, boolean configurable) {
-            this.defaultColor = encodeARGB(defaultColor);
-            this.configurable = configurable;
-        }
-
-        Colors(String defaultColor) {
-            this.defaultColor = defaultColor;
-            this.configurable = true;
-        }
-
-        public boolean isConfigurable() {
-            return configurable;
-        }
-
-        /**
-         * Getter for default String-encoded color value. Is used for Color.decode() and
-         * should be formatted similarly
-         *
-         * @return Default String-encoded color value
-         */
-        public String getDefaultValue() {
-            return defaultColor;
-        }
-
-        /**
-         * Getter for current color value. It is loaded from preferences if no color is set
-         * previously.
-         *
-         * @return Current color value
-         */
-        public Color getValue() {
-            if (color == null) {
-                color = readColorFromPreferences();
-            }
-            return color;
-        }
-
-        /**
-         * Setter for current color value.
-         *
-         * @return Old color value
-         */
-        public Color setValue(Color c) {
-            Color t = color;
-            if (configurable) {
-                color = c;
-            }
-            return t;
-        }
-
-        /**
-         * Get color name used in preferences file. It is formed from enum name.
-         * E.g. colors.input.invalid for INPUT_INVALID
-         *
-         * @return Color name used in preferences file
-         */
-        public String getPreferencesName() {
-            return "colors." + this.name().toLowerCase().replaceAll("_", ".");
-        }
-
-        /**
-         * Read color value from preferences ignoring current color value that is
-         * returned by getValue();
-         *
-         * @return Color value from preferences file
-         */
-        public Color readColorFromPreferences() {
-            return decodeRGBA(Preferences.access().getPreference(this.getPreferencesName(), this.getDefaultValue()));
-        }
-
-        /**
-         * Find Colors by color preferences name.
-         *
-         * @param prefsName Color preferences name (e.g. "colors.input.default")
-         * @return Colors associated with such preferences name
-         * @throws IllegalArgumentException in case there is no Colors with such
-         *                                  name
-         */
-        public static Colors valueOfByPreferencesName(String prefsName) {
-            return Colors.valueOf(prefsName.replaceFirst("colors.", "").toUpperCase().replaceAll("\\.", "_"));
-        }
-
-        /**
-         * Get Color by colors preferences name.
-         *
-         * @param prefsName Color preferences name (e.g. "colors.input.default")
-         * @return Color if Preferences contain this color. Returns default value if exists<br>
-         * null otherwise
-         */
-        public static Color getColorByPreferencesName(String prefsName) {
-            Preferences prefs = Preferences.access();
-            try {
-                Colors c = valueOfByPreferencesName(prefsName); // IllegalArgumentException if such Colors doesn't exist
-
-                return c.getValue();
-            } catch (IllegalArgumentException e) {
-                String color = prefs.getPreference(prefsName); // try to find color in preferences anyway
-                return color == null ? null : decodeRGBA(color);
-            }
-        }
-
-        /**
-         * Get array with all colors names used in preferences
-         *
-         * @return Names array
-         */
-        public static String[] getColorsNames() {
-            Colors[] values = Colors.values();
-            String temp[] = new String[values.length];
-            for (int i = 0; i < values.length; i++) {
-                temp[i] = values[i].getPreferencesName();
-            }
-            return temp;
-        }
-
-        public static Color decodeRGBA(String color) {
-            try {
-                if (color.startsWith("0x") && color.length() == 10) {
-                    Long colorCode = Long.decode(color);
-                    int A = (int) (colorCode & 0xFF);
-                    colorCode >>= 8;
-                    int B = (int) (colorCode & 0xFF);
-                    colorCode >>= 8;
-                    int G = (int) (colorCode & 0xFF);
-                    colorCode >>= 8;
-                    int R = (int) (colorCode & 0xFF);
-                    colorCode >>= 8;
-                    return new Color(R, G, B, A);
-                } else {
-                    return Color.decode(color);
+    /**
+     * Constant to identify the cancellation option.
+     */
+    public static final String CANCEL = "cancel";
+    private static final ActionListener closeListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Component src = (Component) e.getSource();
+            for (Container p = src.getParent(); p != null; p = p.getParent()) {
+                if (p instanceof JInternalFrame || p instanceof Window) {
+                    p.setVisible(false);
+                    return;
                 }
-            } catch (Exception e) {
-                return Color.red;
             }
         }
+    };
+    private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
+    private static Font baseFont = new JLabel().getFont();
+    private static I18NResourceBundle local_i18n = I18NResourceBundle.getBundleForClass(UIFactory.class);
+    private Class<?> clientClass;
+    private Component parent;
+    private I18NResourceBundle i18n;
+    private HelpBroker helpBroker;
 
-        public static String encodeARGB(Color color) {
-            if (color == null) {
-                return "";
-            }
-            return String.format("0x%02x%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-        }
+    /**
+     * Create a UIFactory object for a specific class.
+     * The class is used to determine the resource bundle
+     * for i18n strings; the bundle is named i18n.properties
+     * in the same package as the specified class.
+     *
+     * @param c          the class used to determine the i18n properties
+     * @param helpBroker the help broker to be used when creating help buttons
+     */
+    public UIFactory(Class<?> c, HelpBroker helpBroker) {
+        this(c, null, helpBroker);
+    }
+
+    /**
+     * Create a UIFactory object for a specific component.
+     * The component's class is used to determine the resource bundle
+     * for i18n strings; the bundle is named i18n.properties
+     * in the same package as the specified class.
+     *
+     * @param c          the component used to determine the i18n properties
+     * @param helpBroker the help broker to be used when creating help buttons
+     */
+    public UIFactory(Component c, HelpBroker helpBroker) {
+        this(c.getClass(), c, helpBroker);
+    }
+
+    /**
+     * Create a UIFactory object for a specific class.
+     * The class is used to determine the resource bundle
+     * for i18n strings; the bundle is named i18n.properties
+     * in the same package as the specified class.
+     *
+     * @param c          the class used to determine the i18n properties
+     * @param p          the parent component to be used for any dialogs that are created
+     * @param helpBroker the help broker to be used when creating help buttons
+     */
+    public UIFactory(Class<?> c, Component p, HelpBroker helpBroker) {
+        this.helpBroker = helpBroker;
+        clientClass = c;
+        parent = p;
+        i18n = I18NResourceBundle.getBundleForClass(c);
     }
 
     public static Font getBaseFont() {
@@ -418,49 +291,6 @@ public class UIFactory {
     }
 
     /**
-     * Create a UIFactory object for a specific class.
-     * The class is used to determine the resource bundle
-     * for i18n strings; the bundle is named i18n.properties
-     * in the same package as the specified class.
-     *
-     * @param c          the class used to determine the i18n properties
-     * @param helpBroker the help broker to be used when creating help buttons
-     */
-    public UIFactory(Class<?> c, HelpBroker helpBroker) {
-        this(c, null, helpBroker);
-    }
-
-    /**
-     * Create a UIFactory object for a specific component.
-     * The component's class is used to determine the resource bundle
-     * for i18n strings; the bundle is named i18n.properties
-     * in the same package as the specified class.
-     *
-     * @param c          the component used to determine the i18n properties
-     * @param helpBroker the help broker to be used when creating help buttons
-     */
-    public UIFactory(Component c, HelpBroker helpBroker) {
-        this(c.getClass(), c, helpBroker);
-    }
-
-    /**
-     * Create a UIFactory object for a specific class.
-     * The class is used to determine the resource bundle
-     * for i18n strings; the bundle is named i18n.properties
-     * in the same package as the specified class.
-     *
-     * @param c          the class used to determine the i18n properties
-     * @param p          the parent component to be used for any dialogs that are created
-     * @param helpBroker the help broker to be used when creating help buttons
-     */
-    public UIFactory(Class<?> c, Component p, HelpBroker helpBroker) {
-        this.helpBroker = helpBroker;
-        clientClass = c;
-        parent = p;
-        i18n = I18NResourceBundle.getBundleForClass(c);
-    }
-
-    /**
      * Set the parent component to be used for dialogs created by this factory.
      * This setting cannot be changed after it is set.
      *
@@ -573,6 +403,11 @@ public class UIFactory {
         return i18n.getString(key, args);
     }
 
+
+    //----------------------------------------------------------------------------
+    //
+    // borders
+
     /**
      * Set the help ID for the context-sensitive help for a component.
      *
@@ -620,6 +455,10 @@ public class UIFactory {
         }
 
     }
+
+    //----------------------------------------------------------------------------
+    //
+    // white space
 
     /**
      * Set a tool tip for a component from a resource in the factory's resource
@@ -675,6 +514,11 @@ public class UIFactory {
         String text = getI18NString(uiKey + ".desc");
         c.setAccessibleDescription(text);
     }
+
+
+    //----------------------------------------------------------------------------
+    //
+    // buttons
 
     /**
      * Sets only the accessible name for the given context, using the
@@ -732,11 +576,6 @@ public class UIFactory {
         setAccessibleName(c, uiKey);
     }
 
-
-    //----------------------------------------------------------------------------
-    //
-    // borders
-
     /**
      * Create a titled border, using a resource to specify the title. <br>
      * The resource used is:
@@ -750,10 +589,6 @@ public class UIFactory {
     public Border createTitledBorder(String uiKey) {
         return BorderFactory.createTitledBorder(null, getI18NString(uiKey + ".bdr"), TitledBorder.LEADING, TitledBorder.DEFAULT_JUSTIFICATION, getBaseFont(), Colors.TEXT_COLOR.getValue());
     }
-
-    //----------------------------------------------------------------------------
-    //
-    // white space
 
     /**
      * Create a horizontal filler that expands to fill the available space.
@@ -783,7 +618,6 @@ public class UIFactory {
         return c;
     }
 
-
     /**
      * Create a horizontal filler of a given width.
      *
@@ -795,11 +629,6 @@ public class UIFactory {
         c.setFocusable(false);
         return c;
     }
-
-
-    //----------------------------------------------------------------------------
-    //
-    // buttons
 
     /**
      * Create a button, using resources to specify the name and the tool tip. <br>
@@ -896,11 +725,6 @@ public class UIFactory {
     }
 
     /**
-     * Constant to identify the cancellation option.
-     */
-    public static final String CANCEL = "cancel";
-
-    /**
      * Special method to create a cancel button.  Differs from a
      * standard button because it does not require a mnemonic, per
      * the Java Look and Feel standard.
@@ -958,6 +782,10 @@ public class UIFactory {
     public JButton createCloseButton(String uiKey) {
         return createCloseButton(uiKey, true);
     }
+
+    //----------------------------------------------------------------------------
+    //
+    // check boxes
 
     /**
      * Create a Close button, that will close the containing window when pressed,
@@ -1034,6 +862,11 @@ public class UIFactory {
         b.setBorder(BorderFactory.createEmptyBorder());
         return b;
     }
+
+
+    //----------------------------------------------------------------------------
+    //
+    // choice lists
 
     /**
      * Create a button containing an icon, using resources to specify the
@@ -1123,10 +956,6 @@ public class UIFactory {
         }
     }
 
-    //----------------------------------------------------------------------------
-    //
-    // check boxes
-
     /**
      * Create a check box, using resources to specify the name and the tool tip. <br>
      * The resources used are:
@@ -1192,10 +1021,9 @@ public class UIFactory {
         return b;
     }
 
-
     //----------------------------------------------------------------------------
     //
-    // choice lists
+    // icons, images etc
 
     /**
      * Create a choice item, using resources to specify the choices and the
@@ -1313,6 +1141,10 @@ public class UIFactory {
         return createChoice(uiKey, editable, null);
     }
 
+    //----------------------------------------------------------------------------
+    //
+    // labels
+
     /**
      * Same as the one parameter version, except a label can be
      * associated with this component.  This is to support accessibility.
@@ -1369,6 +1201,11 @@ public class UIFactory {
         return choice;
     }
 
+
+    //----------------------------------------------------------------------------
+    //
+    // lists
+
     /**
      * Create an choice item containing literal choices,
      * and using a resource to specify the tool tip.
@@ -1395,10 +1232,6 @@ public class UIFactory {
         return choice;
     }
 
-    //----------------------------------------------------------------------------
-    //
-    // icons, images etc
-
     /**
      * Create an icon, using a resource to specify the image. <br>
      * The resource used is:
@@ -1414,6 +1247,10 @@ public class UIFactory {
     public Icon createIcon(String uiKey) {
         return new ImageIcon(getIconURL(uiKey));
     }
+
+    //----------------------------------------------------------------------------
+    //
+    // menus
 
     /**
      * Get the resource URL for an icon specified in a resource bundle. <br>
@@ -1467,10 +1304,6 @@ public class UIFactory {
         return Toolkit.getDefaultToolkit().getImage(url);
     }
 
-    //----------------------------------------------------------------------------
-    //
-    // labels
-
     /**
      * Create a label, using a resource to specify the text. <br>
      * The resource used is:
@@ -1509,11 +1342,6 @@ public class UIFactory {
         }
         return l;
     }
-
-
-    //----------------------------------------------------------------------------
-    //
-    // lists
 
     /**
      * Create an input text field, using a resource to specify the tool tip.  <br>
@@ -1564,10 +1392,6 @@ public class UIFactory {
         return list;
     }
 
-    //----------------------------------------------------------------------------
-    //
-    // menus
-
     /**
      * Create an empty menu bar, using resources to specify the accessible info.<br>
      * The resources used are:
@@ -1585,6 +1409,10 @@ public class UIFactory {
         setAccessibleInfo(mb, uiKey);
         return mb;
     }
+
+    //----------------------------------------------------------------------------
+    //
+    // menu items
 
     /**
      * Create an empty menu, using resources to specify the name and mnemonic. <br>
@@ -1718,6 +1546,10 @@ public class UIFactory {
         return new JPopupMenu(/*getI18NString(uiKey + ".pop")*/);
     }
 
+    //----------------------------------------------------------------------------
+    //
+    // scrollpane
+
     /**
      * Create an popup menu.
      *
@@ -1741,10 +1573,6 @@ public class UIFactory {
         return m;
     }
 
-    //----------------------------------------------------------------------------
-    //
-    // menu items
-
     /**
      * Create a menu item for an action.
      * The name of the item is set to the action name.
@@ -1759,6 +1587,10 @@ public class UIFactory {
         // could (should?) ensure everything is set correctly
         return item;
     }
+
+    //----------------------------------------------------------------------------
+    //
+    // slider
 
     /**
      * Create a menu item, using resources to specify the text and mnemonic. <br>
@@ -1782,6 +1614,10 @@ public class UIFactory {
         setMnemonic(item, uiKey + "." + action);
         return item;
     }
+
+    //----------------------------------------------------------------------------
+    //
+    // split pane
 
     /**
      * Create a check box menu item, using resources to specify the
@@ -1853,6 +1689,38 @@ public class UIFactory {
         return item;
     }
 
+    //----------------------------------------------------------------------------
+    //
+    // spinners - not accessible as of JDK 1.5, so it's commented out here!
+
+    /**
+     * Create a spinner.
+     * @param uiKey the base name of the resources to be used
+     * @return a spinner component
+     * The resources used are:
+     * <table>
+     * <tr><td><i>uiKey</i>.<code>name</code><td> the accessible name for the tab pane.
+     *          Where <code>name</code> is the literal string "name".
+     * <tr><td><i>uiKey</i>.<code>tip</code><td> the accessible name for the tab pane.
+     *          Where <code>tip</code> is the literal string "tip".
+     * </table>
+     * The tooltip will automatically be transferred to the pane's accessible
+     * description.  Use <code>setAccessibleDescription()</code> to set it
+     * independently.
+    public JSpinner createSpinner(String uiKey, SpinnerModel model) {
+    JSpinner s = new JSpinner(model);
+    s.setName(uiKey);
+    setAccessibleName(s, uiKey);
+    setToolTip(s, uiKey);
+    return s;
+    }
+     */
+
+
+    //----------------------------------------------------------------------------
+    //
+    // tabbed paned
+
     /**
      * Create a check box menu item, using resources to specify the
      * name and the tool tip. <br>
@@ -1876,10 +1744,6 @@ public class UIFactory {
         setToolTip(b, uiKey_name);
         return b;
     }
-
-    //----------------------------------------------------------------------------
-    //
-    // scrollpane
 
     /**
      * Surround a component in a scroll pane.
@@ -1916,7 +1780,7 @@ public class UIFactory {
 
     //----------------------------------------------------------------------------
     //
-    // slider
+    // tables
 
     /**
      * Create a slider, using resources to specify the the tool tip. <br>
@@ -1939,7 +1803,7 @@ public class UIFactory {
 
     //----------------------------------------------------------------------------
     //
-    // split pane
+    // text fields, text areas etc
 
     /**
      * Create an empty split pane with the given orientation.
@@ -1985,38 +1849,6 @@ public class UIFactory {
             ac.setAccessibleDescription(local_i18n.getString("uif.sp.vert.desc"));
         }
     }
-
-    //----------------------------------------------------------------------------
-    //
-    // spinners - not accessible as of JDK 1.5, so it's commented out here!
-
-    /**
-     * Create a spinner.
-     * @param uiKey the base name of the resources to be used
-     * @return a spinner component
-     * The resources used are:
-     * <table>
-     * <tr><td><i>uiKey</i>.<code>name</code><td> the accessible name for the tab pane.
-     *          Where <code>name</code> is the literal string "name".
-     * <tr><td><i>uiKey</i>.<code>tip</code><td> the accessible name for the tab pane.
-     *          Where <code>tip</code> is the literal string "tip".
-     * </table>
-     * The tooltip will automatically be transferred to the pane's accessible
-     * description.  Use <code>setAccessibleDescription()</code> to set it
-     * independently.
-    public JSpinner createSpinner(String uiKey, SpinnerModel model) {
-    JSpinner s = new JSpinner(model);
-    s.setName(uiKey);
-    setAccessibleName(s, uiKey);
-    setToolTip(s, uiKey);
-    return s;
-    }
-     */
-
-
-    //----------------------------------------------------------------------------
-    //
-    // tabbed paned
 
     /**
      * Create an empty tabbed pane.
@@ -2098,10 +1930,6 @@ public class UIFactory {
 
     }
 
-    //----------------------------------------------------------------------------
-    //
-    // tables
-
     /**
      * Create a table with a given data model.
      * Resources used:
@@ -2128,10 +1956,6 @@ public class UIFactory {
         setToolTip(tbl, uiKey);
         return tbl;
     }
-
-    //----------------------------------------------------------------------------
-    //
-    // text fields, text areas etc
 
     /**
      * Create a text field for use as a heading, using a resource to specify
@@ -2279,7 +2103,6 @@ public class UIFactory {
         return createLocalizedMessageArea(uiKey, getI18NString(uiKey + ".txt", arg), true);
     }
 
-
     /**
      * Create a message area, using a resource to specify the content.
      * The message area will be transparent, uneditable, and word-wrapped. <br>
@@ -2323,7 +2146,6 @@ public class UIFactory {
         ac.setAccessibleDescription(local_i18n.getString("uif.message.desc"));
         return txt;
     }
-
 
     /**
      * @param std True if this area should be made accessible.
@@ -2463,6 +2285,10 @@ public class UIFactory {
         return createOutputField(uiKey, "", cols, label, autoSelect);
     }
 
+    //----------------------------------------------------------------------------
+    //
+    // progress bars
+
     /**
      * Create an output text field containing a specified value,
      * and using a resource to specify the tool tip.  <br>
@@ -2502,6 +2328,10 @@ public class UIFactory {
     public JTextField createOutputField(String uiKey, String value, JLabel label) {
         return createOutputField(uiKey, value, 10, label, false);
     }
+
+    //----------------------------------------------------------------------------
+    //
+    // toolbar
 
     /**
      * Create an output text field containing a specified value,
@@ -2616,6 +2446,10 @@ public class UIFactory {
         return createTextArea(uiKey, null);
     }
 
+    //----------------------------------------------------------------------------
+    //
+    // blocking confirmation and error dialogs
+
     /**
      * Create a text area, using a resource to specify the tool tip.  <br>
      * The resource used is:
@@ -2646,10 +2480,6 @@ public class UIFactory {
         setToolTip(t, uiKey);
         return t;
     }
-
-    //----------------------------------------------------------------------------
-    //
-    // progress bars
 
     /**
      * Create a basic progress bar.
@@ -2695,10 +2525,6 @@ public class UIFactory {
 
         return pb;
     }
-
-    //----------------------------------------------------------------------------
-    //
-    // toolbar
 
     /**
      * Create an empty toolbar.
@@ -2799,10 +2625,6 @@ public class UIFactory {
             }
         }
     }
-
-    //----------------------------------------------------------------------------
-    //
-    // blocking confirmation and error dialogs
 
     /**
      * Show an information dialog, using a resource to specify the error message. <br>
@@ -2965,7 +2787,6 @@ public class UIFactory {
                 new Object[]{okBtn},
                 null);
     }
-
 
     private void showLocalizedInfo(String uiKey, String text) {
         String title = i18n.getString(uiKey + ".title");
@@ -3183,6 +3004,10 @@ public class UIFactory {
                 null);
     }
 
+    //----------------------------------------------------------------------------
+    //
+    // don't show this again message box
+
     /**
      * Show a confirmation dialog with Yes, No and Cancel buttons,
      * using a resource to specify the message and title. <br>
@@ -3202,6 +3027,10 @@ public class UIFactory {
     public int showYesNoCancelDialog(String uiKey) {
         return showLocalizedYesNoCancelDialog(uiKey, getI18NString(uiKey + ".txt"));
     }
+
+    //----------------------------------------------------------------------------
+    //
+    // panels
 
     /**
      * Show a confirmation dialog with Yes and No buttons,
@@ -3286,7 +3115,6 @@ public class UIFactory {
                 getI18NString(uiKey + ".txt", args), parent);
     }
 
-
     private void showLocalizedInformationDialog(String uiKey, String title,
                                                 String text, Component localParent) {
         JTextArea msg = createLocalizedMessageArea(uiKey, text, true);
@@ -3306,10 +3134,6 @@ public class UIFactory {
                 JOptionPane.INFORMATION_MESSAGE,
                 null);
     }
-
-    //----------------------------------------------------------------------------
-    //
-    // don't show this again message box
 
     /**
      * Show a dialog which provides the user with an informational message.
@@ -3332,7 +3156,7 @@ public class UIFactory {
 
     //----------------------------------------------------------------------------
     //
-    // panels
+    // dialogs
 
     /**
      * Create a horizontal placeholder "box". <br>
@@ -3471,10 +3295,6 @@ public class UIFactory {
 
     }
 
-    //----------------------------------------------------------------------------
-    //
-    // dialogs
-
     /**
      * Create an empty dialog. <br>
      * See <code>initDialog(JDialog,String)</code> for required resources.
@@ -3504,6 +3324,9 @@ public class UIFactory {
         return d;
     }
 
+
+    //----------------------------------------------------------------------------
+
     /**
      * Create an empty dialog. <br>
      * See <code>initDialog(JDialog,String)</code> for required resources.
@@ -3518,6 +3341,8 @@ public class UIFactory {
     public JDialog createDialog(String uiKey, JFrame owner, String title, Container content) {
         return createDialog(uiKey, owner, title, content, Dialog.ModalityType.MODELESS);
     }
+
+    //----------------------------------------------------------------------------
 
     /**
      * Create an empty dialog. <br>
@@ -3692,9 +3517,6 @@ public class UIFactory {
         r_ac.setAccessibleDescription(ac.getAccessibleDescription());
     }
 
-
-    //----------------------------------------------------------------------------
-
     /**
      * Dispose of any owned resources.
      */
@@ -3702,31 +3524,199 @@ public class UIFactory {
         clientClass = null;
         parent = null;
     }
+    public static enum Colors {
+        /**
+         * Color used for highlighting incorrect input fields
+         */
+        INPUT_INVALID(local_i18n.getString("colorprefs.colors.input.invalid.defvalue")),
+        /**
+         * Color used for highlighting correct input fields
+         */
+        INPUT_VALID(local_i18n.getString("colorprefs.colors.input.valid.defvalue")),
+        /**
+         * Default background color for input fields
+         */
+        INPUT_DEFAULT(local_i18n.getString("colorprefs.colors.input.default.defvalue")),
 
-    //----------------------------------------------------------------------------
+        MENU_BACKGROUND(UIManager.getColor("Menu.background"), 255, false),
+        SEPARATOR_FOREGROUND(UIManager.getColor("Separator.foreground"), 255, false),
+        CONTROL_INFO(Color.RED, 255, false),
+        CONTROL_SHADOW(Color.RED, 255, false),
+        TEXT_HIGHLIGHT_COLOR(new JTextField().getSelectionColor(), 255, false),
+        TEXT_COLOR(new JLabel().getForeground(), 255, false),
+        TEXT_SELECTED_COLOR(new JTextField().getSelectedTextColor(), 255, false),
+        WINDOW_BACKGROUND(UIManager.getColor("Panel.background"), 255, false),
+        PRIMARY_CONTROL_HIGHLIGHT(Color.WHITE, 255, false),
+        PRIMARY_CONTROL_INFO(Color.BLACK, 255, false),
+        BUTTON_DISABLED_FOREGROUND(Color.WHITE, 255, false),//UIManager.getDefaults().getColor("Button.disabledForeground")
 
-    private static Font baseFont = new JLabel().getFont();
+        // these three are used for icon drawing only
+        PRIMARY_CONTROL_SHADOW(MetalLookAndFeel.getPrimaryControlShadow(), 255, false),
+        PRIMARY_CONTROL(MetalLookAndFeel.getPrimaryControl(), 255, false),
+        PRIMARY_CONTROL_DARK_SHADOW(MetalLookAndFeel.getPrimaryControlDarkShadow(), 255, false),
 
-    private static final ActionListener closeListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Component src = (Component) e.getSource();
-            for (Container p = src.getParent(); p != null; p = p.getParent()) {
-                if (p instanceof JInternalFrame || p instanceof Window) {
-                    p.setVisible(false);
-                    return;
-                }
+        BLACK(Color.BLACK, 255, false),
+        TRANSPARENT(new Color(255, 255, 255, 0), false);
+
+        private final String defaultColor;
+        private Color color = null;
+        private boolean configurable;
+
+        Colors(Color defaultColor) {
+            this(defaultColor, true);
+        }
+
+        Colors(Color defaultColor, int alpha) {
+            this(new Color(defaultColor.getRed(), defaultColor.getGreen(), defaultColor.getBlue(), alpha), true);
+        }
+
+        Colors(Color defaultColor, int alpha, boolean configurable) {
+            this(new Color(defaultColor.getRed(), defaultColor.getGreen(), defaultColor.getBlue(), alpha), configurable);
+        }
+
+        Colors(Color defaultColor, boolean configurable) {
+            this.defaultColor = encodeARGB(defaultColor);
+            this.configurable = configurable;
+        }
+
+        Colors(String defaultColor) {
+            this.defaultColor = defaultColor;
+            this.configurable = true;
+        }
+
+        /**
+         * Find Colors by color preferences name.
+         *
+         * @param prefsName Color preferences name (e.g. "colors.input.default")
+         * @return Colors associated with such preferences name
+         * @throws IllegalArgumentException in case there is no Colors with such
+         *                                  name
+         */
+        public static Colors valueOfByPreferencesName(String prefsName) {
+            return Colors.valueOf(prefsName.replaceFirst("colors.", "").toUpperCase().replaceAll("\\.", "_"));
+        }
+
+        /**
+         * Get Color by colors preferences name.
+         *
+         * @param prefsName Color preferences name (e.g. "colors.input.default")
+         * @return Color if Preferences contain this color. Returns default value if exists<br>
+         * null otherwise
+         */
+        public static Color getColorByPreferencesName(String prefsName) {
+            Preferences prefs = Preferences.access();
+            try {
+                Colors c = valueOfByPreferencesName(prefsName); // IllegalArgumentException if such Colors doesn't exist
+
+                return c.getValue();
+            } catch (IllegalArgumentException e) {
+                String color = prefs.getPreference(prefsName); // try to find color in preferences anyway
+                return color == null ? null : decodeRGBA(color);
             }
         }
-    };
 
-    private Class<?> clientClass;
-    private Component parent;
-    private I18NResourceBundle i18n;
-    private HelpBroker helpBroker;
+        /**
+         * Get array with all colors names used in preferences
+         *
+         * @return Names array
+         */
+        public static String[] getColorsNames() {
+            Colors[] values = Colors.values();
+            String temp[] = new String[values.length];
+            for (int i = 0; i < values.length; i++) {
+                temp[i] = values[i].getPreferencesName();
+            }
+            return temp;
+        }
 
-    private static I18NResourceBundle local_i18n = I18NResourceBundle.getBundleForClass(UIFactory.class);
-    private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
+        public static Color decodeRGBA(String color) {
+            try {
+                if (color.startsWith("0x") && color.length() == 10) {
+                    Long colorCode = Long.decode(color);
+                    int A = (int) (colorCode & 0xFF);
+                    colorCode >>= 8;
+                    int B = (int) (colorCode & 0xFF);
+                    colorCode >>= 8;
+                    int G = (int) (colorCode & 0xFF);
+                    colorCode >>= 8;
+                    int R = (int) (colorCode & 0xFF);
+                    colorCode >>= 8;
+                    return new Color(R, G, B, A);
+                } else {
+                    return Color.decode(color);
+                }
+            } catch (Exception e) {
+                return Color.red;
+            }
+        }
+
+        public static String encodeARGB(Color color) {
+            if (color == null) {
+                return "";
+            }
+            return String.format("0x%02x%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+        }
+
+        public boolean isConfigurable() {
+            return configurable;
+        }
+
+        /**
+         * Getter for default String-encoded color value. Is used for Color.decode() and
+         * should be formatted similarly
+         *
+         * @return Default String-encoded color value
+         */
+        public String getDefaultValue() {
+            return defaultColor;
+        }
+
+        /**
+         * Getter for current color value. It is loaded from preferences if no color is set
+         * previously.
+         *
+         * @return Current color value
+         */
+        public Color getValue() {
+            if (color == null) {
+                color = readColorFromPreferences();
+            }
+            return color;
+        }
+
+        /**
+         * Setter for current color value.
+         *
+         * @return Old color value
+         */
+        public Color setValue(Color c) {
+            Color t = color;
+            if (configurable) {
+                color = c;
+            }
+            return t;
+        }
+
+        /**
+         * Get color name used in preferences file. It is formed from enum name.
+         * E.g. colors.input.invalid for INPUT_INVALID
+         *
+         * @return Color name used in preferences file
+         */
+        public String getPreferencesName() {
+            return "colors." + this.name().toLowerCase().replaceAll("_", ".");
+        }
+
+        /**
+         * Read color value from preferences ignoring current color value that is
+         * returned by getValue();
+         *
+         * @return Color value from preferences file
+         */
+        public Color readColorFromPreferences() {
+            return decodeRGBA(Preferences.access().getPreference(this.getPreferencesName(), this.getDefaultValue()));
+        }
+    }
 
     /**
      * Extension to the UIFactory that allows to use more than one resource
@@ -3745,6 +3735,23 @@ public class UIFactory {
             super(uif.clientClass, uif.parent, uif.helpBroker);
             i18n_alt = I18NResourceBundle.getBundleForClass(altClass);
             this.altClass = altClass;
+        }
+
+        /**
+         * It would be much better to use containsKey() instead, but
+         * it's available since 1.6
+         */
+        static boolean hasKey(ResourceBundle rb, String key) {
+            Enumeration<String> keys = rb.getKeys();
+            if (keys == null || key == null) {
+                return false;
+            }
+            while (keys.hasMoreElements()) {
+                if (key.equals(keys.nextElement())) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         @Override
@@ -3802,23 +3809,6 @@ public class UIFactory {
             }
 
             return url;
-        }
-
-        /**
-         * It would be much better to use containsKey() instead, but
-         * it's available since 1.6
-         */
-        static boolean hasKey(ResourceBundle rb, String key) {
-            Enumeration<String> keys = rb.getKeys();
-            if (keys == null || key == null) {
-                return false;
-            }
-            while (keys.hasMoreElements()) {
-                if (key.equals(keys.nextElement())) {
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }

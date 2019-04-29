@@ -48,6 +48,73 @@ public class IconFactory {
     // File chooser and generic tree icons
 
     /**
+     * A convenience redefinition of {@link Status#PASSED Status.PASSED}.
+     */
+    public static final int PASSED = Status.PASSED;
+    /**
+     * A convenience redefinition of {@link Status#FAILED Status.FAILED}.
+     */
+    public static final int FAILED = Status.FAILED;
+    /**
+     * A convenience redefinition of {@link Status#ERROR Status.ERROR}.
+     */
+    public static final int ERROR = Status.ERROR;
+    /**
+     * A convenience redefinition of {@link Status#NOT_RUN Status.NOT_RUN}.
+     */
+    public static final int NOT_RUN = Status.NOT_RUN;
+    /**
+     * A constant indicating that as icon should be represented as "filtered out".
+     */
+    public static final int FILTERED_OUT = Status.NUM_STATES;
+    /**
+     * A constant indicating the number of different value "state" values.
+     */
+    public static final int NUM_STATES = FILTERED_OUT + 1;
+    private static final int NOT_FILLED = 0;
+    private static final int PARTIALLY_FILLED = 1;
+    private static final int ALL_FILLED = 2;
+    private static final Dimension folderIcon16Size = new Dimension(16, 16);
+    private static final Dimension fileIcon16Size = new Dimension(16, 16);
+    private static final Color semiWhite = new Color(255, 255, 255, 128);
+    // the following constants apply to tests and testFolders
+    static int testIconWidth = 20;
+    static int testIconHeight = 16;
+    static int lightX = 5;
+    static int lightY = 1;
+    static int arrowWidth = 7;
+    static int arrowHeight = 8;
+    // the following constants are for test icons
+    static int testImageWidth = 11;
+    static int testImageHeight = 15;
+    static int testCornerSize = 4;
+    // the following constants are for testFolders
+    static int testFolderImageWidth = 16;
+    static int testFolderImageHeight = 13;
+    static int testFolderTabWidth = 8;
+    static int testFolderTabHeight = 2;
+    // the following constants are for testSection icons
+    static int sectIconWidth = 16;
+    static int sectIconHeight = 16;
+    static int sectImageSize = 11;
+    static int sectHighlightSize = 4;
+
+    //----------------------------------------------------------------------
+    //
+    // Test Tree and Test Result icons
+    private static Icon file;
+    private static Icon report;
+    private static Icon openableFolder;
+    private static Icon selectableFolder;
+    private static Icon upFolder;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(IconFactory.class);
+    private static Icon[] testIcons = new Icon[NUM_STATES * 2 * 2];
+    private static Icon[] testFolderIcons = new Icon[NUM_STATES * 2 * 2];
+    private static Icon[] testSectionIcons = new Icon[NUM_STATES];
+    private static Color arrowColor = UIFactory.Colors.PRIMARY_CONTROL.getValue();
+    private static Color arrowShadowColor = UIFactory.Colors.PRIMARY_CONTROL_SHADOW.getValue();
+
+    /**
      * Get an icon for a file.
      *
      * @return an icon for afile
@@ -70,7 +137,6 @@ public class IconFactory {
         }
         return report;
     }
-
 
     /**
      * Get an icon for a folder.
@@ -117,317 +183,6 @@ public class IconFactory {
         return selectableFolder;
     }
 
-    private static Icon file;
-    private static Icon report;
-    private static Icon openableFolder;
-    private static Icon selectableFolder;
-    private static Icon upFolder;
-
-    private static final int NOT_FILLED = 0;
-    private static final int PARTIALLY_FILLED = 1;
-    private static final int ALL_FILLED = 2;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(IconFactory.class);
-
-
-    private static class FolderIcon16 implements Icon {
-        FolderIcon16(int style) {
-            this.style = style;
-        }
-
-        @Override
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (image == null) {
-                image = new BufferedImage(getIconWidth(), getIconHeight(),
-                        BufferedImage.TYPE_INT_ARGB);
-                Graphics imageG = image.getGraphics();
-                paintMe(c, imageG);
-                imageG.dispose();
-
-            }
-            g.drawImage(image, x, y + getShift(), null);
-        }
-
-
-        private void paintMe(Component c, Graphics g) {
-
-            int right = folderIcon16Size.width - 1;
-            int bottom = folderIcon16Size.height - 1;
-
-            // Draw tab top
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_DARK_SHADOW.getValue());
-            g.drawLine(right - 5, 3, right, 3);
-            g.drawLine(right - 6, 4, right, 4);
-
-            // Draw folder front
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL.getValue());
-            g.fillRect(2, 7, 13, 8);
-
-            // Additions/changes to standard Metal icons
-            switch (style) {
-                case NOT_FILLED:
-                    g.setColor(Color.white);
-                    g.fillRect(2, 7, 13, 8);
-                    break;
-
-                case PARTIALLY_FILLED:
-                    g.setColor(Color.white);
-                    for (int i = 0; i < 8; i++) {
-                        g.drawLine(4 + i, 7 + i, 18, 7 + i);
-                    }
-                    break;
-
-                case ALL_FILLED:
-                    break;
-            }
-
-            // Draw tab bottom
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_SHADOW.getValue());
-            g.drawLine(right - 6, 5, right - 1, 5);
-
-            // Draw outline
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
-            g.drawLine(0, 6, 0, bottom);            // left side
-            g.drawLine(1, 5, right - 7, 5);         // first part of top
-            g.drawLine(right - 6, 6, right - 1, 6); // second part of top
-            g.drawLine(right, 5, right, bottom);    // right side
-            g.drawLine(0, bottom, right, bottom);   // bottom
-
-            // Draw highlight
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_HIGHLIGHT.getValue());
-            g.drawLine(1, 6, 1, bottom - 1);
-            g.drawLine(1, 6, right - 7, 6);
-            g.drawLine(right - 6, 7, right - 1, 7);
-
-        }
-
-        public int getShift() {
-            return 0;
-        }
-
-        public int getAdditionalHeight() {
-            return 0;
-        }
-
-        @Override
-        public int getIconWidth() {
-            return folderIcon16Size.width;
-        }
-
-        @Override
-        public int getIconHeight() {
-            return folderIcon16Size.height + getAdditionalHeight();
-        }
-
-        private int style;
-        private Image image;
-    }
-
-    private static final Dimension folderIcon16Size = new Dimension(16, 16);
-
-
-    private static class TreeFolderIcon extends FolderIcon16 {
-        TreeFolderIcon(int style) {
-            super(style);
-        }
-
-        @Override
-        public int getShift() {
-            return -1;
-        }
-
-        @Override
-        public int getAdditionalHeight() {
-            return 2;
-        }
-    }
-
-    // File Chooser Up Folder code
-    private static class UpFolderIcon16 implements Icon {
-        @Override
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            g.translate(x, y);
-
-            // Fill background
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL.getValue());
-            g.fillRect(3, 5, 12, 9);
-
-            // Draw outside edge of folder
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
-            g.drawLine(1, 6, 1, 14); // left
-            g.drawLine(2, 14, 15, 14); // bottom
-            g.drawLine(15, 13, 15, 5);  // right
-            g.drawLine(2, 5, 9, 5);  // top left
-            g.drawLine(10, 6, 14, 6);  // top right
-            // Draw the UP arrow
-            //     same color as edge
-            g.drawLine(8, 13, 8, 16); // arrow shaft
-            g.drawLine(8, 9, 8, 9); // arrowhead top
-            g.drawLine(7, 10, 9, 10);
-            g.drawLine(6, 11, 10, 11);
-            g.drawLine(5, 12, 11, 12);
-
-            // Draw inner folder highlight
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_HIGHLIGHT.getValue());
-            g.drawLine(2, 6, 2, 13); // left
-            g.drawLine(3, 6, 9, 6);  // top left
-            g.drawLine(10, 7, 14, 7);  // top right
-
-            // Draw tab on folder
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_DARK_SHADOW.getValue());
-            g.drawLine(11, 3, 15, 3); // top
-            g.drawLine(10, 4, 15, 4); // bottom
-
-            g.translate(-x, -y);
-        }
-
-        @Override
-        public int getIconWidth() {
-            return 18;
-        }
-
-        @Override
-        public int getIconHeight() {
-            return 18;
-        }
-    }  // End class FileChooserUpFolderIcon
-
-
-    private static class FileIcon16 implements Icon {
-
-        @Override
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (image == null) {
-                image = new BufferedImage(getIconWidth(), getIconHeight(),
-                        BufferedImage.TYPE_INT_ARGB);
-                Graphics imageG = image.getGraphics();
-                paintMe(c, imageG);
-                imageG.dispose();
-
-            }
-            g.drawImage(image, x, y + getShift(), null);
-
-        }
-
-        protected void paintMe(Component c, Graphics g) {
-
-            int right = fileIcon16Size.width - 1;
-            int bottom = fileIcon16Size.height - 1;
-
-            // Draw fill
-            g.setColor(UIFactory.Colors.WINDOW_BACKGROUND.getValue());
-            g.fillRect(4, 2, 9, 12);
-
-            // Draw frame
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
-            g.drawLine(2, 0, 2, bottom);                 // left
-            g.drawLine(2, 0, right - 4, 0);              // top
-            g.drawLine(2, bottom, right - 1, bottom);    // bottom
-            g.drawLine(right - 1, 6, right - 1, bottom); // right
-            g.drawLine(right - 6, 2, right - 2, 6);      // slant 1
-            g.drawLine(right - 5, 1, right - 4, 1);      // part of slant 2
-            g.drawLine(right - 3, 2, right - 3, 3);      // part of slant 2
-            g.drawLine(right - 2, 4, right - 2, 5);      // part of slant 2
-
-            // Draw highlight
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL.getValue());
-            g.drawLine(3, 1, 3, bottom - 1);                  // left
-            g.drawLine(3, 1, right - 6, 1);                   // top
-            g.drawLine(right - 2, 7, right - 2, bottom - 1);  // right
-            g.drawLine(right - 5, 2, right - 3, 4);           // slant
-            g.drawLine(3, bottom - 1, right - 2, bottom - 1); // bottom
-
-        }
-
-        public int getShift() {
-            return 0;
-        }
-
-        public int getAdditionalHeight() {
-            return 0;
-        }
-
-        @Override
-        public int getIconWidth() {
-            return fileIcon16Size.width;
-        }
-
-        @Override
-        public int getIconHeight() {
-            return fileIcon16Size.height + getAdditionalHeight();
-        }
-
-        private Image image;
-    }
-
-    private static class ReportIcon16 extends FileIcon16 {
-        @Override
-        protected void paintMe(Component c, Graphics g) {
-            int[][] blacks = {{}, {}, {5, 7, 8, 9}, {}, {5, 6, 7, 9}, {}, {5, 6, 7, 9, 10, 11},
-                    {}, {5, 7, 8, 9, 10, 11}, {}, {5, 7, 8, 9, 10, 11}, {},
-                    {5, 6, 7, 8, 9, 10, 11}};
-            super.paintMe(c, g);
-            // paint the "text"
-            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
-            for (int i = 0; i < blacks.length; i++) {
-                for (int j = 0; j < blacks[i].length; j++) {
-                    int x = blacks[i][j];
-                    g.drawLine(x, i, x, i);
-                }
-            }
-        }
-
-    }
-
-    private static final Dimension fileIcon16Size = new Dimension(16, 16);
-
-
-    private static class TreeLeafIcon extends FileIcon16 {
-        @Override
-        public int getShift() {
-            return 2;
-        }
-
-        @Override
-        public int getAdditionalHeight() {
-            return 4;
-        }
-    }
-
-    /**
-     * A convenience redefinition of {@link Status#PASSED Status.PASSED}.
-     */
-    public static final int PASSED = Status.PASSED;
-
-    /**
-     * A convenience redefinition of {@link Status#FAILED Status.FAILED}.
-     */
-    public static final int FAILED = Status.FAILED;
-
-    /**
-     * A convenience redefinition of {@link Status#ERROR Status.ERROR}.
-     */
-    public static final int ERROR = Status.ERROR;
-
-    /**
-     * A convenience redefinition of {@link Status#NOT_RUN Status.NOT_RUN}.
-     */
-    public static final int NOT_RUN = Status.NOT_RUN;
-
-    /**
-     * A constant indicating that as icon should be represented as "filtered out".
-     */
-    public static final int FILTERED_OUT = Status.NUM_STATES;
-
-    /**
-     * A constant indicating the number of different value "state" values.
-     */
-    public static final int NUM_STATES = FILTERED_OUT + 1;
-
-    //----------------------------------------------------------------------
-    //
-    // Test Tree and Test Result icons
-
     /**
      * Get a test icon.
      *
@@ -450,8 +205,6 @@ public class IconFactory {
         }
         return testIcon;
     }
-
-    private static Icon[] testIcons = new Icon[NUM_STATES * 2 * 2];
 
     /**
      * Get a test folder icon.
@@ -476,8 +229,6 @@ public class IconFactory {
         return testFolderIcon;
     }
 
-    private static Icon[] testFolderIcons = new Icon[NUM_STATES * 2 * 2];
-
     /**
      * Get a test section icon.
      *
@@ -497,34 +248,6 @@ public class IconFactory {
         }
         return testSectionIcon;
     }
-
-    private static Icon[] testSectionIcons = new Icon[NUM_STATES];
-
-    // the following constants apply to tests and testFolders
-    static int testIconWidth = 20;
-    static int testIconHeight = 16;
-    static int lightX = 5;
-    static int lightY = 1;
-    static int arrowWidth = 7;
-    static int arrowHeight = 8;
-    // the following constants are for test icons
-    static int testImageWidth = 11;
-    static int testImageHeight = 15;
-    static int testCornerSize = 4;
-    // the following constants are for testFolders
-    static int testFolderImageWidth = 16;
-    static int testFolderImageHeight = 13;
-    static int testFolderTabWidth = 8;
-    static int testFolderTabHeight = 2;
-    // the following constants are for testSection icons
-    static int sectIconWidth = 16;
-    static int sectIconHeight = 16;
-    static int sectImageSize = 11;
-    static int sectHighlightSize = 4;
-
-    private static final Color semiWhite = new Color(255, 255, 255, 128);
-    private static Color arrowColor = UIFactory.Colors.PRIMARY_CONTROL.getValue();
-    private static Color arrowShadowColor = UIFactory.Colors.PRIMARY_CONTROL_SHADOW.getValue();
 
     private static void drawArrow(int x, int y, int w, int h, Graphics g) {
         drawArrow(x + 1, y + 1, w, h, g, arrowColor);
@@ -627,7 +350,269 @@ public class IconFactory {
         }
     }
 
+    private static class FolderIcon16 implements Icon {
+        private int style;
+        private Image image;
+
+
+        FolderIcon16(int style) {
+            this.style = style;
+        }
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            if (image == null) {
+                image = new BufferedImage(getIconWidth(), getIconHeight(),
+                        BufferedImage.TYPE_INT_ARGB);
+                Graphics imageG = image.getGraphics();
+                paintMe(c, imageG);
+                imageG.dispose();
+
+            }
+            g.drawImage(image, x, y + getShift(), null);
+        }
+
+        private void paintMe(Component c, Graphics g) {
+
+            int right = folderIcon16Size.width - 1;
+            int bottom = folderIcon16Size.height - 1;
+
+            // Draw tab top
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_DARK_SHADOW.getValue());
+            g.drawLine(right - 5, 3, right, 3);
+            g.drawLine(right - 6, 4, right, 4);
+
+            // Draw folder front
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL.getValue());
+            g.fillRect(2, 7, 13, 8);
+
+            // Additions/changes to standard Metal icons
+            switch (style) {
+                case NOT_FILLED:
+                    g.setColor(Color.white);
+                    g.fillRect(2, 7, 13, 8);
+                    break;
+
+                case PARTIALLY_FILLED:
+                    g.setColor(Color.white);
+                    for (int i = 0; i < 8; i++) {
+                        g.drawLine(4 + i, 7 + i, 18, 7 + i);
+                    }
+                    break;
+
+                case ALL_FILLED:
+                    break;
+            }
+
+            // Draw tab bottom
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_SHADOW.getValue());
+            g.drawLine(right - 6, 5, right - 1, 5);
+
+            // Draw outline
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
+            g.drawLine(0, 6, 0, bottom);            // left side
+            g.drawLine(1, 5, right - 7, 5);         // first part of top
+            g.drawLine(right - 6, 6, right - 1, 6); // second part of top
+            g.drawLine(right, 5, right, bottom);    // right side
+            g.drawLine(0, bottom, right, bottom);   // bottom
+
+            // Draw highlight
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_HIGHLIGHT.getValue());
+            g.drawLine(1, 6, 1, bottom - 1);
+            g.drawLine(1, 6, right - 7, 6);
+            g.drawLine(right - 6, 7, right - 1, 7);
+
+        }
+
+        public int getShift() {
+            return 0;
+        }
+
+        public int getAdditionalHeight() {
+            return 0;
+        }
+
+        @Override
+        public int getIconWidth() {
+            return folderIcon16Size.width;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return folderIcon16Size.height + getAdditionalHeight();
+        }
+    }
+
+    private static class TreeFolderIcon extends FolderIcon16 {
+        TreeFolderIcon(int style) {
+            super(style);
+        }
+
+        @Override
+        public int getShift() {
+            return -1;
+        }
+
+        @Override
+        public int getAdditionalHeight() {
+            return 2;
+        }
+    }
+
+    // File Chooser Up Folder code
+    private static class UpFolderIcon16 implements Icon {
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            g.translate(x, y);
+
+            // Fill background
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL.getValue());
+            g.fillRect(3, 5, 12, 9);
+
+            // Draw outside edge of folder
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
+            g.drawLine(1, 6, 1, 14); // left
+            g.drawLine(2, 14, 15, 14); // bottom
+            g.drawLine(15, 13, 15, 5);  // right
+            g.drawLine(2, 5, 9, 5);  // top left
+            g.drawLine(10, 6, 14, 6);  // top right
+            // Draw the UP arrow
+            //     same color as edge
+            g.drawLine(8, 13, 8, 16); // arrow shaft
+            g.drawLine(8, 9, 8, 9); // arrowhead top
+            g.drawLine(7, 10, 9, 10);
+            g.drawLine(6, 11, 10, 11);
+            g.drawLine(5, 12, 11, 12);
+
+            // Draw inner folder highlight
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_HIGHLIGHT.getValue());
+            g.drawLine(2, 6, 2, 13); // left
+            g.drawLine(3, 6, 9, 6);  // top left
+            g.drawLine(10, 7, 14, 7);  // top right
+
+            // Draw tab on folder
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_DARK_SHADOW.getValue());
+            g.drawLine(11, 3, 15, 3); // top
+            g.drawLine(10, 4, 15, 4); // bottom
+
+            g.translate(-x, -y);
+        }
+
+        @Override
+        public int getIconWidth() {
+            return 18;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return 18;
+        }
+    }  // End class FileChooserUpFolderIcon
+
+    private static class FileIcon16 implements Icon {
+
+        private Image image;
+
+        @Override
+        public void paintIcon(Component c, Graphics g, int x, int y) {
+            if (image == null) {
+                image = new BufferedImage(getIconWidth(), getIconHeight(),
+                        BufferedImage.TYPE_INT_ARGB);
+                Graphics imageG = image.getGraphics();
+                paintMe(c, imageG);
+                imageG.dispose();
+
+            }
+            g.drawImage(image, x, y + getShift(), null);
+
+        }
+
+        protected void paintMe(Component c, Graphics g) {
+
+            int right = fileIcon16Size.width - 1;
+            int bottom = fileIcon16Size.height - 1;
+
+            // Draw fill
+            g.setColor(UIFactory.Colors.WINDOW_BACKGROUND.getValue());
+            g.fillRect(4, 2, 9, 12);
+
+            // Draw frame
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
+            g.drawLine(2, 0, 2, bottom);                 // left
+            g.drawLine(2, 0, right - 4, 0);              // top
+            g.drawLine(2, bottom, right - 1, bottom);    // bottom
+            g.drawLine(right - 1, 6, right - 1, bottom); // right
+            g.drawLine(right - 6, 2, right - 2, 6);      // slant 1
+            g.drawLine(right - 5, 1, right - 4, 1);      // part of slant 2
+            g.drawLine(right - 3, 2, right - 3, 3);      // part of slant 2
+            g.drawLine(right - 2, 4, right - 2, 5);      // part of slant 2
+
+            // Draw highlight
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL.getValue());
+            g.drawLine(3, 1, 3, bottom - 1);                  // left
+            g.drawLine(3, 1, right - 6, 1);                   // top
+            g.drawLine(right - 2, 7, right - 2, bottom - 1);  // right
+            g.drawLine(right - 5, 2, right - 3, 4);           // slant
+            g.drawLine(3, bottom - 1, right - 2, bottom - 1); // bottom
+
+        }
+
+        public int getShift() {
+            return 0;
+        }
+
+        public int getAdditionalHeight() {
+            return 0;
+        }
+
+        @Override
+        public int getIconWidth() {
+            return fileIcon16Size.width;
+        }
+
+        @Override
+        public int getIconHeight() {
+            return fileIcon16Size.height + getAdditionalHeight();
+        }
+    }
+
+    private static class ReportIcon16 extends FileIcon16 {
+        @Override
+        protected void paintMe(Component c, Graphics g) {
+            int[][] blacks = {{}, {}, {5, 7, 8, 9}, {}, {5, 6, 7, 9}, {}, {5, 6, 7, 9, 10, 11},
+                    {}, {5, 7, 8, 9, 10, 11}, {}, {5, 7, 8, 9, 10, 11}, {},
+                    {5, 6, 7, 8, 9, 10, 11}};
+            super.paintMe(c, g);
+            // paint the "text"
+            g.setColor(UIFactory.Colors.PRIMARY_CONTROL_INFO.getValue());
+            for (int i = 0; i < blacks.length; i++) {
+                for (int j = 0; j < blacks[i].length; j++) {
+                    int x = blacks[i][j];
+                    g.drawLine(x, i, x, i);
+                }
+            }
+        }
+
+    }
+
+    private static class TreeLeafIcon extends FileIcon16 {
+        @Override
+        public int getShift() {
+            return 2;
+        }
+
+        @Override
+        public int getAdditionalHeight() {
+            return 4;
+        }
+    }
+
     private static class TestIcon implements Icon {
+        private int state;
+        private boolean active;
+        private boolean glyph;
+        private BufferedImage image;
+
         TestIcon(int state, boolean active, boolean glyph) {
             this.state = state;
             this.active = active;
@@ -693,14 +678,14 @@ public class IconFactory {
 
             g.dispose();
         }
+    }
 
+    private static class TestFolderIcon implements Icon {
         private int state;
         private boolean active;
         private boolean glyph;
         private BufferedImage image;
-    }
 
-    private static class TestFolderIcon implements Icon {
         TestFolderIcon(int state, boolean active, boolean glyph) {
             this.state = state;
             this.active = active;
@@ -765,14 +750,12 @@ public class IconFactory {
 
             g.dispose();
         }
-
-        private int state;
-        private boolean active;
-        private boolean glyph;
-        private BufferedImage image;
     }
 
     private static class TestSectionIcon implements Icon {
+        private int state;
+        private BufferedImage image;
+
         TestSectionIcon(int state) {
             this.state = state;
         }
@@ -829,9 +812,6 @@ public class IconFactory {
 
             g.dispose();
         }
-
-        private int state;
-        private BufferedImage image;
     }
 
 

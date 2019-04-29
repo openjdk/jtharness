@@ -62,6 +62,113 @@ import java.util.Map;
  * The ToolManager for {@link ExecTool test manager} windows.
  */
 public class ExecToolManager extends ToolManager implements QSW_Listener {
+    private static final String EXEC = "exec";
+    private static final File userDir = new File(System.getProperty("user.dir"));
+    private final Tool emptyTool;
+    QuickStartWizard qsw = null;
+    private FileOpener workDirOpener = new FileOpener() {
+        @Override
+        public String getFileType() {
+            return "workDirectory";
+        }
+
+        @Override
+        public void open(File f) throws FileNotFoundException, Fault {
+            try {
+                WorkDirectory wd = WorkDirectory.open(f);
+                addNewExecTool(wd.getTestSuite(), wd, null, "tmgr.errorOpenWorkDir");
+            } catch (WorkDirectory.Fault e) {
+                throw new Fault(i18n, "mgr.errorOpeningWorkDirectory", f, e.getMessage());
+            }
+
+            Preferences prefs = Preferences.access();
+            try {
+                prefs.setPreference(WorkDirChooseTool.DEFAULT_WD_PREF_NAME,
+                        f.getParentFile().getCanonicalPath());
+            } catch (IOException e) {
+            }
+        }
+    };
+    private Action openWorkDirAction = new ToolAction(i18n, "mgr.openWorkDir") {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            WorkDirectory wd = WorkDirChooseTool.chooseWD(emptyTool, null, null, WorkDirChooser.OPEN_FOR_ANY_TESTSUITE);
+            if (wd == null) {
+                return;
+            }
+            addNewExecTool(wd.getTestSuite(), wd, null, "tmgr.errorOpenWorkDir");
+        }
+    };
+    private Action createWorkDirAction = new ToolAction(i18n, "mgr.createWorkDir") {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            Desktop d = getDesktop();
+            Tool currentTool = d.getSelectedTool();
+            if (currentTool == null || !(currentTool instanceof ExecTool)) {
+                return;
+            }
+            TestSuite ts = ((ExecTool) currentTool).getTestSuite();
+
+            ExecTool et = addNewExecTool(ts, null, null, "tmgr.errorOpenTestSuite");
+            if (et != null) {
+                Action act = et.getCreateWDAction();
+                if (act != null && act.isEnabled()) {
+                    act.actionPerformed(e);
+                }
+            }
+        }
+    };
+    private FileOpener testSuiteOpener = new FileOpener() {
+        @Override
+        public String getFileType() {
+            return "testSuite";
+        }
+
+        @Override
+        public void open(File f) throws FileNotFoundException, Fault {
+            try {
+                TestSuite ts = TestSuite.open(f);
+                addNewExecTool(ts, null, null, "tmgr.errorOpenTestSuite");
+            } catch (TestSuite.Fault e) {
+                throw new Fault(i18n, "mgr.errorOpeningTestSuite", f, e);
+            }
+        }
+    };
+    private TestSuiteChooser testSuiteChooser;
+    private Action openTestSuiteAction = new ToolAction(i18n, "mgr.openTestSuite") {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //System.err.println("EM:openTestSuiteAction " + e);
+            TestSuiteChooser tsc = getTestSuiteChooser();
+            int action = tsc.showDialog(getDesktop().getDialogParent());
+            if (action != JFileChooser.APPROVE_OPTION) {
+                return;
+            }
+            addNewExecTool(tsc.getSelectedTestSuite(), null, null, "tmgr.errorOpenTestSuite");
+            tsc.setSelectedTestSuite(null);
+        }
+    };
+    private PrefsPane prefsPane;
+    private boolean doneQuickStart, doneWDChoser;
+    private UIFactory uif;
+    private Action openQuickStartAction = new ToolAction(i18n, "mgr.openQuickStart") {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            showQSW();
+        }
+    };
+    private Action openTMQSWAction = new ToolAction(i18n, "mgr.openTMQSW") {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            showQSW();
+        }
+    };
+    private FileOpener[] fileOpeners = {
+            testSuiteOpener,
+            workDirOpener
+    };
+
     /**
      * Create an ExecManager to manage the test manager windows on a desktop.
      *
@@ -70,6 +177,23 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
     public ExecToolManager(Desktop desktop) {
         super(desktop);
         emptyTool = new EmptyTool(this, "empty");
+    }
+
+    private static InterviewParameters getInterview(Map<String, String> m) throws Interview.Fault {
+        String tsp = m.get("testSuite");
+        String wdp = m.get("workDir");
+        String cfp = m.get("config");
+        if (isEmpty(tsp) && isEmpty(wdp) && isEmpty(cfp)) {
+            return null;
+        }
+
+        return InterviewParameters.open(tsp, wdp, cfp);
+    }
+
+    //-------------------------------------------------------------------------
+
+    private static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
     }
 
     @Override
@@ -150,6 +274,8 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         return fileMenuActions;
  */
     }
+
+    //-------------------------------------------------------------------------
 
     @Override
     public JMenuItem[] getFileMenuPrimaries() {
@@ -292,7 +418,6 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         return prefsPane;
     }
 
-
     /**
      * If ExecTool have SINGLE_TEST_MANAGER enabled then
      * this method check SINGLE_TEST_MANAGER in all
@@ -306,6 +431,8 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
     boolean checkOpenNewTool(ExecTool newTool, Desktop d) {
         return checkOpenNewTool(d, newTool.getContextManager());
     }
+
+    //-------------------------------------------------------------------------
 
     public boolean checkOpenNewTool(Desktop d, ContextManager conManager) {
         if (conManager != null && conManager.getFeatureManager().isEnabled(
@@ -342,27 +469,6 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
             return false;
         }
         return true;
-    }
-
-
-    static class EmptyTool extends Tool {
-        EmptyTool(ToolManager m, String uiKey) {
-            super(m, uiKey);
-        }
-
-        @Override
-        public JMenuBar getMenuBar() {
-            return new JMenuBar();
-        }
-
-        @Override
-        protected void save(Map<String, String> m) {
-        }
-
-        @Override
-        protected void restore(Map<String, String> m) {
-        }
-
     }
 
     /**
@@ -442,23 +548,6 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         }
     }
 
-    private static InterviewParameters getInterview(Map<String, String> m) throws Interview.Fault {
-        String tsp = m.get("testSuite");
-        String wdp = m.get("workDir");
-        String cfp = m.get("config");
-        if (isEmpty(tsp) && isEmpty(wdp) && isEmpty(cfp)) {
-            return null;
-        }
-
-        return InterviewParameters.open(tsp, wdp, cfp);
-    }
-
-    private static boolean isEmpty(String s) {
-        return s == null || s.isEmpty();
-    }
-
-    //-------------------------------------------------------------------------
-
     /**
      * Create an ExecTool instance using the given test suite.
      *
@@ -513,6 +602,8 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         return testSuiteChooser;
     }
 
+    //-------------------------------------------------------------------------
+
     void addToFileHistory(TestSuite ts) {
         // for 4.0, we think adding test suites is not useful
         //getDesktop().addToFileHistory(ts.getRoot(), testSuiteOpener);
@@ -539,10 +630,16 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
     void addToFileHistory(WorkDirectory wd) {
         getDesktop().addToFileHistory(wd.getRoot(), workDirOpener);
     }
+    //-------------------------------------------------------------------------
+
+
+    //-------------------------------------------------------------------------
 
     void showError(String key) {
         showError(key, null);
     }
+
+    //-------------------------------------------------------------------------
 
     void showError(String key, Object arg) {
         showError(key, arg);
@@ -552,10 +649,11 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         getUIF().showError(key, args);
     }
 
+    //-------------------------------------------------------------------------
+
     int showCloseQuestion() {
         return getUIF().showYesNoDialog("tse.closeCurrent");
     }
-
 
     UIFactory getUIF() {
         if (uif == null) {
@@ -589,8 +687,6 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         d.setSelectedTool(et);
         return et;
     }
-
-    //-------------------------------------------------------------------------
 
     /**
      * QSW_Listener interface method
@@ -638,137 +734,29 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
         qsw.setVisible(true);
     }
 
-    QuickStartWizard qsw = null;
-    private Action openQuickStartAction = new ToolAction(i18n, "mgr.openQuickStart") {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            showQSW();
-        }
-    };
-
-    private Action openTMQSWAction = new ToolAction(i18n, "mgr.openTMQSW") {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            showQSW();
-        }
-    };
-
-    //-------------------------------------------------------------------------
-
-    private Action openTestSuiteAction = new ToolAction(i18n, "mgr.openTestSuite") {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            //System.err.println("EM:openTestSuiteAction " + e);
-            TestSuiteChooser tsc = getTestSuiteChooser();
-            int action = tsc.showDialog(getDesktop().getDialogParent());
-            if (action != JFileChooser.APPROVE_OPTION) {
-                return;
-            }
-            addNewExecTool(tsc.getSelectedTestSuite(), null, null, "tmgr.errorOpenTestSuite");
-            tsc.setSelectedTestSuite(null);
-        }
-    };
-
-    //-------------------------------------------------------------------------
-
-    private Action openWorkDirAction = new ToolAction(i18n, "mgr.openWorkDir") {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            WorkDirectory wd = WorkDirChooseTool.chooseWD(emptyTool, null, null, WorkDirChooser.OPEN_FOR_ANY_TESTSUITE);
-            if (wd == null) {
-                return;
-            }
-            addNewExecTool(wd.getTestSuite(), wd, null, "tmgr.errorOpenWorkDir");
-        }
-    };
-    private Action createWorkDirAction = new ToolAction(i18n, "mgr.createWorkDir") {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            Desktop d = getDesktop();
-            Tool currentTool = d.getSelectedTool();
-            if (currentTool == null || !(currentTool instanceof ExecTool)) {
-                return;
-            }
-            TestSuite ts = ((ExecTool) currentTool).getTestSuite();
-
-            ExecTool et = addNewExecTool(ts, null, null, "tmgr.errorOpenTestSuite");
-            if (et != null) {
-                Action act = et.getCreateWDAction();
-                if (act != null && act.isEnabled()) {
-                    act.actionPerformed(e);
-                }
-            }
-        }
-    };
-    //-------------------------------------------------------------------------
-
-
-    //-------------------------------------------------------------------------
-
-    private FileOpener testSuiteOpener = new FileOpener() {
-        @Override
-        public String getFileType() {
-            return "testSuite";
-        }
-
-        @Override
-        public void open(File f) throws FileNotFoundException, Fault {
-            try {
-                TestSuite ts = TestSuite.open(f);
-                addNewExecTool(ts, null, null, "tmgr.errorOpenTestSuite");
-            } catch (TestSuite.Fault e) {
-                throw new Fault(i18n, "mgr.errorOpeningTestSuite", f, e);
-            }
-        }
-    };
-
-    //-------------------------------------------------------------------------
-
-    private FileOpener workDirOpener = new FileOpener() {
-        @Override
-        public String getFileType() {
-            return "workDirectory";
-        }
-
-        @Override
-        public void open(File f) throws FileNotFoundException, Fault {
-            try {
-                WorkDirectory wd = WorkDirectory.open(f);
-                addNewExecTool(wd.getTestSuite(), wd, null, "tmgr.errorOpenWorkDir");
-            } catch (WorkDirectory.Fault e) {
-                throw new Fault(i18n, "mgr.errorOpeningWorkDirectory", f, e.getMessage());
-            }
-
-            Preferences prefs = Preferences.access();
-            try {
-                prefs.setPreference(WorkDirChooseTool.DEFAULT_WD_PREF_NAME,
-                        f.getParentFile().getCanonicalPath());
-            } catch (IOException e) {
-            }
-        }
-    };
-
     public boolean isQuickStartWizardActive() {
         return qsw != null;
     }
 
-    //-------------------------------------------------------------------------
+    static class EmptyTool extends Tool {
+        EmptyTool(ToolManager m, String uiKey) {
+            super(m, uiKey);
+        }
 
-    private TestSuiteChooser testSuiteChooser;
-    private PrefsPane prefsPane;
-    private boolean doneQuickStart, doneWDChoser;
-    private UIFactory uif;
+        @Override
+        public JMenuBar getMenuBar() {
+            return new JMenuBar();
+        }
 
-    private static final String EXEC = "exec";
-    private static final File userDir = new File(System.getProperty("user.dir"));
+        @Override
+        protected void save(Map<String, String> m) {
+        }
 
-    private final Tool emptyTool;
+        @Override
+        protected void restore(Map<String, String> m) {
+        }
 
-    private FileOpener[] fileOpeners = {
-            testSuiteOpener,
-            workDirOpener
-    };
+    }
 /*
     private Action[] fileMenuActions = {
         openQuickStartAction,

@@ -36,6 +36,10 @@ import javax.swing.JTextArea;
 import java.awt.CardLayout;
 
 abstract class AuditPane extends JPanel {
+    protected final UIFactory uif;
+    private JTextArea textArea;
+    private JComponent body;
+
     AuditPane(String uiKey, UIFactory uif) {
         this.uif = uif;
 
@@ -75,8 +79,4 @@ abstract class AuditPane extends JPanel {
     protected void showBody() {
         ((CardLayout) getLayout()).show(this, "body");
     }
-
-    protected final UIFactory uif;
-    private JTextArea textArea;
-    private JComponent body;
 }

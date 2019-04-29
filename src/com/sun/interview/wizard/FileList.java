@@ -35,6 +35,10 @@ import java.io.File;
  * A component that displays an editable list of files.
  */
 public class FileList extends EditableList {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    private JFileChooser chooser;
+    private File baseDir;
+
     /**
      * Create a FileList.
      *
@@ -137,10 +141,4 @@ public class FileList extends EditableList {
 
         return f;
     }
-
-
-    private JFileChooser chooser;
-    private File baseDir;
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

@@ -107,24 +107,18 @@ public class COFTestCase extends COFItem {
 //              xmlAttributes.put("analysis", "analysis");
     }
 
+    final long idNum = count++;
     //    @XmlAttribute
     protected String analysis;
-
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
     protected COFTestAttributes attributes;
-
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema")
     protected String description;
-
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", type = String.class)
     //    @XmlJavaTypeAdapter(Adapter1 .class)
     protected Date endtime;
-
     //    @XmlAttribute(required = true)
     protected String id;
-
-    final long idNum = count++;
-
     //    @XmlElement(namespace = "http://qare.sfbay.sun.com/projects/COF/2003/2_0_2/Schema", required = true)
     protected String name;
 
@@ -150,6 +144,16 @@ public class COFTestCase extends COFItem {
     }
 
     /**
+     * Sets the value of the analysis property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setAnalysis(String value) {
+        this.analysis = value;
+    }
+
+    /**
      * Gets the value of the attributes property.
      *
      * @return possible object is
@@ -157,6 +161,16 @@ public class COFTestCase extends COFItem {
      */
     public COFTestAttributes getAttributes() {
         return attributes;
+    }
+
+    /**
+     * Sets the value of the attributes property.
+     *
+     * @param value allowed object is
+     *              {@link COFTestAttributes }
+     */
+    public void setAttributes(COFTestAttributes value) {
+        this.attributes = value;
     }
 
     /**
@@ -170,6 +184,16 @@ public class COFTestCase extends COFItem {
     }
 
     /**
+     * Sets the value of the description property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setDescription(String value) {
+        this.description = value;
+    }
+
+    /**
      * Gets the value of the endtime property.
      *
      * @return possible object is
@@ -177,6 +201,16 @@ public class COFTestCase extends COFItem {
      */
     public Date getEndtime() {
         return endtime;
+    }
+
+    /**
+     * Sets the value of the endtime property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setEndtime(Date value) {
+        this.endtime = value;
     }
 
     /**
@@ -212,66 +246,6 @@ public class COFTestCase extends COFItem {
     }
 
     /**
-     * Gets the value of the starttime property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public Date getStarttime() {
-        return starttime;
-    }
-
-    /**
-     * Gets the value of the status property.
-     *
-     * @return possible object is
-     * {@link COFStatus }
-     */
-    public COFStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * Sets the value of the analysis property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setAnalysis(String value) {
-        this.analysis = value;
-    }
-
-    /**
-     * Sets the value of the attributes property.
-     *
-     * @param value allowed object is
-     *              {@link COFTestAttributes }
-     */
-    public void setAttributes(COFTestAttributes value) {
-        this.attributes = value;
-    }
-
-    /**
-     * Sets the value of the description property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setDescription(String value) {
-        this.description = value;
-    }
-
-    /**
-     * Sets the value of the endtime property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setEndtime(Date value) {
-        this.endtime = value;
-    }
-
-    /**
      * Sets the value of the name property.
      *
      * @param value allowed object is
@@ -282,6 +256,16 @@ public class COFTestCase extends COFItem {
     }
 
     /**
+     * Gets the value of the starttime property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public Date getStarttime() {
+        return starttime;
+    }
+
+    /**
      * Sets the value of the starttime property.
      *
      * @param value allowed object is
@@ -289,6 +273,16 @@ public class COFTestCase extends COFItem {
      */
     public void setStarttime(Date value) {
         this.starttime = value;
+    }
+
+    /**
+     * Gets the value of the status property.
+     *
+     * @return possible object is
+     * {@link COFStatus }
+     */
+    public COFStatus getStatus() {
+        return status;
     }
 
     /**

@@ -38,6 +38,9 @@ import javax.swing.JScrollPane;
 import java.awt.Component;
 
 abstract class ListPane extends AuditPane {
+    protected JList<Object> list;
+    private ListModel model;
+
     ListPane(String uiKey, UIFactory uif) {
         super(uiKey, uif);
 
@@ -62,6 +65,8 @@ abstract class ListPane extends AuditPane {
     }
 
     private static class ListModel extends AbstractListModel<Object> {
+        private Object[] data;
+
         @Override
         public Object getElementAt(int index) {
             return data[index];
@@ -76,8 +81,6 @@ abstract class ListPane extends AuditPane {
             this.data = data;
             fireContentsChanged(this, 0, data.length - 1);
         }
-
-        private Object[] data;
     }
 
     private static class Renderer extends DefaultListCellRenderer {
@@ -96,7 +99,4 @@ abstract class ListPane extends AuditPane {
             return super.getListCellRendererComponent(list, name, index, isSelected, cellHasFocus);
         }
     }
-
-    protected JList<Object> list;
-    private ListModel model;
 }

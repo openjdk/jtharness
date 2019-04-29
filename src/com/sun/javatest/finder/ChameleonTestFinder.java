@@ -51,6 +51,18 @@ import java.util.TreeSet;
  * areas of the test suite, as described by a special "map" file.
  */
 public class ChameleonTestFinder extends TestFinder {
+    private static final String[] excludeNames = {
+            "SCCS", "deleted_files"
+    };
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ChameleonTestFinder.class);
+    private File entryFile;
+    private Entry[] entries;
+    private boolean ignoreCase;
+    private Entry currEntry;
+    private ClassLoader loader;
+    private Map<String, String> excludeList = new HashMap<>();
+
+
     /**
      * Create an uninitialized ChameleonTestFinder.
      */
@@ -86,6 +98,9 @@ public class ChameleonTestFinder extends TestFinder {
             excludeList.put(name, name);
         }
     }
+
+
+    //-----internal routines----------------------------------------------------
 
     /**
      * Check whether or not to ignore case when matching files against entries.
@@ -224,7 +239,6 @@ public class ChameleonTestFinder extends TestFinder {
         }
     }
 
-
     /**
      * Scan a file, looking for test descriptions and other files that might
      * need to be scanned.  The implementation depends on the type of test
@@ -263,9 +277,6 @@ public class ChameleonTestFinder extends TestFinder {
             return currEntry.finder.getTests();
         }
     }
-
-
-    //-----internal routines----------------------------------------------------
 
     /**
      * Scan a directory, looking for more files to scan
@@ -334,20 +345,13 @@ public class ChameleonTestFinder extends TestFinder {
         return env;
     }
 
-    private File entryFile;
-    private Entry[] entries;
-    private boolean ignoreCase;
-    private Entry currEntry;
-    private ClassLoader loader;
-    private Map<String, String> excludeList = new HashMap<>();
-
-    private static final String[] excludeNames = {
-            "SCCS", "deleted_files"
-    };
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ChameleonTestFinder.class);
-
     private class Entry {
+        private String prefix;
+        private String suffix;
+        private String finderClassName;
+        private String[] finderArgs;
+        private TestFinder finder;
+        private boolean initialized;
         Entry(String pattern, String finderClassName, String... finderArgs) {
             int star = pattern.indexOf('*');
             if (star == -1) {
@@ -459,12 +463,5 @@ public class ChameleonTestFinder extends TestFinder {
                 return +1;
             }
         }
-
-        private String prefix;
-        private String suffix;
-        private String finderClassName;
-        private String[] finderArgs;
-        private TestFinder finder;
-        private boolean initialized;
     }
 }

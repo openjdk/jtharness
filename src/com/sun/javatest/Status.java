@@ -32,6 +32,132 @@ package com.sun.javatest;
 
 public class Status {
     /**
+     * A return code indicating that the test was executed and was successful.
+     *
+     * @see #passed
+     * @see #getType
+     */
+    public static final int PASSED = 0;
+    /**
+     * A return code indicating that the test was executed but the test
+     * reported that it failed.
+     *
+     * @see #failed
+     * @see #getType
+     */
+    public static final int FAILED = 1;
+    /**
+     * A return code indicating that the test was not run because some error
+     * occurred before the test could even be attempted. This is generally
+     * a more serious error than FAILED.
+     *
+     * @see #getType
+     */
+    public static final int ERROR = 2;
+    /**
+     * A return code indicating that the test has not yet been run in this context.
+     * (More specifically, no status file has been recorded for this test in the
+     * current work directory.)  This is for the internal use of the harness only.
+     *
+     * @see #getType
+     */
+    public static final int NOT_RUN = 3;
+    /**
+     * Number of states which are predefined as "constants".
+     */
+    public static final int NUM_STATES = 4;
+    /**
+     * A string used to prefix the status when it is written to System.err
+     * by {@link #exit}.
+     */
+    public static final String EXIT_PREFIX = "STATUS:";
+    /**
+     * Exit codes used by Status.exit corresponding to
+     * PASSED, FAILED, ERROR, NOT_RUN.
+     * The only values that should normally be returned from a test
+     * are the first three; the other value is provided for completeness.
+     * <font size=-1> Note: The assignment is historical and cannot easily be changed. </font>
+     */
+    public static final int[] exitCodes = {95, 97, 98, 99};
+    /**
+     * Prefix signaling that string is encoded
+     */
+    private static final String ENC_PREFFIX = "<EncodeD>";
+    /**
+     * Suffix signaling that string is encoded
+     */
+    private static final String ENC_SUFFFIX = "</EncodeD>";
+    /**
+     * Separator of encoded chars
+     */
+    private static final String ENC_SEPARATOR = " ";
+    private static String[] texts = {
+            // correspond to PASSED, FAILED, ERROR, NOT_RUN
+            "Passed.",
+            "Failed.",
+            "Error.",
+            "Not run."
+    };
+    private final int type;
+    private final String reason;
+
+    private Status(String s) {
+        for (int t = 0; t < texts.length; t++) {
+            if (s.startsWith(texts[t])) {
+                int l = texts[t].length();
+                String r;
+                if (l < s.length()) {
+                    if (s.charAt(l) == ' ') {
+                        r = s.substring(l + 1);
+                    } else {
+                        r = s.substring(l);
+                    }
+                } else {
+                    r = "";
+                }
+                type = t;
+                reason = normalize(r);
+                return;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     * Create a Status object.  See {@link #passed}, {@link #failed}, {@link #error}
+     * etc. for more convenient factory methods to create Status objects.
+     *
+     * @param type   The type code for the Status object.
+     * @param reason A short string to store in the status. Unprintable
+     *               characters (i.e. outside the range 040C to 177C) in the string are
+     *               replaced by a space.  All whitespace runs are reduced to a single
+     *               whitespace.
+     * @throws IllegalArgumentException if the specified type is invalid.
+     */
+    public Status(int type, String reason) {
+        if (type < 0 || type >= NUM_STATES) {
+            throw new IllegalArgumentException(String.valueOf(type));
+        }
+        /*
+         // if we find any bad characters in the reason string (e.g. newline)
+         // we rewrite the string replacing all such characters with a space.
+         for (int i = 0; i < reason.length(); i++) {
+         if (!isPrintable(reason.charAt(i))) {
+         StringBuffer r = new StringBuffer(reason.length());
+         for (int j = 0; j < reason.length(); j++) {
+         char c = reason.charAt(j);
+         r.append(isPrintable(c) ? c : ' ');
+         }
+         reason = r.toString();
+         break;
+         }
+         }
+         */
+        this.type = type;
+        this.reason = normalize(reason);
+    }
+
+    /**
      * Create a Status to indicate the successful outcome of a test.
      *
      * @param reason A short string describing why the test passed.
@@ -89,142 +215,6 @@ public class Status {
     }
 
     /**
-     * Check if the type code of the status is PASSED.
-     *
-     * @return true if the type code is PASSED.
-     * @see #passed
-     * @see #getType
-     * @see #PASSED
-     */
-    public boolean isPassed() {
-        return type == PASSED;
-    }
-
-    /**
-     * Check if the type code of the status is FAILED.
-     *
-     * @return true if the type code is FAILED.
-     * @see #failed
-     * @see #getType
-     * @see #FAILED
-     */
-    public boolean isFailed() {
-        return type == FAILED;
-    }
-
-    /**
-     * Check if the type code of the status is ERROR.
-     *
-     * @return true if the type code is ERROR.
-     * @see #error
-     * @see #getType
-     * @see #ERROR
-     */
-    public boolean isError() {
-        return type == ERROR;
-    }
-
-    /**
-     * Check if the type code of the status is NOT_RUN.
-     *
-     * @return true if the type code is ERROR.
-     * @see #getType
-     * @see #NOT_RUN
-     */
-    public boolean isNotRun() {
-        return type == NOT_RUN;
-    }
-
-    /**
-     * A return code indicating that the test was executed and was successful.
-     *
-     * @see #passed
-     * @see #getType
-     */
-    public static final int PASSED = 0;
-
-    /**
-     * A return code indicating that the test was executed but the test
-     * reported that it failed.
-     *
-     * @see #failed
-     * @see #getType
-     */
-    public static final int FAILED = 1;
-
-    /**
-     * A return code indicating that the test was not run because some error
-     * occurred before the test could even be attempted. This is generally
-     * a more serious error than FAILED.
-     *
-     * @see #getType
-     */
-    public static final int ERROR = 2;
-
-    /**
-     * A return code indicating that the test has not yet been run in this context.
-     * (More specifically, no status file has been recorded for this test in the
-     * current work directory.)  This is for the internal use of the harness only.
-     *
-     * @see #getType
-     */
-    public static final int NOT_RUN = 3;
-
-    /**
-     * Number of states which are predefined as "constants".
-     */
-    public static final int NUM_STATES = 4;
-
-    /**
-     * Get the type code indicating the type of this Status object.
-     *
-     * @return the type code indicating the type of this Status object.
-     * @see #PASSED
-     * @see #FAILED
-     * @see #ERROR
-     */
-    public int getType() {
-        return type;
-    }
-
-    /**
-     * Get the message given when the status was created.
-     *
-     * @return the string given when this Status object was created.
-     */
-    public String getReason() {
-        return reason;
-    }
-
-    /**
-     * Return a new Status object with a possibly augmented reason field.
-     *
-     * @param aux if not null and not empty, it will be combined with the original reason.
-     * @return if <em>aux</em> is null or empty, the result will be the same as this object;
-     * otherwise, it will be a new object combining the original status reason and the
-     * additional information in <em>aux</em>.
-     */
-    public Status augment(String aux) {
-        if (aux == null || aux.isEmpty()) {
-            return this;
-        } else {
-            return new Status(type, reason + " [" + aux + "]");
-        }
-    }
-
-    /**
-     * Return a new Status object with a possibly augmented reason field.
-     *
-     * @param aux a Status to combine with this object
-     * @return if <em>aux</em> is null, the result will be the same as this object;
-     * otherwise, it will be a new object combining the original status reason and the
-     * additional information in <em>aux</em>.
-     */
-    public Status augment(Status aux) {
-        return aux == null ? this : augment(aux.reason);
-    }
-
-    /**
      * Parse a string-form of a Status.
      *
      * @param s a string containing the string form of a Status
@@ -237,42 +227,6 @@ public class Status {
             return new Status(decode(s));
         } catch (IllegalArgumentException e) {
             return null;
-        }
-    }
-
-    private Status(String s) {
-        for (int t = 0; t < texts.length; t++) {
-            if (s.startsWith(texts[t])) {
-                int l = texts[t].length();
-                String r;
-                if (l < s.length()) {
-                    if (s.charAt(l) == ' ') {
-                        r = s.substring(l + 1);
-                    } else {
-                        r = s.substring(l);
-                    }
-                } else {
-                    r = "";
-                }
-                type = t;
-                reason = normalize(r);
-                return;
-            }
-        }
-        throw new IllegalArgumentException();
-    }
-
-    /**
-     * Convert a Status to a string.
-     *
-     * @see #parse
-     */
-    @Override
-    public String toString() {
-        if (reason == null || reason.isEmpty()) {
-            return texts[type];
-        } else {
-            return texts[type] + " " + reason;
         }
     }
 
@@ -289,64 +243,6 @@ public class Status {
         } else {
             return null;
         }
-    }
-
-    /**
-     * Convenience exit() function for the main() of tests to exit in such a
-     * way that the status passes up across process boundaries without losing
-     * information (ie exit codes don't give the associated text of the status
-     * and return codes when exceptions are thrown could cause unintended
-     * results). <p>
-     * <p>
-     * An identifying marker is written to the error stream, which the script
-     * running the test watches for as the last output before returning,
-     * followed by the type and reason
-     * <p>
-     * The method does not return.  It calls System.exit with a value
-     * dependent on the type.
-     */
-    public void exit() {
-        if (System.err != null) {
-            System.err.print(EXIT_PREFIX);
-            System.err.print(texts[type]);
-            System.err.println(encode(reason));
-            System.err.flush();
-        }
-        System.exit(exitCodes[type]);
-    }
-
-    /**
-     * Create a Status object.  See {@link #passed}, {@link #failed}, {@link #error}
-     * etc. for more convenient factory methods to create Status objects.
-     *
-     * @param type   The type code for the Status object.
-     * @param reason A short string to store in the status. Unprintable
-     *               characters (i.e. outside the range 040C to 177C) in the string are
-     *               replaced by a space.  All whitespace runs are reduced to a single
-     *               whitespace.
-     * @throws IllegalArgumentException if the specified type is invalid.
-     */
-    public Status(int type, String reason) {
-        if (type < 0 || type >= NUM_STATES) {
-            throw new IllegalArgumentException(String.valueOf(type));
-        }
-        /*
-         // if we find any bad characters in the reason string (e.g. newline)
-         // we rewrite the string replacing all such characters with a space.
-         for (int i = 0; i < reason.length(); i++) {
-         if (!isPrintable(reason.charAt(i))) {
-         StringBuffer r = new StringBuffer(reason.length());
-         for (int j = 0; j < reason.length(); j++) {
-         char c = reason.charAt(j);
-         r.append(isPrintable(c) ? c : ' ');
-         }
-         reason = r.toString();
-         break;
-         }
-         }
-         */
-        this.type = type;
-        this.reason = normalize(reason);
     }
 
     //-----internal routines----------------------------------------------------
@@ -395,34 +291,6 @@ public class Status {
     private static boolean isPrintable(char c) {
         return 32 <= c && c < 127;
     }
-
-    //----------Data members----------------------------------------------------
-
-    private final int type;
-    private final String reason;
-
-    /**
-     * A string used to prefix the status when it is written to System.err
-     * by {@link #exit}.
-     */
-    public static final String EXIT_PREFIX = "STATUS:";
-
-    private static String[] texts = {
-            // correspond to PASSED, FAILED, ERROR, NOT_RUN
-            "Passed.",
-            "Failed.",
-            "Error.",
-            "Not run."
-    };
-
-    /**
-     * Exit codes used by Status.exit corresponding to
-     * PASSED, FAILED, ERROR, NOT_RUN.
-     * The only values that should normally be returned from a test
-     * are the first three; the other value is provided for completeness.
-     * <font size=-1> Note: The assignment is historical and cannot easily be changed. </font>
-     */
-    public static final int[] exitCodes = {95, 97, 98, 99};
 
     /**
      * Encodes strings containing non-ascii characters, where all characters
@@ -501,6 +369,8 @@ public class Status {
         return sb.toString();
     }
 
+    //----------Data members----------------------------------------------------
+
     private static String encodeChar(char c) {
         return Integer.toString((int) c, 16);
     }
@@ -510,18 +380,137 @@ public class Status {
     }
 
     /**
-     * Prefix signaling that string is encoded
+     * Check if the type code of the status is PASSED.
+     *
+     * @return true if the type code is PASSED.
+     * @see #passed
+     * @see #getType
+     * @see #PASSED
      */
-    private static final String ENC_PREFFIX = "<EncodeD>";
+    public boolean isPassed() {
+        return type == PASSED;
+    }
 
     /**
-     * Suffix signaling that string is encoded
+     * Check if the type code of the status is FAILED.
+     *
+     * @return true if the type code is FAILED.
+     * @see #failed
+     * @see #getType
+     * @see #FAILED
      */
-    private static final String ENC_SUFFFIX = "</EncodeD>";
+    public boolean isFailed() {
+        return type == FAILED;
+    }
 
     /**
-     * Separator of encoded chars
+     * Check if the type code of the status is ERROR.
+     *
+     * @return true if the type code is ERROR.
+     * @see #error
+     * @see #getType
+     * @see #ERROR
      */
-    private static final String ENC_SEPARATOR = " ";
+    public boolean isError() {
+        return type == ERROR;
+    }
+
+    /**
+     * Check if the type code of the status is NOT_RUN.
+     *
+     * @return true if the type code is ERROR.
+     * @see #getType
+     * @see #NOT_RUN
+     */
+    public boolean isNotRun() {
+        return type == NOT_RUN;
+    }
+
+    /**
+     * Get the type code indicating the type of this Status object.
+     *
+     * @return the type code indicating the type of this Status object.
+     * @see #PASSED
+     * @see #FAILED
+     * @see #ERROR
+     */
+    public int getType() {
+        return type;
+    }
+
+    /**
+     * Get the message given when the status was created.
+     *
+     * @return the string given when this Status object was created.
+     */
+    public String getReason() {
+        return reason;
+    }
+
+    /**
+     * Return a new Status object with a possibly augmented reason field.
+     *
+     * @param aux if not null and not empty, it will be combined with the original reason.
+     * @return if <em>aux</em> is null or empty, the result will be the same as this object;
+     * otherwise, it will be a new object combining the original status reason and the
+     * additional information in <em>aux</em>.
+     */
+    public Status augment(String aux) {
+        if (aux == null || aux.isEmpty()) {
+            return this;
+        } else {
+            return new Status(type, reason + " [" + aux + "]");
+        }
+    }
+
+    /**
+     * Return a new Status object with a possibly augmented reason field.
+     *
+     * @param aux a Status to combine with this object
+     * @return if <em>aux</em> is null, the result will be the same as this object;
+     * otherwise, it will be a new object combining the original status reason and the
+     * additional information in <em>aux</em>.
+     */
+    public Status augment(Status aux) {
+        return aux == null ? this : augment(aux.reason);
+    }
+
+    /**
+     * Convert a Status to a string.
+     *
+     * @see #parse
+     */
+    @Override
+    public String toString() {
+        if (reason == null || reason.isEmpty()) {
+            return texts[type];
+        } else {
+            return texts[type] + " " + reason;
+        }
+    }
+
+    /**
+     * Convenience exit() function for the main() of tests to exit in such a
+     * way that the status passes up across process boundaries without losing
+     * information (ie exit codes don't give the associated text of the status
+     * and return codes when exceptions are thrown could cause unintended
+     * results). <p>
+     * <p>
+     * An identifying marker is written to the error stream, which the script
+     * running the test watches for as the last output before returning,
+     * followed by the type and reason
+     * <p>
+     * The method does not return.  It calls System.exit with a value
+     * dependent on the type.
+     */
+    public void exit() {
+        if (System.err != null) {
+            System.err.print(EXIT_PREFIX);
+            System.err.print(texts[type]);
+            System.err.println(encode(reason));
+            System.err.flush();
+        }
+        System.exit(exitCodes[type]);
+    }
 
 }

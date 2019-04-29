@@ -94,6 +94,53 @@ import java.util.Objects;
 class BasicCustomTestFilter extends ConfigurableTestFilter {
     // UIFactory parameter assume this class stays in the exec package
 
+    private static final String ALL_OF = "allOf";
+    private static final String ANY_OF = "anyOf";
+    private static final String EXPR = "expr";
+    private static int instanceCount;
+    private static int NUM_FILTERS = 5;
+    private static int KEY_FILTER = 0;
+    private static int URL_FILTER = 1;
+    private static int JTX_FILTER = 2;
+    private static int STATUS_FILTER = 3;
+    private static int TSS_FILTER = 4;
+    private static String NAME, REASON, DESCRIPTION;
+    private final UIFactory uif;
+    private Observer[] obs = new Observer[0];
+    private TestResultTable lastTrt;
+    private InterviewObserver intObs;
+    private SettingsSnapshot activeSettings;
+    private TestFilter[] activeFilters;     // for convenience
+    private KeywordsFilter keyFilter;
+    private InitialUrlFilter urlFilter;
+    private TestFilter jtxFilter;
+    private StatusFilter statusFilter;
+    private TestFilter tsfFilter;           // test suite filter
+    private JTabbedPane editorPane;
+    private boolean statusFilterNeedsUpdate;
+    // keyword info
+    private ButtonGroup keyBtnGrp;
+    private JRadioButton keyAllBtn;
+    private JRadioButton keyMatchBtn;
+    private JComboBox<String> keywordsChoice;
+    private JTextField keywordsField;
+    // status info
+    private ButtonGroup statusBtnGrp;
+    private JRadioButton statusAllBtn;
+    private JRadioButton statusAnyOfBtn;
+    private JCheckBox[] statusChecks = new JCheckBox[Status.NUM_STATES];
+    // tests info
+    private ButtonGroup testsBtnGrp;
+    //private JRadioButton allTestsBtn;
+    //private JRadioButton selectTestsBtn;
+    private TestTreeSelectionPane testsField;
+    // checkboxes to enable exclude list from interview and test suite filter
+    private JCheckBox jtxCheckBox;
+    private JCheckBox tsfCheckBox;
+    // jtx info fields
+    private JTextField jtxMode;
+    private JList<?> jtxFileList;
+    private DefaultListModel<String> jtxFiles;
     BasicCustomTestFilter(String name, ExecModel e, UIFactory uif) {
         super(name, e);
         this.uif = uif;
@@ -105,12 +152,22 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         this.uif = uif;
         init(map);
     }
-
     BasicCustomTestFilter(ExecModel e, UIFactory uif) {
         super(uif.getI18NString("basicTf.namePrefix"), e);
         this.uif = uif;
 
         init(null);
+    }
+
+    // Utility methods
+    private static String kwModeToType(String mode) {
+        if (Objects.equals(mode, ALL_OF)) {
+            return "all of";
+        } else if (Objects.equals(mode, ANY_OF)) {
+            return "any of";
+        } else {
+            return EXPR;
+        }
     }
 
     @Override
@@ -861,161 +918,32 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         updateExcludeInfo();
     }
 
-    // Utility methods
-    private static String kwModeToType(String mode) {
-        if (Objects.equals(mode, ALL_OF)) {
-            return "all of";
-        } else if (Objects.equals(mode, ANY_OF)) {
-            return "any of";
-        } else {
-            return EXPR;
-        }
-    }
-
-    private Observer[] obs = new Observer[0];
-    private static int instanceCount;
-    private TestResultTable lastTrt;
-    private InterviewObserver intObs;
-
-    private static int NUM_FILTERS = 5;
-    private static int KEY_FILTER = 0;
-    private static int URL_FILTER = 1;
-    private static int JTX_FILTER = 2;
-    private static int STATUS_FILTER = 3;
-    private static int TSS_FILTER = 4;
-
-    private SettingsSnapshot activeSettings;
-    private TestFilter[] activeFilters;     // for convenience
-    private KeywordsFilter keyFilter;
-    private InitialUrlFilter urlFilter;
-    private TestFilter jtxFilter;
-    private StatusFilter statusFilter;
-    private TestFilter tsfFilter;           // test suite filter
-    private final UIFactory uif;
-    private JTabbedPane editorPane;
-
-    private boolean statusFilterNeedsUpdate;
-
-    // keyword info
-    private ButtonGroup keyBtnGrp;
-    private JRadioButton keyAllBtn;
-    private JRadioButton keyMatchBtn;
-    private JComboBox<String> keywordsChoice;
-    private JTextField keywordsField;
-    private static final String ALL_OF = "allOf";
-    private static final String ANY_OF = "anyOf";
-    private static final String EXPR = "expr";
-
-    // status info
-    private ButtonGroup statusBtnGrp;
-    private JRadioButton statusAllBtn;
-    private JRadioButton statusAnyOfBtn;
-    private JCheckBox[] statusChecks = new JCheckBox[Status.NUM_STATES];
-
-    // tests info
-    private ButtonGroup testsBtnGrp;
-    //private JRadioButton allTestsBtn;
-    //private JRadioButton selectTestsBtn;
-    private TestTreeSelectionPane testsField;
-
-    // checkboxes to enable exclude list from interview and test suite filter
-    private JCheckBox jtxCheckBox;
-    private JCheckBox tsfCheckBox;
-
-    // jtx info fields
-    private JTextField jtxMode;
-    private JList<?> jtxFileList;
-    private DefaultListModel<String> jtxFiles;
-    private static String NAME, REASON, DESCRIPTION;
-
-    /**
-     * Necessary to track changes which occur in the active interview.
-     */
-    private class InterviewObserver implements Interview.Observer {
-
-        InterviewObserver(InterviewParameters i) {
-            interview = i;
-        }
-
-        InterviewParameters getInterview() {
-            return interview;
-        }
-
-        @Override
-        public void currentQuestionChanged(Question q) {
-            // ignore
-        }
-
-        @Override
-        public void pathUpdated() {
-            TestFilter underTest;
-            boolean needsUpdate = false;
-            updateExcludeInfo();
-
-            // determine if jtx and tsf filters were updated
-            if (activeSettings.jtxEnabled) {
-                // we only support copying exclude list from interview
-                // right now
-                InterviewParameters ip = execModel.getInterviewParameters();
-
-                if (ip != null) {
-                    // may set var. to null, but that's okay
-                    underTest = ip.getExcludeListFilter();
-                    if (underTest != null &&
-                            (jtxFilter == null || !underTest.equals(jtxFilter))) {
-                        needsUpdate = true;
-                    } else if (jtxFilter != null) // jtx filter now null
-                    {
-                        needsUpdate = true;
-                    }
-                }
-            }
-
-            if (needsUpdate) {
-                activateSettings(activeSettings);
-                return;     // rest of checking no longer needed
-            }
-
-            if (activeSettings.tsfEnabled) {
-                // we only support copying exclude list from interview
-                // right now
-                InterviewParameters ip = execModel.getInterviewParameters();
-                TestSuite ts = execModel.getTestSuite();
-
-                if (ip != null && ts != null) {
-                    underTest = ts.createTestFilter(ip.getEnv());
-                    if (underTest != null) {
-                        if (tsfFilter == null || !underTest.equals(tsfFilter)) {
-                            needsUpdate = true;
-                        } else {
-                        }
-                    } else if (tsfFilter != null) // tsf filter now null
-                    {
-                        needsUpdate = true;
-                    } else {
-                    }
-                } else {
-                }
-            }
-
-            if (needsUpdate) {
-                activateSettings(activeSettings);
-                return;     // rest of checking no longer needed
-            }
-        }
-
-        private InterviewParameters interview;
-    }
-
     private static class SettingsSnapshot {
 
+        private static final String MAP_URL_ENABLE = "urlsEnabled";
+        private static final String MAP_KEY_ENABLE = "keyEnabled";
+        private static final String MAP_STATUS_ENABLE = "statusEnable";
+        private static final String MAP_JTX_ENABLE = "jtxEnable";
+        private static final String MAP_TSF_ENABLE = "tsfEnable";
+        private static final String MAP_URLS = "urls";
+        private static final String MAP_KEY_CHOICE = "keyChoice";
+        private static final String MAP_KEY_STRING = "keyString";
+        private static final String MAP_STATUS_PREFIX = "status";
+        boolean urlsEnabled;
+        boolean keywordsEnabled;
+        boolean statusEnabled;
+        boolean jtxEnabled;
+        boolean tsfEnabled;
+        boolean[] statusFields;
+        String[] initialUrls;
+        String keyChoice;
+        String keyString;
         SettingsSnapshot() {
             statusFields = new boolean[Status.NUM_STATES];
             urlsEnabled = true;
             keyChoice = EXPR;
             keyString = "";
         }
-
         SettingsSnapshot(Map<String, String> m) {
             this();
             load(m);
@@ -1141,24 +1069,84 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
                 return false;
             }
         }
+    }
 
-        boolean urlsEnabled;
-        boolean keywordsEnabled;
-        boolean statusEnabled;
-        boolean jtxEnabled;
-        boolean tsfEnabled;
-        boolean[] statusFields;
-        String[] initialUrls;
-        String keyChoice;
-        String keyString;
-        private static final String MAP_URL_ENABLE = "urlsEnabled";
-        private static final String MAP_KEY_ENABLE = "keyEnabled";
-        private static final String MAP_STATUS_ENABLE = "statusEnable";
-        private static final String MAP_JTX_ENABLE = "jtxEnable";
-        private static final String MAP_TSF_ENABLE = "tsfEnable";
-        private static final String MAP_URLS = "urls";
-        private static final String MAP_KEY_CHOICE = "keyChoice";
-        private static final String MAP_KEY_STRING = "keyString";
-        private static final String MAP_STATUS_PREFIX = "status";
+    /**
+     * Necessary to track changes which occur in the active interview.
+     */
+    private class InterviewObserver implements Interview.Observer {
+
+        private InterviewParameters interview;
+
+        InterviewObserver(InterviewParameters i) {
+            interview = i;
+        }
+
+        InterviewParameters getInterview() {
+            return interview;
+        }
+
+        @Override
+        public void currentQuestionChanged(Question q) {
+            // ignore
+        }
+
+        @Override
+        public void pathUpdated() {
+            TestFilter underTest;
+            boolean needsUpdate = false;
+            updateExcludeInfo();
+
+            // determine if jtx and tsf filters were updated
+            if (activeSettings.jtxEnabled) {
+                // we only support copying exclude list from interview
+                // right now
+                InterviewParameters ip = execModel.getInterviewParameters();
+
+                if (ip != null) {
+                    // may set var. to null, but that's okay
+                    underTest = ip.getExcludeListFilter();
+                    if (underTest != null &&
+                            (jtxFilter == null || !underTest.equals(jtxFilter))) {
+                        needsUpdate = true;
+                    } else if (jtxFilter != null) // jtx filter now null
+                    {
+                        needsUpdate = true;
+                    }
+                }
+            }
+
+            if (needsUpdate) {
+                activateSettings(activeSettings);
+                return;     // rest of checking no longer needed
+            }
+
+            if (activeSettings.tsfEnabled) {
+                // we only support copying exclude list from interview
+                // right now
+                InterviewParameters ip = execModel.getInterviewParameters();
+                TestSuite ts = execModel.getTestSuite();
+
+                if (ip != null && ts != null) {
+                    underTest = ts.createTestFilter(ip.getEnv());
+                    if (underTest != null) {
+                        if (tsfFilter == null || !underTest.equals(tsfFilter)) {
+                            needsUpdate = true;
+                        } else {
+                        }
+                    } else if (tsfFilter != null) // tsf filter now null
+                    {
+                        needsUpdate = true;
+                    } else {
+                    }
+                } else {
+                }
+            }
+
+            if (needsUpdate) {
+                activateSettings(activeSettings);
+                return;     // rest of checking no longer needed
+            }
+        }
     }
 }

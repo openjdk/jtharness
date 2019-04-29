@@ -56,6 +56,10 @@ public class COFApplication extends COFItem {
         return id;
     }
 
+    public void setId(String value) {
+        this.id = value;
+    }
+
     LinkedHashMap<String, String> getItemAttributes() {
         return xmlAttributes;
     }
@@ -66,10 +70,6 @@ public class COFApplication extends COFItem {
 
     String getItemTagName() {
         return xmlTagName;
-    }
-
-    public void setId(String value) {
-        this.id = value;
     }
 
     public String getEnvironmentid() {

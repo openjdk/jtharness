@@ -51,133 +51,10 @@ import java.util.Vector;
  * and together, these two questions bracket the set of loop bodies.
  */
 public abstract class ListQuestion extends Question {
-    /**
-     * A special subtype of Interview to use for the questions in the body of
-     * a loop. The body has an index, which identifies its position within
-     * the list of current loop bodies, and a summary string to identify
-     * this instance of the loop body.
-     */
-    public static abstract class Body extends Interview {
-        /**
-         * Create an instance of a loop body.
-         *
-         * @param question The loop question for which this is a body instance.
-         * @param index    The position of this body within the set of all the bodies.
-         *                 The value is normally just a hint (albeit a possibly string one).
-         *                 The index will be updated if necessary when the body is actually
-         *                 set as one of the bodies of the loop.
-         */
-        protected Body(ListQuestion question, int index) {
-            super(question.getInterview(),
-                    question.getBaseTag() + "." + index);
-            this.question = question;
-            this.index = index;
-        }
-
-        /**
-         * Get a string to uniquely identify this instance of the loop body,
-         * or null if there is insufficient information so far to make a
-         * determination. The string will be used to identify the loop body
-         * to the user.
-         *
-         * @return a string to uniquely identify this instance of the loop body,
-         * or null if there is insufficient information so far to make a
-         * determination.
-         */
-        public abstract String getSummary();
-
-        /**
-         * Get the position of this loop body within the set of all the loop
-         * bodies for the question.
-         *
-         * @return the position of this loop body within the set of all the loop
-         * bodies for the question
-         */
-        public int getIndex() {
-            return index;
-        }
-
-        /**
-         * Set the recorded position of this loop body within the set
-         * of all the loop bodies for the question. By itself, this method
-         * does not actually affect the loop bodies.
-         * See {@link ListQuestion#setBodies} for details on updating the
-         * bodies of the loop.
-         *
-         * @param newIndex the new position of this loop body within the
-         *                 set of all the loop bodies for the question
-         */
-        void setIndex(int newIndex) {
-            if (newIndex != index) {
-                index = newIndex;
-                setBaseTag(question.getBaseTag() + "." + index);
-            }
-        }
-
-        /**
-         * Get a default summary to be used to identify this instance of the
-         * the loop body, to be used when getSummary() returns null.
-         * The summary will be a standard prefix string possibly followed
-         * by a number to distinguish between multiple bodies using the
-         * default summary. The default summary will be unique and persist
-         * for the life of this body or until getSummary() returns a non-null
-         * value.
-         *
-         * @return a default summary to be used to identify this instance of the
-         * the loop body, to be used when getSummary() returns null.
-         */
-        public String getDefaultSummary() {
-            if (defaultSummary == null) {
-                // recycle any default summaries that are no longer required
-                Vector<Body> bodies = question.bodies;
-                for (int i = 0; i < bodies.size(); i++) {
-                    Body b = bodies.get(i);
-                    if (b.defaultSummary != null
-                            && b.getSummary() != null
-                            && !b.defaultSummary.equals(b.getSummary())) {
-                        b.defaultSummary = null;
-                    }
-                }
-
-                // try and find an unused unique value v not used by any other default summary
-                for (int v = 0; v < bodies.size(); v++) {
-                    String s = MessageFormat.format(i18n.getString("lp.newValue"), v);
-                    // check s is not the same as any current default summary;
-                    // if it is, reset it to null
-                    for (int i = 0; i < bodies.size(); i++) {
-                        Body b = bodies.get(i);
-                        if (s.equals(b.defaultSummary)) {
-                            s = null;
-                            break;
-                        }
-                    }
-                    // if s is not null, it is unique, different from other default
-                    // summaries, so use it...
-                    if (s != null) {
-                        defaultSummary = s;
-                        break;
-                    }
-                }
-            }
-
-            return defaultSummary;
-        }
-
-        /**
-         * Check if this body has been completed. It is considered to have
-         * been completed if none of the questions in this body
-         * on the current path return null as the result of getNext().
-         *
-         * @return true is this body has been completed.
-         */
-        public boolean isBodyFinishable() {
-            return isInterviewFinishable();
-        }
-
-        private ListQuestion question;
-        private int index;
-        private String defaultSummary;
-    }
+    private static final ResourceBundle i18n = Interview.i18n;
+    private final EndQuestion end;
+    private final Vector<Body> bodies;
+    private int value;
 
     /**
      * Create a question with a nominated tag.
@@ -262,6 +139,44 @@ public abstract class ListQuestion extends Question {
     }
 
     /**
+     * Set the index of the loop body to be selected.
+     * If the value is out of range, no loop body will be selected.
+     *
+     * @param newValue the index of the loop body to be selected
+     * @see #getValue
+     */
+    public void setValue(int newValue) {
+        int oldValue = value;
+        value = newValue;
+        if (normalizeValue(value) != normalizeValue(oldValue)) {
+            interview.updatePath(this);
+            interview.setEdited(true);
+        }
+    }
+
+    /**
+     * Set the index of the loop body to be selected.
+     * If the value is out of range, no loop body will be selected.
+     *
+     * @param s a string containing the index of the loop body
+     *          to be selected. If the string does not contain a valid
+     *          integer, the value will be set to -1.
+     * @see #getValue
+     */
+    @Override
+    public void setValue(String s) {
+        try {
+            if (s != null) {
+                setValue(Integer.parseInt(s));
+                return;
+            }
+        } catch (NumberFormatException e) {
+            // ignore
+        }
+        setValue(-1);
+    }
+
+    /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
      *
@@ -286,46 +201,8 @@ public abstract class ListQuestion extends Question {
         return String.valueOf(value);
     }
 
-    /**
-     * Set the index of the loop body to be selected.
-     * If the value is out of range, no loop body will be selected.
-     *
-     * @param newValue the index of the loop body to be selected
-     * @see #getValue
-     */
-    public void setValue(int newValue) {
-        int oldValue = value;
-        value = newValue;
-        if (normalizeValue(value) != normalizeValue(oldValue)) {
-            interview.updatePath(this);
-            interview.setEdited(true);
-        }
-    }
-
     private int normalizeValue(int value) {
         return value >= 0 && value < bodies.size() ? value : -1;
-    }
-
-    /**
-     * Set the index of the loop body to be selected.
-     * If the value is out of range, no loop body will be selected.
-     *
-     * @param s a string containing the index of the loop body
-     *          to be selected. If the string does not contain a valid
-     *          integer, the value will be set to -1.
-     * @see #getValue
-     */
-    @Override
-    public void setValue(String s) {
-        try {
-            if (s != null) {
-                setValue(Integer.parseInt(s));
-                return;
-            }
-        } catch (NumberFormatException e) {
-            // ignore
-        }
-        setValue(-1);
     }
 
     /**
@@ -397,7 +274,6 @@ public abstract class ListQuestion extends Question {
     public String getEndText() {
         return end.getDefaultText();
     }
-
 
     /**
      * Get the formatting arguments for the question text for the end question.
@@ -543,14 +419,137 @@ public abstract class ListQuestion extends Question {
         return count;
     }
 
+    /**
+     * A special subtype of Interview to use for the questions in the body of
+     * a loop. The body has an index, which identifies its position within
+     * the list of current loop bodies, and a summary string to identify
+     * this instance of the loop body.
+     */
+    public static abstract class Body extends Interview {
+        private ListQuestion question;
+        private int index;
+        private String defaultSummary;
 
-    private final EndQuestion end;
-    private final Vector<Body> bodies;
-    private int value;
+        /**
+         * Create an instance of a loop body.
+         *
+         * @param question The loop question for which this is a body instance.
+         * @param index    The position of this body within the set of all the bodies.
+         *                 The value is normally just a hint (albeit a possibly string one).
+         *                 The index will be updated if necessary when the body is actually
+         *                 set as one of the bodies of the loop.
+         */
+        protected Body(ListQuestion question, int index) {
+            super(question.getInterview(),
+                    question.getBaseTag() + "." + index);
+            this.question = question;
+            this.index = index;
+        }
 
-    private static final ResourceBundle i18n = Interview.i18n;
+        /**
+         * Get a string to uniquely identify this instance of the loop body,
+         * or null if there is insufficient information so far to make a
+         * determination. The string will be used to identify the loop body
+         * to the user.
+         *
+         * @return a string to uniquely identify this instance of the loop body,
+         * or null if there is insufficient information so far to make a
+         * determination.
+         */
+        public abstract String getSummary();
+
+        /**
+         * Get the position of this loop body within the set of all the loop
+         * bodies for the question.
+         *
+         * @return the position of this loop body within the set of all the loop
+         * bodies for the question
+         */
+        public int getIndex() {
+            return index;
+        }
+
+        /**
+         * Set the recorded position of this loop body within the set
+         * of all the loop bodies for the question. By itself, this method
+         * does not actually affect the loop bodies.
+         * See {@link ListQuestion#setBodies} for details on updating the
+         * bodies of the loop.
+         *
+         * @param newIndex the new position of this loop body within the
+         *                 set of all the loop bodies for the question
+         */
+        void setIndex(int newIndex) {
+            if (newIndex != index) {
+                index = newIndex;
+                setBaseTag(question.getBaseTag() + "." + index);
+            }
+        }
+
+        /**
+         * Get a default summary to be used to identify this instance of the
+         * the loop body, to be used when getSummary() returns null.
+         * The summary will be a standard prefix string possibly followed
+         * by a number to distinguish between multiple bodies using the
+         * default summary. The default summary will be unique and persist
+         * for the life of this body or until getSummary() returns a non-null
+         * value.
+         *
+         * @return a default summary to be used to identify this instance of the
+         * the loop body, to be used when getSummary() returns null.
+         */
+        public String getDefaultSummary() {
+            if (defaultSummary == null) {
+                // recycle any default summaries that are no longer required
+                Vector<Body> bodies = question.bodies;
+                for (int i = 0; i < bodies.size(); i++) {
+                    Body b = bodies.get(i);
+                    if (b.defaultSummary != null
+                            && b.getSummary() != null
+                            && !b.defaultSummary.equals(b.getSummary())) {
+                        b.defaultSummary = null;
+                    }
+                }
+
+                // try and find an unused unique value v not used by any other default summary
+                for (int v = 0; v < bodies.size(); v++) {
+                    String s = MessageFormat.format(i18n.getString("lp.newValue"), v);
+                    // check s is not the same as any current default summary;
+                    // if it is, reset it to null
+                    for (int i = 0; i < bodies.size(); i++) {
+                        Body b = bodies.get(i);
+                        if (s.equals(b.defaultSummary)) {
+                            s = null;
+                            break;
+                        }
+                    }
+                    // if s is not null, it is unique, different from other default
+                    // summaries, so use it...
+                    if (s != null) {
+                        defaultSummary = s;
+                        break;
+                    }
+                }
+            }
+
+            return defaultSummary;
+        }
+
+        /**
+         * Check if this body has been completed. It is considered to have
+         * been completed if none of the questions in this body
+         * on the current path return null as the result of getNext().
+         *
+         * @return true is this body has been completed.
+         */
+        public boolean isBodyFinishable() {
+            return isInterviewFinishable();
+        }
+    }
 
     private static class EndQuestion extends ListQuestion {
+        private ListQuestion head;
+
         EndQuestion(Interview interview, String tag, ListQuestion head) {
             super(interview, tag + ".end");
             this.head = head;
@@ -609,11 +608,6 @@ public abstract class ListQuestion extends Question {
         }
 
         @Override
-        public String getStringValue() {
-            return head.getStringValue();
-        }
-
-        @Override
         public void setValue(int value) {
             head.setValue(value);
         }
@@ -621,6 +615,11 @@ public abstract class ListQuestion extends Question {
         @Override
         public void setValue(String s) {
             head.setValue(s);
+        }
+
+        @Override
+        public String getStringValue() {
+            return head.getStringValue();
         }
 
         @Override
@@ -675,8 +674,6 @@ public abstract class ListQuestion extends Question {
         public int getIncompleteBodyCount() {
             return head.getIncompleteBodyCount();
         }
-
-        private ListQuestion head;
 
     }
 }

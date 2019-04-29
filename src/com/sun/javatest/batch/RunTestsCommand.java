@@ -43,25 +43,14 @@ import java.util.Date;
 import java.util.ListIterator;
 
 class RunTestsCommand extends Command {
-    static String getName() {
-        return "runTests";
-    }
-
     private static final String DATE_OPTION = "date";
     private static final String NON_PASS_OPTION = "non-pass";
     private static final String START_OPTION = "start";
     private static final String FINISH_OPTION = "stop";
     private static final String PROGRESS_OPTION = "progress";
-
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(RunTestsCommand.class);
     private Harness harness;
-
-    static void initVerboseOptions() {
-        VerboseCommand.addOption(DATE_OPTION, new HelpTree.Node(i18n, "runTests.verbose.date"));
-        VerboseCommand.addOption(NON_PASS_OPTION, new HelpTree.Node(i18n, "runTests.verbose.nonPass"));
-        VerboseCommand.addOption(START_OPTION, new HelpTree.Node(i18n, "runTests.verbose.start"));
-        VerboseCommand.addOption(FINISH_OPTION, new HelpTree.Node(i18n, "runTests.verbose.stop"));
-        VerboseCommand.addOption(PROGRESS_OPTION, new HelpTree.Node(i18n, "runTests.verbose.progress"));
-    }
+    private CommandContext ctx;
 
     RunTestsCommand() {
         super(getName());
@@ -71,10 +60,24 @@ class RunTestsCommand extends Command {
         super(getName());
     }
 
+    static String getName() {
+        return "runTests";
+    }
+
+    static void initVerboseOptions() {
+        VerboseCommand.addOption(DATE_OPTION, new HelpTree.Node(i18n, "runTests.verbose.date"));
+        VerboseCommand.addOption(NON_PASS_OPTION, new HelpTree.Node(i18n, "runTests.verbose.nonPass"));
+        VerboseCommand.addOption(START_OPTION, new HelpTree.Node(i18n, "runTests.verbose.start"));
+        VerboseCommand.addOption(FINISH_OPTION, new HelpTree.Node(i18n, "runTests.verbose.stop"));
+        VerboseCommand.addOption(PROGRESS_OPTION, new HelpTree.Node(i18n, "runTests.verbose.progress"));
+    }
+
     @Override
     public boolean isActionCommand() {
         return true;
     }
+
+    //-------------------------------------------------------------------------
 
     @Override
     public void run(CommandContext ctx) throws Fault {
@@ -160,14 +163,11 @@ class RunTestsCommand extends Command {
 
     //-------------------------------------------------------------------------
 
-    private CommandContext ctx;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(RunTestsCommand.class);
-
-    //-------------------------------------------------------------------------
-
     private class BatchObserver
             implements Harness.Observer, TestFinder.ErrorHandler {
+
+        private int[] stats;
+        private int finderErrors;
 
         int[] getStats() {
             return stats;
@@ -208,12 +208,24 @@ class RunTestsCommand extends Command {
             ctx.printMessage(i18n, "runTests.error", msg);
             finderErrors++;
         }
-
-        private int[] stats;
-        private int finderErrors;
     }
 
     private class VerboseObserver implements Harness.Observer {
+        public static final int NO_DATE = 0;
+        public static final int NON_PASS = 1;
+        public static final int START = 2;
+        public static final int FINISH = 3;
+        public static final int PROGRESS = 4;
+        public static final int DEFAULT = PROGRESS;
+        private static final int OPTION_COUNT = 5;
+        private boolean[] options;
+        private boolean quiet_flag = false;
+        private boolean max_flag = false;
+        private DateFormat df;
+        private CommandContext ctx;
+        private PrintWriter out;
+        private int[] stats;
+        private boolean progressOnline = false;
         VerboseObserver(CommandContext ctx) {
             this.ctx = ctx;
             this.out = ctx.getLogWriter();
@@ -422,24 +434,5 @@ class RunTestsCommand extends Command {
                 return true;
             }
         }
-
-        private boolean[] options;
-        private boolean quiet_flag = false;
-        private boolean max_flag = false;
-        private DateFormat df;
-        private CommandContext ctx;
-        private PrintWriter out;
-        private int[] stats;
-        private boolean progressOnline = false;
-
-        public static final int NO_DATE = 0;
-        public static final int NON_PASS = 1;
-        public static final int START = 2;
-        public static final int FINISH = 3;
-        public static final int PROGRESS = 4;
-
-        public static final int DEFAULT = PROGRESS;
-
-        private static final int OPTION_COUNT = 5;
     }
 }

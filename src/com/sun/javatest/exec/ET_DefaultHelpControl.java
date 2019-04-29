@@ -46,6 +46,8 @@ public class ET_DefaultHelpControl implements ET_HelpControl {
 
     Tool tool;
     UIFactory uif;
+    private List<Action> actionList = null;
+    private Action helpAction = null;
 
     ET_DefaultHelpControl(Tool tool, UIFactory uif) {
 
@@ -98,9 +100,6 @@ public class ET_DefaultHelpControl implements ET_HelpControl {
     @Override
     public void dispose() {
     }
-
-    private List<Action> actionList = null;
-    private Action helpAction = null;
 
     void initActions() {
         helpAction = new ToolAction(uif, "exec.help", true) {

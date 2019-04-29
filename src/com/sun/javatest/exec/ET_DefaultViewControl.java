@@ -48,6 +48,7 @@ import java.util.Map;
  */
 public class ET_DefaultViewControl implements ET_ViewControl {
 
+    private static int debug = Debug.getInt(BasicSessionControl.class);
     SessionExt config = null;
     UIFactory uif = null;
     JComponent parent = null;
@@ -59,7 +60,16 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     QuestionLogBrowser questionLogBrowser = null;
     ChecklistBrowser checkListBrowser = null;
     ET_FilterControl filterControl = null;
-    private static int debug = Debug.getInt(BasicSessionControl.class);
+    TestSuiteErrorsDialog testSuiteErrorsDialog = null;
+    Action showEnvironmentAction;
+    Action showExcludeListAction;
+    Action showChecklistAction;
+    Action showQuestionLogAction;
+    private Action propertiesAction;
+    private Action testSuiteErrorsAction;
+    private Action logViewerAction;
+    private ServiceViewer serviceViewer;
+    private Action serviceViewerAction;
 
     public ET_DefaultViewControl(JComponent parent, TestSuite ts,
                                  ExecModel execModel, UIFactory uif, ET_FilterControl filterControl) {
@@ -72,17 +82,17 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     }
 
     @Override
+    public Session getConfig() {
+        return config;
+    }
+
+    @Override
     public void setConfig(Session cfg) {
         if (cfg instanceof SessionExt) {
             config = (SessionExt) cfg;
         } else {
             throw new Error(uif.getI18NString("bcc.notSessionExtInstance.err", cfg.getClass()));
         }
-    }
-
-    @Override
-    public Session getConfig() {
-        return config;
     }
 
     @Override
@@ -179,10 +189,10 @@ public class ET_DefaultViewControl implements ET_ViewControl {
         // nothing to dispose
     }
 
-    private Action propertiesAction;
-
     private Action createPropertyAction() {
         return new ToolAction(uif, "exec.view.props") {
+            private PropertiesBrowser propertiesBrowser;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (propertiesBrowser == null) {
@@ -191,13 +201,8 @@ public class ET_DefaultViewControl implements ET_ViewControl {
                 propertiesBrowser.showDialog(testSuite,
                         config.getWorkDirectory(), config.getInterviewParameters());
             }
-
-            private PropertiesBrowser propertiesBrowser;
         };
     }
-
-    TestSuiteErrorsDialog testSuiteErrorsDialog = null;
-    private Action testSuiteErrorsAction;
 
     private Action createTestSuiteErrorsAction() {
         return new ToolAction(uif, "exec.view.testSuiteErrors") {
@@ -210,8 +215,6 @@ public class ET_DefaultViewControl implements ET_ViewControl {
             }
         };
     }
-
-    private Action logViewerAction;
 
     private Action createLogViewerAction() {
         return new ToolAction(uif, "exec.view.logviewer") {
@@ -232,10 +235,6 @@ public class ET_DefaultViewControl implements ET_ViewControl {
     private void openLogViewer() {
         new LogViewer(config.getWorkDirectory(), uif, parent);
     }
-
-    private ServiceViewer serviceViewer;
-
-    private Action serviceViewerAction;
 
     private Action createServiceViewerAction() {
         return new ToolAction(uif, "exec.view.serviceviewer") {
@@ -274,11 +273,6 @@ public class ET_DefaultViewControl implements ET_ViewControl {
             }
         }
     }
-
-    Action showEnvironmentAction;
-    Action showExcludeListAction;
-    Action showChecklistAction;
-    Action showQuestionLogAction;
 
     List<Action> createConfigActions() {
         List<Action> acts = new LinkedList<>();

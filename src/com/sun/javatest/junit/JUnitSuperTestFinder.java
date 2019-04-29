@@ -53,6 +53,13 @@ import java.util.List;
  * @see com.sun.javatest.TestDescription
  */
 public class JUnitSuperTestFinder extends JUnitTestFinder {
+    protected static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(JUnitSuperTestFinder.class);
+    protected final MethodFinderVisitor mfv = new MethodFinderVisitor();
+    protected List<String> requiredSuperclass = new ArrayList<>();
+
+    //-----internal routines----------------------------------------------------
+    protected String initialTag = "test";
+
     /**
      * Constructs the list of file names to exclude for pruning in the search
      * for files to examine for test descriptions.
@@ -113,8 +120,6 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
             scanFile(file);
         }
     }
-
-    //-----internal routines----------------------------------------------------
 
     /**
      * Scan a directory, looking for more files to scan
@@ -250,6 +255,8 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
     }
 
 
+//----------member variables------------------------------------------------
+
     /**
      * Lookup current name among requested superclasses.
      */
@@ -283,6 +290,29 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private static class MethodFinderVisitor extends ClassVisitor {
+
+        String thisSupername;
+
+        public MethodFinderVisitor() {
+            super(Opcodes.ASM4);
+        }
+
+        /**
+         * Return the given class' superclass name in dotted notation.
+         */
+        public String getSuperClass(String cname) throws IOException {
+            ClassReader cr = new ClassReader(cname);
+            cr.accept(this, 0);
+            return thisSupername.replaceAll("/", ".");
+        }
+
+        @Override
+        public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+            thisSupername = superName;
         }
     }
 
@@ -324,35 +354,4 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
             return null;
         }
     }
-
-    private static class MethodFinderVisitor extends ClassVisitor {
-
-        public MethodFinderVisitor() {
-            super(Opcodes.ASM4);
-        }
-
-        /**
-         * Return the given class' superclass name in dotted notation.
-         */
-        public String getSuperClass(String cname) throws IOException {
-            ClassReader cr = new ClassReader(cname);
-            cr.accept(this, 0);
-            return thisSupername.replaceAll("/", ".");
-        }
-
-        @Override
-        public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-            thisSupername = superName;
-        }
-
-        String thisSupername;
-    }
-
-
-//----------member variables------------------------------------------------
-
-    protected List<String> requiredSuperclass = new ArrayList<>();
-    protected String initialTag = "test";
-    protected final MethodFinderVisitor mfv = new MethodFinderVisitor();
-    protected static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(JUnitSuperTestFinder.class);
 }

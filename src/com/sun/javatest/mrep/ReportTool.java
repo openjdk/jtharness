@@ -80,10 +80,33 @@ import java.util.Map;
 
 class ReportTool extends Tool {
 
+    private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
+    private static final String NEW = "new";
+    private static final String OPEN = "open";
+    private final String textShowing;
+    private final String textHidden;
     // desktop is used to get custom reports
     // for results processing
     private Desktop desktop;
-
+    // The UI components
+    private JMenuBar menuBar;
+    private BrowserPane browserPane;
+    private JDialog waitDialog;
+    private WaitDialogController waitDialogController;
+    // The merge options
+    private File[] in;
+    private File out;
+    private boolean resolveByRecent;
+    private boolean isXmlReport;
+    private CustomReport[] customReports;
+    private String xmlreportFileName = "report.xml";
+    private boolean autoShowOptions = true;
+    private Thread worker;
+    private URL currURL;
+    private HTMLEditorKit htmlKit;
+    private JEditorPane textArea;
+    private OptionsDialog optionsDialog;
+    private Listener listener = new Listener();
     protected ReportTool(ToolManager m, Desktop d) {
         super(m, "report", "mergeReports.window.csh");
         setI18NTitle("tool.title");
@@ -350,152 +373,6 @@ class ReportTool extends Tool {
         );
     }
 
-    private static class WaitDialogController {
-        WaitDialogController(JDialog waitDialog) {
-            this.waitDialog = waitDialog;
-        }
-
-        synchronized void show() {
-            // show only once
-            if (!wasFinished) {
-                wasShown = true;
-                if (!wasHidden) {
-                    setVisible(true);
-                }
-            }
-        }
-
-        synchronized void finish() {
-            wasFinished = true;
-            setVisible(false);
-        }
-
-
-        synchronized void hide() {
-            wasHidden = true;
-            if (wasShown && !wasFinished) {
-                setVisible(false);
-            }
-        }
-
-        synchronized void restore() {
-            wasHidden = false;
-            if (wasShown && !wasFinished) {
-                setVisible(true);
-            }
-        }
-
-        private synchronized void setVisible(final boolean b) {
-            // should we care about EventDispatchThread here? Yes I guess.
-            if (EventQueue.isDispatchThread()) {
-                waitDialog.setVisible(b);
-            } else {
-                try {
-                    SwingUtilities.invokeAndWait(new Runnable() {
-                        @Override
-                        public void run() {
-                            waitDialog.setVisible(b);
-                        }
-                    });
-                } catch (InterruptedException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        private JDialog waitDialog;
-        private boolean wasFinished = false;
-        private boolean wasShown = false;
-        private boolean wasHidden = false;
-
-    }
-
-    static class MostRecentConfilctResolver implements ConflictResolver {
-
-        @Override
-        public int resolve(String testUrl, TestResultDescr... descrs) {
-            int res = 0;
-
-            for (int i = 1; i < descrs.length; i++) {
-                // priority of NOT_RUN status is the lowerest
-                boolean newer = descrs[i].getTime() > descrs[res].getTime();
-                if (descrs[res].isNotRun()) {
-                    if (!descrs[i].isNotRun() || newer) {
-                        res = i;
-                    }
-                } else {
-                    if (!descrs[i].isNotRun() && newer) {
-                        res = i;
-                    }
-                }
-            }
-            return res;
-
-        }
-
-    }
-
-    class ManualConfilctResolver implements ConflictResolver {
-        private File preffered = null;
-        private ConflictResolutionDialog conflictResolutionDialog;
-        private WaitDialogController wdc;
-
-        public ManualConfilctResolver(WaitDialogController wdc) {
-            this.wdc = wdc;
-        }
-
-        @Override
-        public int resolve(String testUrl, TestResultDescr... descrs) {
-            String[] conflictFiles = new String[descrs.length];
-            for (int i = 0; i < descrs.length; i++) {
-                conflictFiles[i] = descrs[i].getFile().getAbsolutePath() + " "
-                        + descrs[i].getStatus();
-            }
-
-            if (preffered != null) {
-                for (int i = 0; i < descrs.length; i++) {
-                    if (descrs[i].getFile().equals(preffered)) {
-                        return i;
-                    }
-                }
-            }
-
-            conflictResolutionDialog =
-                    new ConflictResolutionDialog(
-                            null, testUrl, conflictFiles, false, uif);
-
-            wdc.hide();
-            conflictResolutionDialog.setVisible(true);
-
-            if (conflictResolutionDialog.wasCanceled()) {
-                return -1;
-            }
-            wdc.restore();
-
-            if (conflictResolutionDialog.getUseMostRecent()) {
-                int res = 0;
-                for (int i = 0; i < descrs.length; i++) {
-                    if (descrs[i].getTime() > descrs[res].getTime()) {
-                        res = i;
-                    }
-                }
-                return res;
-            }
-
-
-            int selected = conflictResolutionDialog.getSelectedIndex();
-            if (selected != -1) {
-                if (conflictResolutionDialog.getPreferredReport()) {
-                    preffered = descrs[selected].getFile();
-                }
-                return selected;
-            }
-            return 0;
-        }
-
-    }
-
-
     private String listLocalDirectory(File dir) {
         if (!dir.isAbsolute()) {
             dir = dir.getAbsoluteFile();
@@ -614,53 +491,6 @@ class ReportTool extends Tool {
 
     }
 
-
-    // The UI components
-    private JMenuBar menuBar;
-    private BrowserPane browserPane;
-    private JDialog waitDialog;
-    private WaitDialogController waitDialogController;
-    private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
-
-    // The merge options
-    private File[] in;
-    private File out;
-    private boolean resolveByRecent;
-    private boolean isXmlReport;
-    private CustomReport[] customReports;
-
-    private String xmlreportFileName = "report.xml";
-
-    private boolean autoShowOptions = true;
-
-    private Thread worker;
-    private URL currURL;
-
-    private HTMLEditorKit htmlKit;
-    private JEditorPane textArea;
-
-    private static final String NEW = "new";
-    private static final String OPEN = "open";
-
-    private OptionsDialog optionsDialog;
-    private Listener listener = new Listener();
-
-    private final String textShowing;
-    private final String textHidden;
-
-    class OkListener implements ActionListener {
-        public OkListener() {
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (setOptions()) {
-                optionsDialog.cleanUp();
-            }
-            updateGUI();
-        }
-    }
-
     private void showReportBrowser(File reportDir) {
         // if if is a dir, try to find a particular file to show
         // since there may be multiple choices, use the one with the
@@ -695,6 +525,163 @@ class ReportTool extends Tool {
         File f = rdc.getSelectedFile();
         showReportBrowser(f);
 
+    }
+
+    private static class WaitDialogController {
+        private JDialog waitDialog;
+        private boolean wasFinished = false;
+        private boolean wasShown = false;
+        private boolean wasHidden = false;
+
+        WaitDialogController(JDialog waitDialog) {
+            this.waitDialog = waitDialog;
+        }
+
+        synchronized void show() {
+            // show only once
+            if (!wasFinished) {
+                wasShown = true;
+                if (!wasHidden) {
+                    setVisible(true);
+                }
+            }
+        }
+
+        synchronized void finish() {
+            wasFinished = true;
+            setVisible(false);
+        }
+
+        synchronized void hide() {
+            wasHidden = true;
+            if (wasShown && !wasFinished) {
+                setVisible(false);
+            }
+        }
+
+        synchronized void restore() {
+            wasHidden = false;
+            if (wasShown && !wasFinished) {
+                setVisible(true);
+            }
+        }
+
+        private synchronized void setVisible(final boolean b) {
+            // should we care about EventDispatchThread here? Yes I guess.
+            if (EventQueue.isDispatchThread()) {
+                waitDialog.setVisible(b);
+            } else {
+                try {
+                    SwingUtilities.invokeAndWait(new Runnable() {
+                        @Override
+                        public void run() {
+                            waitDialog.setVisible(b);
+                        }
+                    });
+                } catch (InterruptedException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    static class MostRecentConfilctResolver implements ConflictResolver {
+
+        @Override
+        public int resolve(String testUrl, TestResultDescr... descrs) {
+            int res = 0;
+
+            for (int i = 1; i < descrs.length; i++) {
+                // priority of NOT_RUN status is the lowerest
+                boolean newer = descrs[i].getTime() > descrs[res].getTime();
+                if (descrs[res].isNotRun()) {
+                    if (!descrs[i].isNotRun() || newer) {
+                        res = i;
+                    }
+                } else {
+                    if (!descrs[i].isNotRun() && newer) {
+                        res = i;
+                    }
+                }
+            }
+            return res;
+
+        }
+
+    }
+
+    class ManualConfilctResolver implements ConflictResolver {
+        private File preffered = null;
+        private ConflictResolutionDialog conflictResolutionDialog;
+        private WaitDialogController wdc;
+
+        public ManualConfilctResolver(WaitDialogController wdc) {
+            this.wdc = wdc;
+        }
+
+        @Override
+        public int resolve(String testUrl, TestResultDescr... descrs) {
+            String[] conflictFiles = new String[descrs.length];
+            for (int i = 0; i < descrs.length; i++) {
+                conflictFiles[i] = descrs[i].getFile().getAbsolutePath() + " "
+                        + descrs[i].getStatus();
+            }
+
+            if (preffered != null) {
+                for (int i = 0; i < descrs.length; i++) {
+                    if (descrs[i].getFile().equals(preffered)) {
+                        return i;
+                    }
+                }
+            }
+
+            conflictResolutionDialog =
+                    new ConflictResolutionDialog(
+                            null, testUrl, conflictFiles, false, uif);
+
+            wdc.hide();
+            conflictResolutionDialog.setVisible(true);
+
+            if (conflictResolutionDialog.wasCanceled()) {
+                return -1;
+            }
+            wdc.restore();
+
+            if (conflictResolutionDialog.getUseMostRecent()) {
+                int res = 0;
+                for (int i = 0; i < descrs.length; i++) {
+                    if (descrs[i].getTime() > descrs[res].getTime()) {
+                        res = i;
+                    }
+                }
+                return res;
+            }
+
+
+            int selected = conflictResolutionDialog.getSelectedIndex();
+            if (selected != -1) {
+                if (conflictResolutionDialog.getPreferredReport()) {
+                    preffered = descrs[selected].getFile();
+                }
+                return selected;
+            }
+            return 0;
+        }
+
+    }
+
+    class OkListener implements ActionListener {
+        public OkListener() {
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (setOptions()) {
+                optionsDialog.cleanUp();
+            }
+            updateGUI();
+        }
     }
 
     private class Listener implements ActionListener, HierarchyListener {

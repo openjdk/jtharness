@@ -39,6 +39,12 @@ import java.util.List;
 public class LastRunFilter extends ObservableTestFilter {
 
 
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(LastRunFilter.class);
+    private WorkDirectory workdir;
+    private long lastStart;
+    private List<String> testURLs = new ArrayList<>();
+    private File[] fileTestURLs = null; // testURLs as file array
+
     /**
      * Create uninitialized filter.  Will not work until the work directory is set or
      * the last start time is set.
@@ -176,10 +182,4 @@ public class LastRunFilter extends ObservableTestFilter {
         }
 
     }
-
-    private WorkDirectory workdir;
-    private long lastStart;
-    private List<String> testURLs = new ArrayList<>();
-    private File[] fileTestURLs = null; // testURLs as file array
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(LastRunFilter.class);
 }

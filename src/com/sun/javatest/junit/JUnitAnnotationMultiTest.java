@@ -40,8 +40,20 @@ import java.io.PrintWriter;
  */
 public class JUnitAnnotationMultiTest extends JUnitMultiTest {
 
+    protected Class<?> testCaseClass;
+
     public JUnitAnnotationMultiTest(ClassLoader cl) {
         super(cl);
+    }
+
+    /**
+     * Entry point for direct execution, not used by the harness.
+     */
+    public static void main(String... args) {
+        String executeClass = System.getProperty("javaTestExecuteClass");
+        JUnitAnnotationMultiTest multiTest = new JUnitAnnotationMultiTest(ClassLoader.getSystemClassLoader());
+        multiTest.setup(executeClass);
+        multiTest.run0(args);
     }
 
     @Override
@@ -67,17 +79,6 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
         }
     }
 
-
-    /**
-     * Entry point for direct execution, not used by the harness.
-     */
-    public static void main(String... args) {
-        String executeClass = System.getProperty("javaTestExecuteClass");
-        JUnitAnnotationMultiTest multiTest = new JUnitAnnotationMultiTest(ClassLoader.getSystemClassLoader());
-        multiTest.setup(executeClass);
-        multiTest.run0(args);
-    }
-
     /**
      * Entry point for standalone mode.
      */
@@ -97,6 +98,4 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
     protected void printStackTrace(Throwable t) {
         t.printStackTrace(log);
     }
-
-    protected Class<?> testCaseClass;
 }

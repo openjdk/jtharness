@@ -50,6 +50,11 @@ import java.util.TreeSet;
  */
 public class PlainTextReport implements ReportFormat {
 
+    // these fields must have synchronized indexes
+    private static final String[] files = {"summary.txt"};
+    private static final int SMRY_TXT = 0;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(PlainTextReport.class);
+
     public static String[] getReportFilenames() {
         return files;
     }
@@ -130,10 +135,4 @@ public class PlainTextReport implements ReportFormat {
     private Writer openWriter(File reportDir, String filename) throws IOException {
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File(reportDir, filename)), StandardCharsets.UTF_8));
     }
-
-    // these fields must have synchronized indexes
-    private static final String[] files = {"summary.txt"};
-    private static final int SMRY_TXT = 0;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(PlainTextReport.class);
 }

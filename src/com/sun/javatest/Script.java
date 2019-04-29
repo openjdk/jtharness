@@ -48,6 +48,181 @@ import java.util.Vector;
  * to assist them in performing a test.
  */
 public abstract class Script {
+
+    /**
+     * A timer that may be used to set up timeouts.
+     */
+    protected static final Timer alarmTimer = new Timer();
+    // have to define this before the definitions that follow
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Script.class);
+    /**
+     * A status that may be used to indicate problems in the executeArgs field
+     * of a test description.
+     */
+    protected static final Status
+            error_badExecuteArgs = Status.error(i18n.getString("script.badExecuteArgs"));
+    /**
+     * A status that may be used to indicate a problem with a test's class directory.
+     */
+    protected static final Status
+            error_badTestClassDir = Status.error(i18n.getString("script.badTestClassDir"));
+    /**
+     * A status that may be used to indicate that a compilation failed unexpectedly.
+     */
+    protected static final Status
+            error_compFailUnexp = Status.error(i18n.getString("script.compFailUnexp"));
+    /**
+     * A status that may be used to indicate that no action was specified.
+     */
+    protected static final Status
+            error_noActionSpecified = Status.error(i18n.getString("script.noAction"));
+    /**
+     * A status that may be used to indicate that no execute class was specified in a test description.
+     */
+    protected static final Status
+            error_noExecuteClass = Status.error(i18n.getString("script.noExecuteClass"));
+    /**
+     * A status that may be used to indicate that no extension was found in a source file.
+     */
+    protected static final Status
+            error_noExtnInSource = Status.error(i18n.getString("script.noExtnInSrc"));
+    /**
+     * A status that may be used to indicate that no rmi classes were specified in a test description.
+     */
+    protected static final Status
+            error_noRMIClasses = Status.error(i18n.getString("script.noRMIClasses"));
+    /**
+     * A status that may be used to indicate that no sources were specified in a test description.
+     */
+    protected static final Status
+            error_noSource = Status.error(i18n.getString("script.noSource"));
+    /**
+     * A status that may be used to indicate the a compilation failed unexpectedly.
+     */
+    protected static final Status
+            fail_compFailUnexp = Status.failed(i18n.getString("script.compFailUnexp"));
+    /**
+     * A status that may be used to indicate that a compilation did not fail as was expected.
+     */
+    protected static final Status
+            fail_compSuccUnexp = Status.failed(i18n.getString("script.compSuccUnexp"));
+    /**
+     * A status that may be used to indicate that a test execution step  did not fail as wqas expected.
+     */
+    protected static final Status
+            fail_execSuccUnexp = Status.failed(i18n.getString("script.execSuccUnexp"));
+    /**
+     * A status that may be used to indicate that a compilation failed as expected.
+     */
+    protected static final Status
+            pass_compFailExp = Status.passed(i18n.getString("script.compFailExp"));
+    /**
+     * A status that may be used to indicate that a compilation succeeded as expected.
+     */
+    protected static final Status
+            pass_compSuccExp = Status.passed(i18n.getString("script.compSuccExp"));
+    /**
+     * A status that may be used to indicate that no source files were found in the test description.
+     */
+    protected static final Status noSource = error_noSource;
+    /**
+     * A status that may be used to indicate that no extension was found in a source file.
+     */
+    protected static final Status noExtnInSource = error_noExtnInSource;
+
+    /**
+     * A status that may be used to indicate that an execution step failed, as was expected.
+     */
+    protected static final Status
+            pass_execFailExp = Status.passed(i18n.getString("script.execFailExp"));
+    private static final String[] nullArgs = {};
+    private static final String DEFAULT_COMPILE_COMMAND = "compile";
+    private static final String DEFAULT_EXECUTE_COMMAND = "execute";
+    private static final String DEFAULT_RMIC_COMMAND = "rmic";
+    private static final String defaultClassDir = "classes";
+    private static ResourceTable sourceTable = new ResourceTable();
+    private static String osInfo;
+    private static boolean debugAlarm = Boolean.getBoolean("debug.com.sun.javatest.Script.Alarm");
+    /**
+     * The test description for the test being performed.
+     */
+    protected TestDescription td;               // required
+    /**
+     * The set of test cases to be excluded for this test.
+     */
+    protected String[] excludedTestCases;       // optional, may be null
+    /**
+     * The test environment for the test being performed.
+     */
+    protected TestEnvironment env;              // required
+    /**
+     * The initialization args for the script.
+     */
+    protected String[] scriptArgs;              // optional
+    /**
+     * The work directory for the test run.
+     */
+    protected WorkDirectory workDir;                    // required
+    /**
+     * The default name for the TestResult section used to save the data written to the out1 stream
+     * for a command.
+     *
+     * @see Command#run
+     */
+    protected String cmdOut1Name = "out1";
+    /**
+     * The default name for the TestResult section used to save the data written to the out2 stream
+     * for a command.
+     *
+     * @see Command#run
+     */
+    protected String cmdOut2Name = "out2";
+    /**
+     * A backup policy object that specifies how files should be backed up,
+     * if a file is found to exist when a new one of the same name is to be
+     * written.
+     */
+    protected BackupPolicy backupPolicy = BackupPolicy.noBackups(); // optional
+    /**
+     * The class loader to be used to load additional user-specified classes
+     * as required in the execution of the script.
+     */
+    protected ClassLoader loader;               // optional, may be null
+    /**
+     * The reporting channel for the test being performed.
+     */
+    protected PrintWriter trOut;
+    /**
+     * Notifier of starting/finishing tests.
+     * Initialized only when useNotifer() returns true.
+     *
+     * @see #useNotifier
+     * @see #setNotifier
+     * @since 4.2.1
+     */
+    protected Harness.Observer notifier;
+    // use getTimeoutProvider and setTimeoutProvider
+    private TimeoutProvider provider = null;
+    private TestResult testResult;
+    private Alarm alarm;
+    private boolean jtrIfPassed =
+            System.getProperty("javatest.script.jtrIfPassed", "true").equals("true");
+
+    /**
+     * Utility routine to convert an array of filenames to a corresponding
+     * array of strings.
+     *
+     * @param files The filenames to be converted
+     * @return The corresponding strings
+     */
+    protected static String[] filesToStrings(File... files) {
+        String[] strings = new String[files.length];
+        for (int i = 0; i < files.length; i++) {
+            strings[i] = files[i].getPath();
+        }
+        return strings;
+    }
+
     /**
      * Initialize any custom args for the script.
      *
@@ -386,7 +561,6 @@ public abstract class Script {
         setAlarm(timeout, Thread.currentThread());
     }
 
-
     /**
      * Set an alarm that will interrupt a given thread after
      * a specified delay (in milliseconds), and repeatedly thereafter
@@ -418,20 +592,6 @@ public abstract class Script {
     }
 
     /**
-     * Set TimeoutProvider used to control test timeouts.
-     *
-     * @param provider null to use default test timeout value (10 sec).
-     * @see TimeoutProvider
-     * @see #getTestTimeout()
-     * @see #getTimeoutProvider()
-     */
-    public void setTimeoutProvider(TimeoutProvider provider) {
-        if (provider != this.provider) {
-            this.provider = provider;
-        }
-    }
-
-    /**
      * Getter for TimeoutProvider. Generates default (10*factor)
      * provider in case no provider is set
      *
@@ -449,6 +609,22 @@ public abstract class Script {
             provider = new DefaultTimeoutProvider();
         }
         return provider;
+    }
+
+    // convenience definitions
+
+    /**
+     * Set TimeoutProvider used to control test timeouts.
+     *
+     * @param provider null to use default test timeout value (10 sec).
+     * @see TimeoutProvider
+     * @see #getTestTimeout()
+     * @see #getTimeoutProvider()
+     */
+    public void setTimeoutProvider(TimeoutProvider provider) {
+        if (provider != this.provider) {
+            this.provider = provider;
+        }
     }
 
     /**
@@ -661,8 +837,6 @@ public abstract class Script {
         }
     }
 
-    private static ResourceTable sourceTable = new ResourceTable();
-
     /**
      * Compile the given source files together.  The compiler and arguments to be used
      * are identified by the `<code>env.<em>env</em>.command.compile.<em>extn</em>.*</code>'
@@ -697,6 +871,8 @@ public abstract class Script {
     protected Status compileTogether(String command, File... srcs) {
         return compileTogether(command, filesToStrings(srcs));
     }
+
+    // backwards compatibility
 
     /**
      * Compile those source files for which the corresponding class file appears to
@@ -998,7 +1174,6 @@ public abstract class Script {
         return invokeCommand(command);
     }
 
-
     /**
      * Invoke a command in the environment identified by a given key.
      * The command is identified by looking up `<code>command.<em>key</em></code>'
@@ -1180,211 +1355,6 @@ public abstract class Script {
     }
 
     /**
-     * Utility routine to convert an array of filenames to a corresponding
-     * array of strings.
-     *
-     * @param files The filenames to be converted
-     * @return The corresponding strings
-     */
-    protected static String[] filesToStrings(File... files) {
-        String[] strings = new String[files.length];
-        for (int i = 0; i < files.length; i++) {
-            strings[i] = files[i].getPath();
-        }
-        return strings;
-    }
-
-    /**
-     * The test description for the test being performed.
-     */
-    protected TestDescription td;               // required
-
-    /**
-     * The set of test cases to be excluded for this test.
-     */
-    protected String[] excludedTestCases;       // optional, may be null
-
-    /**
-     * The test environment for the test being performed.
-     */
-    protected TestEnvironment env;              // required
-
-    /**
-     * The initialization args for the script.
-     */
-    protected String[] scriptArgs;              // optional
-
-    /**
-     * The work directory for the test run.
-     */
-    protected WorkDirectory workDir;                    // required
-
-    /**
-     * The default name for the TestResult section used to save the data written to the out1 stream
-     * for a command.
-     *
-     * @see Command#run
-     */
-    protected String cmdOut1Name = "out1";
-
-    /**
-     * The default name for the TestResult section used to save the data written to the out2 stream
-     * for a command.
-     *
-     * @see Command#run
-     */
-    protected String cmdOut2Name = "out2";
-
-    /**
-     * A backup policy object that specifies how files should be backed up,
-     * if a file is found to exist when a new one of the same name is to be
-     * written.
-     */
-    protected BackupPolicy backupPolicy = BackupPolicy.noBackups(); // optional
-
-    /**
-     * The class loader to be used to load additional user-specified classes
-     * as required in the execution of the script.
-     */
-    protected ClassLoader loader;               // optional, may be null
-
-    /**
-     * The reporting channel for the test being performed.
-     */
-    protected PrintWriter trOut;
-
-    // have to define this before the definitions that follow
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Script.class);
-
-    // use getTimeoutProvider and setTimeoutProvider
-    private TimeoutProvider provider = null;
-
-    // convenience definitions
-
-    /**
-     * A status that may be used to indicate problems in the executeArgs field
-     * of a test description.
-     */
-    protected static final Status
-            error_badExecuteArgs = Status.error(i18n.getString("script.badExecuteArgs"));
-
-    /**
-     * A status that may be used to indicate a problem with a test's class directory.
-     */
-    protected static final Status
-            error_badTestClassDir = Status.error(i18n.getString("script.badTestClassDir"));
-
-    /**
-     * A status that may be used to indicate that a compilation failed unexpectedly.
-     */
-    protected static final Status
-            error_compFailUnexp = Status.error(i18n.getString("script.compFailUnexp"));
-
-    /**
-     * A status that may be used to indicate that no action was specified.
-     */
-    protected static final Status
-            error_noActionSpecified = Status.error(i18n.getString("script.noAction"));
-
-    /**
-     * A status that may be used to indicate that no execute class was specified in a test description.
-     */
-    protected static final Status
-            error_noExecuteClass = Status.error(i18n.getString("script.noExecuteClass"));
-
-    /**
-     * A status that may be used to indicate that no extension was found in a source file.
-     */
-    protected static final Status
-            error_noExtnInSource = Status.error(i18n.getString("script.noExtnInSrc"));
-
-    /**
-     * A status that may be used to indicate that no rmi classes were specified in a test description.
-     */
-    protected static final Status
-            error_noRMIClasses = Status.error(i18n.getString("script.noRMIClasses"));
-
-    /**
-     * A status that may be used to indicate that no sources were specified in a test description.
-     */
-    protected static final Status
-            error_noSource = Status.error(i18n.getString("script.noSource"));
-
-    /**
-     * A status that may be used to indicate the a compilation failed unexpectedly.
-     */
-    protected static final Status
-            fail_compFailUnexp = Status.failed(i18n.getString("script.compFailUnexp"));
-
-    /**
-     * A status that may be used to indicate that a compilation did not fail as was expected.
-     */
-    protected static final Status
-            fail_compSuccUnexp = Status.failed(i18n.getString("script.compSuccUnexp"));
-
-    /**
-     * A status that may be used to indicate that a test execution step  did not fail as wqas expected.
-     */
-    protected static final Status
-            fail_execSuccUnexp = Status.failed(i18n.getString("script.execSuccUnexp"));
-
-    /**
-     * A status that may be used to indicate that a compilation failed as expected.
-     */
-    protected static final Status
-            pass_compFailExp = Status.passed(i18n.getString("script.compFailExp"));
-
-    /**
-     * A status that may be used to indicate that a compilation succeeded as expected.
-     */
-    protected static final Status
-            pass_compSuccExp = Status.passed(i18n.getString("script.compSuccExp"));
-
-    /**
-     * A status that may be used to indicate that an execution step failed, as was expected.
-     */
-    protected static final Status
-            pass_execFailExp = Status.passed(i18n.getString("script.execFailExp"));
-
-    // backwards compatibility
-    /**
-     * A status that may be used to indicate that no source files were found in the test description.
-     */
-    protected static final Status noSource = error_noSource;
-
-    /**
-     * A status that may be used to indicate that no extension was found in a source file.
-     */
-    protected static final Status noExtnInSource = error_noExtnInSource;
-
-    private static final String[] nullArgs = {};
-    private static final String DEFAULT_COMPILE_COMMAND = "compile";
-    private static final String DEFAULT_EXECUTE_COMMAND = "execute";
-    private static final String DEFAULT_RMIC_COMMAND = "rmic";
-    private static final String defaultClassDir = "classes";
-    private static String osInfo;
-
-    /**
-     * A timer that may be used to set up timeouts.
-     */
-    protected static final Timer alarmTimer = new Timer();
-
-    private TestResult testResult;
-    private Alarm alarm;
-    private boolean jtrIfPassed =
-            System.getProperty("javatest.script.jtrIfPassed", "true").equals("true");
-
-    /**
-     * Notifier of starting/finishing tests.
-     * Initialized only when useNotifer() returns true.
-     *
-     * @see #useNotifier
-     * @see #setNotifier
-     * @since 4.2.1
-     */
-    protected Harness.Observer notifier;
-
-    /**
      * Returns true if the Script uses own way of notifying the Harness
      * of starting/finishing test, false otherwise (by default).
      * <p>
@@ -1449,10 +1419,14 @@ public abstract class Script {
     }
 
     private class Alarm implements Timer.Timeable {
+        private int delay;
+        private Thread threadToInterrupt;
+        private int count;
+        private Timer.Entry entry;
+
         Alarm(int delay) {
             this(delay, Thread.currentThread());
         }
-
         Alarm(int delay, Thread threadToInterrupt) {
             if (threadToInterrupt == null) {
                 throw new NullPointerException();
@@ -1491,12 +1465,5 @@ public abstract class Script {
             count++;
             entry = alarmTimer.requestDelayedCallback(this, 100); // keep requesting interrupts until cancelled
         }
-
-        private int delay;
-        private Thread threadToInterrupt;
-        private int count;
-        private Timer.Entry entry;
     }
-
-    private static boolean debugAlarm = Boolean.getBoolean("debug.com.sun.javatest.Script.Alarm");
 }

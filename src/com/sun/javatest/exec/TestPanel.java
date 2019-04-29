@@ -62,6 +62,36 @@ import java.util.Vector;
  */
 
 class TestPanel extends JPanel {
+    static final String lineSeparator = System.getProperty("line.separator");
+    // will be needed for dynamic update
+    private final Observer observer = new Observer();
+    // basic GUI objects
+    private UIFactory uif;
+    private TP_Subpanel[] panels;
+    private TP_Subpanel[] stdPanels;
+
+    //------private methods----------------------------------------------
+    private JTabbedPane tabs;
+    private TP_DescSubpanel descPanel;
+    private TP_DocumentationSubpanel docPanel;
+    private TP_FilesSubpanel filesPanel;
+    private TP_ResultsSubpanel resultPanel;
+    private TP_EnvSubpanel envPanel;
+    private TP_OutputSubpanel outputPanel;
+    private JTextField statusField;
+    private HashMap<CustomTestResultViewer, TP_Subpanel> customViewTable;
+    //
+    private Harness harness;
+    //
+    private ContextManager contextManager;
+    // set these values via update
+    private TestResult currTest;
+    private TP_Subpanel currPanel;
+    // these values are derived from values given to update
+    private TestDescription currDesc;
+    // used to minimize update load
+    private boolean needToUpdateGUIWhenShown = true;
+    private boolean updatePending = false;
     TestPanel(UIFactory uif, Harness harness, ContextManager contextManager) {
         this.uif = uif;
         this.harness = harness;
@@ -96,8 +126,6 @@ class TestPanel extends JPanel {
         updatePanel(tr, currPanel);
     }
 
-    //------private methods----------------------------------------------
-
     private synchronized void updatePanel(TestResult newTest, TP_Subpanel newPanel) {
         // this method is specifically designed to be fast to execute when
         // the panel is hidden; it also tries to avoid unnecessarily getting
@@ -131,7 +159,6 @@ class TestPanel extends JPanel {
             }
         }
     }
-
 
     // must be called on the AWT event thread
     private void updateGUIWhenVisible() {
@@ -343,14 +370,13 @@ class TestPanel extends JPanel {
     }
 
     class ViewerStateListener implements PropertyChangeListener {
+        private CustomTestResultViewer[] cv;
+        private int pos, offset;
         ViewerStateListener(CustomTestResultViewer[] cv, int pos, int offset) {
             this.cv = cv;
             this.pos = pos;
             this.offset = offset;
         }
-
-        private CustomTestResultViewer[] cv;
-        private int pos, offset;
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -368,42 +394,6 @@ class TestPanel extends JPanel {
             }
         }
     }
-
-    static final String lineSeparator = System.getProperty("line.separator");
-
-    // basic GUI objects
-    private UIFactory uif;
-    private TP_Subpanel[] panels;
-    private TP_Subpanel[] stdPanels;
-    private JTabbedPane tabs;
-    private TP_DescSubpanel descPanel;
-    private TP_DocumentationSubpanel docPanel;
-    private TP_FilesSubpanel filesPanel;
-    private TP_ResultsSubpanel resultPanel;
-    private TP_EnvSubpanel envPanel;
-    private TP_OutputSubpanel outputPanel;
-    private JTextField statusField;
-    private HashMap<CustomTestResultViewer, TP_Subpanel> customViewTable;
-
-    //
-    private Harness harness;
-
-    //
-    private ContextManager contextManager;
-
-    // set these values via update
-    private TestResult currTest;
-    private TP_Subpanel currPanel;
-
-    // these values are derived from values given to update
-    private TestDescription currDesc;
-
-    // used to minimize update load
-    private boolean needToUpdateGUIWhenShown = true;
-    private boolean updatePending = false;
-
-    // will be needed for dynamic update
-    private final Observer observer = new Observer();
 
     private class Observer implements Harness.Observer, TestResult.Observer {
         // ---------- Harness.Observer ----------

@@ -40,58 +40,6 @@ import com.sun.javatest.util.I18NResourceBundle;
  */
 public abstract class TestFilter {
     /**
-     * This exception is to report problems that occur while filtering tests.
-     */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        public Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
-    }
-
-    /**
-     * An interface for notification about why a test has been filtered out.
-     */
-    public interface Observer {
-        /**
-         * Notification methodcalled when a test has been rejected.
-         *
-         * @param d        The test that has been rejected.
-         * @param rejector The filter rejecting the test.
-         */
-        void rejected(TestDescription d, TestFilter rejector);
-    }
-
-    /**
      * Get the name of this filter, as might be used to choose of of a set
      * of filters.  This string should be localized.
      *
@@ -151,8 +99,59 @@ public abstract class TestFilter {
         }
     }
 
-
     public boolean accepts(TestResult tr, Observer o) throws Fault, TestResult.Fault {
         return accepts(tr.getDescription(), o);
+    }
+
+    /**
+     * An interface for notification about why a test has been filtered out.
+     */
+    public interface Observer {
+        /**
+         * Notification methodcalled when a test has been rejected.
+         *
+         * @param d        The test that has been rejected.
+         * @param rejector The filter rejecting the test.
+         */
+        void rejected(TestDescription d, TestFilter rejector);
+    }
+
+    /**
+     * This exception is to report problems that occur while filtering tests.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        public Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
     }
 }

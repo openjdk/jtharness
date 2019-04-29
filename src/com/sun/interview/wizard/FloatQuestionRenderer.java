@@ -38,6 +38,13 @@ import java.text.NumberFormat;
 
 public class FloatQuestionRenderer
         implements QuestionRenderer {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    protected float lwb;
+    protected float upb;
+    protected float range;
+    protected float[] suggs;
+    protected JButton resetBtn;
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         FloatQuestion q = (FloatQuestion) qq;
@@ -108,14 +115,4 @@ public class FloatQuestionRenderer
 
         return p;
     }
-
-
-    protected float lwb;
-    protected float upb;
-    protected float range;
-    protected float[] suggs;
-
-    protected JButton resetBtn;
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

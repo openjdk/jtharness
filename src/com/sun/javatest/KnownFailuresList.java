@@ -69,6 +69,117 @@ import java.util.TreeSet;
  */
 public class KnownFailuresList {
 
+    /**
+     * The standard extension for KFL files. (".kfl")
+     */
+    public static final String KFLFILE_EXTN = ".kfl";
+    public static final String KFL_FILE_VERSION = "1.0";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(KnownFailuresList.class);
+    private Map table = new HashMap();
+    private String title;
+    private boolean strict;
+
+
+    /**
+     * Create a new, empty KFL object.
+     */
+    public KnownFailuresList() {
+    }
+
+    /**
+     * Create an KnownFailuresList from the data contained in a file.
+     *
+     * @param f The file to be read.
+     * @throws FileNotFoundException   if the file cannot be found
+     * @throws IOException             if any problems occur while reading the file
+     * @throws KnownFailuresList.Fault if the data in the file is inconsistent
+     * @see #KnownFailuresList(File[])
+     */
+    public KnownFailuresList(File f)
+            throws FileNotFoundException, IOException, Fault {
+        this(f, false);
+    }
+
+    /**
+     * Create an KnownFailuresList from the data contained in a file.
+     *
+     * @param f      The file to be read.
+     * @param strict Indicate if strict data checking rules should be used.
+     * @throws FileNotFoundException   if the file cannot be found
+     * @throws IOException             if any problems occur while reading the file
+     * @throws KnownFailuresList.Fault if the data in the file is inconsistent
+     * @see #KnownFailuresList(File[])
+     * @see #setStrictModeEnabled(boolean)
+     */
+    public KnownFailuresList(File f, boolean strict)
+            throws FileNotFoundException, IOException, Fault {
+        setStrictModeEnabled(strict);
+        if (f != null) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
+
+            Parser p = new Parser(in);
+            try {
+                Entry e;
+                while ((e = p.readEntry()) != null) {
+                    addEntry(e);
+                }
+            } finally {
+                in.close();
+            }
+
+            title = p.getTitle();
+        }
+    }
+
+    /**
+     * Create a KnownFailuresList from the data contained in a series of files.
+     *
+     * @param files The file to be read.
+     * @throws FileNotFoundException   if any of the files cannot be found
+     * @throws IOException             if any problems occur while reading the files.
+     * @throws KnownFailuresList.Fault if the data in the files is inconsistent
+     * @see #KnownFailuresList(File)
+     */
+    public KnownFailuresList(File... files)
+            throws FileNotFoundException, IOException, Fault {
+        this(files, false);
+    }
+
+    /**
+     * Create a KnownFailuresList from the data contained in a series of files.
+     *
+     * @param files  The file to be read.
+     * @param strict Indicate if strict data checking rules should be used.
+     * @throws FileNotFoundException   if any of the files cannot be found
+     * @throws IOException             if any problems occur while reading the files.
+     * @throws KnownFailuresList.Fault if the data in the files is inconsistent
+     * @see #KnownFailuresList(File)
+     * @see #setStrictModeEnabled(boolean)
+     */
+    public KnownFailuresList(File[] files, boolean strict)
+            throws FileNotFoundException, IOException, Fault {
+        setStrictModeEnabled(strict);
+        for (File file : files) {
+            KnownFailuresList kfl = new KnownFailuresList(file, strict);
+            merge(kfl);
+        }
+    }
+
+    /**
+     * Test if a file appears to be for an exclude list, by checking the extension.
+     *
+     * @param f The file to be tested.
+     * @return <code>true</code> if the file appears to be a known failures list.
+     */
+    public static boolean isKflFile(File f) {
+        return f.getPath().endsWith(KFLFILE_EXTN);
+    }
+
+    private static boolean equals(String s1, String s2) {
+        return s1 == null && s2 == null
+                || s1 != null && s2 != null && s1.equals(s2);
+    }
+
     public void addEntry(Entry e) throws Fault {
         synchronized (table) {
             Key key = new Key(e.relativeURL);
@@ -141,108 +252,15 @@ public class KnownFailuresList {
     }
 
     /**
-     * This exception is used to report problems manipulating an exclude list.
-     */
-    public static class Fault extends Exception {
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-    }
-
-    /**
-     * Test if a file appears to be for an exclude list, by checking the extension.
+     * Check whether strict mode is enabled or not. In strict mode, calls to addEntry
+     * may generate an exception in the case of conflicts, such as adding an entry
+     * to exclude a specific test case when the entire test is already excluded.
      *
-     * @param f The file to be tested.
-     * @return <code>true</code> if the file appears to be a known failures list.
+     * @return true if strict mode is enabled, and false otherwise
+     * @see #setStrictModeEnabled
      */
-    public static boolean isKflFile(File f) {
-        return f.getPath().endsWith(KFLFILE_EXTN);
-    }
-
-    /**
-     * Create a new, empty KFL object.
-     */
-    public KnownFailuresList() {
-    }
-
-    /**
-     * Create an KnownFailuresList from the data contained in a file.
-     *
-     * @param f The file to be read.
-     * @throws FileNotFoundException   if the file cannot be found
-     * @throws IOException             if any problems occur while reading the file
-     * @throws KnownFailuresList.Fault if the data in the file is inconsistent
-     * @see #KnownFailuresList(File[])
-     */
-    public KnownFailuresList(File f)
-            throws FileNotFoundException, IOException, Fault {
-        this(f, false);
-    }
-
-    /**
-     * Create an KnownFailuresList from the data contained in a file.
-     *
-     * @param f      The file to be read.
-     * @param strict Indicate if strict data checking rules should be used.
-     * @throws FileNotFoundException   if the file cannot be found
-     * @throws IOException             if any problems occur while reading the file
-     * @throws KnownFailuresList.Fault if the data in the file is inconsistent
-     * @see #KnownFailuresList(File[])
-     * @see #setStrictModeEnabled(boolean)
-     */
-    public KnownFailuresList(File f, boolean strict)
-            throws FileNotFoundException, IOException, Fault {
-        setStrictModeEnabled(strict);
-        if (f != null) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(f), StandardCharsets.UTF_8));
-
-            Parser p = new Parser(in);
-            try {
-                Entry e;
-                while ((e = p.readEntry()) != null) {
-                    addEntry(e);
-                }
-            } finally {
-                in.close();
-            }
-
-            title = p.getTitle();
-        }
-    }
-
-
-    /**
-     * Create a KnownFailuresList from the data contained in a series of files.
-     *
-     * @param files The file to be read.
-     * @throws FileNotFoundException   if any of the files cannot be found
-     * @throws IOException             if any problems occur while reading the files.
-     * @throws KnownFailuresList.Fault if the data in the files is inconsistent
-     * @see #KnownFailuresList(File)
-     */
-    public KnownFailuresList(File... files)
-            throws FileNotFoundException, IOException, Fault {
-        this(files, false);
-    }
-
-    /**
-     * Create a KnownFailuresList from the data contained in a series of files.
-     *
-     * @param files  The file to be read.
-     * @param strict Indicate if strict data checking rules should be used.
-     * @throws FileNotFoundException   if any of the files cannot be found
-     * @throws IOException             if any problems occur while reading the files.
-     * @throws KnownFailuresList.Fault if the data in the files is inconsistent
-     * @see #KnownFailuresList(File)
-     * @see #setStrictModeEnabled(boolean)
-     */
-    public KnownFailuresList(File[] files, boolean strict)
-            throws FileNotFoundException, IOException, Fault {
-        setStrictModeEnabled(strict);
-        for (File file : files) {
-            KnownFailuresList kfl = new KnownFailuresList(file, strict);
-            merge(kfl);
-        }
+    public boolean isStrictModeEnabled() {
+        return strict;
     }
 
     /**
@@ -256,18 +274,6 @@ public class KnownFailuresList {
     public void setStrictModeEnabled(boolean on) {
         //System.err.println("EL.setStrictModeEnabled " + on);
         strict = on;
-    }
-
-    /**
-     * Check whether strict mode is enabled or not. In strict mode, calls to addEntry
-     * may generate an exception in the case of conflicts, such as adding an entry
-     * to exclude a specific test case when the entire test is already excluded.
-     *
-     * @return true if strict mode is enabled, and false otherwise
-     * @see #setStrictModeEnabled
-     */
-    public boolean isStrictModeEnabled() {
-        return strict;
     }
 
     /**
@@ -301,7 +307,6 @@ public class KnownFailuresList {
         }
 
     }
-
 
     /**
      * Merge the contents of another exclude list into this one.
@@ -499,13 +504,6 @@ public class KnownFailuresList {
         }
     }
 
-
-    private static boolean equals(String s1, String s2) {
-        return s1 == null && s2 == null
-                || s1 != null && s2 != null && s1.equals(s2);
-    }
-
-
     /**
      * @param obj - object to compare
      * @return returns true if two entry tables are equal
@@ -533,8 +531,21 @@ public class KnownFailuresList {
         return hash;
     }
 
+    /**
+     * This exception is used to report problems manipulating an exclude list.
+     */
+    public static class Fault extends Exception {
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+    }
+
     // --------- Inner classes -----------
     private static final class Parser {
+        private Reader in;      // source stream being read
+        private int ch;         // current character
+        private String title;
+
         Parser(Reader in) throws IOException {
             this.in = in;
             ch = in.read();
@@ -670,13 +681,13 @@ public class KnownFailuresList {
                 ch = in.read();
             }
         }
-
-        private Reader in;      // source stream being read
-        private int ch;         // current character
-        private String title;
     }
 
     private static class Key {
+        private static final char sep = File.separatorChar;
+        private String relativeURL;
+        private int hash;
+
         Key(String url) {
             relativeURL = url;
         }
@@ -729,16 +740,18 @@ public class KnownFailuresList {
             }
             return true;
         }
-
-        private static final char sep = File.separatorChar;
-        private String relativeURL;
-        private int hash;
     }
 
     /**
      * An entry in the exclude list.
      */
     public static final class Entry implements Comparable<Entry> {
+        private String relativeURL;
+        private String testCase;
+        private String[] bugIdStrings;
+        private int[] bugIds; // null, unless required
+        private String notes;
+
         /**
          * Create an ExcludeList entry.
          *
@@ -763,6 +776,63 @@ public class KnownFailuresList {
             testCase = tc;
             bugIdStrings = b;
             notes = s;
+        }
+
+        /**
+         * Create an entry from a string. The string should be formatted
+         * as though it were a line of text in an exclude file.
+         *
+         * @param text The text to be read
+         * @return the first entry read from the supplied text
+         * @throws ExcludeList.Fault if there is a problem reading the entry.
+         */
+        public static Entry read(String text) throws Fault {
+            try {
+                return new Parser(new StringReader(text)).readEntry();
+            } catch (IOException e) {
+                throw new Fault(i18n, "kfl.badEntry", e);
+            }
+        }
+
+        private static boolean equals(int[] i1, int... i2) {
+            if (i1 == null || i2 == null) {
+                return i1 == null && i2 == null;
+            }
+
+            if (i1.length != i2.length) {
+                return false;
+            }
+
+            for (int x = 0; x < i1.length; x++) {
+                if (i1[x] != i2[x]) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static boolean equals(String[] s1, String... s2) {
+            if (s1 == null || s2 == null) {
+                return s1 == null && s2 == null;
+            }
+
+            if (s1.length != s2.length) {
+                return false;
+            }
+
+            for (int x = 0; x < s1.length; x++) {
+                if (!equals(s1[x], s2[x])) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static boolean equals(String s1, String s2) {
+            return s1 == null && s2 == null
+                    || s1 != null && s2 != null && s1.equals(s2);
         }
 
         @Override
@@ -877,22 +947,6 @@ public class KnownFailuresList {
         }
 
         /**
-         * Create an entry from a string. The string should be formatted
-         * as though it were a line of text in an exclude file.
-         *
-         * @param text The text to be read
-         * @return the first entry read from the supplied text
-         * @throws ExcludeList.Fault if there is a problem reading the entry.
-         */
-        public static Entry read(String text) throws Fault {
-            try {
-                return new Parser(new StringReader(text)).readEntry();
-            } catch (IOException e) {
-                throw new Fault(i18n, "kfl.badEntry", e);
-            }
-        }
-
-        /**
          * Compare this entry against another.
          *
          * @param o the object to compare against
@@ -938,64 +992,5 @@ public class KnownFailuresList {
             }
             return new String(sb);
         }
-
-        private static boolean equals(int[] i1, int... i2) {
-            if (i1 == null || i2 == null) {
-                return i1 == null && i2 == null;
-            }
-
-            if (i1.length != i2.length) {
-                return false;
-            }
-
-            for (int x = 0; x < i1.length; x++) {
-                if (i1[x] != i2[x]) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private static boolean equals(String[] s1, String... s2) {
-            if (s1 == null || s2 == null) {
-                return s1 == null && s2 == null;
-            }
-
-            if (s1.length != s2.length) {
-                return false;
-            }
-
-            for (int x = 0; x < s1.length; x++) {
-                if (!equals(s1[x], s2[x])) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private static boolean equals(String s1, String s2) {
-            return s1 == null && s2 == null
-                    || s1 != null && s2 != null && s1.equals(s2);
-        }
-
-
-        private String relativeURL;
-        private String testCase;
-        private String[] bugIdStrings;
-        private int[] bugIds; // null, unless required
-        private String notes;
     }
-
-    private Map table = new HashMap();
-    private String title;
-    private boolean strict;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(KnownFailuresList.class);
-
-    /**
-     * The standard extension for KFL files. (".kfl")
-     */
-    public static final String KFLFILE_EXTN = ".kfl";
-    public static final String KFL_FILE_VERSION = "1.0";
 }

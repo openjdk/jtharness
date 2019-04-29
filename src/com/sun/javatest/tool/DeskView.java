@@ -70,48 +70,125 @@ import java.util.Vector;
  * @see Desktop
  */
 abstract class DeskView {
-    /**
-     * This exception is used to report problems while using a tool manager.
-     */
-    static class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
+    static final String CLOSE = "close"; // visible for file close listeners
+    private static final int MENU_INSERT_POINT = 4; // before Windows, glue and Help
+    private static final String EXIT = "exit";
+    private static final String PREFS = "prefs";
+    private static final String HISTORY = "history";
+    private static final String SEPARATOR = null;
+    private static final I18NResourceBundle i18n =
+            I18NResourceBundle.getBundleForClass(DeskView.class);
+    // keep a private list of all the outstanding frames, so that
+    // when the collection becomes empty, we can lower the ExitCount.
+    private static Collection<JFrame> allFrames = new Vector<>();
+    // counter for unique name generation
+    private static int frameIndex;
+    private static FocusMonitor focusMonitor;
 
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
+    static {
+        String opts = System.getProperty("javatest.focus.monitor");
+        if (opts != null) {
+            focusMonitor = FocusMonitor.access();
+            if (!opts.equals("true")) // support old value for back compat
+            {
+                focusMonitor.setOptions(StringArray.split(opts));
+            }
+            focusMonitor.setActivateKey("alt 2");
+            focusMonitor.setReportKey("shift alt 2");
+            focusMonitor.setReportFile(System.getProperty("javatest.focus.monitor.log"));
         }
     }
+
+    /**
+     * The UI factory used to create GUI components.
+     */
+    protected final UIFactory uif;
+
+    //--------------------------------------------------------------------------
+    private Desktop desktop;
 
     protected DeskView(Desktop desktop) {
         this.desktop = desktop;
         uif = new UIFactory(getClass(), desktop.getHelpBroker());
+    }
+
+    /**
+     * Get thedefault bounds for a JT Harness desktop.
+     *
+     * @return a rectangle describing the size and position on the screen
+     * of the default desktop.
+     */
+    public static Rectangle getDefaultBounds() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Rectangle mwb = ge.getMaximumWindowBounds();
+        int w = Math.min(mwb.width, Math.max(640, mwb.width * 3 / 4));
+        int h = Math.min(mwb.height, Math.max(480, mwb.height * 3 / 4));
+
+        int x = ge.getCenterPoint().x - w / 2;
+        int y = ge.getCenterPoint().y - h / 2;
+
+        return new Rectangle(x, y, w, h);
+    }
+
+    /**
+     * Save the screen size and position for a component in a map object.
+     *
+     * @param c the component whose size and position are to be recorded in the map.
+     * @param m the map in which the information is to be recorded
+     * @see #restoreBounds
+     */
+    protected static void saveBounds(Component c, Map<String, String> m) {
+        Rectangle r = c.getBounds();
+        m.put("x", String.valueOf(r.x));
+        m.put("y", String.valueOf(r.y));
+        m.put("w", String.valueOf(r.width));
+        m.put("h", String.valueOf(r.height));
+    }
+
+    /**
+     * Restore the screen size and position for a component from information
+     * in a map object.
+     *
+     * @param c the component whose size and position are to be restored.
+     * @param m the map in which the information is to be recorded
+     * @see #saveBounds
+     */
+    protected static void restoreBounds(Component c, Map<String, String> m) {
+        try {
+            String xs = m.get("x");
+            String ys = m.get("y");
+            String ws = m.get("w");
+            String hs = m.get("h");
+            if (xs != null && ys != null && ws != null && hs != null) {
+                Rectangle restored = new Rectangle(Integer.parseInt(xs),
+                        Integer.parseInt(ys),
+                        Integer.parseInt(ws),
+                        Integer.parseInt(hs));
+
+                restored = getScreenBounds().intersection(restored);
+                if (!restored.isEmpty()) {
+                    c.setBounds(restored);
+                }
+
+            }
+        } catch (NumberFormatException e) {
+            // ignore
+        }
+    }
+
+    public static Rectangle getScreenBounds() {
+        // Consider multi-display environment
+        Rectangle result = new Rectangle();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] gs = ge.getScreenDevices();
+        for (GraphicsDevice gd : gs) {
+            GraphicsConfiguration[] gc = gd.getConfigurations();
+            for (GraphicsConfiguration aGc : gc) {
+                result = result.union(aGc.getBounds());
+            }
+        }
+
+        return result;
     }
 
     public Desktop getDesktop() {
@@ -203,8 +280,6 @@ abstract class DeskView {
      */
     public abstract void setSelectedTool(Tool t);
 
-    //--------------------------------------------------------------------------
-
     /**
      * Get an integer signifying the style of the current desktop.
      *
@@ -246,24 +321,6 @@ abstract class DeskView {
      * on the screen.
      */
     public abstract Rectangle getBounds();
-
-    /**
-     * Get thedefault bounds for a JT Harness desktop.
-     *
-     * @return a rectangle describing the size and position on the screen
-     * of the default desktop.
-     */
-    public static Rectangle getDefaultBounds() {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        Rectangle mwb = ge.getMaximumWindowBounds();
-        int w = Math.min(mwb.width, Math.max(640, mwb.width * 3 / 4));
-        int h = Math.min(mwb.height, Math.max(480, mwb.height * 3 / 4));
-
-        int x = ge.getCenterPoint().x - w / 2;
-        int y = ge.getCenterPoint().y - h / 2;
-
-        return new Rectangle(x, y, w, h);
-    }
 
     /**
      * Create a new top level frame for the desktop. The frame will have the
@@ -518,8 +575,6 @@ abstract class DeskView {
         return null;
     }
 
-    private static final int MENU_INSERT_POINT = 4; // before Windows, glue and Help
-
     /**
      * Create a dialog.
      *
@@ -683,111 +738,53 @@ abstract class DeskView {
     }
 
     /**
-     * Save the screen size and position for a component in a map object.
-     *
-     * @param c the component whose size and position are to be recorded in the map.
-     * @param m the map in which the information is to be recorded
-     * @see #restoreBounds
+     * This exception is used to report problems while using a tool manager.
      */
-    protected static void saveBounds(Component c, Map<String, String> m) {
-        Rectangle r = c.getBounds();
-        m.put("x", String.valueOf(r.x));
-        m.put("y", String.valueOf(r.y));
-        m.put("w", String.valueOf(r.width));
-        m.put("h", String.valueOf(r.height));
-    }
-
-
-    /**
-     * Restore the screen size and position for a component from information
-     * in a map object.
-     *
-     * @param c the component whose size and position are to be restored.
-     * @param m the map in which the information is to be recorded
-     * @see #saveBounds
-     */
-    protected static void restoreBounds(Component c, Map<String, String> m) {
-        try {
-            String xs = m.get("x");
-            String ys = m.get("y");
-            String ws = m.get("w");
-            String hs = m.get("h");
-            if (xs != null && ys != null && ws != null && hs != null) {
-                Rectangle restored = new Rectangle(Integer.parseInt(xs),
-                        Integer.parseInt(ys),
-                        Integer.parseInt(ws),
-                        Integer.parseInt(hs));
-
-                restored = getScreenBounds().intersection(restored);
-                if (!restored.isEmpty()) {
-                    c.setBounds(restored);
-                }
-
-            }
-        } catch (NumberFormatException e) {
-            // ignore
-        }
-    }
-
-    public static Rectangle getScreenBounds() {
-        // Consider multi-display environment
-        Rectangle result = new Rectangle();
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        GraphicsDevice[] gs = ge.getScreenDevices();
-        for (GraphicsDevice gd : gs) {
-            GraphicsConfiguration[] gc = gd.getConfigurations();
-            for (GraphicsConfiguration aGc : gc) {
-                result = result.union(aGc.getBounds());
-            }
+    static class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
         }
 
-        return result;
-    }
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
 
-
-    // keep a private list of all the outstanding frames, so that
-    // when the collection becomes empty, we can lower the ExitCount.
-    private static Collection<JFrame> allFrames = new Vector<>();
-
-    // counter for unique name generation
-    private static int frameIndex;
-
-    private Desktop desktop;
-
-    /**
-     * The UI factory used to create GUI components.
-     */
-    protected final UIFactory uif;
-
-    private static FocusMonitor focusMonitor;
-
-    static {
-        String opts = System.getProperty("javatest.focus.monitor");
-        if (opts != null) {
-            focusMonitor = FocusMonitor.access();
-            if (!opts.equals("true")) // support old value for back compat
-            {
-                focusMonitor.setOptions(StringArray.split(opts));
-            }
-            focusMonitor.setActivateKey("alt 2");
-            focusMonitor.setReportKey("shift alt 2");
-            focusMonitor.setReportFile(System.getProperty("javatest.focus.monitor.log"));
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
         }
     }
-
-    static final String CLOSE = "close"; // visible for file close listeners
-    private static final String EXIT = "exit";
-    private static final String PREFS = "prefs";
-    private static final String HISTORY = "history";
-    private static final String SEPARATOR = null;
-
-    private static final I18NResourceBundle i18n =
-            I18NResourceBundle.getBundleForClass(DeskView.class);
 
 
     //-------------------------------------------------------------------------
 
     private class FileMenuListener implements MenuListener, ActionListener {
+        private JMenu fileOpenMenu;
+        private JMenuItem prefs;
+        private JMenuItem close;
+        private JMenuItem exit;
+
         FileMenuListener(Action closeAction) {
 
             prefs = uif.createMenuItem("dt.file", PREFS, this);
@@ -917,11 +914,6 @@ abstract class DeskView {
                 desktop.checkToolsAndExitIfOK(parent);
             }
         }
-
-        private JMenu fileOpenMenu;
-        private JMenuItem prefs;
-        private JMenuItem close;
-        private JMenuItem exit;
     }
 
 

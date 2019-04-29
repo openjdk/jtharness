@@ -49,82 +49,61 @@ import java.util.Vector;
  * of an {@link Interview interview}.
  */
 public class WizPrint {
+    private static final int IN_TAG = 1;
+    private static final int IN_BODY = 2;
+    private static final ResourceBundle i18n = ResourceBundle.getBundle("com.sun.interview.i18n");
+    private static final String DOCTYPE = "!DOCTYPE HTML";
+    private static final String A = "a";
+    private static final String B = "b";
+    private static final String BODY = "body";
+    private static final String BR = "br";
+    private static final String FONT = "font";
+    private static final String H1 = "h1";
+    private static final String H3 = "h3";
+    private static final String HEAD = "head";
+    private static final String HR = "hr";
+    private static final String HREF = "href";
+    private static final String HTML = "html";
+    private static final String I = "i";
+    private static final String TEXT_LEFT = "text-align:left;";
+    private static final String LI = "li";
+    private static final String NAME = "name";
+    private static final String P = "p";
+    private static final String SIZE = "size";
+    private static final String STRIKE = "strike";
+    private static final String TABLE = "table";
+    private static final String TITLE = "title";
+    private static final String TD = "td";
+    private static final String TH = "th";
+    private static final String TR = "tr";
+    private static final String UL = "ul";
+    private static final String WIDTH = "width";
+    private static final String STYLE = "style";
+    private Interview interview;
+    private Question[] questions;
+    private BufferedWriter out;
+    private boolean showResponses;
+    private boolean showResponseTypes;
+    private boolean showTags;
+    private int state;
+
     /**
-     * This exception is to report problems that occur with command line arguments.
+     * Create an object for printing the current set of questions from an interview.
+     *
+     * @param interview The parent interview which contains the questions.
      */
-    public static class BadArgs extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        public BadArgs(ResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public BadArgs(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public BadArgs(ResourceBundle i18n, String s, Object... o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
+    public WizPrint(Interview interview) {
+        this(interview, interview.getPath());
     }
-
     /**
-     * This exception is to report problems that occur while updating an interview.
+     * Create an object for printing a set of questions from an interview.
+     *
+     * @param interview The parent interview which contains the questions.
+     * @param questions The selected set of questions to be printed.
      */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        public Fault(ResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(ResourceBundle i18n, String s, Object... o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
+    public WizPrint(Interview interview, Question... questions) {
+        this.interview = interview;
+        this.questions = questions;
     }
 
     /**
@@ -263,24 +242,16 @@ public class WizPrint {
         }
     }
 
-    /**
-     * Create an object for printing the current set of questions from an interview.
-     *
-     * @param interview The parent interview which contains the questions.
-     */
-    public WizPrint(Interview interview) {
-        this(interview, interview.getPath());
+    private static String formatI18N(String key, Object arg) {
+        return MessageFormat.format(i18n.getString(key), arg);
     }
 
-    /**
-     * Create an object for printing a set of questions from an interview.
-     *
-     * @param interview The parent interview which contains the questions.
-     * @param questions The selected set of questions to be printed.
-     */
-    public WizPrint(Interview interview, Question... questions) {
-        this.interview = interview;
-        this.questions = questions;
+    private static String formatI18N(String key, Object... args) {
+        return MessageFormat.format(i18n.getString(key), args);
+    }
+
+    private static boolean equal(String s1, String s2) {
+        return s1 == null ? s2 == null : s1.equals(s2);
     }
 
     /**
@@ -894,7 +865,6 @@ public class WizPrint {
         }
     }
 
-
     /**
      * Write a string between opening and closing tags.
      *
@@ -906,7 +876,6 @@ public class WizPrint {
         writeText(s);
         endTag(t);
     }
-
 
     /**
      * Write body text, applying any necessary escapes.
@@ -944,14 +913,6 @@ public class WizPrint {
         }
     }
 
-    private static String formatI18N(String key, Object arg) {
-        return MessageFormat.format(i18n.getString(key), arg);
-    }
-
-    private static String formatI18N(String key, Object... args) {
-        return MessageFormat.format(i18n.getString(key), args);
-    }
-
     private void setWriter(Writer o) {
         if (out instanceof BufferedWriter) {
             out = (BufferedWriter) o;
@@ -960,61 +921,95 @@ public class WizPrint {
         }
     }
 
-    private static boolean equal(String s1, String s2) {
-        return s1 == null ? s2 == null : s1.equals(s2);
+    /**
+     * This exception is to report problems that occur with command line arguments.
+     */
+    public static class BadArgs extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        public BadArgs(ResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public BadArgs(ResourceBundle i18n, String s, Object o) {
+            super(MessageFormat.format(i18n.getString(s), o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public BadArgs(ResourceBundle i18n, String s, Object... o) {
+            super(MessageFormat.format(i18n.getString(s), o));
+        }
     }
 
-    private Interview interview;
-    private Question[] questions;
-    private BufferedWriter out;
-    private boolean showResponses;
-    private boolean showResponseTypes;
-    private boolean showTags;
+    /**
+     * This exception is to report problems that occur while updating an interview.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        public Fault(ResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
 
-    private int state;
-    private static final int IN_TAG = 1;
-    private static final int IN_BODY = 2;
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(ResourceBundle i18n, String s, Object o) {
+            super(MessageFormat.format(i18n.getString(s), o));
+        }
 
-    private static final ResourceBundle i18n = ResourceBundle.getBundle("com.sun.interview.i18n");
-
-    private static final String DOCTYPE = "!DOCTYPE HTML";
-
-    private static final String A = "a";
-    private static final String B = "b";
-    private static final String BODY = "body";
-    private static final String BR = "br";
-    private static final String FONT = "font";
-    private static final String H1 = "h1";
-    private static final String H3 = "h3";
-    private static final String HEAD = "head";
-    private static final String HR = "hr";
-    private static final String HREF = "href";
-    private static final String HTML = "html";
-    private static final String I = "i";
-    private static final String TEXT_LEFT = "text-align:left;";
-    private static final String LI = "li";
-    private static final String NAME = "name";
-    private static final String P = "p";
-    private static final String SIZE = "size";
-    private static final String STRIKE = "strike";
-    private static final String TABLE = "table";
-    private static final String TITLE = "title";
-    private static final String TD = "td";
-    private static final String TH = "th";
-    private static final String TR = "tr";
-    private static final String UL = "ul";
-    private static final String WIDTH = "width";
-    private static final String STYLE = "style";
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(ResourceBundle i18n, String s, Object... o) {
+            super(MessageFormat.format(i18n.getString(s), o));
+        }
+    }
 
     private static class SortedVector {
+        private Vector<Question> v;
+
         public SortedVector() {
             v = new Vector<>();
         }
 
+
         public SortedVector(int initialSize) {
             v = new Vector<>(initialSize);
         }
-
 
         public int size() {
             return v.size();
@@ -1094,8 +1089,6 @@ public class WizPrint {
             // didn't find it, but we indicate the index of where it would belong.
             return (cmp < 0) ? mid : mid + 1;
         }
-
-        private Vector<Question> v;
     }
 
 }

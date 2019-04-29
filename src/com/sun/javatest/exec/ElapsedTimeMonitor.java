@@ -38,9 +38,56 @@ import javax.swing.JTextField;
 import java.awt.EventQueue;
 
 class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
+    private static I18NResourceBundle i18n;
+    /**
+     * Current instance of the small timer.
+     */
+    private SmallTimer smTimer;
+    private ThreadGroup activeThreads = new ThreadGroup("elapsed time monitors");
+    private boolean isRunning;
+
     ElapsedTimeMonitor(MonitorState ms, UIFactory uif) {
         super(ms, uif);
         ms.addObserver(this);
+    }
+
+    /**
+     * Converts time in millisections to localized HH:MM:SS (or equivalent)
+     * string.
+     */
+    static final String millisToString(long millis) {
+        // lazy init.
+        if (i18n == null) {
+            i18n = I18NResourceBundle.getBundleForClass(ElapsedTimeMonitor.class);
+        }
+
+        int seconds = (int) ((millis / 1000) % 60);
+        int minutes = (int) ((millis / 60000) % 60);
+        int hours = (int) (millis / 3600000);
+
+        String h, m, s;
+
+        if (hours < 10) {
+            h = "0" + Integer.toString(hours);
+        } else {
+            h = Integer.toString(hours);
+        }
+
+        if (minutes < 10) {
+            m = "0" + Integer.toString(minutes);
+        } else {
+            m = Integer.toString(minutes);
+        }
+
+        if (seconds < 10) {
+            s = "0" + Integer.toString(seconds);
+        } else {
+            s = Integer.toString(seconds);
+        }
+
+        String[] args = {h, m, s};
+
+        return i18n.getString("etm.hms", args);
     }
 
     @Override
@@ -120,17 +167,14 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
     }
 
     /**
-     * Current instance of the small timer.
-     */
-    private SmallTimer smTimer;
-    private ThreadGroup activeThreads = new ThreadGroup("elapsed time monitors");
-    private boolean isRunning;
-    private static I18NResourceBundle i18n;
-
-    /**
      * Message strip sized timer.  Should be reusable using start and stop.
      */
     static class SmallTimer extends JTextField {
+        private String prefix;
+        private MonitorState state;
+        private UIFactory uif;
+        private volatile Thread myThread;
+
         SmallTimer(UIFactory uif, MonitorState ms) {
             super("et.sm");
             this.state = ms;
@@ -192,50 +236,6 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
                 setText(millisToString(state.getElapsedTime()));
             }
         }
-
-        private String prefix;
-        private MonitorState state;
-        private UIFactory uif;
-        private volatile Thread myThread;
-    }
-
-    /**
-     * Converts time in millisections to localized HH:MM:SS (or equivalent)
-     * string.
-     */
-    static final String millisToString(long millis) {
-        // lazy init.
-        if (i18n == null) {
-            i18n = I18NResourceBundle.getBundleForClass(ElapsedTimeMonitor.class);
-        }
-
-        int seconds = (int) ((millis / 1000) % 60);
-        int minutes = (int) ((millis / 60000) % 60);
-        int hours = (int) (millis / 3600000);
-
-        String h, m, s;
-
-        if (hours < 10) {
-            h = "0" + Integer.toString(hours);
-        } else {
-            h = Integer.toString(hours);
-        }
-
-        if (minutes < 10) {
-            m = "0" + Integer.toString(minutes);
-        } else {
-            m = Integer.toString(minutes);
-        }
-
-        if (seconds < 10) {
-            s = "0" + Integer.toString(seconds);
-        } else {
-            s = Integer.toString(seconds);
-        }
-
-        String[] args = {h, m, s};
-
-        return i18n.getString("etm.hms", args);
     }
 }
 

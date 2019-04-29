@@ -33,6 +33,45 @@ package com.sun.javatest.exec;
  * The method isEnabled may be overridden to change behavior.
  */
 public class FeatureManager {
+    /**
+     * Can someone load any template they want, even if
+     * WD_WITHOUT_TEMPLATE is enabled?
+     */
+    public static final int TEMPLATE_LOADING = 0;
+    /**
+     * Can templates be used?
+     */
+    public static final int TEMPLATE_USAGE = 1;
+    /**
+     * Can templates be created?
+     */
+    public static final int TEMPLATE_CREATION = 2;
+    /**
+     * Show "check for template update" menu.
+     */
+    public static final int SHOW_TEMPLATE_UPDATE = 3;
+    /**
+     * Can this test suite be opened more than once within a harness?
+     * False allows any number of instances of the test suite to be opened.
+     */
+    public static final int SINGLE_TEST_MANAGER = 4;
+    /**
+     * Ability to support only work directories with templates attached.
+     */
+    public static final int WD_WITHOUT_TEMPLATE = 5;
+    /**
+     * Should harness display Documentation tab for
+     * single test
+     */
+    public static final int SHOW_DOCS_FOR_TEST = 6;
+    /**
+     * Should the harness display test tree for test suite
+     * without working directory
+     */
+    public static final int NO_TREE_WITHOUT_WD = 7;
+    private static int FEATURE_COUNT = 8;
+    protected boolean[] featureToggles;
+
     public FeatureManager() {
         featureToggles = new boolean[FEATURE_COUNT];
         featureToggles[TEMPLATE_USAGE] = true;
@@ -46,53 +85,6 @@ public class FeatureManager {
     }
 
     /**
-     * Can someone load any template they want, even if
-     * WD_WITHOUT_TEMPLATE is enabled?
-     */
-    public static final int TEMPLATE_LOADING = 0;
-
-    /**
-     * Can templates be used?
-     */
-    public static final int TEMPLATE_USAGE = 1;
-
-    /**
-     * Can templates be created?
-     */
-    public static final int TEMPLATE_CREATION = 2;
-
-    /**
-     * Show "check for template update" menu.
-     */
-    public static final int SHOW_TEMPLATE_UPDATE = 3;
-
-    /**
-     * Can this test suite be opened more than once within a harness?
-     * False allows any number of instances of the test suite to be opened.
-     */
-    public static final int SINGLE_TEST_MANAGER = 4;
-
-    /**
-     * Ability to support only work directories with templates attached.
-     */
-    public static final int WD_WITHOUT_TEMPLATE = 5;
-
-    /**
-     * Should harness display Documentation tab for
-     * single test
-     */
-    public static final int SHOW_DOCS_FOR_TEST = 6;
-
-    /**
-     * Should the harness display test tree for test suite
-     * without working directory
-     */
-    public static final int NO_TREE_WITHOUT_WD = 7;
-
-
-    private static int FEATURE_COUNT = 8;
-
-    /**
      * @param feature one of TEMPLATE_USAGE, TEMPLATE_CREATION,
      *                AUTOPROPAGATE, SINGLE_TEST_MANAGER
      * @return true if this feature enabled, false otherwise
@@ -100,6 +92,4 @@ public class FeatureManager {
     public boolean isEnabled(int feature) {
         return featureToggles[feature];
     }
-
-    protected boolean[] featureToggles;
 }

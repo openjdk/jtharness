@@ -58,11 +58,33 @@ import java.io.File;
 import java.util.Map;
 
 class AuditTool extends Tool {
+    private static final String OPTIONS = "options";
+    private static int WAIT_DIALOG_DELAY = 2000;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AuditTool.class);
+    private JMenuBar menuBar;
+    private JTextField testSuiteField;
+    private JTextField workDirField;
+    private JTextField configFileField;
+    private AuditPane[] panes;
+    private JTabbedPane tabs;
+    private OptionsDialog optionsDialog;
+    private boolean autoShowOptions = true;
+    private Listener listener = new Listener();
+    private InterviewParameters interviewParams;
+    // access to these fields must be synchronized
+    private Thread worker;
+    private Audit audit;
+
+
     AuditTool(AuditToolManager m) {
         super(m, "audit", "audit.window.csh");
         setI18NTitle("tool.title");
         setShortTitle(uif.getI18NString("tool.shortTitle"));
         initGUI();
+    }
+
+    private static boolean isEmpty(String s) {
+        return s == null || s.isEmpty();
     }
 
     @Override
@@ -213,7 +235,6 @@ class AuditTool extends Tool {
         return tf;
     }
 
-
     private synchronized void showOptions() {
         if (worker != null) {
             uif.showError("tool.auditInProgress");
@@ -314,8 +335,6 @@ class AuditTool extends Tool {
         updateGUI(null, interviewParams, "");
     }
 
-    private static int WAIT_DIALOG_DELAY = 2000;
-
     private void updateGUI(final Audit a, final InterviewParameters p, final String msg) {
         if (!EventQueue.isDispatchThread()) {
             EventQueue.invokeLater(new Runnable() {
@@ -349,30 +368,6 @@ class AuditTool extends Tool {
             }
         }
     }
-
-    private static boolean isEmpty(String s) {
-        return s == null || s.isEmpty();
-    }
-
-
-    private JMenuBar menuBar;
-    private JTextField testSuiteField;
-    private JTextField workDirField;
-    private JTextField configFileField;
-    private AuditPane[] panes;
-    private JTabbedPane tabs;
-    private OptionsDialog optionsDialog;
-    private boolean autoShowOptions = true;
-    private Listener listener = new Listener();
-
-    private InterviewParameters interviewParams;
-
-    // access to these fields must be synchronized
-    private Thread worker;
-    private Audit audit;
-
-    private static final String OPTIONS = "options";
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AuditTool.class);
 
     private class Listener implements ActionListener, HierarchyListener {
         @Override

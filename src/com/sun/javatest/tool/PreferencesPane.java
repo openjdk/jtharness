@@ -166,6 +166,26 @@ public abstract class PreferencesPane extends JPanel {
     private static class PrefsDialog
             extends JDialog // can't be ToolDialog because might change desktop style
             implements ActionListener, TreeModel, TreeSelectionListener, WindowListener {
+        private int cardNum;
+        private JFrame owner;
+        private Preferences preferences;
+        private Map<String, String> props;
+        private HelpBroker helpBroker;
+        private PreferencesPane[] panes;
+        private UIFactory uif;
+        private JPanel main;
+
+        // ---------- ActionListener -------------------------------
+        private JPanel deck;
+        private JButton okBtn;
+
+        // ---------- TreeSelectionListener ---------------------------------
+        private JButton cancelBtn;
+
+        // --------- TreeModel --------------------------------------
+        private JButton helpBtn;
+        private JTree tree;
+
         PrefsDialog(JFrame f, Preferences preferences,
                     PreferencesPane[] panes, HelpBroker helpBroker) {
             // Don't use the argument frame 'f' as the parent of the dialog
@@ -281,6 +301,8 @@ public abstract class PreferencesPane extends JPanel {
             main.add(treeStuff, BorderLayout.WEST);
         }
 
+        // --------- TreeModelListener ---------------------------------------
+
         private void initButtons() {
             okBtn = uif.createButton("prefs.ok", this);
             cancelBtn = uif.createCancelButton("prefs.cancel", this);
@@ -361,9 +383,7 @@ public abstract class PreferencesPane extends JPanel {
             }
         }
 
-        private int cardNum;
-
-        // ---------- ActionListener -------------------------------
+        // --------- WindowListener -----------------------------------------
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -422,8 +442,6 @@ public abstract class PreferencesPane extends JPanel {
             }
         }
 
-        // ---------- TreeSelectionListener ---------------------------------
-
         @Override
         public void valueChanged(TreeSelectionEvent e) {
             TreePath path = e.getNewLeadSelectionPath();
@@ -432,8 +450,6 @@ public abstract class PreferencesPane extends JPanel {
                 ((CardLayout) deck.getLayout()).show(deck, pane.getText());
             }
         }
-
-        // --------- TreeModel --------------------------------------
 
         @Override
         public Object getChild(Object parent, int index) {
@@ -460,6 +476,8 @@ public abstract class PreferencesPane extends JPanel {
         public Object getRoot() {
             return this;
         }
+
+        // ------------------------------------------------------------------
 
         @Override
         public boolean isLeaf(Object node) {
@@ -550,8 +568,6 @@ public abstract class PreferencesPane extends JPanel {
             }
         }
 
-        // --------- TreeModelListener ---------------------------------------
-
         @Override
         public void addTreeModelListener(TreeModelListener l) {
         }
@@ -563,8 +579,6 @@ public abstract class PreferencesPane extends JPanel {
         @Override
         public void valueForPathChanged(TreePath path, Object newValue) {
         }
-
-        // --------- WindowListener -----------------------------------------
 
         @Override
         public void windowOpened(WindowEvent e) {
@@ -607,24 +621,8 @@ public abstract class PreferencesPane extends JPanel {
             //System.err.println("Prefs.dialog " + e);
         }
 
-        // ------------------------------------------------------------------
-
         private PreferencesPane[] getChildren(Object parent) {
             return parent == this ? panes : ((PreferencesPane) parent).getChildPanes();
         }
-
-        private JFrame owner;
-        private Preferences preferences;
-        private Map<String, String> props;
-
-        private HelpBroker helpBroker;
-        private PreferencesPane[] panes;
-        private UIFactory uif;
-        private JPanel main;
-        private JPanel deck;
-        private JButton okBtn;
-        private JButton cancelBtn;
-        private JButton helpBtn;
-        private JTree tree;
     }
 }

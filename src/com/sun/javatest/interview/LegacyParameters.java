@@ -35,6 +35,8 @@ import com.sun.javatest.TestSuite;
  * (.jte) files to define the environment used to run tests.
  */
 public class LegacyParameters extends BasicInterviewParameters {
+    private EnvironmentInterview iEnvironment;
+
     /**
      * Create a configuration interview for legacy tests suites.
      *
@@ -48,6 +50,8 @@ public class LegacyParameters extends BasicInterviewParameters {
         setResourceBundle("i18n");
         iEnvironment = new EnvironmentInterview(this);
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Create a configuration interview for legacy tests suites.
@@ -64,12 +68,12 @@ public class LegacyParameters extends BasicInterviewParameters {
         iEnvironment = new EnvironmentInterview(this);
     }
 
-    //--------------------------------------------------------------------------
-
     @Override
     public Parameters.EnvParameters getEnvParameters() {
         return iEnvironment;
     }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Get the first question to be asked concerning the environment to be
@@ -85,8 +89,4 @@ public class LegacyParameters extends BasicInterviewParameters {
     protected Question getEnvFirstQuestion() {
         return callInterview(iEnvironment, getEnvSuccessorQuestion());
     }
-
-    //--------------------------------------------------------------------------
-
-    private EnvironmentInterview iEnvironment;
 }

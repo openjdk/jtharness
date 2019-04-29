@@ -40,6 +40,8 @@ import java.util.List;
 
 public class TreeQuestionRenderer
         implements QuestionRenderer {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final TreeQuestion tq = (TreeQuestion) qq;
@@ -70,6 +72,7 @@ public class TreeQuestionRenderer
     public String getInvalidValueMessage(Question q) {
         return null;
     }
+////////-----------------------------------------------------------------------------------------------------------
 
     protected static class SelectNode implements SelectionElement {
         private SelectionType type = SelectionType.UNSELECTED;
@@ -138,7 +141,4 @@ public class TreeQuestionRenderer
             return name;
         }
     }
-////////-----------------------------------------------------------------------------------------------------------
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

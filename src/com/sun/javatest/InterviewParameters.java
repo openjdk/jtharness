@@ -61,157 +61,48 @@ public abstract class InterviewParameters
         extends Interview
         implements Parameters {
 
-    /**
-     * Indicates problems when accessing the work directory.
-     */
-    public static class WorkDirFault extends Interview.Fault {
-        /**
-         * Create a fault with an internationalized message.
-         *
-         * @param i18n The bundle from which to get the string.
-         * @param s    The key for getting the string to be displayed from the
-         *             supplied bundle.
-         */
-        public WorkDirFault(ResourceBundle i18n, String s) {
-            super(i18n, s);
-        }
+    static final String TESTSUITE = "TESTSUITE";
+    static final String WORKDIR = "WORKDIR";
+    static final String NAME = "NAME";
+    static final String DESC = "DESCRIPTION";
+    static final String MARKERS_ENABLED = "MARKERS.enabled";
+    static final String MARKERS_FILTER = "MARKERS.filter";
+    static final String IS_TEMPLATE = "IS_TEMPLATE";
+    static final String TEMPLATE_PATH = "TEMPLATE_PATH";
+    static final String TRUE = "true";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(InterviewParameters.class);
+    //----------------------------------------------------------------------------
+    private final String[] ignorableProps = {
+            INTERVIEW,
+            LOCALE, TESTSUITE, WORKDIR, MARKERS,
+            IS_TEMPLATE, TEMPLATE_PATH, QUESTION};
+    private final String[] ignorablePrefs = {MARKERS_PREF, EXTERNAL_PREF, TEMPLATE_PREF};
+    protected File[] kflFiles;
 
-        /**
-         * Create a fault with an internationalized message.
-         *
-         * @param i18n The bundle from which to get the string.
-         * @param s    The key for getting the string to be displayed from the
-         *             supplied bundle.
-         * @param o    Parameter to use when resolving the string from the bundle.
-         * @see java.text.MessageFormat
-         */
-        public WorkDirFault(ResourceBundle i18n, String s, Object o) {
-            super(i18n, s, o);
-        }
-
-        /**
-         * Create a fault with an internationalized message.
-         *
-         * @param i18n The bundle from which to get the string.
-         * @param s    The key for getting the string to be displayed from the
-         *             supplied bundle.
-         * @param o    Parameters to use when resolving the string from the bundle.
-         * @see java.text.MessageFormat
-         */
-        public WorkDirFault(ResourceBundle i18n, String s, Object... o) {
-            super(i18n, s, o);
-        }
-    }
-
-    /**
-     * Indicates problems when accessing the test suite.
-     */
-    public static class TestSuiteFault extends Interview.Fault {
-        /**
-         * Create a fault with an internationalized message.
-         *
-         * @param i18n The bundle from which to get the string.
-         * @param s    The key for getting the string to be displayed from the
-         *             supplied bundle.
-         */
-        public TestSuiteFault(ResourceBundle i18n, String s) {
-            super(i18n, s);
-        }
-
-        /**
-         * Create a fault with an internationalized message.
-         *
-         * @param i18n The bundle from which to get the string.
-         * @param s    The key for getting the string to be displayed from the
-         *             supplied bundle.
-         * @param o    Parameter to use when resolving the string from the bundle.
-         * @see java.text.MessageFormat
-         */
-        public TestSuiteFault(ResourceBundle i18n, String s, Object o) {
-            super(i18n, s, o);
-        }
-
-        /**
-         * Create a fault with an internationalized message.
-         *
-         * @param i18n The bundle from which to get the string.
-         * @param s    The key for getting the string to be displayed from the
-         *             supplied bundle.
-         * @param o    Parameters to use when resolving the string from the bundle.
-         * @see java.text.MessageFormat
-         */
-        public TestSuiteFault(ResourceBundle i18n, String s, Object... o) {
-            super(i18n, s, o);
-        }
-    }
-
-    /**
-     * Indicates problems when accessing the configuration file.
-     */
-    public static class JTIFault extends Interview.Fault {
-        /**
-         * Create a fault with an internationalized message.
-         *
-         * @param i18n The bundle from which to get the string.
-         * @param s    The key for getting the string to be displayed from the
-         *             supplied bundle.
-         */
-        public JTIFault(ResourceBundle i18n, String s) {
-            super(i18n, s);
-        }
-
-        /**
-         * Create a fault with an internationalized message.
-         *
-         * @param i18n The bundle from which to get the string.
-         * @param s    The key for getting the string to be displayed from the
-         *             supplied bundle.
-         * @param o    Parameter to use when resolving the string from the bundle.
-         * @see java.text.MessageFormat
-         */
-        public JTIFault(ResourceBundle i18n, String s, Object o) {
-            super(i18n, s, o);
-        }
-
-        /**
-         * Create a fault with an internationalized message.
-         *
-         * @param i18n The bundle from which to get the string.
-         * @param s    The key for getting the string to be displayed from the
-         *             supplied bundle.
-         * @param o    Parameters to use when resolving the string from the bundle.
-         * @see java.text.MessageFormat
-         */
-        public JTIFault(ResourceBundle i18n, String s, Object... o) {
-            super(i18n, s, o);
-        }
-    }
-
-    /**
-     * The template manager is used to change behavior of
-     * template saving, the default implementation is
-     * the context manager of corresponding test suite.
-     */
-    public interface TemplateManager {
-        /**
-         * This method is invoked each time before saving template.
-         * The template will be saved only if this method returns true.
-         *
-         * @param file template file
-         * @return true if this operation is allowed, false otherwise
-         */
-        boolean canSaveTemplate(File file);
-    }
-
-    public void setPropagationController(CustomPropagationController pc) {
-        this.pc = pc;
-    }
-
-    public CustomPropagationController getPropagationController() {
-        return pc;
-    }
-
+    //----------------------------------------------------------------------------
     private TemplateManager templateManager = null;
+    private boolean inGetName;
+    private ExcludeListFilter cachedExcludeListFilter;
+
+
+    //----------------------------------------------------------------------------
+    private KeywordsFilter cachedKeywordsFilter;
+
+    //----------------------------------------------------------------------------
+    private StatusFilter cachedStatusFilter;
+    private TestFilter cachedRelevantTestFilter;
+    private TestSuite cachedRelevantTestFilterTestSuite; // do we need this?
+    private TestEnvironment cachedRelevantTestFilterEnv;
+    private TestFilter[] cachedTestFilters;
+    private BackupPolicy backupPolicy;
+    private boolean markersEnabled;
+    private boolean markersFilterEnabled;
+    private File currFile;
+    private boolean isTemplate;
+    private String templatePath;
+    private long currFileLastModified;
+    private boolean currFileLoaded;
+    private CustomPropagationController pc = new CustomPropagationController();
 
     /**
      * Create an InterviewParameters object.
@@ -220,6 +111,340 @@ public abstract class InterviewParameters
      */
     protected InterviewParameters(String tag) {
         super(tag);
+    }
+
+    private static boolean equal(boolean[] b1, boolean... b2) {
+        if (b1 == null || b2 == null) {
+            return b1 == b2;
+        }
+
+        if (b1.length != b2.length) {
+            return false;
+        }
+
+        for (int i = 0; i < b1.length; i++) {
+            if (b1[i] != b2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean equal(Vector<TestFilter> v, TestFilter... f) {
+        if (f == null || v.size() != f.length) {
+            return false;
+        }
+        for (int i = 0; i < v.size(); i++) {
+            if (!v.get(i).equals(f[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Determine if the specified file is an interview file,
+     * as determined by whether its extension is .jti or not.
+     *
+     * @param f the file to be checked
+     * @return true if the specified file is an interview file,
+     * and false otherwise
+     */
+    public static boolean isInterviewFile(File f) {
+        return f.getName().endsWith(".jti");
+    }
+
+    /**
+     * Create an InterviewParameters as determined by the contents of an
+     * interview file.
+     *
+     * @param file the file to be read
+     * @return an InterviewParameters as determined by the contents of an
+     * interview file.
+     * @throws IOException     is there is a problem reading the file
+     * @throws Interview.Fault if there is a problem instantiating the
+     *                         interview
+     */
+    public static InterviewParameters open(File file)
+            throws IOException, Fault {
+        return open(file, (TestSuite) null, (WorkDirectory) null);
+    }
+
+    /**
+     * Create an InterviewParameters by populating the interview for a specified
+     * test suite with responses from a given file.
+     *
+     * @param file      the file to be read
+     * @param testSuite the test suite for which to create the interview
+     * @return an InterviewParameters as determined by the test suite
+     * and the contents of an interview file
+     * @throws IOException     is there is a problem reading the file
+     * @throws Interview.Fault if there is a problem instantiating the
+     *                         interview
+     */
+    public static InterviewParameters open(File file, TestSuite testSuite)
+            throws IOException, Fault {
+        if (testSuite == null) {
+            throw new NullPointerException();
+        }
+
+        return open(file, testSuite, null);
+    }
+
+    /**
+     * Create an InterviewParameters by populating the interview for a specified
+     * work directory with responses from a given file.
+     *
+     * @param file    the file to be read
+     * @param workDir the work directory (implying the test suite) for which
+     *                to create the interview
+     * @return an InterviewParameters as determined by the work directory
+     * and the contents of an interview file
+     * @throws IOException     is there is a problem reading the file
+     * @throws Interview.Fault if there is a problem instantiating the
+     *                         interview
+     */
+    public static InterviewParameters open(File file, WorkDirectory workDir)
+            throws IOException, Fault {
+        if (workDir == null) {
+            throw new NullPointerException();
+        }
+
+        return open(file, workDir.getTestSuite(), workDir);
+    }
+
+    /**
+     * @throws WorkDirFault   If there is a problem finding the work directory.
+     * @throws TestSuiteFault If there is a problem finding the test suite.
+     * @throws JTIFault       If there is a problem finding the JTI file.  Not thrown
+     *                        if the file is corrupt or incompatible though.
+     * @throws Fault          If there is any other problem opening the interview params, such as
+     *                        problems with data in the JTI, incompatibilities between the workdir,
+     *                        test suite or work dir.
+     */
+    private static InterviewParameters open(File file, TestSuite testSuite, WorkDirectory workDir)
+            throws IOException, Fault {
+        // note: the additional Fault types were introduced in JT 3.2.1
+
+        // read the .jti data
+        Map<String, String> data;
+
+        try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
+            data = PropertyUtils.load(in);
+        } catch (RuntimeException e) {
+            // can get IllegalArgumentException if the file is corrupt
+            throw new JTIFault(i18n, "ip.errorReadingFile", file, e);
+        }
+
+        // if the test suite has not been given, set it from the .jti data
+        if (testSuite == null) {
+            String s = data.get(TESTSUITE);
+            if (s == null) {
+                throw new Fault(i18n, "ip.noTestSuiteInFile", file);
+            }
+
+            try {
+                testSuite = TestSuite.open(new File(s));
+            } catch (FileNotFoundException e) {
+                throw new TestSuiteFault(i18n, "ip.cantFindTestSuiteInFile",
+                        s, file);
+            } catch (TestSuite.Fault e) {
+                throw new Fault(i18n, "ip.cantOpenTestSuiteInFile",
+                        s, file, e.getMessage());
+            }
+        }
+
+        // if the work directory has not been given,
+        // set it from the .jti data if given
+        if (workDir == null) {
+            String s = data.get(WORKDIR);
+            if (s != null) {
+                try {
+                    workDir = WorkDirectory.open(new File(s), testSuite);
+                } catch (FileNotFoundException e) {
+                    throw new WorkDirFault(i18n, "ip.cantFindWorkDirInFile",
+                            s, file);
+                } catch (WorkDirectory.Fault e) {
+                    throw new Fault(i18n, "ip.cantOpenWorkDirInFile",
+                            s, file, e.getMessage());
+                }
+            }
+        }
+
+        InterviewParameters parameters;
+
+        // create the parameters object
+        try {
+            parameters = testSuite.createInterview();
+        } catch (TestSuite.Fault e) {
+            throw new Fault(i18n, "ip.cantCreateInterviewForTestSuite",
+                    testSuite.getPath(), e.getMessage());
+        }
+
+        // set the work dir in the parameters object
+        if (workDir != null) {
+            parameters.setWorkDirectory(workDir);
+        }
+
+        // load the .jti data into the parameters object
+        try {
+            parameters.load(data, file);
+        } catch (InterviewParameters.Fault e) {
+            throw new Fault(i18n, "ip.cantLoadInterview",
+                    file, e.getMessage());
+        }
+
+        return parameters;
+    }
+
+    /**
+     * Open a a configuration file, based on paths for the configuration file,
+     * test suite and work directory. Any, but not all, of these paths may be null.
+     * Any non-null path must specify an appropriate existing file, otherwise
+     * an exception will be thrown.
+     *
+     * @param testSuitePath  the path for the test suite; if not specified,
+     *                       the test suite will default from the work directory (if specified) or
+     *                       the configuration file.
+     * @param workDirPath    the path for the work directory; if not specified,
+     *                       the work directory will the default from the config file (if specified),
+     *                       or will be null if no configuration file is given
+     * @param configFilePath the path for the configuration file; if not specified,
+     *                       the result will be a blank interview as created by the test suite.
+     * @return an InterviewParameters object created from the given arguments
+     * @throws Interview.Fault if there is any problem creating the
+     *                         result
+     */
+    public static InterviewParameters open(String testSuitePath, String workDirPath, String configFilePath)
+            throws InterviewParameters.Fault {
+        File ts = testSuitePath != null && !testSuitePath.isEmpty()
+                ? new File(testSuitePath) : null;
+        File wd = workDirPath != null && !workDirPath.isEmpty()
+                ? new File(workDirPath) : null;
+        File cf = configFilePath != null && !configFilePath.isEmpty()
+                ? new File(configFilePath) : null;
+        return open(ts, wd, cf);
+    }
+
+    /**
+     * Open a a configuration file, based on paths for the configuration file,
+     * test suite and work directory. Any, but not all, of these paths may be null.
+     * Any non-null path must specify an appropriate existing file, otherwise
+     * an exception will be thrown.
+     *
+     * @param testSuitePath  the path for the test suite; if not specified,
+     *                       the test suite will default from the work directory (if specified) or
+     *                       the configuration file.
+     * @param workDirPath    the path for the work directory; if not specified,
+     *                       the work directory will bdefault from the config file (if specified),
+     *                       or will be null if no configuration file is given
+     * @param configFilePath the path for the configuration file; if not specified,
+     *                       the result will be a blank interview as created by the test suite.
+     * @return an InterviewParameters object created from the gievn arguments
+     * @throws Interview.Fault if there is any problem creating the
+     *                         result
+     */
+    public static InterviewParameters open(File testSuitePath, File workDirPath, File configFilePath)
+            throws InterviewParameters.Fault {
+
+        // open test suite if specified
+
+        TestSuite testSuite;
+
+        if (testSuitePath != null) {
+            try {
+                testSuite = TestSuite.open(testSuitePath);
+            } catch (FileNotFoundException e) {
+                throw new Fault(i18n, "ip.cantFindTestSuite", testSuitePath, e);
+            } catch (TestSuite.Fault e) {
+                throw new Fault(i18n, "ip.cantOpenTestSuite", testSuitePath, e.getMessage());
+            }
+        } else {
+            testSuite = null;
+        }
+
+        // open work directory if specified, defaulting test suite if appropriate
+
+        WorkDirectory workDir;
+
+        if (workDirPath != null) {
+            try {
+                if (testSuite == null) {
+                    workDir = WorkDirectory.open(workDirPath);
+                    testSuite = workDir.getTestSuite();
+                } else {
+                    workDir = WorkDirectory.open(workDirPath, testSuite);
+                }
+            } catch (FileNotFoundException e) {
+                throw new Fault(i18n, "ip.cantFindWorkDir", workDirPath, e);
+            } catch (WorkDirectory.Fault e) {
+                throw new Fault(i18n, "ip.cantOpenWorkDir", workDirPath, e.getMessage());
+            }
+        } else {
+            workDir = null;
+        }
+
+        // open config file if specified, defaulting work dir and test suite if appropriate
+        // default config from test suite if appropriate
+
+        InterviewParameters config;
+
+        if (configFilePath == null) {
+            if (testSuite != null) {
+                try {
+                    config = testSuite.createInterview();
+                } catch (TestSuite.Fault e) {
+                    throw new Fault(i18n, "ip.cantCreateInterviewForTestSuite", testSuitePath, e);
+                }
+
+                if (workDir != null) {
+                    config.setWorkDirectory(workDir);
+                    FileHistory h = FileHistory.getFileHistory(workDir, "configHistory.jtl");
+                    File latestConfigFile = h.getLatestEntry();
+
+                    if (latestConfigFile != null) {
+                        try {
+                            config.load(latestConfigFile);
+                        } catch (IOException e) {
+                            // ignore?
+                        }   // catch
+                    }
+                }   // workdir != null
+            } else {
+                throw new Fault(i18n, "ip.noPaths");
+            }
+        } else {
+            try {
+                if (workDir == null) {
+                    if (testSuite == null) {
+                        config = open(configFilePath);
+                        testSuite = config.getTestSuite();
+                    } else {
+                        config = open(configFilePath, testSuite);
+                    }
+                    workDir = config.getWorkDirectory();
+                } else {
+                    config = open(configFilePath, workDir);
+                }
+            } catch (FileNotFoundException e) {
+                throw new Fault(i18n, "ip.cantFindConfigFile", configFilePath);
+            } catch (IOException e) {
+                throw new Fault(i18n, "ip.cantOpenConfigFile", configFilePath, e);
+            }
+        }
+
+        // if still here, and had sufficient args, config should be open
+        // and fully initialized
+        return config;
+    }
+
+    public CustomPropagationController getPropagationController() {
+        return pc;
+    }
+
+    public void setPropagationController(CustomPropagationController pc) {
+        this.pc = pc;
     }
 
     /**
@@ -231,6 +456,15 @@ public abstract class InterviewParameters
     @Override
     public abstract void setWorkDirectory(WorkDirectory workDir);
 
+    //----------------------------------------------------------------------------
+
+    /**
+     * Return the template manager for this InterviewParameters.
+     */
+    public TemplateManager getTemplateManger() {
+        return templateManager;
+    }
+
     /**
      * Set given template manager for this InterviewParameters.
      *
@@ -238,13 +472,6 @@ public abstract class InterviewParameters
      */
     public void setTemplateManger(TemplateManager tm) {
         this.templateManager = tm;
-    }
-
-    /**
-     * Return the template manager for this InterviewParameters.
-     */
-    public TemplateManager getTemplateManger() {
-        return templateManager;
     }
 
     /**
@@ -264,6 +491,9 @@ public abstract class InterviewParameters
             throw new Fault(i18n, "ip.unknownArgs");
         }
     }
+
+
+    //----------------------------------------------------------------------------
 
     /**
      * Clean up an InterviewParameters object.
@@ -286,8 +516,6 @@ public abstract class InterviewParameters
         pc = null;
         templateManager = null;
     }
-
-    //----------------------------------------------------------------------------
 
     /**
      * Get the name for this configuration.
@@ -327,8 +555,6 @@ public abstract class InterviewParameters
         }
     }
 
-    private boolean inGetName;
-
     /**
      * Get a description for this configuration.
      * By default and for backwards compatibility, this defaults to the
@@ -350,9 +576,6 @@ public abstract class InterviewParameters
         return null;
     }
 
-
-    //----------------------------------------------------------------------------
-
     /**
      * Get the next question to the asked after the initial prolog
      * of questions.
@@ -365,9 +588,6 @@ public abstract class InterviewParameters
     protected Question getPrologSuccessorQuestion() {
         return getEnvFirstQuestion();
     }
-
-    //----------------------------------------------------------------------------
-
 
     @Override
     public TestEnvironment getEnv() {
@@ -464,17 +684,6 @@ public abstract class InterviewParameters
     }
 
     /**
-     * Set the set of KFL files.
-     *
-     * @param files The known failures list files.  The array should contain
-     *              one or more elements.
-     * @since 4.4
-     */
-    public void setKnownFailureFiles(File... files) {
-        kflFiles = files;
-    }
-
-    /**
      * Get the current set of known failures list files.
      * The default implementation will return the value in the kflFiles
      * field, which subclasses may set.
@@ -488,6 +697,17 @@ public abstract class InterviewParameters
     }
 
     /**
+     * Set the set of KFL files.
+     *
+     * @param files The known failures list files.  The array should contain
+     *              one or more elements.
+     * @since 4.4
+     */
+    public void setKnownFailureFiles(File... files) {
+        kflFiles = files;
+    }
+
+    /**
      * Get the first question to be asked concerning the exclude list
      * to be used to exclude tests from the test run.
      *
@@ -496,6 +716,8 @@ public abstract class InterviewParameters
      * @see #getExcludeListSuccessorQuestion
      */
     protected abstract Question getExcludeListFirstQuestion();
+
+    //----------------------------------------------------------------------------
 
     /**
      * Get the first question to be asked concerning the exclude list
@@ -664,8 +886,6 @@ public abstract class InterviewParameters
      */
     protected abstract Question getEpilogFirstQuestion();
 
-    //----------------------------------------------------------------------------
-
     /**
      * Determine whether all the configuration values are valid, by
      * checking if the interview has been completed.
@@ -712,9 +932,6 @@ public abstract class InterviewParameters
                 : text.substring(0, 37) + "...";
     }
 
-
-    //----------------------------------------------------------------------------
-
     /**
      * Get a filter which will filter tests according to the result
      * of getExcludeList(). If the result of getExcludeList is null
@@ -741,8 +958,6 @@ public abstract class InterviewParameters
         return cachedExcludeListFilter;
     }
 
-    private ExcludeListFilter cachedExcludeListFilter;
-
     @Override
     public TestFilter getKeywordsFilter() {
         Keywords k = getKeywords();
@@ -754,8 +969,6 @@ public abstract class InterviewParameters
         }
         return cachedKeywordsFilter;
     }
-
-    private KeywordsFilter cachedKeywordsFilter;
 
     @Override
     public TestFilter getPriorStatusFilter() {
@@ -775,8 +988,6 @@ public abstract class InterviewParameters
         return cachedStatusFilter;
     }
 
-    private StatusFilter cachedStatusFilter;
-
     @Override
     public TestFilter getRelevantTestFilter() {
         TestSuite ts = getTestSuite();
@@ -790,10 +1001,6 @@ public abstract class InterviewParameters
         }
         return cachedRelevantTestFilter;
     }
-
-    private TestFilter cachedRelevantTestFilter;
-    private TestSuite cachedRelevantTestFilterTestSuite; // do we need this?
-    private TestEnvironment cachedRelevantTestFilterEnv;
 
     @Override
     public synchronized TestFilter[] getFilters() {
@@ -834,40 +1041,6 @@ public abstract class InterviewParameters
 
     }
 
-    private static boolean equal(boolean[] b1, boolean... b2) {
-        if (b1 == null || b2 == null) {
-            return b1 == b2;
-        }
-
-        if (b1.length != b2.length) {
-            return false;
-        }
-
-        for (int i = 0; i < b1.length; i++) {
-            if (b1[i] != b2[i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean equal(Vector<TestFilter> v, TestFilter... f) {
-        if (f == null || v.size() != f.length) {
-            return false;
-        }
-        for (int i = 0; i < v.size(); i++) {
-            if (!v.get(i).equals(f[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private TestFilter[] cachedTestFilters;
-
-    //----------------------------------------------------------------------------
-
     /**
      * Determine if the current instance is a template or not.
      *
@@ -899,7 +1072,6 @@ public abstract class InterviewParameters
         return true;
     }
 
-
     /**
      * Return String path to the template file for the current instance.
      * If the current instance is a template (isTemplate() returns true),
@@ -925,7 +1097,6 @@ public abstract class InterviewParameters
     public void setTemplatePath(String tu) {
         templatePath = tu;
     }
-
 
     /**
      * Get the file associated with this interview.
@@ -959,161 +1130,6 @@ public abstract class InterviewParameters
         }
     }
 
-    /**
-     * Determine if the specified file is an interview file,
-     * as determined by whether its extension is .jti or not.
-     *
-     * @param f the file to be checked
-     * @return true if the specified file is an interview file,
-     * and false otherwise
-     */
-    public static boolean isInterviewFile(File f) {
-        return f.getName().endsWith(".jti");
-    }
-
-    /**
-     * Create an InterviewParameters as determined by the contents of an
-     * interview file.
-     *
-     * @param file the file to be read
-     * @return an InterviewParameters as determined by the contents of an
-     * interview file.
-     * @throws IOException     is there is a problem reading the file
-     * @throws Interview.Fault if there is a problem instantiating the
-     *                         interview
-     */
-    public static InterviewParameters open(File file)
-            throws IOException, Fault {
-        return open(file, (TestSuite) null, (WorkDirectory) null);
-    }
-
-    /**
-     * Create an InterviewParameters by populating the interview for a specified
-     * test suite with responses from a given file.
-     *
-     * @param file      the file to be read
-     * @param testSuite the test suite for which to create the interview
-     * @return an InterviewParameters as determined by the test suite
-     * and the contents of an interview file
-     * @throws IOException     is there is a problem reading the file
-     * @throws Interview.Fault if there is a problem instantiating the
-     *                         interview
-     */
-    public static InterviewParameters open(File file, TestSuite testSuite)
-            throws IOException, Fault {
-        if (testSuite == null) {
-            throw new NullPointerException();
-        }
-
-        return open(file, testSuite, null);
-    }
-
-    /**
-     * Create an InterviewParameters by populating the interview for a specified
-     * work directory with responses from a given file.
-     *
-     * @param file    the file to be read
-     * @param workDir the work directory (implying the test suite) for which
-     *                to create the interview
-     * @return an InterviewParameters as determined by the work directory
-     * and the contents of an interview file
-     * @throws IOException     is there is a problem reading the file
-     * @throws Interview.Fault if there is a problem instantiating the
-     *                         interview
-     */
-    public static InterviewParameters open(File file, WorkDirectory workDir)
-            throws IOException, Fault {
-        if (workDir == null) {
-            throw new NullPointerException();
-        }
-
-        return open(file, workDir.getTestSuite(), workDir);
-    }
-
-    /**
-     * @throws WorkDirFault   If there is a problem finding the work directory.
-     * @throws TestSuiteFault If there is a problem finding the test suite.
-     * @throws JTIFault       If there is a problem finding the JTI file.  Not thrown
-     *                        if the file is corrupt or incompatible though.
-     * @throws Fault          If there is any other problem opening the interview params, such as
-     *                        problems with data in the JTI, incompatibilities between the workdir,
-     *                        test suite or work dir.
-     */
-    private static InterviewParameters open(File file, TestSuite testSuite, WorkDirectory workDir)
-            throws IOException, Fault {
-        // note: the additional Fault types were introduced in JT 3.2.1
-
-        // read the .jti data
-        Map<String, String> data;
-
-        try (InputStream in = new BufferedInputStream(new FileInputStream(file))) {
-            data = PropertyUtils.load(in);
-        } catch (RuntimeException e) {
-            // can get IllegalArgumentException if the file is corrupt
-            throw new JTIFault(i18n, "ip.errorReadingFile", file, e);
-        }
-
-        // if the test suite has not been given, set it from the .jti data
-        if (testSuite == null) {
-            String s = data.get(TESTSUITE);
-            if (s == null) {
-                throw new Fault(i18n, "ip.noTestSuiteInFile", file);
-            }
-
-            try {
-                testSuite = TestSuite.open(new File(s));
-            } catch (FileNotFoundException e) {
-                throw new TestSuiteFault(i18n, "ip.cantFindTestSuiteInFile",
-                        s, file);
-            } catch (TestSuite.Fault e) {
-                throw new Fault(i18n, "ip.cantOpenTestSuiteInFile",
-                        s, file, e.getMessage());
-            }
-        }
-
-        // if the work directory has not been given,
-        // set it from the .jti data if given
-        if (workDir == null) {
-            String s = data.get(WORKDIR);
-            if (s != null) {
-                try {
-                    workDir = WorkDirectory.open(new File(s), testSuite);
-                } catch (FileNotFoundException e) {
-                    throw new WorkDirFault(i18n, "ip.cantFindWorkDirInFile",
-                            s, file);
-                } catch (WorkDirectory.Fault e) {
-                    throw new Fault(i18n, "ip.cantOpenWorkDirInFile",
-                            s, file, e.getMessage());
-                }
-            }
-        }
-
-        InterviewParameters parameters;
-
-        // create the parameters object
-        try {
-            parameters = testSuite.createInterview();
-        } catch (TestSuite.Fault e) {
-            throw new Fault(i18n, "ip.cantCreateInterviewForTestSuite",
-                    testSuite.getPath(), e.getMessage());
-        }
-
-        // set the work dir in the parameters object
-        if (workDir != null) {
-            parameters.setWorkDirectory(workDir);
-        }
-
-        // load the .jti data into the parameters object
-        try {
-            parameters.load(data, file);
-        } catch (InterviewParameters.Fault e) {
-            throw new Fault(i18n, "ip.cantLoadInterview",
-                    file, e.getMessage());
-        }
-
-        return parameters;
-    }
-
     @Override
     public void clear() {
         WorkDirectory wd = getWorkDirectory();
@@ -1132,148 +1148,6 @@ public abstract class InterviewParameters
         setEdited(false);
         currFile = null;
     }
-
-    /**
-     * Open a a configuration file, based on paths for the configuration file,
-     * test suite and work directory. Any, but not all, of these paths may be null.
-     * Any non-null path must specify an appropriate existing file, otherwise
-     * an exception will be thrown.
-     *
-     * @param testSuitePath  the path for the test suite; if not specified,
-     *                       the test suite will default from the work directory (if specified) or
-     *                       the configuration file.
-     * @param workDirPath    the path for the work directory; if not specified,
-     *                       the work directory will the default from the config file (if specified),
-     *                       or will be null if no configuration file is given
-     * @param configFilePath the path for the configuration file; if not specified,
-     *                       the result will be a blank interview as created by the test suite.
-     * @return an InterviewParameters object created from the given arguments
-     * @throws Interview.Fault if there is any problem creating the
-     *                         result
-     */
-    public static InterviewParameters open(String testSuitePath, String workDirPath, String configFilePath)
-            throws InterviewParameters.Fault {
-        File ts = testSuitePath != null && !testSuitePath.isEmpty()
-                ? new File(testSuitePath) : null;
-        File wd = workDirPath != null && !workDirPath.isEmpty()
-                ? new File(workDirPath) : null;
-        File cf = configFilePath != null && !configFilePath.isEmpty()
-                ? new File(configFilePath) : null;
-        return open(ts, wd, cf);
-    }
-
-    /**
-     * Open a a configuration file, based on paths for the configuration file,
-     * test suite and work directory. Any, but not all, of these paths may be null.
-     * Any non-null path must specify an appropriate existing file, otherwise
-     * an exception will be thrown.
-     *
-     * @param testSuitePath  the path for the test suite; if not specified,
-     *                       the test suite will default from the work directory (if specified) or
-     *                       the configuration file.
-     * @param workDirPath    the path for the work directory; if not specified,
-     *                       the work directory will bdefault from the config file (if specified),
-     *                       or will be null if no configuration file is given
-     * @param configFilePath the path for the configuration file; if not specified,
-     *                       the result will be a blank interview as created by the test suite.
-     * @return an InterviewParameters object created from the gievn arguments
-     * @throws Interview.Fault if there is any problem creating the
-     *                         result
-     */
-    public static InterviewParameters open(File testSuitePath, File workDirPath, File configFilePath)
-            throws InterviewParameters.Fault {
-
-        // open test suite if specified
-
-        TestSuite testSuite;
-
-        if (testSuitePath != null) {
-            try {
-                testSuite = TestSuite.open(testSuitePath);
-            } catch (FileNotFoundException e) {
-                throw new Fault(i18n, "ip.cantFindTestSuite", testSuitePath, e);
-            } catch (TestSuite.Fault e) {
-                throw new Fault(i18n, "ip.cantOpenTestSuite", testSuitePath, e.getMessage());
-            }
-        } else {
-            testSuite = null;
-        }
-
-        // open work directory if specified, defaulting test suite if appropriate
-
-        WorkDirectory workDir;
-
-        if (workDirPath != null) {
-            try {
-                if (testSuite == null) {
-                    workDir = WorkDirectory.open(workDirPath);
-                    testSuite = workDir.getTestSuite();
-                } else {
-                    workDir = WorkDirectory.open(workDirPath, testSuite);
-                }
-            } catch (FileNotFoundException e) {
-                throw new Fault(i18n, "ip.cantFindWorkDir", workDirPath, e);
-            } catch (WorkDirectory.Fault e) {
-                throw new Fault(i18n, "ip.cantOpenWorkDir", workDirPath, e.getMessage());
-            }
-        } else {
-            workDir = null;
-        }
-
-        // open config file if specified, defaulting work dir and test suite if appropriate
-        // default config from test suite if appropriate
-
-        InterviewParameters config;
-
-        if (configFilePath == null) {
-            if (testSuite != null) {
-                try {
-                    config = testSuite.createInterview();
-                } catch (TestSuite.Fault e) {
-                    throw new Fault(i18n, "ip.cantCreateInterviewForTestSuite", testSuitePath, e);
-                }
-
-                if (workDir != null) {
-                    config.setWorkDirectory(workDir);
-                    FileHistory h = FileHistory.getFileHistory(workDir, "configHistory.jtl");
-                    File latestConfigFile = h.getLatestEntry();
-
-                    if (latestConfigFile != null) {
-                        try {
-                            config.load(latestConfigFile);
-                        } catch (IOException e) {
-                            // ignore?
-                        }   // catch
-                    }
-                }   // workdir != null
-            } else {
-                throw new Fault(i18n, "ip.noPaths");
-            }
-        } else {
-            try {
-                if (workDir == null) {
-                    if (testSuite == null) {
-                        config = open(configFilePath);
-                        testSuite = config.getTestSuite();
-                    } else {
-                        config = open(configFilePath, testSuite);
-                    }
-                    workDir = config.getWorkDirectory();
-                } else {
-                    config = open(configFilePath, workDir);
-                }
-            } catch (FileNotFoundException e) {
-                throw new Fault(i18n, "ip.cantFindConfigFile", configFilePath);
-            } catch (IOException e) {
-                throw new Fault(i18n, "ip.cantOpenConfigFile", configFilePath, e);
-            }
-        }
-
-        // if still here, and had sufficient args, config should be open
-        // and fully initialized
-        return config;
-    }
-
 
     /**
      * Load the interview with the contents of the file associated with
@@ -1384,6 +1258,8 @@ public abstract class InterviewParameters
         loadConcurrencyParameters(other.getConcurrencyParameters());
         loadTimeoutFactorParameters(other.getTimeoutFactorParameters());
     }
+
+    //----------------------------------------------------------------------------
 
     private void loadTestsParameters(TestsParameters other) {
         TestsParameters tp = getTestsParameters();
@@ -1534,7 +1410,6 @@ public abstract class InterviewParameters
         save(f);
     }
 
-
     /**
      * Save the current state of the interview in a specified file,
      * and make that file the new file associated with the interview.
@@ -1548,7 +1423,6 @@ public abstract class InterviewParameters
     public void save(File file) throws IOException, Fault {
         save(file, false);
     }
-
 
     /**
      * Save the current state of the interview in a specified file,
@@ -1570,7 +1444,6 @@ public abstract class InterviewParameters
         currFileLoaded = true;
     }
 
-
     /**
      * Save the current state of the interview in a specified file,
      * including the paths for the test suite and work directory.
@@ -1584,7 +1457,6 @@ public abstract class InterviewParameters
             throws IOException, Fault {
         saveAs(file, true, true);
     }
-
 
     /**
      * Save the current state of the interview in a specified file.
@@ -1642,7 +1514,6 @@ public abstract class InterviewParameters
             out.close();
         }
     }
-
 
     /**
      * Save the current state of the interview in a specified file.
@@ -1745,8 +1616,6 @@ public abstract class InterviewParameters
                 || (f.lastModified() > currFileLastModified));
     }
 
-    //----------------------------------------------------------------------------
-
     /**
      * Check whether or not markers should be enabled.
      *
@@ -1796,36 +1665,145 @@ public abstract class InterviewParameters
             setEdited(true);
         }
     }
+    /**
+     * The template manager is used to change behavior of
+     * template saving, the default implementation is
+     * the context manager of corresponding test suite.
+     */
+    public interface TemplateManager {
+        /**
+         * This method is invoked each time before saving template.
+         * The template will be saved only if this method returns true.
+         *
+         * @param file template file
+         * @return true if this operation is allowed, false otherwise
+         */
+        boolean canSaveTemplate(File file);
+    }
 
-    //----------------------------------------------------------------------------
-    private final String[] ignorableProps = {
-            INTERVIEW,
-            LOCALE, TESTSUITE, WORKDIR, MARKERS,
-            IS_TEMPLATE, TEMPLATE_PATH, QUESTION};
-    private final String[] ignorablePrefs = {MARKERS_PREF, EXTERNAL_PREF, TEMPLATE_PREF};
+    /**
+     * Indicates problems when accessing the work directory.
+     */
+    public static class WorkDirFault extends Interview.Fault {
+        /**
+         * Create a fault with an internationalized message.
+         *
+         * @param i18n The bundle from which to get the string.
+         * @param s    The key for getting the string to be displayed from the
+         *             supplied bundle.
+         */
+        public WorkDirFault(ResourceBundle i18n, String s) {
+            super(i18n, s);
+        }
 
-    private BackupPolicy backupPolicy;
-    private boolean markersEnabled;
-    private boolean markersFilterEnabled;
+        /**
+         * Create a fault with an internationalized message.
+         *
+         * @param i18n The bundle from which to get the string.
+         * @param s    The key for getting the string to be displayed from the
+         *             supplied bundle.
+         * @param o    Parameter to use when resolving the string from the bundle.
+         * @see java.text.MessageFormat
+         */
+        public WorkDirFault(ResourceBundle i18n, String s, Object o) {
+            super(i18n, s, o);
+        }
 
-    private File currFile;
-    private boolean isTemplate;
-    private String templatePath;
-    private long currFileLastModified;
-    private boolean currFileLoaded;
-    protected File[] kflFiles;
+        /**
+         * Create a fault with an internationalized message.
+         *
+         * @param i18n The bundle from which to get the string.
+         * @param s    The key for getting the string to be displayed from the
+         *             supplied bundle.
+         * @param o    Parameters to use when resolving the string from the bundle.
+         * @see java.text.MessageFormat
+         */
+        public WorkDirFault(ResourceBundle i18n, String s, Object... o) {
+            super(i18n, s, o);
+        }
+    }
 
-    private CustomPropagationController pc = new CustomPropagationController();
+    /**
+     * Indicates problems when accessing the test suite.
+     */
+    public static class TestSuiteFault extends Interview.Fault {
+        /**
+         * Create a fault with an internationalized message.
+         *
+         * @param i18n The bundle from which to get the string.
+         * @param s    The key for getting the string to be displayed from the
+         *             supplied bundle.
+         */
+        public TestSuiteFault(ResourceBundle i18n, String s) {
+            super(i18n, s);
+        }
 
-    static final String TESTSUITE = "TESTSUITE";
-    static final String WORKDIR = "WORKDIR";
-    static final String NAME = "NAME";
-    static final String DESC = "DESCRIPTION";
-    static final String MARKERS_ENABLED = "MARKERS.enabled";
-    static final String MARKERS_FILTER = "MARKERS.filter";
-    static final String IS_TEMPLATE = "IS_TEMPLATE";
-    static final String TEMPLATE_PATH = "TEMPLATE_PATH";
-    static final String TRUE = "true";
+        /**
+         * Create a fault with an internationalized message.
+         *
+         * @param i18n The bundle from which to get the string.
+         * @param s    The key for getting the string to be displayed from the
+         *             supplied bundle.
+         * @param o    Parameter to use when resolving the string from the bundle.
+         * @see java.text.MessageFormat
+         */
+        public TestSuiteFault(ResourceBundle i18n, String s, Object o) {
+            super(i18n, s, o);
+        }
 
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(InterviewParameters.class);
+        /**
+         * Create a fault with an internationalized message.
+         *
+         * @param i18n The bundle from which to get the string.
+         * @param s    The key for getting the string to be displayed from the
+         *             supplied bundle.
+         * @param o    Parameters to use when resolving the string from the bundle.
+         * @see java.text.MessageFormat
+         */
+        public TestSuiteFault(ResourceBundle i18n, String s, Object... o) {
+            super(i18n, s, o);
+        }
+    }
+
+    /**
+     * Indicates problems when accessing the configuration file.
+     */
+    public static class JTIFault extends Interview.Fault {
+        /**
+         * Create a fault with an internationalized message.
+         *
+         * @param i18n The bundle from which to get the string.
+         * @param s    The key for getting the string to be displayed from the
+         *             supplied bundle.
+         */
+        public JTIFault(ResourceBundle i18n, String s) {
+            super(i18n, s);
+        }
+
+        /**
+         * Create a fault with an internationalized message.
+         *
+         * @param i18n The bundle from which to get the string.
+         * @param s    The key for getting the string to be displayed from the
+         *             supplied bundle.
+         * @param o    Parameter to use when resolving the string from the bundle.
+         * @see java.text.MessageFormat
+         */
+        public JTIFault(ResourceBundle i18n, String s, Object o) {
+            super(i18n, s, o);
+        }
+
+        /**
+         * Create a fault with an internationalized message.
+         *
+         * @param i18n The bundle from which to get the string.
+         * @param s    The key for getting the string to be displayed from the
+         *             supplied bundle.
+         * @param o    Parameters to use when resolving the string from the bundle.
+         * @see java.text.MessageFormat
+         */
+        public JTIFault(ResourceBundle i18n, String s, Object... o) {
+            super(i18n, s, o);
+        }
+    }
 }

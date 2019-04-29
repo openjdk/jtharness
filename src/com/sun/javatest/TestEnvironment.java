@@ -58,71 +58,21 @@ import java.util.Vector;
  * from environment (.jte) files.
  */
 public class TestEnvironment {
-    /**
-     * This exception is used to report resolving values in an environment.
-     */
-    public static class Fault extends Exception {
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
-    }
-
-    /**
-     * Add a default set of properties to be included when environments are
-     * created. Properties are passed in as a {@code Map<String, String>} instance.
-     *
-     * @param name      a name for this collection or properties, so that the
-     *                  source of the properties can be identified when browing an environment
-     * @param propTable a table of properties to be included when environments
-     *                  are created
-     * @throws NullPointerException if either name or propTable is null.
-     * @see #clearDefaultPropTables
-     */
-    public static synchronized void addDefaultPropTable(String name, Map<String, String> propTable) {
-        if (name == null || propTable == null) {
-            throw new NullPointerException();
-        }
-
-        //System.err.println("TEC: add default propTable " + name);
-        defaultPropTableNames = DynamicArray.append(defaultPropTableNames, name);
-        defaultPropTables.add(propTable);
-    }
-
-    /**
-     * Add a default set of properties to be included when environments are
-     * created. Properties are passed in as a {@code java.util.Properties} instance.
-     *
-     * @param name      a name for this collection or properties, so that the
-     *                  source of the properties can be identified when browing an environment
-     * @param propTable a table of properties to be included when environments
-     *                  are created
-     * @throws NullPointerException if either name or propTable is null.
-     * @see #clearDefaultPropTables
-     */
-    public static synchronized void addDefaultPropTable(String name, Properties propTable) {
-        addDefaultPropTable(name, PropertyUtils.convertToStringProps(propTable));
-    }
-
-    /**
-     * Remove all previously registered default property tables.
-     *
-     * @see #addDefaultPropTable
-     */
-    public static synchronized void clearDefaultPropTables() {
-        defaultPropTableNames = new String[0];
-        defaultPropTables = new ArrayList<>();
-    }
-
+    private static final String[] EMPTY_STRING_ARRAY = {};
     static String[] defaultPropTableNames = {};
     static List<Map<String, String>> defaultPropTables = new ArrayList<>();
+    /**
+     * This is the name of system property to turn off the bugfix for inline
+     * comments. You should specify "true" value for this property to enable
+     * the bugfix, disabling the inline comments.
+     */
+    static String DISABLE_INLINE_COMMENTS_PROPERTY = "com.sun.javatest.InlineEnvComments";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestEnvironment.class);
+    private String name;
+    private String[] inherits;
+    private Map<String, Element> table = new HashMap<>();
+    private Map<String, String[]> extras = new HashMap<>();
+    private Map<String, Element> cache = new HashMap<>();
 
     /**
      * Construct an environment for a named group of properties.
@@ -159,7 +109,6 @@ public class TestEnvironment {
             throws Fault {
         this(name, Arrays.<Map<String, String>>asList(propTables), propTableNames);
     }
-
 
     /**
      * Construct an environment for a named group of properties.
@@ -239,6 +188,73 @@ public class TestEnvironment {
         }
     }
 
+    protected TestEnvironment(TestEnvironment o) {
+        name = o.name;
+        inherits = o.inherits;
+        table = o.table;
+        extras = new HashMap<>(o.extras);
+    }
+
+    /**
+     * Add a default set of properties to be included when environments are
+     * created. Properties are passed in as a {@code Map<String, String>} instance.
+     *
+     * @param name      a name for this collection or properties, so that the
+     *                  source of the properties can be identified when browing an environment
+     * @param propTable a table of properties to be included when environments
+     *                  are created
+     * @throws NullPointerException if either name or propTable is null.
+     * @see #clearDefaultPropTables
+     */
+    public static synchronized void addDefaultPropTable(String name, Map<String, String> propTable) {
+        if (name == null || propTable == null) {
+            throw new NullPointerException();
+        }
+
+        //System.err.println("TEC: add default propTable " + name);
+        defaultPropTableNames = DynamicArray.append(defaultPropTableNames, name);
+        defaultPropTables.add(propTable);
+    }
+
+    /**
+     * Add a default set of properties to be included when environments are
+     * created. Properties are passed in as a {@code java.util.Properties} instance.
+     *
+     * @param name      a name for this collection or properties, so that the
+     *                  source of the properties can be identified when browing an environment
+     * @param propTable a table of properties to be included when environments
+     *                  are created
+     * @throws NullPointerException if either name or propTable is null.
+     * @see #clearDefaultPropTables
+     */
+    public static synchronized void addDefaultPropTable(String name, Properties propTable) {
+        addDefaultPropTable(name, PropertyUtils.convertToStringProps(propTable));
+    }
+
+    /**
+     * Remove all previously registered default property tables.
+     *
+     * @see #addDefaultPropTable
+     */
+    public static synchronized void clearDefaultPropTables() {
+        defaultPropTableNames = new String[0];
+        defaultPropTables = new ArrayList<>();
+    }
+
+    static boolean isInlineCommentsDisabled() {
+        return Boolean.parseBoolean(System.getProperty(DISABLE_INLINE_COMMENTS_PROPERTY, "false"));
+    }
+
+    /**
+     * Identifies the characters recognized for $ names
+     */
+    private static boolean isNameChar(char c) {
+        return Character.isUpperCase(c)
+                || Character.isLowerCase(c)
+                || Character.isDigit(c)
+                || (c == '_')
+                || (c == '.');
+    }
 
     /**
      * Create a copy of the current environment.
@@ -578,17 +594,6 @@ public class TestEnvironment {
     }
 
     /**
-     * This is the name of system property to turn off the bugfix for inline
-     * comments. You should specify "true" value for this property to enable
-     * the bugfix, disabling the inline comments.
-     */
-    static String DISABLE_INLINE_COMMENTS_PROPERTY = "com.sun.javatest.InlineEnvComments";
-
-    static boolean isInlineCommentsDisabled() {
-        return Boolean.parseBoolean(System.getProperty(DISABLE_INLINE_COMMENTS_PROPERTY, "false"));
-    }
-
-    /**
      * Check if the environment has any undefined values. These are entries containing
      * the text VALUE_NOT_DEFINED.
      *
@@ -647,17 +652,6 @@ public class TestEnvironment {
     }
 
     /**
-     * Identifies the characters recognized for $ names
-     */
-    private static boolean isNameChar(char c) {
-        return Character.isUpperCase(c)
-                || Character.isLowerCase(c)
-                || Character.isDigit(c)
-                || (c == '_')
-                || (c == '.');
-    }
-
-    /**
      * Enumerate the keys for this environment, including any inherited keys.
      * Use `lookup' to find the values of the individual keys.
      *
@@ -702,18 +696,32 @@ public class TestEnvironment {
         return table.values();
     }
 
+    /**
+     * This exception is used to report resolving values in an environment.
+     */
+    public static class Fault extends Exception {
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
 
-    protected TestEnvironment(TestEnvironment o) {
-        name = o.name;
-        inherits = o.inherits;
-        table = o.table;
-        extras = new HashMap<>(o.extras);
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
     }
 
     /**
      * A class representing an entry in a test environment.
      */
     public static class Element {
+        String key;
+        String value;
+        String definedInEnv;
+        String definedInFile;
+
         /**
          * Create an entry for a test environment.
          *
@@ -764,19 +772,5 @@ public class TestEnvironment {
         public String getDefinedInFile() {
             return definedInFile;
         }
-
-        String key;
-        String value;
-        String definedInEnv;
-        String definedInFile;
     }
-
-    private String name;
-    private String[] inherits;
-    private Map<String, Element> table = new HashMap<>();
-    private Map<String, String[]> extras = new HashMap<>();
-    private Map<String, Element> cache = new HashMap<>();
-
-    private static final String[] EMPTY_STRING_ARRAY = {};
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestEnvironment.class);
 }

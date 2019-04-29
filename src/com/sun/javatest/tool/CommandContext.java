@@ -61,56 +61,76 @@ import java.util.Vector;
  */
 public class CommandContext {
     /**
-     * This exception is used to report problems while executing a command.
+     * Code for setting default system LookAndFeel. Should be set before Desktop is created.
+     *
+     * @see #getPreferredLookAndFeel()
+     * @see #setPreferredLookAndFeel(int)
+     * @see #DEFAULT_LAF
+     * @see #METAL_LAF
+     * @see #NIMBUS_LAF
      */
-    public class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
+    public static final int SYSTEM_LAF = 0;
+    /**
+     * Code for setting Nimbus LookAndFeel. Should be set before Desktop is created.
+     *
+     * @see #getPreferredLookAndFeel()
+     * @see #setPreferredLookAndFeel(int)
+     * @see #DEFAULT_LAF
+     * @see #METAL_LAF
+     * @see #SYSTEM_LAF
+     */
+    public static final int NIMBUS_LAF = 1;
+    /**
+     * Code for setting Metal LookAndFeel. Should be set before Desktop is created.
+     *
+     * @see #getPreferredLookAndFeel()
+     * @see #setPreferredLookAndFeel(int)
+     * @see #DEFAULT_LAF
+     * @see #NIMBUS_LAF
+     * @see #SYSTEM_LAF
+     */
+    public static final int METAL_LAF = 2;
+    /**
+     * Code for setting JavaTest default LookAndFeel. Currently - Nimbus LookAndFeel is default. Should be set before Desktop is created.
+     *
+     * @see #getPreferredLookAndFeel()
+     * @see #setPreferredLookAndFeel(int)
+     * @see #METAL_LAF
+     * @see #NIMBUS_LAF
+     * @see #SYSTEM_LAF
+     */
+    public static final int DEFAULT_LAF = 1;
+    static final String VERBOSE_COMMANDS = "commands";
+    static final String TRACE_PREFIX = "+ ";
+    private static final I18NResourceBundle i18n;
 
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
-
-        Fault(Command.Fault e) {
-            super(e.getMessage(), e);
-        }
-
-        /**
-         * Get the command context object that created this fault object.
-         *
-         * @return the command context object that created this fault object
-         */
-        public CommandContext getContext() {
-            return CommandContext.this;
-        }
+    static {
+        i18n = I18NResourceBundle.getBundleForClass(CommandContext.class);
+        VerboseCommand.addOption(VERBOSE_COMMANDS, new HelpTree.Node(i18n, "cc.verbose"));
     }
+
+    private Vector<Command> commands = new Vector<>();
+    //private TestSuite testSuite;
+    //private WorkDirectory workDir;
+    private File testSuitePath;
+    private File workDirectoryPath;
+    private String defaultWorkDirPath;
+    private Map<String, String> desktopData;
+    private boolean autoCreateWorkDirectory;
+    private File configFilePath;
+    private InterviewParameters config;
+    private Command autoRunCommand;
+    private File autoRunReportDir;
+    private boolean closeDesktopWhenDoneEnabled;
+    private Desktop desktop;
+    private PrintWriter out;
+    private int[] cumulativeTestStats = new int[Status.NUM_STATES];
+    private Map<String, Boolean> verboseOptionValues = new HashMap<>();
+    private boolean verboseMax;
+    private boolean verboseQuiet;
+    private boolean verboseDate = true;
+    private int preferredLAF = DEFAULT_LAF;
+    private Harness.Observer[] harnessObservers = new Harness.Observer[0];
 
     /**
      * Create a new context object.
@@ -249,6 +269,9 @@ public class CommandContext {
         return autoRunReportDir;
     }
 
+
+    //-------------------------------------------------------------------------
+
     /**
      * Set the "auto run report directory" registered with this object.
      * This is primarily to support backwards compatibility with JT Harness
@@ -286,7 +309,6 @@ public class CommandContext {
         System.arraycopy(cumulativeTestStats, 0, s, 0, s.length);
         return s;
     }
-
 
     /**
      * Check whether this object indicates that the desktop should be closed
@@ -419,28 +441,6 @@ public class CommandContext {
     }
 
     /**
-     * Set the path for the work directory to be associated with this object.
-     * The path will not be verified until required, so that it can be
-     * evaluated in conjunction with other parameters such as the test suite
-     * and configuration file.
-     * The work directory identified by this path may be created if necessary.
-     *
-     * @param path   the path for the work directory to be associated with this object
-     * @param create create the work directory if it does not already exist
-     * @throws CommandContext.Fault if the work directory has already been set
-     * @see #getWorkDirectory
-     */
-    public void setWorkDirectory(File path, boolean create)
-            throws Fault {
-        if (workDirectoryPath != null && !workDirectoryPath.equals(path)) {
-            throw new Fault(i18n, "cc.wdAlreadySet", workDirectoryPath);
-        }
-
-        autoCreateWorkDirectory = create;
-        workDirectoryPath = path;
-    }
-
-    /**
      * Set the work directory to be associated with this object.
      *
      * @param wd the work directory to be associated with this object
@@ -477,6 +477,28 @@ public class CommandContext {
     }
 
     /**
+     * Set the path for the work directory to be associated with this object.
+     * The path will not be verified until required, so that it can be
+     * evaluated in conjunction with other parameters such as the test suite
+     * and configuration file.
+     * The work directory identified by this path may be created if necessary.
+     *
+     * @param path   the path for the work directory to be associated with this object
+     * @param create create the work directory if it does not already exist
+     * @throws CommandContext.Fault if the work directory has already been set
+     * @see #getWorkDirectory
+     */
+    public void setWorkDirectory(File path, boolean create)
+            throws Fault {
+        if (workDirectoryPath != null && !workDirectoryPath.equals(path)) {
+            throw new Fault(i18n, "cc.wdAlreadySet", workDirectoryPath);
+        }
+
+        autoCreateWorkDirectory = create;
+        workDirectoryPath = path;
+    }
+
+    /**
      * Get the configuration associated with this object.
      *
      * @return the configuration associated with this object
@@ -489,78 +511,6 @@ public class CommandContext {
     public InterviewParameters getInterviewParameters()
             throws Fault {
         return getConfig();
-    }
-
-    /**
-     * Get the configuration associated with this object.
-     *
-     * @return the configuration associated with this object
-     * @throws CommandContext.Fault if there is a problem evaluating the parameters
-     *                              that define the configuration
-     * @see #setConfig
-     */
-    public InterviewParameters getConfig()
-            throws Fault {
-        initConfig();
-
-        return config;
-    }
-
-
-    /**
-     * Check whether a configuration has been set yet.
-     *
-     * @return true if a configuration has been set, and false otherwise
-     */
-    public boolean hasConfig() {
-        return config != null
-                || testSuitePath != null
-                || workDirectoryPath != null
-                || configFilePath != null;
-    }
-
-    /**
-     * Set the path for the configuration information to be associated
-     * with this object.
-     * The path will not be verified until required, so that it can be
-     * evaluated in conjunction with other parameters such as the test suite
-     * and work directory.
-     *
-     * @param path the path for the configuration information to be associated
-     *             with this object.
-     * @throws CommandContext.Fault if the configuration has already been evaluated
-     * @see #getConfig
-     */
-    public void setConfig(File path)
-            throws Fault {
-        if (config != null) {
-            if (configFilePath == null) {
-                throw new Fault(i18n, "cc.confAlreadySetDefault", path);
-            } else {
-                throw new Fault(i18n, "cc.confAlreadySet", path, configFilePath);
-            }
-        }
-
-        configFilePath = path;
-    }
-
-    /**
-     * Workdir that should be compatible with the selected test suite.  Should be
-     * null if no test suite was selected or there was no previous desktop.
-     */
-    void setDefaultWorkDir(String path) {
-        defaultWorkDirPath = path;
-    }
-
-    /**
-     * restore filter setting if -ts -preferred were specified
-     */
-    void setDesktopData(Map<String, String> desktopData) {
-        this.desktopData = desktopData;
-    }
-
-    Map<String, String> getDesktopData() {
-        return desktopData;
     }
 
     /**
@@ -606,6 +556,79 @@ public class CommandContext {
         if (config.getWorkDirectory() == null && cwd != null) {
             config.setWorkDirectory(cwd);
         }
+    }
+
+    /**
+     * Get the configuration associated with this object.
+     *
+     * @return the configuration associated with this object
+     * @throws CommandContext.Fault if there is a problem evaluating the parameters
+     *                              that define the configuration
+     * @see #setConfig
+     */
+    public InterviewParameters getConfig()
+            throws Fault {
+        initConfig();
+
+        return config;
+    }
+
+    /**
+     * Set the path for the configuration information to be associated
+     * with this object.
+     * The path will not be verified until required, so that it can be
+     * evaluated in conjunction with other parameters such as the test suite
+     * and work directory.
+     *
+     * @param path the path for the configuration information to be associated
+     *             with this object.
+     * @throws CommandContext.Fault if the configuration has already been evaluated
+     * @see #getConfig
+     */
+    public void setConfig(File path)
+            throws Fault {
+        if (config != null) {
+            if (configFilePath == null) {
+                throw new Fault(i18n, "cc.confAlreadySetDefault", path);
+            } else {
+                throw new Fault(i18n, "cc.confAlreadySet", path, configFilePath);
+            }
+        }
+
+        configFilePath = path;
+    }
+
+    /**
+     * Check whether a configuration has been set yet.
+     *
+     * @return true if a configuration has been set, and false otherwise
+     */
+    public boolean hasConfig() {
+        return config != null
+                || testSuitePath != null
+                || workDirectoryPath != null
+                || configFilePath != null;
+    }
+
+    /**
+     * Workdir that should be compatible with the selected test suite.  Should be
+     * null if no test suite was selected or there was no previous desktop.
+     */
+    void setDefaultWorkDir(String path) {
+        defaultWorkDirPath = path;
+    }
+
+    //-------------------------------------------------------------------------
+
+    Map<String, String> getDesktopData() {
+        return desktopData;
+    }
+
+    /**
+     * restore filter setting if -ts -preferred were specified
+     */
+    void setDesktopData(Map<String, String> desktopData) {
+        this.desktopData = desktopData;
     }
 
     private boolean isInitConfigRequired() {
@@ -815,6 +838,16 @@ public class CommandContext {
     }
 
     /**
+     * Get the desktop associated with this object.
+     *
+     * @return the desktop associated with this object
+     * @see #setDesktop
+     */
+    public Desktop getDesktop() {
+        return desktop;
+    }
+
+    /**
      * Set the desktop associated with this object.
      *
      * @param d the desktop to be associated with this object
@@ -829,19 +862,6 @@ public class CommandContext {
     }
 
     /**
-     * Get the desktop associated with this object.
-     *
-     * @return the desktop associated with this object
-     * @see #setDesktop
-     */
-    public Desktop getDesktop() {
-        return desktop;
-    }
-
-
-    //-------------------------------------------------------------------------
-
-    /**
      * Specify whether or not to override the setting of all other
      * verbose options to true.
      *
@@ -850,17 +870,6 @@ public class CommandContext {
      */
     public void setVerboseMax(boolean on) {
         verboseMax = on;
-    }
-
-    /**
-     * Specify whether or not to override the setting of all other
-     * verbose options to false.
-     *
-     * @param on If true, the value of all other verbose options will
-     *           be given as false.
-     */
-    public void setVerboseQuiet(boolean on) {
-        verboseQuiet = on;
     }
 
     /**
@@ -874,12 +883,14 @@ public class CommandContext {
     }
 
     /**
-     * Configure whether timestamps are printed with verbose output.
+     * Specify whether or not to override the setting of all other
+     * verbose options to false.
      *
-     * @param on False for no timestamps.
+     * @param on If true, the value of all other verbose options will
+     *           be given as false.
      */
-    public void setVerboseTimestampEnabled(boolean on) {
-        verboseDate = on;
+    public void setVerboseQuiet(boolean on) {
+        verboseQuiet = on;
     }
 
     /**
@@ -958,17 +969,12 @@ public class CommandContext {
     }
 
     /**
-     * Sets preferred LookAndFeel that is used on Desktop creation (should be set before creation)
+     * Configure whether timestamps are printed with verbose output.
      *
-     * @param lookAndFeel LookAndFeel code to be set
-     * @see #getPreferredLookAndFeel()
-     * @see #DEFAULT_LAF
-     * @see #METAL_LAF
-     * @see #NIMBUS_LAF
-     * @see #SYSTEM_LAF
+     * @param on False for no timestamps.
      */
-    public void setPreferredLookAndFeel(int lookAndFeel) {
-        preferredLAF = lookAndFeel;
+    public void setVerboseTimestampEnabled(boolean on) {
+        verboseDate = on;
     }
 
     /**
@@ -984,13 +990,17 @@ public class CommandContext {
     }
 
     /**
-     * Set the log stream associated with this object.
+     * Sets preferred LookAndFeel that is used on Desktop creation (should be set before creation)
      *
-     * @param out the log stream to be associated with this object
-     * @see #getLogWriter
+     * @param lookAndFeel LookAndFeel code to be set
+     * @see #getPreferredLookAndFeel()
+     * @see #DEFAULT_LAF
+     * @see #METAL_LAF
+     * @see #NIMBUS_LAF
+     * @see #SYSTEM_LAF
      */
-    public void setLogWriter(PrintWriter out) {
-        this.out = out;
+    public void setPreferredLookAndFeel(int lookAndFeel) {
+        preferredLAF = lookAndFeel;
     }
 
     /**
@@ -1001,6 +1011,16 @@ public class CommandContext {
      */
     public PrintWriter getLogWriter() {
         return out;
+    }
+
+    /**
+     * Set the log stream associated with this object.
+     *
+     * @param out the log stream to be associated with this object
+     * @see #getLogWriter
+     */
+    public void setLogWriter(PrintWriter out) {
+        this.out = out;
     }
 
     /**
@@ -1073,7 +1093,6 @@ public class CommandContext {
         out.println(i18n.getString(key, args));
     }
 
-
     public void dispose() {
         if (commands != null) {
             commands.clear();
@@ -1088,85 +1107,55 @@ public class CommandContext {
 
     }
 
-    //-------------------------------------------------------------------------
-
-
-    private Vector<Command> commands = new Vector<>();
-
-    //private TestSuite testSuite;
-    //private WorkDirectory workDir;
-    private File testSuitePath;
-    private File workDirectoryPath;
-    private String defaultWorkDirPath;
-    private Map<String, String> desktopData;
-    private boolean autoCreateWorkDirectory;
-    private File configFilePath;
-
-    private InterviewParameters config;
-    private Command autoRunCommand;
-    private File autoRunReportDir;
-    private boolean closeDesktopWhenDoneEnabled;
-    private Desktop desktop;
-    private PrintWriter out;
-    private int[] cumulativeTestStats = new int[Status.NUM_STATES];
-
-    private Map<String, Boolean> verboseOptionValues = new HashMap<>();
-    private boolean verboseMax;
-    private boolean verboseQuiet;
-    private boolean verboseDate = true;
-
-    private int preferredLAF = DEFAULT_LAF;
-
-    private Harness.Observer[] harnessObservers = new Harness.Observer[0];
-
-    private static final I18NResourceBundle i18n;
-    static final String VERBOSE_COMMANDS = "commands";
-
     /**
-     * Code for setting default system LookAndFeel. Should be set before Desktop is created.
-     *
-     * @see #getPreferredLookAndFeel()
-     * @see #setPreferredLookAndFeel(int)
-     * @see #DEFAULT_LAF
-     * @see #METAL_LAF
-     * @see #NIMBUS_LAF
+     * This exception is used to report problems while executing a command.
      */
-    public static final int SYSTEM_LAF = 0;
-    /**
-     * Code for setting Nimbus LookAndFeel. Should be set before Desktop is created.
-     *
-     * @see #getPreferredLookAndFeel()
-     * @see #setPreferredLookAndFeel(int)
-     * @see #DEFAULT_LAF
-     * @see #METAL_LAF
-     * @see #SYSTEM_LAF
-     */
-    public static final int NIMBUS_LAF = 1;
-    /**
-     * Code for setting Metal LookAndFeel. Should be set before Desktop is created.
-     *
-     * @see #getPreferredLookAndFeel()
-     * @see #setPreferredLookAndFeel(int)
-     * @see #DEFAULT_LAF
-     * @see #NIMBUS_LAF
-     * @see #SYSTEM_LAF
-     */
-    public static final int METAL_LAF = 2;
-    /**
-     * Code for setting JavaTest default LookAndFeel. Currently - Nimbus LookAndFeel is default. Should be set before Desktop is created.
-     *
-     * @see #getPreferredLookAndFeel()
-     * @see #setPreferredLookAndFeel(int)
-     * @see #METAL_LAF
-     * @see #NIMBUS_LAF
-     * @see #SYSTEM_LAF
-     */
-    public static final int DEFAULT_LAF = 1;
+    public class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
 
-    static {
-        i18n = I18NResourceBundle.getBundleForClass(CommandContext.class);
-        VerboseCommand.addOption(VERBOSE_COMMANDS, new HelpTree.Node(i18n, "cc.verbose"));
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
+
+        Fault(Command.Fault e) {
+            super(e.getMessage(), e);
+        }
+
+        /**
+         * Get the command context object that created this fault object.
+         *
+         * @return the command context object that created this fault object
+         */
+        public CommandContext getContext() {
+            return CommandContext.this;
+        }
     }
-
-    static final String TRACE_PREFIX = "+ ";
 }

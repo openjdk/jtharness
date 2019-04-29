@@ -58,6 +58,43 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * finished indicates that we're done
      */
 
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TRT_Iterator.class);
+    final Preferences p = Preferences.access();
+    /**
+     * Queue which holds all outgoing tests.  This is initially contains the tests
+     * provided by the client.
+     */
+    private final Object outQueueLock = new Object();
+    protected boolean debug = Debug.getBoolean(TRT_Iterator.class);
+    boolean recordRejectTR = p.getPreference("exec.recordNotrunReasons", "false").equals("true");
+    /**
+     * Tests (literally) that were provided by the client through one of the
+     * constructors.  This is mainly here to facilitate recall of the initial URL
+     * list if requested.
+     */
+    private String[] initialTests;
+    private LinkedList<TestResult> outQueue;  // queue of tests to be given out
+    private TestResultTable.TreeNode[] nodes;       // which nodes we are enumerating
+    private int nodeIndex;                          // which node are we working on
+    private TestFilter[] filters;
+
+    // --- Statistics info ---
+    private int[] resultStats;          // pass/fail/error statistics
+    private int absoluteCount;          // how many tests were processed
+    // filter rejection info
+    private int rejectCount;
+    private boolean recordRejects;      // true when we are collecting reject stats
+    private HashMap<TestFilter, ArrayList<TestDescription>> filteredTRs;      // key==TestFilter  value=ArrayList of TestResults
+    private TestResult currentResult;   // necessary communicate with filter observer, yuck
+    private Object rejLock;
+    private FilterObserver fo;          // null if feature is disabled
+    // ------ state information ------
+    private Stack<PseudoFrame> stack;
+
+    // ------------------ TreeIterator Private --------------------
+    private PseudoFrame currFrame;
+    private boolean finished = false;
+
     /**
      * Initialize the outQueue and result stats.  This is here only to share
      * construction code and does not create a usable object.
@@ -169,6 +206,95 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         }
     }
 
+    /**
+     * @return -1==not found, 0==before, 1==current pos., 2==after, 3==error
+     */
+    private static int checkTestPosition(PseudoFrame frame, String testName) {
+        // need to determine if it is before or after the
+        // current iterator position
+        TRT_TreeNode tn = (TRT_TreeNode) frame.getNode();
+        int targetIndex = tn.getTestIndex(testName);
+        int currIndex = frame.getCurrentIndex();
+        int result = 3;
+
+        if (targetIndex == -1) {
+            result = -1;
+        } else if (targetIndex < currIndex) {
+            result = 0;
+        } else if (targetIndex == currIndex) {
+            result = 1;
+        } else if (targetIndex > currIndex) {
+            result = 2;
+        } else {
+            result = 3;
+        }
+
+        return result;
+    }
+
+    /**
+     * Query filter list to determine all the filters which would reject test.
+     * Necessary calculation because the rest of harness filtering typically fails fast
+     * on the first rejection.  Composite filters are not included in the search, only
+     * concrete filters are returned.
+     *
+     * @param filters Filters to check.
+     * @param td      Tests to check.
+     * @return Null if the filter list is empty, array of size zero or greater
+     * otherwise.  Will be size zero if no filters reject the test.
+     */
+    private static ArrayList<TestFilter> getFullFilteredList(
+            TestFilter[] filters,
+            TestDescription td) {
+        if (td == null || filters == null || filters.length == 0) {
+            return null;
+        }
+
+        final ArrayList<TestFilter> out = new ArrayList<>();
+        TestFilter.Observer foo = new TestFilter.Observer() {
+            @Override
+            public void rejected(TestDescription td, TestFilter f) {
+                out.add(f);
+            }
+        };
+
+        for (TestFilter f : filters) {
+            try {
+                if (out.contains(f)) {
+                    // optimization
+                    continue;
+                }
+
+                f.accepts(td, foo);
+            } catch (TestFilter.Fault fault) {
+                out.add(f);
+            }
+        }   // for
+
+        return out;
+    }
+
+    private static String generateFilteredStatus(List<TestFilter> fs) {
+        StringBuilder sb = new StringBuilder();
+
+        if (fs == null || fs.isEmpty()) {
+            sb.append("Rejected by test filters.");
+        } else {
+            sb.append("Rejected by test filters: ");
+
+            for (TestFilter f : fs) {
+                sb.append(f.getName());
+                sb.append(", ");
+            }
+        }
+        if (sb.length() > 2) {
+            return sb.substring(0, sb.length() - 2);  // remove trailing ", "
+        } else {
+            // exceptional case
+            return "";
+        }
+    }
+
     // --- Enumerator interface  ---
     @Override
     public boolean hasMoreElements() {
@@ -221,8 +347,6 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     public void remove() {
         throw new UnsupportedOperationException("Cannot remove from TestResultTable through iterator.  Do not call this method.");
     }
-
-    // --- Statistics info ---
 
     /**
      * Find out how many tests have been processed.
@@ -565,8 +689,6 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         return result;
     }
 
-    // ------------------ TreeIterator Private --------------------
-
     /**
      * Initialize state.  Should be called during construction, but after filters are set.
      * outQueue should be populated before you call this method.  This method should only be
@@ -839,135 +961,6 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         return -1;
     }
 
-    /**
-     * @return -1==not found, 0==before, 1==current pos., 2==after, 3==error
-     */
-    private static int checkTestPosition(PseudoFrame frame, String testName) {
-        // need to determine if it is before or after the
-        // current iterator position
-        TRT_TreeNode tn = (TRT_TreeNode) frame.getNode();
-        int targetIndex = tn.getTestIndex(testName);
-        int currIndex = frame.getCurrentIndex();
-        int result = 3;
-
-        if (targetIndex == -1) {
-            result = -1;
-        } else if (targetIndex < currIndex) {
-            result = 0;
-        } else if (targetIndex == currIndex) {
-            result = 1;
-        } else if (targetIndex > currIndex) {
-            result = 2;
-        } else {
-            result = 3;
-        }
-
-        return result;
-    }
-
-    /**
-     * Query filter list to determine all the filters which would reject test.
-     * Necessary calculation because the rest of harness filtering typically fails fast
-     * on the first rejection.  Composite filters are not included in the search, only
-     * concrete filters are returned.
-     *
-     * @param filters Filters to check.
-     * @param td      Tests to check.
-     * @return Null if the filter list is empty, array of size zero or greater
-     * otherwise.  Will be size zero if no filters reject the test.
-     */
-    private static ArrayList<TestFilter> getFullFilteredList(
-            TestFilter[] filters,
-            TestDescription td) {
-        if (td == null || filters == null || filters.length == 0) {
-            return null;
-        }
-
-        final ArrayList<TestFilter> out = new ArrayList<>();
-        TestFilter.Observer foo = new TestFilter.Observer() {
-            @Override
-            public void rejected(TestDescription td, TestFilter f) {
-                out.add(f);
-            }
-        };
-
-        for (TestFilter f : filters) {
-            try {
-                if (out.contains(f)) {
-                    // optimization
-                    continue;
-                }
-
-                f.accepts(td, foo);
-            } catch (TestFilter.Fault fault) {
-                out.add(f);
-            }
-        }   // for
-
-        return out;
-    }
-
-    private static String generateFilteredStatus(List<TestFilter> fs) {
-        StringBuilder sb = new StringBuilder();
-
-        if (fs == null || fs.isEmpty()) {
-            sb.append("Rejected by test filters.");
-        } else {
-            sb.append("Rejected by test filters: ");
-
-            for (TestFilter f : fs) {
-                sb.append(f.getName());
-                sb.append(", ");
-            }
-        }
-        if (sb.length() > 2) {
-            return sb.substring(0, sb.length() - 2);  // remove trailing ", "
-        } else {
-            // exceptional case
-            return "";
-        }
-    }
-
-    /**
-     * Tests (literally) that were provided by the client through one of the
-     * constructors.  This is mainly here to facilitate recall of the initial URL
-     * list if requested.
-     */
-    private String[] initialTests;
-
-    /**
-     * Queue which holds all outgoing tests.  This is initially contains the tests
-     * provided by the client.
-     */
-    private final Object outQueueLock = new Object();
-    private LinkedList<TestResult> outQueue;  // queue of tests to be given out
-
-    private TestResultTable.TreeNode[] nodes;       // which nodes we are enumerating
-    private int nodeIndex;                          // which node are we working on
-
-    private TestFilter[] filters;
-    private int[] resultStats;          // pass/fail/error statistics
-    private int absoluteCount;          // how many tests were processed
-
-    // filter rejection info
-    private int rejectCount;
-    private boolean recordRejects;      // true when we are collecting reject stats
-    private HashMap<TestFilter, ArrayList<TestDescription>> filteredTRs;      // key==TestFilter  value=ArrayList of TestResults
-    private TestResult currentResult;   // necessary communicate with filter observer, yuck
-    private Object rejLock;
-    private FilterObserver fo;          // null if feature is disabled
-
-    final Preferences p = Preferences.access();
-    boolean recordRejectTR = p.getPreference("exec.recordNotrunReasons", "false").equals("true");
-
-    // ------ state information ------
-    private Stack<PseudoFrame> stack;
-    private PseudoFrame currFrame;
-
-    private boolean finished = false;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TRT_Iterator.class);
-    protected boolean debug = Debug.getBoolean(TRT_Iterator.class);
-
     // INNER CLASS
 
     /**
@@ -975,6 +968,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * persistent stack frame which will store state as we traverse the tree.
      */
     private static class PseudoFrame {
+        private int currIndex;
+        private TestResultTable.TreeNode node;
+
         /**
          * @param node The tree node which this frame is responsible for.
          */
@@ -1012,9 +1008,6 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         int getCurrentIndex() {
             return currIndex;
         }
-
-        private int currIndex;
-        private TestResultTable.TreeNode node;
     }
 
     private class FilterObserver implements TestFilter.Observer {

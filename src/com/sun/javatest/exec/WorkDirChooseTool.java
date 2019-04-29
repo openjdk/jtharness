@@ -92,6 +92,50 @@ import java.util.ResourceBundle;
 
 
 public class WorkDirChooseTool extends JDialog {
+    // values for mode
+    // value 1 is WorkDirChooser.NEW
+    public static final int LOAD_TEMPLATE = 3;
+    public static final int LOAD_CONFIG = 4;
+    public static final String DEFAULT_WD_PREF_NAME = "wdct.default_wd_path";
+    static final String JTI = ".jti";
+    static final String JTM = ".jtm";
+    private static final String uiKey = "wdc";
+    private static File defWD = null;
+    private boolean isNonDefaultDirAllowed = true;
+    private boolean template, showConfigEditorFlag;
+    private boolean withoutTemplate = true;
+    private int mode;
+    private boolean allowTraversDirs;
+    private Color disabledColor;
+    private Color enabledColor;
+    private Component parent;
+    private File selectedTemplate;
+    private File wd;
+    private File defaultDir;
+    private File currentTemplateDir;
+    private File defaultTemplateDir;
+    private FileSystemTableModel fsm;
+    private FileTable fileTable;
+    private JButton createBtn, cancelBtn, browseTmplBtn;
+    //private JButton defaultButton;
+    private JButton[] buttons;
+    private JCheckBox launchEditorCB;
+    private FileChooser fileChooser;
+    private JLabel templatePLabel;
+    private JPanel main, bottom;
+    private JPanel treePanel;
+    private JRadioButton noTemplateCB, templateCB;
+    private JScrollPane scPane;
+    private JTextField tField, dirField, templateField;
+    private Object cancelButton;
+    private SelectedWorkDirApprover swda;
+    private ExecModel em;
+    private TestSuite testSuite;
+    private TestSuiteChooser testSuiteChooser;
+    private TreeExpansionEvent event;
+    private UIFactory uif;
+    private ChosenFileHandler chosenFileHandler;
+    private boolean hideTemplates = false;
     /**
      * Create a WorkDirChooser, initially showing the user's current directory.
      */
@@ -137,6 +181,92 @@ public class WorkDirChooseTool extends JDialog {
             }
         });
 
+    }
+
+    private static File getDefDir() {
+        if (defWD != null) {
+            return defWD;
+        }
+        Preferences prefs = Preferences.access();
+        String prefsDefaultDir = prefs.getPreference(DEFAULT_WD_PREF_NAME);
+        if (prefsDefaultDir != null) {
+            defWD = new File(prefsDefaultDir);
+        } else {
+            defWD = new File(".");
+        }
+        return defWD;
+    }
+
+    private static void setDefDir(File newDefDir) {
+        if (newDefDir != null) {
+            Preferences prefs = Preferences.access();
+            try {
+                prefs.setPreference(DEFAULT_WD_PREF_NAME, newDefDir.getCanonicalPath());
+            } catch (IOException e) {
+            }
+            defWD = newDefDir;
+        }
+    }
+
+    public static WorkDirectory chooseWD(JComponent parent, File dir, TestSuite ts, int mode) {
+        return chooseWD(parent, dir, ts, mode, true);
+    }
+
+    public static WorkDirectory chooseWD(JComponent parent, File dir, TestSuite ts, int mode, boolean noTemplate) {
+
+        File initDir = dir != null ? dir : getDefDir();
+        WorkDirChooser wdc = new WorkDirChooser(initDir);
+        wdc.setMode(mode);
+        wdc.setTestSuite(ts);
+        wdc.setAllowNoTemplate(noTemplate);
+        int action = wdc.showDialog(parent);
+        if (action == JFileChooser.APPROVE_OPTION) {
+            WorkDirectory wd = wdc.getSelectedWorkDirectory();
+            setDefDir(wd.getRoot());
+            return wd;
+        } else {
+            return null;
+        }
+    }
+
+    public static WorkDirChooseTool getTool(JComponent parent, UIFactory ui, ExecModel em, int mode,
+                                            TestSuite ts, boolean showTemplateStuff) {
+        // WorkDirChooser.OPEN_FOR_ANY_TESTSUITE
+        // WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE
+        // WorkDirChooser.NEW
+        // WorkDirChooseTool.LOAD_CONFIG
+        // WorkDirChooseTool.LOAD_TEMPLATE
+
+        Frame aFrame = (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
+        WorkDirChooseTool wdct = new WorkDirChooseTool(aFrame, ts, ui, mode);
+        //wdct.setTestSuiteChooser(getTestSuiteChooser());
+        File defaultWorkDirPath = em.getContextManager().getDefaultWorkDirPath();
+        if (defaultWorkDirPath == null || defaultWorkDirPath.isAbsolute()) {
+            wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath, true);
+        } else {
+            try {
+                wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath.getCanonicalFile(), true);
+            } catch (IOException ex) {
+                // IOException in case "may require filesystem queries"
+                wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath, true);
+            }
+        }
+
+        if (mode != LOAD_CONFIG) {
+            wdct.setDefaultTemplateDir(em.getContextManager().getDefaultTemplateLoadPath(), true);
+            wdct.setAllowTraversDirs(em.getContextManager().getAllowTemplateLoadOutsideDefault());
+        } else {
+            wdct.setDefaultTemplateDir(em.getContextManager().getDefaultConfigLoadPath(), true);
+            wdct.setAllowTraversDirs(em.getContextManager().getAllowConfigLoadOutsideDefault());
+        }
+
+        wdct.setWithoutTemplateMode(em.getContextManager().getFeatureManager().isEnabled(
+                FeatureManager.WD_WITHOUT_TEMPLATE));
+
+        wdct.setExecModel(em);
+        wdct.setHideTemplateButtons(showTemplateStuff);
+
+        return wdct;
     }
 
     public void setDefaultDirectory(File f, boolean isNonDefaultDirAllowed) {
@@ -525,7 +655,6 @@ public class WorkDirChooseTool extends JDialog {
         setVisible(true);
     }
 
-
     void openSimpleChooser() {
         updateDefaultDirectory(true);
 
@@ -573,89 +702,6 @@ public class WorkDirChooseTool extends JDialog {
         }
         return true;
     }
-
-    private class CreateWDAction extends AbstractAction {
-
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            File dir = null;
-            if ((dirField.getText() == null) || dirField.getText().isEmpty()) {
-                uif.showError("wdc.dirnotselected");
-                return;
-            }
-
-            if ((tField.getText() == null) || tField.getText().isEmpty()) {
-                uif.showError("wdc.namenotdefined");
-                return;
-            }
-
-            dir = new File(dirField.getText());
-            if (!dir.isDirectory()) {
-                uif.showError("wdc.incorrectdirname");
-                return;
-            }
-
-            if (selectedTemplate != null) {
-                String templateFName = selectedTemplate.getName();
-                // what are we using to determine the template filename extension?
-                if (!templateFName.endsWith(uif.getI18NString("template.ext"))) {
-                    uif.showError("wdc.nottemplatefile");
-                    return;
-                }
-            } else {      // null template
-                if (!em.getContextManager().getFeatureManager().isEnabled(
-                        FeatureManager.WD_WITHOUT_TEMPLATE) && !hideTemplates) {
-                    uif.showError("wdc.wdNeedTemplate");
-                    return;
-                }
-            }
-
-            wd = new File(dir, tField.getText());
-            if (!swda.approveNewSelection(wd, testSuite)) {
-                return;
-            }
-            if (swda.isOpenedInsteadOfCreated()) {
-                selectedTemplate =
-                        TemplateUtilities.getTemplateFile(swda.getWorkDirectory());
-            }
-            setDefaultDirectory(dir, true);
-
-            doDone();
-        }
-    }
-
-    private class LoadTemplateAction extends AbstractAction {
-
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            if (selectedTemplate != null) {
-                String templateFName = selectedTemplate.getName();
-                if (!templateFName.endsWith(uif.getI18NString("template.ext"))) {
-                    uif.showError("wdc.nottemplatefile");
-                    return;
-                }
-
-            }
-
-            doDone();
-        }
-    }
-
-    private class LoadConfigAction extends AbstractAction {
-        @Override
-        public void actionPerformed(ActionEvent ae) {
-            if (selectedTemplate != null) {
-                String templateFName = selectedTemplate.getName();
-                if (!templateFName.endsWith(uif.getI18NString("config.ext"))) {
-                    uif.showError("wdc.notconfigfile");
-                    return;
-                }
-            }
-
-            doDone();
-        }
-    }
-
 
     private void makeFileList() {
 
@@ -807,7 +853,6 @@ public class WorkDirChooseTool extends JDialog {
         return new Rectangle(viewport.getExtentSize()).contains(rect);
     }
 
-
     public void scrollToCenter(int rowIndex, int vColIndex) {
         if (!(fileTable.getParent() instanceof JViewport)) {
             return;
@@ -831,7 +876,6 @@ public class WorkDirChooseTool extends JDialog {
 
         viewport.scrollRectToVisible(rect);
     }
-
 
     private void makeBrowsTemplateButton() {
 
@@ -928,7 +972,6 @@ public class WorkDirChooseTool extends JDialog {
         }
     }
 
-
     /**
      * Set the test suite for this chooser.
      *
@@ -1010,7 +1053,6 @@ public class WorkDirChooseTool extends JDialog {
         getRootPane().setDefaultButton(defaultButton);
     }
 
-
     private void initMain() {
         JPanel m = uif.createPanel(uiKey + ".main", false);
         m.setLayout(new BorderLayout());
@@ -1059,7 +1101,6 @@ public class WorkDirChooseTool extends JDialog {
         }
     }
 
-
     public void setExecModel(ExecModel em) {
         this.em = em;
     }
@@ -1079,100 +1120,12 @@ public class WorkDirChooseTool extends JDialog {
         this.hideTemplates = !show;
     }
 
-    private static File defWD = null;
-
-    private static File getDefDir() {
-        if (defWD != null) {
-            return defWD;
-        }
-        Preferences prefs = Preferences.access();
-        String prefsDefaultDir = prefs.getPreference(DEFAULT_WD_PREF_NAME);
-        if (prefsDefaultDir != null) {
-            defWD = new File(prefsDefaultDir);
-        } else {
-            defWD = new File(".");
-        }
-        return defWD;
-    }
-
-    private static void setDefDir(File newDefDir) {
-        if (newDefDir != null) {
-            Preferences prefs = Preferences.access();
-            try {
-                prefs.setPreference(DEFAULT_WD_PREF_NAME, newDefDir.getCanonicalPath());
-            } catch (IOException e) {
-            }
-            defWD = newDefDir;
-        }
-    }
-
-    public static WorkDirectory chooseWD(JComponent parent, File dir, TestSuite ts, int mode) {
-        return chooseWD(parent, dir, ts, mode, true);
-    }
-
-    public static WorkDirectory chooseWD(JComponent parent, File dir, TestSuite ts, int mode, boolean noTemplate) {
-
-        File initDir = dir != null ? dir : getDefDir();
-        WorkDirChooser wdc = new WorkDirChooser(initDir);
-        wdc.setMode(mode);
-        wdc.setTestSuite(ts);
-        wdc.setAllowNoTemplate(noTemplate);
-        int action = wdc.showDialog(parent);
-        if (action == JFileChooser.APPROVE_OPTION) {
-            WorkDirectory wd = wdc.getSelectedWorkDirectory();
-            setDefDir(wd.getRoot());
-            return wd;
-        } else {
-            return null;
-        }
-    }
-
     public void doTool() {
         if (mode == WorkDirChooser.NEW || mode == LOAD_TEMPLATE || mode == LOAD_CONFIG) {
             initGUI();
         } else {
             openSimpleChooser();
         }
-    }
-
-    public static WorkDirChooseTool getTool(JComponent parent, UIFactory ui, ExecModel em, int mode,
-                                            TestSuite ts, boolean showTemplateStuff) {
-        // WorkDirChooser.OPEN_FOR_ANY_TESTSUITE
-        // WorkDirChooser.OPEN_FOR_GIVEN_TESTSUITE
-        // WorkDirChooser.NEW
-        // WorkDirChooseTool.LOAD_CONFIG
-        // WorkDirChooseTool.LOAD_TEMPLATE
-
-        Frame aFrame = (Frame) SwingUtilities.getAncestorOfClass(Frame.class, parent);
-        WorkDirChooseTool wdct = new WorkDirChooseTool(aFrame, ts, ui, mode);
-        //wdct.setTestSuiteChooser(getTestSuiteChooser());
-        File defaultWorkDirPath = em.getContextManager().getDefaultWorkDirPath();
-        if (defaultWorkDirPath == null || defaultWorkDirPath.isAbsolute()) {
-            wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath, true);
-        } else {
-            try {
-                wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath.getCanonicalFile(), true);
-            } catch (IOException ex) {
-                // IOException in case "may require filesystem queries"
-                wdct.setDefaultDirectoryNoPrefs(defaultWorkDirPath, true);
-            }
-        }
-
-        if (mode != LOAD_CONFIG) {
-            wdct.setDefaultTemplateDir(em.getContextManager().getDefaultTemplateLoadPath(), true);
-            wdct.setAllowTraversDirs(em.getContextManager().getAllowTemplateLoadOutsideDefault());
-        } else {
-            wdct.setDefaultTemplateDir(em.getContextManager().getDefaultConfigLoadPath(), true);
-            wdct.setAllowTraversDirs(em.getContextManager().getAllowConfigLoadOutsideDefault());
-        }
-
-        wdct.setWithoutTemplateMode(em.getContextManager().getFeatureManager().isEnabled(
-                FeatureManager.WD_WITHOUT_TEMPLATE));
-
-        wdct.setExecModel(em);
-        wdct.setHideTemplateButtons(showTemplateStuff);
-
-        return wdct;
     }
 
     public void setChosenFileHandler(ChosenFileHandler cfh) {
@@ -1306,56 +1259,87 @@ public class WorkDirChooseTool extends JDialog {
         }
     }
 
-    private boolean isNonDefaultDirAllowed = true;
-    private boolean template, showConfigEditorFlag;
-    private boolean withoutTemplate = true;
-    private int mode;
-    private boolean allowTraversDirs;
+    private class CreateWDAction extends AbstractAction {
 
-    private Color disabledColor;
-    private Color enabledColor;
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            File dir = null;
+            if ((dirField.getText() == null) || dirField.getText().isEmpty()) {
+                uif.showError("wdc.dirnotselected");
+                return;
+            }
 
-    private Component parent;
-    private File selectedTemplate;
-    private File wd;
-    private File defaultDir;
-    private File currentTemplateDir;
-    private File defaultTemplateDir;
-    private FileSystemTableModel fsm;
-    private FileTable fileTable;
-    private JButton createBtn, cancelBtn, browseTmplBtn;
-    //private JButton defaultButton;
-    private JButton[] buttons;
-    private JCheckBox launchEditorCB;
-    private FileChooser fileChooser;
-    private JLabel templatePLabel;
-    private JPanel main, bottom;
-    private JPanel treePanel;
-    private JRadioButton noTemplateCB, templateCB;
-    private JScrollPane scPane;
-    private JTextField tField, dirField, templateField;
-    private Object cancelButton;
-    private SelectedWorkDirApprover swda;
-    private ExecModel em;
-    private TestSuite testSuite;
-    private TestSuiteChooser testSuiteChooser;
-    private TreeExpansionEvent event;
-    private UIFactory uif;
-    private ChosenFileHandler chosenFileHandler;
+            if ((tField.getText() == null) || tField.getText().isEmpty()) {
+                uif.showError("wdc.namenotdefined");
+                return;
+            }
 
-    private boolean hideTemplates = false;
+            dir = new File(dirField.getText());
+            if (!dir.isDirectory()) {
+                uif.showError("wdc.incorrectdirname");
+                return;
+            }
 
-    private static final String uiKey = "wdc";
+            if (selectedTemplate != null) {
+                String templateFName = selectedTemplate.getName();
+                // what are we using to determine the template filename extension?
+                if (!templateFName.endsWith(uif.getI18NString("template.ext"))) {
+                    uif.showError("wdc.nottemplatefile");
+                    return;
+                }
+            } else {      // null template
+                if (!em.getContextManager().getFeatureManager().isEnabled(
+                        FeatureManager.WD_WITHOUT_TEMPLATE) && !hideTemplates) {
+                    uif.showError("wdc.wdNeedTemplate");
+                    return;
+                }
+            }
 
-    // values for mode
-    // value 1 is WorkDirChooser.NEW
-    public static final int LOAD_TEMPLATE = 3;
-    public static final int LOAD_CONFIG = 4;
+            wd = new File(dir, tField.getText());
+            if (!swda.approveNewSelection(wd, testSuite)) {
+                return;
+            }
+            if (swda.isOpenedInsteadOfCreated()) {
+                selectedTemplate =
+                        TemplateUtilities.getTemplateFile(swda.getWorkDirectory());
+            }
+            setDefaultDirectory(dir, true);
 
-    public static final String DEFAULT_WD_PREF_NAME = "wdct.default_wd_path";
+            doDone();
+        }
+    }
 
-    static final String JTI = ".jti";
-    static final String JTM = ".jtm";
+    private class LoadTemplateAction extends AbstractAction {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            if (selectedTemplate != null) {
+                String templateFName = selectedTemplate.getName();
+                if (!templateFName.endsWith(uif.getI18NString("template.ext"))) {
+                    uif.showError("wdc.nottemplatefile");
+                    return;
+                }
+
+            }
+
+            doDone();
+        }
+    }
+
+    private class LoadConfigAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            if (selectedTemplate != null) {
+                String templateFName = selectedTemplate.getName();
+                if (!templateFName.endsWith(uif.getI18NString("config.ext"))) {
+                    uif.showError("wdc.notconfigfile");
+                    return;
+                }
+            }
+
+            doDone();
+        }
+    }
 
 
 }

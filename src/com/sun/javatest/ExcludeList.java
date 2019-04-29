@@ -58,23 +58,14 @@ import java.util.Vector;
 
 public class ExcludeList {
     /**
-     * This exception is used to report problems manipulating an exclude list.
+     * The standard extension for exclude-list files. (".jtx")
      */
-    public static class Fault extends Exception {
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-    }
-
-    /**
-     * Test if a file appears to be for an exclude list, by checking the extension.
-     *
-     * @param f The file to be tested.
-     * @return <code>true</code> if the file appears to be an exclude list.
-     */
-    public static boolean isExcludeFile(File f) {
-        return f.getPath().endsWith(EXCLUDEFILE_EXTN);
-    }
+    public static final String EXCLUDEFILE_EXTN = ".jtx";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExcludeList.class);
+    private static boolean caseSensitive = Boolean.getBoolean("javatest.caseSensitiveJtx");
+    private Map<Key, Object> table = new HashMap<>();
+    private String title;
+    private boolean strict;
 
     /**
      * Create a new exclude list.
@@ -123,7 +114,6 @@ public class ExcludeList {
         }
     }
 
-
     /**
      * Create an ExcludeList from the data contained in a series of files.
      *
@@ -159,16 +149,79 @@ public class ExcludeList {
     }
 
     /**
-     * Specify whether strict mode is on or not. In strict mode, calls to addEntry
-     * may generate an exception in the case of conflicts, such as adding an entry
-     * to exclude a specific test case when the entire test is already excluded.
+     * Test if a file appears to be for an exclude list, by checking the extension.
      *
-     * @param on true if strict mode should be enabled, and false otherwise
-     * @see #isStrictModeEnabled
+     * @param f The file to be tested.
+     * @return <code>true</code> if the file appears to be an exclude list.
      */
-    public void setStrictModeEnabled(boolean on) {
-        //System.err.println("EL.setStrictModeEnabled " + on);
-        strict = on;
+    public static boolean isExcludeFile(File f) {
+        return f.getPath().endsWith(EXCLUDEFILE_EXTN);
+    }
+
+    static String[] mergeBugIds(String[] a, String... b) {
+        return merge(a, b);
+    }
+
+    static String[] mergePlatforms(String[] a, String... b) {
+        return merge(a, b);
+    }
+
+    static String[] merge(String[] a, String... b) {
+        SortedSet<String> s = new TreeSet<>();
+        s.addAll(Arrays.asList(a));
+        s.addAll(Arrays.asList(b));
+        return s.toArray(new String[s.size()]);
+    }
+
+    static String mergeSynopsis(String a, String b) {
+        if (a == null || a.trim().isEmpty()) {
+            return b;
+        } else if (b == null || b.trim().isEmpty()) {
+            return a;
+        } else if (a.contains(b)) {
+            return a;
+        } else if (b.contains(a)) {
+            return b;
+        } else {
+            return a + "; " + b;
+        }
+    }
+
+    private static boolean equals(String s1, String s2) {
+        return s1 == null && s2 == null
+                || s1 != null && s2 != null && s1.equals(s2);
+    }
+
+    /**
+     * Is val in the comma separated list.
+     *
+     * @param list Comma separated list or a single value.
+     * @return Null if either parameter is null.
+     */
+    private static boolean isInList(String list, String val) {
+        // check for invalid args
+        if (list == null || val == null) {
+            return false;
+        }
+
+        // loop through possible matches
+        for (int pos = list.indexOf(val); pos != -1; pos = list.indexOf(val, pos + 1)) {
+            // check beginning of string
+            if (!(pos == 0 || list.charAt(pos - 1) == ',')) {
+                continue;
+            }
+
+            // check end of string
+            if (!(pos + val.length() == list.length() || list.charAt(pos + val.length()) == ',')) {
+                continue;
+            }
+
+            // beginning and end are OK; got a match
+            return true;
+        }
+
+        // no good matches found
+        return false;
     }
 
     /**
@@ -181,6 +234,19 @@ public class ExcludeList {
      */
     public boolean isStrictModeEnabled() {
         return strict;
+    }
+
+    /**
+     * Specify whether strict mode is on or not. In strict mode, calls to addEntry
+     * may generate an exception in the case of conflicts, such as adding an entry
+     * to exclude a specific test case when the entire test is already excluded.
+     *
+     * @param on true if strict mode should be enabled, and false otherwise
+     * @see #isStrictModeEnabled
+     */
+    public void setStrictModeEnabled(boolean on) {
+        //System.err.println("EL.setStrictModeEnabled " + on);
+        strict = on;
     }
 
     /**
@@ -451,36 +517,6 @@ public class ExcludeList {
         }
     }
 
-    static String[] mergeBugIds(String[] a, String... b) {
-        return merge(a, b);
-    }
-
-    static String[] mergePlatforms(String[] a, String... b) {
-        return merge(a, b);
-    }
-
-    static String[] merge(String[] a, String... b) {
-        SortedSet<String> s = new TreeSet<>();
-        s.addAll(Arrays.asList(a));
-        s.addAll(Arrays.asList(b));
-        return s.toArray(new String[s.size()]);
-    }
-
-    static String mergeSynopsis(String a, String b) {
-        if (a == null || a.trim().isEmpty()) {
-            return b;
-        } else if (b == null || b.trim().isEmpty()) {
-            return a;
-        } else if (a.contains(b)) {
-            return a;
-        } else if (b.contains(a)) {
-            return b;
-        } else {
-            return a + "; " + b;
-        }
-    }
-
-
     /**
      * Remove an entry from the table.
      *
@@ -671,43 +707,6 @@ public class ExcludeList {
         return sb.toString();
     }
 
-    private static boolean equals(String s1, String s2) {
-        return s1 == null && s2 == null
-                || s1 != null && s2 != null && s1.equals(s2);
-    }
-
-    /**
-     * Is val in the comma separated list.
-     *
-     * @param list Comma separated list or a single value.
-     * @return Null if either parameter is null.
-     */
-    private static boolean isInList(String list, String val) {
-        // check for invalid args
-        if (list == null || val == null) {
-            return false;
-        }
-
-        // loop through possible matches
-        for (int pos = list.indexOf(val); pos != -1; pos = list.indexOf(val, pos + 1)) {
-            // check beginning of string
-            if (!(pos == 0 || list.charAt(pos - 1) == ',')) {
-                continue;
-            }
-
-            // check end of string
-            if (!(pos + val.length() == list.length() || list.charAt(pos + val.length()) == ',')) {
-                continue;
-            }
-
-            // beginning and end are OK; got a match
-            return true;
-        }
-
-        // no good matches found
-        return false;
-    }
-
     /**
      * @param obj - object to compare
      * @return returns true if two entry tables are equal
@@ -735,11 +734,22 @@ public class ExcludeList {
         return hash;
     }
 
-    private Map<Key, Object> table = new HashMap<>();
-    private String title;
-    private boolean strict;
+    /**
+     * This exception is used to report problems manipulating an exclude list.
+     */
+    public static class Fault extends Exception {
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+    }
 
     private static final class Parser {
+        private Reader in;      // source stream being read
+        private int ch;         // current character
+        private Map<String, String[]> platformCache = new HashMap<>();
+        // cache of results for readPlatforms
+        private String title;
+
         Parser(Reader in) throws IOException {
             this.in = in;
             ch = in.read();
@@ -908,15 +918,13 @@ public class ExcludeList {
                 ch = in.read();
             }
         }
-
-        private Reader in;      // source stream being read
-        private int ch;         // current character
-        private Map<String, String[]> platformCache = new HashMap<>();
-        // cache of results for readPlatforms
-        private String title;
     }
 
     private static class Key {
+        private static final char sep = File.separatorChar;
+        private String relativeURL;
+        private int hash;
+
         Key(String url) {
             relativeURL = url;
         }
@@ -981,16 +989,19 @@ public class ExcludeList {
             }
             return true;
         }
-
-        private static final char sep = File.separatorChar;
-        private String relativeURL;
-        private int hash;
     }
 
     /**
      * An entry in the exclude list.
      */
     public static final class Entry implements Comparable<Entry> {
+        private String relativeURL;
+        private String testCase;
+        private String[] bugIdStrings;
+        private int[] bugIds; // null, unless required
+        private String[] platforms;
+        private String synopsis;
+
         /**
          * Create an ExcludeList entry.
          *
@@ -1054,6 +1065,63 @@ public class ExcludeList {
 
             platforms = p;
             synopsis = s;
+        }
+
+        /**
+         * Create an entry from a string. The string should be formatted
+         * as though it were a line of text in an exclude file.
+         *
+         * @param text The text to be read
+         * @return the first entry read from the supplied text
+         * @throws ExcludeList.Fault if there is a problem reading the entry.
+         */
+        public static Entry read(String text) throws Fault {
+            try {
+                return new Parser(new StringReader(text)).readEntry();
+            } catch (IOException e) {
+                throw new Fault(i18n, "excl.badEntry", e);
+            }
+        }
+
+        private static boolean equals(int[] i1, int... i2) {
+            if (i1 == null || i2 == null) {
+                return i1 == null && i2 == null;
+            }
+
+            if (i1.length != i2.length) {
+                return false;
+            }
+
+            for (int x = 0; x < i1.length; x++) {
+                if (i1[x] != i2[x]) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static boolean equals(String[] s1, String... s2) {
+            if (s1 == null || s2 == null) {
+                return s1 == null && s2 == null;
+            }
+
+            if (s1.length != s2.length) {
+                return false;
+            }
+
+            for (int x = 0; x < s1.length; x++) {
+                if (!equals(s1[x], s2[x])) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static boolean equals(String s1, String s2) {
+            return s1 == null && s2 == null
+                    || s1 != null && s2 != null && s1.equals(s2);
         }
 
         @Override
@@ -1191,22 +1259,6 @@ public class ExcludeList {
         }
 
         /**
-         * Create an entry from a string. The string should be formatted
-         * as though it were a line of text in an exclude file.
-         *
-         * @param text The text to be read
-         * @return the first entry read from the supplied text
-         * @throws ExcludeList.Fault if there is a problem reading the entry.
-         */
-        public static Entry read(String text) throws Fault {
-            try {
-                return new Parser(new StringReader(text)).readEntry();
-            } catch (IOException e) {
-                throw new Fault(i18n, "excl.badEntry", e);
-            }
-        }
-
-        /**
          * Compare this entry against another.
          *
          * @param o the object to compare against
@@ -1259,61 +1311,5 @@ public class ExcludeList {
             }
             return new String(sb);
         }
-
-        private static boolean equals(int[] i1, int... i2) {
-            if (i1 == null || i2 == null) {
-                return i1 == null && i2 == null;
-            }
-
-            if (i1.length != i2.length) {
-                return false;
-            }
-
-            for (int x = 0; x < i1.length; x++) {
-                if (i1[x] != i2[x]) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private static boolean equals(String[] s1, String... s2) {
-            if (s1 == null || s2 == null) {
-                return s1 == null && s2 == null;
-            }
-
-            if (s1.length != s2.length) {
-                return false;
-            }
-
-            for (int x = 0; x < s1.length; x++) {
-                if (!equals(s1[x], s2[x])) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private static boolean equals(String s1, String s2) {
-            return s1 == null && s2 == null
-                    || s1 != null && s2 != null && s1.equals(s2);
-        }
-
-
-        private String relativeURL;
-        private String testCase;
-        private String[] bugIdStrings;
-        private int[] bugIds; // null, unless required
-        private String[] platforms;
-        private String synopsis;
     }
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExcludeList.class);
-    /**
-     * The standard extension for exclude-list files. (".jtx")
-     */
-    public static final String EXCLUDEFILE_EXTN = ".jtx";
-    private static boolean caseSensitive = Boolean.getBoolean("javatest.caseSensitiveJtx");
 }

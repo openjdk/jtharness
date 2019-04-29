@@ -30,6 +30,10 @@ import java.io.File;
 import java.util.EventObject;
 
 public class FileEvent extends EventObject {
+    public static final String ERASED = "content_erased";
+    public static final String START_ERASING = "start_erasing";
+    private File f;
+    private String type;
     public FileEvent(File f, String type) {
         super(f);
         this.f = f;
@@ -44,10 +48,5 @@ public class FileEvent extends EventObject {
     public String toString() {
         return "FileEvent[file: " + f.getAbsolutePath() + "; event type: " + type + "]";
     }
-
-    public static final String ERASED = "content_erased";
-    public static final String START_ERASING = "start_erasing";
-    private File f;
-    private String type;
 }
 

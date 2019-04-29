@@ -67,6 +67,8 @@ import java.util.EventObject;
  * Utilities for rendering questions.
  */
 public class RenderingUtilities {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+
     public static class PCE implements TableCellEditor {
         private DefaultCellEditor cbCE;
         private DefaultCellEditor tfCE;
@@ -77,12 +79,6 @@ public class RenderingUtilities {
             cbCE = new PropCellEditor(new JComboBox<>(), q);
             tfCE = new RestrainedCellEditor(new JTextField(), q);
             this.q = q;
-        }
-
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-            assignDelegate(table, row, column);
-            return delegate.getTableCellEditorComponent(table, value, isSelected, row, column);
         }
 
         public static boolean gotChoice(ValueConstraints vc) {
@@ -124,6 +120,12 @@ public class RenderingUtilities {
             }
 
             return true;
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            assignDelegate(table, row, column);
+            return delegate.getTableCellEditorComponent(table, value, isSelected, row, column);
         }
 
         private void assignDelegate(JTable table, int row, int column) {
@@ -175,6 +177,8 @@ public class RenderingUtilities {
     }
 
     static class RestrainedCellEditor extends DefaultCellEditor {
+        private PropertiesQuestion q;
+
         protected RestrainedCellEditor(JTextField tf, PropertiesQuestion q) {
             super(tf);
             this.q = q;
@@ -214,16 +218,18 @@ public class RenderingUtilities {
 
             return tf;
         }
-
-        private PropertiesQuestion q;
     }
-
 
     /**
      * Table cell renderer for enforcing constraints on the combo box used
      * for editing.
      */
     public static class PropCellEditor extends DefaultCellEditor {
+        private PropertiesQuestion question;
+        private ValueConstraints rules;
+        private JCheckBox jCheckBox;
+        private YesNoBox yesNoBox;
+
         protected PropCellEditor(JComboBox<Object> box) {
             super(box);
         }
@@ -496,18 +502,16 @@ public class RenderingUtilities {
                 return s1.equals(s2);
             }
         }
-
-        private PropertiesQuestion question;
-        private ValueConstraints rules;
-        private JCheckBox jCheckBox;
-        private YesNoBox yesNoBox;
     }   // editor cell
-
 
     /**
      * Table cell renderer for use when a cell is not being edited.
      */
     public static class PropCellRenderer extends DefaultTableCellRenderer {
+        PropertiesQuestion q;
+        JCheckBox jCheckBox;
+        YesNoBox yesNoBox;
+        JComboBox<Object> jComboBox;
         PropCellRenderer(PropertiesQuestion q) {
             this.q = q;
         }
@@ -552,11 +556,6 @@ public class RenderingUtilities {
         public PropertiesQuestion getQuestion() {
             return q;
         }
-
-        PropertiesQuestion q;
-        JCheckBox jCheckBox;
-        YesNoBox yesNoBox;
-        JComboBox<Object> jComboBox;
     }   // non-editing cell
 
     static class YesNoBox extends JPanel {
@@ -593,6 +592,4 @@ public class RenderingUtilities {
         }
 
     }
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

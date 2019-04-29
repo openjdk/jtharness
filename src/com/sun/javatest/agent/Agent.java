@@ -60,107 +60,61 @@ import java.util.Vector;
 
 public class Agent implements Runnable {
     /**
-     * An interface for observing activity on an agent.
+     * The default time to wait after a failed attempt to open a connection,
+     * and before trying again.
+     *
+     * @see #setRetryDelay
      */
-    public interface Observer {
-        /**
-         * Called when an agent's run method has been entered.
-         *
-         * @param agent The agent being started.
-         * @see Agent#run
-         */
-        void started(Agent agent);
+    public static final int DEFAULT_RETRY_DELAY = 5;
+    public static final int MILLIS_PER_SECOND = 1000;
+    /**
+     * The default port to which active agents will try and connect on a nominated host.
+     */
+    public static final int defaultActivePort = 1907;
+    /**
+     * The default port on which passive ports will listen for incoming connections.
+     */
+    public static final int defaultPassivePort = 1908;
+    // The following is used to ensure consistency between Agent and AgentManager
+    static final short protocolVersion = 105;
+    static final byte CLASS = (byte) 'C';
 
-        /**
-         * Called if an agent's run method has trouble accepting a connection.
-         *
-         * @param agent The agent trying to open a connection
-         * @param e     The exception that occurred
-         * @see Agent#run
-         */
-        void errorOpeningConnection(Agent agent, Exception e);
+    //--------------------------------------------------------------------------
+    static final byte DATA = (byte) 'D';
+    static final byte LOG = (byte) 'L';
 
-        /**
-         * Called when an agent's run method completed.  Normally, the method will
-         * run until an error occurs, or until the thread is interrupted or stopped.
-         *
-         * @param agent The agent which has completed the work.
-         * @see Agent#run
-         */
-        void finished(Agent agent);
+    //--------------------------------------------------------------------------
+    static final byte LOG_FLUSH = (byte) 'l';
+    static final byte REF = (byte) 'R';
+    static final byte REF_FLUSH = (byte) 'r';
+    static final byte STATUS = (byte) 'S';
 
-
-        /**
-         * Called when an agent has successfully opened a connection to service
-         * a request.
-         *
-         * @param agent The agent which opened the connection.
-         * @param c     The connection which was opened.
-         */
-        void openedConnection(Agent agent, Connection c);
-
-        /**
-         * Called when an agent is about to execute a request to execute a Test object.
-         *
-         * @param agent     The agent about to do the work.
-         * @param c         The connection to the client requesting the work.
-         * @param tag       A tag identifying the work.
-         * @param className The name of the class to be run
-         * @param args      Arguments for the class to be run.
-         */
-        void execTest(Agent agent, Connection c, String tag, String className, String... args);
-
-        /**
-         * Called when am agent is about to execute a request to execute a Command object.
-         *
-         * @param agent     The agent about to do the work.
-         * @param c         The connection to the client requesting the work.
-         * @param tag       A tag identifying the work.
-         * @param className The name of the class to be run
-         * @param args      Arguments for the class to be run.
-         */
-        void execCommand(Agent agent, Connection c, String tag, String className, String... args);
-
-        /**
-         * Called when the agent is about to execute a request to execute a main program.
-         *
-         * @param agent     The agent about to do the work.
-         * @param c         The connection to the client requesting the work.
-         * @param tag       A tag identifying the work.
-         * @param className The name of the class to be run
-         * @param args      Arguments for the class to be run.
-         */
-        void execMain(Agent agent, Connection c, String tag, String className, String... args);
-
-        /**
-         * Called when the agent has successfully completed a request to execute a class.
-         *
-         * @param agent  The agent that performed the work.
-         * @param c      The connection to the client requesting the work.
-         * @param result The result status of the work
-         */
-        void result(Agent agent, Connection c, Status result);
-
-        /**
-         * Called when the agent has failed to execute a class,
-         * or has failed to report the results back to the agent requesting the action,
-         * because an exception occurred.
-         *
-         * @param agent The agent that performed the work.
-         * @param c     The connection to the client requesting the work.
-         * @param e     The exception that occurred.
-         */
-        void exception(Agent agent, Connection c, Throwable e);
-
-        /**
-         * Called when the agent has completed all processing of the request
-         * that arrived on a particular connection.
-         *
-         * @param agent The agent that performed the work.
-         * @param c     The connection to the client requesting the work.
-         */
-        void completed(Agent agent, Connection c);
-    }
+    //----------------------------------------------------------------------------
+    static final String PRODUCT_NAME = "JT Harness Agent";
+    static final String PRODUCT_VERSION = "JTA_6.0";
+    static final String PRODUCT_COPYRIGHT = "Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.";
+    /* For autonumbering agent tasks. */
+    private static int threadInitNumber;
+    private static Constructor<? extends ClassLoader> classLoaderConstructor;
+    private static Method factoryMethod = null;
+    /**
+     * A flag to enable debug tracing of the operation of the agent.
+     */
+    protected boolean tracing = false;
+    protected PrintStream traceOut = System.out;
+    private boolean closing;
+    private Thread mainThread;
+    private int maxThreads;
+    private Vector<Thread> threads = new Vector<>();
+    private Vector<Task> tasks = new Vector<>();
+    private Notifier notifier = new Notifier();
+    private Object currSystemStreamOwner = null;
+    private PrintStream saveOut;
+    private PrintStream saveErr;
+    private int retryDelay = DEFAULT_RETRY_DELAY;
+    private ConnectionFactory connectionFactory;
+    private ConfigValuesMap map;
+    private Timer timer;
 
     /**
      * Create an agent that connects to clients using a specified connection factory.
@@ -178,6 +132,43 @@ public class Agent implements Runnable {
     }
 
     /**
+     * Checks that given concurrency value belong to the certain range 1-256.
+     * The highest value should be in sync with:
+     * Parameters.ConcurrencyParameters.MAX_CONCURRENCY
+     *
+     * @param concurrency value to check
+     * @return true, if concurrency is acceptable
+     */
+    static boolean isValidConcurrency(int concurrency) {
+        return 1 <= concurrency && concurrency <= 256;
+    }
+
+    private static void closeIgnoreExceptions(Connection c) {
+        try {
+            c.close();
+        } catch (IOException e) {
+        }
+    }
+
+    private static int min(int a, int b) {
+        return a < b ? a : b;
+    }
+
+    private static synchronized int nextThreadNum() {
+        return threadInitNumber++;
+    }
+
+    /**
+     * Get the delay to wait after failing to open a connection and before trying again.
+     *
+     * @return the number of seconds to wait before attempting to open a new connection.
+     * @see #setRetryDelay
+     */
+    public int getRetryDelay() {
+        return retryDelay;
+    }
+
+    /**
      * Set the delay to wait after failing to open a connection amd before trying again.
      *
      * @param delay The number of seconds to wait before attempting to open a new connection.
@@ -189,16 +180,6 @@ public class Agent implements Runnable {
         }
 
         retryDelay = delay;
-    }
-
-    /**
-     * Get the delay to wait after failing to open a connection and before trying again.
-     *
-     * @return the number of seconds to wait before attempting to open a new connection.
-     * @see #setRetryDelay
-     */
-    public int getRetryDelay() {
-        return retryDelay;
     }
 
     /**
@@ -229,7 +210,6 @@ public class Agent implements Runnable {
         }
     }
 
-
     /**
      * Enable or disable tracing for agent activities.
      * It is best to call this as early as possible - objects created by
@@ -240,8 +220,6 @@ public class Agent implements Runnable {
     public void setTracing(boolean state) {
         tracing = state;
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Add an observer to monitor the progress of the TestFinder.
@@ -261,8 +239,6 @@ public class Agent implements Runnable {
     public void removeObserver(Observer o) {
         notifier.removeObserver(o);
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Run the agent. Since an Agent is {@link Runnable runnable}, this method
@@ -412,20 +388,6 @@ public class Agent implements Runnable {
         }
     }
 
-    /**
-     * Checks that given concurrency value belong to the certain range 1-256.
-     * The highest value should be in sync with:
-     * Parameters.ConcurrencyParameters.MAX_CONCURRENCY
-     *
-     * @param concurrency value to check
-     * @return true, if concurrency is acceptable
-     */
-    static boolean isValidConcurrency(int concurrency) {
-        return 1 <= concurrency && concurrency <= 256;
-    }
-
-    //----------------------------------------------------------------------------
-
     private void handleRequestsUntilClosed() throws InterruptedException {
         while (!closing) {
             try {
@@ -473,18 +435,145 @@ public class Agent implements Runnable {
         }
     }
 
-    private static void closeIgnoreExceptions(Connection c) {
-        try {
-            c.close();
-        } catch (IOException e) {
+    private synchronized void setSystemStreams(Object owner, PrintStream out, PrintStream err)
+            throws InterruptedException {
+        if (owner == null) {
+            throw new NullPointerException();
         }
+
+        while (currSystemStreamOwner != null) {
+            wait();
+        }
+
+        currSystemStreamOwner = owner;
+        saveOut = System.out;
+        saveErr = System.err;
+        System.setOut(out);
+        System.setErr(err);
     }
 
-    private static int min(int a, int b) {
-        return a < b ? a : b;
+    private synchronized void resetSystemStreams(Object owner) {
+        if (owner == null) {
+            throw new NullPointerException();
+        }
+
+        if (owner != currSystemStreamOwner) {
+            throw new IllegalStateException("expected: " + owner + " found: " + currSystemStreamOwner);
+        }
+
+        currSystemStreamOwner = null;
+        System.setOut(saveOut);
+        System.setErr(saveErr);
+        notifyAll();
+    }
+
+
+    /**
+     * An interface for observing activity on an agent.
+     */
+    public interface Observer {
+        /**
+         * Called when an agent's run method has been entered.
+         *
+         * @param agent The agent being started.
+         * @see Agent#run
+         */
+        void started(Agent agent);
+
+        /**
+         * Called if an agent's run method has trouble accepting a connection.
+         *
+         * @param agent The agent trying to open a connection
+         * @param e     The exception that occurred
+         * @see Agent#run
+         */
+        void errorOpeningConnection(Agent agent, Exception e);
+
+        /**
+         * Called when an agent's run method completed.  Normally, the method will
+         * run until an error occurs, or until the thread is interrupted or stopped.
+         *
+         * @param agent The agent which has completed the work.
+         * @see Agent#run
+         */
+        void finished(Agent agent);
+
+
+        /**
+         * Called when an agent has successfully opened a connection to service
+         * a request.
+         *
+         * @param agent The agent which opened the connection.
+         * @param c     The connection which was opened.
+         */
+        void openedConnection(Agent agent, Connection c);
+
+        /**
+         * Called when an agent is about to execute a request to execute a Test object.
+         *
+         * @param agent     The agent about to do the work.
+         * @param c         The connection to the client requesting the work.
+         * @param tag       A tag identifying the work.
+         * @param className The name of the class to be run
+         * @param args      Arguments for the class to be run.
+         */
+        void execTest(Agent agent, Connection c, String tag, String className, String... args);
+
+        /**
+         * Called when am agent is about to execute a request to execute a Command object.
+         *
+         * @param agent     The agent about to do the work.
+         * @param c         The connection to the client requesting the work.
+         * @param tag       A tag identifying the work.
+         * @param className The name of the class to be run
+         * @param args      Arguments for the class to be run.
+         */
+        void execCommand(Agent agent, Connection c, String tag, String className, String... args);
+
+        /**
+         * Called when the agent is about to execute a request to execute a main program.
+         *
+         * @param agent     The agent about to do the work.
+         * @param c         The connection to the client requesting the work.
+         * @param tag       A tag identifying the work.
+         * @param className The name of the class to be run
+         * @param args      Arguments for the class to be run.
+         */
+        void execMain(Agent agent, Connection c, String tag, String className, String... args);
+
+        /**
+         * Called when the agent has successfully completed a request to execute a class.
+         *
+         * @param agent  The agent that performed the work.
+         * @param c      The connection to the client requesting the work.
+         * @param result The result status of the work
+         */
+        void result(Agent agent, Connection c, Status result);
+
+        /**
+         * Called when the agent has failed to execute a class,
+         * or has failed to report the results back to the agent requesting the action,
+         * because an exception occurred.
+         *
+         * @param agent The agent that performed the work.
+         * @param c     The connection to the client requesting the work.
+         * @param e     The exception that occurred.
+         */
+        void exception(Agent agent, Connection c, Throwable e);
+
+        /**
+         * Called when the agent has completed all processing of the request
+         * that arrived on a particular connection.
+         *
+         * @param agent The agent that performed the work.
+         * @param c     The connection to the client requesting the work.
+         */
+        void completed(Agent agent, Connection c);
     }
 
     private class Notifier {
+        private Observer[] observers = new Observer[0];
+
         public synchronized void addObserver(Observer o) {
             observers = DynamicArray.append(observers, o);
         }
@@ -552,105 +641,7 @@ public class Agent implements Runnable {
                 observer.completed(Agent.this, connection);
             }
         }
-
-        private Observer[] observers = new Observer[0];
     }
-
-    private synchronized void setSystemStreams(Object owner, PrintStream out, PrintStream err)
-            throws InterruptedException {
-        if (owner == null) {
-            throw new NullPointerException();
-        }
-
-        while (currSystemStreamOwner != null) {
-            wait();
-        }
-
-        currSystemStreamOwner = owner;
-        saveOut = System.out;
-        saveErr = System.err;
-        System.setOut(out);
-        System.setErr(err);
-    }
-
-    private synchronized void resetSystemStreams(Object owner) {
-        if (owner == null) {
-            throw new NullPointerException();
-        }
-
-        if (owner != currSystemStreamOwner) {
-            throw new IllegalStateException("expected: " + owner + " found: " + currSystemStreamOwner);
-        }
-
-        currSystemStreamOwner = null;
-        System.setOut(saveOut);
-        System.setErr(saveErr);
-        notifyAll();
-    }
-
-    private boolean closing;
-    private Thread mainThread;
-    private int maxThreads;
-    private Vector<Thread> threads = new Vector<>();
-    private Vector<Task> tasks = new Vector<>();
-    private Notifier notifier = new Notifier();
-    private Object currSystemStreamOwner = null;
-    private PrintStream saveOut;
-    private PrintStream saveErr;
-
-    /**
-     * A flag to enable debug tracing of the operation of the agent.
-     */
-    protected boolean tracing = false;
-    protected PrintStream traceOut = System.out;
-
-    /**
-     * The default time to wait after a failed attempt to open a connection,
-     * and before trying again.
-     *
-     * @see #setRetryDelay
-     */
-    public static final int DEFAULT_RETRY_DELAY = 5;
-    private int retryDelay = DEFAULT_RETRY_DELAY;
-    private ConnectionFactory connectionFactory;
-
-    public static final int MILLIS_PER_SECOND = 1000;
-
-    private ConfigValuesMap map;
-    private Timer timer;
-
-    /* For autonumbering agent tasks. */
-    private static int threadInitNumber;
-
-    private static synchronized int nextThreadNum() {
-        return threadInitNumber++;
-    }
-
-    // The following is used to ensure consistency between Agent and AgentManager
-    static final short protocolVersion = 105;
-
-    /**
-     * The default port to which active agents will try and connect on a nominated host.
-     */
-    public static final int defaultActivePort = 1907;
-
-    /**
-     * The default port on which passive ports will listen for incoming connections.
-     */
-    public static final int defaultPassivePort = 1908;
-
-    static final byte CLASS = (byte) 'C';
-    static final byte DATA = (byte) 'D';
-    static final byte LOG = (byte) 'L';
-    static final byte LOG_FLUSH = (byte) 'l';
-    static final byte REF = (byte) 'R';
-    static final byte REF_FLUSH = (byte) 'r';
-    static final byte STATUS = (byte) 'S';
-
-    static final String PRODUCT_NAME = "JT Harness Agent";
-    static final String PRODUCT_VERSION = "JTA_6.0";
-    static final String PRODUCT_COPYRIGHT = "Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.";
-
 
     /**
      * Tasks handle the individual requests received by Agent.
@@ -659,6 +650,13 @@ public class Agent implements Runnable {
      * test class is written back to the client via the connection.
      */
     class Task {
+        private Connection connection;
+        private DataInputStream in;
+        private DataOutputStream out;
+        private String tag;
+        private String request;
+        private Integer timeoutValue;
+
         Task(Connection c) {
             if (c == null) {
                 throw new NullPointerException();
@@ -927,86 +925,6 @@ public class Agent implements Runnable {
             return new CommandExecutor(tc, args, testLog, testRef, timeoutValue).execute();
         }
 
-        private class CommandExecutor {
-
-            private String[] args;
-            private PrintWriter testLog;
-            private PrintWriter testRef;
-            private Command tc;
-            private Status result;
-
-            private final Object LOCK = new Object();
-            private boolean executed = false;
-            private boolean timeout = false;
-            private int timeoutValue = 0;
-
-            public CommandExecutor(Command tc, String[] args, PrintWriter testLog,
-                                   PrintWriter testRef, int timeoutValue) {
-                this.args = args;
-                this.testLog = testLog;
-                this.testRef = testRef;
-                this.tc = tc;
-                this.timeoutValue = timeoutValue;
-            }
-
-            public Status execute() {
-
-                Timer alarmTimer = null;
-                if (timeoutValue != 0) {
-                    alarmTimer = new Timer();
-                    alarmTimer.requestDelayedCallback(new Timer.Timeable() {
-                        @Override
-                        public void timeout() {
-                            result = Status.error("Marked as error by timeout after " + timeout + " seconds");
-                            timeout = true;
-                            synchronized (LOCK) {
-                                LOCK.notifyAll();
-                            }
-                        }
-                    }, timeoutValue * MILLIS_PER_SECOND);
-                }
-
-                Thread executeThread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            result = tc.run(args, testLog, testRef);
-                        } catch (Exception e) {
-                            result = Status.error("Unhandled " + e.getClass().getName() + " exception " +
-                                    "for " + tc.getClass().getName() + " command. " +
-                                    "Exception message: " + e.getMessage());
-                        } finally {
-                            executed = true;
-                            synchronized (LOCK) {
-                                LOCK.notifyAll();
-                            }
-                        }
-                    }
-                }, "CommandExecutor executeThread for command args: " + Arrays.toString(args));
-                executeThread.start();
-
-                synchronized (LOCK) {
-                    while (!executed && !timeout) {
-                        try {
-                            LOCK.wait();
-                        } catch (InterruptedException e) {
-                            // treat interrupt as exit request
-                            break;
-                        }
-                    }
-                }
-
-                executeThread.setPriority(Thread.MIN_PRIORITY);
-                executeThread.interrupt();
-                if (alarmTimer != null) {
-                    alarmTimer.finished();
-                }
-
-                return result;
-            }
-
-        }
-
         private Status executeMain(Class<?> c, String[] args,
                                    PrintWriter testLog, PrintWriter testRef)
                 throws IllegalAccessException {
@@ -1228,16 +1146,85 @@ public class Agent implements Runnable {
 
         }
 
-        private Connection connection;
-        private DataInputStream in;
-        private DataOutputStream out;
-        private String tag;
-        private String request;
-        private Integer timeoutValue;
-    }
+        private class CommandExecutor {
 
-    private static Constructor<? extends ClassLoader> classLoaderConstructor;
-    private static Method factoryMethod = null;
+            private final Object LOCK = new Object();
+            private String[] args;
+            private PrintWriter testLog;
+            private PrintWriter testRef;
+            private Command tc;
+            private Status result;
+            private boolean executed = false;
+            private boolean timeout = false;
+            private int timeoutValue = 0;
+
+            public CommandExecutor(Command tc, String[] args, PrintWriter testLog,
+                                   PrintWriter testRef, int timeoutValue) {
+                this.args = args;
+                this.testLog = testLog;
+                this.testRef = testRef;
+                this.tc = tc;
+                this.timeoutValue = timeoutValue;
+            }
+
+            public Status execute() {
+
+                Timer alarmTimer = null;
+                if (timeoutValue != 0) {
+                    alarmTimer = new Timer();
+                    alarmTimer.requestDelayedCallback(new Timer.Timeable() {
+                        @Override
+                        public void timeout() {
+                            result = Status.error("Marked as error by timeout after " + timeout + " seconds");
+                            timeout = true;
+                            synchronized (LOCK) {
+                                LOCK.notifyAll();
+                            }
+                        }
+                    }, timeoutValue * MILLIS_PER_SECOND);
+                }
+
+                Thread executeThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            result = tc.run(args, testLog, testRef);
+                        } catch (Exception e) {
+                            result = Status.error("Unhandled " + e.getClass().getName() + " exception " +
+                                    "for " + tc.getClass().getName() + " command. " +
+                                    "Exception message: " + e.getMessage());
+                        } finally {
+                            executed = true;
+                            synchronized (LOCK) {
+                                LOCK.notifyAll();
+                            }
+                        }
+                    }
+                }, "CommandExecutor executeThread for command args: " + Arrays.toString(args));
+                executeThread.start();
+
+                synchronized (LOCK) {
+                    while (!executed && !timeout) {
+                        try {
+                            LOCK.wait();
+                        } catch (InterruptedException e) {
+                            // treat interrupt as exit request
+                            break;
+                        }
+                    }
+                }
+
+                executeThread.setPriority(Thread.MIN_PRIORITY);
+                executeThread.interrupt();
+                if (alarmTimer != null) {
+                    alarmTimer.finished();
+                }
+
+                return result;
+            }
+
+        }
+    }
 }
 
 
@@ -1247,6 +1234,11 @@ public class Agent implements Runnable {
  * client via the Task's sendChars method.
  */
 class AgentWriter extends Writer {
+    private byte type;
+    private Agent.Task parent;
+    private char[] buf = new char[1024];
+    private int count = 0;
+
     /**
      * Create a stream that sends its data back to the parent Task.
      *
@@ -1353,9 +1345,4 @@ class AgentWriter extends Writer {
     public void close() throws IOException {
         flush();
     }
-
-    private byte type;
-    private Agent.Task parent;
-    private char[] buf = new char[1024];
-    private int count = 0;
 }

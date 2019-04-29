@@ -53,6 +53,41 @@ import java.util.Set;
 public class KeywordsInterview
         extends Interview
         implements Parameters.MutableKeywordsParameters {
+    private Keywords cachedKeywords;
+    private String cachedKeywords_expr;
+    private String cachedKeywordsError;
+    private TestFilter cachedKeywordsFilter;
+    private Question qEnd = new FinalQuestion(this);
+    private InterviewParameters parent;
+    private KeywordsQuestion qKeywords = new KeywordsQuestion(this, "keywords") {
+        @Override
+        protected Question getNext() {
+            if (value == null || value.isEmpty()) {
+                return null;
+            } else {
+                return qEnd;
+            }
+        }
+
+        @Override
+        public boolean isValueValid() {
+            updateCachedKeywordsData();
+            return cachedKeywordsError == null;
+        }
+    };
+    private YesNoQuestion qNeedKeywords = new YesNoQuestion(this, "needKeywords", YesNoQuestion.NO) {
+        @Override
+        protected Question getNext() {
+            if (value == null) {
+                return null;
+            } else if (Objects.equals(value, YES)) {
+                return qKeywords;
+            } else {
+                return qEnd;
+            }
+        }
+    };
+
     /**
      * Create an interview.
      *
@@ -68,6 +103,14 @@ public class KeywordsInterview
         setFirstQuestion(qNeedKeywords);
     }
 
+    private static boolean equal(String s1, String s2) {
+        return s1 == null ? s2 == null : s1.equals(s2);
+    }
+
+    //----------------------------------------------------------------------------
+    //
+    // Need keywords
+
     public void dispose() {
         cachedKeywords = null;
         cachedKeywords_expr = null;
@@ -75,6 +118,9 @@ public class KeywordsInterview
         cachedKeywordsFilter = null;
     }
 
+    //----------------------------------------------------------------------------
+    //
+    // Keywords
 
     /**
      * Get a Keywords object based on the information in the interview.
@@ -128,7 +174,6 @@ public class KeywordsInterview
         qKeywords.setValue(mode, value);
     }
 
-
     /**
      * Get a test filter based on the keyword expression in the interview.
      *
@@ -144,27 +189,48 @@ public class KeywordsInterview
     }
 
     //----------------------------------------------------------------------------
-    //
-    // Need keywords
 
-    private YesNoQuestion qNeedKeywords = new YesNoQuestion(this, "needKeywords", YesNoQuestion.NO) {
-        @Override
-        protected Question getNext() {
-            if (value == null) {
-                return null;
-            } else if (Objects.equals(value, YES)) {
-                return qKeywords;
-            } else {
-                return qEnd;
+    private void updateCachedKeywordsData() {
+        String expr = qKeywords.getValue();
+        if (!equal(cachedKeywords_expr, expr)) {
+            try {
+                TestSuite ts = parent.getTestSuite();
+
+                if (ts == null) {
+                    throw new IllegalStateException("Null TestSuite, cannot get keyword info");
+                }
+
+                String[] validKeywords = ts.getKeywords();
+                Set<String> validKeywordsSet;
+                if (validKeywords == null) {
+                    validKeywordsSet = null;
+                } else {
+                    validKeywordsSet = new HashSet<>(Arrays.asList(validKeywords));
+                }
+
+                int mode = qKeywords.getMode();
+                String modeName = mode == ANY_OF ? Keywords.ANY_OF
+                        : mode == ALL_OF ? Keywords.ALL_OF
+                        : Keywords.EXPR;
+                Keywords k = Keywords.create(modeName, qKeywords.getModeValue(), validKeywordsSet);
+                cachedKeywords = k;
+                cachedKeywordsFilter = new KeywordsFilter(k);
+                cachedKeywordsError = null;
+            } catch (Keywords.Fault e) {
+                cachedKeywords = null;
+                cachedKeywordsFilter = null;
+                cachedKeywordsError = e.getMessage();
             }
+            cachedKeywords_expr = expr;
         }
-    };
+    }
 
-    //----------------------------------------------------------------------------
-    //
-    // Keywords
+    //--------------------------------------------------------
 
     private static abstract class KeywordsQuestion extends StringQuestion {
+        private int mode;
+        private String modeValue;
+
         KeywordsQuestion(Interview i, String t) {
             super(i, t);
         }
@@ -258,77 +324,5 @@ public class KeywordsInterview
             //System.err.println("KI.t2E: list=" + list + " result=" + sb);
             return sb.toString();
         }
-
-        private int mode;
-        private String modeValue;
     }
-
-    private KeywordsQuestion qKeywords = new KeywordsQuestion(this, "keywords") {
-        @Override
-        protected Question getNext() {
-            if (value == null || value.isEmpty()) {
-                return null;
-            } else {
-                return qEnd;
-            }
-        }
-
-        @Override
-        public boolean isValueValid() {
-            updateCachedKeywordsData();
-            return cachedKeywordsError == null;
-        }
-    };
-
-    private void updateCachedKeywordsData() {
-        String expr = qKeywords.getValue();
-        if (!equal(cachedKeywords_expr, expr)) {
-            try {
-                TestSuite ts = parent.getTestSuite();
-
-                if (ts == null) {
-                    throw new IllegalStateException("Null TestSuite, cannot get keyword info");
-                }
-
-                String[] validKeywords = ts.getKeywords();
-                Set<String> validKeywordsSet;
-                if (validKeywords == null) {
-                    validKeywordsSet = null;
-                } else {
-                    validKeywordsSet = new HashSet<>(Arrays.asList(validKeywords));
-                }
-
-                int mode = qKeywords.getMode();
-                String modeName = mode == ANY_OF ? Keywords.ANY_OF
-                        : mode == ALL_OF ? Keywords.ALL_OF
-                        : Keywords.EXPR;
-                Keywords k = Keywords.create(modeName, qKeywords.getModeValue(), validKeywordsSet);
-                cachedKeywords = k;
-                cachedKeywordsFilter = new KeywordsFilter(k);
-                cachedKeywordsError = null;
-            } catch (Keywords.Fault e) {
-                cachedKeywords = null;
-                cachedKeywordsFilter = null;
-                cachedKeywordsError = e.getMessage();
-            }
-            cachedKeywords_expr = expr;
-        }
-    }
-
-    private Keywords cachedKeywords;
-    private String cachedKeywords_expr;
-    private String cachedKeywordsError;
-    private TestFilter cachedKeywordsFilter;
-
-    private Question qEnd = new FinalQuestion(this);
-
-    //----------------------------------------------------------------------------
-
-    private static boolean equal(String s1, String s2) {
-        return s1 == null ? s2 == null : s1.equals(s2);
-    }
-
-    //--------------------------------------------------------
-
-    private InterviewParameters parent;
 }

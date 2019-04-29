@@ -38,6 +38,10 @@ import java.io.IOException;
  * @see CommentStream
  */
 public class ShScriptCommentStream extends CommentStream {
+    private static final String LINESEP = System.getProperty("line.separator");
+
+    //----- internal routines---------------------------------------------------
+
     @Override
     public String readComment() throws IOException {
         String comment, line;
@@ -63,7 +67,7 @@ public class ShScriptCommentStream extends CommentStream {
         }
     }
 
-    //----- internal routines---------------------------------------------------
+    //----------member variables------------------------------------------------
 
     private String getCommentLine(String line) {
         boolean isLineComment = false;
@@ -82,8 +86,4 @@ public class ShScriptCommentStream extends CommentStream {
         }
         return line.substring(pos) + LINESEP;
     }
-
-    //----------member variables------------------------------------------------
-
-    private static final String LINESEP = System.getProperty("line.separator");
 }

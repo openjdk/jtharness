@@ -44,6 +44,8 @@ import java.nio.charset.Charset;
  */
 public class HTMLWriterEx extends HTMLWriter {
 
+    private static final String META_CONTENT = "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=%s\">\n";
+
     /**
      * Create an HTMLWriterEx object, using a default doctype for HTML 3.2.
      *
@@ -124,6 +126,4 @@ public class HTMLWriterEx extends HTMLWriter {
         closePrevTag();
         writeRaw(String.format(META_CONTENT, charSet));
     }
-
-    private static final String META_CONTENT = "\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=%s\">\n";
 }

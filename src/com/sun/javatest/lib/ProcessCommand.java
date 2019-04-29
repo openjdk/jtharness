@@ -48,6 +48,16 @@ import java.util.Set;
  * A Command to execute an arbitrary OS command.
  **/
 public class ProcessCommand extends Command {
+    private static boolean useFailedOnException =
+            Boolean.getBoolean("javatest.processCommand.useFailedOnException");
+    private static int serial;
+    private boolean verbose;
+    private Map<Integer, Status> statusTable;
+    private Status defaultStatus;
+    private File execDir;
+    private boolean inheritEnv =
+            Boolean.getBoolean("javatest.processCommand.inheritEnv");
+
     /**
      * A stand-alone entry point for this command. An instance of this
      * command is created, and its <code>run</code> method invoked,
@@ -108,17 +118,6 @@ public class ProcessCommand extends Command {
     }
 
     /**
-     * Set the directory in which to execute the process.
-     * Use null to indicate the default directory.
-     *
-     * @param dir the directory in which to execute the process.
-     * @see #getExecDir
-     */
-    public void setExecDir(File dir) {
-        execDir = dir;
-    }
-
-    /**
      * Get the directory in which to execute the process,
      * or null if none set.
      *
@@ -127,6 +126,17 @@ public class ProcessCommand extends Command {
      */
     public File getExecDir() {
         return execDir;
+    }
+
+    /**
+     * Set the directory in which to execute the process.
+     * Use null to indicate the default directory.
+     *
+     * @param dir the directory in which to execute the process.
+     * @see #getExecDir
+     */
+    public void setExecDir(File dir) {
+        execDir = dir;
     }
 
     /**
@@ -407,13 +417,15 @@ public class ProcessCommand extends Command {
         }
     }
 
-    private boolean verbose;
-
-
     /**
      * A thread to copy an input stream to an output stream
      */
     static class StreamCopier extends Thread {
+        private BufferedReader in;
+        private PrintWriter out;
+        private String lastStatusLine;
+        private boolean done;
+
         /**
          * Create one.
          *
@@ -492,22 +504,6 @@ public class ProcessCommand extends Command {
             }
         }
 
-
-        private BufferedReader in;
-        private PrintWriter out;
-        private String lastStatusLine;
-        private boolean done;
-
     }
-
-    private static boolean useFailedOnException =
-            Boolean.getBoolean("javatest.processCommand.useFailedOnException");
-
-    private static int serial;
-    private Map<Integer, Status> statusTable;
-    private Status defaultStatus;
-    private File execDir;
-    private boolean inheritEnv =
-            Boolean.getBoolean("javatest.processCommand.inheritEnv");
 }
 

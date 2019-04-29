@@ -227,13 +227,13 @@ class EmptyTestTreeModel extends TestTreeModel implements TreeModel, TestResultT
     }
 
     @Override
-    void setParameters(Parameters p) {
-        params = p;
+    Parameters getParameters() {
+        return params;
     }
 
     @Override
-    Parameters getParameters() {
-        return params;
+    void setParameters(Parameters p) {
+        params = p;
     }
 
     @Override

@@ -92,6 +92,71 @@ import java.util.Map;
 class QuestionPanel extends JPanel
         implements Scrollable {
 
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+
+
+    // ---------- Component stuff ---------------------------------------
+    private static final int PREFERRED_HEIGHT = 3; // inches
+
+    // ---------- Scrollable stuff ---------------------------------------
+    private static final int PREFERRED_WIDTH = 4; // inches
+    private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
+    private static final int TEXT_AREA_INSETS_TOP = 20;
+    private static final int TEXT_AREA_INSETS_LEFT_RIGHT = 10;
+    private static final int TEXT_AREA_INSETS_BOTTOM = 10;
+
+    // ---------- end of Scrollable stuff -----------------------------------
+    private static final int VALUE_PANEL_INSETS_TOP = 0;
+    private static final int VALUE_PANEL_INSETS_BOTTOM = 10;
+    private static final int VALUE_MESSAGE_FIELD_INSETS_TOP = 0;
+    private static final int VALUE_MESSAGE_FIELD_INSETS_BOTTOM = 0;
+    private static final int PROPS_PANEL_INSETS_TOP = 0;
+    private static final int PROPS_PANEL_INSETS_BOTTOM = 10;
+    private static String INVALID_VALUE = i18n.getString("qu.invalidValue.txt");
+    private static Color INVALID_VALUE_COLOR = i18n.getErrorColor();
+    private Interview interview;
+    private Question currentQuestion;
+    private QuestionRenderer currentRenderer;
+    private JLabel graphicLabel;
+    private JTextField titleField;
+    private JTextArea textArea;
+    private JPanel valuePanel;
+    private Runnable valueSaver;
+    private JTextField valueMessageField;
+    private JPanel propsPanel;
+    private JTextField tagField;
+    private Map<Class<? extends Question>, QuestionRenderer> renderers;
+    private Map<Class<? extends Question>, QuestionRenderer> customRenderers;
+    private Listener listener = new Listener();
+    private KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
+    private Action nextAction; // optionally settable
+    private Action valueAction = new AbstractAction() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String cmd = e.getActionCommand();
+            if (cmd.equals(QuestionRenderer.EDITED)) {
+                showValueMessage(null);
+            } else {
+                if (nextAction != null) {
+                    nextAction.actionPerformed(e);
+                } else {
+                    // default old behavior
+                    try {
+                        saveCurrentResponse();
+                        interview.next();
+                    } catch (Interview.Fault ex) {
+                        // exception normally means no more questions,
+                        // which should only be  because the value of the current
+                        // question is invalid
+                        // e.printStackTrace();
+                        // QuestionPanel.this.getToolkit().beep();
+                        showValueInvalidMessage();
+                    }
+                }
+            }
+        }
+
+    };
     /**
      * Create a panel in which to display the questions of the interview.
      * The interview to be run.
@@ -106,9 +171,6 @@ class QuestionPanel extends JPanel
 
     }
 
-
-    // ---------- Component stuff ---------------------------------------
-
     @Override
     public Dimension getPreferredSize() {
         Dimension d = super.getPreferredSize();
@@ -116,8 +178,6 @@ class QuestionPanel extends JPanel
         d.width = Math.max(d.width, PREFERRED_WIDTH * DOTS_PER_INCH);
         return d;
     }
-
-    // ---------- Scrollable stuff ---------------------------------------
 
     @Override
     public Dimension getPreferredScrollableViewportSize() {
@@ -197,8 +257,6 @@ class QuestionPanel extends JPanel
         return true;
 //        }
     }
-
-    // ---------- end of Scrollable stuff -----------------------------------
 
     void setNextAction(Action nextAction) {
         this.nextAction = nextAction;
@@ -570,7 +628,6 @@ class QuestionPanel extends JPanel
         return null;
     }
 
-
     private boolean anyChildHasFocus(JPanel p) {
         if (p.hasFocus()) {
             return true;
@@ -585,73 +642,6 @@ class QuestionPanel extends JPanel
         }
         return false;
     }
-
-    private Interview interview;
-    private Question currentQuestion;
-    private QuestionRenderer currentRenderer;
-    private JLabel graphicLabel;
-    private JTextField titleField;
-    private JTextArea textArea;
-    private JPanel valuePanel;
-    private Runnable valueSaver;
-    private JTextField valueMessageField;
-    private JPanel propsPanel;
-    private JTextField tagField;
-    private Map<Class<? extends Question>, QuestionRenderer> renderers;
-    private Map<Class<? extends Question>, QuestionRenderer> customRenderers;
-    private Listener listener = new Listener();
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
-    private static String INVALID_VALUE = i18n.getString("qu.invalidValue.txt");
-    private static Color INVALID_VALUE_COLOR = i18n.getErrorColor();
-
-    private KeyStroke enterKey = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
-    private Action valueAction = new AbstractAction() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String cmd = e.getActionCommand();
-            if (cmd.equals(QuestionRenderer.EDITED)) {
-                showValueMessage(null);
-            } else {
-                if (nextAction != null) {
-                    nextAction.actionPerformed(e);
-                } else {
-                    // default old behavior
-                    try {
-                        saveCurrentResponse();
-                        interview.next();
-                    } catch (Interview.Fault ex) {
-                        // exception normally means no more questions,
-                        // which should only be  because the value of the current
-                        // question is invalid
-                        // e.printStackTrace();
-                        // QuestionPanel.this.getToolkit().beep();
-                        showValueInvalidMessage();
-                    }
-                }
-            }
-        }
-
-    };
-
-    private Action nextAction; // optionally settable
-
-    private static final int PREFERRED_HEIGHT = 3; // inches
-    private static final int PREFERRED_WIDTH = 4; // inches
-    private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
-    private static final int TEXT_AREA_INSETS_TOP = 20;
-
-    private static final int TEXT_AREA_INSETS_LEFT_RIGHT = 10;
-    private static final int TEXT_AREA_INSETS_BOTTOM = 10;
-
-    private static final int VALUE_PANEL_INSETS_TOP = 0;
-    private static final int VALUE_PANEL_INSETS_BOTTOM = 10;
-
-    private static final int VALUE_MESSAGE_FIELD_INSETS_TOP = 0;
-    private static final int VALUE_MESSAGE_FIELD_INSETS_BOTTOM = 0;
-
-    private static final int PROPS_PANEL_INSETS_TOP = 0;
-    private static final int PROPS_PANEL_INSETS_BOTTOM = 10;
 
     public void setCustomRenderers(Map<Class<? extends Question>, QuestionRenderer> customRenderers) {
         this.customRenderers = customRenderers;

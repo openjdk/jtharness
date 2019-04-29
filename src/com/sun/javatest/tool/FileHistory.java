@@ -61,6 +61,28 @@ import java.util.WeakHashMap;
  */
 public class FileHistory {
     /**
+     * The name of the client property used to access the File that identifies
+     * which dynamically added menu entry has been selected.
+     *
+     * @see Listener
+     */
+    public static final String FILE = "file";
+    private static final String FILE_HISTORY = "fileHistory";
+    private static WeakHashMap<WorkDirectory, Map<String, FileHistory>> cache;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(FileHistory.class);
+    private WeakReference<WorkDirectory> workDirRef;
+    private String name;
+    private File historyFile;
+    private long historyFileLastModified;
+    private Vector<File> entries;
+
+    private FileHistory(WorkDirectory workDir, String name) {
+        workDirRef = new WeakReference<>(workDir); // just used for logging errors
+        this.name = name;
+        historyFile = workDir.getSystemFile(name);
+    }
+
+    /**
      * Get a shared FileHistory object for a specified file and work directory.
      *
      * @param wd   The work directory in which the history file is maintained.
@@ -89,7 +111,6 @@ public class FileHistory {
 
         return h;
     }
-
 
     /**
      * Get a shared FileHistory object for a specified file and path to work directory.
@@ -215,13 +236,6 @@ public class FileHistory {
         return null;
     }
 
-
-    private FileHistory(WorkDirectory workDir, String name) {
-        workDirRef = new WeakReference<>(workDir); // just used for logging errors
-        this.name = name;
-        historyFile = workDir.getSystemFile(name);
-    }
-
     private void ensureEntriesUpToDate() {
         if (entries == null || historyFile.lastModified() > historyFileLastModified) {
             readEntries();
@@ -276,7 +290,6 @@ public class FileHistory {
         historyFileLastModified = historyFile.lastModified();
     }
 
-
     /**
      * A class that will dynamically add the latest entries for a
      * FileHistory onto a menu. To do this, an instance of this class
@@ -284,6 +297,10 @@ public class FileHistory {
      * {@link javax.swing.JMenu#addMenuListener addMenuListener}.
      */
     public static class Listener implements MenuListener {
+        private FileHistory history;
+        private int offset;
+        private ActionListener clientListener;
+
         /**
          * Create a Listener that can be used to dynamically add the
          * latest entries from a FileHistory onto a menu.  The dynamic
@@ -420,28 +437,6 @@ public class FileHistory {
                 }
             }
         }
-
-        private FileHistory history;
-        private int offset;
-        private ActionListener clientListener;
     }
-
-    private WeakReference<WorkDirectory> workDirRef;
-    private String name;
-    private File historyFile;
-    private long historyFileLastModified;
-    private Vector<File> entries;
-
-    /**
-     * The name of the client property used to access the File that identifies
-     * which dynamically added menu entry has been selected.
-     *
-     * @see Listener
-     */
-    public static final String FILE = "file";
-
-    private static WeakHashMap<WorkDirectory, Map<String, FileHistory>> cache;
-    private static final String FILE_HISTORY = "fileHistory";
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(FileHistory.class);
 
 }

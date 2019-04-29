@@ -41,6 +41,11 @@ import java.awt.Color;
  */
 
 abstract class TP_Subpanel extends JPanel {
+    protected TestSuite testSuite;
+    protected TestResult subpanelTest;
+    protected TestDescription subpanelDesc;
+    protected UIFactory uif;
+
     TP_Subpanel(UIFactory uif, String name) {
         this.uif = uif;
         setName(name);
@@ -66,10 +71,5 @@ abstract class TP_Subpanel extends JPanel {
             throw new JavaTestError(i18n, "test.noDesc", e);
         }
     }
-
-    protected TestSuite testSuite;
-    protected TestResult subpanelTest;
-    protected TestDescription subpanelDesc;
-    protected UIFactory uif;
 }
 

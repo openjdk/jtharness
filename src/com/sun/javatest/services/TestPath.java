@@ -43,9 +43,9 @@ import java.util.regex.Pattern;
  */
 public class TestPath {
 
+    private final Set<String> services;
     protected ServiceManager mgr;
     protected Pattern p;
-    private final Set<String> services;
     protected TDMatcher tdm;
 
     /**
@@ -117,10 +117,6 @@ public class TestPath {
         this.mgr = mgr;
     }
 
-    public interface TDMatcher {
-        boolean matches(TestDescription td);
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("TestPath  pattern='");
@@ -131,5 +127,9 @@ public class TestPath {
         }
         sb.append("}");
         return sb.toString();
+    }
+
+    public interface TDMatcher {
+        boolean matches(TestDescription td);
     }
 }

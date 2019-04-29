@@ -35,6 +35,21 @@ import java.util.Map;
  * A {@link Question question} to which the response is one or more filenames.
  */
 public abstract class FileListQuestion extends Question {
+    private static final File[] empty = {};
+    /**
+     * The current (default or latest) response to this question.
+     */
+    protected File[] value;
+    /**
+     * The default response for this question.
+     */
+    private File[] defaultValue;
+    private File baseDir;
+    private boolean baseRelativeOnly;
+    private FileFilter[] filters;
+    private FileFilter[] hintFilters;
+    private boolean duplicatesAllowed = true;
+
     /**
      * Create a question with a nominated tag.
      *
@@ -49,6 +64,116 @@ public abstract class FileListQuestion extends Question {
         }
 
         setDefaultValue(value);
+    }
+
+    /**
+     * Break apart a string containing a white-space separate list of file
+     * names into an array of individual files.
+     * If the string is null or empty, an empty array is returned.
+     * The preferred separator is a newline character;
+     * if there are no newline characters in the string, then
+     * (for backward compatibility) space is accepted instead.
+     *
+     * @param s The string to be broken apart
+     * @return An array of files determined from the parameter string.
+     * @see #join
+     */
+    public static File[] split(String s) {
+        if (s == null) {
+            return empty;
+        }
+
+        char sep = s.indexOf('\n') == -1 ? ' ' : '\n';
+
+        List<File> v = new ArrayList<>();
+        int start = -1;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == sep) {
+                if (start != -1) {
+                    v.add(new File(s.substring(start, i)));
+                }
+                start = -1;
+            } else if (start == -1) {
+                start = i;
+            }
+        }
+        if (start != -1) {
+            v.add(new File(s.substring(start)));
+        }
+        if (v.isEmpty()) {
+            return empty;
+        }
+        File[] a = new File[v.size()];
+        v.toArray(a);
+        return a;
+    }
+
+    /**
+     * Convert a list of filenames to a newline separated string.
+     *
+     * @param ff an array of filenames
+     * @return a string containing the filenames separated by newline
+     * characters.
+     * If there is just one filename, and if it contains space characters
+     * in its path,
+     * the list is terminated by a newline as well.
+     * If the parameter array is null or empty, an empty string is returned.
+     * @see #split
+     */
+    public static String join(File... ff) {
+        if (ff == null || ff.length == 0) {
+            return "";
+        }
+
+        int l = ff.length - 1; // allow for spaces between words
+        for (File aFf : ff) {
+            l += aFf.getPath().length();
+        }
+
+        StringBuilder sb = new StringBuilder(l);
+
+        String ff0p = ff[0].getPath();
+        sb.append(ff0p);
+
+        if (ff.length == 1 && ff0p.indexOf(' ') != -1) {
+            // if there is just one file, and if it contains space characters,
+            // then force a newline character for subsequent split to recognize
+            sb.append('\n');
+        } else {
+            // if there is more than one file, separate them with newlines
+            for (int i = 1; i < ff.length; i++) {
+                sb.append('\n');
+                sb.append(ff[i].getPath());
+            }
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * Determine if two arrays of filenames are equal.
+     *
+     * @param f1 the first array to be compared
+     * @param f2 the other array to be compared
+     * @return true if both arrays are null, or if neither are null and if
+     * their contents match, element for element, in order
+     */
+    protected static boolean equal(File[] f1, File... f2) {
+        if (f1 == null || f2 == null) {
+            return f1 == f2;
+        }
+
+        if (f1.length != f2.length) {
+            return false;
+        }
+
+        for (int i = 0; i < f1.length; i++) {
+            if (f1[i] != f2[i]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -73,6 +198,16 @@ public abstract class FileListQuestion extends Question {
     }
 
     /**
+     * Check whether or not duplicates should be allowed in the list.
+     *
+     * @return true if duplicates should be allowed, and false otherwise
+     * @see #setDuplicatesAllowed
+     */
+    public boolean isDuplicatesAllowed() {
+        return duplicatesAllowed;
+    }
+
+    /**
      * Specify whether or not duplicates should be allowed in the list.
      * By default, duplicates are allowed.
      *
@@ -84,16 +219,6 @@ public abstract class FileListQuestion extends Question {
     }
 
     /**
-     * Check whether or not duplicates should be allowed in the list.
-     *
-     * @return true if duplicates should be allowed, and false otherwise
-     * @see #setDuplicatesAllowed
-     */
-    public boolean isDuplicatesAllowed() {
-        return duplicatesAllowed;
-    }
-
-    /**
      * Get the current (default or latest) response to this question.
      *
      * @return The current value.
@@ -101,26 +226,6 @@ public abstract class FileListQuestion extends Question {
      */
     public File[] getValue() {
         return value;
-    }
-
-    /**
-     * Verify this question is on the current path, and if it is,
-     * return the current value.
-     *
-     * @return the current value of this question
-     * @throws Interview.NotOnPathFault if this question is not on the
-     *                                  current path
-     * @see #getValue
-     */
-    public File[] getValueOnPath()
-            throws Interview.NotOnPathFault {
-        interview.verifyPathContains(this);
-        return getValue();
-    }
-
-    @Override
-    public String getStringValue() {
-        return join(value);
     }
 
     /**
@@ -148,6 +253,26 @@ public abstract class FileListQuestion extends Question {
             interview.updatePath(this);
             interview.setEdited(true);
         }
+    }
+
+    /**
+     * Verify this question is on the current path, and if it is,
+     * return the current value.
+     *
+     * @return the current value of this question
+     * @throws Interview.NotOnPathFault if this question is not on the
+     *                                  current path
+     * @see #getValue
+     */
+    public File[] getValueOnPath()
+            throws Interview.NotOnPathFault {
+        interview.verifyPathContains(this);
+        return getValue();
+    }
+
+    @Override
+    public String getStringValue() {
+        return join(value);
     }
 
     /**
@@ -207,19 +332,6 @@ public abstract class FileListQuestion extends Question {
     }
 
     /**
-     * Set a filter used to select valid files for a response
-     * to this question.
-     *
-     * @param filter a filter used to select valid files for a response
-     *               to this question
-     * @see #getFilters
-     * @see #setFilters
-     */
-    public void setFilter(FileFilter filter) {
-        filters = new FileFilter[]{filter};
-    }
-
-    /**
      * Set the filters used to select valid files for a response
      * to this question.  For pre-50 behavior, both the filters and the hint
      * filter values are treated the same, and neither is used for validation
@@ -242,19 +354,16 @@ public abstract class FileListQuestion extends Question {
     }
 
     /**
-     * Set the filters which the user can use to help find files among a list
-     * of files - this is somewhat exposing of the fact that there is a user
-     * interface.  This should not be confused with setFilters(), which in
-     * version 5.0 or later of the harness, are used to do validity checks on
-     * the actual value (e.g.. in <code>isValid()</code>.
+     * Set a filter used to select valid files for a response
+     * to this question.
      *
-     * @param fs Filters which might be offered to the user.
+     * @param filter a filter used to select valid files for a response
+     *               to this question
+     * @see #getFilters
      * @see #setFilters
-     * @see #isValueValid
-     * @since 5.0
      */
-    public void setHintFilters(FileFilter... fs) {
-        hintFilters = fs;
+    public void setFilter(FileFilter filter) {
+        filters = new FileFilter[]{filter};
     }
 
     /**
@@ -271,6 +380,22 @@ public abstract class FileListQuestion extends Question {
         } else {
             return filters;
         }
+    }
+
+    /**
+     * Set the filters which the user can use to help find files among a list
+     * of files - this is somewhat exposing of the fact that there is a user
+     * interface.  This should not be confused with setFilters(), which in
+     * version 5.0 or later of the harness, are used to do validity checks on
+     * the actual value (e.g.. in <code>isValid()</code>.
+     *
+     * @param fs Filters which might be offered to the user.
+     * @see #setFilters
+     * @see #isValueValid
+     * @since 5.0
+     */
+    public void setHintFilters(FileFilter... fs) {
+        hintFilters = fs;
     }
 
     /**
@@ -344,50 +469,6 @@ public abstract class FileListQuestion extends Question {
     }
 
     /**
-     * Break apart a string containing a white-space separate list of file
-     * names into an array of individual files.
-     * If the string is null or empty, an empty array is returned.
-     * The preferred separator is a newline character;
-     * if there are no newline characters in the string, then
-     * (for backward compatibility) space is accepted instead.
-     *
-     * @param s The string to be broken apart
-     * @return An array of files determined from the parameter string.
-     * @see #join
-     */
-    public static File[] split(String s) {
-        if (s == null) {
-            return empty;
-        }
-
-        char sep = s.indexOf('\n') == -1 ? ' ' : '\n';
-
-        List<File> v = new ArrayList<>();
-        int start = -1;
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == sep) {
-                if (start != -1) {
-                    v.add(new File(s.substring(start, i)));
-                }
-                start = -1;
-            } else if (start == -1) {
-                start = i;
-            }
-        }
-        if (start != -1) {
-            v.add(new File(s.substring(start)));
-        }
-        if (v.isEmpty()) {
-            return empty;
-        }
-        File[] a = new File[v.size()];
-        v.toArray(a);
-        return a;
-    }
-
-    private static final File[] empty = {};
-
-    /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
      *
@@ -399,91 +480,4 @@ public abstract class FileListQuestion extends Question {
             data.put(tag, join(value));
         }
     }
-
-    /**
-     * Convert a list of filenames to a newline separated string.
-     *
-     * @param ff an array of filenames
-     * @return a string containing the filenames separated by newline
-     * characters.
-     * If there is just one filename, and if it contains space characters
-     * in its path,
-     * the list is terminated by a newline as well.
-     * If the parameter array is null or empty, an empty string is returned.
-     * @see #split
-     */
-    public static String join(File... ff) {
-        if (ff == null || ff.length == 0) {
-            return "";
-        }
-
-        int l = ff.length - 1; // allow for spaces between words
-        for (File aFf : ff) {
-            l += aFf.getPath().length();
-        }
-
-        StringBuilder sb = new StringBuilder(l);
-
-        String ff0p = ff[0].getPath();
-        sb.append(ff0p);
-
-        if (ff.length == 1 && ff0p.indexOf(' ') != -1) {
-            // if there is just one file, and if it contains space characters,
-            // then force a newline character for subsequent split to recognize
-            sb.append('\n');
-        } else {
-            // if there is more than one file, separate them with newlines
-            for (int i = 1; i < ff.length; i++) {
-                sb.append('\n');
-                sb.append(ff[i].getPath());
-            }
-        }
-
-        return sb.toString();
-    }
-
-    /**
-     * Determine if two arrays of filenames are equal.
-     *
-     * @param f1 the first array to be compared
-     * @param f2 the other array to be compared
-     * @return true if both arrays are null, or if neither are null and if
-     * their contents match, element for element, in order
-     */
-    protected static boolean equal(File[] f1, File... f2) {
-        if (f1 == null || f2 == null) {
-            return f1 == f2;
-        }
-
-        if (f1.length != f2.length) {
-            return false;
-        }
-
-        for (int i = 0; i < f1.length; i++) {
-            if (f1[i] != f2[i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * The current (default or latest) response to this question.
-     */
-    protected File[] value;
-
-    /**
-     * The default response for this question.
-     */
-    private File[] defaultValue;
-
-    private File baseDir;
-
-    private boolean baseRelativeOnly;
-
-    private FileFilter[] filters;
-    private FileFilter[] hintFilters;
-
-    private boolean duplicatesAllowed = true;
 }

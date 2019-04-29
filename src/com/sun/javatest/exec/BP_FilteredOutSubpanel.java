@@ -90,6 +90,37 @@ import java.util.Vector;
  * then the vLock.  The ordering is vital to avoiding deadlocks.
  */
 class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
+    private static final int ROW_HEIGHT_PADDING = 3;
+    private JTable table;
+    private TestTableModel mod;         // JTable model
+    private TT_NodeCache cache;
+    private TT_BasicNode lastNode;          // last node updated against
+    private CacheObserver cacheWatcher;
+    private volatile TableSynchronizer resyncThread;
+    private TableCellRenderer renderer;
+
+    /**
+     * It is assumed that this will run on the event thread.
+     private void setEmpty(boolean state) {
+     if (state && list.getModel() != EmptyListModel.getInstance()) {
+     list.setModel(EmptyListModel.getInstance());
+     model.setEnabled(BP_TestListSubpanel.this, false);
+     lastMsg = "";
+     }
+     else if (!state && list.getModel() == EmptyListModel.getInstance()) {
+     list.setModel(mod);
+     model.setEnabled(BP_TestListSubpanel.this, true);
+     }
+     }
+     */
+
+    // ------------- inner class -------------
+    private InputListener listener;
+    private JTextArea infoTa;
+    private boolean rowHeightSet;
+    private JPopupMenu popupTable;
+    private boolean debug = Debug.getBoolean(BP_FilteredOutSubpanel.class);
+
     BP_FilteredOutSubpanel(UIFactory uif, BP_Model bpm, TestTreeModel ttm) {
         super("fo", uif, bpm, ttm, "br.fo");
 
@@ -192,56 +223,6 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         }
     }
 
-    /**
-     * A special thread to repopulate the test lists.
-     */
-    private class TableSynchronizer extends Thread {
-        TableSynchronizer() {
-            super("filtered-out list synchronizer");
-            setPriority(Thread.MIN_PRIORITY + 2);
-        }
-
-        @Override
-        public void run() {
-            // grab cache lock first because many other threads may alter that
-            // object, causing a deadlock here.
-            // sync. to hold observer traffic until re-sync is done
-            synchronized (cache) {
-                synchronized (BP_FilteredOutSubpanel.this) {
-                    // resync with this node cache
-                    Vector<TestResult>[] newData = cache.addObserver(cacheWatcher, true);
-
-                    // add tests into the list model - this doesn't make the data
-                    // live though
-                    for (int j = 0; j < newData[newData.length - 1].size() - 1; j++) {
-                        if (stopping) {
-                            break;
-                        }
-
-                        mod.addTest(newData[newData.length - 1].get(j), true);
-                    }   // for
-
-                    if (!newData[newData.length - 1].isEmpty() && !stopping) {
-                        // final item with a notify
-                        Vector<TestResult> newDatum = newData[newData.length - 1];
-                        mod.addTest(newDatum.get(newDatum.size() - 1), false);
-                    }
-
-                    // to indicate completion
-                    resyncThread = null;
-                }   // this sync
-            }   // cache sync
-
-            validateEnableState();
-        }   // run()
-
-        public void halt() {
-            stopping = true;
-        }
-
-        private volatile boolean stopping;
-    }
-
     private void init() {
         mod = new TestTableModel(uif);
         renderer = new TestCellRenderer(uif);
@@ -314,21 +295,54 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
     }
 
     /**
-     * It is assumed that this will run on the event thread.
-     private void setEmpty(boolean state) {
-     if (state && list.getModel() != EmptyListModel.getInstance()) {
-     list.setModel(EmptyListModel.getInstance());
-     model.setEnabled(BP_TestListSubpanel.this, false);
-     lastMsg = "";
-     }
-     else if (!state && list.getModel() == EmptyListModel.getInstance()) {
-     list.setModel(mod);
-     model.setEnabled(BP_TestListSubpanel.this, true);
-     }
-     }
+     * A special thread to repopulate the test lists.
      */
+    private class TableSynchronizer extends Thread {
+        private volatile boolean stopping;
 
-    // ------------- inner class -------------
+        TableSynchronizer() {
+            super("filtered-out list synchronizer");
+            setPriority(Thread.MIN_PRIORITY + 2);
+        }
+
+        @Override
+        public void run() {
+            // grab cache lock first because many other threads may alter that
+            // object, causing a deadlock here.
+            // sync. to hold observer traffic until re-sync is done
+            synchronized (cache) {
+                synchronized (BP_FilteredOutSubpanel.this) {
+                    // resync with this node cache
+                    Vector<TestResult>[] newData = cache.addObserver(cacheWatcher, true);
+
+                    // add tests into the list model - this doesn't make the data
+                    // live though
+                    for (int j = 0; j < newData[newData.length - 1].size() - 1; j++) {
+                        if (stopping) {
+                            break;
+                        }
+
+                        mod.addTest(newData[newData.length - 1].get(j), true);
+                    }   // for
+
+                    if (!newData[newData.length - 1].isEmpty() && !stopping) {
+                        // final item with a notify
+                        Vector<TestResult> newDatum = newData[newData.length - 1];
+                        mod.addTest(newDatum.get(newDatum.size() - 1), false);
+                    }
+
+                    // to indicate completion
+                    resyncThread = null;
+                }   // this sync
+            }   // cache sync
+
+            validateEnableState();
+        }   // run()
+
+        public void halt() {
+            stopping = true;
+        }
+    }
 
     /**
      * Enumerates tree in background to populate the list.
@@ -341,6 +355,21 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
      * Swing will never dispatch more than one event at a time.
      */
     private class TestTableModel extends AbstractTableModel {
+        private static final int BATCH_SIZE = 100;
+        private static final int COLUMN_COUNT = 2;
+        // must sync. on vLock anytime you access inQueue or liveData
+        private final Object vLock = new Object();      // lock for inQueue & rmQueue
+        Vector<TableNotifier> pendingEvents = new Vector<>();
+        volatile boolean isUpdateScheduled;  // are updates waiting in inQueue or rmQueue
+        private String[] colNames;
+
+        // ---------- Custom methods for this model ----------
+        private Vector<TestResult> inQueue;     // queue of items to be added to live data
+        private Vector<TestResult> rmQueue;     // queue of items to be removed from live data
+        private LinkedList<TestResult> liveData;    // to allow manual synchronization
+
+        // ------------ private --------------
+
         TestTableModel(UIFactory uif) {
             super();
 
@@ -379,6 +408,8 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             }
         }
 
+        // --------- event utility methods -----------
+
         @Override
         public Object getValueAt(int row, int column) {
             if (column == 0) {
@@ -411,8 +442,6 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         public boolean isCellEditable(int rowIndex, int colIndex) {
             return false;
         }
-
-        // ---------- Custom methods for this model ----------
 
         /**
          * @param suppressNotify Actively request that no update be scheduled.
@@ -459,8 +488,6 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             // force GUI to update the now empty list
             notifyDone();
         }
-
-        // ------------ private --------------
 
         private void init() {
             // discard all pending events
@@ -618,8 +645,6 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             }   // for
         }
 
-        // --------- event utility methods -----------
-
         /**
          * Notify observers that the given index was added
          */
@@ -673,20 +698,6 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 EventQueue.invokeLater(tn);
             }
         }
-
-        private String[] colNames;
-
-        // must sync. on vLock anytime you access inQueue or liveData
-        private final Object vLock = new Object();      // lock for inQueue & rmQueue
-        private Vector<TestResult> inQueue;     // queue of items to be added to live data
-        private Vector<TestResult> rmQueue;     // queue of items to be removed from live data
-        private LinkedList<TestResult> liveData;    // to allow manual synchronization
-        Vector<TableNotifier> pendingEvents = new Vector<>();
-
-        volatile boolean isUpdateScheduled;  // are updates waiting in inQueue or rmQueue
-
-        private static final int BATCH_SIZE = 100;
-        private static final int COLUMN_COUNT = 2;
     }
 
     private class CacheObserver extends TT_NodeCache.TT_NodeCacheObserver {
@@ -726,6 +737,14 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
      * the event thread.
      */
     class TableNotifier implements Runnable {
+        // used to validate the event at dispatch time
+        TT_BasicNode node;
+        // go live data, no event dispatch
+        TestTableModel tm;
+        // event dispatch items
+        private TableModelEvent tme;
+        private boolean isValid = true;
+
         TableNotifier(TT_BasicNode n, TestTableModel m) {
             node = n;
             tm = m;
@@ -758,22 +777,14 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
         public void cancel() {
             isValid = false;
         }
-
-        // used to validate the event at dispatch time
-        TT_BasicNode node;
-
-        // go live data, no event dispatch
-        TestTableModel tm;
-
-        // event dispatch items
-        private TableModelEvent tme;
-        private boolean isValid = true;
     }   // list notifier
 
     /**
      * One of these listeners is associated with each of the test lists.
      */
     class InputListener extends MouseAdapter implements ListSelectionListener, ActionListener {
+        private int lastIndex = -2;
+
         // ActionListener
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -887,14 +898,15 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 lastIndex = index;
             }
         }
-
-        private int lastIndex = -2;
     }
 
     /**
      * Action to handle user pressing enter to select a test.
      */
     private class KbTableAction extends AbstractAction {
+        private String name;
+        private String desc;
+
         KbTableAction(I18NResourceBundle bund, String key) {
             desc = bund.getString(key + ".desc");
             name = bund.getString(key + ".act");
@@ -945,12 +957,12 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
                 return null;
             }
         }
-
-        private String name;
-        private String desc;
     }
 
     class TestCellRenderer extends DefaultTableCellRenderer {
+        // border to pad left and right
+        private Border spacerBorder = BorderFactory.createEmptyBorder(3, 3, 3, 3);
+
         public TestCellRenderer(UIFactory uif) {
             setOpaque(false);
         }
@@ -1002,25 +1014,5 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
 
             return this;
         }
-
-        // border to pad left and right
-        private Border spacerBorder = BorderFactory.createEmptyBorder(3, 3, 3, 3);
     }
-
-
-    private JTable table;
-    private TestTableModel mod;         // JTable model
-    private TT_NodeCache cache;
-    private TT_BasicNode lastNode;          // last node updated against
-    private CacheObserver cacheWatcher;
-    private volatile TableSynchronizer resyncThread;
-    private TableCellRenderer renderer;
-    private InputListener listener;
-    private JTextArea infoTa;
-    private boolean rowHeightSet;
-    private static final int ROW_HEIGHT_PADDING = 3;
-
-    private JPopupMenu popupTable;
-
-    private boolean debug = Debug.getBoolean(BP_FilteredOutSubpanel.class);
 }

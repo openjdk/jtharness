@@ -36,12 +36,17 @@ import java.io.File;
  * current directory (instead of home directory).
  */
 public class FileChooser extends JFileChooser {
+    private static File userDir = new File(System.getProperty("user.dir"));
+    private boolean showAllFilesFilter;
+    private boolean enableDirs = true;
+
     /**
      * Create a default file chooser.
      */
     public FileChooser() {
         this(true);
     }
+
 
     /**
      * Create a file chooser, specifying whether or not it should have
@@ -92,7 +97,6 @@ public class FileChooser extends JFileChooser {
         return null;
     }
 
-
     /**
      * Allows to disable directories browsing
      *
@@ -103,11 +107,10 @@ public class FileChooser extends JFileChooser {
         this.enableDirs = enableDirs;
     }
 
-    private boolean showAllFilesFilter;
-    private boolean enableDirs = true;
-    private static File userDir = new File(System.getProperty("user.dir"));
-
     private class ExtensionFileFilter extends FileFilter {
+        private String extn;
+        private String desc;
+
         ExtensionFileFilter(String extn, String desc) {
             this.extn = extn;
             this.desc = desc;
@@ -127,9 +130,6 @@ public class FileChooser extends JFileChooser {
         public String getExtension() {
             return extn;
         }
-
-        private String extn;
-        private String desc;
     }
 }
 

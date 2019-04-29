@@ -94,6 +94,10 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         RunTestsHandler.Observer, ET_SessionControl, Session.Observer {
 
 
+    private static KeyStroke configEditorAccelerator =
+            KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK);
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BasicSessionControl.class);
+    private static int debug = Debug.getInt(BasicSessionControl.class);
     protected final SessionExt session;
     protected final TestSuite testSuite;
     protected UIFactory uif;
@@ -101,7 +105,6 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     protected JPanel sessionView;
     protected InterviewEditor interviewEditor;
     protected ContextManager cm;
-
     ChangeConfigMenu changeMenu;
     Action loadConfigAction;
     Action newConfigAction;
@@ -109,15 +112,8 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     Action showStdConfigAction;
     Action newWorkDirAction;
     Action openWorkDirAction;
-
     FileHistory.Listener configHistoryListener;
     JMenu menuHistory;
-
-    private static KeyStroke configEditorAccelerator =
-            KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK);
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BasicSessionControl.class);
-    private static int debug = Debug.getInt(BasicSessionControl.class);
     private boolean doConfig = false; // flag indicating that configure() method is running
 
     /**
@@ -138,6 +134,122 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         session = createEmptySession();
         initActions();
         initHistoryListeners();
+    }
+
+    /**
+     * Clones passed parameters. Works only for InterviewParameters instances.
+     *
+     * @param p instance to clone, might be null.
+     * @return cloned object obtained for the passed one by performing save/load
+     * operations.
+     * @throws com.sun.javatest.exec.Session.Fault
+     */
+    public static Parameters clone(Parameters p) throws Session.Fault {
+        if (p == null) {
+            return null;
+        }
+        if (p instanceof InterviewParameters) {
+            try {
+                InterviewParameters ip = (InterviewParameters) p;
+                InterviewParameters clone = ip.getWorkDirectory().getTestSuite().createInterview();
+                clone.setWorkDirectory(ip.getWorkDirectory());
+                Map<String, String> data = new HashMap<>();
+                ip.save(data);
+                clone.load(data, false);
+                return clone;
+            } catch (Exception e) {
+                throw new Session.Fault(e);
+            }
+
+        }
+        throw new IllegalStateException(i18n.getString("bcc.cantClonParameters.err", p));
+    }
+
+    static void checkExcludeListUpdate(JComponent parent, boolean quietIfNoUpdate,
+                                       Parameters interviewParams, TestSuite testSuite,
+                                       WorkDirectory workDir, UIFactory uif) {
+        try {
+            InterviewParameters.ExcludeListParameters elp = interviewParams.getExcludeListParameters();
+            if (!(elp instanceof InterviewParameters.MutableExcludeListParameters)) {
+                return;
+            }
+
+            URL remote = testSuite.getLatestExcludeList();
+            File local = workDir.getSystemFile("latest.jtx");
+            ExcludeListUpdateHandler eluh = new ExcludeListUpdateHandler(remote, local);
+
+            if (quietIfNoUpdate && !eluh.isUpdateAvailable()) {
+                return;
+            }
+
+            JPanel info = new JPanel(new GridBagLayout());
+            info.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
+            GridBagConstraints lc = new GridBagConstraints();
+            lc.anchor = GridBagConstraints.EAST;
+            GridBagConstraints fc = new GridBagConstraints();
+            fc.gridwidth = GridBagConstraints.REMAINDER;
+            fc.fill = GridBagConstraints.HORIZONTAL;
+            fc.weightx = 1;
+
+            JLabel remoteLbl = uif.createLabel("ch.elu.remote");
+            info.add(remoteLbl, lc);
+
+            JTextField remoteText = uif.createOutputField("ch.elu.remote", remoteLbl);
+            remoteText.setBorder(null);
+            // should consider better date formatting; is this i18n-ok?
+            long remoteDate = eluh.getRemoteURLLastModified();
+            String remoteDateText = remoteDate <= 0 ?
+                    uif.getI18NString("ch.elu.notAvailable")
+                    : new Date(remoteDate).toString();
+            remoteText.setText(remoteDateText);
+            remoteText.setColumns(remoteDateText.length());
+            info.add(remoteText, fc);
+
+            JLabel localLbl = uif.createLabel("ch.elu.local");
+            info.add(localLbl, lc);
+
+            JTextField localText = uif.createOutputField("ch.elu.local", localLbl);
+            localText.setBorder(null);
+            // should consider better date formatting; is this i18n-ok?
+            long localDate = eluh.getLocalFileLastModified();
+            String localDateText = localDate <= 0 ?
+                    uif.getI18NString("ch.elu.notAvailable")
+                    : new Date(localDate).toString();
+            localText.setText(localDateText);
+            localText.setColumns(localDateText.length());
+            info.add(localText, fc);
+
+            if (eluh.isUpdateAvailable()) {
+                String title = uif.getI18NString("ch.elu.update.title");
+                String head = uif.getI18NString("ch.elu.update.head");
+                String foot = uif.getI18NString("ch.elu.update.foot");
+                int rc = JOptionPane.showConfirmDialog(parent,
+                        new Object[]{head, info, foot},
+                        title,
+                        JOptionPane.YES_NO_OPTION);
+                if (rc == JOptionPane.YES_OPTION) {
+                    eluh.update(); // should we show message if successful?
+                }
+            } else {
+                String title = uif.getI18NString("ch.elu.noUpdate.title");
+                String head = uif.getI18NString("ch.elu.noUpdate.head");
+                JOptionPane.showMessageDialog(parent,
+                        new Object[]{head, info},
+                        title,
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IOException e) {
+            workDir.log(uif.getI18NResourceBundle(), "ch.elu.logError", e);
+            uif.showError("ch.elu.error", e);
+        }
+
+        // The following lines are to keep the i18N checks happy, because it is difficult
+        // to invoke the various code paths that create the JOptionPanes
+        //      getI18NString("ch.elu.local.lbl")
+        //      getI18NString("ch.elu.local.tip")
+        //      getI18NString("ch.elu.remote.lbl")
+        //      getI18NString("ch.elu.remote.tip")
+
     }
 
     /**
@@ -214,35 +326,6 @@ public class BasicSessionControl implements InterviewEditor.Observer,
      */
     protected SessionExt createEmptySession() throws Fault {
         return new BasicSession(testSuite);
-    }
-
-    /**
-     * Clones passed parameters. Works only for InterviewParameters instances.
-     *
-     * @param p instance to clone, might be null.
-     * @return cloned object obtained for the passed one by performing save/load
-     * operations.
-     * @throws com.sun.javatest.exec.Session.Fault
-     */
-    public static Parameters clone(Parameters p) throws Session.Fault {
-        if (p == null) {
-            return null;
-        }
-        if (p instanceof InterviewParameters) {
-            try {
-                InterviewParameters ip = (InterviewParameters) p;
-                InterviewParameters clone = ip.getWorkDirectory().getTestSuite().createInterview();
-                clone.setWorkDirectory(ip.getWorkDirectory());
-                Map<String, String> data = new HashMap<>();
-                ip.save(data);
-                clone.load(data, false);
-                return clone;
-            } catch (Exception e) {
-                throw new Session.Fault(e);
-            }
-
-        }
-        throw new IllegalStateException(i18n.getString("bcc.cantClonParameters.err", p));
     }
 
     public void ensureInterviewUpToDate() {
@@ -344,94 +427,6 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
         }
     }
-
-    static void checkExcludeListUpdate(JComponent parent, boolean quietIfNoUpdate,
-                                       Parameters interviewParams, TestSuite testSuite,
-                                       WorkDirectory workDir, UIFactory uif) {
-        try {
-            InterviewParameters.ExcludeListParameters elp = interviewParams.getExcludeListParameters();
-            if (!(elp instanceof InterviewParameters.MutableExcludeListParameters)) {
-                return;
-            }
-
-            URL remote = testSuite.getLatestExcludeList();
-            File local = workDir.getSystemFile("latest.jtx");
-            ExcludeListUpdateHandler eluh = new ExcludeListUpdateHandler(remote, local);
-
-            if (quietIfNoUpdate && !eluh.isUpdateAvailable()) {
-                return;
-            }
-
-            JPanel info = new JPanel(new GridBagLayout());
-            info.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-            GridBagConstraints lc = new GridBagConstraints();
-            lc.anchor = GridBagConstraints.EAST;
-            GridBagConstraints fc = new GridBagConstraints();
-            fc.gridwidth = GridBagConstraints.REMAINDER;
-            fc.fill = GridBagConstraints.HORIZONTAL;
-            fc.weightx = 1;
-
-            JLabel remoteLbl = uif.createLabel("ch.elu.remote");
-            info.add(remoteLbl, lc);
-
-            JTextField remoteText = uif.createOutputField("ch.elu.remote", remoteLbl);
-            remoteText.setBorder(null);
-            // should consider better date formatting; is this i18n-ok?
-            long remoteDate = eluh.getRemoteURLLastModified();
-            String remoteDateText = remoteDate <= 0 ?
-                    uif.getI18NString("ch.elu.notAvailable")
-                    : new Date(remoteDate).toString();
-            remoteText.setText(remoteDateText);
-            remoteText.setColumns(remoteDateText.length());
-            info.add(remoteText, fc);
-
-            JLabel localLbl = uif.createLabel("ch.elu.local");
-            info.add(localLbl, lc);
-
-            JTextField localText = uif.createOutputField("ch.elu.local", localLbl);
-            localText.setBorder(null);
-            // should consider better date formatting; is this i18n-ok?
-            long localDate = eluh.getLocalFileLastModified();
-            String localDateText = localDate <= 0 ?
-                    uif.getI18NString("ch.elu.notAvailable")
-                    : new Date(localDate).toString();
-            localText.setText(localDateText);
-            localText.setColumns(localDateText.length());
-            info.add(localText, fc);
-
-            if (eluh.isUpdateAvailable()) {
-                String title = uif.getI18NString("ch.elu.update.title");
-                String head = uif.getI18NString("ch.elu.update.head");
-                String foot = uif.getI18NString("ch.elu.update.foot");
-                int rc = JOptionPane.showConfirmDialog(parent,
-                        new Object[]{head, info, foot},
-                        title,
-                        JOptionPane.YES_NO_OPTION);
-                if (rc == JOptionPane.YES_OPTION) {
-                    eluh.update(); // should we show message if successful?
-                }
-            } else {
-                String title = uif.getI18NString("ch.elu.noUpdate.title");
-                String head = uif.getI18NString("ch.elu.noUpdate.head");
-                JOptionPane.showMessageDialog(parent,
-                        new Object[]{head, info},
-                        title,
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (IOException e) {
-            workDir.log(uif.getI18NResourceBundle(), "ch.elu.logError", e);
-            uif.showError("ch.elu.error", e);
-        }
-
-        // The following lines are to keep the i18N checks happy, because it is difficult
-        // to invoke the various code paths that create the JOptionPanes
-        //      getI18NString("ch.elu.local.lbl")
-        //      getI18NString("ch.elu.local.tip")
-        //      getI18NString("ch.elu.remote.lbl")
-        //      getI18NString("ch.elu.remote.tip")
-
-    }
-
 
     // arguably, this ought to be in InterviewParameters/BasicParameters
     protected boolean getNeedToAutoCheckExcludeList(Parameters params) {
@@ -1169,14 +1164,14 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     protected class SessionView extends JPanel implements Session.Observer {
 
+        public static final String ACTION_NAME = "actionName";
+        protected final Color COLOR_NOT_READY = uif.getI18NColor("bcc.notready");
+        protected final Color COLOR_READY = uif.getI18NColor("bcc.ready");
         protected Session session;
         protected JLabel wd_n;
         protected JLabel conf_n;
         protected JTextField wd_f;
         protected JTextField conf_f;
-        public static final String ACTION_NAME = "actionName";
-        protected final Color COLOR_NOT_READY = uif.getI18NColor("bcc.notready");
-        protected final Color COLOR_READY = uif.getI18NColor("bcc.ready");
 
         protected SessionView(Session session) {
             super();
@@ -1292,6 +1287,31 @@ public class BasicSessionControl implements InterviewEditor.Observer,
 
     private class ChangeConfigMenu extends JMenu implements MenuListener {
 
+        private static final String CHANGE_TESTS = "test";
+        private static final String CHANGE_EXCLUDE_LIST = "excl";
+        private static final String CHANGE_KEYWORDS = "keyw";
+        private static final String CHANGE_KFL = "kfl";
+        private static final String CHANGE_PRIOR_STATUS = "stat";
+        private static final String CHANGE_ENVIRONMENT = "envt";
+        private static final String CHANGE_CONCURRENCY = "conc";
+/*
+        void loadInterview(File file) {
+            if (initEditor()) {
+                interviewEditor.load(file);
+            }
+        }
+*/
+
+        // ----------
+        private static final String CHANGE_TIMEOUT_FACTOR = "time";
+        private JMenuItem tests;
+        private JMenuItem excludeList;
+        private JMenuItem keywords;
+        private JMenuItem kfl;
+        private JMenuItem priorStatus;
+        private JMenuItem environment;
+        private JMenuItem concurrency;
+        private JMenuItem timeoutFactor;
         ChangeConfigMenu() {
             uif.initMenu(this, "ch.change");
             tests = addMenuItem(CHANGE_TESTS, InterviewEditor.STD_TESTS_MODE);
@@ -1362,33 +1382,6 @@ public class BasicSessionControl implements InterviewEditor.Observer,
         @Override
         public void menuCanceled(MenuEvent e) {
         }
-/*
-        void loadInterview(File file) {
-            if (initEditor()) {
-                interviewEditor.load(file);
-            }
-        }
-*/
-
-        // ----------
-
-        private JMenuItem tests;
-        private JMenuItem excludeList;
-        private JMenuItem keywords;
-        private JMenuItem kfl;
-        private JMenuItem priorStatus;
-        private JMenuItem environment;
-        private JMenuItem concurrency;
-        private JMenuItem timeoutFactor;
-
-        private static final String CHANGE_TESTS = "test";
-        private static final String CHANGE_EXCLUDE_LIST = "excl";
-        private static final String CHANGE_KEYWORDS = "keyw";
-        private static final String CHANGE_KFL = "kfl";
-        private static final String CHANGE_PRIOR_STATUS = "stat";
-        private static final String CHANGE_ENVIRONMENT = "envt";
-        private static final String CHANGE_CONCURRENCY = "conc";
-        private static final String CHANGE_TIMEOUT_FACTOR = "time";
     }
 
 

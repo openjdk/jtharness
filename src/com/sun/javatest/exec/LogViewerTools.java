@@ -59,6 +59,16 @@ import java.util.logging.Logger;
 
 class LogViewerTools extends Thread {
 
+    private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
+    private JDialog waitDialog;
+    private boolean waitDialogEnabled;
+    private TransformerHandler ser;
+    private LogModel model;
+    private File out;
+    private Logger log;
+    private Component parent;
+    private UIFactory uif;
+    private String XML_CHARSET = "UTF-8";
     LogViewerTools(LogModel model, File out, Logger log, Component parent, UIFactory uif) {
         this.model = model;
         this.out = out;
@@ -164,17 +174,6 @@ class LogViewerTools extends Thread {
         String dateStr = dfISO8601.format(new Date(time));
         return dateStr.substring(0, 22) + ":" + dateStr.substring(22);
     }
-
-    private JDialog waitDialog;
-    private boolean waitDialogEnabled;
-    private TransformerHandler ser;
-    private LogModel model;
-    private File out;
-    private Logger log;
-    private Component parent;
-    private UIFactory uif;
-    private String XML_CHARSET = "UTF-8";
-    private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
 }
 
 
@@ -184,12 +183,12 @@ class LogViewerTools extends Thread {
  * So, we need to be on the watch for it...
  */
 class StopWatcher extends Thread {
+    private LogViewer lv;
+
     public StopWatcher(LogViewer lv) {
         super("LogViewerStopWatcher");
         this.lv = lv;
     }
-
-    private LogViewer lv;
 
     @Override
     public void run() {

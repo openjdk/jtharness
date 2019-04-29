@@ -36,6 +36,12 @@ import java.io.Writer;
  * A segment of the main top level HTML report.
  */
 abstract class HTMLSection {
+    protected String name;
+    protected File reportDir;
+    protected ReportSettings settings;
+    protected HTMLReport parent;
+    protected File workDirRoot;
+
     HTMLSection(String n, ReportSettings s, File dir, HTMLReport parent) {
         name = n;
         settings = s;
@@ -103,11 +109,4 @@ abstract class HTMLSection {
                                        I18NResourceBundle i18n) throws IOException {
         return new ReportWriter(openWriter(code), title, i18n);
     }
-
-
-    protected String name;
-    protected File reportDir;
-    protected ReportSettings settings;
-    protected HTMLReport parent;
-    protected File workDirRoot;
 }

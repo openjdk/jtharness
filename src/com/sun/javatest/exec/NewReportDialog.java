@@ -100,30 +100,336 @@ class NewReportDialog extends ToolDialog {
 
     //----------------------------------------------------------------------------
 
+    // keys for option values used for save & restore
+    static final String REPORT_DIR = "reportDir";
     private static final String ACTION_MAP_KEY = "listMnemonics";
+    private static final String FILTER = "filter";
+    private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
 
-    interface Observer {
-        // if ever made public, should rethink method names and if any helpful
-        // parameters are passed
+    // ---------------------------------------------------------------------------
+    private Observer[] obs = new Observer[0];
+    private ExecModel model;
+    private ReportDirChooser reportDirChooser;
+    private DefaultListModel<JCheckBox> listModel;
+    private JList<? extends JComponent> list;
+    private JTextArea infoArea;
+    private CustomReport[] customReports;
+    private HashMap<JCheckBox, CustomReport> customBoxes;
+    private JComponent[] panes;
+
+    // ---------------------------------------------------------------------------
+    private JCheckBox cbHtml;
+    private JCheckBox cbPlain;
+    private JCheckBox cbXml;
+    private JCheckBox cbCof;
+    private JCheckBox cbCofTestCases;
+    private JCheckBox cbConfig;
+    private JCheckBox cbQl;
+    private JCheckBox cbEnv;
+    private JCheckBox cbStd;
+    private JCheckBox cbKfl;
+    private JCheckBox cbResults;
+    private JCheckBox cbKws;
+    private JCheckBox cbPass;
+    private JCheckBox cbFail;
+    private JCheckBox cbErr;
+    private JCheckBox cbNr;
+    private JCheckBox cbHtmlRpt;
+    private JCheckBox cbHtmlInd;
+    private JCheckBox cbKflTc;
+    private JCheckBox cbKflF2f;
+
+
+    //------------------------------end of listener--------------------------
+    private JCheckBox cbKflF2e;
+    private JCheckBox cbKflMissing;
+    private JCheckBox cbBak;
+    private JTextField numBak;
+    private List<JCheckBox> htmlGroup = new ArrayList<>();
+    private List<JCheckBox> configGroup = new ArrayList<>();
+    private ActionListener cbHtmlListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object src = e.getSource();
+
+            if (src == cbHtml || src == cbConfig) {
+                updateHtmlCheckboxStates();
+            } else if (src == cbBak) {
+                numBak.setEnabled(cbBak.isSelected());
+            } else if (src == cbCof) {
+                updateCofCheckboxStates();
+            }
+        }
+    };
+    private List<JCheckBox> kflGroup = new ArrayList<>();
+    private File reportDir;
+    private JButton browseBtn;
+    private JButton okBtn;
+    private JButton cancelBtn;
+    private JTextField dirField;
+    private JTabbedPane tabs;
+    private ReportSettings lastSettings;
+    private ReportBrowser reportBrowser;
+    private InterviewParameters interviewParams;
+    private FilterSelectionHandler filterHandler;
+    private JDialog waitDialog;
+    private ActionListener listener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Object src = e.getSource();
+
+            if (src == browseBtn) {
+                showReportChooserDialog();
+            } else if (src == cancelBtn) {
+                // revert settings
+                // hide dialog
+                setVisible(false);
+
+                setState(lastSettings);
+                if (okBtn != null) {
+                    okBtn.setEnabled(hasSelectedCheckBox());
+                }
+            } else if (src == okBtn) {
+                String s = dirField.getText();
+
+                // check null input
+                if (s == null || s.isEmpty()) {
+                    uif.showError("nrd.emptyInput");
+                    return;
+                }
+
+                // check for empty input
+                if (cbBak.isSelected() && numBak.getText().isEmpty()) {
+                    uif.showError("nrd.emptyBak");
+                    // select the last tab (assumes this has the backup settings)
+                    tabs.setSelectedIndex(tabs.getTabCount() - 1);
+                    return;
+                }
+
+                // validate custom reports
+                for (CustomReport cr : getActiveCustomReports()) {
+                    String error = cr.validateOptions();
+                    if (error != null) {
+                        for (int i = 0; i < listModel.getSize(); i++) {
+                            JCheckBox cb = listModel.get(i);
+                            if (cb.getName().equals(cr.getReportId())) {
+                                list.setSelectedIndex(i);
+                            }
+                        }
+                        uif.showError("nrd.optionsErr", error);
+                        return;
+                    }
+                }
+
+                reportDir = new File(s);
+
+                try {
+                    // check if dir needs to be created.
+                    if (!reportDir.isDirectory()) {
+                        reportDir.mkdirs();
+                    } else {
+                        // check if dir is a report dir
+                        if (!Report.isReportDirectory(reportDir) &&
+                                !isEmptyDirectory(reportDir)) {
+                            uif.showError("nrd.cantUse", reportDir);
+                            return;
+                        }
+                    }
+
+                    // XXX save settings in prefs
+
+                    setVisible(false);
+                    lastSettings = captureState();
+                    notifyStarting();
+                    doBgReport(lastSettings);
+                } catch (SecurityException se) {
+                    uif.showError("nrd.cantCreate", se.getMessage());
+                }
+            }
+        }
+
+        // does work on background thread
+        private void doBgReport(final ReportSettings snap) {
+            /*final JDialog*/
+            waitDialog = uif.createWaitDialog("nrd.wait", parent);
+
+            final Stopper stopper = new Stopper();
+            final Thread worker = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        runReport(snap);
+                        // go away to switch back to GUI thread
+                        finishReport(waitDialog, snap, stopper);
+                    } catch (CustomReport.ReportException ie) {
+                        showError("nrd.custom", ie.getMessage(), waitDialog);
+                        notifyError(ie.getMessage());
+                    } catch (IOException ie) {
+                        showError("nrd.cantWrite", ie.getMessage(), waitDialog);
+                        notifyError(ie.getMessage());
+                        // should reshow dialog
+                    } catch (SecurityException se) {
+                        showError("nrd.cantCreate", se.getMessage(), waitDialog);
+                        notifyError(se.getMessage());
+                        // should reshow dialog
+                    } catch (RuntimeException re) {
+                        showError("nrd.errorWriting", re.getMessage(), waitDialog);
+                        notifyErrorWriting(re.getMessage());
+                    }
+                }   // run()
+            };  // thread
+
+            // this code is copied from ReportTool....
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.NONE;
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc.insets.bottom = 10;
+            gbc.insets.top = 10;
+            gbc.gridy = 2;
+            gbc.gridx = 0;
+            JButton cancelBtn = uif.createButton("nrd.cancel");
+            waitDialog.getContentPane().add(cancelBtn, gbc);
+            waitDialog.pack();
+            final String cancelling = uif.getI18NString("nrd.cancelling");
+            cancelBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JButton butt = (JButton) e.getSource();
+                    butt.setEnabled(false);
+                    Component[] cmp = waitDialog.getContentPane().getComponents();
+                    if (worker != null && worker.isAlive()) {
+                        stopper.waitWasHidden = true;
+                        worker.interrupt();
+                    }
+                    for (Component aCmp : cmp) {
+                        if ("nrd.wait".equals(aCmp.getName())) {
+                            if (aCmp instanceof JTextComponent) {
+                                ((JTextComponent) aCmp).setText(cancelling);
+                            }
+                            break;
+                        }
+                    }
+
+                }
+            });
+
+
+            ActionListener al = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    // show dialog if still processing
+                    if (worker.isAlive()) {
+                        waitDialog.show();
+                    }
+                }
+            };
+
+            // show wait dialog if operation is still running after
+            // WAIT_DIALOG_DELAY
+            Timer timer = new Timer(WAIT_DIALOG_DELAY, al);
+            timer.setRepeats(false);
+            timer.start();
+
+            // do it!
+            worker.start();
+        }
+
+        private void finishReport(final JDialog waitDialog,
+                                  final ReportSettings snap, final Stopper stopper) {
+            // done generating report, switch back to GUI thread
+            EventQueue.invokeLater(new Runnable() {
+                                       @Override
+                                       public void run() {
+                                           waitDialog.hide();
+                                           if (!stopper.waitWasHidden) {
+                                               int r = uif.showYesNoDialog("nrd.showReport");
+
+                                               switch (r) {
+                                                   case JOptionPane.YES_OPTION:
+                                                       File index = new File(reportDir, Report.INDEX_FILE_NAME);
+                                                       if (index.exists() && index.canRead()) {
+                                                           showReportBrowser(index);
+                                                       } else {
+                                                           showReportBrowser(selectFileToShow(snap));
+                                                       }
+                                                       break;
+                                                   case JOptionPane.NO_OPTION:
+                                                       break;
+                                                   default:
+                                                       break;
+                                               }
+                                           }
+
+                                           notifyDone();
+                                           notifyUpdate(getLastState());
+                                       }
+                                   }
+            );
+        }
+
 
         /**
-         * The dialog is done. Notify the observer to keep a snapshot of
-         * current state.
+         * @param uiKey Key to use to call <tt>UIFactory.showError()</tt>
+         * @param msg The localized error message to show.
          */
-        void update(Map<String, String> l);
+        private void showError(final String uiKey, final String msg,
+                               final JDialog waitDialog) {
+            // switch back to GUI thread
+            EventQueue.invokeLater(new Runnable() {
+                                       @Override
+                                       public void run() {
+                                           waitDialog.hide();
+                                           uif.showError(uiKey, msg);
+                                       }
+                                   }
+            );
+        }
 
-        // starting
-        void writingReport();
+        /**
+         * Decide which file in the report dir to show to the user when
+         * they ask to view a generated 'report'.
+         */
+        private File selectFileToShow(ReportSettings snap) {
+            File result = new File(reportDir, Report.INDEX_FILE_NAME);
 
-        // done
-        void wroteReport();
+            if (!result.exists()) {
+                if (snap.isHtmlEnabled()) {
+                    // show main report file or file listing
+                    result = searchForFile(reportDir, Report.getHtmlReportFilenames());
+                    if (result == null) {
+                        result = reportDir;
+                    }
+                }
+                /* not useful right now to see raw xml, could do XSLT later
+                else if (snap.isPlainEnabled()) {
+                    // show that file
+                    result = searchForFile(reportDir, Report.getPlainReportFilenames());
+                    if (result == null)
+                        result = reportDir;
+                }
+                else if (snap.isXmlEnabled()) {
+                    result = new File(reportDir, "xml");
+                }
+                */
+                else {
+                    result = reportDir;
+                }
+            }
 
-        // error creating report
-        // upgrade to use resource bundle+key as message
-        // the given error occurred, and the user was informed
-        void errorWriting(String problem);
-    }
+            return result;
+        }
 
+        private File searchForFile(File dir, String... names) {
+            for (String name : names) {
+                File f = new File(reportDir, name);
+                if (f.exists()) {
+                    return f;
+                }
+            }   // for
+
+            return null;
+        }
+    };
     NewReportDialog(Component parent, UIFactory uif, FilterConfig f,
                     ReportBrowser reportBrowser, ExecModel model) {
         super(parent, uif, "nrd");
@@ -137,7 +443,21 @@ class NewReportDialog extends ToolDialog {
         interviewParams = p;
     }
 
-    // ---------------------------------------------------------------------------
+    Map<String, String> getLastState() {
+        String rd = dirField.getText();
+        String filter = filterHandler.getActiveFilter().getName();
+        Map<String, String> lastState = new HashMap<>();
+
+        if (rd != null && !rd.isEmpty()) {
+            lastState.put(REPORT_DIR, rd);
+        }
+
+        if (filter != null && !filter.isEmpty()) {
+            lastState.put(FILTER, filter);
+        }
+
+        return lastState;
+    }
 
     void setLastState(Map<String, String> h) {
         String rd = h.get(REPORT_DIR);
@@ -155,22 +475,6 @@ class NewReportDialog extends ToolDialog {
 
         updateHtmlCheckboxStates();
         updateCofCheckboxStates();
-    }
-
-    Map<String, String> getLastState() {
-        String rd = dirField.getText();
-        String filter = filterHandler.getActiveFilter().getName();
-        Map<String, String> lastState = new HashMap<>();
-
-        if (rd != null && !rd.isEmpty()) {
-            lastState.put(REPORT_DIR, rd);
-        }
-
-        if (filter != null && !filter.isEmpty()) {
-            lastState.put(FILTER, filter);
-        }
-
-        return lastState;
     }
 
     void addObserver(Observer o) {
@@ -211,8 +515,6 @@ class NewReportDialog extends ToolDialog {
             o.errorWriting(problem);
         }
     }
-
-    // ---------------------------------------------------------------------------
 
     @Override
     protected void initGUI() {
@@ -775,7 +1077,6 @@ class NewReportDialog extends ToolDialog {
         return p;
     }
 
-
     /**
      * @return number of custom reports added
      */
@@ -821,7 +1122,6 @@ class NewReportDialog extends ToolDialog {
         return result;
     }
 
-
     /**
      * Walks through the list of check boxes.
      *
@@ -835,7 +1135,6 @@ class NewReportDialog extends ToolDialog {
         }
         return false;
     }
-
 
     private void showReportChooserDialog() {
         ReportDirChooser rdc = getReportDirChooser();
@@ -944,7 +1243,6 @@ class NewReportDialog extends ToolDialog {
             }
         }
     }
-
 
     private void updateCofCheckboxStates() {
         if (!cbCof.isSelected()) {
@@ -1060,285 +1358,110 @@ class NewReportDialog extends ToolDialog {
         // a null value will be ignored
         filterHandler.setFilter(snap.getTestFilter());
     }
-
-    private ActionListener cbHtmlListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Object src = e.getSource();
-
-            if (src == cbHtml || src == cbConfig) {
-                updateHtmlCheckboxStates();
-            } else if (src == cbBak) {
-                numBak.setEnabled(cbBak.isSelected());
-            } else if (src == cbCof) {
-                updateCofCheckboxStates();
-            }
-        }
-    };
-
-    private ActionListener listener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Object src = e.getSource();
-
-            if (src == browseBtn) {
-                showReportChooserDialog();
-            } else if (src == cancelBtn) {
-                // revert settings
-                // hide dialog
-                setVisible(false);
-
-                setState(lastSettings);
-                if (okBtn != null) {
-                    okBtn.setEnabled(hasSelectedCheckBox());
-                }
-            } else if (src == okBtn) {
-                String s = dirField.getText();
-
-                // check null input
-                if (s == null || s.isEmpty()) {
-                    uif.showError("nrd.emptyInput");
-                    return;
-                }
-
-                // check for empty input
-                if (cbBak.isSelected() && numBak.getText().isEmpty()) {
-                    uif.showError("nrd.emptyBak");
-                    // select the last tab (assumes this has the backup settings)
-                    tabs.setSelectedIndex(tabs.getTabCount() - 1);
-                    return;
-                }
-
-                // validate custom reports
-                for (CustomReport cr : getActiveCustomReports()) {
-                    String error = cr.validateOptions();
-                    if (error != null) {
-                        for (int i = 0; i < listModel.getSize(); i++) {
-                            JCheckBox cb = listModel.get(i);
-                            if (cb.getName().equals(cr.getReportId())) {
-                                list.setSelectedIndex(i);
-                            }
-                        }
-                        uif.showError("nrd.optionsErr", error);
-                        return;
-                    }
-                }
-
-                reportDir = new File(s);
-
-                try {
-                    // check if dir needs to be created.
-                    if (!reportDir.isDirectory()) {
-                        reportDir.mkdirs();
-                    } else {
-                        // check if dir is a report dir
-                        if (!Report.isReportDirectory(reportDir) &&
-                                !isEmptyDirectory(reportDir)) {
-                            uif.showError("nrd.cantUse", reportDir);
-                            return;
-                        }
-                    }
-
-                    // XXX save settings in prefs
-
-                    setVisible(false);
-                    lastSettings = captureState();
-                    notifyStarting();
-                    doBgReport(lastSettings);
-                } catch (SecurityException se) {
-                    uif.showError("nrd.cantCreate", se.getMessage());
-                }
-            }
-        }
-
-        // does work on background thread
-        private void doBgReport(final ReportSettings snap) {
-            /*final JDialog*/
-            waitDialog = uif.createWaitDialog("nrd.wait", parent);
-
-            final Stopper stopper = new Stopper();
-            final Thread worker = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        runReport(snap);
-                        // go away to switch back to GUI thread
-                        finishReport(waitDialog, snap, stopper);
-                    } catch (CustomReport.ReportException ie) {
-                        showError("nrd.custom", ie.getMessage(), waitDialog);
-                        notifyError(ie.getMessage());
-                    } catch (IOException ie) {
-                        showError("nrd.cantWrite", ie.getMessage(), waitDialog);
-                        notifyError(ie.getMessage());
-                        // should reshow dialog
-                    } catch (SecurityException se) {
-                        showError("nrd.cantCreate", se.getMessage(), waitDialog);
-                        notifyError(se.getMessage());
-                        // should reshow dialog
-                    } catch (RuntimeException re) {
-                        showError("nrd.errorWriting", re.getMessage(), waitDialog);
-                        notifyErrorWriting(re.getMessage());
-                    }
-                }   // run()
-            };  // thread
-
-            // this code is copied from ReportTool....
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.fill = GridBagConstraints.NONE;
-            gbc.anchor = GridBagConstraints.CENTER;
-            gbc.insets.bottom = 10;
-            gbc.insets.top = 10;
-            gbc.gridy = 2;
-            gbc.gridx = 0;
-            JButton cancelBtn = uif.createButton("nrd.cancel");
-            waitDialog.getContentPane().add(cancelBtn, gbc);
-            waitDialog.pack();
-            final String cancelling = uif.getI18NString("nrd.cancelling");
-            cancelBtn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JButton butt = (JButton) e.getSource();
-                    butt.setEnabled(false);
-                    Component[] cmp = waitDialog.getContentPane().getComponents();
-                    if (worker != null && worker.isAlive()) {
-                        stopper.waitWasHidden = true;
-                        worker.interrupt();
-                    }
-                    for (Component aCmp : cmp) {
-                        if ("nrd.wait".equals(aCmp.getName())) {
-                            if (aCmp instanceof JTextComponent) {
-                                ((JTextComponent) aCmp).setText(cancelling);
-                            }
-                            break;
-                        }
-                    }
-
-                }
-            });
-
-
-            ActionListener al = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    // show dialog if still processing
-                    if (worker.isAlive()) {
-                        waitDialog.show();
-                    }
-                }
-            };
-
-            // show wait dialog if operation is still running after
-            // WAIT_DIALOG_DELAY
-            Timer timer = new Timer(WAIT_DIALOG_DELAY, al);
-            timer.setRepeats(false);
-            timer.start();
-
-            // do it!
-            worker.start();
-        }
-
-        private void finishReport(final JDialog waitDialog,
-                                  final ReportSettings snap, final Stopper stopper) {
-            // done generating report, switch back to GUI thread
-            EventQueue.invokeLater(new Runnable() {
-                                       @Override
-                                       public void run() {
-                                           waitDialog.hide();
-                                           if (!stopper.waitWasHidden) {
-                                               int r = uif.showYesNoDialog("nrd.showReport");
-
-                                               switch (r) {
-                                                   case JOptionPane.YES_OPTION:
-                                                       File index = new File(reportDir, Report.INDEX_FILE_NAME);
-                                                       if (index.exists() && index.canRead()) {
-                                                           showReportBrowser(index);
-                                                       } else {
-                                                           showReportBrowser(selectFileToShow(snap));
-                                                       }
-                                                       break;
-                                                   case JOptionPane.NO_OPTION:
-                                                       break;
-                                                   default:
-                                                       break;
-                                               }
-                                           }
-
-                                           notifyDone();
-                                           notifyUpdate(getLastState());
-                                       }
-                                   }
-            );
-        }
-
+    interface Observer {
+        // if ever made public, should rethink method names and if any helpful
+        // parameters are passed
 
         /**
-         * @param uiKey Key to use to call <tt>UIFactory.showError()</tt>
-         * @param msg The localized error message to show.
+         * The dialog is done. Notify the observer to keep a snapshot of
+         * current state.
          */
-        private void showError(final String uiKey, final String msg,
-                               final JDialog waitDialog) {
-            // switch back to GUI thread
-            EventQueue.invokeLater(new Runnable() {
-                                       @Override
-                                       public void run() {
-                                           waitDialog.hide();
-                                           uif.showError(uiKey, msg);
-                                       }
-                                   }
-            );
-        }
+        void update(Map<String, String> l);
 
-        /**
-         * Decide which file in the report dir to show to the user when
-         * they ask to view a generated 'report'.
-         */
-        private File selectFileToShow(ReportSettings snap) {
-            File result = new File(reportDir, Report.INDEX_FILE_NAME);
+        // starting
+        void writingReport();
 
-            if (!result.exists()) {
-                if (snap.isHtmlEnabled()) {
-                    // show main report file or file listing
-                    result = searchForFile(reportDir, Report.getHtmlReportFilenames());
-                    if (result == null) {
-                        result = reportDir;
-                    }
-                }
-                /* not useful right now to see raw xml, could do XSLT later
-                else if (snap.isPlainEnabled()) {
-                    // show that file
-                    result = searchForFile(reportDir, Report.getPlainReportFilenames());
-                    if (result == null)
-                        result = reportDir;
-                }
-                else if (snap.isXmlEnabled()) {
-                    result = new File(reportDir, "xml");
-                }
-                */
-                else {
-                    result = reportDir;
-                }
-            }
+        // done
+        void wroteReport();
 
-            return result;
-        }
-
-        private File searchForFile(File dir, String... names) {
-            for (String name : names) {
-                File f = new File(reportDir, name);
-                if (f.exists()) {
-                    return f;
-                }
-            }   // for
-
-            return null;
-        }
-    };
-
-
-    //------------------------------end of listener--------------------------
+        // error creating report
+        // upgrade to use resource bundle+key as message
+        // the given error occurred, and the user was informed
+        void errorWriting(String problem);
+    }
 
     private static class Stopper {
         boolean waitWasHidden = false;
+    }
+
+    /*
+     * PropertyChangeListener for enabling/disabling container's content
+     */
+    private static class PanelEnableListener implements PropertyChangeListener {
+        private Container theContainer;
+        private HashSet<Component> enabledComp;
+
+        /**
+         * @param container Container for controlling
+         */
+        PanelEnableListener(Container container) {
+            theContainer = container;
+        }
+
+        /**
+         * Catches changes of "enabled" property
+         * and changes enabled status for all child components
+         */
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if ("enabled".equals(evt.getPropertyName())) {
+                boolean oldV = (Boolean) evt.getOldValue();
+                boolean newV = (Boolean) evt.getNewValue();
+                if (oldV && !newV) {
+                    // disable
+                    enabledComp = new HashSet<>();
+                    for (Component c : collectChildren(theContainer, new ArrayList<Component>())) {
+                        if (c.isEnabled()) {
+                            enabledComp.add(c);
+                            c.setEnabled(false);
+                        }
+                    }
+                } else if (!oldV && newV && enabledComp != null) {
+                    // enable
+                    for (Component c : collectChildren(theContainer, new ArrayList<Component>())) {
+                        if (enabledComp.contains(c)) {
+                            c.setEnabled(true);
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Recursively gathers all children components
+         */
+        private Collection<Component> collectChildren(Container comp, Collection<Component> c) {
+            Component[] ch = comp.getComponents();
+            for (Component aCh : ch) {
+                c.add(aCh);
+                if (aCh instanceof Container) {
+                    collectChildren((Container) aCh, c);
+                }
+            }
+            return c;
+        }
+    }
+
+    private static class CheckBoxListCellRenderer implements ListCellRenderer<JComponent> {
+        @Override
+        public Component getListCellRendererComponent(
+                JList<? extends JComponent> list,
+                JComponent component,
+                int index,
+                boolean isSelected,
+                boolean cellHasFocus) {
+            // assert: component is a JCheckBox
+            if (isSelected) {
+                component.setOpaque(true);
+                component.setBackground(list.getSelectionBackground());
+                component.setForeground(list.getSelectionForeground());
+            } else {
+                component.setOpaque(false);
+                component.setForeground(list.getForeground());
+            }
+
+            return component;
+        }
     }
 
     private class ReportGenListener implements StartGenListener {
@@ -1371,6 +1494,14 @@ class NewReportDialog extends ToolDialog {
      * This listener changes options state against checkboxes
      */
     private class SelectListener extends MouseInputAdapter implements KeyListener, ListSelectionListener {
+
+        Object lastSelected;
+        JList<?> list;
+        ListModel<?> listModel;
+        JPanel panel;
+        CardLayout cards;
+        JButton okBtn = null; // should be disable iff all check boxes are off
+        double emptyCBW = new JCheckBox("").getPreferredSize().getWidth() + 2;
 
         /**
          * @param lst        JList of checkboxes
@@ -1491,161 +1622,6 @@ class NewReportDialog extends ToolDialog {
         private void setOkBtn(JButton okBtn) {
             this.okBtn = okBtn;
         }
-
-        Object lastSelected;
-        JList<?> list;
-        ListModel<?> listModel;
-        JPanel panel;
-        CardLayout cards;
-        JButton okBtn = null; // should be disable iff all check boxes are off
-        double emptyCBW = new JCheckBox("").getPreferredSize().getWidth() + 2;
     }
-
-    /*
-     * PropertyChangeListener for enabling/disabling container's content
-     */
-    private static class PanelEnableListener implements PropertyChangeListener {
-        /**
-         * @param container Container for controlling
-         */
-        PanelEnableListener(Container container) {
-            theContainer = container;
-        }
-
-        /**
-         * Catches changes of "enabled" property
-         * and changes enabled status for all child components
-         */
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            if ("enabled".equals(evt.getPropertyName())) {
-                boolean oldV = (Boolean) evt.getOldValue();
-                boolean newV = (Boolean) evt.getNewValue();
-                if (oldV && !newV) {
-                    // disable
-                    enabledComp = new HashSet<>();
-                    for (Component c : collectChildren(theContainer, new ArrayList<Component>())) {
-                        if (c.isEnabled()) {
-                            enabledComp.add(c);
-                            c.setEnabled(false);
-                        }
-                    }
-                } else if (!oldV && newV && enabledComp != null) {
-                    // enable
-                    for (Component c : collectChildren(theContainer, new ArrayList<Component>())) {
-                        if (enabledComp.contains(c)) {
-                            c.setEnabled(true);
-                        }
-                    }
-                }
-            }
-        }
-
-        /**
-         * Recursively gathers all children components
-         */
-        private Collection<Component> collectChildren(Container comp, Collection<Component> c) {
-            Component[] ch = comp.getComponents();
-            for (Component aCh : ch) {
-                c.add(aCh);
-                if (aCh instanceof Container) {
-                    collectChildren((Container) aCh, c);
-                }
-            }
-            return c;
-        }
-
-        private Container theContainer;
-        private HashSet<Component> enabledComp;
-    }
-
-    private static class CheckBoxListCellRenderer implements ListCellRenderer<JComponent> {
-        @Override
-        public Component getListCellRendererComponent(
-                JList<? extends JComponent> list,
-                JComponent component,
-                int index,
-                boolean isSelected,
-                boolean cellHasFocus) {
-            // assert: component is a JCheckBox
-            if (isSelected) {
-                component.setOpaque(true);
-                component.setBackground(list.getSelectionBackground());
-                component.setForeground(list.getSelectionForeground());
-            } else {
-                component.setOpaque(false);
-                component.setForeground(list.getForeground());
-            }
-
-            return component;
-        }
-    }
-
-    private Observer[] obs = new Observer[0];
-    private ExecModel model;
-
-    private ReportDirChooser reportDirChooser;
-
-    private DefaultListModel<JCheckBox> listModel;
-    private JList<? extends JComponent> list;
-    private JTextArea infoArea;
-    private CustomReport[] customReports;
-    private HashMap<JCheckBox, CustomReport> customBoxes;
-
-    private JComponent[] panes;
-    private JCheckBox cbHtml;
-    private JCheckBox cbPlain;
-    private JCheckBox cbXml;
-    private JCheckBox cbCof;
-
-    private JCheckBox cbCofTestCases;
-
-    private JCheckBox cbConfig;
-    private JCheckBox cbQl;
-    private JCheckBox cbEnv;
-    private JCheckBox cbStd;
-    private JCheckBox cbKfl;
-    private JCheckBox cbResults;
-    private JCheckBox cbKws;
-
-    private JCheckBox cbPass;
-    private JCheckBox cbFail;
-    private JCheckBox cbErr;
-    private JCheckBox cbNr;
-    private JCheckBox cbHtmlRpt;
-    private JCheckBox cbHtmlInd;
-
-    private JCheckBox cbKflTc;
-    private JCheckBox cbKflF2f;
-    private JCheckBox cbKflF2e;
-    private JCheckBox cbKflMissing;
-
-    private JCheckBox cbBak;
-    private JTextField numBak;
-
-    private List<JCheckBox> htmlGroup = new ArrayList<>();
-    private List<JCheckBox> configGroup = new ArrayList<>();
-    private List<JCheckBox> kflGroup = new ArrayList<>();
-
-    private File reportDir;
-    private JButton browseBtn;
-    private JButton okBtn;
-    private JButton cancelBtn;
-    private JTextField dirField;
-
-    private JTabbedPane tabs;
-
-    private ReportSettings lastSettings;
-
-    private ReportBrowser reportBrowser;
-    private InterviewParameters interviewParams;
-    private FilterSelectionHandler filterHandler;
-
-    // keys for option values used for save & restore
-    static final String REPORT_DIR = "reportDir";
-    private static final String FILTER = "filter";
-    private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
-
-    private JDialog waitDialog;
 
 }

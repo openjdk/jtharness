@@ -61,6 +61,46 @@ import java.util.List;
 import java.util.Map;
 
 class RunTestsHandler implements ET_RunTestControl, Session.Observer {
+    private final List<Observer> observers = new ArrayList<>();
+    private JComponent parent;
+    private ExecModel model;
+    private Session config;
+    //private BasicSessionControl sessionControl;
+    private UIFactory uif;
+    private TreePanelModel tpm;
+    private TestSuite testSuite;
+    private WorkDirectory workDir;
+    // to track copy of interviewParams in executeImmediate()
+    private Parameters localParams;
+    private Action showProgressAction;
+    private Action startAction;
+    private Action stopAction;
+    private Harness harness;
+    private HarnessObserver observer;
+    private MonitorState mState;
+    private MessageStrip messageStrip;
+    private ProgressMonitor progMonitor;
+    // flag indicating that user pressed "run"
+    // button while config wasn't ready. And as soon as the config is
+    // ready tests will be run
+    private boolean waitForConfig;
+    // contains paths of tests to run. used together with waitForConfig.
+    // to remember paths passed via executeImmediate(paths).
+    private String[] whatToRun;
+
+    /*
+    private boolean wdReady() {
+        if (workDir == null) {
+            model.showWorkDirDialog(true);
+            if (workDir == null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+     */
+
     RunTestsHandler(JComponent parent, ExecModel model, UIFactory uif) {
         this.parent = parent;
         this.model = model;
@@ -68,6 +108,51 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
         initActions();
         initHarness();
+    }
+
+    /**
+     * Merge the session tests to run against the tests selected to run in the
+     * configuration.
+     *
+     * @param requested paths requested by the user to run from the tree. May not be null.
+     * @param iTests    paths of tests to run specified in the interview. May not be null.
+     * @return Resulting set of test paths that should be run.
+     * @see com.sun.javatest.exec.ExecTool#TESTS2RUN_PREF
+     * @since 4.2.1
+     */
+    static String[] reprocessTests2Run(String[] requested, String... iTests) {
+        ArrayList<String> result = new ArrayList<>();
+        outer:
+        for (String curr : requested) {
+            for (String iTest : iTests) {
+                int slash = curr.lastIndexOf('/');
+                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
+
+                if (curr.startsWith(iTest) &&
+                        (curr.length() == iTest.length() || curr.charAt(iTest.length()) == '#' ||
+                                curr.charAt(iTest.length()) == '/')) {
+                    result.add(curr);
+                    continue outer;
+                }
+            }   // for j
+        }   // for i
+
+        outer2:
+        for (String curr : iTests) {
+            for (String aRequested : requested) {
+                int slash = curr.lastIndexOf('/');
+                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
+
+                if (curr.startsWith(aRequested) &&
+                        (curr.length() == aRequested.length() || curr.charAt(aRequested.length()) == '#' ||
+                                curr.charAt(aRequested.length()) == '/')) {
+                    result.add(curr);
+                    // don't terminate search as in above case
+                }
+            }   // for j
+        }   // for i
+
+        return result.toArray(new String[result.size()]);
     }
 
     /**
@@ -177,7 +262,6 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         return getMessageStrip();
     }
 
-
     @Override
     public List<Action> getToolBarActionList() {
         return Arrays.asList(getToolBarActions());
@@ -190,6 +274,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     @Override
     public void restore(Map<String, String> m) {
     }
+    //private InterviewParameters interviewParams;
 
     @Override
     public synchronized void dispose() {
@@ -274,7 +359,6 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         }
         executeImmediateIfReady(paths);
     }
-
 
     /**
      * Starts test run if configuration is ready.
@@ -378,64 +462,6 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         startHarness(localParams);
     }
 
-    /**
-     * Merge the session tests to run against the tests selected to run in the
-     * configuration.
-     *
-     * @param requested paths requested by the user to run from the tree. May not be null.
-     * @param iTests    paths of tests to run specified in the interview. May not be null.
-     * @return Resulting set of test paths that should be run.
-     * @see com.sun.javatest.exec.ExecTool#TESTS2RUN_PREF
-     * @since 4.2.1
-     */
-    static String[] reprocessTests2Run(String[] requested, String... iTests) {
-        ArrayList<String> result = new ArrayList<>();
-        outer:
-        for (String curr : requested) {
-            for (String iTest : iTests) {
-                int slash = curr.lastIndexOf('/');
-                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
-
-                if (curr.startsWith(iTest) &&
-                        (curr.length() == iTest.length() || curr.charAt(iTest.length()) == '#' ||
-                                curr.charAt(iTest.length()) == '/')) {
-                    result.add(curr);
-                    continue outer;
-                }
-            }   // for j
-        }   // for i
-
-        outer2:
-        for (String curr : iTests) {
-            for (String aRequested : requested) {
-                int slash = curr.lastIndexOf('/');
-                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
-
-                if (curr.startsWith(aRequested) &&
-                        (curr.length() == aRequested.length() || curr.charAt(aRequested.length()) == '#' ||
-                                curr.charAt(aRequested.length()) == '/')) {
-                    result.add(curr);
-                    // don't terminate search as in above case
-                }
-            }   // for j
-        }   // for i
-
-        return result.toArray(new String[result.size()]);
-    }
-
-    /*
-    private boolean wdReady() {
-        if (workDir == null) {
-            model.showWorkDirDialog(true);
-            if (workDir == null) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-     */
-
     private boolean interviewReady() {
 //      sessionControl.ensureInterviewUpToDate();
 
@@ -483,6 +509,9 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         // Should be moved down into harness land? or at least reused by
         // batch mode and regtest; note: Preferences are currently a GUI feature.
         BackupPolicy backupPolicy = new BackupPolicy() {
+            private int numBackupsToKeep = Integer.getInteger("javatest.backup.count", 5).intValue();
+            private String[] ignoreExtns = StringArray.split(System.getProperty("javatest.backup.ignore", ".jtr"));
+
             @Override
             public int getNumBackupsToKeep(File file) {
                 return numBackupsToKeep;
@@ -499,9 +528,6 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
                 }
                 return true;
             }
-
-            private int numBackupsToKeep = Integer.getInteger("javatest.backup.count", 5).intValue();
-            private String[] ignoreExtns = StringArray.split(System.getProperty("javatest.backup.ignore", ".jtr"));
         };
 
         harness.setBackupPolicy(backupPolicy);
@@ -557,43 +583,6 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         };
 
     }
-
-    private JComponent parent;
-    private ExecModel model;
-    private Session config;
-    //private BasicSessionControl sessionControl;
-    private UIFactory uif;
-    private TreePanelModel tpm;
-
-    private TestSuite testSuite;
-    private WorkDirectory workDir;
-    //private InterviewParameters interviewParams;
-
-    // to track copy of interviewParams in executeImmediate()
-    private Parameters localParams;
-
-    private Action showProgressAction;
-    private Action startAction;
-    private Action stopAction;
-
-    private Harness harness;
-    private HarnessObserver observer;
-    private MonitorState mState;
-
-    private MessageStrip messageStrip;
-    private ProgressMonitor progMonitor;
-
-    // flag indicating that user pressed "run"
-    // button while config wasn't ready. And as soon as the config is
-    // ready tests will be run
-    private boolean waitForConfig;
-
-    // contains paths of tests to run. used together with waitForConfig.
-    // to remember paths passed via executeImmediate(paths).
-    private String[] whatToRun;
-
-    private final List<Observer> observers = new ArrayList<>();
-
 
     @Override
     public void addObserver(Observer obs) {

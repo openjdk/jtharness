@@ -43,6 +43,13 @@ import java.util.Vector;
 public class PropertyUtils {
 
     /**
+     * A table of hex digits
+     */
+    private static char[] hexDigit = {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
+
+    /**
      * Utility method that writes the given map of strings to the given output stream with provided comments
      * using {@code java.util.Properties.store(java.io.OutputStream, String)} method.
      */
@@ -263,7 +270,6 @@ public class PropertyUtils {
         return v;
     }
 
-
     private static String loadConvert(char... in/*, int off, int len, char[] convtBuf*/) {
 //        if (convtBuf.length < len) {
 //            int newLen = len * 2;
@@ -345,7 +351,6 @@ public class PropertyUtils {
         return new String(out, 0, outLen);
     }
 
-
     // Copied from JDK 1.6
     static String saveConvert(String theString,
                               boolean escapeSpace,
@@ -424,13 +429,6 @@ public class PropertyUtils {
     private static char toHex(int nibble) {
         return hexDigit[nibble & 0xF];
     }
-
-    /**
-     * A table of hex digits
-     */
-    private static char[] hexDigit = {
-            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-    };
 
     private static <M extends Map<String, String>> M load0(M map, LineReader lr) throws IOException {
         char[] convtBuf = new char[1024];
@@ -574,16 +572,6 @@ public class PropertyUtils {
      * the line in "lineBuf".
      */
     private static class LineReader {
-        public LineReader(InputStream inStream) {
-            this.inStream = inStream;
-            inByteBuf = new byte[8192];
-        }
-
-        public LineReader(Reader reader) {
-            this.reader = reader;
-            inCharBuf = new char[8192];
-        }
-
         byte[] inByteBuf;
         char[] inCharBuf;
         char[] lineBuf = new char[1024];
@@ -591,6 +579,14 @@ public class PropertyUtils {
         int inOff = 0;
         InputStream inStream;
         Reader reader;
+        public LineReader(InputStream inStream) {
+            this.inStream = inStream;
+            inByteBuf = new byte[8192];
+        }
+        public LineReader(Reader reader) {
+            this.reader = reader;
+            inCharBuf = new char[8192];
+        }
 
         int readLine() throws IOException {
             int len = 0;

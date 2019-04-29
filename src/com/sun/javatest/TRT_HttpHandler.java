@@ -39,6 +39,12 @@ import java.util.Iterator;
  * HTTP service provider for TestResultTable.
  */
 class TRT_HttpHandler extends JThttpProvider {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TRT_HttpHandler.class);
+    private static boolean debug = Debug.getBoolean(TRT_HttpHandler.class);
+    private TestResultTable trt;
+    private int instanceNum;
+    private String file;
+
     TRT_HttpHandler(TestResultTable trt, String url, int instanceNum) {
         this.instanceNum = instanceNum;
         this.trt = trt;
@@ -201,11 +207,4 @@ class TRT_HttpHandler extends JThttpProvider {
 
         PageGenerator.endTable(out);
     }
-
-    private TestResultTable trt;
-    private int instanceNum;
-    private String file;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TRT_HttpHandler.class);
-    private static boolean debug = Debug.getBoolean(TRT_HttpHandler.class);
 }

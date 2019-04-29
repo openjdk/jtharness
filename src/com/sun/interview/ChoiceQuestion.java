@@ -35,6 +35,24 @@ import java.util.ResourceBundle;
  */
 public abstract class ChoiceQuestion extends Question {
     /**
+     * The current (default or latest) response to this question.
+     */
+    protected String value;
+    /**
+     * The set of legal responses for this question.
+     */
+    private String[] choices;
+    /**
+     * The localized values to display, corresponding 1-1 to the
+     * set of legal responses to this question.
+     */
+    private String[] displayChoices;
+    /**
+     * The default response for this question.
+     */
+    private String defaultValue;
+
+    /**
      * Create a question with a nominated tag.
      * If this constructor is used, the choices must be supplied separately.
      *
@@ -56,22 +74,6 @@ public abstract class ChoiceQuestion extends Question {
     protected ChoiceQuestion(Interview interview, String tag, String... choices) {
         super(interview, tag);
         setChoices(choices, choices); // will call clear
-    }
-
-    /**
-     * Set the set of legal responses for this question. If the current
-     * value is one of the choices (string equality), it will be set
-     * identically equal to that choice; otherwise, the current value
-     * will be set to the first choice.
-     *
-     * @param choices The set of possible responses for this question.
-     * @throws NullPointerException if choices is null.
-     * @see #getChoices
-     * @see #setChoices(String[], boolean)
-     * @see #setChoices(String[], String[])
-     */
-    protected void setChoices(String... choices) {
-        setChoices(choices, choices);
     }
 
     /**
@@ -177,7 +179,6 @@ public abstract class ChoiceQuestion extends Question {
         setChoices(choices, true);
     }
 
-
     /**
      * Get the set of legal responses for this question.
      *
@@ -189,6 +190,21 @@ public abstract class ChoiceQuestion extends Question {
         return choices;
     }
 
+    /**
+     * Set the set of legal responses for this question. If the current
+     * value is one of the choices (string equality), it will be set
+     * identically equal to that choice; otherwise, the current value
+     * will be set to the first choice.
+     *
+     * @param choices The set of possible responses for this question.
+     * @throws NullPointerException if choices is null.
+     * @see #getChoices
+     * @see #setChoices(String[], boolean)
+     * @see #setChoices(String[], String[])
+     */
+    protected void setChoices(String... choices) {
+        setChoices(choices, choices);
+    }
 
     /**
      * Get the display values for the set of legal responses for this question.
@@ -254,6 +270,41 @@ public abstract class ChoiceQuestion extends Question {
         return value;
     }
 
+    /**
+     * Set the current value.
+     *
+     * @param newValue The value to be set. It must be one of the valid
+     *                 choices for this question, as distinct from the display choices.
+     * @see #getValue
+     */
+    @Override
+    public void setValue(String newValue) {
+        if (choices == null) {
+            return;
+        }
+
+        if (newValue == null) {
+            if (value != null) {
+                value = null;
+                interview.updatePath(this);
+                interview.setEdited(true);
+            }
+        } else {
+            // try and canonicalize newValue to one of the specified choices
+            for (String choice : choices) {
+                if (newValue.equals(choice)) {
+                    newValue = choice;
+                    break;
+                }
+            }
+
+            if (!newValue.equals(value)) {
+                value = newValue;
+                interview.updatePath(this);
+                interview.setEdited(true);
+            }
+        }
+    }
 
     /**
      * Get the display string for the current (default or latest)
@@ -296,43 +347,6 @@ public abstract class ChoiceQuestion extends Question {
         return getValue();
     }
 
-
-    /**
-     * Set the current value.
-     *
-     * @param newValue The value to be set. It must be one of the valid
-     *                 choices for this question, as distinct from the display choices.
-     * @see #getValue
-     */
-    @Override
-    public void setValue(String newValue) {
-        if (choices == null) {
-            return;
-        }
-
-        if (newValue == null) {
-            if (value != null) {
-                value = null;
-                interview.updatePath(this);
-                interview.setEdited(true);
-            }
-        } else {
-            // try and canonicalize newValue to one of the specified choices
-            for (String choice : choices) {
-                if (newValue.equals(choice)) {
-                    newValue = choice;
-                    break;
-                }
-            }
-
-            if (!newValue.equals(value)) {
-                value = newValue;
-                interview.updatePath(this);
-                interview.setEdited(true);
-            }
-        }
-    }
-
     @Override
     public boolean isValueValid() {
         // value is valid if it matches one of the specified choices
@@ -358,7 +372,6 @@ public abstract class ChoiceQuestion extends Question {
         setValue(defaultValue);
     }
 
-
     /**
      * Save the value for this question in a dictionary, using
      * the tag as the key.
@@ -371,26 +384,5 @@ public abstract class ChoiceQuestion extends Question {
             data.put(tag, value);
         }
     }
-
-    /**
-     * The set of legal responses for this question.
-     */
-    private String[] choices;
-
-    /**
-     * The localized values to display, corresponding 1-1 to the
-     * set of legal responses to this question.
-     */
-    private String[] displayChoices;
-
-    /**
-     * The current (default or latest) response to this question.
-     */
-    protected String value;
-
-    /**
-     * The default response for this question.
-     */
-    private String defaultValue;
 
 }

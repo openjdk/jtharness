@@ -43,14 +43,10 @@ import java.util.List;
 import java.util.Vector;
 
 class ObserverCommand extends Command {
-    static String getName() {
-        return "observer";
-    }
-
-    static HelpTree.Node getHelp() {
-        String[] opts = {"cp"};
-        return new HelpTree.Node(i18n, "cmgr.help.observer", opts);
-    }
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BatchManager.class);
+    private ClassLoader classLoader;
+    private String className;
+    private String[] classArgs;
 
     ObserverCommand(Iterator<String> argIter) throws Fault {
         super(getName());
@@ -88,6 +84,15 @@ class ObserverCommand extends Command {
         if (v != null) {
             classArgs = v.toArray(new String[v.size()]);
         }
+    }
+
+    static String getName() {
+        return "observer";
+    }
+
+    static HelpTree.Node getHelp() {
+        String[] opts = {"cp"};
+        return new HelpTree.Node(i18n, "cmgr.help.observer", opts);
     }
 
     @Override
@@ -165,10 +170,4 @@ class ObserverCommand extends Command {
             throw new Fault(i18n, "observer.badClassPath", s, e);
         }
     }
-
-    private ClassLoader classLoader;
-    private String className;
-    private String[] classArgs;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BatchManager.class);
 }

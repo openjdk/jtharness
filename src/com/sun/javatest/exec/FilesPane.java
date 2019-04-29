@@ -41,15 +41,10 @@ import java.net.URL;
 
 class FilesPane extends JPanel implements Printable {
 
-    static class Fault extends Exception {
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-    }
+    private JTextField noteField;
+    private UIFactory uif;
+    private MultiFormatPane mediaPane;
+    private NavigationPane navPane;
 
     FilesPane(UIFactory uif) {
         this.uif = uif;
@@ -65,12 +60,12 @@ class FilesPane extends JPanel implements Printable {
         return navPane;
     }
 
-    void setBaseDirectory(File base) {
-        mediaPane.setBaseDirectory(base);
-    }
-
     File getBaseDirectory() {
         return mediaPane.getBaseDirectory();
+    }
+
+    void setBaseDirectory(File base) {
+        mediaPane.setBaseDirectory(base);
     }
 
     void setText(String text, String MIME) {
@@ -80,6 +75,8 @@ class FilesPane extends JPanel implements Printable {
     String getText() {
         return ((JEditorPane) mediaPane.getMediaPane(MultiFormatPane.TEXT)).getText();
     }
+
+    //------------------------------------------------------------------------------------
 
     void setFile(URL file) {
         if (file != null) {
@@ -96,8 +93,6 @@ class FilesPane extends JPanel implements Printable {
     URL getPage() {
         return mediaPane.getPage();
     }
-
-    //------------------------------------------------------------------------------------
 
     private void initGUI() {
         setName("fp");
@@ -124,14 +119,18 @@ class FilesPane extends JPanel implements Printable {
         return TextPane.getMIMEType(url);
     }
 
-    private JTextField noteField;
-    private UIFactory uif;
-
     @Override
     public int print(Graphics g, PageFormat pf, int pageIndex) {
         return mediaPane.print(g, pf, pageIndex);
     }
 
-    private MultiFormatPane mediaPane;
-    private NavigationPane navPane;
+    static class Fault extends Exception {
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+    }
 }

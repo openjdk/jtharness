@@ -41,6 +41,8 @@ import java.util.ListIterator;
  */
 public class BatchManager
         extends CommandManager {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BatchManager.class);
+
     static {
         RunTestsCommand.initVerboseOptions();
     }
@@ -81,18 +83,16 @@ public class BatchManager
         return false;
     }
 
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BatchManager.class);
-
     //--------------------------------------------------------------------------
 
     static class BatchCommand
             extends Command {
-        static String getName() {
-            return "batch";
-        }
-
         BatchCommand() {
             super(getName());
+        }
+
+        static String getName() {
+            return "batch";
         }
 
         @Override

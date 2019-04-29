@@ -36,6 +36,10 @@ import java.util.List;
 
 public class CustomReportFormat implements ReportFormat {
 
+    private static final List<CustomReport> NO_REPORTS = Collections.emptyList();
+    private CustomReport theCustomReport;
+    private List<ReportFormat> subreports = new ArrayList<>();
+
     public CustomReportFormat() {
     }
 
@@ -131,11 +135,6 @@ public class CustomReportFormat implements ReportFormat {
         }
         return Arrays.asList(customReports);
     }
-
-
-    private CustomReport theCustomReport;
-    private List<ReportFormat> subreports = new ArrayList<>();
-    private static final List<CustomReport> NO_REPORTS = Collections.emptyList();
 
 
 }

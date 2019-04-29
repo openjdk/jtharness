@@ -65,6 +65,20 @@ import java.util.Date;
  * Standard values view, exclude list panel.
  */
 class CE_ExcludeListPane extends CE_StdPane {
+    ExcludeListParameters excludeListParameters;
+    MutableExcludeListParameters mutableExcludeListParameters;
+    private JToolBar toolBar;
+    private ButtonGroup btnGrp;
+    private JRadioButton customBtn;
+    private JRadioButton initialBtn;
+    private JRadioButton latestBtn;
+    private JRadioButton noneBtn;
+    private JPanel body;
+    private JPanel blankPanel;
+    private CustomPanel customPanel;
+    private InitialPanel initialPanel;
+    private LatestPanel latestPanel;
+    private Listener listener = new Listener();
     CE_ExcludeListPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "excl");
 
@@ -240,24 +254,6 @@ class CE_ExcludeListPane extends CE_StdPane {
         toolBar.add(customBtn);
     }
 
-    ExcludeListParameters excludeListParameters;
-    MutableExcludeListParameters mutableExcludeListParameters;
-
-    private JToolBar toolBar;
-    private ButtonGroup btnGrp;
-    private JRadioButton customBtn;
-    private JRadioButton initialBtn;
-    private JRadioButton latestBtn;
-    private JRadioButton noneBtn;
-
-    private JPanel body;
-    private JPanel blankPanel;
-    private CustomPanel customPanel;
-    private InitialPanel initialPanel;
-    private LatestPanel latestPanel;
-
-    private Listener listener = new Listener();
-
     private class Listener implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent e) {
@@ -277,6 +273,8 @@ class CE_ExcludeListPane extends CE_StdPane {
     }
 
     private class CustomPanel extends JPanel {
+        private EditableFileList filesField;
+
         CustomPanel() {
             super(new GridBagLayout());
             setName("custom");
@@ -344,11 +342,12 @@ class CE_ExcludeListPane extends CE_StdPane {
             File[] files = filesField.getFiles();
             mutableExcludeListParameters.setCustomExcludeFiles(files);
         }
-
-        private EditableFileList filesField;
     }
 
     private class InitialPanel extends JPanel {
+        private JTextArea fileArea;
+        private File initialFile;
+
         InitialPanel() {
             super(new GridBagLayout());
             setName("initial");
@@ -398,13 +397,21 @@ class CE_ExcludeListPane extends CE_StdPane {
                 fileArea.setText(initialFile.getPath());
             }
         }
-
-        private JTextArea fileArea;
-        private File initialFile;
     }
 
     private class LatestPanel extends JPanel
             implements ActionListener, ChangeListener {
+        private JTextArea urlField;
+        private JTextField dateField;
+        private JCheckBox autoCheck;
+        private ButtonGroup btnGrp;
+        private JRadioButton daysButton;
+        private JTextField daysField;
+        private JTextField daysLabel;
+        private JRadioButton runButton;
+        private JButton nowButton;
+        private File latestFile;
+        private ActionListener checkExcludeListListener;
         LatestPanel() {
             super(new BorderLayout());
             setName("latest");
@@ -591,7 +598,6 @@ class CE_ExcludeListPane extends CE_StdPane {
             }
         }
 
-
         @Override
         public void stateChanged(ChangeEvent e) {
             boolean ac = autoCheck.isSelected();
@@ -610,18 +616,5 @@ class CE_ExcludeListPane extends CE_StdPane {
                 dateField.setText(df.format(new Date(latestLastModified)));
             }
         }
-
-        private JTextArea urlField;
-        private JTextField dateField;
-        private JCheckBox autoCheck;
-        private ButtonGroup btnGrp;
-        private JRadioButton daysButton;
-        private JTextField daysField;
-        private JTextField daysLabel;
-        private JRadioButton runButton;
-        private JButton nowButton;
-
-        private File latestFile;
-        private ActionListener checkExcludeListListener;
     }
 }

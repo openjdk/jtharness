@@ -51,39 +51,19 @@ import java.util.Vector;
  */
 
 class Folder extends Panel implements ItemSelectable {
-    private static class Entry {
-        Entry(Component comp, String name, Color color, boolean visibleTab) {
-            this.comp = comp;
-            this.name = name;
-            this.color = color;
-            this.visibleTab = visibleTab;
-        }
-
-        Component comp;
-        String name;
-        Color color;
-        boolean visibleTab;
-    }
-
-    private static class Layout extends CardLayout {
-        @Override
-        public Dimension minimumLayoutSize(Container parent) {
-            Dimension size = super.minimumLayoutSize(parent);
-            int width = Math.max(size.width, ((Folder) parent).getMinimumWidth());
-            return new Dimension(width, size.height);
-        }
-
-        @Override
-        public Dimension preferredLayoutSize(Container parent) {
-            Dimension size = super.preferredLayoutSize(parent);
-            int width = Math.max(size.width, ((Folder) parent).getMinimumWidth());
-            return new Dimension(width, size.height);
-        }
-    }
+    private ItemListener itemListener;
+    private Vector<Entry> entries = new Vector<>();
+    private int border;
+    private int slant;
+    private int tabSpace;
+    private int hgap;
+    private int vgap;
+    private int tabpad;
 
     public Folder() {
         this(0, 0);
     }
+
 
     public Folder(int hgap, int vgap) {
         this(hgap, vgap, 10, 5, 5);
@@ -133,7 +113,6 @@ class Folder extends Panel implements ItemSelectable {
         entries.add(new Entry(comp, name, color, visibleTab));
         return super.add(name, comp);
     }
-
 
     public void showTab(String name) {
         showTab(name, true);
@@ -349,14 +328,33 @@ class Folder extends Panel implements ItemSelectable {
         }
     }
 
+    private static class Entry {
+        Component comp;
+        String name;
+        Color color;
+        boolean visibleTab;
+        Entry(Component comp, String name, Color color, boolean visibleTab) {
+            this.comp = comp;
+            this.name = name;
+            this.color = color;
+            this.visibleTab = visibleTab;
+        }
+    }
 
-    private ItemListener itemListener;
-    private Vector<Entry> entries = new Vector<>();
-    private int border;
-    private int slant;
-    private int tabSpace;
-    private int hgap;
-    private int vgap;
-    private int tabpad;
+    private static class Layout extends CardLayout {
+        @Override
+        public Dimension minimumLayoutSize(Container parent) {
+            Dimension size = super.minimumLayoutSize(parent);
+            int width = Math.max(size.width, ((Folder) parent).getMinimumWidth());
+            return new Dimension(width, size.height);
+        }
+
+        @Override
+        public Dimension preferredLayoutSize(Container parent) {
+            Dimension size = super.preferredLayoutSize(parent);
+            int width = Math.max(size.width, ((Folder) parent).getMinimumWidth());
+            return new Dimension(width, size.height);
+        }
+    }
 }
 

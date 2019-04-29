@@ -64,9 +64,31 @@ import java.util.Properties;
  */
 
 public class Debug {
+    private static final String SEPARATOR = ".";
+    private static final String DEBUG_PREFIX = "debug" + SEPARATOR;
+    private static final String WILD_SUFFIX = "*";
+    private static final String TRUE_STRING = "true";
+    private static final String MASTER_KEY = "debug.disable";
+    private static Properties givenProps;           // settings used if System won't give
+    private static Properties dProps;               // explicit props
+    private static WildcardProperties wildProps;    // props which contain wildcards
+    private static PrintWriter out;
+    private static boolean defaultBool = false;
+    private static int defaultInt = 0;
+    /**
+     * True if debugging is enabled, and false otherwise.
+     */
+    private static boolean masterSwitch = true;
+
+    static {
+        out = new PrintWriter(System.err);
+    }
+
     private Debug() {
         // no instances
     }
+
+    // -------- Private ---------
 
     /**
      * Print a debugging message.
@@ -351,8 +373,6 @@ public class Debug {
         }   // while
     }
 
-    // -------- Private ---------
-
     /**
      * Convert a class object into a string appropriate for lookup.
      *
@@ -429,35 +449,14 @@ public class Debug {
         out = w;
     }
 
-    private static final String SEPARATOR = ".";
-    private static final String DEBUG_PREFIX = "debug" + SEPARATOR;
-    private static final String WILD_SUFFIX = "*";
-    private static final String TRUE_STRING = "true";
-    private static final String MASTER_KEY = "debug.disable";
-
-    private static Properties givenProps;           // settings used if System won't give
-    private static Properties dProps;               // explicit props
-    private static WildcardProperties wildProps;    // props which contain wildcards
-
-    private static PrintWriter out;
-    private static boolean defaultBool = false;
-    private static int defaultInt = 0;
-
-    /**
-     * True if debugging is enabled, and false otherwise.
-     */
-    private static boolean masterSwitch = true;
-
-    static {
-        out = new PrintWriter(System.err);
-    }
-
     /**
      * Wildcards are compared against the given key minus one field.
      * So a search(<tt>"foo.bar.baz"</tt>) does a search for <tt>"foo.bar.*"</tt>.
      * <tt>"foo.*"</tt> will not be a match.
      */
     private static class WildcardProperties extends Properties {
+        static final String wildTail = Debug.SEPARATOR + Debug.WILD_SUFFIX;
+
         /**
          * This is the only method in this class that accounts for wildcards.
          */
@@ -497,8 +496,6 @@ public class Debug {
                 return t;
             }
         }
-
-        static final String wildTail = Debug.SEPARATOR + Debug.WILD_SUFFIX;
     }
 }
 

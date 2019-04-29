@@ -36,6 +36,16 @@ import java.io.PrintWriter;
  * be seen by the user.
  */
 public class JavaTestError extends Error {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(JavaTestError.class);
+    private static final String GENERIC_START = i18n.getString("fault.genericMsgStart");
+    private static final String GENERIC_END = i18n.getString("fault.genericMsgEnd");
+    private static final String ROOT_CAUSE = i18n.getString("fault.origin");
+    private static final String UNEXPECTED_EXCEPTION = i18n.getString("fault.unexpected");
+    /**
+     * The original problem.  Useful if you need the stack trace.
+     */
+    protected Throwable original;
+
     /**
      * Constructs a JavaTestError object with a literal string as the message
      * text.  You should ensure that the string you supply here is subject to
@@ -148,6 +158,29 @@ public class JavaTestError extends Error {
         this.original = original;
     }
 
+    /**
+     * Add an object to an array.
+     */
+    private static Object[] join(Object[] args, Object a) {
+        Object[] newArgs = new Object[args.length + 1];
+        System.arraycopy(args, 0, newArgs, 0, args.length);
+        newArgs[args.length] = a;
+        return newArgs;
+    }
+
+    /**
+     * Print out a message when an unexpected exception has been caught.
+     *
+     * @param t The exception that was caught.
+     * @see #JavaTestError(Throwable)
+     */
+    public static void unexpectedException(Throwable t) {
+        System.err.println(GENERIC_START);
+        System.err.println(UNEXPECTED_EXCEPTION);
+        t.printStackTrace(System.err);
+        System.err.println(GENERIC_END);
+    }
+
     @Override
     public void printStackTrace() {
         printStackTrace(System.err);
@@ -189,39 +222,5 @@ public class JavaTestError extends Error {
     public Throwable getOriginalFault() {
         return original;
     }
-
-    /**
-     * Add an object to an array.
-     */
-    private static Object[] join(Object[] args, Object a) {
-        Object[] newArgs = new Object[args.length + 1];
-        System.arraycopy(args, 0, newArgs, 0, args.length);
-        newArgs[args.length] = a;
-        return newArgs;
-    }
-
-    /**
-     * Print out a message when an unexpected exception has been caught.
-     *
-     * @param t The exception that was caught.
-     * @see #JavaTestError(Throwable)
-     */
-    public static void unexpectedException(Throwable t) {
-        System.err.println(GENERIC_START);
-        System.err.println(UNEXPECTED_EXCEPTION);
-        t.printStackTrace(System.err);
-        System.err.println(GENERIC_END);
-    }
-
-    /**
-     * The original problem.  Useful if you need the stack trace.
-     */
-    protected Throwable original;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(JavaTestError.class);
-
-    private static final String GENERIC_START = i18n.getString("fault.genericMsgStart");
-    private static final String GENERIC_END = i18n.getString("fault.genericMsgEnd");
-    private static final String ROOT_CAUSE = i18n.getString("fault.origin");
-    private static final String UNEXPECTED_EXCEPTION = i18n.getString("fault.unexpected");
 }
 

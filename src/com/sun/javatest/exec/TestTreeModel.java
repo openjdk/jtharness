@@ -65,6 +65,42 @@ import java.util.logging.Logger;
 //       release the htLock before making the method call.
 class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
+    private static final int CACHE_THREAD_PRI = Thread.MIN_PRIORITY;
+    private static final int CACHE_NOTI_THR_PRI = Thread.MIN_PRIORITY;
+    protected static int debug = Debug.getInt(TestTreeModel.class);
+    protected final Object htLock = new Object();
+    /**
+     * Stores state info about individual nodes.
+     * The key is a TestResultTable.TreeNode, and the value is a TT_NodeCache
+     * object.  Use the htLock when accessing the cache.
+     */
+    protected Hashtable<TestResultTable.TreeNode, TT_NodeCache> cache;
+    /**
+     * Queue of items to be processed.
+     * "First" is the most recently added, "last" is the next to be processed.
+     */
+    protected LinkedList<TT_NodeCache> cacheQueue;
+    /**
+     * Queue of items which are in the middle of being processed.
+     * "First" is the most recently added, "last" is the next to be processed.
+     */
+    protected LinkedList<TT_NodeCache> suspendedQueue;
+    private TT_BasicNode root;
+    private UIFactory uif;
+    private TestResultTable trt;
+    private Parameters params;
+    private FilterSelectionHandler filterHandler;
+    private TestFilter lastFilter;
+    private Comparator<String> sortComparator;
+    private TreeModelListener[] treeModelListeners = new TreeModelListener[0];
+    private boolean statsForwarded;
+    private boolean disposed;
+    private CacheWorker cacheWorker;
+    private FilterWatcher watcher;
+    private Set<TT_TreeNode> relevantNodes;
+    private Set<TestResult> relevantTests;  // not used anymore
+    private Logger log;
+
     TestTreeModel() {
     }
 
@@ -85,6 +121,40 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         watcher = new FilterWatcher();
         filterHandler.addObserver(watcher);
         lastFilter = filterHandler.getActiveFilter();
+    }
+
+    static boolean isCompatible(TestResultTable t1, TestResultTable t2) {
+        // assumptions:
+        // - a TRT must have a finder and testsuite root to be comparable
+        // - the finder class objects must be equal for TRTs to be compatible
+        // - testsuite root paths must be equal
+        if (t1 == null || t2 == null ||
+                t1.getTestSuiteRoot() == null || t2.getTestSuiteRoot() == null ||
+                t1.getTestFinder() == null || t2.getTestFinder() == null) {
+            if (debug > 1) {
+                Debug.println("TTM - isCompatible() false because one or both TRTs are incomplete.");
+                if (t1 != null && t2 != null) {
+                    Debug.println("t1 root = " + t1.getTestSuiteRoot());
+                    Debug.println("t2 root = " + t2.getTestSuiteRoot());
+                    Debug.println("t1 finder= " + t1.getTestFinder());
+                    Debug.println("t2 finder= " + t2.getTestFinder());
+                }
+            }
+
+            return false;
+        } else if (!t1.getTestSuiteRoot().getPath().equals(t2.getTestSuiteRoot().getPath())) {
+            if (debug > 1) {
+                Debug.println("TTM - isCompatible() failed because testsuite paths differ.");
+            }
+            return false;
+        } else if (t1.getTestFinder() != t2.getTestFinder()) {
+            if (debug > 1) {
+                Debug.println("TTM - isCompatible() failed because TestFinders differ.");
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 
     synchronized void dispose() {
@@ -112,6 +182,20 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
     Parameters getParameters() {
         return params;
+    }
+
+    void setParameters(Parameters p) {
+        if (p != null) {
+            params = p;
+            init();
+        } else {
+            TestResultTable dummy = new TestResultTable();
+            setTestResultTable(dummy);
+
+            if (debug > 0) {
+                Debug.println("TTM - dummy TRT, root = " + dummy.getRoot());
+            }
+        }
     }
 
     // TreeModel methods
@@ -208,7 +292,6 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
             nodeInserted0(path, what, index);
         }
     }
-
 
     private synchronized void nodeInserted0(TestResultTable.TreeNode[] path,
                                             Object what, int index) {
@@ -708,20 +791,6 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         return new TreePath(transPath);
     }
 
-    void setParameters(Parameters p) {
-        if (p != null) {
-            params = p;
-            init();
-        } else {
-            TestResultTable dummy = new TestResultTable();
-            setTestResultTable(dummy);
-
-            if (debug > 0) {
-                Debug.println("TTM - dummy TRT, root = " + dummy.getRoot());
-            }
-        }
-    }
-
     synchronized private void init() {
         if (params == null) {
             return;
@@ -808,6 +877,10 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         return cacheWorker.isPaused();
     }
 
+    TestResultTable getTestResultTable() {
+        return trt;
+    }
+
     /**
      * This method will attempt to swap the table if compatible to avoid a full JTree
      * swap.
@@ -852,44 +925,6 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 Debug.println("   -> root = " + trt.getRoot());
             }
         }
-    }
-
-    static boolean isCompatible(TestResultTable t1, TestResultTable t2) {
-        // assumptions:
-        // - a TRT must have a finder and testsuite root to be comparable
-        // - the finder class objects must be equal for TRTs to be compatible
-        // - testsuite root paths must be equal
-        if (t1 == null || t2 == null ||
-                t1.getTestSuiteRoot() == null || t2.getTestSuiteRoot() == null ||
-                t1.getTestFinder() == null || t2.getTestFinder() == null) {
-            if (debug > 1) {
-                Debug.println("TTM - isCompatible() false because one or both TRTs are incomplete.");
-                if (t1 != null && t2 != null) {
-                    Debug.println("t1 root = " + t1.getTestSuiteRoot());
-                    Debug.println("t2 root = " + t2.getTestSuiteRoot());
-                    Debug.println("t1 finder= " + t1.getTestFinder());
-                    Debug.println("t2 finder= " + t2.getTestFinder());
-                }
-            }
-
-            return false;
-        } else if (!t1.getTestSuiteRoot().getPath().equals(t2.getTestSuiteRoot().getPath())) {
-            if (debug > 1) {
-                Debug.println("TTM - isCompatible() failed because testsuite paths differ.");
-            }
-            return false;
-        } else if (t1.getTestFinder() != t2.getTestFinder()) {
-            if (debug > 1) {
-                Debug.println("TTM - isCompatible() failed because TestFinders differ.");
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    TestResultTable getTestResultTable() {
-        return trt;
     }
 
     /**
@@ -1075,7 +1110,6 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
     }
 
-
     void notifyFullStructure() {
         if (debug > 0) {
             Debug.println("TTM - sending full structure change event to model listeners.");
@@ -1110,45 +1144,114 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         return log;
     }
 
-    private TT_BasicNode root;
-    private UIFactory uif;
-    private TestResultTable trt;
-    private Parameters params;
-    private FilterSelectionHandler filterHandler;
-    private TestFilter lastFilter;
-    private Comparator<String> sortComparator;
-    private TreeModelListener[] treeModelListeners = new TreeModelListener[0];
-    private boolean statsForwarded;
-    private boolean disposed;
-    private CacheWorker cacheWorker;
-    private FilterWatcher watcher;
-    private Set<TT_TreeNode> relevantNodes;
-    private Set<TestResult> relevantTests;  // not used anymore
+    /**
+     * Object used to physically dispatch any model update events onto the event thread.
+     */
+    private static class Notifier implements Runnable {
 
-    private Logger log;
-    /**
-     * Stores state info about individual nodes.
-     * The key is a TestResultTable.TreeNode, and the value is a TT_NodeCache
-     * object.  Use the htLock when accessing the cache.
-     */
-    protected Hashtable<TestResultTable.TreeNode, TT_NodeCache> cache;
-    /**
-     * Queue of items to be processed.
-     * "First" is the most recently added, "last" is the next to be processed.
-     */
-    protected LinkedList<TT_NodeCache> cacheQueue;
-    /**
-     * Queue of items which are in the middle of being processed.
-     * "First" is the most recently added, "last" is the next to be processed.
-     */
-    protected LinkedList<TT_NodeCache> suspendedQueue;
-    protected final Object htLock = new Object();
-    private static final int CACHE_THREAD_PRI = Thread.MIN_PRIORITY;
-    private static final int CACHE_NOTI_THR_PRI = Thread.MIN_PRIORITY;
-    protected static int debug = Debug.getInt(TestTreeModel.class);
+        static final int CHANGE = 0;
+        static final int STRUCT = 1;
+        static final int INS = 2;
+        static final int DEL = 3;
+        TreeModelListener[] l;
+        int type;
+        TreeModelEvent e;
+        UIFactory uif;
+        /**
+         * Create a event notification object to be scheduled on the GUI event thread.
+         * The type translates to a switch between the different possible observer
+         * methods.
+         *
+         * @param eType     Type of observer message to generate.
+         *                  Must not be greater than zero, see the defined constants.
+         * @param listeners The listeners to notify.  This is shallow copied immediately.
+         *                  Must not be null.  May be of zero length.
+         * @param e         The event to give to the listeners.
+         *                  Must not be null.
+         */
+        Notifier(int eType, TreeModelListener[] listeners, TreeModelEvent e,
+                 UIFactory uif) {
+            type = eType;
+            this.e = e;
+            this.uif = uif;
+
+            // make shallow copy
+            TreeModelListener[] copy = new TreeModelListener[listeners.length];
+            System.arraycopy(listeners, 0, copy, 0, listeners.length);
+            l = copy;
+        }
+
+        @Override
+        public void run() {
+            if (e == null) {
+                return;
+            }
+
+            switch (type) {
+                case CHANGE:
+                    Object[] path = e.getPath();
+                    if (path != null && path.length > 0 &&
+                            path[path.length - 1] instanceof TT_BasicNode) {
+                        TT_BasicNode bn = (TT_BasicNode) path[path.length - 1];
+                        if (e.getChildIndices() != null &&
+                                e.getChildIndices().length >= 1) {
+                            if (bn.getChildCount() <= e.getChildIndices()[0]) {
+                                return;
+                            }
+                        }
+                    }
+
+                    for (TreeModelListener aL3 : l) {
+                        aL3.treeNodesChanged(e);
+                    }
+                    break;
+                case STRUCT:
+                    for (TreeModelListener aL2 : l) {
+                        aL2.treeStructureChanged(e);
+                    }
+                    break;
+                case INS:
+                    for (TreeModelListener aL1 : l) {
+                        aL1.treeNodesInserted(e);
+                    }
+                    break;
+                case DEL:
+                    for (TreeModelListener aL : l) {
+                        aL.treeNodesRemoved(e);
+                    }
+                    break;
+                default:
+                    throw new JavaTestError(uif.getI18NString("tree.noEType"));
+            }   // switch
+        }
+    }
+
+    // inner class
 
     // ************** inner classes ***************
     private class CacheWorker extends Thread {
+
+        private static final int QUEUE = 0;
+        private static final int DEPTH = 1;
+
+        /**
+         * Only call this to terminate all cache activity.
+         * There is currently no way to restart the cache.
+         */
+        /* should not override Thread.interrupt
+        public void interrupt() {
+        stopping = true;
+        }
+         */
+        private static final int SCHEDULING_ALGO = DEPTH;
+        private volatile boolean paused;
+        private volatile boolean stopping;
+        // ------- private -------
+        private volatile TT_NodeCache priorityUnit;
+        private volatile TT_NodeCache currentUnit;
+
+        // -------- various scheduling algorithms ----------
+        private volatile boolean isReallyPaused;
 
         CacheWorker() {
             super("Test Tree Cache Worker");
@@ -1222,16 +1325,6 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
 
         /**
-         * Only call this to terminate all cache activity.
-         * There is currently no way to restart the cache.
-         */
-        /* should not override Thread.interrupt
-        public void interrupt() {
-        stopping = true;
-        }
-         */
-
-        /**
          * Find out which node is currently being processed.
          *
          * @return The node which is currently being worked on, null if no work is
@@ -1239,6 +1332,10 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
          */
         public TT_NodeCache getActiveNode() {
             return currentUnit;
+        }
+
+        synchronized boolean isPaused() {
+            return paused;
         }
 
         void setPaused(boolean state) {
@@ -1257,11 +1354,6 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 }
             }
         }
-
-        synchronized boolean isPaused() {
-            return paused;
-        }
-        // ------- private -------
 
         /**
          * Request that the worker process the given unit ASAP.
@@ -1323,8 +1415,6 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 }
             }   // sync
         }
-
-        // -------- various scheduling algorithms ----------
 
         /**
          * Simply do it in the order the requests came in.
@@ -1447,100 +1537,6 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 }
             }
         }
-
-        private volatile boolean paused;
-        private volatile boolean stopping;
-        private volatile TT_NodeCache priorityUnit;
-        private volatile TT_NodeCache currentUnit;
-        private volatile boolean isReallyPaused;
-        private static final int QUEUE = 0;
-        private static final int DEPTH = 1;
-        private static final int SCHEDULING_ALGO = DEPTH;
-    }
-
-    // inner class
-
-    /**
-     * Object used to physically dispatch any model update events onto the event thread.
-     */
-    private static class Notifier implements Runnable {
-
-        /**
-         * Create a event notification object to be scheduled on the GUI event thread.
-         * The type translates to a switch between the different possible observer
-         * methods.
-         *
-         * @param eType     Type of observer message to generate.
-         *                  Must not be greater than zero, see the defined constants.
-         * @param listeners The listeners to notify.  This is shallow copied immediately.
-         *                  Must not be null.  May be of zero length.
-         * @param e         The event to give to the listeners.
-         *                  Must not be null.
-         */
-        Notifier(int eType, TreeModelListener[] listeners, TreeModelEvent e,
-                 UIFactory uif) {
-            type = eType;
-            this.e = e;
-            this.uif = uif;
-
-            // make shallow copy
-            TreeModelListener[] copy = new TreeModelListener[listeners.length];
-            System.arraycopy(listeners, 0, copy, 0, listeners.length);
-            l = copy;
-        }
-
-        @Override
-        public void run() {
-            if (e == null) {
-                return;
-            }
-
-            switch (type) {
-                case CHANGE:
-                    Object[] path = e.getPath();
-                    if (path != null && path.length > 0 &&
-                            path[path.length - 1] instanceof TT_BasicNode) {
-                        TT_BasicNode bn = (TT_BasicNode) path[path.length - 1];
-                        if (e.getChildIndices() != null &&
-                                e.getChildIndices().length >= 1) {
-                            if (bn.getChildCount() <= e.getChildIndices()[0]) {
-                                return;
-                            }
-                        }
-                    }
-
-                    for (TreeModelListener aL3 : l) {
-                        aL3.treeNodesChanged(e);
-                    }
-                    break;
-                case STRUCT:
-                    for (TreeModelListener aL2 : l) {
-                        aL2.treeStructureChanged(e);
-                    }
-                    break;
-                case INS:
-                    for (TreeModelListener aL1 : l) {
-                        aL1.treeNodesInserted(e);
-                    }
-                    break;
-                case DEL:
-                    for (TreeModelListener aL : l) {
-                        aL.treeNodesRemoved(e);
-                    }
-                    break;
-                default:
-                    throw new JavaTestError(uif.getI18NString("tree.noEType"));
-            }   // switch
-        }
-
-        TreeModelListener[] l;
-        int type;
-        TreeModelEvent e;
-        UIFactory uif;
-        static final int CHANGE = 0;
-        static final int STRUCT = 1;
-        static final int INS = 2;
-        static final int DEL = 3;
     }
 
     // FilterSelectionHandler.Observer - may not be on event thread

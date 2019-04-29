@@ -96,6 +96,43 @@ import java.util.Vector;
  */
 class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, Session.Observer {
 
+    private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
+    private static final String OPEN_PATHS_PREF = "openpaths";
+    static protected boolean debug = Boolean.getBoolean("debug." + TestTreePanel.class.getName());
+    private UIFactory uif;
+    private Harness harness;
+    private FilterSelectionHandler filterHandler;
+    private ExecModel execModel;
+
+    // --------- private ---------
+    private JComponent parent;
+    private Thread bgThread;        // in case disposal is required
+    private Map<String, String> stateMap;                   // startup state, read-only
+    private volatile boolean disposed;
+    private PanelModel pm;
+    private TestTree tree;
+    private TT_Renderer treeRend;
+    private TestPanel testPanel;
+    private BranchPanel brPanel;
+    private MultiSelectPanel msPanel;
+    private JPopupMenu popup;
+    private TreePath lastPopupPath;
+    private JMenuItem refreshMI;
+    private JMenuItem purgeMI;
+    private JMenuItem runMI;
+    private String activeTest;
+    private ArrayList<JavaTestContextMenu> testMenus, folderMenus, mixedMenus, customMenus;
+    private TestTreeModel treeModel;
+    private Deck deck;
+    private JPanel deckPanel;
+    private JTextField titleField;
+    private Listener listener;
+    private TestSuite lastTs;       // last recorded testsuite
+    private Parameters params;
+    private Parameters newParams;
+    private boolean newConfigAlreadyApplied = false;
+    private boolean initialized = false;
+
     /**
      * Constructs TestTreePanel object, doesn't initialize GUI!
      */
@@ -117,6 +154,76 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         this.filterHandler = fh;
         this.stateMap = map;
         initialize();
+    }
+
+    // XXX need to find a shared place for these two methods to live
+    static String createNodeListString(String... items) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < items.length; i++) {
+            sb.append("      ");
+            sb.append(items[i]);
+
+            if (i + 1 < items.length) {
+                sb.append("\n");
+            }
+        }   // for
+
+        return sb.toString();
+    }
+
+    static String[] createNodeList(Object... items) {
+        String[] result = new String[items.length];
+
+        for (int i = 0; i < items.length; i++) {
+            Object item = items[i];
+
+            if (item instanceof TreePath) {
+                item = ((TreePath) item).getLastPathComponent();
+            }
+            if (item instanceof TT_TestNode) {
+                TestResult tr = ((TT_TestNode) item).getTestResult();
+                result[i] = tr.getTestName();
+            } else if (item instanceof TT_BasicNode) {
+                if (((TT_BasicNode) item).isRoot()) {
+                    result = new String[1];
+                    result[0] = TestResultTable.getRootRelativePath(((TT_BasicNode) item).getTableNode());
+                    return result;
+                } else {
+                    TestResultTable.TreeNode tn = ((TT_BasicNode) item).getTableNode();
+                    result[i] = TestResultTable.getRootRelativePath(tn);
+                }
+            } else if (item instanceof TestResult) {
+                // not used anymore, but left in case we decide to repopulate
+                // the list with actual TestResult objects
+                TestResult tr = (TestResult) item;
+                result[i] = tr.getTestName();
+            } else if (item instanceof TestResultTable.TreeNode) {
+                TestResultTable.TreeNode tn = (TestResultTable.TreeNode) item;
+                result[i] = TestResultTable.getRootRelativePath(tn);
+            } else // should not happen
+                if (items[i] != null) {
+                    result[i] = items[i].toString();
+                }
+        }   // for
+
+        return result;
+    }
+
+    private static void restore(TreePath[] paths, TestTree targetTree) {
+        if (paths == null || targetTree == null) {
+            return;        // we do it this way so that the tree updates itself, THEN we
+            // ask it to restore
+        }
+        Runnable restorer = new Runnable() {
+
+            @Override
+            public void run() {
+                //targetTree.restorePaths(paths);
+            }
+        };      // Runnable
+
+        EventQueue.invokeLater(restorer);
     }
 
     @Override
@@ -145,6 +252,25 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     @Override
     public Parameters getParameters() {
         return params;
+    }
+
+    /**
+     * This method should only be called to indicate that a change has occurred
+     * which replaces the active TRT.  In most cases, a call to this method
+     * should be followed by on to updateGUI().  Changes to the parameters
+     * (filters, initial URLs, etc... should propagate thru the FilterConfig
+     * system.<br>
+     * It does nothing but remembers passed object. The real work is done
+     * by applyParameters() method.
+     *
+     * @see #updateGUI
+     * @see #applyParameters
+     * @see com.sun.javatest.exec.FilterConfig
+     */
+    @Override
+    public synchronized void setParameters(Parameters p) {
+        this.newParams = p;
+        newConfigAlreadyApplied = false;
     }
 
     @Override
@@ -177,27 +303,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         popup = null;
         lastPopupPath = null;
         testMenus = folderMenus = mixedMenus = customMenus = null;
-    }
-
-    // --------- private ---------
-
-    /**
-     * This method should only be called to indicate that a change has occurred
-     * which replaces the active TRT.  In most cases, a call to this method
-     * should be followed by on to updateGUI().  Changes to the parameters
-     * (filters, initial URLs, etc... should propagate thru the FilterConfig
-     * system.<br>
-     * It does nothing but remembers passed object. The real work is done
-     * by applyParameters() method.
-     *
-     * @see #updateGUI
-     * @see #applyParameters
-     * @see com.sun.javatest.exec.FilterConfig
-     */
-    @Override
-    public synchronized void setParameters(Parameters p) {
-        this.newParams = p;
-        newConfigAlreadyApplied = false;
     }
 
     /**
@@ -318,7 +423,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             return null;
         }
     }
-
 
     @Override
     public void saveTreeState(Map<String, String> m) {
@@ -596,60 +700,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }   // outer if
     }
 
-    // XXX need to find a shared place for these two methods to live
-    static String createNodeListString(String... items) {
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < items.length; i++) {
-            sb.append("      ");
-            sb.append(items[i]);
-
-            if (i + 1 < items.length) {
-                sb.append("\n");
-            }
-        }   // for
-
-        return sb.toString();
-    }
-
-    static String[] createNodeList(Object... items) {
-        String[] result = new String[items.length];
-
-        for (int i = 0; i < items.length; i++) {
-            Object item = items[i];
-
-            if (item instanceof TreePath) {
-                item = ((TreePath) item).getLastPathComponent();
-            }
-            if (item instanceof TT_TestNode) {
-                TestResult tr = ((TT_TestNode) item).getTestResult();
-                result[i] = tr.getTestName();
-            } else if (item instanceof TT_BasicNode) {
-                if (((TT_BasicNode) item).isRoot()) {
-                    result = new String[1];
-                    result[0] = TestResultTable.getRootRelativePath(((TT_BasicNode) item).getTableNode());
-                    return result;
-                } else {
-                    TestResultTable.TreeNode tn = ((TT_BasicNode) item).getTableNode();
-                    result[i] = TestResultTable.getRootRelativePath(tn);
-                }
-            } else if (item instanceof TestResult) {
-                // not used anymore, but left in case we decide to repopulate
-                // the list with actual TestResult objects
-                TestResult tr = (TestResult) item;
-                result[i] = tr.getTestName();
-            } else if (item instanceof TestResultTable.TreeNode) {
-                TestResultTable.TreeNode tn = (TestResultTable.TreeNode) item;
-                result[i] = TestResultTable.getRootRelativePath(tn);
-            } else // should not happen
-                if (items[i] != null) {
-                    result[i] = items[i].toString();
-                }
-        }   // for
-
-        return result;
-    }
-
     private void showNodeInfoDialog(TreePath what) {
         if (what.getLastPathComponent() instanceof TT_TreeNode) {
             TT_TreeNode tn = (TT_TreeNode) what.getLastPathComponent();
@@ -668,22 +718,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
 
         execModel.runTests(createNodeList(what));
-    }
-
-    private static void restore(TreePath[] paths, TestTree targetTree) {
-        if (paths == null || targetTree == null) {
-            return;        // we do it this way so that the tree updates itself, THEN we
-            // ask it to restore
-        }
-        Runnable restorer = new Runnable() {
-
-            @Override
-            public void run() {
-                //targetTree.restorePaths(paths);
-            }
-        };      // Runnable
-
-        EventQueue.invokeLater(restorer);
     }
 
     private void refreshNodes(TreePath... what) {
@@ -1410,7 +1444,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
     }
 
-
     /**
      * This method should be called on the AWT event thread.
      */
@@ -1616,41 +1649,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
     }
 
-    private UIFactory uif;
-    private Harness harness;
-    private FilterSelectionHandler filterHandler;
-    private ExecModel execModel;
-    private JComponent parent;
-    private Thread bgThread;        // in case disposal is required
-    private Map<String, String> stateMap;                   // startup state, read-only
-    private volatile boolean disposed;
-    private PanelModel pm;
-    private TestTree tree;
-    private TT_Renderer treeRend;
-    private TestPanel testPanel;
-    private BranchPanel brPanel;
-    private MultiSelectPanel msPanel;
-    private JPopupMenu popup;
-    private TreePath lastPopupPath;
-    private JMenuItem refreshMI;
-    private JMenuItem purgeMI;
-    private JMenuItem runMI;
-    private String activeTest;
-    private ArrayList<JavaTestContextMenu> testMenus, folderMenus, mixedMenus, customMenus;
-    private TestTreeModel treeModel;
-    private Deck deck;
-    private JPanel deckPanel;
-    private JTextField titleField;
-    private Listener listener;
-    private TestSuite lastTs;       // last recorded testsuite
-    private Parameters params;
-    private Parameters newParams;
-    private boolean newConfigAlreadyApplied = false;
-    private boolean initialized = false;
-    private static final int WAIT_DIALOG_DELAY = 3000;      // 3 second delay
-    private static final String OPEN_PATHS_PREF = "openpaths";
-    static protected boolean debug = Boolean.getBoolean("debug." + TestTreePanel.class.getName());
-
     /**
      * ET_Config method
      *
@@ -1721,6 +1719,9 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
     private class Listener extends MouseAdapter
             implements ActionListener, TreeSelectionListener,
             TreeExpansionListener {
+        private int lastX;
+        private int lastY;
+
         // --- TreeSelectionListener ---
         @Override
         public void valueChanged(TreeSelectionEvent e) {
@@ -1897,9 +1898,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 }
             }
         }
-
-        private int lastX;
-        private int lastY;
     }
 
     /**
@@ -1907,11 +1905,14 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      */
     class Selector implements Runnable {
 
+        private TreePath tp;
+        private TestResult tr;
+        private TT_TreeNode tn;
+
         Selector(TestResult tr, TreePath path) {
             this.tr = tr;
             this.tp = path;
         }
-
         Selector(TT_TreeNode tn, TreePath path) {
             this.tn = tn;
             this.tp = path;
@@ -1925,13 +1926,12 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 selectBranch((TT_BasicNode) tn, tp);
             }
         }
-
-        private TreePath tp;
-        private TestResult tr;
-        private TT_TreeNode tn;
     }
 
     private class TreePopupAction extends AbstractAction {
+
+        private String name;
+        private String desc;
 
         TreePopupAction(I18NResourceBundle bund, String key) {
             desc = bund.getString(key + ".desc");
@@ -1967,12 +1967,13 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 return null;
             }
         }
-
-        private String name;
-        private String desc;
     }
 
     private class PanelModel implements TreePanelModel, Harness.Observer, TestResultTable.Observer {
+
+        private Hashtable<String, TestResult> runningTests;
+        private Hashtable<Object, Integer> activeNodes;
+        private Integer ONE = Integer.valueOf(1);
 
         PanelModel() {
             runningTests = new Hashtable<>();
@@ -2262,9 +2263,5 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         public void updated(TestResult whichTR) {
             // ignore
         }
-
-        private Hashtable<String, TestResult> runningTests;
-        private Hashtable<Object, Integer> activeNodes;
-        private Integer ONE = Integer.valueOf(1);
     }
 }

@@ -45,6 +45,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 class ManagerLoader {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ManagerLoader.class);
+    private Class<?> managerClass;
+    private Constructor<?> constr;
+    private Class<?>[] constrArgTypes;
+    private Object[] constrArgs;
+    private PrintStream log;
+
     ManagerLoader(Class<?> managerClass, PrintStream log) {
         setManagerClass(managerClass);
         setLog(log);
@@ -228,12 +235,4 @@ class ManagerLoader {
     private void writeI18N(String key, Object... args) {
         log.println(i18n.getString(key, args));
     }
-
-    private Class<?> managerClass;
-    private Constructor<?> constr;
-    private Class<?>[] constrArgTypes;
-    private Object[] constrArgs;
-    private PrintStream log;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ManagerLoader.class);
 }

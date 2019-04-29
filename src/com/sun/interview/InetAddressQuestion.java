@@ -39,6 +39,37 @@ import java.util.ResourceBundle;
 public abstract class InetAddressQuestion extends Question {
 
     /**
+     * A constant to indicate that only IPv4 addresses should be used.
+     */
+    public static final int IPv4 = 0;
+    /**
+     * A constant to indicate that IPv6 addresses should be used. Note that
+     * IPv6 includes IPv4 addresses.
+     */
+    public static final int IPv6 = 1;
+    private static final ResourceBundle i18n = Interview.i18n;
+    /**
+     * The current (default or latest) response to this question.
+     */
+    protected InetAddress value;
+    /**
+     * The cached string value for this question
+     */
+    private String stringValue;
+    /**
+     * A temporary value, used to avoid changing the API for setValue/setStringValue
+     */
+    private transient String newStringValue;
+    private InetAddress[] suggestions;
+    /**
+     * The default response for this question.
+     */
+    private InetAddress defaultValue;
+    private boolean valid;
+    private int type = IPv4;
+    private int style = IPv4;
+
+    /**
      * Create a question with a nominated tag.
      *
      * @param interview The interview containing this question.
@@ -49,6 +80,7 @@ public abstract class InetAddressQuestion extends Question {
         clear();
         setDefaultValue(value);
     }
+
 
     /**
      * Create a question with a nominated tag.
@@ -66,15 +98,16 @@ public abstract class InetAddressQuestion extends Question {
     }
 
     /**
-     * A constant to indicate that only IPv4 addresses should be used.
+     * Compare two network address objects for equality.
+     *
+     * @param i1 The first address to be compared, or null.
+     * @param i2 The other address to be compared, or null.
+     * @return true if both arguments are null, or if both represent the
+     * same network address.
      */
-    public static final int IPv4 = 0;
-
-    /**
-     * A constant to indicate that IPv6 addresses should be used. Note that
-     * IPv6 includes IPv4 addresses.
-     */
-    public static final int IPv6 = 1;
+    protected static boolean equal(InetAddress i1, InetAddress i2) {
+        return i1 == null ? i2 == null : i1.equals(i2);
+    }
 
     /**
      * Get the type of addresses (IPv4 or IPv6) that will be accepted by this question.
@@ -184,7 +217,6 @@ public abstract class InetAddressQuestion extends Question {
         defaultValue = v;
     }
 
-
     /**
      * Get the current (default or latest) response to this question.
      * If the question type is set to IPv4, a valid response will be
@@ -197,31 +229,6 @@ public abstract class InetAddressQuestion extends Question {
     public InetAddress getValue() {
         return value;
     }
-
-    /**
-     * Verify this question is on the current path, and if it is,
-     * return the current value.
-     *
-     * @return the current value of this question
-     * @throws Interview.NotOnPathFault if this question is not on the
-     *                                  current path
-     * @see #getValue
-     */
-    public InetAddress getValueOnPath()
-            throws Interview.NotOnPathFault {
-        interview.verifyPathContains(this);
-        return getValue();
-    }
-
-    @Override
-    public String getStringValue() {
-        if (stringValue == null && value != null) {
-            stringValue = value.getHostAddress();
-        }
-
-        return stringValue;
-    }
-
 
     /**
      * Set the current value.
@@ -249,16 +256,6 @@ public abstract class InetAddressQuestion extends Question {
         }
     }
 
-    @Override
-    public boolean isValueValid() {
-        return valid; // set by setValue
-    }
-
-    @Override
-    public boolean isValueAlwaysValid() {
-        return false;
-    }
-
     /**
      * Set the current value.
      *
@@ -272,6 +269,40 @@ public abstract class InetAddressQuestion extends Question {
 
         newStringValue = newValue;
         setValue(v);
+    }
+
+    /**
+     * Verify this question is on the current path, and if it is,
+     * return the current value.
+     *
+     * @return the current value of this question
+     * @throws Interview.NotOnPathFault if this question is not on the
+     *                                  current path
+     * @see #getValue
+     */
+    public InetAddress getValueOnPath()
+            throws Interview.NotOnPathFault {
+        interview.verifyPathContains(this);
+        return getValue();
+    }
+
+    @Override
+    public String getStringValue() {
+        if (stringValue == null && value != null) {
+            stringValue = value.getHostAddress();
+        }
+
+        return stringValue;
+    }
+
+    @Override
+    public boolean isValueValid() {
+        return valid; // set by setValue
+    }
+
+    @Override
+    public boolean isValueAlwaysValid() {
+        return false;
     }
 
     private InetAddress parse(String s) {
@@ -359,7 +390,6 @@ public abstract class InetAddressQuestion extends Question {
         }
     }
 
-
     /**
      * Clear any response to this question, resetting the value
      * back to its initial state.
@@ -368,7 +398,6 @@ public abstract class InetAddressQuestion extends Question {
     public void clear() {
         setValue(defaultValue);
     }
-
 
     /**
      * Save the value for this question in a dictionary, using
@@ -383,46 +412,4 @@ public abstract class InetAddressQuestion extends Question {
             data.put(tag, s);
         }
     }
-
-    /**
-     * Compare two network address objects for equality.
-     *
-     * @param i1 The first address to be compared, or null.
-     * @param i2 The other address to be compared, or null.
-     * @return true if both arguments are null, or if both represent the
-     * same network address.
-     */
-    protected static boolean equal(InetAddress i1, InetAddress i2) {
-        return i1 == null ? i2 == null : i1.equals(i2);
-    }
-
-    /**
-     * The current (default or latest) response to this question.
-     */
-    protected InetAddress value;
-
-    /**
-     * The cached string value for this question
-     */
-    private String stringValue;
-
-    /**
-     * A temporary value, used to avoid changing the API for setValue/setStringValue
-     */
-    private transient String newStringValue;
-
-    private InetAddress[] suggestions;
-
-    /**
-     * The default response for this question.
-     */
-    private InetAddress defaultValue;
-
-    private boolean valid;
-
-    private int type = IPv4;
-    private int style = IPv4;
-
-
-    private static final ResourceBundle i18n = Interview.i18n;
 }

@@ -36,6 +36,13 @@ import java.io.Writer;
  * left and right margins.
  */
 public class WrapWriter extends Writer {
+    private Writer out;
+    private int leftMargin = 0;
+    private int rightMargin = Integer.getInteger("javatest.console.width", 80).intValue();
+    private StringBuffer pending = new StringBuffer();
+    private int charsOnLineSoFar = 0;
+    private String lineSeparator = System.getProperty("line.separator", "\n");
+
     /**
      * Create a WrapWriter object that will write to a given stream.
      *
@@ -55,6 +62,16 @@ public class WrapWriter extends Writer {
     }
 
     /**
+     * Get the position for the left margin for the text stream.
+     *
+     * @return the position for the left margin
+     * @see #setLeftMargin
+     */
+    public int getLeftMargin() {
+        return leftMargin;
+    }
+
+    /**
      * Set the position for the left margin for the text stream.
      *
      * @param m the position for the left margin
@@ -70,13 +87,13 @@ public class WrapWriter extends Writer {
     }
 
     /**
-     * Get the position for the left margin for the text stream.
+     * Get the position for the right margin for the text stream.
      *
-     * @return the position for the left margin
-     * @see #setLeftMargin
+     * @return the position for the right margin
+     * @see #setRightMargin
      */
-    public int getLeftMargin() {
-        return leftMargin;
+    public int getRightMargin() {
+        return rightMargin;
     }
 
     /**
@@ -92,16 +109,6 @@ public class WrapWriter extends Writer {
             throw new IllegalArgumentException();
         }
         rightMargin = m;
-    }
-
-    /**
-     * Get the position for the right margin for the text stream.
-     *
-     * @return the position for the right margin
-     * @see #setRightMargin
-     */
-    public int getRightMargin() {
-        return rightMargin;
     }
 
     /**
@@ -194,11 +201,4 @@ public class WrapWriter extends Writer {
         out.write(lineSeparator);
         charsOnLineSoFar = 0;
     }
-
-    private Writer out;
-    private int leftMargin = 0;
-    private int rightMargin = Integer.getInteger("javatest.console.width", 80).intValue();
-    private StringBuffer pending = new StringBuffer();
-    private int charsOnLineSoFar = 0;
-    private String lineSeparator = System.getProperty("line.separator", "\n");
 }

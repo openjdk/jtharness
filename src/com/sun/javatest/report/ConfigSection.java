@@ -49,6 +49,8 @@ import java.util.TreeSet;
  * A report generator for sets of test results.
  */
 class ConfigSection extends HTMLSection {
+    private final I18NResourceBundle i18n;
+
     ConfigSection(HTMLReport parent, ReportSettings s, File dir, I18NResourceBundle i18n) {
         super(i18n.getString("config.title"), s, dir, parent);
         this.i18n = i18n;
@@ -493,16 +495,6 @@ class ConfigSection extends HTMLSection {
     }
 
     private static class ExcludeListEntryComparator implements Comparator<ExcludeList.Entry> {
-        @Override
-        public int compare(ExcludeList.Entry e1, ExcludeList.Entry e2) {
-            int x = compare(e1.getRelativeURL(), e2.getRelativeURL());
-            if (x == 0) {
-                x = compare(e1.getTestCases(), e2.getTestCases());
-            }
-            return x;
-
-        }
-
         private static int compare(String[] a, String... b) {
             int alen = a == null ? 0 : a.length;
             int blen = b == null ? 0 : b.length;
@@ -521,8 +513,16 @@ class ConfigSection extends HTMLSection {
                     : b == null ? +1
                     : a.compareTo(b);
         }
-    }
 
-    private final I18NResourceBundle i18n;
+        @Override
+        public int compare(ExcludeList.Entry e1, ExcludeList.Entry e2) {
+            int x = compare(e1.getRelativeURL(), e2.getRelativeURL());
+            if (x == 0) {
+                x = compare(e1.getTestCases(), e2.getTestCases());
+            }
+            return x;
+
+        }
+    }
 
 }

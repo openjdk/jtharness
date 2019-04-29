@@ -43,9 +43,9 @@ interface ET_TestTreeControl extends ET_Control, Session.Observer {
 
     TreePanelModel getTreePanelModel();
 
-    void setParameters(Parameters p);
-
     Parameters getParameters();
+
+    void setParameters(Parameters p);
 
     void setFilterSelectionHandler(FilterSelectionHandler fh);
 

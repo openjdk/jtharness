@@ -37,6 +37,8 @@ import java.util.Map;
 
 public class ReportToolManager extends ToolManager {
 
+    private ReportTool tool;
+
     public ReportToolManager(Desktop desktop) {
         super(desktop);
     }
@@ -96,7 +98,5 @@ public class ReportToolManager extends ToolManager {
 
         return tool;
     }
-
-    private ReportTool tool;
 
 }

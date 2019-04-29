@@ -78,16 +78,14 @@ import java.util.TreeMap;
  */
 public class PropertyServiceReader implements ServiceReader {
 
-    private File propFile;
-    private Properties props;
-    private TestSuite ts;
-
     public static final String PROPERTY_PREFIX = "property";
     public static final String SERVICE_PREFIX = "service";
     public static final String TESTPATH_PREFIX = "testpath";
-
     public static final String SERVICES_PROPERTIES =
             File.separator + "lib" + File.separator + "services.properties";
+    private File propFile;
+    private Properties props;
+    private TestSuite ts;
 
     @Override
     public void init(TestSuite ts, String... args) {

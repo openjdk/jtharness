@@ -40,6 +40,11 @@ import javax.swing.JMenuItem;
  * All methods in this API will be invoked on the GUI event thread.
  */
 public abstract class JavaTestContextMenu {
+    public static final int TESTS_AND_FOLDERS = 0;
+    public static final int TESTS_ONLY = 1;
+    public static final int FOLDERS_ONLY = 2;
+    public static final int CUSTOM = 99;
+
     /**
      * Create a new instance, based on this instance.  The purpose of this is to allow
      * this menu item to appear in multiple places in the interface.
@@ -137,9 +142,4 @@ public abstract class JavaTestContextMenu {
      */
     public void updateState(String[] folders, TestResult... trs) {
     }
-
-    public static final int TESTS_AND_FOLDERS = 0;
-    public static final int TESTS_ONLY = 1;
-    public static final int FOLDERS_ONLY = 2;
-    public static final int CUSTOM = 99;
 }

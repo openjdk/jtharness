@@ -47,36 +47,57 @@ import java.util.Map;
  * A base class for tools to appear on the JT Harness desktop.
  */
 public abstract class Tool extends JPanel {
-    /**
-     * An observer interface for use by those that wishing to monitor changes
-     * to a tool.
-     */
-    public interface Observer {
-        /**
-         * The title of a tool has been changed.
-         *
-         * @param source   The tool whose title has been changed.
-         * @param newValue The new title for the tool.
-         */
-        void titleChanged(Tool source, String newValue);
-
-        /**
-         * The short title of a tool has been changed.
-         *
-         * @param source   The tool whose title has been changed.
-         * @param newValue The new title for the tool.
-         */
-        void shortTitleChanged(Tool source, String newValue);
-
-        /**
-         * A tool has been disposed.
-         *
-         * @param source the tool that has been disposed
-         */
-        void toolDisposed(Tool source);
-    }
+    private static int toolIndex;
 
     //--------------------------------------------------------------------------
+    /**
+     * The UI factory used to create GUI components.
+     */
+    protected final UIFactory uif;
+    private ToolManager manager;
+
+    //--------------------------------------------------------------------------
+    private String title;
+    private String shortTitle;
+    private String helpID;
+    private long creationTime;
+    private List<WeakReference<ToolDialog>> toolDialogs;
+    private DeskView deskView;
+    private Observer[] observers = new Observer[0];
+
+    /**
+     * Create a tool object.
+     * The resources used are from your resource bundle:
+     * <table>
+     * <tr><td><i>uiKey</i>.name <td>accessible name text
+     * </table>
+     *
+     * @param m     the manager for this tool
+     * @param uiKey the component name for this tool
+     */
+    protected Tool(ToolManager m, String uiKey) {
+        super(new BorderLayout());
+        setName(uiKey + ":" + toolIndex++);
+        setFocusable(false);
+        manager = m;
+        uif = new UIFactory(this, m.getDesktop().getHelpBroker());
+        uif.setAccessibleName(this, uiKey);
+        uif.setToolTip(this, uiKey);
+        creationTime = System.currentTimeMillis();
+    }
+
+    /**
+     * Create a tool object.
+     *
+     * @param m      the manager for this tool
+     * @param uiKey  the component name for this tool
+     * @param helpID the help ID for context-sensitive help for this tool
+     */
+    protected Tool(ToolManager m, String uiKey, String helpID) {
+        this(m, uiKey);
+
+        ContextHelpManager.setHelpIDString(this, helpID);
+    }
 
     /**
      * Add an observer to be notified of changes to a tool.
@@ -99,6 +120,7 @@ public abstract class Tool extends JPanel {
         observers = DynamicArray.remove(observers, o);
     }
 
+
     //--------------------------------------------------------------------------
 
     /**
@@ -109,6 +131,8 @@ public abstract class Tool extends JPanel {
      * @return a menu bar containing tool-specific menus
      */
     public abstract JMenuBar getMenuBar();
+
+    //--------------------------------------------------------------------------
 
     /**
      * Set the title string for the tool. This will normally the displayed
@@ -178,6 +202,22 @@ public abstract class Tool extends JPanel {
     }
 
     /**
+     * Get a short title for the tool.
+     *
+     * @return the short title string for the tool
+     * @see #setShortTitle
+     */
+    public String getShortTitle() {
+        if (shortTitle != null) {
+            return shortTitle;
+        } else if (title != null) {
+            return title;
+        } else {
+            return getName();
+        }
+    }
+
+    /**
      * Set a short title for the tool. This will normally be displayed
      * by the desktop in situations where there is not room for the
      * full title.
@@ -193,22 +233,6 @@ public abstract class Tool extends JPanel {
         shortTitle = newShortTitle;
         for (Observer observer : observers) {
             observer.shortTitleChanged(this, shortTitle);
-        }
-    }
-
-    /**
-     * Get a short title for the tool.
-     *
-     * @return the short title string for the tool
-     * @see #setShortTitle
-     */
-    public String getShortTitle() {
-        if (shortTitle != null) {
-            return shortTitle;
-        } else if (title != null) {
-            return title;
-        } else {
-            return getName();
         }
     }
 
@@ -242,9 +266,6 @@ public abstract class Tool extends JPanel {
         return creationTime;
     }
 
-
-    //--------------------------------------------------------------------------
-
     /**
      * Release any resources this tool may be referencing.
      * This is for "destroying" this tool instance.
@@ -258,42 +279,6 @@ public abstract class Tool extends JPanel {
         }
 
         observers = new Observer[0];
-    }
-
-    //--------------------------------------------------------------------------
-
-    /**
-     * Create a tool object.
-     * The resources used are from your resource bundle:
-     * <table>
-     * <tr><td><i>uiKey</i>.name <td>accessible name text
-     * </table>
-     *
-     * @param m     the manager for this tool
-     * @param uiKey the component name for this tool
-     */
-    protected Tool(ToolManager m, String uiKey) {
-        super(new BorderLayout());
-        setName(uiKey + ":" + toolIndex++);
-        setFocusable(false);
-        manager = m;
-        uif = new UIFactory(this, m.getDesktop().getHelpBroker());
-        uif.setAccessibleName(this, uiKey);
-        uif.setToolTip(this, uiKey);
-        creationTime = System.currentTimeMillis();
-    }
-
-    /**
-     * Create a tool object.
-     *
-     * @param m      the manager for this tool
-     * @param uiKey  the component name for this tool
-     * @param helpID the help ID for context-sensitive help for this tool
-     */
-    protected Tool(ToolManager m, String uiKey, String helpID) {
-        this(m, uiKey);
-
-        ContextHelpManager.setHelpIDString(this, helpID);
     }
 
     /**
@@ -335,7 +320,6 @@ public abstract class Tool extends JPanel {
      */
     protected abstract void save(Map<String, String> m);
 
-
     /**
      * Restore information about a tool from a map, and configure
      * the tool according this information.
@@ -344,7 +328,6 @@ public abstract class Tool extends JPanel {
      *          of the tool
      */
     protected abstract void restore(Map<String, String> m);
-
 
     /**
      * Get a list (if any) of the reasons why it might be inadvisable
@@ -358,7 +341,6 @@ public abstract class Tool extends JPanel {
     protected String[] getCloseAlerts() {
         return null;
     }
-
 
     /**
      * Set the helpID for this component.  The help
@@ -450,25 +432,39 @@ public abstract class Tool extends JPanel {
         toolDialogs.add(new WeakReference<>(td));
     }
 
-    void setDeskView(DeskView view) {
-        deskView = view;
-    }
-
     DeskView getDeskView() {
         return deskView;
     }
 
+    void setDeskView(DeskView view) {
+        deskView = view;
+    }
     /**
-     * The UI factory used to create GUI components.
+     * An observer interface for use by those that wishing to monitor changes
+     * to a tool.
      */
-    protected final UIFactory uif;
-    private ToolManager manager;
-    private String title;
-    private String shortTitle;
-    private String helpID;
-    private long creationTime;
-    private List<WeakReference<ToolDialog>> toolDialogs;
-    private DeskView deskView;
-    private Observer[] observers = new Observer[0];
-    private static int toolIndex;
+    public interface Observer {
+        /**
+         * The title of a tool has been changed.
+         *
+         * @param source   The tool whose title has been changed.
+         * @param newValue The new title for the tool.
+         */
+        void titleChanged(Tool source, String newValue);
+
+        /**
+         * The short title of a tool has been changed.
+         *
+         * @param source   The tool whose title has been changed.
+         * @param newValue The new title for the tool.
+         */
+        void shortTitleChanged(Tool source, String newValue);
+
+        /**
+         * A tool has been disposed.
+         *
+         * @param source the tool that has been disposed
+         */
+        void toolDisposed(Tool source);
+    }
 }

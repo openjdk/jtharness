@@ -50,6 +50,14 @@ import java.util.TreeMap;
  * A manager for command line help.
  */
 public class HelpManager extends CommandManager {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HelpManager.class);
+    private CommandManager[] commandManagers;
+    private boolean commandLineHelpFlag;
+    private String[] commandLineHelpQuery;
+    private boolean onlineHelpFlag;
+    private String onlineHelpQuery;
+    private boolean versionFlag;
+
     /**
      * Create a HelpManager to manage the command line help
      * for a set of command managers.
@@ -328,15 +336,6 @@ public class HelpManager extends CommandManager {
         //help.harnessType.lite.txt
         return i18n.getString("help.harnessType.full.txt");
     }
-
-    private CommandManager[] commandManagers;
-    private boolean commandLineHelpFlag;
-    private String[] commandLineHelpQuery;
-    private boolean onlineHelpFlag;
-    private String onlineHelpQuery;
-    private boolean versionFlag;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HelpManager.class);
 
     /*private static class CustomHelpBroker
         extends DefaultHelpBroker

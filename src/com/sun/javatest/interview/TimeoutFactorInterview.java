@@ -41,47 +41,7 @@ import com.sun.javatest.Parameters;
 public class TimeoutFactorInterview
         extends Interview
         implements Parameters.MutableTimeoutFactorParameters {
-    /**
-     * Create an interview.
-     *
-     * @param parent The parent interview of which this is a child.
-     * @throws Interview.Fault if there is a problem while creating the interview.
-     */
-    public TimeoutFactorInterview(InterviewParameters parent)
-            throws Interview.Fault {
-        super(parent, "timeout");
-        this.parent = parent;
-        setResourceBundle("i18n");
-        setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
-        setFirstQuestion(qTimeout);
-    }
-
-    /**
-     * Get the value for the timeout factor from the interview.
-     *
-     * @return a value representing the desired timeout factor for a test run.
-     * @see #setTimeoutFactor
-     */
-    @Override
-    public float getTimeoutFactor() {
-        return qTimeout.getValue();
-    }
-
-    /**
-     * Set the value of the timeout factor in the interview.
-     *
-     * @param t The desired value for the timeout factor.
-     * @see #getTimeoutFactor
-     */
-    @Override
-    public void setTimeoutFactor(float t) {
-        qTimeout.setValue(t);
-    }
-
-    //----------------------------------------------------------------------------
-    //
-    // Timeout
-
+    private Question qEnd = new FinalQuestion(this);
     private FloatQuestion qTimeout = new FloatQuestion(this, "timeout") {
         {
             setBounds(Parameters.TimeoutFactorParameters.MIN_TIMEOUT_FACTOR,
@@ -99,14 +59,52 @@ public class TimeoutFactorInterview
             setValue(1);
         }
     };
+    private InterviewParameters parent;
+
+    //----------------------------------------------------------------------------
+    //
+    // Timeout
+
+    /**
+     * Create an interview.
+     *
+     * @param parent The parent interview of which this is a child.
+     * @throws Interview.Fault if there is a problem while creating the interview.
+     */
+    public TimeoutFactorInterview(InterviewParameters parent)
+            throws Interview.Fault {
+        super(parent, "timeout");
+        this.parent = parent;
+        setResourceBundle("i18n");
+        setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
+        setFirstQuestion(qTimeout);
+    }
 
     //----------------------------------------------------------------------------
     //
     // End
 
-    private Question qEnd = new FinalQuestion(this);
+    /**
+     * Get the value for the timeout factor from the interview.
+     *
+     * @return a value representing the desired timeout factor for a test run.
+     * @see #setTimeoutFactor
+     */
+    @Override
+    public float getTimeoutFactor() {
+        return qTimeout.getValue();
+    }
 
     //--------------------------------------------------------
 
-    private InterviewParameters parent;
+    /**
+     * Set the value of the timeout factor in the interview.
+     *
+     * @param t The desired value for the timeout factor.
+     * @see #getTimeoutFactor
+     */
+    @Override
+    public void setTimeoutFactor(float t) {
+        qTimeout.setValue(t);
+    }
 }

@@ -41,9 +41,34 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 
 public class ParameterFilter extends ObservableTestFilter {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ParameterFilter.class);
+    private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+    private final Lock rl = rwl.readLock();
+    private final Lock wl = rwl.writeLock();
+    private InitialUrlFilter iurlFilter;    // not appended into filters
+    private String lastInitStrings;
+    private TestFilter[] filters;
+
     public ParameterFilter() {
         super();
     }
+
+    // ------- Composite overrides ---------
+
+    private static File[] stringsToFiles(String... tests) {
+        if (tests == null) {
+            return null;
+        }
+
+        File[] files = new File[tests.length];
+        for (int i = 0; i < tests.length; i++) {
+            files[i] = new File(tests[i]);
+        }
+
+        return files;
+    }
+
+    // ---------- methods for this class -----------
 
     // ------- TestFilter ---------
     @Override
@@ -136,8 +161,6 @@ public class ParameterFilter extends ObservableTestFilter {
         return true;
     }
 
-    // ------- Composite overrides ---------
-
     /**
      * Gets the set of filters that the parameters have supplied.
      * Depending on the initial url setting, an InitialUrlFilter may or may not
@@ -168,8 +191,6 @@ public class ParameterFilter extends ObservableTestFilter {
         }
         return copy;
     }
-
-    // ---------- methods for this class -----------
 
     /**
      * Should be called whenever the parameters or filters inside
@@ -231,28 +252,6 @@ public class ParameterFilter extends ObservableTestFilter {
     public InitialUrlFilter getIUrlFilter() {
         return iurlFilter;
     }
-
-    private static File[] stringsToFiles(String... tests) {
-        if (tests == null) {
-            return null;
-        }
-
-        File[] files = new File[tests.length];
-        for (int i = 0; i < tests.length; i++) {
-            files[i] = new File(tests[i]);
-        }
-
-        return files;
-    }
-
-    private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
-    private final Lock rl = rwl.readLock();
-    private final Lock wl = rwl.writeLock();
-
-    private InitialUrlFilter iurlFilter;    // not appended into filters
-    private String lastInitStrings;
-    private TestFilter[] filters;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ParameterFilter.class);
 
 }
 

@@ -55,6 +55,19 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 
 class CE_StdView extends CE_View {
+    static final int TESTS_PANE = 0;
+    static final int EXCLUDE_LIST_PANE = 1;
+    static final int KEYWORDS_PANE = 2;
+    static final int PRIOR_STATUS_PANE = 3;
+    static final int ENVIRONMENT_PANE = 4;
+    static final int EXECUTION_PANE = 5;
+    static final int CONCURRENCY_PANE = 6;  // note displayed in EXECUTION_PANE
+    static final int TIMEOUT_FACTOR_PANE = 7; // note displayed in EXECUTION_PANE
+    static final int KFL_PANE = 8;
+    private JTabbedPane tabs;
+    private CE_StdPane[] panes;
+    private JTextField msgField;
+    private Listener localListener = new Listener();
     CE_StdView(InterviewParameters config,
                JHelpContentViewer infoPanel, UIFactory uif, ActionListener l) {
         super(config, infoPanel, uif, l);
@@ -85,7 +98,6 @@ class CE_StdView extends CE_View {
         super.setVisible(b);
     }
 
-
     @Override
     public void setParentToolDialog(ToolDialog d) {
         super.setParentToolDialog(d);
@@ -93,7 +105,6 @@ class CE_StdView extends CE_View {
             pane.setParentToolDialog(d);
         }
     }
-
 
     void showTab(int id) {
         Class<?> c;
@@ -133,16 +144,6 @@ class CE_StdView extends CE_View {
             }
         }
     }
-
-    static final int TESTS_PANE = 0;
-    static final int EXCLUDE_LIST_PANE = 1;
-    static final int KEYWORDS_PANE = 2;
-    static final int PRIOR_STATUS_PANE = 3;
-    static final int ENVIRONMENT_PANE = 4;
-    static final int EXECUTION_PANE = 5;
-    static final int CONCURRENCY_PANE = 6;  // note displayed in EXECUTION_PANE
-    static final int TIMEOUT_FACTOR_PANE = 7; // note displayed in EXECUTION_PANE
-    static final int KFL_PANE = 8;
 
     @Override
     boolean isOKToClose() {
@@ -278,12 +279,6 @@ class CE_StdView extends CE_View {
             showInfo(helpId);
         }
     }
-
-    private JTabbedPane tabs;
-    private CE_StdPane[] panes;
-    private JTextField msgField;
-
-    private Listener localListener = new Listener();
 
     private class Listener
             implements AncestorListener, ChangeListener {

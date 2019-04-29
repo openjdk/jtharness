@@ -50,45 +50,22 @@ import java.util.Set;
  */
 public class Main {
 
-    /**
-     * Thrown when a bad command line argument is encountered.
-     */
-    public static class Fault extends Exception {
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The key for the detail message.
-         */
-        public Fault(I18NResourceBundle i18n, String key) {
-            super(i18n.getString(key));
-        }
-
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The key for the detail message.
-         * @param arg  An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String key, Object arg) {
-            super(i18n.getString(key, arg));
-        }
-
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The key for the detail message.
-         * @param args An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String key, Object... args) {
-            super(i18n.getString(key, args));
-        }
-    }
-
+    private static final String CMDMGRLIST = "META-INF/services/com.sun.javatest.tool.CommandManager.lst";
+    private static final int RC_GUI_ACTIVE = -1;
+    private static final int RC_OK = 0;
+    private static final int RC_BATCH_TESTS_FAILED = 1;
+    private static final int RC_BATCH_TESTS_ERROR = 2;
+    private static final int RC_USER_ERROR = 3;
+    private static final int RC_INTERNAL_ERROR = 4;
+    private static boolean tracing;
+    private static long traceStartTime;
+    private static PrintWriter traceOut;
+    private static boolean initialized = false;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Main.class);
+    private CommandManager[] commandManagers;
+    private HelpManager helpManager;
+    private DesktopManager desktopManager;
+    private ServiceManager.ServiceCommandManager serviceManager;
 
     /**
      * Run JT Harness with command-line args.
@@ -221,6 +198,44 @@ public class Main {
             out.flush();
             exit(RC_INTERNAL_ERROR);
         }
+    }
+
+    private static void preloadUsefulClasses() {
+        //System.err.println("\n\n\n>>>>> preloading classes\n\n\n");
+        new javax.swing.text.html.HTMLEditorKit().createDefaultDocument();
+        com.sun.interview.Interview i = new com.sun.interview.Interview("dummy") {
+            com.sun.interview.Question qEnd = new com.sun.interview.FinalQuestion(this);
+
+            {
+                setFirstQuestion(qEnd);
+            }
+        };
+        new com.sun.interview.wizard.WizPane(i);
+        //System.err.println("\n\n\n>>>>> preloading classes done\n\n\n");
+    }
+
+    private static void trace(String msg) {
+        long now = System.currentTimeMillis();
+        traceOut.println(MessageFormat.format("{0,number,[##0.0]} {1}",
+                Float.valueOf((now - traceStartTime) / 1000f), msg));
+        traceOut.flush();
+    }
+
+    /**
+     * Call System.exit, taking care to get permission from the
+     * JavaTestSecurityManager, if it is installed.
+     *
+     * @param exitCode an exit code to be passed to System.exit
+     */
+    private static void exit(int exitCode) {
+        // If our security manager is installed, it won't allow a call of
+        // System.exit unless we ask it nicely, pretty please, thank you.
+        SecurityManager sc = System.getSecurityManager();
+        if (sc instanceof JavaTestSecurityManager) {
+            ((JavaTestSecurityManager) sc).setAllowExit(true);
+        }
+        System.exit(exitCode);
+        throw new JavaTestError(i18n, "main.cannotExit.err");
     }
 
     /**
@@ -475,62 +490,42 @@ public class Main {
         ctx.dispose();
     }
 
-    private CommandManager[] commandManagers;
-    private HelpManager helpManager;
-    private DesktopManager desktopManager;
-    private ServiceManager.ServiceCommandManager serviceManager;
-
-    private static void preloadUsefulClasses() {
-        //System.err.println("\n\n\n>>>>> preloading classes\n\n\n");
-        new javax.swing.text.html.HTMLEditorKit().createDefaultDocument();
-        com.sun.interview.Interview i = new com.sun.interview.Interview("dummy") {
-            com.sun.interview.Question qEnd = new com.sun.interview.FinalQuestion(this);
-
-            {
-                setFirstQuestion(qEnd);
-            }
-        };
-        new com.sun.interview.wizard.WizPane(i);
-        //System.err.println("\n\n\n>>>>> preloading classes done\n\n\n");
-    }
-
-    private static void trace(String msg) {
-        long now = System.currentTimeMillis();
-        traceOut.println(MessageFormat.format("{0,number,[##0.0]} {1}",
-                Float.valueOf((now - traceStartTime) / 1000f), msg));
-        traceOut.flush();
-    }
-
-
     /**
-     * Call System.exit, taking care to get permission from the
-     * JavaTestSecurityManager, if it is installed.
-     *
-     * @param exitCode an exit code to be passed to System.exit
+     * Thrown when a bad command line argument is encountered.
      */
-    private static void exit(int exitCode) {
-        // If our security manager is installed, it won't allow a call of
-        // System.exit unless we ask it nicely, pretty please, thank you.
-        SecurityManager sc = System.getSecurityManager();
-        if (sc instanceof JavaTestSecurityManager) {
-            ((JavaTestSecurityManager) sc).setAllowExit(true);
+    public static class Fault extends Exception {
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         */
+        public Fault(I18NResourceBundle i18n, String key) {
+            super(i18n.getString(key));
         }
-        System.exit(exitCode);
-        throw new JavaTestError(i18n, "main.cannotExit.err");
+
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         * @param arg  An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String key, Object arg) {
+            super(i18n.getString(key, arg));
+        }
+
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The key for the detail message.
+         * @param args An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String key, Object... args) {
+            super(i18n.getString(key, args));
+        }
     }
-
-    private static boolean tracing;
-    private static long traceStartTime;
-    private static PrintWriter traceOut;
-    private static boolean initialized = false;
-    private static final String CMDMGRLIST = "META-INF/services/com.sun.javatest.tool.CommandManager.lst";
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Main.class);
-
-    private static final int RC_GUI_ACTIVE = -1;
-    private static final int RC_OK = 0;
-    private static final int RC_BATCH_TESTS_FAILED = 1;
-    private static final int RC_BATCH_TESTS_ERROR = 2;
-    private static final int RC_USER_ERROR = 3;
-    private static final int RC_INTERNAL_ERROR = 4;
 }

@@ -40,6 +40,8 @@ import java.util.ListIterator;
 public class AgentMonitorCommandManager extends AgentMonitorBatchCommandManager {
 
 
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AgentMonitorCommandManager.class);
+
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx)
             throws Command.Fault {
@@ -65,17 +67,15 @@ public class AgentMonitorCommandManager extends AgentMonitorBatchCommandManager 
         return newCmds;
     }
 
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AgentMonitorCommandManager.class);
-
     //----------------------------------------------------------------------------
 
     private static class ShowMonitorCommand extends Command {
-        static String getName() {
-            return "monitorAgent";
-        }
-
         ShowMonitorCommand() {
             super(getName());
+        }
+
+        static String getName() {
+            return "monitorAgent";
         }
 
         @Override

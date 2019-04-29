@@ -51,6 +51,53 @@ import java.util.Vector;
  */
 public class HTMLTestFinder extends TestFinder {
     /**
+     * A value for {@link #setMode} to specify that the child files
+     * within the test tree should be determined from the HTML &lt;a href=...&gt; tags.
+     */
+    public static final int WEB_WALK = 1;
+    /**
+     * A value for {@link #setMode} to specify that the child files
+     * within the test tree should be determined by sub-directories and
+     * HTML files within directories.
+     */
+    public static final int DIR_WALK = 2;
+    private static final String[] excludeNames = {"SCCS", "deleted_files"};
+    private static final String[] extensions = {".html", ".htm"};
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HTMLTestFinder.class);
+    private Map<String, Integer> namesInFile = new HashMap<>();
+
+    //-----internal routines----------------------------------------------------
+    private Map<String, String> excludeList;
+    private Map<String, String> extensionTable;
+    private int mode = DIR_WALK; // default
+    private boolean ignoreErrors = false;
+    private File validatedRoot;
+    private File currFile;
+
+    //-----internal routines------------------------------------------------------
+    //
+    // detect test descriptions in tables
+    private Reader input;
+    private int c;
+    private int line;
+    private StringBuffer text;
+    private String endTestDescriptionTag;
+
+
+    //-----internal routines----------------------------------------------------
+    //
+    // detect test descriptions in definition lists
+    private Hashtable<String, String> params;
+    private String defTerm;   // collects test description parameter name
+    private Vector<String> tableRow;  // collects test description info from <TR><TD>....</TD>....etc...</TR>
+    private String lastName;
+
+
+    //-----internal routines----------------------------------------------------
+    //
+    // general lexical support
+
+    /**
      * Create an HTMLTestFinder.
      */
     public HTMLTestFinder() {
@@ -108,6 +155,17 @@ public class HTMLTestFinder extends TestFinder {
     }
 
     /**
+     * Get the current mode for how this test finder determines the child files
+     * to be scanned.
+     *
+     * @return One of {@link #WEB_WALK} or {@link #DIR_WALK}
+     * @see #setMode
+     */
+    public int getMode() {
+        return mode;
+    }
+
+    /**
      * Specify the mode for how this test finder determines the child files
      * to be scanned.  The default is <tt>DIR_WALK</tt>.
      *
@@ -126,19 +184,7 @@ public class HTMLTestFinder extends TestFinder {
         }
     }
 
-    /**
-     * Get the current mode for how this test finder determines the child files
-     * to be scanned.
-     *
-     * @return One of {@link #WEB_WALK} or {@link #DIR_WALK}
-     * @see #setMode
-     */
-    public int getMode() {
-        return mode;
-    }
-
-    //-----internal routines----------------------------------------------------
-
+    //----------member variables------------------------------------------------
 
     @Override
     protected void scan(File file) {
@@ -349,10 +395,6 @@ public class HTMLTestFinder extends TestFinder {
         return params != null;
     }
 
-    //-----internal routines------------------------------------------------------
-    //
-    // detect test descriptions in tables
-
     private void scanTable(File context) throws IOException {
         if (debug) {
             System.err.println("scanning table starting in line " + line);
@@ -415,11 +457,6 @@ public class HTMLTestFinder extends TestFinder {
         }
     }
 
-
-    //-----internal routines----------------------------------------------------
-    //
-    // detect test descriptions in definition lists
-
     private void scanDefList(File context) throws IOException {
         String id = lastName; // default
         skipSpace();
@@ -479,11 +516,6 @@ public class HTMLTestFinder extends TestFinder {
             text = null;
         }
     }
-
-
-    //-----internal routines----------------------------------------------------
-    //
-    // general lexical support
 
     private String scanIdentifier() throws IOException {
         StringBuilder buf = new StringBuilder();
@@ -617,43 +649,4 @@ public class HTMLTestFinder extends TestFinder {
         }
         nextCh();
     }
-
-    //----------member variables------------------------------------------------
-
-    private Map<String, Integer> namesInFile = new HashMap<>();
-    private Map<String, String> excludeList;
-    private static final String[] excludeNames = {"SCCS", "deleted_files"};
-    private Map<String, String> extensionTable;
-    private static final String[] extensions = {".html", ".htm"};
-
-    /**
-     * A value for {@link #setMode} to specify that the child files
-     * within the test tree should be determined from the HTML &lt;a href=...&gt; tags.
-     */
-    public static final int WEB_WALK = 1;
-
-    /**
-     * A value for {@link #setMode} to specify that the child files
-     * within the test tree should be determined by sub-directories and
-     * HTML files within directories.
-     */
-    public static final int DIR_WALK = 2;
-
-    private int mode = DIR_WALK; // default
-    private boolean ignoreErrors = false;
-
-    private File validatedRoot;
-    private File currFile;
-    private Reader input;
-    private int c;
-    private int line;
-    private StringBuffer text;
-
-    private String endTestDescriptionTag;
-    private Hashtable<String, String> params;
-    private String defTerm;   // collects test description parameter name
-    private Vector<String> tableRow;  // collects test description info from <TR><TD>....</TD>....etc...</TR>
-    private String lastName;
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HTMLTestFinder.class);
 }

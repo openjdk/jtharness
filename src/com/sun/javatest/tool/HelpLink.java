@@ -68,6 +68,16 @@ import java.awt.event.MouseEvent;
  */
 public class HelpLink extends JComponent implements Accessible {
     /**
+     * The name of a property that must be set on the JHelpContentViewer that
+     * identifies the HelpBroker that is updated when the link is activated.
+     */
+    public static final String HELPBROKER_FOR_HELPLINK = "helpBrokerForHelpLink";
+    private String target;
+    private String text = "link";
+    private Font font;
+    private Color color = Color.blue;
+
+    /**
      * Create a HelpLink object.
      */
     public HelpLink() {
@@ -211,16 +221,4 @@ public class HelpLink extends JComponent implements Accessible {
     public void setTextColor(String color) {
         this.color = Color.decode(color);
     }
-
-
-    private String target;
-    private String text = "link";
-    private Font font;
-    private Color color = Color.blue;
-
-    /**
-     * The name of a property that must be set on the JHelpContentViewer that
-     * identifies the HelpBroker that is updated when the link is activated.
-     */
-    public static final String HELPBROKER_FOR_HELPLINK = "helpBrokerForHelpLink";
 }

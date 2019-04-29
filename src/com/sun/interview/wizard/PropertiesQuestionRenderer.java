@@ -60,6 +60,15 @@ import java.util.Set;
 
 
 public class PropertiesQuestionRenderer implements QuestionRenderer {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    protected Runnable valueSaver;
+    protected Map<String, JTable> tables;
+
+    // TABLE BUILDING
+    protected RenderingUtilities.PropCellRenderer renderer;
+    protected PropertiesQuestion question;
+    protected JPanel panel;
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         question = (PropertiesQuestion) qq;
@@ -159,7 +168,7 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         panel.add(txt, gbc);
     }
 
-    // TABLE BUILDING
+    // UTILITY
 
     /**
      * @param headers Just an optimization right now.
@@ -256,8 +265,6 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
         return new PropJTable(model);
     }
 
-    // UTILITY
-
     private void fireEditedEvent(Object src, ActionListener l) {
         ActionEvent e = new ActionEvent(src,
                 ActionEvent.ACTION_PERFORMED,
@@ -289,6 +296,20 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
     }
 
     protected class PropTableModel extends DefaultTableModel {
+        protected PropertiesQuestion q;
+
+            /*
+         String getColumnName(int column) {
+             if (column > headers.length - 1)
+                 return super.getColumnName();
+             else
+                 return headers[column];
+         }
+
+        String[] headers;
+         */
+        protected ActionListener editedListener;
+
         protected PropTableModel(String[] headers, String group, PropertiesQuestion q,
                                  ActionListener listener) {
             super();
@@ -346,17 +367,6 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
             */
         }
 
-            /*
-         String getColumnName(int column) {
-             if (column > headers.length - 1)
-                 return super.getColumnName();
-             else
-                 return headers[column];
-         }
-
-        String[] headers;
-         */
-
         @Override
         public void setValueAt(Object o, int row, int col) {
             if (col == 1) {
@@ -371,16 +381,5 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
             super.setValueAt(o, row, col);
         }
-
-        protected PropertiesQuestion q;
-        protected ActionListener editedListener;
     }
-
-    protected Runnable valueSaver;
-    protected Map<String, JTable> tables;
-    protected RenderingUtilities.PropCellRenderer renderer;
-    protected PropertiesQuestion question;
-    protected JPanel panel;
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

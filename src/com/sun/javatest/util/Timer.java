@@ -38,33 +38,45 @@ import java.util.Vector;
  */
 
 public class Timer {
+    /* For autonumbering anonymous threads. */
+    private static int threadInitNumber;
     /**
-     * Implementations of this interface are passed to Timer, to be
-     * called back after a specified interval.
-     *
-     * @see com.sun.javatest.util.Timer#requestDelayedCallback
+     * Original code ... problem is timeout is called while synchronized
+     * <p>
+     * public synchronized void run() {
+     * try {
+     * while (acceptingRequests) {
+     * if (entries.size() == 0) {
+     * // nothing on list; wait until new requests come in
+     * wait();
+     * } else {
+     * long now = System.currentTimeMillis();
+     * Entry e = (Entry)(entries.elementAt(0));
+     * if (e.expiration > now) {
+     * // not ready to invoke e yet; wait until nearer the time
+     * wait(e.expiration - now);
+     * // update current time
+     * now = System.currentTimeMillis();
+     * // list might have been updated during wait, so go round and
+     * // process list again
+     * } else {
+     * // time to call back e.obj; do so and remove it from list
+     * entries.removeElementAt(0);
+     * e.obj.timeout();
+     * }
+     * e = null; // for GC
+     * }
+     * }
+     * }
+     * catch (InterruptedException e) {
+     * }
+     * }
      */
-    public interface Timeable {
-        /**
-         * This method will be called if an implementation of this interface
-         * is passed to a Timer.
-         */
-        void timeout();
-    }
 
-    /**
-     * Entry objects are returned as the result calling
-     * requestDelayedCallback on a timer; they may be used to cancel the request.
-     */
-    public static class Entry {
-        Entry(Timeable obj, long expiration) {
-            this.obj = obj;
-            this.expiration = expiration;
-        }
+    //-----member variables-------------------------------------------------------
 
-        Timeable obj;
-        long expiration;
-    }
+    private Vector<Entry> entries = new Vector<>();
+    private boolean acceptingRequests = true;
 
     /**
      * Create and start a timer object.
@@ -88,9 +100,6 @@ public class Timer {
         t.setDaemon(true);
         t.start();
     }
-
-    /* For autonumbering anonymous threads. */
-    private static int threadInitNumber;
 
     private static synchronized int nextThreadNum() {
         return threadInitNumber++;
@@ -178,40 +187,29 @@ public class Timer {
     }
 
     /**
-     * Original code ... problem is timeout is called while synchronized
-     * <p>
-     * public synchronized void run() {
-     * try {
-     * while (acceptingRequests) {
-     * if (entries.size() == 0) {
-     * // nothing on list; wait until new requests come in
-     * wait();
-     * } else {
-     * long now = System.currentTimeMillis();
-     * Entry e = (Entry)(entries.elementAt(0));
-     * if (e.expiration > now) {
-     * // not ready to invoke e yet; wait until nearer the time
-     * wait(e.expiration - now);
-     * // update current time
-     * now = System.currentTimeMillis();
-     * // list might have been updated during wait, so go round and
-     * // process list again
-     * } else {
-     * // time to call back e.obj; do so and remove it from list
-     * entries.removeElementAt(0);
-     * e.obj.timeout();
-     * }
-     * e = null; // for GC
-     * }
-     * }
-     * }
-     * catch (InterruptedException e) {
-     * }
-     * }
+     * Implementations of this interface are passed to Timer, to be
+     * called back after a specified interval.
+     *
+     * @see com.sun.javatest.util.Timer#requestDelayedCallback
      */
+    public interface Timeable {
+        /**
+         * This method will be called if an implementation of this interface
+         * is passed to a Timer.
+         */
+        void timeout();
+    }
 
-    //-----member variables-------------------------------------------------------
-
-    private Vector<Entry> entries = new Vector<>();
-    private boolean acceptingRequests = true;
+    /**
+     * Entry objects are returned as the result calling
+     * requestDelayedCallback on a timer; they may be used to cancel the request.
+     */
+    public static class Entry {
+        Timeable obj;
+        long expiration;
+        Entry(Timeable obj, long expiration) {
+            this.obj = obj;
+            this.expiration = expiration;
+        }
+    }
 }

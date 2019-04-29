@@ -34,6 +34,15 @@ import java.util.ResourceBundle;
  * posts the text, which must simply be acknowledged.
  */
 public abstract class NullQuestion extends Question {
+    public static final int LEVEL_NONE = -1;
+    public static final int LEVEL_LEGACY = 0;
+    public static final int LEVEL_1 = 1;
+    public static final int LEVEL_2 = 2;
+    public static final int LEVEL_3 = 3;
+    private static final int MAX_LEVEL = LEVEL_3;
+    private static final ResourceBundle i18n = Interview.i18n;
+    private int level = LEVEL_LEGACY;      // default, pre JT4.0 rendering
+
     /**
      * Create a null question.
      *
@@ -42,6 +51,7 @@ public abstract class NullQuestion extends Question {
     protected NullQuestion(Interview interview) {
         super(interview);
     }
+
 
     /**
      * Create a question with a nominated tag.
@@ -63,6 +73,15 @@ public abstract class NullQuestion extends Question {
     protected NullQuestion(Interview interview, String tag, int level) {
         super(interview, tag);
         this.level = level;
+    }
+
+    /**
+     * Get the current heading level.
+     *
+     * @return The heading level, as defined by one of this class' constants.
+     */
+    public int getLevel() {
+        return level;
     }
 
     /**
@@ -92,15 +111,6 @@ public abstract class NullQuestion extends Question {
         }
 
         level = val;
-    }
-
-    /**
-     * Get the current heading level.
-     *
-     * @return The heading level, as defined by one of this class' constants.
-     */
-    public int getLevel() {
-        return level;
     }
 
     /**
@@ -146,7 +156,6 @@ public abstract class NullQuestion extends Question {
         return true;
     }
 
-
     /**
      * A NullQuestion does not have a value, and so this method always
      * returns true.
@@ -177,14 +186,4 @@ public abstract class NullQuestion extends Question {
     @Override
     protected void save(Map<String, String> data) {
     }
-
-    public static final int LEVEL_NONE = -1;
-    public static final int LEVEL_LEGACY = 0;
-    public static final int LEVEL_1 = 1;
-    public static final int LEVEL_2 = 2;
-    public static final int LEVEL_3 = 3;
-    private static final int MAX_LEVEL = LEVEL_3;
-
-    private int level = LEVEL_LEGACY;      // default, pre JT4.0 rendering
-    private static final ResourceBundle i18n = Interview.i18n;
 }

@@ -33,6 +33,9 @@ import java.io.File;
  * A component that displays an editable list of filenames.
  */
 public class EditableFileList extends EditableList {
+    private JFileChooser chooser;
+    private File baseDir;
+
     /**
      * Create an empty component.
      */
@@ -154,7 +157,4 @@ public class EditableFileList extends EditableList {
         }
         return f;
     }
-
-    private JFileChooser chooser;
-    private File baseDir;
 }

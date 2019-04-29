@@ -53,6 +53,47 @@ public class ExpandTestFinder extends TagTestFinder {
     // behaves the same as JCKTagTestFinder.  If that finder ever
     // derives from this one, it may be removed.
 
+    private static final String TESTSUITE_HTML = "testsuite.html";
+    private static final String TRUE = "true";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExpandTestFinder.class);
+    private boolean verify;
+    private Map<String, String> validEntries;
+    private Map<String, String> validKeywords;
+    private Map<String, String> testStems = null;
+    private Map<String, String[]> expandVars;
+    // end of code for JCKTagTestFinder emulation
+
+    //--------------------------------------------------------------------------
+    private Map<String, Integer> expandVarLen;
+    private String[] stdValidEntries = {
+            // required
+            "keywords",
+            "source",
+            "title",
+            // optional
+            "context",
+            "executeArgs",
+            "executeClass",
+            "executeNative",
+            "id",           // defined and used internally by JT Harness
+            "rmicClasses",
+            "timeout"
+    };
+    private String[] stdValidKeywords = {
+            // approved
+            "compiler",
+            "runtime",
+            "positive",
+            "negative",
+            "idl_inherit",
+            "idl_tie",
+            "interactive",
+            "jniinvocationapi",
+            "optionalPJava",
+            // will eventually be superceded/deprecated
+            "serial"
+    };
+
     public ExpandTestFinder() {
         validEntries = initTable(stdValidEntries);
         validEntries = addTableItem(validEntries, "test", TRUE);
@@ -61,6 +102,8 @@ public class ExpandTestFinder extends TagTestFinder {
         addExtension(".jasm", JavaCommentStream.class);
         addExtension(".jcod", JavaCommentStream.class);
     } // ExpandTestFinder()
+
+    //----------member variables------------------------------------------------
 
     @Override
     protected int decodeArg(String[] args, int i) throws Fault {
@@ -92,15 +135,6 @@ public class ExpandTestFinder extends TagTestFinder {
         entries.put(name, value);
         return entries;
     } // addTableItem()
-
-    private boolean verify;
-    private Map<String, String> validEntries;
-    private Map<String, String> validKeywords;
-
-    private static final String TESTSUITE_HTML = "testsuite.html";
-    // end of code for JCKTagTestFinder emulation
-
-    //--------------------------------------------------------------------------
 
     @Override
     public void init(String[] args, File testSuiteRoot, TestEnvironment env) throws Fault {
@@ -318,42 +352,4 @@ public class ExpandTestFinder extends TagTestFinder {
             // super.processEntry(entries, name, value);
         }
     } // processEntry()
-
-    //----------member variables------------------------------------------------
-
-    private static final String TRUE = "true";
-    private Map<String, String> testStems = null;
-    private Map<String, String[]> expandVars;
-    private Map<String, Integer> expandVarLen;
-
-    private String[] stdValidEntries = {
-            // required
-            "keywords",
-            "source",
-            "title",
-            // optional
-            "context",
-            "executeArgs",
-            "executeClass",
-            "executeNative",
-            "id",           // defined and used internally by JT Harness
-            "rmicClasses",
-            "timeout"
-    };
-
-    private String[] stdValidKeywords = {
-            // approved
-            "compiler",
-            "runtime",
-            "positive",
-            "negative",
-            "idl_inherit",
-            "idl_tie",
-            "interactive",
-            "jniinvocationapi",
-            "optionalPJava",
-            // will eventually be superceded/deprecated
-            "serial"
-    };
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExpandTestFinder.class);
 }

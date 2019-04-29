@@ -33,6 +33,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 class ActionDocListener implements DocumentListener {
+    private Component src;
+    private ActionListener listener;
+    private String cmd;
+
     ActionDocListener(Component src, ActionListener listener, String cmd) {
         this.src = src;
         this.listener = listener;
@@ -54,8 +58,4 @@ class ActionDocListener implements DocumentListener {
         ActionEvent ae = new ActionEvent(src, ActionEvent.ACTION_PERFORMED, cmd);
         listener.actionPerformed(ae);
     }
-
-    private Component src;
-    private ActionListener listener;
-    private String cmd;
 }

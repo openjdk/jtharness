@@ -105,6 +105,26 @@ import java.util.Iterator;
  */
 public class MultiFormatPane extends JPanel implements Printable {
 
+    public static final int TEXT = 0;
+    public static final int IMAGE = 1;
+    public static final int AUDIO = 2;
+    public static final int ERROR = 3;
+    private static final String SUPPORTED_MEDIA_RESOURCE_EXTENSIONS =
+            ".wav .au .aif .mid .midi .rmf .jpeg .jpg .gif .png";
+    private JScrollPane scrllBody;
+    private File baseDir;
+    private URL currURL;
+    private TextPane textPane;
+    private MusicPane musicPane;
+    private ImagePane imagePane;
+    private ErrorFormatPane errorPane;
+    private UIFactory uif;
+    private String uiKey;
+    private Listener listener;
+    private JTextField noteField;
+    private NavigationPane navPane;
+    private HashMap<Integer, MediaPane> modesToPanes;
+
     public MultiFormatPane(UIFactory uif) {
         this.uif = uif;
 
@@ -156,14 +176,15 @@ public class MultiFormatPane extends JPanel implements Printable {
         return (MediaPane) scrllBody.getViewport().getComponent(0);
     }
 
+    File getBaseDirectory() {
+        return baseDir;
+    }
+// END of printing
+
     // Base directory is root directory for displayable content
     // if it set, all filenames will be relative to this directory
     void setBaseDirectory(File base) {
         baseDir = base;
-    }
-
-    File getBaseDirectory() {
-        return baseDir;
     }
 
     void setDefaultView() {
@@ -194,7 +215,6 @@ public class MultiFormatPane extends JPanel implements Printable {
         add(scrllBody, BorderLayout.CENTER);
 
     }
-
 
     //Loads everything by URL
     public void loadPage(URL url) {
@@ -277,7 +297,6 @@ public class MultiFormatPane extends JPanel implements Printable {
         errorPane.showError(errorMessage);
     }
 
-
     private boolean isMediaResourceSupported(URL url) {
         return ImagePane.isImageResource(url) || MusicPane.isAudioResource(url);
     }
@@ -290,7 +309,6 @@ public class MultiFormatPane extends JPanel implements Printable {
         return (SUPPORTED_MEDIA_RESOURCE_EXTENSIONS.contains(ext)) &&
                 !isMediaResourceSupported(url);
     }
-
 
     private String listLocalDirectory(File dir) {
         if (!dir.isAbsolute()) {
@@ -377,15 +395,6 @@ public class MultiFormatPane extends JPanel implements Printable {
         return sw.toString();
     }
 
-    public interface MediaPane {
-
-        int getMode();
-
-        void changeURL(URL url);
-
-        void setParent(JScrollPane pane);
-    }
-
     // Print this panel
     @Override
     public int print(Graphics g, PageFormat pf, int pageIndex) {
@@ -449,7 +458,14 @@ public class MultiFormatPane extends JPanel implements Printable {
         RepaintManager currentManager = RepaintManager.currentManager(c);
         currentManager.setDoubleBufferingEnabled(true);
     }
-// END of printing
+    public interface MediaPane {
+
+        int getMode();
+
+        void changeURL(URL url);
+
+        void setParent(JScrollPane pane);
+    }
 
     private class Listener implements HyperlinkListener {
         @Override
@@ -549,37 +565,50 @@ public class MultiFormatPane extends JPanel implements Printable {
             loadPage(correctURL);
         }
     }
-
-
-    private static final String SUPPORTED_MEDIA_RESOURCE_EXTENSIONS =
-            ".wav .au .aif .mid .midi .rmf .jpeg .jpg .gif .png";
-    private JScrollPane scrllBody;
-    public static final int TEXT = 0;
-    public static final int IMAGE = 1;
-    public static final int AUDIO = 2;
-    public static final int ERROR = 3;
-
-    private File baseDir;
-    private URL currURL;
-
-    private TextPane textPane;
-    private MusicPane musicPane;
-    private ImagePane imagePane;
-    private ErrorFormatPane errorPane;
-
-    private UIFactory uif;
-    private String uiKey;
-
-    private Listener listener;
-
-    private JTextField noteField;
-    private NavigationPane navPane;
-
-    private HashMap<Integer, MediaPane> modesToPanes;
 }
 
 
 class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
+
+    private static HashMap<String, String> extensionsToMIME;
+
+    static {
+        extensionsToMIME = new HashMap<>();
+        extensionsToMIME.put("html", "text/html");
+        extensionsToMIME.put("htm", "text/html");
+        extensionsToMIME.put("htmls", "text/html");
+        extensionsToMIME.put("htx", "text/html");
+        extensionsToMIME.put("shtml", "text/html");
+        extensionsToMIME.put("stm", "text/html");
+        extensionsToMIME.put("jsp", "text/html");
+
+        extensionsToMIME.put("text", "text/plain");
+        extensionsToMIME.put("txt", "text/plain");
+        extensionsToMIME.put("log", "text/plain");
+        extensionsToMIME.put("list", "text/plain");
+        extensionsToMIME.put("lst", "text/plain");
+        extensionsToMIME.put("java", "text/plain");
+        extensionsToMIME.put("xml", "text/plain");
+        extensionsToMIME.put("jtr", "text/plain");
+        extensionsToMIME.put("jti", "text/plain");
+        extensionsToMIME.put("jtm", "text/plain");
+        extensionsToMIME.put("jtx", "text/plain");
+        extensionsToMIME.put("kfl", "text/plain");
+        extensionsToMIME.put("css", "text/plain");
+        extensionsToMIME.put("fx", "text/plain");
+        extensionsToMIME.put("jasm", "text/plain");
+        extensionsToMIME.put("jcod", "text/plain");
+
+        extensionsToMIME.put("rtf", "text/rtf");
+        extensionsToMIME.put("rtx", "text/rtf");
+
+    }
+
+    private JScrollPane owner;
+    private UIFactory uif;
+    private HTMLEditorKit htmlKit;
+    private DefaultEditorKit defaultKit;
+    private RTFEditorKit rtfKit;
 
     public TextPane(UIFactory uif, String uiKey, JScrollPane owner) {
         super();
@@ -598,6 +627,23 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
         defaultKit = new DefaultEditorKit();
         rtfKit = new RTFEditorKit();
 
+    }
+
+    public static boolean isTextResource(URL url) {
+        String mimeType = getMIMEType(url);
+        if (mimeType == null) {
+            return false;
+        }
+        return mimeType.equals("text/plain") || mimeType.equals("text/html") ||
+                mimeType.equals("text/rtf");
+    }
+
+    public static String getMIMEType(URL url) {
+        String filename = url.getFile();
+        String ext = filename.substring(filename.lastIndexOf('.') + 1);
+        ext = ext.toLowerCase();
+
+        return extensionsToMIME.get(ext);
     }
 
     @Override
@@ -664,23 +710,6 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
         }
     }
 
-    public static boolean isTextResource(URL url) {
-        String mimeType = getMIMEType(url);
-        if (mimeType == null) {
-            return false;
-        }
-        return mimeType.equals("text/plain") || mimeType.equals("text/html") ||
-                mimeType.equals("text/rtf");
-    }
-
-    public static String getMIMEType(URL url) {
-        String filename = url.getFile();
-        String ext = filename.substring(filename.lastIndexOf('.') + 1);
-        ext = ext.toLowerCase();
-
-        return extensionsToMIME.get(ext);
-    }
-
     public void showTextArea() {
         owner.setViewportView(this);
         owner.revalidate();
@@ -731,52 +760,19 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
         }
     }
 
-    private JScrollPane owner;
-    private UIFactory uif;
-
-    private HTMLEditorKit htmlKit;
-    private DefaultEditorKit defaultKit;
-    private RTFEditorKit rtfKit;
-
-
-    private static HashMap<String, String> extensionsToMIME;
-
-    static {
-        extensionsToMIME = new HashMap<>();
-        extensionsToMIME.put("html", "text/html");
-        extensionsToMIME.put("htm", "text/html");
-        extensionsToMIME.put("htmls", "text/html");
-        extensionsToMIME.put("htx", "text/html");
-        extensionsToMIME.put("shtml", "text/html");
-        extensionsToMIME.put("stm", "text/html");
-        extensionsToMIME.put("jsp", "text/html");
-
-        extensionsToMIME.put("text", "text/plain");
-        extensionsToMIME.put("txt", "text/plain");
-        extensionsToMIME.put("log", "text/plain");
-        extensionsToMIME.put("list", "text/plain");
-        extensionsToMIME.put("lst", "text/plain");
-        extensionsToMIME.put("java", "text/plain");
-        extensionsToMIME.put("xml", "text/plain");
-        extensionsToMIME.put("jtr", "text/plain");
-        extensionsToMIME.put("jti", "text/plain");
-        extensionsToMIME.put("jtm", "text/plain");
-        extensionsToMIME.put("jtx", "text/plain");
-        extensionsToMIME.put("kfl", "text/plain");
-        extensionsToMIME.put("css", "text/plain");
-        extensionsToMIME.put("fx", "text/plain");
-        extensionsToMIME.put("jasm", "text/plain");
-        extensionsToMIME.put("jcod", "text/plain");
-
-        extensionsToMIME.put("rtf", "text/rtf");
-        extensionsToMIME.put("rtx", "text/rtf");
-
-    }
-
 
 }
 
 class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
+    private UIFactory uif;
+    private JScrollPane owner;
+    private JButton btnStart;
+    private JButton btnStop;
+    private JButton btnLoop;
+    private URL currURL;
+    private Clip clip;
+    private Sequencer sequencer;
+
     public MusicPane(UIFactory uif, String uiKey, JScrollPane owner) {
         super();
 
@@ -784,6 +780,29 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
         this.owner = owner;
 
         initGUI(uiKey);
+    }
+
+    public static boolean isAudioResource(URL url) {
+        return isSampledAudioResource(url) || isMidiAudioResource(url);
+    }
+
+    private static boolean isSampledAudioResource(URL url) {
+        try {
+            AudioFileFormat fformat = AudioSystem.getAudioFileFormat(url);
+            return AudioSystem.isFileTypeSupported(fformat.getType());
+        } catch (UnsupportedAudioFileException | IOException unsuppExc) {
+            return false;
+        }
+    }
+
+    private static boolean isMidiAudioResource(URL url) {
+        try {
+            MidiFileFormat fformat = MidiSystem.getMidiFileFormat(url);
+            Sequence sequence = MidiSystem.getSequence(url);
+            return MidiSystem.isFileTypeSupported(fformat.getType());
+        } catch (Exception exc) {
+            return false;
+        }
     }
 
     private void initGUI(String uiKey) {
@@ -863,10 +882,6 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
         return MultiFormatPane.AUDIO;
     }
 
-    public static boolean isAudioResource(URL url) {
-        return isSampledAudioResource(url) || isMidiAudioResource(url);
-    }
-
     public void stopAudio() {
         if (clip != null && clip.isRunning()) {
             clip.stop();
@@ -915,46 +930,38 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
 
     }
 
-    private static boolean isSampledAudioResource(URL url) {
-        try {
-            AudioFileFormat fformat = AudioSystem.getAudioFileFormat(url);
-            return AudioSystem.isFileTypeSupported(fformat.getType());
-        } catch (UnsupportedAudioFileException | IOException unsuppExc) {
-            return false;
-        }
-    }
-
-    private static boolean isMidiAudioResource(URL url) {
-        try {
-            MidiFileFormat fformat = MidiSystem.getMidiFileFormat(url);
-            Sequence sequence = MidiSystem.getSequence(url);
-            return MidiSystem.isFileTypeSupported(fformat.getType());
-        } catch (Exception exc) {
-            return false;
-        }
-    }
-
-
-    private UIFactory uif;
-    private JScrollPane owner;
-
-    private JButton btnStart;
-    private JButton btnStop;
-    private JButton btnLoop;
-
-    private URL currURL;
-    private Clip clip;
-    private Sequencer sequencer;
-
 }
 
 class ImagePane extends JLabel implements MultiFormatPane.MediaPane {
+
+    private JScrollPane owner;
 
     public ImagePane(UIFactory uif, String uiKey, JScrollPane owner) {
         super(uif.getI18NString(uiKey + ".lbl"));
 //        setName(uiKey);
 
         this.owner = owner;
+    }
+
+    public static boolean isImageResource(URL url) {
+        String file = url.getFile();
+        String ext = file.substring(file.lastIndexOf('.') + 1);
+        Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(ext);
+        return iter.hasNext();
+    }
+
+    public static boolean isImageFormatSupported(URL url) {
+        try {
+            ImageInputStream iis = ImageIO.createImageInputStream(new File(url.getFile()));
+            Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
+            if (!iter.hasNext()) {
+                return false;
+            }
+        } catch (IOException exc) {
+            exc.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -981,32 +988,12 @@ class ImagePane extends JLabel implements MultiFormatPane.MediaPane {
             owner.repaint();
         }
     }
-
-    public static boolean isImageResource(URL url) {
-        String file = url.getFile();
-        String ext = file.substring(file.lastIndexOf('.') + 1);
-        Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(ext);
-        return iter.hasNext();
-    }
-
-    public static boolean isImageFormatSupported(URL url) {
-        try {
-            ImageInputStream iis = ImageIO.createImageInputStream(new File(url.getFile()));
-            Iterator<ImageReader> iter = ImageIO.getImageReaders(iis);
-            if (!iter.hasNext()) {
-                return false;
-            }
-        } catch (IOException exc) {
-            exc.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    private JScrollPane owner;
 }
 
 class ErrorFormatPane extends JPanel implements MultiFormatPane.MediaPane {
+    private JLabel errorLabel;
+    private JScrollPane owner;
+
     public ErrorFormatPane(UIFactory uif, String uiKey, JScrollPane owner) {
         super();
         uif.initPanel(this, uiKey, true);
@@ -1042,7 +1029,4 @@ class ErrorFormatPane extends JPanel implements MultiFormatPane.MediaPane {
         owner.revalidate();
         owner.repaint();
     }
-
-    private JLabel errorLabel;
-    private JScrollPane owner;
 }

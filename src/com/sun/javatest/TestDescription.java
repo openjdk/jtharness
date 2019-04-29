@@ -50,6 +50,36 @@ import java.util.Vector;
  */
 
 public class TestDescription implements Serializable {
+    private static File cachedRoot;
+    private static String cachedRootDir;
+    /**
+     * Root directory for the test suite
+     * WARNING: If this description has been read in from a .jtr file, the rootDir
+     * may be inappropriate for this system.
+     *
+     * @serial
+     */
+    private String rootDir;
+    /**
+     * Root relative path for this test description within the test suite
+     *
+     * @serial
+     */
+    private String rootRelativePath;
+    /**
+     * The data for this test description, organized as a sequence of
+     * name-value pairs.
+     *
+     * @serial
+     */
+    private String[] fields;
+    /**
+     * Cached version of the root relative path.
+     *
+     * @see #getRootRelativeURL
+     */
+    private String rrurl;
+
     /**
      * Construct a test description from the parameters of a recognized descriptions.
      *
@@ -116,6 +146,68 @@ public class TestDescription implements Serializable {
             }
         }
         fields = v.toArray(new String[v.size()]);
+    }
+
+    /**
+     * Recover TestDescription from saved dictionary
+     */
+    static TestDescription load(String... params) {
+        //File r = new File((String)d.get("testsuite"));
+        //if (!r.isDirectory())
+        //    r = new File(r.getParent());
+        //File f = new File((String)d.get("file"));
+        String r = PropertyArray.get(params, "$root");
+        if (r == null) {
+            r = PropertyArray.get(params, "testsuite");
+        }
+        String f = PropertyArray.get(params, "$file");
+        if (f == null) {
+            f = PropertyArray.get(params, "file");
+        }
+        return new TestDescription(r, f, params);
+    }
+
+    private static void insert(Vector<String> v, String key, String value) {
+        int lower = 0;
+        int upper = v.size() - 2;
+        int mid = 0;
+
+        if (upper < 0) {
+            v.add(key);
+            v.add(value);
+            return;
+        }
+
+        String last = v.get(upper);
+        int cmp = key.compareTo(last);
+        if (cmp > 0) {
+            v.add(key);
+            v.add(value);
+            return;
+        }
+
+        while (lower <= upper) {
+            // in next line, take care to ensure that mid is always even
+            mid = lower + ((upper - lower) / 4) * 2;
+            String e = v.get(mid);
+            cmp = key.compareTo(e);
+            if (cmp < 0) {
+                upper = mid - 2;
+            } else if (cmp > 0) {
+                lower = mid + 2;
+            } else {
+                throw new Error("should not happen");
+            }
+        }
+
+        // did not find an exact match (we did not expect to)
+        // adjust the insert point
+        if (cmp > 0) {
+            mid += 2;
+        }
+
+        v.add(mid, key);
+        v.add(mid + 1, value);
     }
 
     @Override
@@ -306,7 +398,6 @@ public class TestDescription implements Serializable {
         return sourceFiles;
     }
 
-
     /**
      * Get a list of associated files for a specified test description.
      * Normally, this will include the file containing the test description,
@@ -335,7 +426,6 @@ public class TestDescription implements Serializable {
 
         return urls;
     }
-
 
     /**
      * Get the optional class directory for this test description,
@@ -463,6 +553,8 @@ public class TestDescription implements Serializable {
         return p == null ? new File(".") : new File(p);
     }
 
+    //-----member variables-------------------------------------------------------
+
     /**
      * Get the number of parameters contained in this test description.
      *
@@ -576,103 +668,5 @@ public class TestDescription implements Serializable {
             p.put(key, value);
         }
     }
-
-    /**
-     * Recover TestDescription from saved dictionary
-     */
-    static TestDescription load(String... params) {
-        //File r = new File((String)d.get("testsuite"));
-        //if (!r.isDirectory())
-        //    r = new File(r.getParent());
-        //File f = new File((String)d.get("file"));
-        String r = PropertyArray.get(params, "$root");
-        if (r == null) {
-            r = PropertyArray.get(params, "testsuite");
-        }
-        String f = PropertyArray.get(params, "$file");
-        if (f == null) {
-            f = PropertyArray.get(params, "file");
-        }
-        return new TestDescription(r, f, params);
-    }
-
-    private static void insert(Vector<String> v, String key, String value) {
-        int lower = 0;
-        int upper = v.size() - 2;
-        int mid = 0;
-
-        if (upper < 0) {
-            v.add(key);
-            v.add(value);
-            return;
-        }
-
-        String last = v.get(upper);
-        int cmp = key.compareTo(last);
-        if (cmp > 0) {
-            v.add(key);
-            v.add(value);
-            return;
-        }
-
-        while (lower <= upper) {
-            // in next line, take care to ensure that mid is always even
-            mid = lower + ((upper - lower) / 4) * 2;
-            String e = v.get(mid);
-            cmp = key.compareTo(e);
-            if (cmp < 0) {
-                upper = mid - 2;
-            } else if (cmp > 0) {
-                lower = mid + 2;
-            } else {
-                throw new Error("should not happen");
-            }
-        }
-
-        // did not find an exact match (we did not expect to)
-        // adjust the insert point
-        if (cmp > 0) {
-            mid += 2;
-        }
-
-        v.add(mid, key);
-        v.add(mid + 1, value);
-    }
-
-    //-----member variables-------------------------------------------------------
-
-    /**
-     * Root directory for the test suite
-     * WARNING: If this description has been read in from a .jtr file, the rootDir
-     * may be inappropriate for this system.
-     *
-     * @serial
-     */
-    private String rootDir;
-
-    /**
-     * Root relative path for this test description within the test suite
-     *
-     * @serial
-     */
-    private String rootRelativePath;
-
-    /**
-     * The data for this test description, organized as a sequence of
-     * name-value pairs.
-     *
-     * @serial
-     */
-    private String[] fields;
-
-    /**
-     * Cached version of the root relative path.
-     *
-     * @see #getRootRelativeURL
-     */
-    private String rrurl;
-
-    private static File cachedRoot;
-    private static String cachedRootDir;
 }
 

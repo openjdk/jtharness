@@ -38,6 +38,23 @@ import java.util.Map;
  */
 
 public class RootRegistry extends ProviderRegistry {
+    /**
+     * Maps an object reference to a provider.
+     * Good for associating a first-class JT Harness object with a provider.
+     * For example, map a TestResultTable instance to it's HTTP handler.
+     */
+    protected static final Map<Object, JThttpProvider> obj2prov = new Hashtable<>();
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(RootRegistry.class);
+    private static RootRegistry myInstance = new RootRegistry();
+
+    static {
+        String title = i18n.getString("root.name");
+        myInstance.addHandler("/", title, new IndexHandler(myInstance.url2prov));
+        myInstance.addHandler("/index.html", title, new IndexHandler(myInstance.url2prov));
+    }
+
+    private SpecialURLHandler httpHandle;
+
     private RootRegistry() {
         // to prevent instantiation
         httpHandle = new SpecialURLHandler();
@@ -53,23 +70,6 @@ public class RootRegistry extends ProviderRegistry {
         }
 
         return myInstance;
-    }
-
-    @Override
-    public void addHandler(String url, String descrip, JThttpProvider obj) {
-        if (!url.equals("/")) {
-            super.addHandler(url, descrip, obj);
-        } else {
-            // special case for a normally invalid url
-            if (debug) {
-                System.out.println("RPR-Adding Handler: " + descrip);
-                System.out.println("   RPR-Adding URL: " + url);
-                System.out.println("   RPR-Adding OBJ: " + obj);
-            }
-
-            String[] path = {url};
-            insertHandler(path, descrip, obj, false);
-        }
     }
 
     /**
@@ -102,21 +102,21 @@ public class RootRegistry extends ProviderRegistry {
         }
     }
 
-    private static RootRegistry myInstance = new RootRegistry();
-    private SpecialURLHandler httpHandle;
+    @Override
+    public void addHandler(String url, String descrip, JThttpProvider obj) {
+        if (!url.equals("/")) {
+            super.addHandler(url, descrip, obj);
+        } else {
+            // special case for a normally invalid url
+            if (debug) {
+                System.out.println("RPR-Adding Handler: " + descrip);
+                System.out.println("   RPR-Adding URL: " + url);
+                System.out.println("   RPR-Adding OBJ: " + obj);
+            }
 
-    /**
-     * Maps an object reference to a provider.
-     * Good for associating a first-class JT Harness object with a provider.
-     * For example, map a TestResultTable instance to it's HTTP handler.
-     */
-    protected static final Map<Object, JThttpProvider> obj2prov = new Hashtable<>();
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(RootRegistry.class);
-
-    static {
-        String title = i18n.getString("root.name");
-        myInstance.addHandler("/", title, new IndexHandler(myInstance.url2prov));
-        myInstance.addHandler("/index.html", title, new IndexHandler(myInstance.url2prov));
+            String[] path = {url};
+            insertHandler(path, descrip, obj, false);
+        }
     }
 
     private static class SpecialURLHandler extends JThttpProvider {

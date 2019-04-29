@@ -35,9 +35,10 @@ import java.util.logging.LogRecord;
 class JTFormatter extends Formatter {
 
 
+    public static final String LOG_SIGNATURE = "=JTLOG=";
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(JTFormatter.class);
-
     private int lastOffset;
+    private String logName;
 
     @Override
     public String format(LogRecord record) {
@@ -90,8 +91,6 @@ class JTFormatter extends Formatter {
         // TODO
     }
 
-    public static final String LOG_SIGNATURE = "=JTLOG=";
-
     public int getLastOffset() {
         return lastOffset;
     }
@@ -99,8 +98,6 @@ class JTFormatter extends Formatter {
     public void setLogname(String logName) {
         this.logName = logName;
     }
-
-    private String logName;
 
 
 }

@@ -74,85 +74,96 @@ import java.util.logging.Logger;
  */
 public class TestSuite {
     /**
-     * An exception used to report errors while using a TestSUite object.
+     * Should tests which no longer exist in the test suite be
+     * deleted from a work directory when it is opened?
      */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        public Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
+    public static final int DELETE_NONTEST_RESULTS = 0;
+    /*
+     * Should the content of the test suite be refreshed as the
+     * tests run?  So the test description should be updated from the
+     * finder just before the test runs.
+     */
+    public static final int REFRESH_ON_RUN = 1;
+    /**
+     * Should a test be reset to not run if it is found that the
+     * test has changed in the test suite (test description does
+     * not match the one in the existing result).
+     */
+    public static final int CLEAR_CHANGED_TEST = 2;
+    public static final String TM_CONTEXT_NAME = "tmcontext";
+    private static final String TESTSUITE_HTML = "testsuite.html";
+    private static final String TESTSUITE_JTT = "testsuite.jtt";
+    private static final String FIND_LEGACY_CONSTRUCTOR = "com.sun.javatest.ts.findLegacyCtor";
+    static Map<String, WorkDirLogHandler> handlersMap = new HashMap<>();
+
+    /**
+     * Disposed of the shared TestSuite object for this test suite.  Use
+     * the value from <code>TestSuite.getRoot()</code> as the value for
+     * canonRoot.  Using this is only desired when disposal of the shared
+     * TestSuite object is not desired - traditionally, it is not disposed
+     * and is reused if the test suite is reopened.
+     * @param canonRoot Canonical root of the test suite.
+     * @see TestSuite#getRoot
+     * @return The object which is about to be discarded.  Null if it was not
+     *         not cached here.
+     */
+    /*
+    public static TestSuite close(File canonRoot) {
+        WeakReference ref = (WeakReference)(dirMap.remove(canonRoot));
+        if (ref != null) {
+            TestSuite ts = (TestSuite)(ref.get());
+            if (ts != null) {
+                return ts;
+            }
         }
 
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
+        return null;
+    }
+     */
+    private static Map<File, WeakReference<TestSuite>> dirMap = new HashMap<>(2);
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestSuite.class);
+    private static String notificationLogName = i18n.getString("notification.logname");
+    private static Vector<GeneralPurposeLogger> gpls;
+    private static Map<String, File> observedFiles;
+    private final NotificationLogger notifLogger = new NotificationLogger(null);
+    private File root;
+    private Map<String, String> tsInfo;
+    private ClassLoader loader;
+    private TestFinder finder;
+    // the following are used by the default impl of createScript
+    private Class<? extends Script> scriptClass;
+    private String[] scriptArgs;
+    private String[] keywords;
+    private ServiceReader serviceReader;
+    private ServiceManager serviceManager;
 
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
+    /**
+     * Create a TestSuite object.
+     *
+     * @param root   The root file for this test suite.
+     * @param tsInfo Test suite properties, typically read from the test suite properties file
+     *               in the root directory of the test suite.
+     * @param cl     A class loader to be used to load additional classes as required,
+     *               typically using a class path defined in the test suite properties file.
+     * @throws TestSuite.Fault if a problem occurs while creating this test suite.
+     */
+    public TestSuite(File root, Map<String, String> tsInfo, ClassLoader cl) {
+        this.root = root;
+        this.tsInfo = tsInfo;
+        this.loader = cl;
+
+        String kw = tsInfo == null ? null : tsInfo.get("keywords");
+        keywords = kw == null ? null : StringArray.split(kw);
     }
 
     /**
-     * An exception that is used to report that a given file is not a test suite.
+     * Create a TestSuite object, with no additional test suite properties and no
+     * class loader.
+     *
+     * @param root The root file for this test suite.
      */
-    public static class NotTestSuiteFault extends Fault {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param f    The file in question, to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        public NotTestSuiteFault(I18NResourceBundle i18n, String s, File f) {
-            super(i18n, s, f.getPath());
-        }
-    }
-
-    public static class DuplicateLogNameFault extends Fault {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The internal name of the log.
-         *             {@link java.text.MessageFormat#format}
-         */
-        public DuplicateLogNameFault(I18NResourceBundle i18n, String s, String key) {
-            super(i18n, s, key);
-        }
-    }
-
-    public static class NoSuchLogFault extends Fault {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param key  The internal name of the log.
-         *             {@link java.text.MessageFormat#format}
-         */
-        public NoSuchLogFault(I18NResourceBundle i18n, String s, String key) {
-            super(i18n, s, key);
-        }
+    public TestSuite(File root) {
+        this.root = root;
     }
 
     /**
@@ -331,59 +342,103 @@ public class TestSuite {
         return testSuite;
     }
 
-    /**
-     * Disposed of the shared TestSuite object for this test suite.  Use
-     * the value from <code>TestSuite.getRoot()</code> as the value for
-     * canonRoot.  Using this is only desired when disposal of the shared
-     * TestSuite object is not desired - traditionally, it is not disposed
-     * and is reused if the test suite is reopened.
-     * @param canonRoot Canonical root of the test suite.
-     * @see TestSuite#getRoot
-     * @return The object which is about to be discarded.  Null if it was not
-     *         not cached here.
-     */
-    /*
-    public static TestSuite close(File canonRoot) {
-        WeakReference ref = (WeakReference)(dirMap.remove(canonRoot));
-        if (ref != null) {
-            TestSuite ts = (TestSuite)(ref.get());
-            if (ts != null) {
-                return ts;
-            }
+    private static String[] envLookup(TestEnvironment env, String name) throws Fault {
+        try {
+            return env.lookup(name);
+        } catch (TestEnvironment.Fault e) {
+            throw new Fault(i18n, "ts.cantFindNameInEnv",
+                    name, e.getMessage());
         }
-
-        return null;
-    }
-     */
-
-    /**
-     * Create a TestSuite object.
-     *
-     * @param root   The root file for this test suite.
-     * @param tsInfo Test suite properties, typically read from the test suite properties file
-     *               in the root directory of the test suite.
-     * @param cl     A class loader to be used to load additional classes as required,
-     *               typically using a class path defined in the test suite properties file.
-     * @throws TestSuite.Fault if a problem occurs while creating this test suite.
-     */
-    public TestSuite(File root, Map<String, String> tsInfo, ClassLoader cl) {
-        this.root = root;
-        this.tsInfo = tsInfo;
-        this.loader = cl;
-
-        String kw = tsInfo == null ? null : tsInfo.get("keywords");
-        keywords = kw == null ? null : StringArray.split(kw);
     }
 
+    /**
+     * Create a new instance of a class, translating any exceptions that may arise
+     * into Fault.
+     *
+     * @param c the class to be instantiated
+     * @return an instance of the specified class
+     * @throws TestSuite.Fault if any errors arise while trying to instantiate
+     *                         the class.
+     */
+    protected static <T> T newInstance(Class<? extends T> c) throws Fault {
+        try {
+            return c.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
+            throw new Fault(i18n, "ts.cantInstantiate",
+                    c.getName(), e);
+        } catch (IllegalAccessException e) {
+            throw new Fault(i18n, "ts.illegalAccess",
+                    c.getName(), e);
+        }
+    }
 
     /**
-     * Create a TestSuite object, with no additional test suite properties and no
-     * class loader.
+     * Create a new instance of a class using a non-default constructor,
+     * translating any exceptions that may arise into Fault.
      *
-     * @param root The root file for this test suite.
+     * @param c        the class to be instantiated
+     * @param argTypes the types of the argument to be passed to the constructor,
+     *                 (thus implying the constructor to be used.)
+     * @param args     the arguments to be passed to the constructor
+     * @return an instance of the specified class
+     * @throws TestSuite.Fault if any errors arise while trying to instantiate
+     *                         the class.
      */
-    public TestSuite(File root) {
-        this.root = root;
+    protected static <T> T newInstance(Class<? extends T> c, Class<?>[] argTypes, Object... args)
+            throws Fault {
+        try {
+            return c.getConstructor(argTypes).newInstance(args);
+        } catch (IllegalAccessException e) {
+            throw new Fault(i18n, "ts.illegalAccess",
+                    c.getName(), e);
+        } catch (InstantiationException e) {
+            throw new Fault(i18n, "ts.cantInstantiate",
+                    c.getName(), e);
+        } catch (InvocationTargetException e) {
+            Throwable te = e.getTargetException();
+            if (te instanceof Fault) {
+                throw (Fault) te;
+            } else {
+                throw new Fault(i18n, "ts.cantInit", c.getName(), te);
+            }
+        } catch (NoSuchMethodException e) {
+            // don't recurse past the use of a single arg constructor
+            if (argTypes.length > 1 && Boolean.getBoolean(FIND_LEGACY_CONSTRUCTOR)) {
+                return newInstance(c, new Class<?>[]{File.class}, args[0]);
+            }
+
+            throw new Fault(i18n, "ts.cantFindConstructor",
+                    c.getName(), e);
+        }
+    }
+
+    /**
+     * Load a class using a specified loader, translating any errors that may arise
+     * into Fault.
+     *
+     * @param className the name of the class to be loaded
+     * @param cl        the class loader to use to load the specified class
+     * @return the class that was loaded
+     * @throws TestSuite.Fault if there was a problem loading the specified class
+     */
+    protected static <T> Class<? extends T> loadClass(String className, ClassLoader cl) throws Fault {
+        try {
+            if (cl == null) {
+                return (Class<? extends T>) Class.forName(className);
+            } else {
+                return (Class<? extends T>) cl.loadClass(className);
+            }
+        } catch (ClassNotFoundException e) {
+            throw new Fault(i18n, "ts.classNotFound",
+                    className, e);
+        } catch (IllegalArgumentException e) {
+            throw new Fault(i18n, "ts.badClassName",
+                    new Object[]{className});
+        }
+    }
+
+    private static boolean isReadableFile(File f) {
+        return f.exists() && f.isFile() && f.canRead();
     }
 
     /**
@@ -832,7 +887,6 @@ public class TestSuite {
         }
     }
 
-
     /**
      * Get a string containing a unique ID identifying this test suite,
      * or null if not available.  The default is taken from the "id" entry
@@ -1030,77 +1084,6 @@ public class TestSuite {
         }
     }
 
-    private static String[] envLookup(TestEnvironment env, String name) throws Fault {
-        try {
-            return env.lookup(name);
-        } catch (TestEnvironment.Fault e) {
-            throw new Fault(i18n, "ts.cantFindNameInEnv",
-                    name, e.getMessage());
-        }
-    }
-
-    /**
-     * Create a new instance of a class, translating any exceptions that may arise
-     * into Fault.
-     *
-     * @param c the class to be instantiated
-     * @return an instance of the specified class
-     * @throws TestSuite.Fault if any errors arise while trying to instantiate
-     *                         the class.
-     */
-    protected static <T> T newInstance(Class<? extends T> c) throws Fault {
-        try {
-            return c.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | NoSuchMethodException | InvocationTargetException e) {
-            throw new Fault(i18n, "ts.cantInstantiate",
-                    c.getName(), e);
-        } catch (IllegalAccessException e) {
-            throw new Fault(i18n, "ts.illegalAccess",
-                    c.getName(), e);
-        }
-    }
-
-
-    /**
-     * Create a new instance of a class using a non-default constructor,
-     * translating any exceptions that may arise into Fault.
-     *
-     * @param c        the class to be instantiated
-     * @param argTypes the types of the argument to be passed to the constructor,
-     *                 (thus implying the constructor to be used.)
-     * @param args     the arguments to be passed to the constructor
-     * @return an instance of the specified class
-     * @throws TestSuite.Fault if any errors arise while trying to instantiate
-     *                         the class.
-     */
-    protected static <T> T newInstance(Class<? extends T> c, Class<?>[] argTypes, Object... args)
-            throws Fault {
-        try {
-            return c.getConstructor(argTypes).newInstance(args);
-        } catch (IllegalAccessException e) {
-            throw new Fault(i18n, "ts.illegalAccess",
-                    c.getName(), e);
-        } catch (InstantiationException e) {
-            throw new Fault(i18n, "ts.cantInstantiate",
-                    c.getName(), e);
-        } catch (InvocationTargetException e) {
-            Throwable te = e.getTargetException();
-            if (te instanceof Fault) {
-                throw (Fault) te;
-            } else {
-                throw new Fault(i18n, "ts.cantInit", c.getName(), te);
-            }
-        } catch (NoSuchMethodException e) {
-            // don't recurse past the use of a single arg constructor
-            if (argTypes.length > 1 && Boolean.getBoolean(FIND_LEGACY_CONSTRUCTOR)) {
-                return newInstance(c, new Class<?>[]{File.class}, args[0]);
-            }
-
-            throw new Fault(i18n, "ts.cantFindConstructor",
-                    c.getName(), e);
-        }
-    }
-
     /**
      * Load a class using the class loader provided when this test suite was created.
      *
@@ -1110,31 +1093,6 @@ public class TestSuite {
      */
     public <T> Class<? extends T> loadClass(String className) throws Fault {
         return loadClass(className, loader);
-    }
-
-    /**
-     * Load a class using a specified loader, translating any errors that may arise
-     * into Fault.
-     *
-     * @param className the name of the class to be loaded
-     * @param cl        the class loader to use to load the specified class
-     * @return the class that was loaded
-     * @throws TestSuite.Fault if there was a problem loading the specified class
-     */
-    protected static <T> Class<? extends T> loadClass(String className, ClassLoader cl) throws Fault {
-        try {
-            if (cl == null) {
-                return (Class<? extends T>) Class.forName(className);
-            } else {
-                return (Class<? extends T>) cl.loadClass(className);
-            }
-        } catch (ClassNotFoundException e) {
-            throw new Fault(i18n, "ts.classNotFound",
-                    className, e);
-        } catch (IllegalArgumentException e) {
-            throw new Fault(i18n, "ts.badClassName",
-                    new Object[]{className});
-        }
     }
 
     /**
@@ -1274,7 +1232,6 @@ public class TestSuite {
         }
     }
 
-
     /**
      * Returns notification logger associated with
      * given working directory or common logger if null was specified
@@ -1288,7 +1245,6 @@ public class TestSuite {
     public ObservedFile getObservedFile(WorkDirectory wd) {
         return getObservedFile(wd.getLogFileName());
     }
-
 
     public ObservedFile getObservedFile(String path) {
         String cPath = new File(path).getAbsolutePath();
@@ -1314,7 +1270,6 @@ public class TestSuite {
         }
 
     }
-
 
     /**
      * Creates general purpose logger with given key and ResourceBundleName registered for given WorkDirectory.
@@ -1405,29 +1360,87 @@ public class TestSuite {
         }
     }
 
-    private static boolean isReadableFile(File f) {
-        return f.exists() && f.isFile() && f.canRead();
+    /**
+     * An exception used to report errors while using a TestSUite object.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        public Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
     }
 
     /**
-     * Should tests which no longer exist in the test suite be
-     * deleted from a work directory when it is opened?
+     * An exception that is used to report that a given file is not a test suite.
      */
-    public static final int DELETE_NONTEST_RESULTS = 0;
+    public static class NotTestSuiteFault extends Fault {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param f    The file in question, to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        public NotTestSuiteFault(I18NResourceBundle i18n, String s, File f) {
+            super(i18n, s, f.getPath());
+        }
+    }
 
-    /*
-     * Should the content of the test suite be refreshed as the
-     * tests run?  So the test description should be updated from the
-     * finder just before the test runs.
-     */
-    public static final int REFRESH_ON_RUN = 1;
+    public static class DuplicateLogNameFault extends Fault {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The internal name of the log.
+         *             {@link java.text.MessageFormat#format}
+         */
+        public DuplicateLogNameFault(I18NResourceBundle i18n, String s, String key) {
+            super(i18n, s, key);
+        }
+    }
 
-    /**
-     * Should a test be reset to not run if it is found that the
-     * test has changed in the test suite (test description does
-     * not match the one in the existing result).
-     */
-    public static final int CLEAR_CHANGED_TEST = 2;
+    public static class NoSuchLogFault extends Fault {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param key  The internal name of the log.
+         *             {@link java.text.MessageFormat#format}
+         */
+        public NoSuchLogFault(I18NResourceBundle i18n, String s, String key) {
+            super(i18n, s, key);
+        }
+    }
 
     private static class NotificationLogger extends Logger {
         private NotificationLogger(String resourceBundleName) {
@@ -1463,6 +1476,8 @@ public class TestSuite {
     }
 
     private static class GeneralPurposeLogger extends Logger {
+        private String logFileName;
+
         private GeneralPurposeLogger(String name, WorkDirectory wd, String resourceBundleName, TestSuite ts) {
             super(name, resourceBundleName);
             this.logFileName = wd.getLogFileName();
@@ -1495,40 +1510,6 @@ public class TestSuite {
         private String getLogFileName() {
             return logFileName;
         }
-
-        private String logFileName;
     }
-
-
-    private static final String TESTSUITE_HTML = "testsuite.html";
-    private static final String TESTSUITE_JTT = "testsuite.jtt";
-    private static final String FIND_LEGACY_CONSTRUCTOR = "com.sun.javatest.ts.findLegacyCtor";
-
-    private File root;
-    private Map<String, String> tsInfo;
-    private ClassLoader loader;
-    private TestFinder finder;
-
-    // the following are used by the default impl of createScript
-    private Class<? extends Script> scriptClass;
-    private String[] scriptArgs;
-
-    private String[] keywords;
-
-    private ServiceReader serviceReader;
-    private ServiceManager serviceManager;
-
-    private static Map<File, WeakReference<TestSuite>> dirMap = new HashMap<>(2);
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestSuite.class);
-    private static String notificationLogName = i18n.getString("notification.logname");
-
-    static Map<String, WorkDirLogHandler> handlersMap = new HashMap<>();
-    private static Vector<GeneralPurposeLogger> gpls;
-    private static Map<String, File> observedFiles;
-
-    private final NotificationLogger notifLogger = new NotificationLogger(null);
-
-    public static final String TM_CONTEXT_NAME = "tmcontext";
 
 }

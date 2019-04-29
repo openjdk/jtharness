@@ -69,6 +69,13 @@ import java.util.Set;
  */
 class TabDeskView extends DeskView {
 
+    private JFrame mainFrame;
+    // OLD private JMenuBar basicMenuBar;
+    private JTabbedPane contents;
+    private Tool selectedTool;
+    private Listener listener = new Listener();
+    private Action closeAction = new CloseAction();
+
     TabDeskView(Desktop desktop) {
         this(desktop, getDefaultBounds());
     }
@@ -288,6 +295,8 @@ class TabDeskView extends DeskView {
                 && (dialog.getParent() == mainFrame);
     }
 
+    // internal
+
     @Override
     public Window createDialog(Tool tool, String uiKey, String title,
                                JMenuBar menuBar, Container body,
@@ -388,8 +397,6 @@ class TabDeskView extends DeskView {
         }
     }
 
-    // internal
-
     private void initMainFrame(Rectangle bounds) {
         //System.err.println("Tab: create");
         mainFrame = createFrame(listener, closeAction, "tdi.main");
@@ -434,15 +441,6 @@ class TabDeskView extends DeskView {
 
         return base;
     }
-
-    private JFrame mainFrame;
-    // OLD private JMenuBar basicMenuBar;
-    private JTabbedPane contents;
-    private Tool selectedTool;
-
-    private Listener listener = new Listener();
-
-    private Action closeAction = new CloseAction();
 
     private class CloseAction extends ToolAction {
         CloseAction() {

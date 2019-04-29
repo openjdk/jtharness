@@ -31,17 +31,17 @@ public class HelpID {
     private String id;
     private HelpSet hs;
 
+    private HelpID(String id, HelpSet hs) {
+        this.id = id;
+        this.hs = hs;
+    }
+
     public static HelpID create(String id, HelpSet hs) {
         if (hs == null || id == null) {
             return null;
         }
 
         return new HelpID(id, hs);
-    }
-
-    private HelpID(String id, HelpSet hs) {
-        this.id = id;
-        this.hs = hs;
     }
 
     public String getId() {

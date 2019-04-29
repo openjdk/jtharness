@@ -44,6 +44,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 class OptionsDialog extends ToolDialog {
+    private ReportTool tool;
+    private ActionListener okListener;
+    private JPanel body;
+    private Desktop desktop;
+    private JPanel[] panes;
+
     OptionsDialog(final ReportTool tool, ActionListener okListener, UIFactory uif,
                   Desktop desktop) {
         super(tool, uif, "opts");
@@ -108,7 +114,6 @@ class OptionsDialog extends ToolDialog {
         }
     }
 
-
     @Override
     protected void windowClosingAction(AWTEvent e) {
         cleanUp();
@@ -167,6 +172,10 @@ class OptionsDialog extends ToolDialog {
         return ((FilesPane) panes[0]).checkInput();
     }
 
+    public void cleanUp() {
+        setBody(null);
+    }
+
     static class ChangeTabListener implements ActionListener {
         String key;
         CardLayout cl;
@@ -184,10 +193,6 @@ class OptionsDialog extends ToolDialog {
         }
     }
 
-    public void cleanUp() {
-        setBody(null);
-    }
-
     private static class YardKeeper implements ActionListener {
         private ActionListener chain;
 
@@ -202,13 +207,5 @@ class OptionsDialog extends ToolDialog {
             }
         }
     }
-
-
-    private ReportTool tool;
-    private ActionListener okListener;
-    private JPanel body;
-    private Desktop desktop;
-
-    private JPanel[] panes;
 }
 

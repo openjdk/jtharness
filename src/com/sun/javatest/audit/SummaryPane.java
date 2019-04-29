@@ -41,6 +41,12 @@ import java.io.StringWriter;
 import java.util.Date;
 
 class SummaryPane extends AuditPane {
+    private JEditorPane htmlPane;
+    private Audit currAudit;
+    private HTMLWriterEx out;
+    private String OK;
+    private String ERROR;
+
     SummaryPane(UIFactory uif) {
         super("smry", uif);
 
@@ -267,12 +273,4 @@ class SummaryPane extends AuditPane {
             }
         }
     }
-
-
-    private JEditorPane htmlPane;
-    private Audit currAudit;
-    private HTMLWriterEx out;
-
-    private String OK;
-    private String ERROR;
 }

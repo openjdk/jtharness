@@ -52,6 +52,29 @@ import java.util.TreeMap;
 public class AntService extends Service {
 
     /**
+     * The name of parameter, that specifies path to ant executable
+     */
+    public static final String ANT_BIN = "ant.bin";
+    /**
+     * The name of parameter, that specifies space-separated list of Ant targets
+     * to execute
+     */
+    public static final String ANT_TARGETS = "ant.targets";
+    /**
+     * The name of parameter, that specifies working directory for ant process.
+     */
+    public static final String ANT_WORKDIR = "ant.workdir";
+    /**
+     * Each parameter, started with {@code ant.env.} interpreted as property
+     * for ant process environment.
+     * <p>
+     * The property name is achieved by subtracting ANT_ENV prefix from
+     * argument name. For example, to specify JAVA_HOME variable, arg name
+     * should be {@code ant.env.JAVA_HOME}
+     */
+    public static final String ANT_ENV = "ant.env.";
+
+    /**
      * Specifies default service executor. Used by
      * {@link com.sun.javatest.services.ServiceManager} to set executors for
      * {@link com.sun.javatest.services.LocalConnector}.
@@ -118,30 +141,4 @@ public class AntService extends Service {
 
         return new Message(MessageType.START, params);
     }
-
-    /**
-     * The name of parameter, that specifies path to ant executable
-     */
-    public static final String ANT_BIN = "ant.bin";
-
-    /**
-     * The name of parameter, that specifies space-separated list of Ant targets
-     * to execute
-     */
-    public static final String ANT_TARGETS = "ant.targets";
-
-    /**
-     * The name of parameter, that specifies working directory for ant process.
-     */
-    public static final String ANT_WORKDIR = "ant.workdir";
-
-    /**
-     * Each parameter, started with {@code ant.env.} interpreted as property
-     * for ant process environment.
-     * <p>
-     * The property name is achieved by subtracting ANT_ENV prefix from
-     * argument name. For example, to specify JAVA_HOME variable, arg name
-     * should be {@code ant.env.JAVA_HOME}
-     */
-    public static final String ANT_ENV = "ant.env.";
 }

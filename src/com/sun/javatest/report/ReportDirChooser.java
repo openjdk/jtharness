@@ -46,11 +46,31 @@ import java.io.File;
 public class ReportDirChooser extends JFileChooser {
 
     /**
+     * A constant to indicate that a new report directory is to be created.
+     *
+     * @see #setMode
+     */
+    public static final int NEW = 0;
+    /**
+     * A constant to indicate that an existing report directory is to be opened.
+     *
+     * @see #setMode
+     */
+    public static final int OPEN = 1;
+    private FileInfoCache cache = new FileInfoCache();
+    private int mode;
+    private File reportDir;
+    private UIFactory uif;
+    private Icon icon;
+
+    /**
      * Create a ReportDirChooser, initially showing the user's current directory.
      */
     public ReportDirChooser() {
         this(new File(System.getProperty("user.dir")));
     }
+
+    //-------------------------------------------------------------------------
 
     /**
      * Create a ReportDirChooser, initially showing a given directory.
@@ -87,19 +107,7 @@ public class ReportDirChooser extends JFileChooser {
         // directory or not.
     }
 
-    /**
-     * A constant to indicate that a new report directory is to be created.
-     *
-     * @see #setMode
-     */
-    public static final int NEW = 0;
-
-    /**
-     * A constant to indicate that an existing report directory is to be opened.
-     *
-     * @see #setMode
-     */
-    public static final int OPEN = 1;
+    //-------------------------------------------------------------------------
 
     /**
      * Set whether the chooser is to be used to create a new report directory
@@ -126,6 +134,8 @@ public class ReportDirChooser extends JFileChooser {
                 throw new IllegalStateException();
         }
     }
+
+    //-------------------------------------------------------------------------
 
     /**
      * Get the report directory that was most recently selected by the user.
@@ -164,8 +174,6 @@ public class ReportDirChooser extends JFileChooser {
         }
     }
 
-    //-------------------------------------------------------------------------
-
     private void approveNewSelection(File file) {
         if (file.exists()) {
             if (isReportDirectory(file) || isEmptyDirectory(file)) {
@@ -187,8 +195,6 @@ public class ReportDirChooser extends JFileChooser {
         }
     }
 
-    //-------------------------------------------------------------------------
-
     private void approveOpenSelection(File file) {
         if (file.exists()) {
             if (isReportDirectory(file)) {
@@ -206,8 +212,6 @@ public class ReportDirChooser extends JFileChooser {
             uif.showError("rdc.cantOpen", file);
         }
     }
-
-    //-------------------------------------------------------------------------
 
     private boolean isDirectory(File f) {
         return f.isDirectory();
@@ -242,13 +246,6 @@ public class ReportDirChooser extends JFileChooser {
         // than floppy dialogs!
         return f.getName().isEmpty();
     }
-
-    private FileInfoCache cache = new FileInfoCache();
-
-    private int mode;
-    private File reportDir;
-    private UIFactory uif;
-    private Icon icon;
 
     private class RDC_FileView extends FileView {
         @Override

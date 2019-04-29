@@ -77,6 +77,46 @@ public class ReportSettings {
     private static final String PREFS_HTML_KFLTC = "rpt.html.kfltc";
     private static final String PREFS_BACK = "rpt.bak.enable";
     private static final String PREFS_BACK_NUM = "rpt.bak.num";
+    // backup levels
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ReportSettings.class);
+    File xmlReportFile = null;
+    File tmpXmlReportFile = null;
+    TestFilter filter;
+    // default (legacy) values provided
+    boolean genHtml = true; // generate HTML?
+    // generate HTML?
+    boolean genPlain = true; // generate summary.txt?
+    // generate summary.txt?
+    boolean genCof = false; // generate cof.xml?
+    // generate cof.xml?
+    boolean genXml = false; // generate summary.xml?
+    boolean genConfig = true; // generate config section
+    // generate config section
+    boolean genQl = true;
+    boolean genEnv = true;
+    boolean genStd = true;
+    boolean genResults = true;
+    boolean genKfl = true;
+    boolean genKws = true;
+    boolean kflMissing = true;
+    boolean kflF2e = true;
+    boolean kflF2f = true;
+    boolean kflTestCases = true;
+    boolean reportHtml = true; // use report.html
+    // use report.html
+    boolean indexHtml = false; // use index.html
+    // use index.html
+    boolean[] stateFiles = new boolean[Status.NUM_STATES];
+    boolean doBackups = true;
+    int backups = 1; // backup levels
+    private TreeSet<TestResult>[] sortedResults;
+    private KflSorter kflSorter;
+    private File[] mif = new File[0];
+    private HashMap<?, ?> exchangeData;
+    private InterviewParameters ip;
+    private List<CustomReport> customReports = Collections.emptyList();
+    // generate summary.xml?
+    private boolean genCofTestCases = true;
 
     public ReportSettings() {
         for (int i = 0; i < stateFiles.length; i++) {
@@ -95,41 +135,6 @@ public class ReportSettings {
     public ReportSettings(File xmlReportFile, File... in) {
         this.xmlReportFile = xmlReportFile;
         this.mif = in;
-    }
-
-    public void write(Preferences prefs) {
-        prefs.setPreference(PREFS_GEN_HTML, Boolean.toString(genHtml));
-        prefs.setPreference(PREFS_GEN_PLAIN, Boolean.toString(genPlain));
-        prefs.setPreference(PREFS_GEN_XML, Boolean.toString(genXml));
-        prefs.setPreference(PREFS_GEN_COF, Boolean.toString(genCof));
-        prefs.setPreference(PREFS_COF_TC, Boolean.toString(genCofTestCases));
-        prefs.setPreference(PREFS_HTML_CONFIG, Boolean.toString(genConfig));
-        prefs.setPreference(PREFS_HTML_QL, Boolean.toString(genQl));
-        prefs.setPreference(PREFS_HTML_ENV, Boolean.toString(genEnv));
-        prefs.setPreference(PREFS_HTML_STD, Boolean.toString(genStd));
-        prefs.setPreference(PREFS_HTML_RES, Boolean.toString(genResults));
-        prefs.setPreference(PREFS_HTML_KFL, Boolean.toString(genKfl));
-        prefs.setPreference(PREFS_HTML_KWS, Boolean.toString(genKws));
-        prefs.setPreference(PREFS_HTML_REPORTF, Boolean.toString(reportHtml));
-        prefs.setPreference(PREFS_HTML_INDEXF, Boolean.toString(indexHtml));
-        prefs.setPreference(PREFS_HTML_KFLF2E, Boolean.toString(kflF2e));
-        prefs.setPreference(PREFS_HTML_KFLF2F, Boolean.toString(kflF2f));
-        prefs.setPreference(PREFS_HTML_KFLMISSING, Boolean.toString(kflMissing));
-        prefs.setPreference(PREFS_HTML_KFLTC, Boolean.toString(kflTestCases));
-
-        // html state files
-        // encoded as a comma sep. list
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < stateFiles.length; i++) {
-            sb.append(Boolean.toString(stateFiles[i]));
-            if (i + 1 < stateFiles.length) {
-                sb.append(",");
-            }
-        } // for
-        // for
-        prefs.setPreference(PREFS_HTML_STATEF, sb.toString());
-        prefs.setPreference(PREFS_BACK, Boolean.toString(doBackups));
-        prefs.setPreference(PREFS_BACK_NUM, Integer.toString(backups));
     }
 
     public static ReportSettings create(Preferences prefs) {
@@ -178,8 +183,47 @@ public class ReportSettings {
         return result;
     }
 
-    public void setInterview(InterviewParameters p) {
-        ip = p;
+    private static boolean parseBoolean(String s) {
+        if (s == null) {
+            return false;
+        } else {
+            return s.equalsIgnoreCase("true");
+        }
+    }
+
+    public void write(Preferences prefs) {
+        prefs.setPreference(PREFS_GEN_HTML, Boolean.toString(genHtml));
+        prefs.setPreference(PREFS_GEN_PLAIN, Boolean.toString(genPlain));
+        prefs.setPreference(PREFS_GEN_XML, Boolean.toString(genXml));
+        prefs.setPreference(PREFS_GEN_COF, Boolean.toString(genCof));
+        prefs.setPreference(PREFS_COF_TC, Boolean.toString(genCofTestCases));
+        prefs.setPreference(PREFS_HTML_CONFIG, Boolean.toString(genConfig));
+        prefs.setPreference(PREFS_HTML_QL, Boolean.toString(genQl));
+        prefs.setPreference(PREFS_HTML_ENV, Boolean.toString(genEnv));
+        prefs.setPreference(PREFS_HTML_STD, Boolean.toString(genStd));
+        prefs.setPreference(PREFS_HTML_RES, Boolean.toString(genResults));
+        prefs.setPreference(PREFS_HTML_KFL, Boolean.toString(genKfl));
+        prefs.setPreference(PREFS_HTML_KWS, Boolean.toString(genKws));
+        prefs.setPreference(PREFS_HTML_REPORTF, Boolean.toString(reportHtml));
+        prefs.setPreference(PREFS_HTML_INDEXF, Boolean.toString(indexHtml));
+        prefs.setPreference(PREFS_HTML_KFLF2E, Boolean.toString(kflF2e));
+        prefs.setPreference(PREFS_HTML_KFLF2F, Boolean.toString(kflF2f));
+        prefs.setPreference(PREFS_HTML_KFLMISSING, Boolean.toString(kflMissing));
+        prefs.setPreference(PREFS_HTML_KFLTC, Boolean.toString(kflTestCases));
+
+        // html state files
+        // encoded as a comma sep. list
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < stateFiles.length; i++) {
+            sb.append(Boolean.toString(stateFiles[i]));
+            if (i + 1 < stateFiles.length) {
+                sb.append(",");
+            }
+        } // for
+        // for
+        prefs.setPreference(PREFS_HTML_STATEF, sb.toString());
+        prefs.setPreference(PREFS_BACK, Boolean.toString(doBackups));
+        prefs.setPreference(PREFS_BACK_NUM, Integer.toString(backups));
     }
 
     public void setFilter(TestFilter f) {
@@ -407,12 +451,8 @@ public class ReportSettings {
         return ip;
     }
 
-    private static boolean parseBoolean(String s) {
-        if (s == null) {
-            return false;
-        } else {
-            return s.equalsIgnoreCase("true");
-        }
+    public void setInterview(InterviewParameters p) {
+        ip = p;
     }
 
     void cleanup() {
@@ -428,10 +468,6 @@ public class ReportSettings {
         xmlReportFile = f;
     }
 
-    public void setMergingFiles(File... files) {
-        mif = files;
-    }
-
     /**
      * Returns array of File objects that were sources for Report Converter tool
      * or empty array if Report Converter was not used.
@@ -440,6 +476,10 @@ public class ReportSettings {
      */
     public File[] getMergingFiles() {
         return mif;
+    }
+
+    public void setMergingFiles(File... files) {
+        mif = files;
     }
 
     /**
@@ -488,14 +528,6 @@ public class ReportSettings {
         }
     }
 
-    private static class TestResultsByNameComparator implements Comparator<TestResult> {
-
-        @Override
-        public int compare(TestResult tr1, TestResult tr2) {
-            return tr1.getTestName().compareTo(tr2.getTestName());
-        }
-    }
-
     void setupKfl() {
         if (kflSorter != null) {
             return;
@@ -518,54 +550,19 @@ public class ReportSettings {
         return sortedResults;
     }
 
-    public void setCustomReports(List<CustomReport> customReportCollection) {
-        customReports = customReportCollection;
-    }
-
     public List<CustomReport> getCustomReports() {
         return customReports;
     }
 
-    private TreeSet<TestResult>[] sortedResults;
-    private KflSorter kflSorter;
-    File xmlReportFile = null;
-    File tmpXmlReportFile = null;
-    private File[] mif = new File[0];
-    private HashMap<?, ?> exchangeData;
-    private InterviewParameters ip;
+    public void setCustomReports(List<CustomReport> customReportCollection) {
+        customReports = customReportCollection;
+    }
 
-    private List<CustomReport> customReports = Collections.emptyList();
+    private static class TestResultsByNameComparator implements Comparator<TestResult> {
 
-    TestFilter filter;
-    // default (legacy) values provided
-    boolean genHtml = true; // generate HTML?
-    // generate HTML?
-    boolean genPlain = true; // generate summary.txt?
-    // generate summary.txt?
-    boolean genCof = false; // generate cof.xml?
-    // generate cof.xml?
-    boolean genXml = false; // generate summary.xml?
-    // generate summary.xml?
-    private boolean genCofTestCases = true;
-    boolean genConfig = true; // generate config section
-    // generate config section
-    boolean genQl = true;
-    boolean genEnv = true;
-    boolean genStd = true;
-    boolean genResults = true;
-    boolean genKfl = true;
-    boolean genKws = true;
-    boolean kflMissing = true;
-    boolean kflF2e = true;
-    boolean kflF2f = true;
-    boolean kflTestCases = true;
-    boolean reportHtml = true; // use report.html
-    // use report.html
-    boolean indexHtml = false; // use index.html
-    // use index.html
-    boolean[] stateFiles = new boolean[Status.NUM_STATES];
-    boolean doBackups = true;
-    int backups = 1; // backup levels
-    // backup levels
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ReportSettings.class);
+        @Override
+        public int compare(TestResult tr1, TestResult tr2) {
+            return tr1.getTestName().compareTo(tr2.getTestName());
+        }
+    }
 }

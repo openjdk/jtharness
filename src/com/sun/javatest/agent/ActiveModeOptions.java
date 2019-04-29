@@ -31,6 +31,10 @@ import java.awt.Label;
 import java.awt.TextField;
 
 class ActiveModeOptions extends ModeOptions {
+    private TextField hostField;
+    private Label portLabel;
+    private TextField portField;
+
     ActiveModeOptions() {
         super("active");
 
@@ -75,8 +79,4 @@ class ActiveModeOptions extends ModeOptions {
     void setPort(int port) {
         portField.setText(Integer.toString(port));
     }
-
-    private TextField hostField;
-    private Label portLabel;
-    private TextField portField;
 }

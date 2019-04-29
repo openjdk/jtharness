@@ -54,16 +54,62 @@ import java.util.Set;
  * A utility to rewrite links within a set of HTML files.
  */
 public class EditLinks {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(EditLinks.class);
+    private File[] inFiles = new File[0];
+    private File outFile;
+    private String[][] edits = new String[0][];
+    private Set<File> ignores = new HashSet<>();
+    private int c;
+    private int line;
+    private File currFile;
+    private Reader in;
+    private Writer out;
+    private boolean copying;
+
     /**
-     * An exception to report bad command line arguments.
+     * Create an empty editor object.
      */
-    public static class BadArgs extends Exception {
-        BadArgs(I18NResourceBundle i18n, String key) {
-            super(i18n.getString(key));
+    public EditLinks() {
+    }
+
+    /**
+     * Create an editor object based on command line args.
+     * It is an error if no edits, no input files, or no output file is given.
+     *
+     * @param args Command line args.
+     * @throws EditLinks.BadArgs if problems are found in the given arguments.
+     * @see #main
+     */
+    public EditLinks(String... args) throws BadArgs {
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].equals("-e") && i + 2 < args.length) {
+                String oldPrefix = args[++i];
+                String newPrefix = args[++i];
+                addEdit(oldPrefix, newPrefix);
+            } else if (args[i].equals("-ignore") && i + 2 < args.length) {
+                ignore(args[++i]);
+            } else if (args[i].equals("-o") && i + 1 < args.length) {
+                outFile = new File(args[++i]);
+            } else if (args[i].startsWith("-")) {
+                throw new BadArgs(i18n, "editLinks.badOpt", args[i]);
+            } else {
+                inFiles = new File[args.length - i];
+                for (int j = 0; j < inFiles.length; j++) {
+                    inFiles[j] = new File(args[i++]);
+                }
+            }
         }
 
-        BadArgs(I18NResourceBundle i18n, String key, Object arg) {
-            super(i18n.getString(key, arg));
+        if (inFiles == null || inFiles.length == 0) {
+            throw new BadArgs(i18n, "editLinks.noInput");
+        }
+
+        if (outFile == null) {
+            if (inFiles.length == 1) {
+                outFile = inFiles[0];
+            } else {
+                throw new BadArgs(i18n, "editLinks.noOutput");
+            }
         }
     }
 
@@ -132,49 +178,18 @@ public class EditLinks {
     }
 
     /**
-     * Create an empty editor object.
+     * Guess the file separator in a string by looking for whichever
+     * is later of / and \. If neither are found, the result is 0.
      */
-    public EditLinks() {
-    }
-
-    /**
-     * Create an editor object based on command line args.
-     * It is an error if no edits, no input files, or no output file is given.
-     *
-     * @param args Command line args.
-     * @throws EditLinks.BadArgs if problems are found in the given arguments.
-     * @see #main
-     */
-    public EditLinks(String... args) throws BadArgs {
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].equals("-e") && i + 2 < args.length) {
-                String oldPrefix = args[++i];
-                String newPrefix = args[++i];
-                addEdit(oldPrefix, newPrefix);
-            } else if (args[i].equals("-ignore") && i + 2 < args.length) {
-                ignore(args[++i]);
-            } else if (args[i].equals("-o") && i + 1 < args.length) {
-                outFile = new File(args[++i]);
-            } else if (args[i].startsWith("-")) {
-                throw new BadArgs(i18n, "editLinks.badOpt", args[i]);
-            } else {
-                inFiles = new File[args.length - i];
-                for (int j = 0; j < inFiles.length; j++) {
-                    inFiles[j] = new File(args[i++]);
-                }
-            }
-        }
-
-        if (inFiles == null || inFiles.length == 0) {
-            throw new BadArgs(i18n, "editLinks.noInput");
-        }
-
-        if (outFile == null) {
-            if (inFiles.length == 1) {
-                outFile = inFiles[0];
-            } else {
-                throw new BadArgs(i18n, "editLinks.noOutput");
-            }
+    private static char guessSep(String path) {
+        int fwd = path.lastIndexOf('/');
+        int back = path.lastIndexOf('\\');
+        if (fwd > back) {
+            return '/';
+        } else if (back > fwd) {
+            return '\\';
+        } else {
+            return (char) 0;
         }
     }
 
@@ -542,32 +557,15 @@ public class EditLinks {
     }
 
     /**
-     * Guess the file separator in a string by looking for whichever
-     * is later of / and \. If neither are found, the result is 0.
+     * An exception to report bad command line arguments.
      */
-    private static char guessSep(String path) {
-        int fwd = path.lastIndexOf('/');
-        int back = path.lastIndexOf('\\');
-        if (fwd > back) {
-            return '/';
-        } else if (back > fwd) {
-            return '\\';
-        } else {
-            return (char) 0;
+    public static class BadArgs extends Exception {
+        BadArgs(I18NResourceBundle i18n, String key) {
+            super(i18n.getString(key));
+        }
+
+        BadArgs(I18NResourceBundle i18n, String key, Object arg) {
+            super(i18n.getString(key, arg));
         }
     }
-
-    private File[] inFiles = new File[0];
-    private File outFile;
-    private String[][] edits = new String[0][];
-    private Set<File> ignores = new HashSet<>();
-
-    private int c;
-    private int line;
-    private File currFile;
-    private Reader in;
-    private Writer out;
-    private boolean copying;
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(EditLinks.class);
 }

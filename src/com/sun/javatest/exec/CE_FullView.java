@@ -53,6 +53,21 @@ import java.awt.event.ActionListener;
 import java.util.Map;
 
 class CE_FullView extends CE_View {
+    private static final String BACK = "back";
+    private static final String NEXT = "next";
+    private static final String LAST = "last";
+    private static final String FIND = "find";
+    private static final String FIND_NEXT = "findNext";
+    private JMenu searchMenu;
+    private WizPane wizPane;
+    private JTextField msgField;
+    private String completeMsg;
+    private String incompleteMsg;
+    private JButton backBtn;
+    private JButton nextBtn;
+    private JButton lastBtn;
+    private Listener localListener = new Listener();
+
     CE_FullView(InterviewParameters config,
                 JHelpContentViewer infoPanel, UIFactory uif, ActionListener l) {
         super(config, infoPanel, uif, l);
@@ -128,7 +143,6 @@ class CE_FullView extends CE_View {
         wizPane.setCustomRenderers(customRenderers);
     }
 
-
     private void initButtons() {
         JPanel btnPanel = uif.createPanel("ce.full.btns", new GridBagLayout(), false);
         GridBagConstraints c = new GridBagConstraints();
@@ -185,6 +199,14 @@ class CE_FullView extends CE_View {
         } else {
             showInfo(helpId);
         }
+    }
+
+    /**
+     * This method invokes when config editor is going to be closed.
+     * This made to allow components handle feature closing
+     */
+    public void prepareClosing() {
+        wizPane.prepareClosing();
     }
 
     private class Listener
@@ -271,29 +293,4 @@ class CE_FullView extends CE_View {
             }
         }
     }
-
-
-    /**
-     * This method invokes when config editor is going to be closed.
-     * This made to allow components handle feature closing
-     */
-    public void prepareClosing() {
-        wizPane.prepareClosing();
-    }
-
-    private JMenu searchMenu;
-    private WizPane wizPane;
-    private JTextField msgField;
-    private String completeMsg;
-    private String incompleteMsg;
-    private JButton backBtn;
-    private JButton nextBtn;
-    private JButton lastBtn;
-    private Listener localListener = new Listener();
-
-    private static final String BACK = "back";
-    private static final String NEXT = "next";
-    private static final String LAST = "last";
-    private static final String FIND = "find";
-    private static final String FIND_NEXT = "findNext";
 }

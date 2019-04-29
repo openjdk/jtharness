@@ -42,6 +42,12 @@ import java.util.List;
  * filters should also be transparent to the observer mechanism.
  */
 public class CompositeFilter extends TestFilter {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(CompositeFilter.class);
+    private TestFilter[] filters;
+    private String description;
+    private String name;
+    private String reason;
+
     /**
      * This is the preferred constructor which creates a filter composed of the
      * given filters, with descriptive string from a resource bundle.
@@ -107,6 +113,23 @@ public class CompositeFilter extends TestFilter {
         this.filters = filters;
     }
 
+    /**
+     * Check if two arrays are equal, using set-equality.
+     *
+     * @param array1 First set of filters; may not be null.
+     * @param array2 Second set of filters; may not be null.
+     * @return true of the two arrays of filters are equivalent.
+     */
+    public static boolean equals(TestFilter[] array1, TestFilter... array2) {
+        List<TestFilter> list1 = Arrays.asList(array1);
+        List<TestFilter> list2 = Arrays.asList(array2);
+
+        HashSet<TestFilter> set1 = new HashSet<>(list1);
+        HashSet<TestFilter> set2 = new HashSet<>(list2);
+
+        return set1.equals(set2);
+    }
+
     // ------- TestFilter ---------
     @Override
     public String getName() {
@@ -116,6 +139,8 @@ public class CompositeFilter extends TestFilter {
             return name;
         }
     }
+
+    // ---------- new methods ----------
 
     @Override
     public String getDescription() {
@@ -219,8 +244,6 @@ public class CompositeFilter extends TestFilter {
         return hash;
     }
 
-    // ---------- new methods ----------
-
     /**
      * Return the filters being used internally by this composite.
      *
@@ -237,28 +260,5 @@ public class CompositeFilter extends TestFilter {
 
         return copy;
     }
-
-    /**
-     * Check if two arrays are equal, using set-equality.
-     *
-     * @param array1 First set of filters; may not be null.
-     * @param array2 Second set of filters; may not be null.
-     * @return true of the two arrays of filters are equivalent.
-     */
-    public static boolean equals(TestFilter[] array1, TestFilter... array2) {
-        List<TestFilter> list1 = Arrays.asList(array1);
-        List<TestFilter> list2 = Arrays.asList(array2);
-
-        HashSet<TestFilter> set1 = new HashSet<>(list1);
-        HashSet<TestFilter> set2 = new HashSet<>(list2);
-
-        return set1.equals(set2);
-    }
-
-    private TestFilter[] filters;
-    private String description;
-    private String name;
-    private String reason;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(CompositeFilter.class);
 }
 

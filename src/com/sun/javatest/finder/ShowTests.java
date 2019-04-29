@@ -43,34 +43,12 @@ import java.util.Iterator;
  * a test finder.
  */
 public class ShowTests {
-    /**
-     * This exception is used to report bad command line arguments.
-     */
-    public static class BadArgs extends Exception {
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param msg A detail message about an error that has been found.
-         */
-        BadArgs(String msg) {
-            super(msg);
-        }
-    }
+    private TestFinder testFinder;
+    private PrintStream out;
 
-    /**
-     * This exception is used to report problems that occur while running.
-     */
-
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault exception.
-         *
-         * @param msg A detail message about a fault that has occurred.
-         */
-        Fault(String msg) {
-            super(msg);
-        }
-    }
+    //------------------------------------------------------------------------------------------
+    private boolean nodes;
+    private boolean fullTests;
 
     //------------------------------------------------------------------------------------------
 
@@ -120,6 +98,8 @@ public class ShowTests {
             System.exit(3);
         }
     }
+
+    //------------------------------------------------------------------------------------------
 
     /**
      * Print out command-line help.
@@ -206,8 +186,6 @@ public class ShowTests {
         list(initialFile);
     }
 
-    //------------------------------------------------------------------------------------------
-
     /**
      * Creates and initializes an instance of a test finder
      *
@@ -278,10 +256,32 @@ public class ShowTests {
         out.write(' ');
     }
 
-    //------------------------------------------------------------------------------------------
+    /**
+     * This exception is used to report bad command line arguments.
+     */
+    public static class BadArgs extends Exception {
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param msg A detail message about an error that has been found.
+         */
+        BadArgs(String msg) {
+            super(msg);
+        }
+    }
 
-    private TestFinder testFinder;
-    private PrintStream out;
-    private boolean nodes;
-    private boolean fullTests;
+    /**
+     * This exception is used to report problems that occur while running.
+     */
+
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault exception.
+         *
+         * @param msg A detail message about a fault that has occurred.
+         */
+        Fault(String msg) {
+            super(msg);
+        }
+    }
 }

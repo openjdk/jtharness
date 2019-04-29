@@ -44,6 +44,18 @@ import java.util.Vector;
  * environment entries, according to the keywords on the test description.
  */
 public class KeywordScript extends Script {
+    private boolean debug = false;
+
+    private static void printStrArr(PrintWriter pw, String... data) {
+        if (data == null) {
+            return;
+        }
+
+        for (String aData : data) {
+            pw.println(aData);
+        }
+    }
+
     /**
      * Run the script, using the parameters set up by the standard initialization
      * methods.
@@ -214,16 +226,6 @@ public class KeywordScript extends Script {
         throw new Error("Method not applicable.");
     }
 
-    private static void printStrArr(PrintWriter pw, String... data) {
-        if (data == null) {
-            return;
-        }
-
-        for (String aData : data) {
-            pw.println(aData);
-        }
-    }
-
     private void setStatus(Status s) {
         TestResult tr = getTestResult();
         tr.setEnvironment(env);
@@ -234,6 +236,4 @@ public class KeywordScript extends Script {
             e.printStackTrace();
         }
     }
-
-    private boolean debug = false;
 }

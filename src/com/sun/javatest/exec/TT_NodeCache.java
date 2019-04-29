@@ -51,6 +51,25 @@ import java.util.logging.Logger;
  */
 class TT_NodeCache implements Runnable {
 
+    private static final int NOT_COMPUTED = 0;
+    private static final int COMPUTING = 1;
+    private static final int COMPLETED = 2;
+    private static final int PAUSED = 3;
+    private static final int ABORTED = 4;
+    private static final boolean debug = Debug.getBoolean(TT_NodeCache.class);
+    private final TestResultTable.TreeNode node;
+    private final Logger log;
+    private final FilterObserver fObs = new FilterObserver();
+    private TestResultTable.TreeIterator it;
+    private TestFilter filter;
+    private int[] stats = new int[Status.NUM_STATES];
+    private int localRejectCount;
+    private Hashtable<TestResult, TestFilter> rejectReasons = new Hashtable<>();
+    private TT_NodeCacheObserver[] observers = new TT_NodeCacheObserver[0];
+    private Vector<TestResult>[] testLists;     // could use unsynchronized data structure
+    private volatile int state;
+    private volatile boolean valid = true;
+
     /**
      * Construct a cache object which will collect info about the given node
      * with respect to the supplied filter.
@@ -793,28 +812,18 @@ class TT_NodeCache implements Runnable {
         }   // for
     }
 
-
-    private final TestResultTable.TreeNode node;
-    private final Logger log;
-    private TestResultTable.TreeIterator it;
-    private TestFilter filter;
-    private int[] stats = new int[Status.NUM_STATES];
-    private int localRejectCount;
-    private Hashtable<TestResult, TestFilter> rejectReasons = new Hashtable<>();
-    private final FilterObserver fObs = new FilterObserver();
-    private TT_NodeCacheObserver[] observers = new TT_NodeCacheObserver[0];
-    private Vector<TestResult>[] testLists;     // could use unsynchronized data structure
-    private volatile int state;
-    private volatile boolean valid = true;
-    private static final int NOT_COMPUTED = 0;
-    private static final int COMPUTING = 1;
-    private static final int COMPLETED = 2;
-    private static final int PAUSED = 3;
-    private static final int ABORTED = 4;
-    private static final boolean debug = Debug.getBoolean(TT_NodeCache.class);
-
     static abstract class TT_NodeCacheObserver {
 
+        public static final int EVENT_LIST_SIZE = 7;
+        public static final int MSGS_ALL = 0;
+        public static final int MSGS_STATS = 1;
+        public static final int MSGS_PASSED = 2;
+        public static final int MSGS_FAILED = 3;
+        public static final int MSGS_ERRORS = 4;
+        public static final int MSGS_NOT_RUNS = 5;
+        public static final int MSGS_FILTERED = 6;
+        public static final int OFFSET_FROM_STATUS = 2;
+        protected boolean[] interestList;
         public TT_NodeCacheObserver() {
             interestList = new boolean[EVENT_LIST_SIZE];
         }
@@ -833,20 +842,12 @@ class TT_NodeCache implements Runnable {
                                          TestResultTable.TreeNode[] path, TestResult what, int index);
 
         public abstract void statsUpdated(int... stats);
-
-        protected boolean[] interestList;
-        public static final int EVENT_LIST_SIZE = 7;
-        public static final int MSGS_ALL = 0;
-        public static final int MSGS_STATS = 1;
-        public static final int MSGS_PASSED = 2;
-        public static final int MSGS_FAILED = 3;
-        public static final int MSGS_ERRORS = 4;
-        public static final int MSGS_NOT_RUNS = 5;
-        public static final int MSGS_FILTERED = 6;
-        public static final int OFFSET_FROM_STATUS = 2;
     }
 
     static class FilterObserver implements TestFilter.Observer {
+
+        TestDescription lastTd;
+        TestFilter lastRejector;
 
         @Override
         public void rejected(TestDescription d, TestFilter rejector) {
@@ -858,9 +859,6 @@ class TT_NodeCache implements Runnable {
             lastTd = null;
             lastRejector = null;
         }
-
-        TestDescription lastTd;
-        TestFilter lastRejector;
     }
 
 }

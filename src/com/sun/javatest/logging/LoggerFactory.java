@@ -32,6 +32,15 @@ import java.util.logging.Level;
 
 public class LoggerFactory {
 
+    // convenience levels for JT logging
+    public static final Level DEBUG = Level.CONFIG;
+    public static final Level MONITORING = Level.INFO;
+    public static final Level WARNING = Level.WARNING;
+    public static final Level CRITICAL = Level.SEVERE;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(LoggerFactory.class);
+    public static final String LOGFILE_NAME = i18n.getString("logger.logfile.name");
+    public static final String LOGFILE_EXTENSION = i18n.getString("logger.logfile.ext");
+
     public static String getLocalizedLevelName(Level level) {
         if (level.intValue() < Level.INFO.intValue()) {
             return i18n.getString("logger.level.debug");
@@ -47,16 +56,5 @@ public class LoggerFactory {
 
         return i18n.getString("logger.level.critical");
     }
-
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(LoggerFactory.class);
-
-    public static final String LOGFILE_NAME = i18n.getString("logger.logfile.name");
-    public static final String LOGFILE_EXTENSION = i18n.getString("logger.logfile.ext");
-
-    // convenience levels for JT logging
-    public static final Level DEBUG = Level.CONFIG;
-    public static final Level MONITORING = Level.INFO;
-    public static final Level WARNING = Level.WARNING;
-    public static final Level CRITICAL = Level.SEVERE;
 }
 

@@ -42,6 +42,10 @@ import java.util.ListIterator;
  */
 public class AuditCommandManager extends CommandManager {
 
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AuditCommandManager.class);
+
+    //----------------------------------------------------------------------------
+
     @Override
     public HelpTree.Node getHelp() {
         String[] cmds = {
@@ -50,8 +54,6 @@ public class AuditCommandManager extends CommandManager {
         };
         return new HelpTree.Node(i18n, "cmgr.help", cmds);
     }
-
-    //----------------------------------------------------------------------------
 
     @Override
     public boolean parseCommand(String cmd, ListIterator<String> argIter, CommandContext ctx) {
@@ -68,14 +70,11 @@ public class AuditCommandManager extends CommandManager {
         return false;
     }
 
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(AuditCommandManager.class);
-
     //----------------------------------------------------------------------------
 
     private static class AuditCommand extends Command {
-        static String getName() {
-            return "audit";
-        }
+        private boolean showAllEnvValues;
+        private boolean showMultipleEnvValues;
 
         AuditCommand(ListIterator<String> argIter) {
             super(getName());
@@ -91,6 +90,10 @@ public class AuditCommandManager extends CommandManager {
                     break;
                 }
             }
+        }
+
+        static String getName() {
+            return "audit";
         }
 
         @Override
@@ -111,20 +114,17 @@ public class AuditCommandManager extends CommandManager {
                 ctx.printErrorMessage(i18n, "audit.failed");
             }
         }
-
-        private boolean showAllEnvValues;
-        private boolean showMultipleEnvValues;
     }
 
     //----------------------------------------------------------------------------
 
     private static class ShowAuditCommand extends Command {
-        static String getName() {
-            return "showAudit";
-        }
-
         ShowAuditCommand(ListIterator<String> argIter) {
             super(getName());
+        }
+
+        static String getName() {
+            return "showAudit";
         }
 
         @Override

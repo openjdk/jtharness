@@ -39,6 +39,11 @@ import java.io.File;
  * case.
  */
 public class InitialUrlFilter extends TestFilter {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExcludeListFilter.class);
+    private final String[] initUrls;
+    private final File[] initFiles;
+    private final String[] initStrings;
+
     /**
      * Create a filter based on the given files.  These file paths must be
      * relative to the testsuite root.  String matching against the paths
@@ -101,27 +106,6 @@ public class InitialUrlFilter extends TestFilter {
         }
     }
 
-    @Override
-    public boolean accepts(TestDescription td) {
-        if (initUrls == null) // all urls being accepted
-        {
-            return true;
-        }
-
-        String testUrl = td.getRootRelativeURL().toLowerCase();
-
-        // other parts of the code should ensure this is not null
-        for (String urlI : initUrls) {
-            if (isInitialUrlMatch(testUrl, urlI)) {
-                return true;
-            }
-        }   // for
-
-        // no init. urls specified (initUrls.length == 0) OR
-        // all init. urls processed
-        return false;
-    }
-
     /**
      * Find out if a given URL falls under a particular initial URL.
      * This effectively compares one incoming URL to one in a set of known
@@ -154,6 +138,38 @@ public class InitialUrlFilter extends TestFilter {
         }
     }
 
+    /**
+     * Is this a delimiter that ends/begins a valid startsWith segment.
+     */
+    private static boolean isDelimiter(char c) {
+        if (c == '/' || c == '#') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean accepts(TestDescription td) {
+        if (initUrls == null) // all urls being accepted
+        {
+            return true;
+        }
+
+        String testUrl = td.getRootRelativeURL().toLowerCase();
+
+        // other parts of the code should ensure this is not null
+        for (String urlI : initUrls) {
+            if (isInitialUrlMatch(testUrl, urlI)) {
+                return true;
+            }
+        }   // for
+
+        // no init. urls specified (initUrls.length == 0) OR
+        // all init. urls processed
+        return false;
+    }
+
     public File[] getInitFiles() {
         return initFiles;
     }
@@ -176,21 +192,5 @@ public class InitialUrlFilter extends TestFilter {
     public String getReason() {
         return i18n.getString("iurlFilter.reason");
     }
-
-    /**
-     * Is this a delimiter that ends/begins a valid startsWith segment.
-     */
-    private static boolean isDelimiter(char c) {
-        if (c == '/' || c == '#') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private final String[] initUrls;
-    private final File[] initFiles;
-    private final String[] initStrings;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExcludeListFilter.class);
 }
 

@@ -82,6 +82,23 @@ import java.util.Set;
 
 class OptionsPane extends JPanel {
 
+    private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
+    private DefaultListModel<JCheckBox> listModel;
+    private JList<JCheckBox> list;
+    private CustomReport[] customReports;
+    private JTextArea descriptionArea;
+    private Map<JCheckBox, CustomReport> customBoxes;
+    private JCheckBox cbXml;
+    private JButton backBtn;
+    private JButton okBtn;
+    private JButton cancelBtn;
+    private JCheckBox handleConfilctsBox;
+    private JCheckBox resolveAsRecentBox;
+    private ActionListener chTabListener;
+    private ActionListener okListener;
+    private JButton helpBtn;
+    private Desktop desktop;
+    private UIFactory uif;
     OptionsPane(UIFactory uif, Desktop desktop, ActionListener chTabListener,
                 ActionListener okListener) {
         this.uif = uif;
@@ -315,12 +332,102 @@ class OptionsPane extends JPanel {
         return customReps;
     }
 
+    JButton[] getButtons() {
+        return new JButton[]{backBtn, okBtn, cancelBtn, helpBtn};
+    }
+
+    /*
+     * PropertyChangeListener for enabling/disabling container's content
+     */
+    private static class PanelEnableListener implements PropertyChangeListener {
+        private Container theContainer;
+        private Set<Component> enabledComp;
+
+        /**
+         * @param container Container for controlling
+         */
+        PanelEnableListener(Container container) {
+            theContainer = container;
+        }
+
+        /**
+         * Catches changes of "enabled" property
+         * and changes enabled status for all child components
+         */
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if ("enabled".equals(evt.getPropertyName())) {
+                boolean oldV = ((Boolean) evt.getOldValue()).booleanValue();
+                boolean newV = ((Boolean) evt.getNewValue()).booleanValue();
+                if (oldV && !newV) {
+                    // disable
+                    Iterator<Component> chIt = collectChildren(theContainer,
+                            new ArrayList<Component>()).iterator();
+                    enabledComp = new HashSet<>();
+                    while (chIt.hasNext()) {
+                        Component c = chIt.next();
+                        if (c.isEnabled()) {
+                            enabledComp.add(c);
+                            c.setEnabled(false);
+                        }
+                    }
+
+                } else if (!oldV && newV && enabledComp != null) {
+                    // enable
+                    for (Component c : collectChildren(theContainer,
+                            new ArrayList<Component>())) {
+                        if (enabledComp.contains(c)) {
+                            c.setEnabled(true);
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Recursively gathers all children components
+         */
+        private Collection<Component> collectChildren(Container comp, Collection<Component> c) {
+            Component[] ch = comp.getComponents();
+            for (Component aCh : ch) {
+                c.add(aCh);
+                if (aCh instanceof Container) {
+                    collectChildren((Container) aCh, c);
+                }
+            }
+            return c;
+        }
+    }
+
+    private static class CheckBoxListCellRenderer implements ListCellRenderer<JCheckBox> {
+        @Override
+        public Component getListCellRendererComponent(JList<? extends JCheckBox> list, JCheckBox comp,
+                                                      int index, boolean isSelected, boolean cellHasFocus) {
+            // assert: value is a JCheckBox
+            if (isSelected) {
+                comp.setOpaque(true);
+                comp.setBackground(UIFactory.Colors.TEXT_HIGHLIGHT_COLOR.getValue());
+            } else {
+                comp.setOpaque(false);
+                comp.setForeground(Color.black);
+            }
+
+            return comp;
+        }
+    }
 
     /**
      * This listener changes options state against checkboxes
      */
     private class SelectListener extends MouseInputAdapter implements
             KeyListener, ListSelectionListener {
+
+        Object lastSelected;
+        JList<JCheckBox> list;
+        ListModel<JCheckBox> listModel;
+        JPanel panel;
+        CardLayout cards;
+        double emptyCBW = new JCheckBox("").getPreferredSize().getWidth() + 2;
 
         /**
          * @param lst        JList of checkboxes
@@ -404,116 +511,5 @@ class OptionsPane extends JPanel {
         @Override
         public void keyPressed(KeyEvent e) {
         }
-
-        Object lastSelected;
-        JList<JCheckBox> list;
-        ListModel<JCheckBox> listModel;
-        JPanel panel;
-        CardLayout cards;
-        double emptyCBW = new JCheckBox("").getPreferredSize().getWidth() + 2;
     }
-
-    /*
-     * PropertyChangeListener for enabling/disabling container's content
-     */
-    private static class PanelEnableListener implements PropertyChangeListener {
-        /**
-         * @param container Container for controlling
-         */
-        PanelEnableListener(Container container) {
-            theContainer = container;
-        }
-
-        /**
-         * Catches changes of "enabled" property
-         * and changes enabled status for all child components
-         */
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            if ("enabled".equals(evt.getPropertyName())) {
-                boolean oldV = ((Boolean) evt.getOldValue()).booleanValue();
-                boolean newV = ((Boolean) evt.getNewValue()).booleanValue();
-                if (oldV && !newV) {
-                    // disable
-                    Iterator<Component> chIt = collectChildren(theContainer,
-                            new ArrayList<Component>()).iterator();
-                    enabledComp = new HashSet<>();
-                    while (chIt.hasNext()) {
-                        Component c = chIt.next();
-                        if (c.isEnabled()) {
-                            enabledComp.add(c);
-                            c.setEnabled(false);
-                        }
-                    }
-
-                } else if (!oldV && newV && enabledComp != null) {
-                    // enable
-                    for (Component c : collectChildren(theContainer,
-                            new ArrayList<Component>())) {
-                        if (enabledComp.contains(c)) {
-                            c.setEnabled(true);
-                        }
-                    }
-                }
-            }
-        }
-
-        /**
-         * Recursively gathers all children components
-         */
-        private Collection<Component> collectChildren(Container comp, Collection<Component> c) {
-            Component[] ch = comp.getComponents();
-            for (Component aCh : ch) {
-                c.add(aCh);
-                if (aCh instanceof Container) {
-                    collectChildren((Container) aCh, c);
-                }
-            }
-            return c;
-        }
-
-        private Container theContainer;
-
-        private Set<Component> enabledComp;
-    }
-
-    private static class CheckBoxListCellRenderer implements ListCellRenderer<JCheckBox> {
-        @Override
-        public Component getListCellRendererComponent(JList<? extends JCheckBox> list, JCheckBox comp,
-                                                      int index, boolean isSelected, boolean cellHasFocus) {
-            // assert: value is a JCheckBox
-            if (isSelected) {
-                comp.setOpaque(true);
-                comp.setBackground(UIFactory.Colors.TEXT_HIGHLIGHT_COLOR.getValue());
-            } else {
-                comp.setOpaque(false);
-                comp.setForeground(Color.black);
-            }
-
-            return comp;
-        }
-    }
-
-    JButton[] getButtons() {
-        return new JButton[]{backBtn, okBtn, cancelBtn, helpBtn};
-    }
-
-    private DefaultListModel<JCheckBox> listModel;
-    private JList<JCheckBox> list;
-    private CustomReport[] customReports;
-    private JTextArea descriptionArea;
-    private Map<JCheckBox, CustomReport> customBoxes;
-    private JCheckBox cbXml;
-    private JButton backBtn;
-    private JButton okBtn;
-    private JButton cancelBtn;
-    private JCheckBox handleConfilctsBox;
-    private JCheckBox resolveAsRecentBox;
-    private ActionListener chTabListener;
-    private ActionListener okListener;
-    private JButton helpBtn;
-
-    private Desktop desktop;
-    private UIFactory uif;
-    private static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
 }

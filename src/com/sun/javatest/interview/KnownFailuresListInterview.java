@@ -50,126 +50,45 @@ import java.util.Objects;
  */
 public class KnownFailuresListInterview
         extends Interview {
-    /**
-     * Create an interview.
-     *
-     * @param parent The parent interview of which this is a child.
-     * @throws Interview.Fault if there is a problem while creating the interview.
-     */
-    public KnownFailuresListInterview(InterviewParameters parent)
-            throws Interview.Fault {
-        super(parent, "knownFailuresList");
-        this.parent = parent;
-        setResourceBundle("i18n");
-        setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
-
-        // had to wait to init parent before doing the following:
-        qNeedKfl = new NeedKflQuestion();
-
-        setFirstQuestion(qNeedKfl);
-    }
-
-    public void dispose() {
-        cachedKfl = null;
-        cachedKflError = null;
-        cachedExcludeListErrorArgs = null;
-        cachedExcludeList_testSuite = null;
-        cachedExcludeList_files = null;
-    }
-
-    public void setKflFiles(File... files) {
-        if (files == null || files.length == 0) {
-            qNeedKfl.setValue(YesNoQuestion.NO);
-            setCustomKflFiles(null);
-        } else {
-            qNeedKfl.setValue(YesNoQuestion.YES);
-            setCustomKflFiles(files);
-        }
-
-        updatePath(qNeedKfl);
-        setEdited(true);
-        updateCachedExcludeListData();
-    }
-
-    public File[] getKflFiles() {
-        return qNeedKfl.getValue().equals(YesNoQuestion.NO) ?
-                null : qCustomFiles.getValue();
-    }
-
-    protected void setCustomKflFiles(File... files) {
-        qCustomFiles.setValue(files);
-        updatePath(qCustomFiles);
-    }
-
-    /*
-     * Get the exclude list generated from the exclude list files in the interview.
-     * @return the exclude list generated from the exclude list files in the interview
-     * @see #getExcludeFiles
-     */
-    public KnownFailuresList getKfl() {
-        updateCachedExcludeListData();
-        return cachedKfl;
-    }
-
-    /**
-     * According to the interview, does the user want to use a KFL?
-     *
-     * @return True if the user has indicated that they want to use a KFL, false
-     * otherwise.
-     */
-    public boolean isKflEnabled() {
-        return qNeedKfl.getValue().equals(YesNoQuestion.YES);
-    }
-
-    //--------------------------------------------------------
-
     private InterviewParameters parent;
     private boolean initializedForTestSuite;
+    private NeedKflQuestion qNeedKfl; // defer initialization
+    private KnownFailuresList cachedKfl;
+    private Question cachedKflError;
+    private Object[] cachedExcludeListErrorArgs;
+    private TestSuite cachedExcludeList_testSuite;
+
+    //--------------------------------------------------------
+    private File[] cachedExcludeList_files;
+    private ErrorQuestion qKflFileNotFound = new ErrorQuestion(this, "KflFileNotFound") {
+        @Override
+        protected Object[] getTextArgs() {
+            return cachedExcludeListErrorArgs;
+        }
+    };
 
     //----------------------------------------------------------------------------
     //
     // Need exclude list
-
-    private class NeedKflQuestion extends YesNoQuestion {
-        NeedKflQuestion() {
-            super(KnownFailuresListInterview.this, "needKfl");
-            setDefaultValue(NO);
-            setValue(NO);
-            clear();
-            doneSuper = true;
-        }
-
+    private ErrorQuestion qKflIOError = new ErrorQuestion(this, "KflIOError") {
         @Override
-        public void clear() {
-            // clear will be called from the constructor once the choices have been set,
-            // but we can't call out to the enclosing class before super() completes (NPE)
-            if (!doneSuper) {
-                return;
-            }
-
-            super.clear();
+        protected Object[] getTextArgs() {
+            return cachedExcludeListErrorArgs;
         }
-
+    };
+    private ErrorQuestion qKflError = new ErrorQuestion(this, "KflError") {
         @Override
-        protected Question getNext() {
-            if (value == null) {
-                return null;
-            } else if (Objects.equals(value, YES)) {
-                return qCustomFiles;
-            } else {
-                return qEnd;
-            }
+        protected Object[] getTextArgs() {
+            return cachedExcludeListErrorArgs;
         }
-
-        private boolean doneSuper;
-    }
-
-    private NeedKflQuestion qNeedKfl; // defer initialization
+    };
 
     //----------------------------------------------------------------------------
     //
     // Exclude List
+    private Question qEnd = new FinalQuestion(this);
 
+    //----------------------------------------------------------------------------
     private FileListQuestion qCustomFiles = new FileListQuestion(this, "customFiles") {
         {
             setResourceBundle("i18n");
@@ -201,7 +120,134 @@ public class KnownFailuresListInterview
         }
     };
 
+    /**
+     * Create an interview.
+     *
+     * @param parent The parent interview of which this is a child.
+     * @throws Interview.Fault if there is a problem while creating the interview.
+     */
+    public KnownFailuresListInterview(InterviewParameters parent)
+            throws Interview.Fault {
+        super(parent, "knownFailuresList");
+        this.parent = parent;
+        setResourceBundle("i18n");
+        setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
+
+        // had to wait to init parent before doing the following:
+        qNeedKfl = new NeedKflQuestion();
+
+        setFirstQuestion(qNeedKfl);
+    }
+
+    private static File[] getAbsoluteFiles(File baseDir, File... files) {
+        if (files == null) {
+            return null;
+        }
+
+        if (baseDir == null) {
+            return files;
+        }
+
+        boolean allAbsolute = true;
+        for (int i = 0; i < files.length && allAbsolute; i++) {
+            allAbsolute = files[i].isAbsolute();
+        }
+
+        if (allAbsolute) {
+            return files;
+        }
+
+        File[] absoluteFiles = new File[files.length];
+        for (int i = 0; i < files.length; i++) {
+            File f = files[i];
+            absoluteFiles[i] = f.isAbsolute() ? f : new File(baseDir, f.getPath());
+        }
+
+        return absoluteFiles;
+    }
+
+    private static boolean equal(File f1, File f2) {
+        return f1 == null ? f2 == null : f1.equals(f2);
+    }
+
+    private static boolean equal(File[] f1, File... f2) {
+        if (f1 == null || f2 == null) {
+            return f1 == f2;
+        }
+
+        if (f1.length != f2.length) {
+            return false;
+        }
+
+        for (int i = 0; i < f1.length; i++) {
+            if (f1[i] != f2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void dispose() {
+        cachedKfl = null;
+        cachedKflError = null;
+        cachedExcludeListErrorArgs = null;
+        cachedExcludeList_testSuite = null;
+        cachedExcludeList_files = null;
+    }
+
+    public File[] getKflFiles() {
+        return qNeedKfl.getValue().equals(YesNoQuestion.NO) ?
+                null : qCustomFiles.getValue();
+    }
+
+    public void setKflFiles(File... files) {
+        if (files == null || files.length == 0) {
+            qNeedKfl.setValue(YesNoQuestion.NO);
+            setCustomKflFiles(null);
+        } else {
+            qNeedKfl.setValue(YesNoQuestion.YES);
+            setCustomKflFiles(files);
+        }
+
+        updatePath(qNeedKfl);
+        setEdited(true);
+        updateCachedExcludeListData();
+    }
+
+
     //----------------------------------------------------------------------------
+    //
+    // KFL Error
+
+    protected void setCustomKflFiles(File... files) {
+        qCustomFiles.setValue(files);
+        updatePath(qCustomFiles);
+    }
+
+    /*
+     * Get the exclude list generated from the exclude list files in the interview.
+     * @return the exclude list generated from the exclude list files in the interview
+     * @see #getExcludeFiles
+     */
+    public KnownFailuresList getKfl() {
+        updateCachedExcludeListData();
+        return cachedKfl;
+    }
+
+    /**
+     * According to the interview, does the user want to use a KFL?
+     *
+     * @return True if the user has indicated that they want to use a KFL, false
+     * otherwise.
+     */
+    public boolean isKflEnabled() {
+        return qNeedKfl.getValue().equals(YesNoQuestion.YES);
+    }
+
+    //----------------------------------------------------------------------------
+    //
+    // End
 
     private void updateCachedExcludeListData() {
         TestSuite ts = parent.getTestSuite();
@@ -233,6 +279,8 @@ public class KnownFailuresListInterview
         cachedExcludeListErrorArgs = null;
     }
 
+    //---------------------------------------------------------------------
+
     private void setCachedKflError(Question q, String arg) {
         cachedKfl = new KnownFailuresList();
         //cachedExcludeListFilter = null;
@@ -240,42 +288,7 @@ public class KnownFailuresListInterview
         cachedExcludeListErrorArgs = new String[]{arg};
     }
 
-
-    private KnownFailuresList cachedKfl;
-    private Question cachedKflError;
-    private Object[] cachedExcludeListErrorArgs;
-    private TestSuite cachedExcludeList_testSuite;
-    private File[] cachedExcludeList_files;
-
-
     //----------------------------------------------------------------------------
-    //
-    // KFL Error
-
-    private ErrorQuestion qKflFileNotFound = new ErrorQuestion(this, "KflFileNotFound") {
-        @Override
-        protected Object[] getTextArgs() {
-            return cachedExcludeListErrorArgs;
-        }
-    };
-
-    private ErrorQuestion qKflIOError = new ErrorQuestion(this, "KflIOError") {
-        @Override
-        protected Object[] getTextArgs() {
-            return cachedExcludeListErrorArgs;
-        }
-    };
-
-    private ErrorQuestion qKflError = new ErrorQuestion(this, "KflError") {
-        @Override
-        protected Object[] getTextArgs() {
-            return cachedExcludeListErrorArgs;
-        }
-    };
-
-    //----------------------------------------------------------------------------
-    //
-    // End
 
     private Question checkExcludeList() {
         updateCachedExcludeListData();
@@ -286,59 +299,38 @@ public class KnownFailuresListInterview
         }
     }
 
-    private Question qEnd = new FinalQuestion(this);
+    private class NeedKflQuestion extends YesNoQuestion {
+        private boolean doneSuper;
 
-    //---------------------------------------------------------------------
-
-    private static File[] getAbsoluteFiles(File baseDir, File... files) {
-        if (files == null) {
-            return null;
+        NeedKflQuestion() {
+            super(KnownFailuresListInterview.this, "needKfl");
+            setDefaultValue(NO);
+            setValue(NO);
+            clear();
+            doneSuper = true;
         }
 
-        if (baseDir == null) {
-            return files;
+        @Override
+        public void clear() {
+            // clear will be called from the constructor once the choices have been set,
+            // but we can't call out to the enclosing class before super() completes (NPE)
+            if (!doneSuper) {
+                return;
+            }
+
+            super.clear();
         }
 
-        boolean allAbsolute = true;
-        for (int i = 0; i < files.length && allAbsolute; i++) {
-            allAbsolute = files[i].isAbsolute();
-        }
-
-        if (allAbsolute) {
-            return files;
-        }
-
-        File[] absoluteFiles = new File[files.length];
-        for (int i = 0; i < files.length; i++) {
-            File f = files[i];
-            absoluteFiles[i] = f.isAbsolute() ? f : new File(baseDir, f.getPath());
-        }
-
-        return absoluteFiles;
-    }
-
-    //----------------------------------------------------------------------------
-
-    private static boolean equal(File f1, File f2) {
-        return f1 == null ? f2 == null : f1.equals(f2);
-    }
-
-    private static boolean equal(File[] f1, File... f2) {
-        if (f1 == null || f2 == null) {
-            return f1 == f2;
-        }
-
-        if (f1.length != f2.length) {
-            return false;
-        }
-
-        for (int i = 0; i < f1.length; i++) {
-            if (f1[i] != f2[i]) {
-                return false;
+        @Override
+        protected Question getNext() {
+            if (value == null) {
+                return null;
+            } else if (Objects.equals(value, YES)) {
+                return qCustomFiles;
+            } else {
+                return qEnd;
             }
         }
-
-        return true;
     }
 }
 

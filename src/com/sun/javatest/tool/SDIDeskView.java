@@ -53,13 +53,21 @@ import java.util.Map;
 
 class SDIDeskView extends DeskView {
 
+    private static final int MENU_INSERT_POINT = 3; // before Windows, glue and Help
+    private static final String TILE = "tile";
+    private static final String CASCADE = "cascade";
+    private JFrame console;
+    private JFrame[] frames;
+    private boolean visible;
+    private Tool selectedTool;
+    private Listener listener = new Listener();
+
     SDIDeskView(Desktop desktop) {
         super(desktop);
         initFrames();
         uif.setDialogParent(console);
         JDialog.setDefaultLookAndFeelDecorated(false);
     }
-
 
     SDIDeskView(DeskView other) {
         this(other.getDesktop());
@@ -71,6 +79,10 @@ class SDIDeskView extends DeskView {
 
         doCascade();
         setVisible(other.isVisible());
+    }
+
+    private static JFrame getFrameForTool(Tool t) {
+        return (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, t);
     }
 
     @Override
@@ -411,21 +423,6 @@ class SDIDeskView extends DeskView {
             //f.validate();
         }
     }
-
-    private static JFrame getFrameForTool(Tool t) {
-        return (JFrame) SwingUtilities.getAncestorOfClass(JFrame.class, t);
-    }
-
-    private static final int MENU_INSERT_POINT = 3; // before Windows, glue and Help
-
-    private JFrame console;
-    private JFrame[] frames;
-    private boolean visible;
-    private Tool selectedTool;
-    private Listener listener = new Listener();
-
-    private static final String TILE = "tile";
-    private static final String CASCADE = "cascade";
 
     private class Listener
             implements ActionListener, MenuListener, Tool.Observer {

@@ -37,6 +37,51 @@ import java.util.ResourceBundle;
  */
 public abstract class IntQuestion extends Question {
     /**
+     * The string representation for a value that has not been set
+     */
+    private static final String UNSET = "unset";
+    private static final ResourceBundle i18n = Interview.i18n;
+    /**
+     * The current response for this question.
+     * MIN_VALUE is reserved as an integer NotANumber.
+     * This field should be treated as read-only.
+     * Use setValue to change the value.
+     */
+    protected int value = Integer.MIN_VALUE;
+    /**
+     * Suggested values for this question.
+     */
+    protected int[] suggestions;
+    /**
+     * The default response for this question.
+     */
+    private int defaultValue = Integer.MIN_VALUE;
+    /**
+     * The cached string value for this question
+     */
+    private String stringValue;
+    /**
+     * A temporary value, used to avoid changing the API for setValue/setStringValue
+     */
+    private transient String newStringValue;
+    /**
+     * The lower bound for responses to this question
+     */
+    private int min = Integer.MIN_VALUE + 1;
+    /**
+     * The upper bound for responses to this question
+     */
+    private int max = Integer.MAX_VALUE;
+    /**
+     * The hint for the lowest label that might be displayed
+     */
+    private int labelStart;
+    /**
+     * The hint for the increment between labels that might be displayed
+     */
+    private int labelIncrement;
+
+    /**
      * Create a question with a nominated tag.
      *
      * @param interview The interview containing this question.
@@ -173,6 +218,42 @@ public abstract class IntQuestion extends Question {
     }
 
     /**
+     * Set the response to this question to the value represented by
+     * a string-valued argument. Argument is decoded against current locale.
+     *
+     * @param s A string containing the numeric value to be set.
+     *          The number should be in the range of valid values defined for
+     *          this question; if it is not, the value will be retained,
+     *          but isValueValid() will return false.
+     * @throws Interview.Fault This exception is just retained for backwards
+     *                         compatibility; it should never actually be thrown.
+     * @see #getValue
+     * @see #setValue(String, Locale)
+     */
+    @Override
+    public void setValue(String s) throws Interview.Fault {
+        setValue(s, Locale.getDefault());
+    }
+
+    /**
+     * Set the current value.
+     *
+     * @param newValue The value to be set. It should be in the range
+     *                 of valid values defined for this question.
+     * @see #getValue
+     */
+    public void setValue(int newValue) {
+        int oldValue = value;
+        value = newValue;
+        stringValue = newStringValue;  // only non-null if called from setValue(String s)
+        newStringValue = null;
+        if (value != oldValue) {
+            interview.updatePath(this);
+            interview.setEdited(true);
+        }
+    }
+
+    /**
      * Verify this question is on the current path, and if it is,
      * return the current value.
      *
@@ -199,24 +280,6 @@ public abstract class IntQuestion extends Question {
         }
 
         return stringValue;
-    }
-
-    /**
-     * Set the response to this question to the value represented by
-     * a string-valued argument. Argument is decoded against current locale.
-     *
-     * @param s A string containing the numeric value to be set.
-     *          The number should be in the range of valid values defined for
-     *          this question; if it is not, the value will be retained,
-     *          but isValueValid() will return false.
-     * @throws Interview.Fault This exception is just retained for backwards
-     *                         compatibility; it should never actually be thrown.
-     * @see #getValue
-     * @see #setValue(String, Locale)
-     */
-    @Override
-    public void setValue(String s) throws Interview.Fault {
-        setValue(s, Locale.getDefault());
     }
 
     /**
@@ -271,24 +334,6 @@ public abstract class IntQuestion extends Question {
         newStringValue = s;
         setValue(i);
         //System.out.println(tag + " [" + s1 + ", in " + l + "] -> [" + i + ", [" + s + "]]" );
-    }
-
-    /**
-     * Set the current value.
-     *
-     * @param newValue The value to be set. It should be in the range
-     *                 of valid values defined for this question.
-     * @see #getValue
-     */
-    public void setValue(int newValue) {
-        int oldValue = value;
-        value = newValue;
-        stringValue = newStringValue;  // only non-null if called from setValue(String s)
-        newStringValue = null;
-        if (value != oldValue) {
-            interview.updatePath(this);
-            interview.setEdited(true);
-        }
     }
 
     @Override
@@ -370,59 +415,4 @@ public abstract class IntQuestion extends Question {
     protected void save(Map<String, String> data) {
         data.put(tag, getStringValue());
     }
-
-    /**
-     * The current response for this question.
-     * MIN_VALUE is reserved as an integer NotANumber.
-     * This field should be treated as read-only.
-     * Use setValue to change the value.
-     */
-    protected int value = Integer.MIN_VALUE;
-
-    /**
-     * Suggested values for this question.
-     */
-    protected int[] suggestions;
-
-    /**
-     * The default response for this question.
-     */
-    private int defaultValue = Integer.MIN_VALUE;
-
-    /**
-     * The cached string value for this question
-     */
-    private String stringValue;
-
-    /**
-     * A temporary value, used to avoid changing the API for setValue/setStringValue
-     */
-    private transient String newStringValue;
-
-    /**
-     * The lower bound for responses to this question
-     */
-    private int min = Integer.MIN_VALUE + 1;
-
-    /**
-     * The upper bound for responses to this question
-     */
-    private int max = Integer.MAX_VALUE;
-
-    /**
-     * The hint for the lowest label that might be displayed
-     */
-    private int labelStart;
-
-    /**
-     * The hint for the increment between labels that might be displayed
-     */
-    private int labelIncrement;
-
-    /**
-     * The string representation for a value that has not been set
-     */
-    private static final String UNSET = "unset";
-
-    private static final ResourceBundle i18n = Interview.i18n;
 }

@@ -33,6 +33,10 @@ import java.io.File;
  */
 public class ExtensionFileFilter implements FileFilter {
 
+    private String[] extns;
+    private String description;
+    private boolean caseSensitive;
+
     /**
      * Create a filter which accepts files based on their extension.
      *
@@ -58,18 +62,6 @@ public class ExtensionFileFilter implements FileFilter {
     }
 
     /**
-     * Specify whether or not this filter should perform case-sensitive matching for
-     * extensions.
-     *
-     * @param b true if this filter should perform case-sensitive matching for
-     *          extensions, and false otherwise
-     * @see #isCaseSensitive
-     */
-    public void setCaseSensitive(boolean b) {
-        caseSensitive = b;
-    }
-
-    /**
      * Check whether or not this filter should perform case-sensitive matching for
      * extensions.
      *
@@ -79,6 +71,18 @@ public class ExtensionFileFilter implements FileFilter {
      */
     public boolean isCaseSensitive() {
         return caseSensitive;
+    }
+
+    /**
+     * Specify whether or not this filter should perform case-sensitive matching for
+     * extensions.
+     *
+     * @param b true if this filter should perform case-sensitive matching for
+     *          extensions, and false otherwise
+     * @see #isCaseSensitive
+     */
+    public void setCaseSensitive(boolean b) {
+        caseSensitive = b;
     }
 
     @Override
@@ -130,7 +134,6 @@ public class ExtensionFileFilter implements FileFilter {
         return path + extns[0];
     }
 
-
     /**
      * Ensure that a filename ends with one of the extensions accepted
      * by this filter.  If it does not, one is appended
@@ -173,8 +176,4 @@ public class ExtensionFileFilter implements FileFilter {
 
         return true;
     }
-
-    private String[] extns;
-    private String description;
-    private boolean caseSensitive;
 }

@@ -66,6 +66,14 @@ import java.util.Vector;
  * A container that presents the current desktop tools in a JDesktopPane.
  */
 class MDIDeskView extends DeskView {
+    private static final String TILE = "tile";
+    private static final String CASCADE = "cascade";
+    private static final boolean useInternalDialogs = true;
+    private JFrame mainFrame;
+    private Map<Tool, JInternalFrame> internalFrames = new HashMap<>(17);
+    private JDesktopPane desktopPane;
+    private Listener listener = new Listener();
+
     MDIDeskView(Desktop desktop) {
         this(desktop, getDefaultBounds());
     }
@@ -251,6 +259,8 @@ class MDIDeskView extends DeskView {
         return new JFrame[]{mainFrame};
     }
 
+    // internal routines
+
     @Override
     public Rectangle getBounds() {
         return mainFrame.getBounds();
@@ -362,8 +372,6 @@ class MDIDeskView extends DeskView {
         return t;
     }
 
-    // internal routines
-
     private void initMainFrame(Rectangle bounds) {
         //System.err.println("MDI: create");
         mainFrame = createFrame(listener, "mdi.main");
@@ -429,16 +437,6 @@ class MDIDeskView extends DeskView {
         }
         return v.toArray(new JInternalFrame[v.size()]);
     }
-
-    private JFrame mainFrame;
-    private Map<Tool, JInternalFrame> internalFrames = new HashMap<>(17);
-    private JDesktopPane desktopPane;
-    private Listener listener = new Listener();
-
-    private static final String TILE = "tile";
-    private static final String CASCADE = "cascade";
-
-    private static final boolean useInternalDialogs = true;
 
     private class Listener
             implements ActionListener, AncestorListener,

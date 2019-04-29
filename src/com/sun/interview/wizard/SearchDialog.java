@@ -57,6 +57,45 @@ import java.util.Hashtable;
 import java.util.Map;
 
 class SearchDialog extends JDialog {
+    private static final String ANSWER = "answer";
+    private static final String ANYWHERE = "anywhere";
+    private static final String CLOSE = "close";
+    private static final String FIND = "find";
+    private static final String HELP = "help";
+    private static final String QUESTION = "question";
+    private static final String TITLE = "title";
+    private static final KeyStroke escapeKey = KeyStroke.getKeyStroke("ESCAPE");
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    private Interview interview;
+    private Question currentQuestion;
+    private HelpBroker helpBroker;
+    private String helpPrefix;
+    private JTextField textField;
+    private JComboBox<String> whereChoice;
+    private JCheckBox caseChk;
+    private JCheckBox wordChk;
+    private ActionListener listener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String cmd = e.getActionCommand();
+            if (cmd.equals(FIND)) {
+                find();
+            } else if (cmd.equals(CLOSE)) {
+                setVisible(false);
+            } else if (cmd.equals(HELP)) {
+                helpBroker.displayCurrentID(helpPrefix + "search.csh");
+            }
+        }
+    };
+    SearchDialog(Frame parent, Interview i, HelpBroker helpBroker, String helpPrefix) {
+        super(parent);
+        init(parent, i, helpBroker, helpPrefix);
+    }
+    SearchDialog(Dialog parent, Interview i, HelpBroker helpBroker, String helpPrefix) {
+        super(parent);
+        init(parent, i, helpBroker, helpPrefix);
+    }
+
     static SearchDialog create(Component parent, Interview i,
                                HelpBroker helpBroker, String helpPrefix) {
         Dialog d = (Dialog) SwingUtilities.getAncestorOfClass(Dialog.class, parent);
@@ -68,14 +107,25 @@ class SearchDialog extends JDialog {
         }
     }
 
-    SearchDialog(Frame parent, Interview i, HelpBroker helpBroker, String helpPrefix) {
-        super(parent);
-        init(parent, i, helpBroker, helpPrefix);
+    private static boolean match(String s1, String s2, boolean considerCase, boolean word) {
+        int s1len = s1.length();
+        int s2len = s2.length();
+        for (int i = 0; i <= s2len - s1len; i++) {
+            if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
+                if (word) {
+                    return (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
+                            && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len)));
+                } else {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    SearchDialog(Dialog parent, Interview i, HelpBroker helpBroker, String helpPrefix) {
-        super(parent);
-        init(parent, i, helpBroker, helpPrefix);
+    private static boolean isBoundaryCh(char c) {
+        return !(Character.isUnicodeIdentifierStart(c)
+                || Character.isUnicodeIdentifierPart(c));
     }
 
     private void init(Component parent, Interview i, HelpBroker helpBroker, String helpPrefix) {
@@ -228,27 +278,6 @@ class SearchDialog extends JDialog {
         }
     }
 
-    private static boolean match(String s1, String s2, boolean considerCase, boolean word) {
-        int s1len = s1.length();
-        int s2len = s2.length();
-        for (int i = 0; i <= s2len - s1len; i++) {
-            if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
-                if (word) {
-                    return (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
-                            && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len)));
-                } else {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private static boolean isBoundaryCh(char c) {
-        return !(Character.isUnicodeIdentifierStart(c)
-                || Character.isUnicodeIdentifierPart(c));
-    }
-
     private JButton createButton(String uiKey, String actionCommand, ActionListener l) {
         JButton b = new JButton(i18n.getString(uiKey + ".btn"));
         b.setName(uiKey);
@@ -318,38 +347,4 @@ class SearchDialog extends JDialog {
     private void setToolTipText(JComponent c, String uiKey) {
         c.setToolTipText(i18n.getString(uiKey + ".tip"));
     }
-
-    private ActionListener listener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String cmd = e.getActionCommand();
-            if (cmd.equals(FIND)) {
-                find();
-            } else if (cmd.equals(CLOSE)) {
-                setVisible(false);
-            } else if (cmd.equals(HELP)) {
-                helpBroker.displayCurrentID(helpPrefix + "search.csh");
-            }
-        }
-    };
-
-    private Interview interview;
-    private Question currentQuestion;
-    private HelpBroker helpBroker;
-    private String helpPrefix;
-    private JTextField textField;
-    private JComboBox<String> whereChoice;
-    private JCheckBox caseChk;
-    private JCheckBox wordChk;
-
-    private static final String ANSWER = "answer";
-    private static final String ANYWHERE = "anywhere";
-    private static final String CLOSE = "close";
-    private static final String FIND = "find";
-    private static final String HELP = "help";
-    private static final String QUESTION = "question";
-    private static final String TITLE = "title";
-    private static final KeyStroke escapeKey = KeyStroke.getKeyStroke("ESCAPE");
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }

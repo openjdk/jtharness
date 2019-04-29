@@ -32,6 +32,9 @@ import com.sun.javatest.util.I18NResourceBundle;
  * A test filter that filters out tests that appear in an {@link ExcludeList}.
  */
 public class ExcludeListFilter extends TestFilter {
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExcludeListFilter.class);
+    private ExcludeList table;
+
     /**
      * Create a test filter that filters out tests that appear in an exclude list.
      *
@@ -90,7 +93,4 @@ public class ExcludeListFilter extends TestFilter {
         hash = 59 * hash + (this.table != null ? this.table.hashCode() : 0);
         return hash;
     }
-
-    private ExcludeList table;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ExcludeListFilter.class);
 }

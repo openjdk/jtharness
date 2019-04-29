@@ -41,6 +41,17 @@ import java.text.DateFormat;
 import java.util.Date;
 
 class ReportWriter extends HTMLWriterEx {
+    private static final String BODY = "body";
+    private static final String FONT_SIZE = "font-size";
+    private static final String FONT_FAMILY = "font-family";
+    private static final String BGCOLOR = "bgcolor";
+    private static final String MARGIN_LEFT = "margin-left";
+    private static final String SANSSERIF = "SansSerif";
+    private static final String WHITE = "white";
+    private static final String _12PT = "12pt";
+    private static final String CSS_FILENAME = "report.css";
+    private I18NResourceBundle i18n;
+
     ReportWriter(Writer out) throws IOException {
         super(out);
     }
@@ -59,7 +70,6 @@ class ReportWriter extends HTMLWriterEx {
             throws IOException {
         this(out, title, i18n, Charset.defaultCharset());
     }
-
     ReportWriter(Writer out, String title, I18NResourceBundle i18n, Charset cs)
             throws IOException {
         super(out, "<!DOCTYPE HTML>", i18n);
@@ -77,6 +87,31 @@ class ReportWriter extends HTMLWriterEx {
         startTag(HTMLWriterEx.H1);
         writeI18N("reportWriter.product.name", ProductInfo.getName(), title);
         endTag(HTMLWriterEx.H1);
+    }
+
+    public static void initializeDirectory(File dir) throws IOException {
+        File cssFile = new File(dir, CSS_FILENAME);
+
+        if (dir.exists() && dir.canWrite() && !cssFile.exists()) {
+            Writer fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(cssFile), StandardCharsets.UTF_8));
+
+            fw.write("h1 {font-size: 18pt;\n");
+            fw.write("      font-family: SansSerif;\n");
+            fw.write("      bgcolor: white;\n");
+            fw.write("      margin-left: 3}\n");
+
+            fw.write("h2 {font-size: 15pt;\n");
+            fw.write("      font-family: SansSerif;\n");
+            fw.write("      bgcolor: white;\n");
+            fw.write("      margin-left: 3}\n");
+
+            fw.write("body , h3 {font-size: 12pt;\n"); //12
+            fw.write("           font-family: SansSerif;\n");
+            fw.write("           bgcolor: white;\n");
+            fw.write("           margin-left: 3}\n");
+
+            fw.close();
+        }
     }
 
     @Override
@@ -112,31 +147,6 @@ class ReportWriter extends HTMLWriterEx {
 
         super.flush();
         super.close();
-    }
-
-    public static void initializeDirectory(File dir) throws IOException {
-        File cssFile = new File(dir, CSS_FILENAME);
-
-        if (dir.exists() && dir.canWrite() && !cssFile.exists()) {
-            Writer fw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(cssFile), StandardCharsets.UTF_8));
-
-            fw.write("h1 {font-size: 18pt;\n");
-            fw.write("      font-family: SansSerif;\n");
-            fw.write("      bgcolor: white;\n");
-            fw.write("      margin-left: 3}\n");
-
-            fw.write("h2 {font-size: 15pt;\n");
-            fw.write("      font-family: SansSerif;\n");
-            fw.write("      bgcolor: white;\n");
-            fw.write("      margin-left: 3}\n");
-
-            fw.write("body , h3 {font-size: 12pt;\n"); //12
-            fw.write("           font-family: SansSerif;\n");
-            fw.write("           bgcolor: white;\n");
-            fw.write("           margin-left: 3}\n");
-
-            fw.close();
-        }
     }
 
     void writeStyle() throws IOException {
@@ -189,15 +199,4 @@ class ReportWriter extends HTMLWriterEx {
         write(text);
         endTag(FONT);
     }
-
-    private I18NResourceBundle i18n;
-    private static final String BODY = "body";
-    private static final String FONT_SIZE = "font-size";
-    private static final String FONT_FAMILY = "font-family";
-    private static final String BGCOLOR = "bgcolor";
-    private static final String MARGIN_LEFT = "margin-left";
-    private static final String SANSSERIF = "SansSerif";
-    private static final String WHITE = "white";
-    private static final String _12PT = "12pt";
-    private static final String CSS_FILENAME = "report.css";
 }

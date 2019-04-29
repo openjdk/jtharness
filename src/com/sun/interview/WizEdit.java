@@ -51,85 +51,20 @@ import java.util.Vector;
  * interview.
  */
 public class WizEdit {
-    /**
-     * This exception is used to indicate a problem with the command line arguments.
-     */
-
-    public static class BadArgs extends Exception {
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        BadArgs(ResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        BadArgs(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
-
-
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        BadArgs(ResourceBundle i18n, String s, Object... o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
-    }
+    private static final ResourceBundle i18n = Interview.i18n;
+    private Interview interview;
+    private boolean considerCase = false;
+    private boolean word = false;
+    private boolean verbose;
+    private PrintStream out = System.err;
 
     /**
-     * This exception is to report problems that occur while editing
-     * the responses to questions in an interview.
+     * Create an editor for the questions in an interview.
+     *
+     * @param interview The interview containing the responses to be edited.
      */
-    public static class Fault extends Exception {
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        Fault(ResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
-
-        /**
-         * Create a Fault.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        Fault(ResourceBundle i18n, String s, Object... o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
+    public WizEdit(Interview interview) {
+        this.interview = interview;
     }
 
     /**
@@ -214,13 +149,24 @@ public class WizEdit {
         }
     }
 
-    /**
-     * Create an editor for the questions in an interview.
-     *
-     * @param interview The interview containing the responses to be edited.
-     */
-    public WizEdit(Interview interview) {
-        this.interview = interview;
+    private static int match(String s1, String s2, boolean considerCase, boolean word) {
+        int s1len = s1.length();
+        int s2len = s2.length();
+        for (int i = 0; i <= s2len - s1len; i++) {
+            if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
+                if (!word || (word &&
+                        (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
+                        && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len))))) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private static boolean isBoundaryCh(char c) {
+        return !(Character.isUnicodeIdentifierStart(c)
+                || Character.isUnicodeIdentifierPart(c));
     }
 
     /**
@@ -324,31 +270,84 @@ public class WizEdit {
 
     }
 
-    private static int match(String s1, String s2, boolean considerCase, boolean word) {
-        int s1len = s1.length();
-        int s2len = s2.length();
-        for (int i = 0; i <= s2len - s1len; i++) {
-            if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
-                if (!word || (word &&
-                        (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
-                        && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len))))) {
-                    return i;
-                }
-            }
+    /**
+     * This exception is used to indicate a problem with the command line arguments.
+     */
+
+    public static class BadArgs extends Exception {
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        BadArgs(ResourceBundle i18n, String s) {
+            super(i18n.getString(s));
         }
-        return -1;
+
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        BadArgs(ResourceBundle i18n, String s, Object o) {
+            super(MessageFormat.format(i18n.getString(s), o));
+        }
+
+
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        BadArgs(ResourceBundle i18n, String s, Object... o) {
+            super(MessageFormat.format(i18n.getString(s), o));
+        }
     }
 
-    private static boolean isBoundaryCh(char c) {
-        return !(Character.isUnicodeIdentifierStart(c)
-                || Character.isUnicodeIdentifierPart(c));
+    /**
+     * This exception is to report problems that occur while editing
+     * the responses to questions in an interview.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        Fault(ResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(ResourceBundle i18n, String s, Object o) {
+            super(MessageFormat.format(i18n.getString(s), o));
+        }
+
+        /**
+         * Create a Fault.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        Fault(ResourceBundle i18n, String s, Object... o) {
+            super(MessageFormat.format(i18n.getString(s), o));
+        }
     }
-
-    private Interview interview;
-    private boolean considerCase = false;
-    private boolean word = false;
-    private boolean verbose;
-    private PrintStream out = System.err;
-
-    private static final ResourceBundle i18n = Interview.i18n;
 }

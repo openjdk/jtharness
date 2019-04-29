@@ -55,16 +55,11 @@ class COFTestSuite extends COFItem {
         cofStatus[Status.NOT_RUN] = "did_not_run";
     }
 
-    private COFData cofData;
-
-    private boolean legacyMode = false; // modern workdir or not
-
-    private String name;
-
     protected Pattern testCasePattern = Pattern
             .compile("^(\\S+): (Passed\\.|Failed\\.|Error\\.|Not\\ run\\.)(.*)");
-
-
+    private COFData cofData;
+    private boolean legacyMode = false; // modern workdir or not
+    private String name;
     private TestResultTable trt;
 
     COFTestSuite(File dir) {

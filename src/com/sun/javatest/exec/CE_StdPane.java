@@ -35,6 +35,12 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 
 abstract class CE_StdPane extends JPanel {
+    protected final UIFactory uif;
+    protected final InterviewParameters config;
+    protected ToolDialog toolDialog;
+    private JPanel main;
+
+
     protected CE_StdPane(UIFactory uif, InterviewParameters config, String name) {
         this.uif = uif;
         this.config = config;
@@ -61,23 +67,17 @@ abstract class CE_StdPane extends JPanel {
         main.add(p);
     }
 
-    public void setParentToolDialog(ToolDialog d) {
-        toolDialog = d;
-    }
-
     public ToolDialog getParentToolDialog() {
         return toolDialog;
     }
 
+    public void setParentToolDialog(ToolDialog d) {
+        toolDialog = d;
+    }
 
     abstract boolean isOKToClose();
 
     abstract void load();
 
     abstract void save();
-
-    protected ToolDialog toolDialog;
-    protected final UIFactory uif;
-    protected final InterviewParameters config;
-    private JPanel main;
 }

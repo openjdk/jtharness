@@ -41,6 +41,23 @@ import java.util.TreeSet;
  * Also generate output in failed.html, error.html, etc...
  */
 class ResultSection extends HTMLSection {
+    private final int[] fileCodes = {
+            HTMLReport.PASSED_HTML,
+            HTMLReport.FAILED_HTML,
+            HTMLReport.ERROR_HTML,
+            HTMLReport.NOTRUN_HTML
+    };
+    private final int[] groupedFileCodes = {
+            HTMLReport.PASSED_HTML_2,
+            HTMLReport.FAILED_HTML_2,
+            HTMLReport.ERROR_HTML_2
+    };
+    private final I18NResourceBundle i18n;
+    private final String[] headings;
+    TreeSet<TestResult>[] lists;
+    private TestResultTable resultTable;
+    private File[] initFiles;
+    private int totalFound;
     ResultSection(HTMLReport parent, ReportSettings settings, File dir, I18NResourceBundle i18n,
                   TreeSet<TestResult>... sortedResults) {
         super(i18n.getString("result.title"), settings, dir, parent);
@@ -303,27 +320,4 @@ class ResultSection extends HTMLSection {
             out.close();
         }
     }
-
-    private TestResultTable resultTable;
-    private File[] initFiles;
-
-    TreeSet<TestResult>[] lists;
-    private int totalFound;
-
-    private final int[] fileCodes = {
-            HTMLReport.PASSED_HTML,
-            HTMLReport.FAILED_HTML,
-            HTMLReport.ERROR_HTML,
-            HTMLReport.NOTRUN_HTML
-    };
-
-    private final int[] groupedFileCodes = {
-            HTMLReport.PASSED_HTML_2,
-            HTMLReport.FAILED_HTML_2,
-            HTMLReport.ERROR_HTML_2
-    };
-
-    private final I18NResourceBundle i18n;
-
-    private final String[] headings;
 }

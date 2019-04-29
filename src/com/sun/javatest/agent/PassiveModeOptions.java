@@ -32,6 +32,9 @@ import java.awt.TextField;
 import java.io.IOException;
 
 class PassiveModeOptions extends ModeOptions {
+    private Label portLabel;
+    private TextField portField;
+
     PassiveModeOptions() {
         super("passive");
 
@@ -69,7 +72,4 @@ class PassiveModeOptions extends ModeOptions {
     void setPort(int port) {
         portField.setText(Integer.toString(port));
     }
-
-    private Label portLabel;
-    private TextField portField;
 }

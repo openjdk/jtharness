@@ -48,6 +48,10 @@ import java.util.SortedSet;
  */
 public class KflPlainText {
 
+    private KflSorter sorter;
+    private File dir;
+    private KnownFailuresList kfl;
+
     KflPlainText(ReportSettings s) {
         sorter = s.getKflSorter();
         kfl = sorter.getKfl();
@@ -160,8 +164,4 @@ public class KflPlainText {
     private void writeTestCaseSet(String f, String id, SortedSet<KflSorter.TestDiff> tests) {
         writeTestSet(f, id, tests);
     }
-
-    private KflSorter sorter;
-    private File dir;
-    private KnownFailuresList kfl;
 }

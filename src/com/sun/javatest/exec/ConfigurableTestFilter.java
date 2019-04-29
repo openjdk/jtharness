@@ -50,6 +50,11 @@ import java.util.Map;
  * @see com.sun.javatest.ObservableTestFilter
  */
 abstract class ConfigurableTestFilter extends ObservableTestFilter {
+    protected static final String INSTANCE_KEY = "instanceName";
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigurableTestFilter.class);
+    protected String instanceName;
+    protected ExecModel execModel;
+
     /**
      * Nameless filters are not allowed.
      */
@@ -212,10 +217,5 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
      * Does the editor have any uncommitted changes?
      */
     abstract boolean isEditorChanged();
-
-    protected String instanceName;
-    protected ExecModel execModel;
-    protected static final String INSTANCE_KEY = "instanceName";
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(ConfigurableTestFilter.class);
 }
 

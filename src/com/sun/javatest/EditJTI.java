@@ -59,62 +59,12 @@ import java.util.ResourceBundle;
  * For details of the options, use the <code>-help</code> option.
  */
 public class EditJTI {
-    /**
-     * This exception is used to indicate a problem with the command line arguments.
-     */
-    public static class BadArgs extends Exception {
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         */
-        BadArgs(ResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An argument to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        BadArgs(ResourceBundle i18n, String s, Object o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
-
-
-        /**
-         * Create a BadArgs exception.
-         *
-         * @param i18n A resource bundle in which to find the detail message.
-         * @param s    The key for the detail message.
-         * @param o    An array of arguments to be formatted with the detail message by
-         *             {@link java.text.MessageFormat#format}
-         */
-        BadArgs(ResourceBundle i18n, String s, Object... o) {
-            super(MessageFormat.format(i18n.getString(s), o));
-        }
-    }
-
-    /**
-     * This exception is used to report problems that arise when using this API.
-     */
-    public static class Fault extends Exception {
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
-
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
-
-        Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
-    }
+    private static int MAX_INDENT = Integer.getInteger("EditJTI.maxIndent", 32).intValue();
+    private static int NUM_BACKUPS = Integer.getInteger("EditJTI.numBackups", 2).intValue();
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(EditJTI.class);
+    private InterviewParameters interview;
+    private boolean verbose;
+    private PrintWriter out;
 
     /**
      * Command line entry point. Run with <code>-help</code> to get
@@ -175,6 +125,33 @@ public class EditJTI {
         out.println("");
     }
 
+    private static int match(String s1, String s2, boolean considerCase, boolean word) {
+        int s1len = s1.length();
+        int s2len = s2.length();
+        for (int i = 0; i <= s2len - s1len; i++) {
+            if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
+                if (!word || (word &&
+                        (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
+                        && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len))))) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private static boolean isBoundaryCh(char c) {
+        return !(Character.isUnicodeIdentifierStart(c)
+                || Character.isUnicodeIdentifierPart(c));
+    }
+
+    private static void checkUnset(Object item, String option)
+            throws BadArgs {
+        if (item != null) {
+            throw new BadArgs(i18n, "editJTI.dupOption", option);
+        }
+    }
+
     /**
      * Run the utility, without exiting.  Any messages are written to
      * the standard output stream.
@@ -193,7 +170,6 @@ public class EditJTI {
             out.flush();
         }
     }
-
 
     /**
      * Run the utility, without exiting, writing any messages to a specified stream.
@@ -687,39 +663,60 @@ public class EditJTI {
         }
     }
 
-    private static int match(String s1, String s2, boolean considerCase, boolean word) {
-        int s1len = s1.length();
-        int s2len = s2.length();
-        for (int i = 0; i <= s2len - s1len; i++) {
-            if (s1.regionMatches(!considerCase, 0, s2, i, s1len)) {
-                if (!word || (word &&
-                        (i == 0 || isBoundaryCh(s2.charAt(i - 1)))
-                        && (i + s1len == s2.length() || isBoundaryCh(s2.charAt(i + s1len))))) {
-                    return i;
-                }
-            }
+    /**
+     * This exception is used to indicate a problem with the command line arguments.
+     */
+    public static class BadArgs extends Exception {
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         */
+        BadArgs(ResourceBundle i18n, String s) {
+            super(i18n.getString(s));
         }
-        return -1;
-    }
 
-    private static boolean isBoundaryCh(char c) {
-        return !(Character.isUnicodeIdentifierStart(c)
-                || Character.isUnicodeIdentifierPart(c));
-    }
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An argument to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        BadArgs(ResourceBundle i18n, String s, Object o) {
+            super(MessageFormat.format(i18n.getString(s), o));
+        }
 
-    private static void checkUnset(Object item, String option)
-            throws BadArgs {
-        if (item != null) {
-            throw new BadArgs(i18n, "editJTI.dupOption", option);
+
+        /**
+         * Create a BadArgs exception.
+         *
+         * @param i18n A resource bundle in which to find the detail message.
+         * @param s    The key for the detail message.
+         * @param o    An array of arguments to be formatted with the detail message by
+         *             {@link java.text.MessageFormat#format}
+         */
+        BadArgs(ResourceBundle i18n, String s, Object... o) {
+            super(MessageFormat.format(i18n.getString(s), o));
         }
     }
 
-    private InterviewParameters interview;
-    private boolean verbose;
-    private PrintWriter out;
+    /**
+     * This exception is used to report problems that arise when using this API.
+     */
+    public static class Fault extends Exception {
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
 
-    private static int MAX_INDENT = Integer.getInteger("EditJTI.maxIndent", 32).intValue();
-    private static int NUM_BACKUPS = Integer.getInteger("EditJTI.numBackups", 2).intValue();
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
 
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(EditJTI.class);
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
+    }
 }

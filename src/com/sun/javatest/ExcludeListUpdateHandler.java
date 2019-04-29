@@ -40,6 +40,11 @@ import java.net.URLConnection;
  * A class to handle downloading exclude lists from a server.
  */
 public class ExcludeListUpdateHandler {
+    private File localFile;
+    private long localFileLastModified;
+    private URL remoteURL;
+    private long remoteURLLastModified;
+
     /**
      * Create a handler for downloading exclude lists from a server.
      *
@@ -169,9 +174,4 @@ public class ExcludeListUpdateHandler {
         in.close();
         out.close();
     }
-
-    private File localFile;
-    private long localFileLastModified;
-    private URL remoteURL;
-    private long remoteURLLastModified;
 }

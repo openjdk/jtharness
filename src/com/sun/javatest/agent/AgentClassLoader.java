@@ -30,6 +30,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 class AgentClassLoader extends ClassLoader {
+    private Agent.Task parent;
+
     AgentClassLoader(Agent.Task parent) {
         this.parent = parent;
     }
@@ -83,6 +85,4 @@ class AgentClassLoader extends ClassLoader {
         }
         return in;
     }
-
-    private Agent.Task parent;
 }

@@ -34,6 +34,28 @@ import java.util.Properties;
  */
 
 public class httpURL {
+    protected static final boolean debug = Boolean.getBoolean("debug." + httpURL.class.getName());
+    private String lHost;
+    private int lPort = -1;
+    private String rHost;
+    private int pathPos;
+    private int firstQ;     // location of the first question mark in the file path
+    /**
+     * The URL, of the format:
+     * <tt>/harness/foo/index.html?key1=value1?key2=value2</tt>
+     */
+    private String file;
+
+    // ------- Key-Value Processing ---------
+    /**
+     * The length of the file string.  Used often.
+     */
+    private int fileLen;
+    /**
+     * Any key-values encoded in the URL string.
+     */
+    private Properties urlValues = new Properties();
+
     public httpURL(String url) {
         firstQ = url.indexOf('?');
         file = url;
@@ -45,6 +67,43 @@ public class httpURL {
             parseURLKeys();
         }
     }
+
+    /**
+     * Assembles a slash separated path from the elements of the given array.
+     * Null entries in the array are ignored.
+     *
+     * @param path         An empty or null array results in a zero length string.
+     * @param leadingSlash Whether or not to put a slash at the beginning of the path
+     * @param trailSlash   Whether or not to put a slash at the end of the path
+     */
+    public static String reassemblePath(String[] path, boolean leadingSlash,
+                                        boolean trailSlash) {
+        if (path == null || path.length == 0) {
+            return "";
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        if (leadingSlash) {
+            result.append("/");
+        }
+
+        for (String aPath : path) {
+            if (aPath != null) {
+                result.append(aPath);
+                result.append("/");
+            }
+        }   // for
+
+        // remove trailing slash if needed
+        if (!trailSlash && result.length() > 1) {
+            result.setLength(result.length() - 1);
+        }
+
+        return result.toString();
+    }
+
+    // ----------- Utility -----------
 
     /**
      * Get the next part of the requested path.  This is an iterator.
@@ -87,6 +146,8 @@ public class httpURL {
         return ss;
     }
 
+    // ----------- NON-PUBLIC ------------
+
     public void resetIterator() {
         // if the URL is only a slash, we let that through
         // otherwise we ignore the leading slash
@@ -119,6 +180,10 @@ public class httpURL {
         }
     }
 
+    void setLocalHost(String name) {
+        lHost = name;
+    }
+
     /**
      * Get the local hostname portion of the URL.
      *
@@ -131,6 +196,10 @@ public class httpURL {
         } else {
             return lPort;
         }
+    }
+
+    void setLocalPort(int port) {
+        lPort = port;
     }
 
     /**
@@ -147,7 +216,9 @@ public class httpURL {
         }
     }
 
-    // ------- Key-Value Processing ---------
+    void setRemoteHost(String name) {
+        rHost = name;
+    }
 
     /**
      * Set the key-value pairs encoded in this URL.
@@ -175,57 +246,6 @@ public class httpURL {
      */
     public String getValue(String key) {
         return urlValues.getProperty(key);
-    }
-
-    // ----------- Utility -----------
-
-    /**
-     * Assembles a slash separated path from the elements of the given array.
-     * Null entries in the array are ignored.
-     *
-     * @param path         An empty or null array results in a zero length string.
-     * @param leadingSlash Whether or not to put a slash at the beginning of the path
-     * @param trailSlash   Whether or not to put a slash at the end of the path
-     */
-    public static String reassemblePath(String[] path, boolean leadingSlash,
-                                        boolean trailSlash) {
-        if (path == null || path.length == 0) {
-            return "";
-        }
-
-        StringBuilder result = new StringBuilder();
-
-        if (leadingSlash) {
-            result.append("/");
-        }
-
-        for (String aPath : path) {
-            if (aPath != null) {
-                result.append(aPath);
-                result.append("/");
-            }
-        }   // for
-
-        // remove trailing slash if needed
-        if (!trailSlash && result.length() > 1) {
-            result.setLength(result.length() - 1);
-        }
-
-        return result.toString();
-    }
-
-    // ----------- NON-PUBLIC ------------
-
-    void setRemoteHost(String name) {
-        rHost = name;
-    }
-
-    void setLocalHost(String name) {
-        lHost = name;
-    }
-
-    void setLocalPort(int port) {
-        lPort = port;
     }
 
     private void parseURLKeys() {
@@ -289,30 +309,9 @@ public class httpURL {
         return buf.length() == 0 ? null : buf.toString();
     }
 
-    private String lHost;
-    private int lPort = -1;
-    private String rHost;
-    private int pathPos;
-    private int firstQ;     // location of the first question mark in the file path
-    protected static final boolean debug = Boolean.getBoolean("debug." + httpURL.class.getName());
-
-    /**
-     * The URL, of the format:
-     * <tt>/harness/foo/index.html?key1=value1?key2=value2</tt>
-     */
-    private String file;
-
-    /**
-     * The length of the file string.  Used often.
-     */
-    private int fileLen;
-
-    /**
-     * Any key-values encoded in the URL string.
-     */
-    private Properties urlValues = new Properties();
-
     public static class Fault extends Exception {
+        private Throwable orig;
+
         public Fault(String s) {
             super(s);
         }
@@ -330,8 +329,6 @@ public class httpURL {
         public Throwable getException() {
             return orig;
         }
-
-        private Throwable orig;
     }
 }
 

@@ -42,6 +42,9 @@ import javax.swing.JComponent;
 
 abstract class Monitor {
 
+    protected MonitorState state;
+    protected UIFactory uif;
+
     protected Monitor(MonitorState ms, UIFactory uif) {
         this.state = ms;
         this.uif = uif;
@@ -58,8 +61,5 @@ abstract class Monitor {
     public abstract Icon getLargeMonitorIcon();
 
     public abstract JComponent getLargeMonitor();
-
-    protected MonitorState state;
-    protected UIFactory uif;
 }
 

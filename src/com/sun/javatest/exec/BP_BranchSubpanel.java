@@ -41,6 +41,13 @@ import java.util.List;
  */
 abstract class BP_BranchSubpanel extends JPanel {
 
+    protected TT_BasicNode subpanelNode;
+    protected UIFactory uif;
+    protected String lastMsg;
+    protected BP_Model model;
+    protected TestTreeModel ttm;
+    protected boolean filtersInvalidated;
+
     BP_BranchSubpanel(String name, UIFactory uif, BP_Model model, TestTreeModel ttm,
                       String uiKey) {
         setName(name);
@@ -138,12 +145,5 @@ abstract class BP_BranchSubpanel extends JPanel {
 
         model.showTest(tr, fp);
     }
-
-    protected TT_BasicNode subpanelNode;
-    protected UIFactory uif;
-    protected String lastMsg;
-    protected BP_Model model;
-    protected TestTreeModel ttm;
-    protected boolean filtersInvalidated;
 }
 

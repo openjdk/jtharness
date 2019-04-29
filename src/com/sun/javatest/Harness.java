@@ -46,95 +46,51 @@ import java.util.Set;
  * The object responsible for coordinating the execution of a test run.
  */
 public class Harness {
-    /**
-     * This exception is used to report problems while executing a test run.
-     */
-    public static class Fault extends Exception {
-        Fault(I18NResourceBundle i18n, String s) {
-            super(i18n.getString(s));
-        }
+    private static final boolean ZERO_TESTS_OK = true;
+    private static final boolean ZERO_TESTS_ERROR = false;
+    private static final int DEFAULT_READ_AHEAD = 100;
+    private static File classDir;
 
-        Fault(I18NResourceBundle i18n, String s, Throwable cause) {
-            super(i18n.getString(s), cause);
-        }
+    //--------------------------------------------------------------------------
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Harness.class);
+    private BackupPolicy backupPolicy;
+    private int autostopThreshold;
+    private HarnessHttpHandler httpHandler;
+    private Trace trace;
+    private Thread worker;
 
-        Fault(I18NResourceBundle i18n, String s, Object o) {
-            super(i18n.getString(s, o));
-        }
 
-        Fault(I18NResourceBundle i18n, String s, Object... o) {
-            super(i18n.getString(s, o));
-        }
+    //--------------------------------------------------------------------------
+    private Parameters params;
+
+    //--------------------------------------------------------------------------
+    private TestSuite testSuite;
+
+    //--------------------------------------------------------------------------
+    private WorkDirectory workDir;
+
+    //--------------------------------------------------------------------------
+    private ExcludeList excludeList;
+    private TestResultTable.TreeIterator testIter;
+
+    //--------------------------------------------------------------------------
+    private int readAheadMode = ReadAheadIterator.FULL;
+    private ReadAheadIterator<TestResult> raTestIter;
+    private int numTestsDone;
+    private TestEnvironment env;
+    private TestResultTable resultTable;
+    private Notifier notifier = new Notifier();
+    private long startTime = -1l;
+    private long finishTime = -1l;
+    private long cleanupFinishTime = -1l;
+    private long testsStartTime = -1l;
+    private boolean isBatchRun;
+    private boolean stopping;
+
+    {
+        Integer i = Integer.getInteger("javatest.autostop.threshold");
+        autostopThreshold = i == null ? 0 : i.intValue();
     }
-
-    /**
-     * This interface provides a means for Harness to report
-     * on events that might be of interest as it executes.
-     */
-    public interface Observer {
-        /**
-         * The harness is beginning to execute tests.
-         *
-         * @param params the parameters for the test run
-         */
-        void startingTestRun(Parameters params);
-
-        /**
-         * The harness is about to run the given test.
-         *
-         * @param tr The test result which is going to receive the data
-         *           from the current execution of that test.
-         */
-        void startingTest(TestResult tr);
-
-        /**
-         * The harness has finished running the given test.
-         * This message is sent without respect to the resulting test's
-         * completion status (pass, fail, etc...).
-         *
-         * @param tr The result object containing the results from the
-         *           execution which was just completed.
-         */
-        void finishedTest(TestResult tr);
-
-        /**
-         * The harness is about to stop a test run, before it has finished
-         * executing all the specified tests. The method is not notified if
-         * the test run completes normally, after executing all the specified
-         * tests.
-         */
-        void stoppingTestRun();
-
-        /**
-         * The harness has finished running tests and is doing other activities
-         * (writing the report, updating caches, etc...).  This message will
-         * be broadcast both when error conditions terminate the run or when
-         * a test completes normally. It may provide a reasonable opportunity
-         * for a client to clean up any resources that were used during the test
-         * run, before a new run is started.
-         */
-        void finishedTesting();
-
-        /**
-         * The test run has been completed, either because the user requested
-         * that the harness stop, the harness decided to terminate the test run,
-         * or all requested tests have been run.  The harness is now ready to
-         * perform another test run. Note that since the actions of other observers
-         * are undefined, a new test run may have already been started by the time
-         * this method is called for any specific observer.
-         *
-         * @param allOK True if all tests passed, false otherwise.
-         */
-        void finishedTestRun(boolean allOK);
-
-        /**
-         * The given error occurred.
-         *
-         * @param msg A description of the error event.
-         */
-        void error(String msg);
-    }
-
 
     /**
      * Instantiate a harness.
@@ -170,7 +126,105 @@ public class Harness {
         }
     }
 
-    //--------------------------------------------------------------------------
+    /**
+     * Get the class directory or jar file containing JT Harness.
+     *
+     * @return the class directory or jar file containing JT Harness
+     * @see #setClassDir
+     */
+    public static File getClassDir() {
+        return classDir;
+    }
+
+    /**
+     * Specify the class directory or jar file containing JT Harness.
+     *
+     * @param classDir the class directory or jar file containing JT Harness
+     * @see #getClassDir
+     */
+    public static void setClassDir(File classDir) {
+        if (Harness.classDir != null && Harness.classDir != classDir) {
+            throw new IllegalStateException(i18n.getString("harness.classDirAlreadySet"));
+        }
+        Harness.classDir = classDir;
+    }
+
+    private static ArrayList<String> listFilterNames(TestFilter... filters) {
+        ArrayList<String> result = new ArrayList<>();
+
+        if (filters == null || filters.length == 0) {
+            return result;      // i.e. empty
+        }
+
+        for (TestFilter f : filters) {
+            // we don't care about composite wrappers, recurse into them
+            if (f instanceof CompositeFilter) {
+                result.addAll(listFilterNames(((CompositeFilter) f).getFilters()));
+            } else if (f instanceof AllTestsFilter) {
+                continue;
+            } else {
+                result.add(f.getName());
+            }
+        }
+
+        // for convienence, null is never returned
+        return result;
+    }
+
+    private static String formatFilterList(List<String> names) {
+        if (names == null || names.isEmpty()) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (String s : names) {
+            sb.append("- ");
+            sb.append(s);
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    private static String formatFilterStats(String[] tests,
+                                            TreeIterator iter) {
+        TRT_Iterator treeit = null;
+
+        if (iter == null || !(iter instanceof TRT_Iterator)) {
+            return "";
+        } else {
+            treeit = (TRT_Iterator) iter;
+        }
+
+        TestFilter[] filters = treeit.getFilters();
+        HashMap<TestFilter, ArrayList<TestDescription>> map = treeit.getFilterStats();
+        Set<TestFilter> keyset = map.keySet();
+        StringBuilder sb = new StringBuilder();
+
+        // special case for Tests to Run because there is no associated
+        // TestFilter
+        if (tests != null && tests.length > 0) {
+            sb.append("- ");
+            sb.append("Tests to Run (" + tests.length + " path(s) specified)");
+            sb.append("\n");
+        }
+
+        for (TestFilter f : keyset) {
+            ArrayList<TestDescription> tds = map.get(f);
+            // this works, should consider switching to something which has more
+            // rendering control - RTF
+            sb.append("- ");
+            sb.append(tds.size());
+            sb.append(" due to ");        // could use upgrade for readability
+            sb.append(f.getName());
+            sb.append("\n");
+            sb.append("    ");      // indentation
+            sb.append(f.getReason());
+            sb.append("\n");
+        }   // for
+
+        return sb.toString();
+    }
 
     /**
      * Get the backup policy object used by this harness, used to determine
@@ -224,32 +278,6 @@ public class Harness {
     }
 
     /**
-     * Get the class directory or jar file containing JT Harness.
-     *
-     * @return the class directory or jar file containing JT Harness
-     * @see #setClassDir
-     */
-    public static File getClassDir() {
-        return classDir;
-    }
-
-    /**
-     * Specify the class directory or jar file containing JT Harness.
-     *
-     * @param classDir the class directory or jar file containing JT Harness
-     * @see #getClassDir
-     */
-    public static void setClassDir(File classDir) {
-        if (Harness.classDir != null && Harness.classDir != classDir) {
-            throw new IllegalStateException(i18n.getString("harness.classDirAlreadySet"));
-        }
-        Harness.classDir = classDir;
-    }
-
-
-    //--------------------------------------------------------------------------
-
-    /**
      * Get the current parameters of the harness.
      *
      * @return null if the parameters have not been set.
@@ -257,8 +285,6 @@ public class Harness {
     public Parameters getParameters() {
         return params;
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Get the current test environment being used by the harness.
@@ -271,8 +297,6 @@ public class Harness {
     public TestEnvironment getEnv() {
         return env;
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Get the current set of results.  This will either be the set of results
@@ -287,8 +311,6 @@ public class Harness {
         return wd == null ? null : wd.getTestResultTable();
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * Add an observer to be notified during the execution of a test run.
      * Observers are notified of events in the reverse order they were added --
@@ -300,6 +322,8 @@ public class Harness {
     public void addObserver(Observer o) {
         notifier.addObserver(o);
     }
+
+    //----------member variables-----------------------------------------------------
 
     /**
      * Remove a previously registered observer so that it will no longer
@@ -314,8 +338,6 @@ public class Harness {
     public void removeObserver(Observer o) {
         notifier.removeObserver(o);
     }
-
-    //--------------------------------------------------------------------------
 
     /**
      * Start running all the tests defined by a new set of parameters.
@@ -345,7 +367,6 @@ public class Harness {
             wait();
         }
     }
-
 
     /**
      * Stop the harness executing any tests. If no tests are running,
@@ -636,7 +657,6 @@ public class Harness {
         worker.start();
     }
 
-
     /**
      * This method is the one that does the work and runs the tests. Any parameters
      * should have been set up in the constructor.
@@ -849,84 +869,6 @@ public class Harness {
         return iter;
     }
 
-    private static ArrayList<String> listFilterNames(TestFilter... filters) {
-        ArrayList<String> result = new ArrayList<>();
-
-        if (filters == null || filters.length == 0) {
-            return result;      // i.e. empty
-        }
-
-        for (TestFilter f : filters) {
-            // we don't care about composite wrappers, recurse into them
-            if (f instanceof CompositeFilter) {
-                result.addAll(listFilterNames(((CompositeFilter) f).getFilters()));
-            } else if (f instanceof AllTestsFilter) {
-                continue;
-            } else {
-                result.add(f.getName());
-            }
-        }
-
-        // for convienence, null is never returned
-        return result;
-    }
-
-    private static String formatFilterList(List<String> names) {
-        if (names == null || names.isEmpty()) {
-            return "";
-        }
-
-        StringBuilder sb = new StringBuilder();
-        for (String s : names) {
-            sb.append("- ");
-            sb.append(s);
-            sb.append("\n");
-        }
-
-        return sb.toString();
-    }
-
-    private static String formatFilterStats(String[] tests,
-                                            TreeIterator iter) {
-        TRT_Iterator treeit = null;
-
-        if (iter == null || !(iter instanceof TRT_Iterator)) {
-            return "";
-        } else {
-            treeit = (TRT_Iterator) iter;
-        }
-
-        TestFilter[] filters = treeit.getFilters();
-        HashMap<TestFilter, ArrayList<TestDescription>> map = treeit.getFilterStats();
-        Set<TestFilter> keyset = map.keySet();
-        StringBuilder sb = new StringBuilder();
-
-        // special case for Tests to Run because there is no associated
-        // TestFilter
-        if (tests != null && tests.length > 0) {
-            sb.append("- ");
-            sb.append("Tests to Run (" + tests.length + " path(s) specified)");
-            sb.append("\n");
-        }
-
-        for (TestFilter f : keyset) {
-            ArrayList<TestDescription> tds = map.get(f);
-            // this works, should consider switching to something which has more
-            // rendering control - RTF
-            sb.append("- ");
-            sb.append(tds.size());
-            sb.append(" due to ");        // could use upgrade for readability
-            sb.append(f.getName());
-            sb.append("\n");
-            sb.append("    ");      // indentation
-            sb.append(f.getReason());
-            sb.append("\n");
-        }   // for
-
-        return sb.toString();
-    }
-
-
     private void notifyError(I18NResourceBundle i18n, String key) {
         notifyLocalizedError(i18n.getString(key));
     }
@@ -942,47 +884,138 @@ public class Harness {
     private void notifyLocalizedError(String msg) {
         notifier.error(msg);
     }
+    /**
+     * This interface provides a means for Harness to report
+     * on events that might be of interest as it executes.
+     */
+    public interface Observer {
+        /**
+         * The harness is beginning to execute tests.
+         *
+         * @param params the parameters for the test run
+         */
+        void startingTestRun(Parameters params);
 
-    //----------member variables-----------------------------------------------------
+        /**
+         * The harness is about to run the given test.
+         *
+         * @param tr The test result which is going to receive the data
+         *           from the current execution of that test.
+         */
+        void startingTest(TestResult tr);
 
-    private BackupPolicy backupPolicy;
-    private int autostopThreshold;
+        /**
+         * The harness has finished running the given test.
+         * This message is sent without respect to the resulting test's
+         * completion status (pass, fail, etc...).
+         *
+         * @param tr The result object containing the results from the
+         *           execution which was just completed.
+         */
+        void finishedTest(TestResult tr);
 
-    {
-        Integer i = Integer.getInteger("javatest.autostop.threshold");
-        autostopThreshold = i == null ? 0 : i.intValue();
+        /**
+         * The harness is about to stop a test run, before it has finished
+         * executing all the specified tests. The method is not notified if
+         * the test run completes normally, after executing all the specified
+         * tests.
+         */
+        void stoppingTestRun();
+
+        /**
+         * The harness has finished running tests and is doing other activities
+         * (writing the report, updating caches, etc...).  This message will
+         * be broadcast both when error conditions terminate the run or when
+         * a test completes normally. It may provide a reasonable opportunity
+         * for a client to clean up any resources that were used during the test
+         * run, before a new run is started.
+         */
+        void finishedTesting();
+
+        /**
+         * The test run has been completed, either because the user requested
+         * that the harness stop, the harness decided to terminate the test run,
+         * or all requested tests have been run.  The harness is now ready to
+         * perform another test run. Note that since the actions of other observers
+         * are undefined, a new test run may have already been started by the time
+         * this method is called for any specific observer.
+         *
+         * @param allOK True if all tests passed, false otherwise.
+         */
+        void finishedTestRun(boolean allOK);
+
+        /**
+         * The given error occurred.
+         *
+         * @param msg A description of the error event.
+         */
+        void error(String msg);
     }
 
-    private HarnessHttpHandler httpHandler;
-    private Trace trace;
+    /**
+     * This exception is used to report problems while executing a test run.
+     */
+    public static class Fault extends Exception {
+        Fault(I18NResourceBundle i18n, String s) {
+            super(i18n.getString(s));
+        }
 
-    private Thread worker;
-    private Parameters params;
-    private TestSuite testSuite;
-    private WorkDirectory workDir;
-    private ExcludeList excludeList;
-    private TestResultTable.TreeIterator testIter;
-    private int readAheadMode = ReadAheadIterator.FULL;
-    private ReadAheadIterator<TestResult> raTestIter;
-    private int numTestsDone;
-    private TestEnvironment env;
-    private TestResultTable resultTable;
-    private Notifier notifier = new Notifier();
+        Fault(I18NResourceBundle i18n, String s, Throwable cause) {
+            super(i18n.getString(s), cause);
+        }
 
-    private long startTime = -1l;
-    private long finishTime = -1l;
-    private long cleanupFinishTime = -1l;
-    private long testsStartTime = -1l;
-    private boolean isBatchRun;
-    private boolean stopping;
+        Fault(I18NResourceBundle i18n, String s, Object o) {
+            super(i18n.getString(s, o));
+        }
 
-    private static File classDir;
-    private static final boolean ZERO_TESTS_OK = true;
-    private static final boolean ZERO_TESTS_ERROR = false;
-    private static final int DEFAULT_READ_AHEAD = 100;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Harness.class);
+        Fault(I18NResourceBundle i18n, String s, Object... o) {
+            super(i18n.getString(s, o));
+        }
+    }
+
+    /**
+     * Class that collects executed tests
+     */
+    static class TestURLCollector implements Harness.Observer {
+        final List<String> testURLs = new ArrayList<>();
+
+        TestURLCollector() {
+        }
+
+        @Override
+        public void startingTestRun(Parameters p) {
+        }
+
+        @Override
+        public synchronized void startingTest(TestResult tr) {
+            testURLs.add(tr.getTestName());
+        }
+
+        @Override
+        public void finishedTest(TestResult tr) {
+        }
+
+        @Override
+        public void stoppingTestRun() {
+        }
+
+        @Override
+        public void finishedTesting() {
+        }
+
+        @Override
+        public void finishedTestRun(boolean allOK) {
+        }
+
+        @Override
+        public void error(String msg) {
+        }
+    }
 
     private class Notifier implements Harness.Observer {
+        private Observer[] observers = new Observer[0];
+        private volatile int errCount, failCount;
+
         void addObserver(Observer o) {
             if (o == null) {
                 throw new NullPointerException();
@@ -1086,13 +1119,12 @@ public class Harness {
         synchronized int getFailedCount() {
             return failCount;
         }
-
-        private Observer[] observers = new Observer[0];
-        private volatile int errCount, failCount;
     }
 
-
     class Autostop implements Harness.Observer {
+        private int level;
+        private int threshold;
+
         Autostop(int threshold) {
             this.threshold = threshold;
         }
@@ -1121,48 +1153,6 @@ public class Harness {
                 Harness.this.notifyError(i18n, "harness.tooManyErrors");
                 stop();
             }
-        }
-
-        @Override
-        public void stoppingTestRun() {
-        }
-
-        @Override
-        public void finishedTesting() {
-        }
-
-        @Override
-        public void finishedTestRun(boolean allOK) {
-        }
-
-        @Override
-        public void error(String msg) {
-        }
-
-        private int level;
-        private int threshold;
-    }
-
-    /**
-     * Class that collects executed tests
-     */
-    static class TestURLCollector implements Harness.Observer {
-        TestURLCollector() {
-        }
-
-        final List<String> testURLs = new ArrayList<>();
-
-        @Override
-        public void startingTestRun(Parameters p) {
-        }
-
-        @Override
-        public synchronized void startingTest(TestResult tr) {
-            testURLs.add(tr.getTestName());
-        }
-
-        @Override
-        public void finishedTest(TestResult tr) {
         }
 
         @Override

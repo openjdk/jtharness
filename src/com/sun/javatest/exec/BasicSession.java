@@ -52,106 +52,37 @@ import java.util.logging.Logger;
  */
 public class BasicSession implements SessionExt {
 
-    /**
-     * Instance of configuration
-     */
-    private final InterviewParameters config;
-
-    /**
-     * Instance of workdir
-     */
-    private WorkDirectory wd;
-
-    /**
-     * List of registered observers
-     */
-    protected final List<Observer> observers = new ArrayList<>();
-
-    /**
-     * List of available filters
-     */
-    protected final List<String> filterNames = new ArrayList<>();
-
-    /**
-     * List of observable properties
-     */
-    protected final List<String> props = new ArrayList<>();
-
+    public static final String CONFIG_NAME_PROP = "Configuration";
+    public static final String WD_PROP = "WorkDir";
     static final String EL_FILTER = "ExcludeList";
     static final String PRIOR_FILTER = "PriorStatus";
     static final String KWD_FILTER = "Keywords";
     static final String RELEVANT_FILTER = "Relevant";
-
-    public static final String CONFIG_NAME_PROP = "Configuration";
-    public static final String WD_PROP = "WorkDir";
-
-    private boolean isSorted = false;
-
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BasicSession.class);
-
+    private static int debug = Debug.getInt(ExecTool.class);
     /**
-     * Class of update to configuration
+     * List of registered observers
      */
-    public static class U_NewConfig implements Update {
-        public final InterviewParameters ip;
-
-        public U_NewConfig(InterviewParameters ip) {
-            this.ip = ip;
-        }
-    }
-
+    protected final List<Observer> observers = new ArrayList<>();
     /**
-     * Class of update to WorkDirectory
+     * List of available filters
      */
-    static class U_NewWD implements Update {
-        public final WorkDirectory wd;
-
-        public U_NewWD(WorkDirectory wd) {
-            this.wd = wd;
-        }
-    }
-
-
+    protected final List<String> filterNames = new ArrayList<>();
     /**
-     * Event which is delivered when WorkDircotry has been set.
+     * List of observable properties
      */
-    public static class E_NewWD implements Event {
-        public final WorkDirectory wd;
-        public final boolean doRestoreConfig; // for optimization
-
-        E_NewWD(WorkDirectory wd, boolean doRestoreConfig) {
-            this.wd = wd;
-            this.doRestoreConfig = doRestoreConfig;
-        }
-    }
-
+    protected final List<String> props = new ArrayList<>();
     /**
-     * Event which is delivered when current configuration has been modified.
+     * Instance of configuration
      */
-    public static class E_NewConfig implements Event {
-        public final InterviewParameters ip;
-
-        public E_NewConfig(InterviewParameters ip) {
-            this.ip = ip;
-        }
-    }
-
+    private final InterviewParameters config;
+    private final ArrayList<Pair> queue = new ArrayList<>();
     /**
-     * Extension to the Observer interface for those classes which
-     * are sensitive to the order of notifying. If an observer wants
-     * to be notified in the very first turn, it should implements OrderedObserver
-     * interface, not just Observer and implement the order() method to return
-     * Integer.MIN_VALUE. To be notified last, the order() method should return
-     * Integer.MAX_VALUE. The order of regular observers is zero.
+     * Instance of workdir
      */
-    public interface OrderedObserver extends Observer {
-        /**
-         * Returns number from Integer.MIN_VALUE to Integer.MAX_VALUE
-         * to be sorted by when notifying.
-         */
-        int order();
-    }
-
+    private WorkDirectory wd;
+    private boolean isSorted = false;
+    private boolean isNotifying = false;
 
     /**
      * Creates empty session for the passed test suite.
@@ -170,6 +101,41 @@ public class BasicSession implements SessionExt {
     }
 
     /**
+     * @param time Time used in loading, in ms.
+     * @param wd   Work directory associated, may not be null.
+     * @param msg  The message to include with the time, may be null, but usually
+     *             is the path to the session file that was loaded.
+     */
+    private static void logLoadTime(String res, long time, WorkDirectory wd, String msg) {
+        if (wd == null) {
+            return;
+        }
+
+        Logger log = null;
+        try {
+            log = wd.getTestSuite().createLog(wd, null, i18n.getString("exec.log.name"));
+        } catch (TestSuite.DuplicateLogNameFault f) {
+            try {
+                log = wd.getTestSuite().getLog(wd, i18n.getString("exec.log.name"));
+            } catch (TestSuite.NoSuchLogFault f2) {
+                return;
+            }
+        }
+
+        if (log != null) {
+            Integer loadTime = Integer.valueOf((int) (time / 1000));
+            Object[] params = {loadTime, msg};
+            String output = i18n.getString(res, params);
+            log.info(output);
+
+            if (debug > 0) {
+                Debug.println(output);
+            }
+        }
+
+    }
+
+    /**
      * Applies the update. Ignores updates of unknown type. Subclasses need
      * override this method to support more update types.
      *
@@ -181,7 +147,6 @@ public class BasicSession implements SessionExt {
         // here to preserve 4.4.0 behavior (true)
         update(u, true);
     }
-
 
     /**
      * Applies the update. Ignores updates of unknown type. Subclasses need
@@ -229,19 +194,6 @@ public class BasicSession implements SessionExt {
             queue.add(new Pair(obs, evn));
         }
         notifyQueue();
-    }
-
-    private final ArrayList<Pair> queue = new ArrayList<>();
-    private boolean isNotifying = false;
-
-    private static class Pair {
-        final Observer obs;
-        final Event evn;
-
-        Pair(Observer obs, Event evn) {
-            this.obs = obs;
-            this.evn = evn;
-        }
     }
 
     private void notifyQueue() {
@@ -530,40 +482,75 @@ public class BasicSession implements SessionExt {
     }
 
     /**
-     * @param time Time used in loading, in ms.
-     * @param wd   Work directory associated, may not be null.
-     * @param msg  The message to include with the time, may be null, but usually
-     *             is the path to the session file that was loaded.
+     * Extension to the Observer interface for those classes which
+     * are sensitive to the order of notifying. If an observer wants
+     * to be notified in the very first turn, it should implements OrderedObserver
+     * interface, not just Observer and implement the order() method to return
+     * Integer.MIN_VALUE. To be notified last, the order() method should return
+     * Integer.MAX_VALUE. The order of regular observers is zero.
      */
-    private static void logLoadTime(String res, long time, WorkDirectory wd, String msg) {
-        if (wd == null) {
-            return;
-        }
-
-        Logger log = null;
-        try {
-            log = wd.getTestSuite().createLog(wd, null, i18n.getString("exec.log.name"));
-        } catch (TestSuite.DuplicateLogNameFault f) {
-            try {
-                log = wd.getTestSuite().getLog(wd, i18n.getString("exec.log.name"));
-            } catch (TestSuite.NoSuchLogFault f2) {
-                return;
-            }
-        }
-
-        if (log != null) {
-            Integer loadTime = Integer.valueOf((int) (time / 1000));
-            Object[] params = {loadTime, msg};
-            String output = i18n.getString(res, params);
-            log.info(output);
-
-            if (debug > 0) {
-                Debug.println(output);
-            }
-        }
-
+    public interface OrderedObserver extends Observer {
+        /**
+         * Returns number from Integer.MIN_VALUE to Integer.MAX_VALUE
+         * to be sorted by when notifying.
+         */
+        int order();
     }
 
-    private static int debug = Debug.getInt(ExecTool.class);
+    /**
+     * Class of update to configuration
+     */
+    public static class U_NewConfig implements Update {
+        public final InterviewParameters ip;
+
+        public U_NewConfig(InterviewParameters ip) {
+            this.ip = ip;
+        }
+    }
+
+    /**
+     * Class of update to WorkDirectory
+     */
+    static class U_NewWD implements Update {
+        public final WorkDirectory wd;
+
+        public U_NewWD(WorkDirectory wd) {
+            this.wd = wd;
+        }
+    }
+
+    /**
+     * Event which is delivered when WorkDircotry has been set.
+     */
+    public static class E_NewWD implements Event {
+        public final WorkDirectory wd;
+        public final boolean doRestoreConfig; // for optimization
+
+        E_NewWD(WorkDirectory wd, boolean doRestoreConfig) {
+            this.wd = wd;
+            this.doRestoreConfig = doRestoreConfig;
+        }
+    }
+
+    /**
+     * Event which is delivered when current configuration has been modified.
+     */
+    public static class E_NewConfig implements Event {
+        public final InterviewParameters ip;
+
+        public E_NewConfig(InterviewParameters ip) {
+            this.ip = ip;
+        }
+    }
+
+    private static class Pair {
+        final Observer obs;
+        final Event evn;
+
+        Pair(Observer obs, Event evn) {
+            this.obs = obs;
+            this.evn = evn;
+        }
+    }
 
 }

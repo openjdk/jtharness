@@ -67,6 +67,30 @@ import java.util.ResourceBundle;
 
 class MessageStrip extends JSplitPane
         implements Harness.Observer, ComponentListener {
+    private static final int CLEAR_TIMEOUT = 5000;  // time before msg is cleared
+    private static final String MINI_PREF = "exec.monitorstrip.mini";
+    private JTextField leftField;
+    private JPanel rightPanel;
+
+    // Harness.Observer ...
+    // anything that happens here must be switched on to the event thread
+    private JButton selectButt;
+    private JButton magButt;
+    private JComboBox<Monitor> selector;
+    private JPopupMenu popMenu;
+    private ActionListener actionListener = new SelectionListener();
+    private ActionListener zoomListener;
+    private Monitor[] monitors;
+    private MonitorState state;
+    private int currMonitor;
+    private CardLayout monitorCards;
+    private int runningMonitor = -1;
+
+    // --------------- private --------------------
+    private int idleMonitor = -1;
+    private Timer clearTimer;
+    private UIFactory uif;
+
     MessageStrip(UIFactory uif, Monitor[] monitors, MonitorState state,
                  ActionListener zoomListener) {
         this.uif = uif;
@@ -139,9 +163,6 @@ class MessageStrip extends JSplitPane
             p.setPreference(MINI_PREF, monitors[index].getClass().getName());
         }
     }
-
-    // Harness.Observer ...
-    // anything that happens here must be switched on to the event thread
 
     @Override
     public void startingTestRun(Parameters params) {
@@ -292,8 +313,6 @@ class MessageStrip extends JSplitPane
         return right;
     }
 
-    // --------------- private --------------------
-
     /**
      * Determine by whatever means, which monitor should be shown.
      */
@@ -358,28 +377,6 @@ class MessageStrip extends JSplitPane
     @Override
     public void componentShown(ComponentEvent e) {
     }
-
-    private JTextField leftField;
-    private JPanel rightPanel;
-    private JButton selectButt;
-    private JButton magButt;
-
-    private JComboBox<Monitor> selector;
-    private JPopupMenu popMenu;
-    private ActionListener actionListener = new SelectionListener();
-    private ActionListener zoomListener;
-    private Monitor[] monitors;
-    private MonitorState state;
-    private int currMonitor;
-    private CardLayout monitorCards;
-    private int runningMonitor = -1;
-    private int idleMonitor = -1;
-    private Timer clearTimer;
-    private static final int CLEAR_TIMEOUT = 5000;  // time before msg is cleared
-
-    private UIFactory uif;
-
-    private static final String MINI_PREF = "exec.monitorstrip.mini";
 
     class SelectionListener implements ActionListener {
         @Override

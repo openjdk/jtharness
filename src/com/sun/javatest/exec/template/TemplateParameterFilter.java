@@ -34,6 +34,9 @@ import com.sun.javatest.util.I18NResourceBundle;
 
 public class TemplateParameterFilter extends ParameterFilter {
 
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TemplateParameterFilter.class);
+    private boolean templateEnabled = false;
+
     public void update(InterviewParameters ip) {
         if (ip == null) {
             templateEnabled = false;
@@ -82,7 +85,6 @@ public class TemplateParameterFilter extends ParameterFilter {
  */
     }
 
-
     @Override
     public boolean accepts(TestDescription td) throws Fault {
         if (templateEnabled) {
@@ -121,10 +123,6 @@ public class TemplateParameterFilter extends ParameterFilter {
         }
         return i18n.getString("tFilter.reason");
     }
-
-
-    private boolean templateEnabled = false;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TemplateParameterFilter.class);
 
 }
 

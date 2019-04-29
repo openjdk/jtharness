@@ -34,6 +34,8 @@ import com.sun.javatest.JavaTestSecurityManager;
  */
 
 public class ExitCount {
+    private static int count = 0;
+
     /**
      * Increment the count to prevent the process from exiting.
      */
@@ -48,6 +50,8 @@ public class ExitCount {
     public static void dec() {
         dec(true, 0);
     }
+
+    //-----member variables-------------------------------------------------------
 
     /**
      * Decrement the count; if it reaches zero, the process will
@@ -72,8 +76,4 @@ public class ExitCount {
 
         return count == 0;
     }
-
-    //-----member variables-------------------------------------------------------
-
-    private static int count = 0;
 }

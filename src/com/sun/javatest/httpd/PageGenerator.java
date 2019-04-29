@@ -40,6 +40,27 @@ import java.util.TimeZone;
  */
 
 public class PageGenerator {
+    public static final int HTML32 = 0;
+    public static final int HTML40_TRANS = 1;
+    private static final String TIMEZONE = "UTC";
+    private static final String HTML32_ID = "<!DOCTYPE HTML>";
+    private static final String HTML40_TRANS_ID = "<!DOCTYPE HTML>";
+    private static final String HTTP_CONTENT_TYPE = "Content-Type: ";
+    private static final String HTTP_OK = "HTTP/1.1 200 OK";
+    private static final String HTTP_BAD = "HTTP/1.1 400 Bad Request";
+    private static final String HTTP_CONTENT_HTML = HTTP_CONTENT_TYPE + "text/html";
+    private static DateFormat dateFormat;
+    private static String swBuildDate;
+    private static String swName;
+    private static String swVersion;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(PageGenerator.class);
+
+    static {
+        dateFormat = DateFormat.getDateTimeInstance(DateFormat.FULL,
+                DateFormat.LONG);
+        dateFormat.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
+    }
+
     /**
      * Generate the correct HTTP header for a sucessful request (200)
      */
@@ -74,6 +95,8 @@ public class PageGenerator {
                 break;
         }
     }
+
+// *********** PRIVATE ***************
 
     /**
      * Creates a plain header, with only a title.
@@ -189,28 +212,26 @@ public class PageGenerator {
         return swBuildDate;
     }
 
-    public static String getSWName() {
-        return swName;
-    }
-
-    public static String getSWVersion() {
-        return swVersion;
-    }
-
     // --- set environment info ---
     public static void setSWBuildDate(String date) {
         swBuildDate = date;
+    }
+
+    public static String getSWName() {
+        return swName;
     }
 
     public static void setSWName(String name) {
         swName = name;
     }
 
+    public static String getSWVersion() {
+        return swVersion;
+    }
+
     public static void setSWVersion(String ver) {
         swVersion = ver;
     }
-
-// *********** PRIVATE ***************
 
     private static void genServerHdr(PrintWriter out) {
         if (swName != null) {
@@ -230,31 +251,6 @@ public class PageGenerator {
         out.println();
         out.print("Date: ");
         out.println(dateFormat.format(new Date()));
-    }
-
-    private static DateFormat dateFormat;
-    private static String swBuildDate;
-    private static String swName;
-    private static String swVersion;
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(PageGenerator.class);
-
-    private static final String TIMEZONE = "UTC";
-
-    public static final int HTML32 = 0;
-    public static final int HTML40_TRANS = 1;
-
-    private static final String HTML32_ID = "<!DOCTYPE HTML>";
-    private static final String HTML40_TRANS_ID = "<!DOCTYPE HTML>";
-
-    private static final String HTTP_CONTENT_TYPE = "Content-Type: ";
-    private static final String HTTP_OK = "HTTP/1.1 200 OK";
-    private static final String HTTP_BAD = "HTTP/1.1 400 Bad Request";
-    private static final String HTTP_CONTENT_HTML = HTTP_CONTENT_TYPE + "text/html";
-
-    static {
-        dateFormat = DateFormat.getDateTimeInstance(DateFormat.FULL,
-                DateFormat.LONG);
-        dateFormat.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
     }
 
 }

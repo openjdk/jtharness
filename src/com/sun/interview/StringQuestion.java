@@ -33,6 +33,23 @@ import java.util.Map;
  */
 public abstract class StringQuestion extends Question {
     /**
+     * The current response for this question.
+     */
+    protected String value;
+    /**
+     * Suggested values for this question.
+     */
+    protected String[] suggestions;
+    /**
+     * The nominal maximum length for the string.
+     */
+    protected int nominalMaxLength;
+    /**
+     * The default response for this question.
+     */
+    private String defaultValue;
+
+    /**
      * Create a question with a nominated tag.
      *
      * @param interview The interview containing this question.
@@ -42,6 +59,18 @@ public abstract class StringQuestion extends Question {
         super(interview, tag);
         clear();
         setDefaultValue(value);
+    }
+
+    /**
+     * Compare two strings for equality.
+     *
+     * @param s1 the first string to be compared, or null
+     * @param s2 the other string to be compared, or null
+     * @return true if both parameters are null, or if both are non-null
+     * and equal.
+     */
+    protected static boolean equal(String s1, String s2) {
+        return s1 == null ? s2 == null : s1.equals(s2);
     }
 
     /**
@@ -65,7 +94,6 @@ public abstract class StringQuestion extends Question {
         defaultValue = v;
     }
 
-
     /**
      * Get the current (default or latest) response to this question.
      *
@@ -74,6 +102,22 @@ public abstract class StringQuestion extends Question {
      */
     public String getValue() {
         return value;
+    }
+
+    /**
+     * Set the current value.
+     *
+     * @param newValue The value to be set.
+     * @see #getValue
+     */
+    @Override
+    public void setValue(String newValue) {
+        String oldValue = value;
+        value = newValue == null ? null : newValue.trim();
+        if (!equal(value, oldValue)) {
+            interview.updatePath(this);
+            interview.setEdited(true);
+        }
     }
 
     /**
@@ -126,7 +170,6 @@ public abstract class StringQuestion extends Question {
         this.nominalMaxLength = nominalMaxLength;
     }
 
-
     /**
      * Get the suggested responses to this question, or null if none.
      *
@@ -158,22 +201,6 @@ public abstract class StringQuestion extends Question {
     }
 
     /**
-     * Set the current value.
-     *
-     * @param newValue The value to be set.
-     * @see #getValue
-     */
-    @Override
-    public void setValue(String newValue) {
-        String oldValue = value;
-        value = newValue == null ? null : newValue.trim();
-        if (!equal(value, oldValue)) {
-            interview.updatePath(this);
-            interview.setEdited(true);
-        }
-    }
-
-    /**
      * Clear any response to this question, resetting the value
      * back to its initial state.
      */
@@ -181,7 +208,6 @@ public abstract class StringQuestion extends Question {
     public void clear() {
         setValue(defaultValue);
     }
-
 
     /**
      * Save the value for this question in a dictionary, using
@@ -195,36 +221,4 @@ public abstract class StringQuestion extends Question {
             data.put(tag, value);
         }
     }
-
-    /**
-     * Compare two strings for equality.
-     *
-     * @param s1 the first string to be compared, or null
-     * @param s2 the other string to be compared, or null
-     * @return true if both parameters are null, or if both are non-null
-     * and equal.
-     */
-    protected static boolean equal(String s1, String s2) {
-        return s1 == null ? s2 == null : s1.equals(s2);
-    }
-
-    /**
-     * The current response for this question.
-     */
-    protected String value;
-
-    /**
-     * Suggested values for this question.
-     */
-    protected String[] suggestions;
-
-    /**
-     * The default response for this question.
-     */
-    private String defaultValue;
-
-    /**
-     * The nominal maximum length for the string.
-     */
-    protected int nominalMaxLength;
 }

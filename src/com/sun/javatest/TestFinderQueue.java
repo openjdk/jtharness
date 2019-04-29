@@ -41,81 +41,68 @@ import java.util.Vector;
  */
 public class TestFinderQueue {
     /**
-     * This interface provides a means for TestFinder to report on events that
-     * might be of interest as it executes.
+     * A constant specifying that the test finder queue should not perform
+     * any read ahead.
      */
-    public interface Observer {
-        /**
-         * Another file which needs to be read has been found.
-         *
-         * @param file the file which was found
-         */
-        void found(File file);
+    public static final byte NO_READ_AHEAD = 0;
+    /**
+     * A constant specifying the test finder queue should perform minimal
+     * read ahead.
+     */
+    public static final byte LOW_READ_AHEAD = 1;
+    /**
+     * A constant specifying the test finder queue should perform medium
+     * (typical) read ahead.
+     */
+    public static final byte MEDIUM_READ_AHEAD = 2;
+    /**
+     * A constant specifying the test finder queue should perform complete
+     * read ahead, reading all tests from the test finder before returning any
+     * from this object.
+     */
+    public static final byte FULL_READ_AHEAD = 3;
+    private static int workerIndex;
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestFinder.class);
+    private TestFinder testFinder;
+    private Queue<File> tests;
+    private TestFilter[] filters;
+    private String selectedId;
 
-        /**
-         * A file is being read.
-         *
-         * @param file the file being read
-         */
-        void reading(File file);
 
-        /**
-         * A file has been read.
-         *
-         * @param file the file which was read
-         */
-        void done(File file);
+    //--------------------------------------------------------------------------
+    private File rootDir;
 
-        /**
-         * A test description has been found.
-         *
-         * @param td the test description which was found
-         */
-        void found(TestDescription td);
+    //--------------------------------------------------------------------------
+    //
+    // these are all carefully arranges to not need to be synchronized
+    private File currInitialFile;
+    private int testsFoundCountBeforeCurrInitialFile;
+    private boolean zeroTestsOK;
+    private Vector<File> filesToRead = new Vector<>(32, 8);
+    private int fileInsertPosn;
+    private Queue<TestDescription> testDescsFound = new ArrayDeque<>();
+    private int filesRemainingCount;
 
-        /**
-         * A test description which was previously found, has been rejected by
-         * a test filter, and so has not been put in the queue of tests to be executed.
-         *
-         * @param td the test description which was rejected by the filter
-         * @param f  the filter which rejected the test
-         */
-        void ignored(TestDescription td, TestFilter f);
+    //--------------------------------------------------------------------------
+    private int filesDoneCount;
+    private int testsDoneCount;
 
-        /**
-         * A test description that was previously put in the test finder queue
-         * has been taken from the queue and passed back to the client caller.
-         *
-         * @param td the test description which was taken from the queue
-         */
-        void done(TestDescription td);
+    //--------------------------------------------------------------------------
+    private int testsFoundCount;
+    private int errorCount;
+    private Map<String, File> filesFound = new Hashtable<>();
+    private byte readAheadMode;
+    private Thread readAheadWorker;
+    private Notifier notifier = new Notifier();
 
-        /**
-         * The queue of tests has been flushed.
-         */
-        void flushed();
-
-        /**
-         * An error was reported by the test finder while reading a file.
-         *
-         * @param msg a detail message describing the error
-         */
-        void error(String msg);
-
-        /**
-         * An error was reported by the test finder while reading a file.
-         *
-         * @param td  the test description to which the error applies
-         * @param msg a detail message describing the error
-         */
-        void error(TestDescription td, String msg);
-    }
 
     /**
      * Create a test finder queue.
      */
     public TestFinderQueue() {
     }
+
+    //---------------------------------------------------------------
 
     /**
      * Create a test finder queue, using a specified test finder.
@@ -164,6 +151,8 @@ public class TestFinderQueue {
         });
     }
 
+    //---------------------------------------------------------------
+
     /**
      * Set an array of filters that will be used to filter the tests read by the
      * test finder. Each test must be accepted by all the filters to be put in
@@ -174,6 +163,8 @@ public class TestFinderQueue {
     public void setFilters(TestFilter... filters) {
         this.filters = filters;
     }
+
+    //----------member variables------------------------------------------------
 
     /**
      * Set the initial set of files to be read by the test finder.
@@ -264,7 +255,6 @@ public class TestFinderQueue {
         }
     }
 
-
     /**
      * Get the next test description if one is available, or null when all have
      * been returned.
@@ -296,9 +286,6 @@ public class TestFinderQueue {
         return td;
     }
 
-
-    //--------------------------------------------------------------------------
-
     /**
      * Get the root directory for the test finder.
      *
@@ -307,10 +294,6 @@ public class TestFinderQueue {
     public File getRoot() {
         return rootDir;
     }
-
-    //--------------------------------------------------------------------------
-    //
-    // these are all carefully arranges to not need to be synchronized
 
     /**
      * Get the number of files that have been found so far.
@@ -379,8 +362,6 @@ public class TestFinderQueue {
         return errorCount;
     }
 
-    //--------------------------------------------------------------------------
-
     /**
      * Add an observer to monitor the progress of the TestFinder.
      *
@@ -399,9 +380,6 @@ public class TestFinderQueue {
     public void removeObserver(Observer o) {
         notifier.removeObserver(o);
     }
-
-    //--------------------------------------------------------------------------
-
 
     /**
      * Set the amount of read-ahead done by the finder.
@@ -461,31 +439,6 @@ public class TestFinderQueue {
     }
 
     /**
-     * A constant specifying that the test finder queue should not perform
-     * any read ahead.
-     */
-    public static final byte NO_READ_AHEAD = 0;
-
-    /**
-     * A constant specifying the test finder queue should perform minimal
-     * read ahead.
-     */
-    public static final byte LOW_READ_AHEAD = 1;
-
-    /**
-     * A constant specifying the test finder queue should perform medium
-     * (typical) read ahead.
-     */
-    public static final byte MEDIUM_READ_AHEAD = 2;
-
-    /**
-     * A constant specifying the test finder queue should perform complete
-     * read ahead, reading all tests from the test finder before returning any
-     * from this object.
-     */
-    public static final byte FULL_READ_AHEAD = 3;
-
-    /**
      * Flush all readahead.
      */
     public void flush() {
@@ -497,7 +450,6 @@ public class TestFinderQueue {
         }
         notifier.flushed();
     }
-
 
     /**
      * This method is called from next() to determine if any readAhead
@@ -530,8 +482,6 @@ public class TestFinderQueue {
                 return false;
         }
     }
-
-    //---------------------------------------------------------------
 
     private synchronized boolean readNextFile() {
         if (filesToRead.isEmpty()) {
@@ -662,9 +612,80 @@ public class TestFinderQueue {
         }
     }
 
-    //---------------------------------------------------------------
+    /**
+     * This interface provides a means for TestFinder to report on events that
+     * might be of interest as it executes.
+     */
+    public interface Observer {
+        /**
+         * Another file which needs to be read has been found.
+         *
+         * @param file the file which was found
+         */
+        void found(File file);
+
+        /**
+         * A file is being read.
+         *
+         * @param file the file being read
+         */
+        void reading(File file);
+
+        /**
+         * A file has been read.
+         *
+         * @param file the file which was read
+         */
+        void done(File file);
+
+        /**
+         * A test description has been found.
+         *
+         * @param td the test description which was found
+         */
+        void found(TestDescription td);
+
+        /**
+         * A test description which was previously found, has been rejected by
+         * a test filter, and so has not been put in the queue of tests to be executed.
+         *
+         * @param td the test description which was rejected by the filter
+         * @param f  the filter which rejected the test
+         */
+        void ignored(TestDescription td, TestFilter f);
+
+        /**
+         * A test description that was previously put in the test finder queue
+         * has been taken from the queue and passed back to the client caller.
+         *
+         * @param td the test description which was taken from the queue
+         */
+        void done(TestDescription td);
+
+        /**
+         * The queue of tests has been flushed.
+         */
+        void flushed();
+
+        /**
+         * An error was reported by the test finder while reading a file.
+         *
+         * @param msg a detail message describing the error
+         */
+        void error(String msg);
+
+        /**
+         * An error was reported by the test finder while reading a file.
+         *
+         * @param td  the test description to which the error applies
+         * @param msg a detail message describing the error
+         */
+        void error(TestDescription td, String msg);
+    }
 
     private static class Notifier implements Observer {
+        private Observer[] observers = new Observer[0];
+
         public synchronized void addObserver(Observer o) {
             observers = DynamicArray.append(observers, o);
         }
@@ -735,37 +756,5 @@ public class TestFinderQueue {
                 observer.error(td, msg);
             }
         }
-
-        private Observer[] observers = new Observer[0];
     }
-
-    //----------member variables------------------------------------------------
-
-
-    private TestFinder testFinder;
-    private Queue<File> tests;
-    private TestFilter[] filters;
-    private String selectedId;
-    private File rootDir;
-    private File currInitialFile;
-    private int testsFoundCountBeforeCurrInitialFile;
-    private boolean zeroTestsOK;
-
-    private Vector<File> filesToRead = new Vector<>(32, 8);
-    private int fileInsertPosn;
-    private Queue<TestDescription> testDescsFound = new ArrayDeque<>();
-    private int filesRemainingCount;
-    private int filesDoneCount;
-    private int testsDoneCount;
-    private int testsFoundCount;
-    private int errorCount;
-
-    private Map<String, File> filesFound = new Hashtable<>();
-
-    private byte readAheadMode;
-    private Thread readAheadWorker;
-    private static int workerIndex;
-
-    private Notifier notifier = new Notifier();
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestFinder.class);
 }

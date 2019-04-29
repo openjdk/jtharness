@@ -54,6 +54,15 @@ import java.util.Objects;
 public class ChoiceQuestionRenderer
         implements QuestionRenderer {
 
+    protected static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+    protected ChoiceQuestion q;
+    protected String[] displayChoices;
+    protected String[] values;
+    protected int starts_from;
+    protected ActionListener editedListener;
+    protected JRadioButton[] rb;
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         q = (ChoiceQuestion) qq;
@@ -69,7 +78,6 @@ public class ChoiceQuestionRenderer
     public String getInvalidValueMessage(Question q) {
         return null;
     }
-
 
     protected JComponent createChoiceTable() {
 
@@ -151,7 +159,6 @@ public class ChoiceQuestionRenderer
         return result;
     }
 
-
     protected int getColumnWidth(JTable table, int colIndex) {
         int width = -1;
 
@@ -173,8 +180,6 @@ public class ChoiceQuestionRenderer
         return 22;
     }
 
-    protected static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
-
     protected void fireEditedEvent(Object src, ActionListener l) {
         ActionEvent e = new ActionEvent(src,
                 ActionEvent.ACTION_PERFORMED,
@@ -182,9 +187,16 @@ public class ChoiceQuestionRenderer
         l.actionPerformed(e);
     }
 
-
     protected TableModel createTableModel() {
         return new TestTableModel();
+    }
+
+    protected TableCellRenderer createCellRenderer() {
+        return new TestTableRenderer();
+    }
+
+    protected TableCellEditor createCellEditor() {
+        return new TestTableEditor();
     }
 
     protected class TestTableModel extends AbstractTableModel {
@@ -224,10 +236,6 @@ public class ChoiceQuestionRenderer
 
     }
 
-    protected TableCellRenderer createCellRenderer() {
-        return new TestTableRenderer();
-    }
-
     protected class TestTableRenderer implements TableCellRenderer {
 
         @Override
@@ -236,10 +244,6 @@ public class ChoiceQuestionRenderer
 
             return rb[row];
         }
-    }
-
-    protected TableCellEditor createCellEditor() {
-        return new TestTableEditor();
     }
 
     protected class TestTableEditor extends AbstractCellEditor
@@ -257,15 +261,5 @@ public class ChoiceQuestionRenderer
             return rb[row];
         }
     }
-
-
-    protected ChoiceQuestion q;
-    protected String[] displayChoices;
-    protected String[] values;
-    protected int starts_from;
-    protected ActionListener editedListener;
-    protected JRadioButton[] rb;
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 
 }

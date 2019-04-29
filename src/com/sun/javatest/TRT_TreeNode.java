@@ -49,6 +49,158 @@ import java.util.Objects;
 public class TRT_TreeNode implements TestResultTable.TreeNode {
     // ------- See interface in TestResultTable for docs. on these methods
 
+    //static protected boolean debug = Boolean.getBoolean("debug." + TRT_TreeNode.class.getName());
+    static protected int debug = Debug.getInt(TRT_TreeNode.class);
+    // no per-instance array of observers, use a static Hashtable of arrays
+    private static Map<TRT_TreeNode, TestResultTable.TreeNodeObserver[]> observerTable = new Hashtable<>(16);
+    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TRT_TreeNode.class);
+    /**
+     * null if the node has not been scanned, zero length if it is actually empty
+     */
+    private Object[] children;            // contains combo of TreeNodes or TestResults
+    private TRT_TreeNode parent;        // should never be null, unless root
+    private TestResultTable table;      // what table this node is in
+    private int counter;                // nodes below this point and including self
+    private int[] childStats;
+    private String name;                // basically the directory name, null means root node
+    private long lastScanDate;
+    /**
+     * List of files that makeup the on-disk contents of this node.
+     * These are probably HTML files with test descriptions in them.  The string is a
+     * URL which is relative to the current location, so the typical entry will be
+     * "index.html".  The only special case is a reference to the "name" field of the
+     * node which indicates that the current directory should be scanned by the
+     * TestFinder.  This is to support directory walk style finders.
+     */
+    private String[] filesToScan;       // in cases where the finder must scan files
+
+    /**
+     * Needed in cases where we need to get the return value from insert().
+     * Only used during node insertion right now.  It is not really legal
+     * to create one of these without immediately populating it with
+     * a name.
+     */
+    TRT_TreeNode(TestResultTable table, TestResultTable.TreeNode parent) {
+        children = null;
+        counter = 0;
+        name = null;        // the only node with this value null is the root
+        this.table = table;
+        this.parent = (TRT_TreeNode) parent;
+
+    }
+
+    /**
+     * Increment the child status counter for the given Status type.
+     * The parameter should correspond to one of the states defined in
+     * the Status object.
+     *
+     * @see Status
+     * @deprecated
+     */
+    static void bubbleUpChildStat(TRT_TreeNode node, int which) {
+        node.childStats[which]++;
+        TRT_TreeNode parent = (TRT_TreeNode) node.getParent();
+
+        if (parent != null) {
+            bubbleUpChildStat(parent, which);
+        }
+    }
+
+    /**
+     * Decrement then increment the child status counter for the given Status type.
+     * The parameters should correspond to one of the states defined in
+     * the Status object. This method facilitates updating of TestResults - changing
+     * from one status to another.  This change in similar to bubbleUpChildStat()
+     * in that it automatically affects node from the current location up to the
+     * root.
+     *
+     * @see Status
+     */
+    static void swapChildStat(TRT_TreeNode node, int oldStatus, int newStatus) {
+        node.childStats[oldStatus]--;
+        node.childStats[newStatus]++;
+
+        TRT_TreeNode parent = (TRT_TreeNode) node.getParent();
+
+        if (parent != null) {
+            swapChildStat(parent, oldStatus, newStatus);
+        }
+    }
+
+    private static void addToScanList(TRT_TreeNode node, String file, File fullFile) {
+        if (debug > 1) {
+            Debug.println("   => Adding " + file + " to scan list and leaving.");
+            Debug.println("   => Local node is : " + node);
+            Debug.println("   -> local size b4: " +
+                    (node.filesToScan == null ? 0 : node.filesToScan.length));
+        }
+
+        int i = 0;
+
+        // check for a name clash
+        if (node.filesToScan != null) {
+            // the first entry in the list is (always?) a special case
+            if (node.filesToScan.length > 0 && node.filesToScan[0].equals(node.getName())) {
+                i = 1;
+            }
+
+            for (; i < node.filesToScan.length; i++) {
+                if (node.filesToScan[i].equals(file)) {
+                    break;
+                }
+            }
+        }
+
+        // if no conflicts were found, append it
+        if (node.filesToScan == null || i >= node.filesToScan.length) {
+            node.filesToScan = DynamicArray.append(node.filesToScan, file);
+        } else {
+            // name collision, ignore
+            // actually, with scan suppression, this may be normal
+            if (debug > 1) {
+                Debug.println("Warning: File " +
+                        fullFile.getPath() +
+                        " may be referenced more than once in the test suite.  Ignoring.");
+            }
+        }
+
+        if (debug > 1) {
+            Debug.println("   -> local size after: " +
+                    (node.filesToScan == null ? 0 : node.filesToScan.length));
+        }
+    }
+
+    /**
+     * Recalculate the counters which track the status of tests below this node.
+     * This can be a high cost calculation, but will do nothing if all the counters
+     * are up to date.
+     * It is assumed that if a node has null childStats, that all nodes between
+     * it and the root are also marked invalid.
+     */
+    private static void refreshChildStats(TRT_TreeNode node) {
+        if (node.childStats != null) {
+            return;        // nothing to do
+        }
+
+        node.childStats = new int[Status.NUM_STATES];
+
+        for (int i = 0; i < node.children.length; i++) {
+            if (node.children[i] instanceof TRT_TreeNode) {
+                // node is another branch
+                TRT_TreeNode child = (TRT_TreeNode) node.children[i];
+                int[] stats = child.getChildStatus();
+
+                for (int j = 0; j < stats.length; j++) {
+                    node.childStats[j] += stats[j];
+                }
+            } else {
+                // node is a test result
+                TestResult tr = (TestResult) node.children[i];
+                node.childStats[tr.getStatus().getType()]++;
+            }
+        }
+    }
+
     /**
      * Add an observer to watch this node for changes.
      */
@@ -93,6 +245,9 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         return counter;
     }
+
+    // ------ end of interface impl ------
+    // ------ private methods begin ------
 
     /**
      * Get the estimated number of tests below this node.  Mainly useful for
@@ -197,6 +352,46 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     }
 
     /**
+     * Finds a TestResult in this node with the given name (test URL).
+     * This is a match against the filename, not the test name.  This is not recursive.
+     TestResult matchTRFile(String name) {
+     scanIfNeeded();
+
+     if (debug > 1) Debug.println("Matching TR: " + name + " in " + this);
+
+     File file = new File(name);
+     TestResult found = null;
+
+     // I don't think this is a valid check
+     // in this context, this would end up checking for a dir which is
+     // relative to the cwd
+     //if (file.isDirectory())
+     //   throw new JavaTestError(i18n, "trttn.noPaths");
+
+     if (children == null || children.length == 0) return null;
+
+     for (int i = 0; i < children.length; i++) {
+     if (children[i] instanceof TestResult) {
+     File trName = new File(
+     ((TestResult)(children[i])).getWorkRelativePath());
+
+     if (debug > 1)
+     Debug.println("   -> trying to match against " + trName.getName());
+
+     if ( name.equals(trName.getName()) ) {
+     found = (TestResult)children[i];
+     i = children.length;    // exit loop
+     }
+     else
+     found = null;
+     }
+     }
+
+     return found;
+     }
+     */
+
+    /**
      * Get only the children of this node which are branches.
      *
      * @return List of children nodes objects in this node.  null if none.
@@ -223,6 +418,10 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     @Override
     public String getName() {
         return name;
+    }
+
+    void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -257,6 +456,8 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     public int getIndex(Object target) {
         return getIndex(target, false);
     }
+
+// ---- BEGIN lazy tree with finder ----
 
     int getIndex(Object target, boolean suppressScan) {
         if (!suppressScan) {
@@ -325,24 +526,6 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         return found;
     }
 
-    // ------ end of interface impl ------
-    // ------ private methods begin ------
-
-    /**
-     * Needed in cases where we need to get the return value from insert().
-     * Only used during node insertion right now.  It is not really legal
-     * to create one of these without immediately populating it with
-     * a name.
-     */
-    TRT_TreeNode(TestResultTable table, TestResultTable.TreeNode parent) {
-        children = null;
-        counter = 0;
-        name = null;        // the only node with this value null is the root
-        this.table = table;
-        this.parent = (TRT_TreeNode) parent;
-
-    }
-
     /**
      * Get the current size of this subtree without causing a subtree scan.
      *
@@ -391,44 +574,6 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     }
 
     /**
-     * Increment the child status counter for the given Status type.
-     * The parameter should correspond to one of the states defined in
-     * the Status object.
-     *
-     * @see Status
-     * @deprecated
-     */
-    static void bubbleUpChildStat(TRT_TreeNode node, int which) {
-        node.childStats[which]++;
-        TRT_TreeNode parent = (TRT_TreeNode) node.getParent();
-
-        if (parent != null) {
-            bubbleUpChildStat(parent, which);
-        }
-    }
-
-    /**
-     * Decrement then increment the child status counter for the given Status type.
-     * The parameters should correspond to one of the states defined in
-     * the Status object. This method facilitates updating of TestResults - changing
-     * from one status to another.  This change in similar to bubbleUpChildStat()
-     * in that it automatically affects node from the current location up to the
-     * root.
-     *
-     * @see Status
-     */
-    static void swapChildStat(TRT_TreeNode node, int oldStatus, int newStatus) {
-        node.childStats[oldStatus]--;
-        node.childStats[newStatus]++;
-
-        TRT_TreeNode parent = (TRT_TreeNode) node.getParent();
-
-        if (parent != null) {
-            swapChildStat(parent, oldStatus, newStatus);
-        }
-    }
-
-    /**
      * Increment the counter that tracks how many nodes are under this node.
      *
      * @see #bubbleUpCounterInc()
@@ -438,45 +583,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         counter++;
     }
 
-    /**
-     * Finds a TestResult in this node with the given name (test URL).
-     * This is a match against the filename, not the test name.  This is not recursive.
-     TestResult matchTRFile(String name) {
-     scanIfNeeded();
-
-     if (debug > 1) Debug.println("Matching TR: " + name + " in " + this);
-
-     File file = new File(name);
-     TestResult found = null;
-
-     // I don't think this is a valid check
-     // in this context, this would end up checking for a dir which is
-     // relative to the cwd
-     //if (file.isDirectory())
-     //   throw new JavaTestError(i18n, "trttn.noPaths");
-
-     if (children == null || children.length == 0) return null;
-
-     for (int i = 0; i < children.length; i++) {
-     if (children[i] instanceof TestResult) {
-     File trName = new File(
-     ((TestResult)(children[i])).getWorkRelativePath());
-
-     if (debug > 1)
-     Debug.println("   -> trying to match against " + trName.getName());
-
-     if ( name.equals(trName.getName()) ) {
-     found = (TestResult)children[i];
-     i = children.length;    // exit loop
-     }
-     else
-     found = null;
-     }
-     }
-
-     return found;
-     }
-     */
+    // -- END REFRESH METHODS --
 
     /**
      * Finds a TRT_TreeNode in this node with the given name.
@@ -639,8 +746,6 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         return found;
     }
-
-// ---- BEGIN lazy tree with finder ----
 
     /**
      * In the case where a test finder is being used, nodes are read lazily.
@@ -1123,8 +1228,6 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         return newTr;
     }
 
-    // -- END REFRESH METHODS --
-
     /**
      * Run the finder over the file and file away the resulting tests and files.
      * Depending on what Finder.getFiles() returns, additional files will be
@@ -1385,6 +1488,9 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         return theNode;
     }
 
+    // --- Observer notification util. code ---
+    // these methods assume that the parent of the action is "this"
+
     /**
      * Forces the reading of all nodes underneath this node.
      * Use with caution, this could kill performance if invoked on a node
@@ -1479,49 +1585,6 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
                 return thisFilePath;
             }
-        }
-    }
-
-    private static void addToScanList(TRT_TreeNode node, String file, File fullFile) {
-        if (debug > 1) {
-            Debug.println("   => Adding " + file + " to scan list and leaving.");
-            Debug.println("   => Local node is : " + node);
-            Debug.println("   -> local size b4: " +
-                    (node.filesToScan == null ? 0 : node.filesToScan.length));
-        }
-
-        int i = 0;
-
-        // check for a name clash
-        if (node.filesToScan != null) {
-            // the first entry in the list is (always?) a special case
-            if (node.filesToScan.length > 0 && node.filesToScan[0].equals(node.getName())) {
-                i = 1;
-            }
-
-            for (; i < node.filesToScan.length; i++) {
-                if (node.filesToScan[i].equals(file)) {
-                    break;
-                }
-            }
-        }
-
-        // if no conflicts were found, append it
-        if (node.filesToScan == null || i >= node.filesToScan.length) {
-            node.filesToScan = DynamicArray.append(node.filesToScan, file);
-        } else {
-            // name collision, ignore
-            // actually, with scan suppression, this may be normal
-            if (debug > 1) {
-                Debug.println("Warning: File " +
-                        fullFile.getPath() +
-                        " may be referenced more than once in the test suite.  Ignoring.");
-            }
-        }
-
-        if (debug > 1) {
-            Debug.println("   -> local size after: " +
-                    (node.filesToScan == null ? 0 : node.filesToScan.length));
         }
     }
 
@@ -1689,10 +1752,6 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         return -1;      // not found!
     }
 
-    void setName(String name) {
-        this.name = name;
-    }
-
     /**
      * Determine whether or not a test object should replace an existing
      * one.  This is done by comparing the test URL, the status, then the
@@ -1790,37 +1849,6 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     }
 
     /**
-     * Recalculate the counters which track the status of tests below this node.
-     * This can be a high cost calculation, but will do nothing if all the counters
-     * are up to date.
-     * It is assumed that if a node has null childStats, that all nodes between
-     * it and the root are also marked invalid.
-     */
-    private static void refreshChildStats(TRT_TreeNode node) {
-        if (node.childStats != null) {
-            return;        // nothing to do
-        }
-
-        node.childStats = new int[Status.NUM_STATES];
-
-        for (int i = 0; i < node.children.length; i++) {
-            if (node.children[i] instanceof TRT_TreeNode) {
-                // node is another branch
-                TRT_TreeNode child = (TRT_TreeNode) node.children[i];
-                int[] stats = child.getChildStatus();
-
-                for (int j = 0; j < stats.length; j++) {
-                    node.childStats[j] += stats[j];
-                }
-            } else {
-                // node is a test result
-                TestResult tr = (TestResult) node.children[i];
-                node.childStats[tr.getStatus().getType()]++;
-            }
-        }
-    }
-
-    /**
      * Move up the tree to the root and increment the counter at each node.
      * The current node's counter IS incremented.
      */
@@ -1863,9 +1891,6 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         }
     }
 
-    // --- Observer notification util. code ---
-    // these methods assume that the parent of the action is "this"
-
     private void notifyInsBranch(TRT_TreeNode newNode, int index) {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
 
@@ -1875,6 +1900,9 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             }
         }
     }
+
+    //private int maxDepth;            // currently unused
+    //private int currDepth;           // currently unused
 
     private void notifyInsResult(TestResult test, int index) {
         TestResultTable.TreeNodeObserver[] observers = observerTable.get(this);
@@ -1924,40 +1952,6 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             }
         }
     }
-
-    /**
-     * null if the node has not been scanned, zero length if it is actually empty
-     */
-    private Object[] children;            // contains combo of TreeNodes or TestResults
-    private TRT_TreeNode parent;        // should never be null, unless root
-    private TestResultTable table;      // what table this node is in
-
-    private int counter;                // nodes below this point and including self
-    private int[] childStats;
-
-    private String name;                // basically the directory name, null means root node
-
-    //private int maxDepth;            // currently unused
-    //private int currDepth;           // currently unused
-
-    private long lastScanDate;
-
-    // no per-instance array of observers, use a static Hashtable of arrays
-    private static Map<TRT_TreeNode, TestResultTable.TreeNodeObserver[]> observerTable = new Hashtable<>(16);
-
-    /**
-     * List of files that makeup the on-disk contents of this node.
-     * These are probably HTML files with test descriptions in them.  The string is a
-     * URL which is relative to the current location, so the typical entry will be
-     * "index.html".  The only special case is a reference to the "name" field of the
-     * node which indicates that the current directory should be scanned by the
-     * TestFinder.  This is to support directory walk style finders.
-     */
-    private String[] filesToScan;       // in cases where the finder must scan files
-
-    //static protected boolean debug = Boolean.getBoolean("debug." + TRT_TreeNode.class.getName());
-    static protected int debug = Debug.getInt(TRT_TreeNode.class);
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TRT_TreeNode.class);
 
     public static class Fault extends Exception {
         Fault(I18NResourceBundle i18n, String s) {

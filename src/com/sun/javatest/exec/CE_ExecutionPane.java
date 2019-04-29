@@ -46,6 +46,15 @@ import java.text.ParsePosition;
  * Standard values, core values pane (concurrency, timeout, ...).
  */
 class CE_ExecutionPane extends CE_StdPane {
+    private ConcurrencyParameters concurrencyParameters;
+    private MutableConcurrencyParameters mutableConcurrencyParameters;
+    private JLabel concurrencyLabel;
+    private JTextField concurrencyField;
+    private TimeoutFactorParameters timeoutFactorParameters;
+    private MutableTimeoutFactorParameters mutableTimeoutFactorParameters;
+    private JLabel timeoutFactorLabel;
+    private JTextField timeoutFactorField;
+
     CE_ExecutionPane(UIFactory uif, InterviewParameters config) {
         super(uif, config, "exec");
 
@@ -131,7 +140,6 @@ class CE_ExecutionPane extends CE_StdPane {
 
         return true;
     }
-
 
     @Override
     void load() {
@@ -244,14 +252,4 @@ class CE_ExecutionPane extends CE_StdPane {
         Number num = fmt.parse(s, pos);
         return num != null && (pos.getIndex() == s.length()) ? num.floatValue() : dflt;
     }
-
-    private ConcurrencyParameters concurrencyParameters;
-    private MutableConcurrencyParameters mutableConcurrencyParameters;
-    private JLabel concurrencyLabel;
-    private JTextField concurrencyField;
-
-    private TimeoutFactorParameters timeoutFactorParameters;
-    private MutableTimeoutFactorParameters mutableTimeoutFactorParameters;
-    private JLabel timeoutFactorLabel;
-    private JTextField timeoutFactorField;
 }

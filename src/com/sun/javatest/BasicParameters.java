@@ -49,6 +49,173 @@ public abstract class BasicParameters
         Parameters.MutableTimeoutFactorParameters {
     //---------------------------------------------------------------------
 
+    private static final I18NResourceBundle i18n =
+            I18NResourceBundle.getBundleForClass(BasicParameters.class);
+    /**
+     * A string to identify any errors that may have occurred when
+     * setting the test suite, or null if there were no such errors.
+     */
+    protected String testSuiteError;
+    /**
+     * A string to identify any errors that may have occurred when
+     * setting the work directory, or null if there were no such errors.
+     */
+    protected String workDirError;
+    /**
+     * A string to identify any errors that may have occurred when
+     * setting the exclude list parameters, or null if there were no such errors.
+     */
+    protected String excludeListError;
+    /**
+     * A string to identify any errors that may have occurred when
+     * setting the keywords parameters, or null if there were no such errors.
+     */
+    protected String keywordsError;
+    /**
+     * A string to identify any errors that may have occurred when
+     * setting the concurrency, or null if there were no such errors.
+     */
+    protected String concurrencyError;
+
+    //---------------------------------------------------------------------
+    /**
+     * A string to identify any errors that may have occurred when
+     * setting the timeout factor, or null if there were no such errors.
+     */
+    protected String timeoutFactorError;
+    private TestSuite testSuite;
+    private WorkDirectory workDir;
+    private int testsMode = MutableTestsParameters.ALL_TESTS;
+    private String[] tests;
+    private int excludeMode = NO_EXCLUDE_LIST;
+
+    //---------------------------------------------------------------------
+    private boolean latestExcludeAutoCheck;
+    private int latestExcludeAutoCheckMode;
+    private int latestExcludeAutoCheckInterval;
+    private File[] customExcludeFiles = {};
+    private File[] cachedAbsExcludeFiles;
+    private File cachedAbsExcludeFiles_base;
+    private File[] cachedAbsExcludeFiles_excludeFiles;
+    private ExcludeList cachedExcludeList;
+    private File[] cachedExcludeList_absExclFiles;
+    private ExcludeListFilter cachedExcludeListFilter;
+
+    //---------------------------------------------------------------------
+    private int keywordsMode = NO_KEYWORDS;
+    private int keywordsMatchMode = EXPR;
+    private String keywordsMatchValue;
+    private int cachedKeywordsMatchMode;
+    private String cachedKeywordsMatchValue;
+    private Keywords cachedKeywords;
+    private TestFilter cachedKeywordsFilter;
+    private int priorStatusMode = NO_PRIOR_STATUS;
+    private boolean[] priorStatusValues = new boolean[Status.NUM_STATES];
+    private StatusFilter cachedPriorStatusFilter;
+    private int concurrency = 1;
+    private float timeoutFactor = 1;
+    private TestFilter cachedRelevantTestFilter;
+    private TestSuite cachedRelevantTestFilterTestSuite; // do we need this?
+    private TestEnvironment cachedRelevantTestFilterEnv;
+    private TestFilter[] cachedTestFilters;
+
+    /**
+     * Convert a set of files to be absolute files. Files that are already
+     * absolute are left unchanged; relative files are evaluated relative to
+     * a specified base directory.
+     *
+     * @param baseDir The base directory for any relative files
+     * @param files   The files to be made absolute, or null if none
+     * @return the given files with any relative files having been evaluated
+     * relative to the given base directory, or null if files was null.
+     */
+    protected static File[] getAbsoluteFiles(File baseDir, File... files) {
+        if (files == null) {
+            return null;
+        }
+
+        boolean allAbsolute = true;
+        for (int i = 0; i < files.length && allAbsolute; i++) {
+            allAbsolute = files[i].isAbsolute();
+        }
+
+        if (allAbsolute) {
+            return files;
+        }
+
+        File[] absoluteFiles = new File[files.length];
+        for (int i = 0; i < files.length; i++) {
+            File f = files[i];
+            absoluteFiles[i] = f.isAbsolute() ? f : new File(baseDir, f.getPath());
+        }
+
+        return absoluteFiles;
+    }
+
+    /**
+     * Compare two boolean arrays for equality.
+     *
+     * @param b1 the first array to be compared
+     * @param b2 the second array to be compared
+     * @return true and only if both arguments are null, or if both are not null
+     * and are element-wise equal.
+     */
+    protected static boolean equal(boolean[] b1, boolean... b2) {
+        if (b1 == null || b2 == null) {
+            return b1 == b2;
+        }
+
+        if (b1.length != b2.length) {
+            return false;
+        }
+
+        for (int i = 0; i < b1.length; i++) {
+            if (b1[i] != b2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Compare two arrays of Files for equality.
+     *
+     * @param f1 the first array to be compared
+     * @param f2 the second array to be compared
+     * @return true and only if both arguments are null, or if both are not null
+     * and are element-wise equal.
+     */
+    protected static boolean equal(File[] f1, File... f2) {
+        if (f1 == null || f2 == null) {
+            return f1 == f2;
+        }
+
+        if (f1.length != f2.length) {
+            return false;
+        }
+
+        for (int i = 0; i < f1.length; i++) {
+            if (f1[i] != f2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean equal(Vector<TestFilter> v, TestFilter... f) {
+        if (f == null || v.size() != f.length) {
+            return false;
+        }
+        for (int i = 0; i < v.size(); i++) {
+            if (!v.get(i).equals(f[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public TestSuite getTestSuite() {
         return testSuite;
@@ -105,17 +272,6 @@ public abstract class BasicParameters
     private boolean isTestSuiteOK() {
         return testSuiteError == null;
     }
-
-
-    private TestSuite testSuite;
-
-    /**
-     * A string to identify any errors that may have occurred when
-     * setting the test suite, or null if there were no such errors.
-     */
-    protected String testSuiteError;
-
-    //---------------------------------------------------------------------
 
     @Override
     public WorkDirectory getWorkDirectory() {
@@ -200,16 +356,6 @@ public abstract class BasicParameters
         return workDirError == null;
     }
 
-    private WorkDirectory workDir;
-
-    /**
-     * A string to identify any errors that may have occurred when
-     * setting the work directory, or null if there were no such errors.
-     */
-    protected String workDirError;
-
-    //---------------------------------------------------------------------
-
     @Override
     public Parameters.TestsParameters getTestsParameters() {
         return this;
@@ -229,6 +375,8 @@ public abstract class BasicParameters
             this.tests = tests;
         }
     }
+
+    //---------------------------------------------------------------------
 
     @Override
     public int getTestsMode() {
@@ -262,11 +410,6 @@ public abstract class BasicParameters
     private boolean isTestsOK() {
         return true;
     }
-
-    private int testsMode = MutableTestsParameters.ALL_TESTS;
-    private String[] tests;
-
-    //---------------------------------------------------------------------
 
     @Override
     public Parameters.ExcludeListParameters getExcludeListParameters() {
@@ -376,6 +519,8 @@ public abstract class BasicParameters
         return latestExcludeAutoCheckInterval;
     }
 
+    //---------------------------------------------------------------------
+
     @Override
     public void setLatestExcludeAutoCheckInterval(int days) {
         latestExcludeAutoCheckInterval = days;
@@ -430,27 +575,6 @@ public abstract class BasicParameters
         }
     }
 
-    private int excludeMode = NO_EXCLUDE_LIST;
-    private boolean latestExcludeAutoCheck;
-    private int latestExcludeAutoCheckMode;
-    private int latestExcludeAutoCheckInterval;
-    private File[] customExcludeFiles = {};
-
-
-    private File[] cachedAbsExcludeFiles;
-    private File cachedAbsExcludeFiles_base;
-    private File[] cachedAbsExcludeFiles_excludeFiles;
-    private ExcludeList cachedExcludeList;
-    private File[] cachedExcludeList_absExclFiles;
-    private ExcludeListFilter cachedExcludeListFilter;
-    /**
-     * A string to identify any errors that may have occurred when
-     * setting the exclude list parameters, or null if there were no such errors.
-     */
-    protected String excludeListError;
-
-    //---------------------------------------------------------------------
-
     @Override
     public Parameters.KeywordsParameters getKeywordsParameters() {
         return this;
@@ -498,6 +622,8 @@ public abstract class BasicParameters
         return keywordsMatchMode;
     }
 
+    //---------------------------------------------------------------------
+
     @Override
     public String getMatchKeywordsValue() {
         return keywordsMatchValue;
@@ -542,22 +668,6 @@ public abstract class BasicParameters
         return keywordsError == null;
     }
 
-    private int keywordsMode = NO_KEYWORDS;
-    private int keywordsMatchMode = EXPR;
-    private String keywordsMatchValue;
-
-    private int cachedKeywordsMatchMode;
-    private String cachedKeywordsMatchValue;
-    private Keywords cachedKeywords;
-    private TestFilter cachedKeywordsFilter;
-    /**
-     * A string to identify any errors that may have occurred when
-     * setting the keywords parameters, or null if there were no such errors.
-     */
-    protected String keywordsError;
-
-    //---------------------------------------------------------------------
-
     @Override
     public Parameters.PriorStatusParameters getPriorStatusParameters() {
         return this;
@@ -571,6 +681,8 @@ public abstract class BasicParameters
             return priorStatusValues;
         }
     }
+
+    //---------------------------------------------------------------------
 
     @Override
     public void setPriorStatusValues(boolean... values) {
@@ -631,15 +743,11 @@ public abstract class BasicParameters
         priorStatusValues = v;
     }
 
+    //---------------------------------------------------------------------
+
     private boolean isPriorStatusOK() {
         return true;
     }
-
-    private int priorStatusMode = NO_PRIOR_STATUS;
-    private boolean[] priorStatusValues = new boolean[Status.NUM_STATES];
-    private StatusFilter cachedPriorStatusFilter;
-
-    //---------------------------------------------------------------------
 
     @Override
     public Parameters.ConcurrencyParameters getConcurrencyParameters() {
@@ -667,19 +775,12 @@ public abstract class BasicParameters
         return concurrencyError == null;
     }
 
-    private int concurrency = 1;
-    /**
-     * A string to identify any errors that may have occurred when
-     * setting the concurrency, or null if there were no such errors.
-     */
-    protected String concurrencyError;
-
-    //---------------------------------------------------------------------
-
     @Override
     public Parameters.TimeoutFactorParameters getTimeoutFactorParameters() {
         return this;
     }
+
+    //---------------------------------------------------------------------
 
     @Override
     public float getTimeoutFactor() {
@@ -697,16 +798,11 @@ public abstract class BasicParameters
         }
     }
 
+    //---------------------------------------------------------------------
+
     private boolean isTimeoutFactorOK() {
         return timeoutFactorError == null;
     }
-
-    private float timeoutFactor = 1;
-    /**
-     * A string to identify any errors that may have occurred when
-     * setting the timeout factor, or null if there were no such errors.
-     */
-    protected String timeoutFactorError;
 
     //---------------------------------------------------------------------
 
@@ -723,10 +819,6 @@ public abstract class BasicParameters
         }
         return cachedRelevantTestFilter;
     }
-
-    private TestFilter cachedRelevantTestFilter;
-    private TestSuite cachedRelevantTestFilterTestSuite; // do we need this?
-    private TestEnvironment cachedRelevantTestFilterEnv;
 
     @Override
     public synchronized TestFilter[] getFilters() {
@@ -762,10 +854,6 @@ public abstract class BasicParameters
 
     }
 
-    private TestFilter[] cachedTestFilters;
-
-    //---------------------------------------------------------------------
-
     @Override
     public boolean isValid() {
         return isTestSuiteOK()
@@ -778,6 +866,8 @@ public abstract class BasicParameters
                 && isTimeoutFactorOK();
     }
 
+    //---------------------------------------------------------------------
+
     @Override
     public String getErrorMessage() {
         return testSuiteError != null ? testSuiteError
@@ -788,110 +878,4 @@ public abstract class BasicParameters
                 : timeoutFactorError != null ? timeoutFactorError
                 : null;
     }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * Convert a set of files to be absolute files. Files that are already
-     * absolute are left unchanged; relative files are evaluated relative to
-     * a specified base directory.
-     *
-     * @param baseDir The base directory for any relative files
-     * @param files   The files to be made absolute, or null if none
-     * @return the given files with any relative files having been evaluated
-     * relative to the given base directory, or null if files was null.
-     */
-    protected static File[] getAbsoluteFiles(File baseDir, File... files) {
-        if (files == null) {
-            return null;
-        }
-
-        boolean allAbsolute = true;
-        for (int i = 0; i < files.length && allAbsolute; i++) {
-            allAbsolute = files[i].isAbsolute();
-        }
-
-        if (allAbsolute) {
-            return files;
-        }
-
-        File[] absoluteFiles = new File[files.length];
-        for (int i = 0; i < files.length; i++) {
-            File f = files[i];
-            absoluteFiles[i] = f.isAbsolute() ? f : new File(baseDir, f.getPath());
-        }
-
-        return absoluteFiles;
-    }
-
-    //---------------------------------------------------------------------
-
-    /**
-     * Compare two boolean arrays for equality.
-     *
-     * @param b1 the first array to be compared
-     * @param b2 the second array to be compared
-     * @return true and only if both arguments are null, or if both are not null
-     * and are element-wise equal.
-     */
-    protected static boolean equal(boolean[] b1, boolean... b2) {
-        if (b1 == null || b2 == null) {
-            return b1 == b2;
-        }
-
-        if (b1.length != b2.length) {
-            return false;
-        }
-
-        for (int i = 0; i < b1.length; i++) {
-            if (b1[i] != b2[i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Compare two arrays of Files for equality.
-     *
-     * @param f1 the first array to be compared
-     * @param f2 the second array to be compared
-     * @return true and only if both arguments are null, or if both are not null
-     * and are element-wise equal.
-     */
-    protected static boolean equal(File[] f1, File... f2) {
-        if (f1 == null || f2 == null) {
-            return f1 == f2;
-        }
-
-        if (f1.length != f2.length) {
-            return false;
-        }
-
-        for (int i = 0; i < f1.length; i++) {
-            if (f1[i] != f2[i]) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean equal(Vector<TestFilter> v, TestFilter... f) {
-        if (f == null || v.size() != f.length) {
-            return false;
-        }
-        for (int i = 0; i < v.size(); i++) {
-            if (!v.get(i).equals(f[i])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    //---------------------------------------------------------------------
-
-    private static final I18NResourceBundle i18n =
-            I18NResourceBundle.getBundleForClass(BasicParameters.class);
 }

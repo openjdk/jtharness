@@ -41,6 +41,22 @@ import java.util.logging.Logger;
 
 public class LogModel {
 
+    static final boolean debug = false;
+    private static final int PAGE_SIZE = 1000;
+    private boolean stable = false;
+    private ArrayList<String> loggers;
+    private ArrayList<LiteLogRecord> records;
+    private List<LoggerListener> loggerListeners = new ArrayList<>();
+    private List<NewPageListener> pageListeners = new ArrayList<>();
+    private MessageCache messageCache = new MessageCache();
+    private String file;
+    private RandomAccessFile mirrorFile;
+    private Worker worker;
+    private Logger logger;
+    private ObservedFile of;
+    private LogFileListener fileListener;
+
+
     public LogModel(ObservedFile logFile, String fileName) {
         file = fileName;
         records = new ArrayList<>();
@@ -87,13 +103,228 @@ public class LogModel {
         }
     }
 
+    public void addNewLoggerListener(LoggerListener lst) {
+        loggerListeners.add(lst);
+    }
+
+    public void removeNewLoggerListeners() {
+        loggerListeners.clear();
+    }
+
+    void addNewPageListener(NewPageListener lst) {
+        pageListeners.add(lst);
+    }
+
+    boolean isStableState() {
+        return stable;
+    }
+
+    void setObservedFile(ObservedFile of) {
+        if (this.of != null && fileListener != null) {
+            this.of.removeFileListener(fileListener);
+        }
+
+        this.of = of;
+        if (of != null) {
+            fileListener = new LogFileListener();
+            of.addFileListener(fileListener);
+        }
+    }
+
+    private void fireNewLoggerFound(String loggerName) {
+        for (LoggerListener lst : loggerListeners) {
+            lst.onNewLogger(loggerName);
+        }
+    }
+
+    private void fireRemoveAllLoggers() {
+        for (LoggerListener lst : loggerListeners) {
+            lst.onRemoveAllLoggers();
+        }
+    }
+
+    private void fireNewPage(int from, int to) {
+        int pageNum = (to - 1) / PAGE_SIZE + 1;
+        for (NewPageListener lst : pageListeners) {
+            lst.onNewPage(from, to, pageNum);
+        }
+    }
+
+    public synchronized String getRecordMessage(LiteLogRecord rec) {
+        if (rec == null) {
+            return "";
+        }
+        if (messageCache.containsKey(rec)) {
+            return messageCache.get(rec);
+        }
+
+        StringBuilder msg = new StringBuilder();
+        try {
+            ensureMirrorFileOpened();
+            if (rec == null || mirrorFile == null) {
+                return "";
+            }
+            mirrorFile.seek(rec.startOff);
+            int line = 0;
+            String readStr = "";
+            while (readStr != null && mirrorFile.getFilePointer() < rec.endOff) {
+                readStr = mirrorFile.readLine();
+                if (line > 0) {
+                    msg.append('\n');
+                }
+                msg.append(readStr);
+                line++;
+            }
+        } catch (IOException ex) {
+            // it can be after log file purge
+            return "";
+        }
+        messageCache.put(rec, msg.toString());
+        return msg.toString();
+    }
+
+    synchronized void dispose() {
+        resetModel();
+        loggerListeners.clear();
+        pageListeners.clear();
+
+        if (of != null && fileListener != null) {
+            of.removeFileListener(fileListener);
+        }
+
+        //theThread = null;
+        worker = null;
+    }
+
+    private synchronized void resetModel() {
+        if (worker != null && worker.isAlive()) {
+            worker.stop = true;
+            worker.interrupt();
+            if (debug) {
+                System.out.println("worker.interrupt()");
+            }
+        }
+        // wait
+        if (worker != null) {
+            try {
+                worker.join();
+                if (debug) {
+                    System.out.println("worker.join()");
+                }
+            } catch (InterruptedException ex) {
+                if (debug) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        if (mirrorFile != null) {
+            try {
+                mirrorFile.close();
+            } catch (IOException ex) {
+                logEx(ex);
+            }
+        }
+
+        synchronized (of) {
+            records.clear();
+            loggers.clear();
+            fireRemoveAllLoggers();
+        }
+        messageCache.clear();
+        if (mirrorFile != null) {
+            try {
+                mirrorFile.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            mirrorFile = null;
+        }
+    }
+
+    private void ensureMirrorFileOpened() throws FileNotFoundException {
+        if (mirrorFile == null) {
+            mirrorFile = new RandomAccessFile(file, "r");
+        }
+    }
+
+    public int getPageSize() {
+        return PAGE_SIZE;
+    }
+
+    public String getLogname(int loggerID) {
+        if (loggerID < loggers.size()) {
+            return loggers.get(loggerID);
+        } else {
+            return "";
+        }
+    }
+
+    public void setLogger(Logger log) {
+        logger = log;
+    }
+
+    private void logEx(Throwable th) {
+        if (logger != null) {
+            logger.logp(Level.SEVERE, getClass().getName(), null, th.getMessage(), th);
+        } else {
+            th.printStackTrace();
+        }
+    }
+    public interface LoggerListener {
+        void onNewLogger(String name);
+
+        void onRemoveAllLoggers();
+    }
+
+    public interface NewPageListener {
+        void onNewPage(int startRecord, int endRecord, int pageNum);
+    }
+
+    private static class MessageCache extends LinkedHashMap<LiteLogRecord, String> {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<LiteLogRecord, String> eldest) {
+            return size() > PAGE_SIZE * 2;
+        }
+    }
+
+    static public class LiteLogRecord {
+
+        public int loggerID;
+        public long time;
+        public int severety;
+        public long startOff, endOff;
+
+        private String getTimeString() {
+            DateFormat dfISO8601 = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+            return dfISO8601.format(new Date(time));
+        }
+
+        public String getHeader(String logName) {
+            StringBuilder out = new StringBuilder();
+            int pos = logName.indexOf("#");
+            if (pos >= 0) {
+                out.append(logName.substring(pos + 1));
+            } else {
+                out.append(logName);
+            }
+            out.append(", ");
+            out.append(LoggerFactory.getLocalizedLevelName(Level.parse(String.valueOf(severety)))).append(": ");
+            out.append(getTimeString());
+            if (pos > 0) {
+                out.append("; ");
+                out.append(logName.substring(0, pos));
+            }
+            return out.toString();
+        }
+    }
+
     private class Worker extends Thread {
+
+        boolean stop = false;
 
         public Worker(String name) {
             super(name);
         }
-
-        boolean stop = false;
 
         @Override
         public void run() {
@@ -264,176 +495,6 @@ public class LogModel {
         }
     }
 
-    public void addNewLoggerListener(LoggerListener lst) {
-        loggerListeners.add(lst);
-    }
-
-    public void removeNewLoggerListeners() {
-        loggerListeners.clear();
-    }
-
-    void addNewPageListener(NewPageListener lst) {
-        pageListeners.add(lst);
-    }
-
-    boolean isStableState() {
-        return stable;
-    }
-
-    void setObservedFile(ObservedFile of) {
-        if (this.of != null && fileListener != null) {
-            this.of.removeFileListener(fileListener);
-        }
-
-        this.of = of;
-        if (of != null) {
-            fileListener = new LogFileListener();
-            of.addFileListener(fileListener);
-        }
-    }
-
-    private void fireNewLoggerFound(String loggerName) {
-        for (LoggerListener lst : loggerListeners) {
-            lst.onNewLogger(loggerName);
-        }
-    }
-
-
-    private void fireRemoveAllLoggers() {
-        for (LoggerListener lst : loggerListeners) {
-            lst.onRemoveAllLoggers();
-        }
-    }
-
-    private void fireNewPage(int from, int to) {
-        int pageNum = (to - 1) / PAGE_SIZE + 1;
-        for (NewPageListener lst : pageListeners) {
-            lst.onNewPage(from, to, pageNum);
-        }
-    }
-
-
-    public synchronized String getRecordMessage(LiteLogRecord rec) {
-        if (rec == null) {
-            return "";
-        }
-        if (messageCache.containsKey(rec)) {
-            return messageCache.get(rec);
-        }
-
-        StringBuilder msg = new StringBuilder();
-        try {
-            ensureMirrorFileOpened();
-            if (rec == null || mirrorFile == null) {
-                return "";
-            }
-            mirrorFile.seek(rec.startOff);
-            int line = 0;
-            String readStr = "";
-            while (readStr != null && mirrorFile.getFilePointer() < rec.endOff) {
-                readStr = mirrorFile.readLine();
-                if (line > 0) {
-                    msg.append('\n');
-                }
-                msg.append(readStr);
-                line++;
-            }
-        } catch (IOException ex) {
-            // it can be after log file purge
-            return "";
-        }
-        messageCache.put(rec, msg.toString());
-        return msg.toString();
-    }
-
-    synchronized void dispose() {
-        resetModel();
-        loggerListeners.clear();
-        pageListeners.clear();
-
-        if (of != null && fileListener != null) {
-            of.removeFileListener(fileListener);
-        }
-
-        //theThread = null;
-        worker = null;
-    }
-
-    private synchronized void resetModel() {
-        if (worker != null && worker.isAlive()) {
-            worker.stop = true;
-            worker.interrupt();
-            if (debug) {
-                System.out.println("worker.interrupt()");
-            }
-        }
-        // wait
-        if (worker != null) {
-            try {
-                worker.join();
-                if (debug) {
-                    System.out.println("worker.join()");
-                }
-            } catch (InterruptedException ex) {
-                if (debug) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-        if (mirrorFile != null) {
-            try {
-                mirrorFile.close();
-            } catch (IOException ex) {
-                logEx(ex);
-            }
-        }
-
-        synchronized (of) {
-            records.clear();
-            loggers.clear();
-            fireRemoveAllLoggers();
-        }
-        messageCache.clear();
-        if (mirrorFile != null) {
-            try {
-                mirrorFile.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            mirrorFile = null;
-        }
-    }
-
-    private void ensureMirrorFileOpened() throws FileNotFoundException {
-        if (mirrorFile == null) {
-            mirrorFile = new RandomAccessFile(file, "r");
-        }
-    }
-
-    public int getPageSize() {
-        return PAGE_SIZE;
-    }
-
-    public String getLogname(int loggerID) {
-        if (loggerID < loggers.size()) {
-            return loggers.get(loggerID);
-        } else {
-            return "";
-        }
-    }
-
-    public void setLogger(Logger log) {
-        logger = log;
-    }
-
-    private void logEx(Throwable th) {
-        if (logger != null) {
-            logger.logp(Level.SEVERE, getClass().getName(), null, th.getMessage(), th);
-        } else {
-            th.printStackTrace();
-        }
-    }
-
     class LogFileListener implements FileListener {
         @Override
         public void fileModified(FileEvent e) {
@@ -452,75 +513,6 @@ public class LogModel {
 
             }
         }
-    }
-
-
-    private static class MessageCache extends LinkedHashMap<LiteLogRecord, String> {
-        @Override
-        protected boolean removeEldestEntry(Map.Entry<LiteLogRecord, String> eldest) {
-            return size() > PAGE_SIZE * 2;
-        }
-    }
-
-    private boolean stable = false;
-    private ArrayList<String> loggers;
-    private ArrayList<LiteLogRecord> records;
-
-    private List<LoggerListener> loggerListeners = new ArrayList<>();
-    private List<NewPageListener> pageListeners = new ArrayList<>();
-    private MessageCache messageCache = new MessageCache();
-    private String file;
-    private RandomAccessFile mirrorFile;
-    private Worker worker;
-    private Logger logger;
-
-    private ObservedFile of;
-    private LogFileListener fileListener;
-
-    static final boolean debug = false;
-
-    public interface LoggerListener {
-        void onNewLogger(String name);
-
-        void onRemoveAllLoggers();
-    }
-
-    public interface NewPageListener {
-        void onNewPage(int startRecord, int endRecord, int pageNum);
-    }
-
-    private static final int PAGE_SIZE = 1000;
-
-
-    static public class LiteLogRecord {
-
-        private String getTimeString() {
-            DateFormat dfISO8601 = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-            return dfISO8601.format(new Date(time));
-        }
-
-        public String getHeader(String logName) {
-            StringBuilder out = new StringBuilder();
-            int pos = logName.indexOf("#");
-            if (pos >= 0) {
-                out.append(logName.substring(pos + 1));
-            } else {
-                out.append(logName);
-            }
-            out.append(", ");
-            out.append(LoggerFactory.getLocalizedLevelName(Level.parse(String.valueOf(severety)))).append(": ");
-            out.append(getTimeString());
-            if (pos > 0) {
-                out.append("; ");
-                out.append(logName.substring(0, pos));
-            }
-            return out.toString();
-        }
-
-        public int loggerID;
-        public long time;
-        public int severety;
-        public long startOff, endOff;
     }
 
 

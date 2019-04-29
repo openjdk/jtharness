@@ -43,6 +43,36 @@ import java.util.Vector;
 
 public class ResourceLoader {
 
+    private static final String EXT_DIR_NAME = "jtExt";
+    private static File ext = null;
+    private static ClassLoader altClassLoader;
+
+    static {
+        String jcp = System.getProperty("java.class.path");
+        String psep = System.getProperty("path.separator");
+        File altRoot = null;
+        if (jcp != null && psep != null) {
+            StringTokenizer tokenizer = new StringTokenizer(jcp, psep);
+            while (tokenizer.hasMoreTokens()) {
+                // component is javatest.jar (or similar jar) or
+                // build/classes in case of netbeans project
+                File component = new File(tokenizer.nextToken());
+                if (component.exists()) {
+                    if (component.isDirectory()) {
+                        altRoot = component;
+                    } else {
+                        altRoot = component.getParentFile();
+                    }
+                    File extTmp = new File(altRoot, EXT_DIR_NAME);
+                    if (extTmp.exists()) {
+                        ext = extTmp;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     public static Enumeration<URL> getResources(String name, Class<?> ownClass) throws IOException {
         URL extResource = getExtResource(name, null);
         if (extResource != null) {
@@ -128,7 +158,6 @@ public class ResourceLoader {
         return null;
     }
 
-
     // get from java.lang.Class with minimal changes
     private static String resolveName(String name, Class<?> baseClass) {
         if (name == null || baseClass == null) {
@@ -146,35 +175,6 @@ public class ResourceLoader {
             name = name.substring(1);
         }
         return name;
-    }
-
-    private static final String EXT_DIR_NAME = "jtExt";
-    private static File ext = null;
-
-    static {
-        String jcp = System.getProperty("java.class.path");
-        String psep = System.getProperty("path.separator");
-        File altRoot = null;
-        if (jcp != null && psep != null) {
-            StringTokenizer tokenizer = new StringTokenizer(jcp, psep);
-            while (tokenizer.hasMoreTokens()) {
-                // component is javatest.jar (or similar jar) or
-                // build/classes in case of netbeans project
-                File component = new File(tokenizer.nextToken());
-                if (component.exists()) {
-                    if (component.isDirectory()) {
-                        altRoot = component;
-                    } else {
-                        altRoot = component.getParentFile();
-                    }
-                    File extTmp = new File(altRoot, EXT_DIR_NAME);
-                    if (extTmp.exists()) {
-                        ext = extTmp;
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     static File getExt() {
@@ -216,8 +216,6 @@ public class ResourceLoader {
                     }
                 });
     }
-
-    private static ClassLoader altClassLoader;
 
     private synchronized static void initAltClassLoader() {
         if (ext != null && altClassLoader == null) {

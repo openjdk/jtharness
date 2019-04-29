@@ -58,8 +58,10 @@ import java.util.ResourceBundle;
 public class ExecTool extends Tool implements ExecModel,
         BasicSession.OrderedObserver {
 
-    SessionExt session;
-    ContextManager context;
+    static final String TOOLBAR_PREF = "exec.toolbar";
+    static final String FILTER_WARN_PREF = "exec.filterWarn";
+    static final String TESTS2RUN_PREF = "exec.tests2runPop";
+    static final String ACTIVE_FILTER = "filter";
     final ExecToolManager etm;
     final TestSuite testSuite;
     final ET_TestTreeControl testTreePanel;
@@ -68,8 +70,10 @@ public class ExecTool extends Tool implements ExecModel,
     final ET_ReportControl reportHandler;
     final ET_FilterHandler filterHandler;
     final List<ET_Control> controls = new ArrayList<>();
-
+    SessionExt session;
+    ContextManager context;
     JMenuBar menuBar = null;
+    boolean initialized = false;
     private boolean shouldPauseTree;
     private PageFormat pageFormat;
 
@@ -150,24 +154,6 @@ public class ExecTool extends Tool implements ExecModel,
 //        initGUI();
     }
 
-    ContextManager createContextManager() {
-        try {
-            ContextManager cm = createContextManager(testSuite);
-            if (cm != null) {
-                cm.setTestSuite(testSuite);
-                if (session != null) {
-                    cm.setCurrentConfig(session);
-                }
-                cm.setTool(this);
-            }
-            return cm;
-        } catch (Exception e) {
-            e.printStackTrace();        // XXX rm
-            // should print log entry
-        }
-        return null;
-    }
-
     public static ContextManager createContextManager(TestSuite ts) {
         ContextManager cm = null;
         String cls = null;
@@ -190,10 +176,27 @@ public class ExecTool extends Tool implements ExecModel,
         return cm;
     }
 
+    ContextManager createContextManager() {
+        try {
+            ContextManager cm = createContextManager(testSuite);
+            if (cm != null) {
+                cm.setTestSuite(testSuite);
+                if (session != null) {
+                    cm.setCurrentConfig(session);
+                }
+                cm.setTool(this);
+            }
+            return cm;
+        } catch (Exception e) {
+            e.printStackTrace();        // XXX rm
+            // should print log entry
+        }
+        return null;
+    }
+
     public UIFactory getUIF() {
         return uif;
     }
-
 
     @Override
     public JMenuBar getMenuBar() {
@@ -248,8 +251,6 @@ public class ExecTool extends Tool implements ExecModel,
         uif.addToolBarActions(toolBar, toolBarActions);
         return toolBar;
     }
-
-    boolean initialized = false;
 
     @Override
     public void setVisible(boolean f) {
@@ -387,7 +388,6 @@ public class ExecTool extends Tool implements ExecModel,
 
     }
 
-
     /**
      * Returns action creating work directory.
      * This ugly method violates the beautiful picture, but present here to
@@ -512,7 +512,6 @@ public class ExecTool extends Tool implements ExecModel,
         runTestsHandler.runTests();
     }
 
-
     @Override
     public void runTests(String... urls) {
         if (urls == null || urls.length == 0)
@@ -576,7 +575,6 @@ public class ExecTool extends Tool implements ExecModel,
     public boolean isConfiguring() {
         return sessionControl.isConfiguring();
     }
-
 
     @Override
     public ExecToolManager getExecToolManager() {
@@ -668,10 +666,5 @@ public class ExecTool extends Tool implements ExecModel,
     void restoreTreeState(Map<String, String> m) {
         testTreePanel.restoreTreeState(m);
     }
-
-    static final String TOOLBAR_PREF = "exec.toolbar";
-    static final String FILTER_WARN_PREF = "exec.filterWarn";
-    static final String TESTS2RUN_PREF = "exec.tests2runPop";
-    static final String ACTIVE_FILTER = "filter";
 
 }

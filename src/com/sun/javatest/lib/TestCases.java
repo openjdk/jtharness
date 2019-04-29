@@ -45,20 +45,14 @@ import java.util.Vector;
  * set.
  */
 public class TestCases {
-    /**
-     * Exception used to report internal errors.
-     */
-    public static class Fault extends Exception {
-        /**
-         * Construct a new Fault object that signals failure
-         * with a corresponding message.
-         *
-         * @param s the string containing a comment
-         */
-        public Fault(String s) {
-            super(s);
-        }
-    }
+    private static final Object[] noArgs = {};
+    private static final Class<?>[] noArgTypes = {};
+    private Object test;
+    private Class<?> testClass;
+    private Map<String, Method> selectedCases = new Hashtable<>();
+    private Map<String, Method> excludedCases = new Hashtable<>();
+    private PrintWriter log;
+
 
     /**
      * Create an object to handle the test cases of the given test.
@@ -88,7 +82,6 @@ public class TestCases {
         select(split(testCaseNames));
     }
 
-
     /**
      * Explicitly select a set of test cases by name. Subsequent calls
      * are cumulative; if no selections are made, the default is all
@@ -106,7 +99,6 @@ public class TestCases {
         }
     }
 
-
     /**
      * Explicitly exclude a set of test cases by name. Subsequent calls
      * are cumulative; by default, no test cases are excluded.
@@ -119,7 +111,6 @@ public class TestCases {
     public void exclude(String testCaseNames) throws Fault {
         exclude(split(testCaseNames));
     }
-
 
     /**
      * Explicitly exclude a set of test cases by name. Subsequent calls
@@ -135,7 +126,6 @@ public class TestCases {
             excludedCases.put(t, getTestCase(t));
         }
     }
-
 
     /**
      * Return an enumeration of the selected test cases, based on the
@@ -165,7 +155,6 @@ public class TestCases {
         }
         return v.elements();
     }
-
 
     /**
      * Invoke each of the selected test cases, based upon the select and exclude
@@ -269,12 +258,18 @@ public class TestCases {
         return v.toArray(new String[v.size()]);
     }
 
-    private Object test;
-    private Class<?> testClass;
-    private Map<String, Method> selectedCases = new Hashtable<>();
-    private Map<String, Method> excludedCases = new Hashtable<>();
-    private PrintWriter log;
-
-    private static final Object[] noArgs = {};
-    private static final Class<?>[] noArgTypes = {};
+    /**
+     * Exception used to report internal errors.
+     */
+    public static class Fault extends Exception {
+        /**
+         * Construct a new Fault object that signals failure
+         * with a corresponding message.
+         *
+         * @param s the string containing a comment
+         */
+        public Fault(String s) {
+            super(s);
+        }
+    }
 }

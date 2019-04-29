@@ -98,6 +98,16 @@ public class COFOS extends COFItem {
         return arch;
     }
 
+    /**
+     * Sets the value of the arch property.
+     *
+     * @param value allowed object is
+     *              {@link String }
+     */
+    public void setArch(String value) {
+        this.arch = value;
+    }
+
     LinkedHashMap<String, String> getItemAttributes() {
         return xmlAttributes;
     }
@@ -121,26 +131,6 @@ public class COFOS extends COFItem {
     }
 
     /**
-     * Gets the value of the version property.
-     *
-     * @return possible object is
-     * {@link String }
-     */
-    public String getVersion() {
-        return version;
-    }
-
-    /**
-     * Sets the value of the arch property.
-     *
-     * @param value allowed object is
-     *              {@link String }
-     */
-    public void setArch(String value) {
-        this.arch = value;
-    }
-
-    /**
      * Sets the value of the name property.
      *
      * @param value allowed object is
@@ -148,6 +138,16 @@ public class COFOS extends COFItem {
      */
     public void setName(String value) {
         this.name = value;
+    }
+
+    /**
+     * Gets the value of the version property.
+     *
+     * @return possible object is
+     * {@link String }
+     */
+    public String getVersion() {
+        return version;
     }
 
     /**

@@ -39,27 +39,7 @@ import java.util.Vector;
  * in the order they are added.
  */
 public class Checklist {
-    /**
-     * An Item contains a message to appear in a checklist.
-     */
-    public static class Item {
-        /**
-         * Create an item to appear in a checklist.
-         *
-         * @param sectionName the name of the section
-         *                    in which the message should appear
-         * @param text        the text of the message to appear
-         *                    in the checklist
-         */
-        public Item(String sectionName, String text) {
-            this.sectionName = sectionName;
-            this.text = text;
-        }
-
-        private String sectionName;
-        private String text;
-
-    }
+    private Map<String, Vector<String>> sections; // section name to vector of messages
 
     /**
      * Create an empty checklist.
@@ -124,5 +104,24 @@ public class Checklist {
         return sections.isEmpty();
     }
 
-    private Map<String, Vector<String>> sections; // section name to vector of messages
+    /**
+     * An Item contains a message to appear in a checklist.
+     */
+    public static class Item {
+        private String sectionName;
+        private String text;
+        /**
+         * Create an item to appear in a checklist.
+         *
+         * @param sectionName the name of the section
+         *                    in which the message should appear
+         * @param text        the text of the message to appear
+         *                    in the checklist
+         */
+        public Item(String sectionName, String text) {
+            this.sectionName = sectionName;
+            this.text = text;
+        }
+
+    }
 }

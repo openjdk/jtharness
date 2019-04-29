@@ -111,6 +111,61 @@ import java.util.Vector;
  */
 public class Desktop {
     /**
+     * A constant to indicate the tabbed-style desktop:
+     * a single window for the desktop, using a tabbed pane for the tools.
+     */
+    public static final int TAB_STYLE = 0;
+    /**
+     * A constant to indicate the MDI-style desktop:
+     * a single window for the desktop, containing multiple internal windows, one per tool.
+     */
+    public static final int MDI_STYLE = 1;
+    /**
+     * A constant to indicate the SDI-style desktop:
+     * multiple top-level windows, one per tool.
+     */
+    public static final int SDI_STYLE = 2;
+    static final int NUM_STYLES = 3;
+    static final String[] styleNames = {"tab", "mdi", "sdi"};
+    static final String STYLE_PREF = "tool.appearance.style";
+    static final String TTIP_PREF = "tool.appearance.ttipToggle";
+    static final String TTIP_DELAY = "tool.appearance.ttipDelay";
+    static final String TTIP_DURATION = "tool.appearance.ttipDuration";
+    static final int TTIP_DURATION_FOREVER = -1;
+    static final int TTIP_DELAY_NONE = 0;
+    static final int TTIP_DELAY_DEFAULT = 0;
+    static final int TTIP_DURATION_DEFAULT = 5000;
+    static final String SAVE_ON_EXIT_PREF = "tool.appearance.saveOnExit";
+    static final String RESTORE_ON_START_PREF = "tool.appearance.restoreOnStart";
+    private static final int CLOSE = 0;
+    private static final int EXIT = 1;
+    private static final String[] jt31StyleClassNames = {
+            "com.sun.javatest.tool.TabDesktop",
+            "com.sun.javatest.tool.MDIDesktop",
+            "com.sun.javatest.tool.SDIDesktop"
+    };
+    private static final int FILE_HISTORY_MAX_SIZE = 10;
+    private static final String TOOLMGRLIST = "META-INF/services/com.sun.javatest.tool.ToolManager.lst";
+    private static final String defaultToolManager =
+            System.getProperty("javatest.desktop.defaultToolManager", "com.sun.javatest.exec.ExecToolManager");
+    private static Preferences preferences = Preferences.access();
+    private final UIFactory uif;
+    private JDialog confirmDialog;
+    private CommandContext commandContext;
+    private DeskView currView;
+    private int style; // used until currView is set, then style comes from that
+    private PreferencesPane prefsPane;
+    private PreferencesPane colorPane;
+    private ToolManager[] toolManagers;
+    private HelpBroker helpBroker;
+    private LogFile logFile;
+    private boolean firstTime;
+    private boolean saveOnExit;
+    private PrintRequestAttributeSet printAttrs;
+    private boolean restoreOnStart;
+    private LinkedList<FileHistoryEntry> fileHistory = new LinkedList<>();
+
+    /**
      * Create a desktop using a style determined according to the
      * user's preferences.
      */
@@ -161,6 +216,249 @@ public class Desktop {
         this.style = style;
     }
 
+    /**
+     * Create a desktop using a specified style.
+     *
+     * @param style a value indicating the desired desktop style.
+     * @see #MDI_STYLE
+     * @see #SDI_STYLE
+     * @see #TAB_STYLE
+     */
+    public Desktop(int style) {
+        this(style, null);
+    }
+
+    /**
+     * Get a value indicating the user's preferred desktop style,
+     * as recorded in the user's preferences.
+     *
+     * @return a value indicating the user's preferred desktop style
+     * @see #MDI_STYLE
+     * @see #SDI_STYLE
+     * @see #TAB_STYLE
+     */
+    public static int getPreferredStyle() {
+        // would be better(?) to use classname, perhaps
+        // NO! It must be better to use the tabbed view only.
+
+        return TAB_STYLE;
+        /* SDI/MDI are not supported any more...
+        String prefStyleName = preferences.getPreference(STYLE_PREF);
+        int i = indexOf(prefStyleName, styleNames);
+        return (i != -1 ? i : TAB_STYLE);
+         */
+    }
+
+    static Map<String, String> getPreviousDesktop(File file) {
+        if (file == null) {
+            file = getDesktopFile();
+        }
+
+        Map<String, String> stringPropsMap = new HashMap<>();
+
+        if (file != null && file.exists()) {
+            try (FileInputStream fis = new FileInputStream(file);
+                 InputStream in = new BufferedInputStream(fis)) {
+                stringPropsMap = PropertyUtils.load(in);
+            } catch (IOException e) {
+                // I18N
+                System.err.println("Error reading desktop file: " + e);
+            }
+        }
+
+        return stringPropsMap;
+    }
+
+    /**
+     * Get Tooltip delay from prefs in ms.
+     *
+     * @return Range is 0-Integer.MAX_VALUE
+     */
+    static int getTooltipDelay(Preferences p) {
+        String val = p.getPreference(TTIP_DELAY);
+        int result = TTIP_DELAY_DEFAULT;
+
+        try {
+            // expected range from prefs in 0-Integer.MAX_VALUE
+            result = Integer.parseInt(val);
+        } catch (NumberFormatException e) {
+            // default to no delay
+            result = TTIP_DELAY_DEFAULT;
+        }
+
+        if (result < 0) {
+            result = TTIP_DELAY_DEFAULT;
+        }
+
+        return result;
+    }
+
+    /**
+     * Get tooltip duration from prefs in ms.
+     * This is the translated value, so the "forever" value has been
+     * transformed into something useful.
+     *
+     * @return Range is 0-Integer.MAX_VALUE
+     */
+    static int getTooltipDuration(Preferences p) {
+        String val = p.getPreference(TTIP_DURATION);
+        int result = TTIP_DURATION_DEFAULT;
+
+        try {
+            // expected range from prefs in -1-Integer.MAX_VALUE
+            result = Integer.parseInt(val);
+        } catch (NumberFormatException e) {
+            // default to no delay
+            result = TTIP_DURATION_DEFAULT;
+        }
+
+        if (result < 0) {
+            if (result == TTIP_DURATION_FOREVER)        // indicates forever duration
+            {
+                result = Integer.MAX_VALUE;
+            } else                        // -2 or less, unknown value
+            {
+                result = TTIP_DURATION_DEFAULT;
+            }
+        } else {
+        }
+
+        return result;
+    }
+
+    private static void appendStrings(StringBuffer sb, String... msgs) {
+        if (msgs != null) {
+            for (String msg : msgs) {
+                sb.append(msg);
+                if (!msg.endsWith("\n")) {
+                    sb.append('\n');
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the file in which the desktop is (to be) stored.
+     * The standard location is the platform equivalent of
+     * $HOME/.javatest/desktop
+     * It can be overridden by setting the system property
+     * "javatest.desktop.file", which can be set to "NONE"
+     * to disable the feature.
+     */
+    private static File getDesktopFile() {
+        String s = System.getProperty("javatest.desktop.file");
+        if (s == null) {
+            File jtDir = Preferences.getPrefsDir();
+            return new File(jtDir, "desktop");
+        } else if (!s.equals("NONE")) {
+            return new File(s);
+        } else {
+            return null;
+        }
+    }
+
+    static void addHelpDebugListener(Component c) {
+        JComponent root;
+        if (c instanceof JFrame) {
+            root = ((JFrame) c).getRootPane();
+        } else if (c instanceof JDialog) {
+            root = ((JDialog) c).getRootPane();
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+        ActionListener showFocusListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Component src = (Component) e.getSource();
+                Component comp = javax.swing.SwingUtilities.findFocusOwner(src);
+                System.err.println("ALT-F2: source=" + src);
+                System.err.println("ALT-F2:  focus=" + comp);
+                String helpId = comp == null ? "(none)" : ContextHelpManager.getHelpIDString(comp);
+                helpId = helpId == null ? ContextHelpManager.getHelpIDString(src) : helpId;
+                System.err.println("ALT-F2: helpId=" + helpId);
+            }
+        };
+
+        root.registerKeyboardAction(showFocusListener,
+                KeyStroke.getKeyStroke("alt F2"),
+                JComponent.WHEN_IN_FOCUSED_WINDOW);
+    }
+
+    static void addPreferredSizeDebugListener(Component c) {
+        JComponent root;
+        if (c instanceof JFrame) {
+            root = ((JFrame) c).getRootPane();
+        } else if (c instanceof JDialog) {
+            root = ((JDialog) c).getRootPane();
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+        ActionListener showPrefSizeListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Component src = (Component) e.getSource();
+                Component c = javax.swing.SwingUtilities.findFocusOwner(src);
+                while (c != null) {
+                    Dimension d = c.getPreferredSize();
+                    System.err.println("ALT-1: comp=" + c.getName() + "(" + c.getClass().getName() + ") "
+                            + "[w:" + d.width + ",h:" + d.height + "]");
+                    c = c.getParent();
+                }
+            }
+        };
+
+        root.registerKeyboardAction(showPrefSizeListener,
+                KeyStroke.getKeyStroke("alt 1"),
+                JComponent.WHEN_IN_FOCUSED_WINDOW);
+    }
+
+    private static void invokeOnEventThread(Runnable r) {
+        try {
+            EventQueue.invokeAndWait(r);
+        } catch (InterruptedException e) {
+        } catch (InvocationTargetException e) {
+            Throwable t = e.getTargetException();
+            if (t instanceof RuntimeException) {
+                throw (RuntimeException) t;
+            } else {
+                throw (Error) t;
+            }
+        }
+    }
+
+    private static int indexOf(String s, String... a) {
+        for (int i = 0; i < a.length; i++) {
+            if (s == null ? a[i] == null : s.equals(a[i])) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Walks down the exception causes until the original exception is found.
+     *
+     * @param t The problem object to decend into.
+     * @return The original problem object.
+     */
+    private static Throwable unwrap(Throwable t) {
+        if (t == null) {
+            return t;
+        }
+
+        Throwable t1;
+        while (true) {
+            t1 = t.getCause();
+            if (t1 == null) {
+                return t;
+            } else {
+                t = t1;
+            }
+        }
+    }
+
     private void initLAF(CommandContext ctx) {
         int preferredLAF;
         if (ctx != null) {
@@ -199,18 +497,6 @@ public class Desktop {
     }
 
     /**
-     * Create a desktop using a specified style.
-     *
-     * @param style a value indicating the desired desktop style.
-     * @see #MDI_STYLE
-     * @see #SDI_STYLE
-     * @see #TAB_STYLE
-     */
-    public Desktop(int style) {
-        this(style, null);
-    }
-
-    /**
      * Get a value indicating the current style of the desktop.
      *
      * @return a value indicating the current style of the desktop
@@ -221,27 +507,6 @@ public class Desktop {
      */
     public int getStyle() {
         return currView == null ? style : currView.getStyle();
-    }
-
-    /**
-     * Get a value indicating the user's preferred desktop style,
-     * as recorded in the user's preferences.
-     *
-     * @return a value indicating the user's preferred desktop style
-     * @see #MDI_STYLE
-     * @see #SDI_STYLE
-     * @see #TAB_STYLE
-     */
-    public static int getPreferredStyle() {
-        // would be better(?) to use classname, perhaps
-        // NO! It must be better to use the tabbed view only.
-
-        return TAB_STYLE;
-        /* SDI/MDI are not supported any more...
-        String prefStyleName = preferences.getPreference(STYLE_PREF);
-        int i = indexOf(prefStyleName, styleNames);
-        return (i != -1 ? i : TAB_STYLE);
-         */
     }
 
     /**
@@ -288,6 +553,8 @@ public class Desktop {
 
         //System.err.println("DT: setStyle done ");
     }
+
+    // the order of the styles is the presentation order in the preferences panel
 
     /**
      * Get the Help Broker used by the Help menu amd context sensitive help.
@@ -410,7 +677,6 @@ public class Desktop {
             }
         }
     }
-
 
     /**
      * Add a new default tool to the desktop. The default can be set via the
@@ -705,10 +971,6 @@ public class Desktop {
         }
     }
 
-    private static final int CLOSE = 0;
-    private static final int EXIT = 1;
-    private JDialog confirmDialog;
-
     private boolean isOKToExitOrClose(JFrame parent, String[] alerts, int mode) {
         if (confirmDialog != null) {
             Toolkit.getDefaultToolkit().beep();
@@ -827,6 +1089,8 @@ public class Desktop {
         final JDialog dialog = pane.createDialog(null, title);
 
         Timer timer = new Timer(1000, new ActionListener() {
+            private int timeRemaining = delay;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (--timeRemaining == 0) {
@@ -836,8 +1100,6 @@ public class Desktop {
                     body.setText(uif.getI18NString("dt.autoExit.txt", Integer.valueOf(timeRemaining)));
                 }
             }
-
-            private int timeRemaining = delay;
         });
 
         timer.start();
@@ -847,7 +1109,6 @@ public class Desktop {
         Object value = pane.getValue();
         return value != null && value.equals(Integer.valueOf(JOptionPane.OK_OPTION));
     }
-
 
     /**
      * Save the current state of the desktop in the user's standard desktop file.
@@ -1047,26 +1308,6 @@ public class Desktop {
         }
     }
 
-    static Map<String, String> getPreviousDesktop(File file) {
-        if (file == null) {
-            file = getDesktopFile();
-        }
-
-        Map<String, String> stringPropsMap = new HashMap<>();
-
-        if (file != null && file.exists()) {
-            try (FileInputStream fis = new FileInputStream(file);
-                 InputStream in = new BufferedInputStream(fis)) {
-                stringPropsMap = PropertyUtils.load(in);
-            } catch (IOException e) {
-                // I18N
-                System.err.println("Error reading desktop file: " + e);
-            }
-        }
-
-        return stringPropsMap;
-    }
-
     /**
      * Show a Preferences window.
      *
@@ -1241,34 +1482,6 @@ public class Desktop {
         }
     }
 
-    // the order of the styles is the presentation order in the preferences panel
-    /**
-     * A constant to indicate the tabbed-style desktop:
-     * a single window for the desktop, using a tabbed pane for the tools.
-     */
-    public static final int TAB_STYLE = 0;
-
-    /**
-     * A constant to indicate the MDI-style desktop:
-     * a single window for the desktop, containing multiple internal windows, one per tool.
-     */
-    public static final int MDI_STYLE = 1;
-
-    /**
-     * A constant to indicate the SDI-style desktop:
-     * multiple top-level windows, one per tool.
-     */
-    public static final int SDI_STYLE = 2;
-
-    static final int NUM_STYLES = 3;
-    static final String[] styleNames = {"tab", "mdi", "sdi"};
-
-    private static final String[] jt31StyleClassNames = {
-            "com.sun.javatest.tool.TabDesktop",
-            "com.sun.javatest.tool.MDIDesktop",
-            "com.sun.javatest.tool.SDIDesktop"
-    };
-
     /**
      * Check whether or not the desktop will save its state when the VM exits.
      *
@@ -1307,63 +1520,6 @@ public class Desktop {
      */
     public void setRestoreOnStart(boolean restoreOnStart) {
         this.restoreOnStart = restoreOnStart;
-    }
-
-    /**
-     * Get Tooltip delay from prefs in ms.
-     *
-     * @return Range is 0-Integer.MAX_VALUE
-     */
-    static int getTooltipDelay(Preferences p) {
-        String val = p.getPreference(TTIP_DELAY);
-        int result = TTIP_DELAY_DEFAULT;
-
-        try {
-            // expected range from prefs in 0-Integer.MAX_VALUE
-            result = Integer.parseInt(val);
-        } catch (NumberFormatException e) {
-            // default to no delay
-            result = TTIP_DELAY_DEFAULT;
-        }
-
-        if (result < 0) {
-            result = TTIP_DELAY_DEFAULT;
-        }
-
-        return result;
-    }
-
-    /**
-     * Get tooltip duration from prefs in ms.
-     * This is the translated value, so the "forever" value has been
-     * transformed into something useful.
-     *
-     * @return Range is 0-Integer.MAX_VALUE
-     */
-    static int getTooltipDuration(Preferences p) {
-        String val = p.getPreference(TTIP_DURATION);
-        int result = TTIP_DURATION_DEFAULT;
-
-        try {
-            // expected range from prefs in -1-Integer.MAX_VALUE
-            result = Integer.parseInt(val);
-        } catch (NumberFormatException e) {
-            // default to no delay
-            result = TTIP_DURATION_DEFAULT;
-        }
-
-        if (result < 0) {
-            if (result == TTIP_DURATION_FOREVER)        // indicates forever duration
-            {
-                result = Integer.MAX_VALUE;
-            } else                        // -2 or less, unknown value
-            {
-                result = TTIP_DURATION_DEFAULT;
-            }
-        } else {
-        }
-
-        return result;
     }
 
     // these are here to be shared with DesktopPrefsPane.
@@ -1518,174 +1674,6 @@ public class Desktop {
         }
     }
 
-    private static void appendStrings(StringBuffer sb, String... msgs) {
-        if (msgs != null) {
-            for (String msg : msgs) {
-                sb.append(msg);
-                if (!msg.endsWith("\n")) {
-                    sb.append('\n');
-                }
-            }
-        }
-    }
-
-    /**
-     * Get the file in which the desktop is (to be) stored.
-     * The standard location is the platform equivalent of
-     * $HOME/.javatest/desktop
-     * It can be overridden by setting the system property
-     * "javatest.desktop.file", which can be set to "NONE"
-     * to disable the feature.
-     */
-    private static File getDesktopFile() {
-        String s = System.getProperty("javatest.desktop.file");
-        if (s == null) {
-            File jtDir = Preferences.getPrefsDir();
-            return new File(jtDir, "desktop");
-        } else if (!s.equals("NONE")) {
-            return new File(s);
-        } else {
-            return null;
-        }
-    }
-
-    static void addHelpDebugListener(Component c) {
-        JComponent root;
-        if (c instanceof JFrame) {
-            root = ((JFrame) c).getRootPane();
-        } else if (c instanceof JDialog) {
-            root = ((JDialog) c).getRootPane();
-        } else {
-            throw new IllegalArgumentException();
-        }
-
-        ActionListener showFocusListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Component src = (Component) e.getSource();
-                Component comp = javax.swing.SwingUtilities.findFocusOwner(src);
-                System.err.println("ALT-F2: source=" + src);
-                System.err.println("ALT-F2:  focus=" + comp);
-                String helpId = comp == null ? "(none)" : ContextHelpManager.getHelpIDString(comp);
-                helpId = helpId == null ? ContextHelpManager.getHelpIDString(src) : helpId;
-                System.err.println("ALT-F2: helpId=" + helpId);
-            }
-        };
-
-        root.registerKeyboardAction(showFocusListener,
-                KeyStroke.getKeyStroke("alt F2"),
-                JComponent.WHEN_IN_FOCUSED_WINDOW);
-    }
-
-    static void addPreferredSizeDebugListener(Component c) {
-        JComponent root;
-        if (c instanceof JFrame) {
-            root = ((JFrame) c).getRootPane();
-        } else if (c instanceof JDialog) {
-            root = ((JDialog) c).getRootPane();
-        } else {
-            throw new IllegalArgumentException();
-        }
-
-        ActionListener showPrefSizeListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Component src = (Component) e.getSource();
-                Component c = javax.swing.SwingUtilities.findFocusOwner(src);
-                while (c != null) {
-                    Dimension d = c.getPreferredSize();
-                    System.err.println("ALT-1: comp=" + c.getName() + "(" + c.getClass().getName() + ") "
-                            + "[w:" + d.width + ",h:" + d.height + "]");
-                    c = c.getParent();
-                }
-            }
-        };
-
-        root.registerKeyboardAction(showPrefSizeListener,
-                KeyStroke.getKeyStroke("alt 1"),
-                JComponent.WHEN_IN_FOCUSED_WINDOW);
-    }
-
-    private static void invokeOnEventThread(Runnable r) {
-        try {
-            EventQueue.invokeAndWait(r);
-        } catch (InterruptedException e) {
-        } catch (InvocationTargetException e) {
-            Throwable t = e.getTargetException();
-            if (t instanceof RuntimeException) {
-                throw (RuntimeException) t;
-            } else {
-                throw (Error) t;
-            }
-        }
-    }
-
-    private static int indexOf(String s, String... a) {
-        for (int i = 0; i < a.length; i++) {
-            if (s == null ? a[i] == null : s.equals(a[i])) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    /**
-     * Walks down the exception causes until the original exception is found.
-     *
-     * @param t The problem object to decend into.
-     * @return The original problem object.
-     */
-    private static Throwable unwrap(Throwable t) {
-        if (t == null) {
-            return t;
-        }
-
-        Throwable t1;
-        while (true) {
-            t1 = t.getCause();
-            if (t1 == null) {
-                return t;
-            } else {
-                t = t1;
-            }
-        }
-    }
-
-    private final UIFactory uif;
-    private CommandContext commandContext;
-    private DeskView currView;
-    private int style; // used until currView is set, then style comes from that
-    private PreferencesPane prefsPane;
-    private PreferencesPane colorPane;
-    private ToolManager[] toolManagers;
-    private HelpBroker helpBroker;
-    private LogFile logFile;
-    private boolean firstTime;
-    private boolean saveOnExit;
-    private PrintRequestAttributeSet printAttrs;
-    private boolean restoreOnStart;
-
-    private LinkedList<FileHistoryEntry> fileHistory = new LinkedList<>();
-    private static final int FILE_HISTORY_MAX_SIZE = 10;
-
-    private static Preferences preferences = Preferences.access();
-
-
-    static final String STYLE_PREF = "tool.appearance.style";
-    static final String TTIP_PREF = "tool.appearance.ttipToggle";
-    static final String TTIP_DELAY = "tool.appearance.ttipDelay";
-    static final String TTIP_DURATION = "tool.appearance.ttipDuration";
-    static final int TTIP_DURATION_FOREVER = -1;
-    static final int TTIP_DELAY_NONE = 0;
-    static final int TTIP_DELAY_DEFAULT = 0;
-    static final int TTIP_DURATION_DEFAULT = 5000;
-    static final String SAVE_ON_EXIT_PREF = "tool.appearance.saveOnExit";
-    static final String RESTORE_ON_START_PREF = "tool.appearance.restoreOnStart";
-
-    private static final String TOOLMGRLIST = "META-INF/services/com.sun.javatest.tool.ToolManager.lst";
-    private static final String defaultToolManager =
-            System.getProperty("javatest.desktop.defaultToolManager", "com.sun.javatest.exec.ExecToolManager");
-
 
     //-------------------------------------------------------------------------
 
@@ -1694,12 +1682,11 @@ public class Desktop {
      * It defines a file, and an object to open that file if required.
      */
     static class FileHistoryEntry {
+        FileOpener fileOpener;
+        File file;
         FileHistoryEntry(FileOpener fo, File f) {
             fileOpener = fo;
             file = f;
         }
-
-        FileOpener fileOpener;
-        File file;
     }
 }

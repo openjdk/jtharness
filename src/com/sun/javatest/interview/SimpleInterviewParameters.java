@@ -51,59 +51,39 @@ import java.util.Map;
 public class SimpleInterviewParameters
         extends DefaultInterviewParameters
         implements EnvParameters {
-    public SimpleInterviewParameters() throws Fault {
-        super("simple");
-        setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
-        setResourceBundle("i18n");
-
-        mode = CERTIFY; // default, if not overridden by system property
-
-        String m = System.getProperty("SimpleInterviewParameters.mode");
-        if (m != null) {
-            if (m.equals("developer")) {
-                mode = DEVELOPER;
-            } else if (m.equals("precompile")) {
-                mode = PRECOMPILE;
-            }
-        }
-    }
-
-    @Override
-    public TestEnvironment getEnv() {
-        Map<String, String> envProps = new HashMap<>();
-        export(envProps);
-        try {
-            String name = qName.getValue();
-            if (name == null || name.isEmpty()) {
-                name = "unknown";
-            }
-            return new TestEnvironment(name, envProps, "configuration interview");
-        } catch (TestEnvironment.Fault e) {
-            throw new Error("should not happen");
-        }
-    }
-
-    @Override
-    public EnvParameters getEnvParameters() {
-        return this;
-    }
-
-    @Override
-    public Question getEnvFirstQuestion() {
-        switch (mode) {
-            case PRECOMPILE:
-                return qPrecompile;
-            case DEVELOPER:
-                return qDeveloper;
-            default:
-                return qName;
-        }
-    }
+    private static final String AGENT = "agent";
+    private static final String OTHER_VM = "otherVM";
+    private static final int PRECOMPILE = 1;
+    private static final int CERTIFY = 2;
 
     //----------------------------------------------------------------------
     //
     // Precompile mode
+    private static final int DEVELOPER = 3;
 
+    //----------------------------------------------------------------------
+    //
+    // Developer mode
+    private Question qBadJVM = new ErrorQuestion(this, "badJVM") {
+        @Override
+        public Object[] getTextArgs() {
+            return new Object[]{qJVM.getValue().getPath()};
+        }
+    };
+
+    //----------------------------------------------------------------------
+    //
+    // Give a name for this configuration
+    private Question qEnvEnd = new NullQuestion(this, "envEnd") {
+        @Override
+        public Question getNext() {
+            return getEnvSuccessorQuestion();
+        }
+    };
+
+    //----------------------------------------------------------------------
+    //
+    // Give a description for this configuration
     private Question qPrecompile = new NullQuestion(this, "precompile") {
         @Override
         public Question getNext() {
@@ -119,65 +99,38 @@ public class SimpleInterviewParameters
 
     //----------------------------------------------------------------------
     //
-    // Developer mode
-
-    private Question qDeveloper = new NullQuestion(this, "developer") {
-        @Override
-        public Question getNext() {
-            return qName;
-        }
-
-        @Override
-        public void export(Map<String, String> data) {
-            data.put("script.mode", "developer");
-            data.put("command.compile.java", System.getProperty("command.compile.java"));
-        }
-    };
-
-    //----------------------------------------------------------------------
-    //
-    // Give a name for this configuration
-
-    private StringQuestion qName = new StringQuestion(this, "name") {
-        @Override
-        public Question getNext() {
-            if (value == null || value.isEmpty()) {
-                return null;
-            } else {
-                return qDesc;
-            }
-        }
-    };
-
-    //----------------------------------------------------------------------
-    //
-    // Give a description for this configuration
-
-    private Question qDesc = new StringQuestion(this, "desc") {
-        @Override
-        public Question getNext() {
-            if (value == null || value.isEmpty()) {
-                return null;
-            } else {
-                return qCmdType;
-            }
-        }
-
-        @Override
-        public void export(Map<String, String> data) {
-            data.put("description", String.valueOf(value));
-        }
-    };
-
-    //----------------------------------------------------------------------
-    //
     // How do you with to execute tests:
     //   OTHER_VM:  on the same system as JT Harness, in separate process
     //   AGENT:   on a different system, using JT Harness Agent
+    private FileListQuestion qClassPath = new FileListQuestion(this, "classPath") {
+        {
+            FileFilter[] filters = {
+                    new DirectoryFileFilter("Directories"),
+                    new ExtensionFileFilter(".zip", "ZIP Files"),
+                    new ExtensionFileFilter(".jar", "JAR Files"),
+            };
+            setFilters(filters);
+        }
 
-    private static final String AGENT = "agent";
-    private static final String OTHER_VM = "otherVM";
+        @Override
+        public Question getNext() {
+            // check all files valid?
+            return qEnvEnd;
+        }
 
+    };
+    private FileQuestion qJVM = new FileQuestion(this, "jvm") {
+        @Override
+        public Question getNext() {
+            if (value == null || value.getPath().isEmpty()) {
+                return null;
+            } else if (!(value.exists() && value.isFile() && value.canRead())) {
+                return qBadJVM;
+            } else {
+                return qClassPath;
+            }
+        }
+    };
     private Question qCmdType = new ChoiceQuestion(this, "cmdType") {
         {
             setChoices(new String[]{null, OTHER_VM, AGENT}, true);
@@ -211,26 +164,99 @@ public class SimpleInterviewParameters
     //----------------------------------------------------------------------
     //
     // What is the path for the JVM you wish to use to execute the tests?
-
-    private FileQuestion qJVM = new FileQuestion(this, "jvm") {
+    private Question qDesc = new StringQuestion(this, "desc") {
         @Override
         public Question getNext() {
-            if (value == null || value.getPath().isEmpty()) {
+            if (value == null || value.isEmpty()) {
                 return null;
-            } else if (!(value.exists() && value.isFile() && value.canRead())) {
-                return qBadJVM;
             } else {
-                return qClassPath;
+                return qCmdType;
+            }
+        }
+
+        @Override
+        public void export(Map<String, String> data) {
+            data.put("description", String.valueOf(value));
+        }
+    };
+    private StringQuestion qName = new StringQuestion(this, "name") {
+        @Override
+        public Question getNext() {
+            if (value == null || value.isEmpty()) {
+                return null;
+            } else {
+                return qDesc;
             }
         }
     };
-
-    private Question qBadJVM = new ErrorQuestion(this, "badJVM") {
+    private Question qDeveloper = new NullQuestion(this, "developer") {
         @Override
-        public Object[] getTextArgs() {
-            return new Object[]{qJVM.getValue().getPath()};
+        public Question getNext() {
+            return qName;
+        }
+
+        @Override
+        public void export(Map<String, String> data) {
+            data.put("script.mode", "developer");
+            data.put("command.compile.java", System.getProperty("command.compile.java"));
         }
     };
+
+    //----------------------------------------------------------------------
+    private int mode;
+
+    //----------------------------------------------------------------------
+
+    public SimpleInterviewParameters() throws Fault {
+        super("simple");
+        setHelpSet("/com/sun/javatest/moreInfo/moreInfo.hs");
+        setResourceBundle("i18n");
+
+        mode = CERTIFY; // default, if not overridden by system property
+
+        String m = System.getProperty("SimpleInterviewParameters.mode");
+        if (m != null) {
+            if (m.equals("developer")) {
+                mode = DEVELOPER;
+            } else if (m.equals("precompile")) {
+                mode = PRECOMPILE;
+            }
+        }
+    }
+
+    //----------------------------------------------------------------------
+
+    @Override
+    public TestEnvironment getEnv() {
+        Map<String, String> envProps = new HashMap<>();
+        export(envProps);
+        try {
+            String name = qName.getValue();
+            if (name == null || name.isEmpty()) {
+                name = "unknown";
+            }
+            return new TestEnvironment(name, envProps, "configuration interview");
+        } catch (TestEnvironment.Fault e) {
+            throw new Error("should not happen");
+        }
+    }
+
+    @Override
+    public EnvParameters getEnvParameters() {
+        return this;
+    }
+
+    @Override
+    public Question getEnvFirstQuestion() {
+        switch (mode) {
+            case PRECOMPILE:
+                return qPrecompile;
+            case DEVELOPER:
+                return qDeveloper;
+            default:
+                return qName;
+        }
+    }
 
     private String getOtherVMExecuteCommand() {
         char fs = File.separatorChar;
@@ -253,40 +279,4 @@ public class SimpleInterviewParameters
         sb.append(" $testExecuteClass $testExecuteArgs");
         return sb.toString();
     }
-
-    //----------------------------------------------------------------------
-
-    private FileListQuestion qClassPath = new FileListQuestion(this, "classPath") {
-        {
-            FileFilter[] filters = {
-                    new DirectoryFileFilter("Directories"),
-                    new ExtensionFileFilter(".zip", "ZIP Files"),
-                    new ExtensionFileFilter(".jar", "JAR Files"),
-            };
-            setFilters(filters);
-        }
-
-        @Override
-        public Question getNext() {
-            // check all files valid?
-            return qEnvEnd;
-        }
-
-    };
-
-    //----------------------------------------------------------------------
-
-    private Question qEnvEnd = new NullQuestion(this, "envEnd") {
-        @Override
-        public Question getNext() {
-            return getEnvSuccessorQuestion();
-        }
-    };
-
-    //----------------------------------------------------------------------
-
-    private static final int PRECOMPILE = 1;
-    private static final int CERTIFY = 2;
-    private static final int DEVELOPER = 3;
-    private int mode;
 }

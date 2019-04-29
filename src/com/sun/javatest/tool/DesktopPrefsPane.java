@@ -49,6 +49,35 @@ import java.util.Map;
  * Preferences for the desktop itself.
  */
 class DesktopPrefsPane extends PreferencesPane {
+    // cache localized strings because renderers tend to run a lot
+    private static String TIP_SHOW_FOREVER;
+    private Desktop desktop;
+    private UIFactory uif;
+    private ButtonGroup styleGrp;
+    private JCheckBox ttipsCheck;
+   /* MDI/SID views are removed
+    private Component createDesktopStylePanel() {
+        Box p = Box.createHorizontalBox();
+        p.setBorder(uif.createTitledBorder("dt.prefs.style"));
+        styleGrp = new ButtonGroup();
+        for (int i = 0; i < Desktop.styleNames.length; i++) {
+            String styleName = Desktop.styleNames[i];
+            String uiKey = "dt.prefs." + styleName;
+            JRadioButton b = uif.createRadioButton(uiKey, styleGrp);
+            b.setActionCommand(styleName);
+            p.add(b);
+        }
+        p.add(Box.createHorizontalGlue());
+
+        return p;
+    }
+    */
+    private JComboBox<Integer> ttDelay;
+    private JComboBox<Integer> ttDuration;
+    private JCheckBox saveCheck;
+    private JCheckBox restoreCheck;
+    private Integer[] tooltipDurations;
+    private Integer[] tooltipDelays;
     DesktopPrefsPane(Desktop desktop, UIFactory uif) {
         this.desktop = desktop;
         this.uif = uif;
@@ -211,23 +240,6 @@ class DesktopPrefsPane extends PreferencesPane {
         int duration = getTooltipDuration();
         desktop.setTooltipDuration(duration);
     }
-   /* MDI/SID views are removed
-    private Component createDesktopStylePanel() {
-        Box p = Box.createHorizontalBox();
-        p.setBorder(uif.createTitledBorder("dt.prefs.style"));
-        styleGrp = new ButtonGroup();
-        for (int i = 0; i < Desktop.styleNames.length; i++) {
-            String styleName = Desktop.styleNames[i];
-            String uiKey = "dt.prefs." + styleName;
-            JRadioButton b = uif.createRadioButton(uiKey, styleGrp);
-            b.setActionCommand(styleName);
-            p.add(b);
-        }
-        p.add(Box.createHorizontalGlue());
-
-        return p;
-    }
-    */
 
     private Component createShutdownPanel() {
         Box p = Box.createVerticalBox();
@@ -338,21 +350,6 @@ class DesktopPrefsPane extends PreferencesPane {
         int value = ((Integer) ttDuration.getSelectedItem()).intValue();
         return value < 0 ? Desktop.TTIP_DURATION_FOREVER : value;
     }
-
-    private Desktop desktop;
-    private UIFactory uif;
-    private ButtonGroup styleGrp;
-    private JCheckBox ttipsCheck;
-    private JComboBox<Integer> ttDelay;
-    private JComboBox<Integer> ttDuration;
-    private JCheckBox saveCheck;
-    private JCheckBox restoreCheck;
-
-    private Integer[] tooltipDurations;
-    private Integer[] tooltipDelays;
-
-    // cache localized strings because renderers tend to run a lot
-    private static String TIP_SHOW_FOREVER;
 
     private class TipDelayRenderer extends BasicComboBoxRenderer {
         @Override

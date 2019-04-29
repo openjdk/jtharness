@@ -34,6 +34,23 @@ import java.io.Serializable;
  * object
  */
 public class Message implements Serializable {
+    static final long serialVersionUID = -4354555956848040022L;
+    private MessageType type;
+    private Serializable content;
+
+    public Message(MessageType type, Serializable content) {
+        this.type = type;
+        this.content = content;
+    }
+
+    public MessageType getType() {
+        return type;
+    }
+
+    public Serializable getContent() {
+        return content;
+    }
+
     /**
      * MessageType enum lists all types of messages, available for message
      * exchange. Remember, that java enums are serializabel. <p>
@@ -53,22 +70,4 @@ public class Message implements Serializable {
         STARTED, STOPPED, ALIVE, NOT_ALIVE,
         ERROR
     }
-
-    private MessageType type;
-    private Serializable content;
-
-    public Message(MessageType type, Serializable content) {
-        this.type = type;
-        this.content = content;
-    }
-
-    public MessageType getType() {
-        return type;
-    }
-
-    public Serializable getContent() {
-        return content;
-    }
-
-    static final long serialVersionUID = -4354555956848040022L;
 }

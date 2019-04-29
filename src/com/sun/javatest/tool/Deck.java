@@ -40,12 +40,15 @@ import java.awt.LayoutManager;
  * by reference.
  */
 public class Deck extends JPanel {
+    private int cardNum;
+
     /**
      * Create a Deck panel.
      */
     public Deck() {
         this("deck");
     }
+
 
     /**
      * Create a Deck panel with a given name.
@@ -56,7 +59,6 @@ public class Deck extends JPanel {
         super(new CardLayout());
         setName(name);
     }
-
 
     /**
      * Create a Deck panel with a given name and set of components.
@@ -133,6 +135,4 @@ public class Deck extends JPanel {
     public void show(Component comp) {
         ((CardLayout) getLayout()).show(this, comp.getName());
     }
-
-    private int cardNum;
 }

@@ -37,6 +37,8 @@ import java.awt.event.ActionListener;
 
 public class StringListQuestionRenderer
         implements QuestionRenderer {
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
+
     @Override
     public JComponent getQuestionRendererComponent(Question qq, ActionListener listener) {
         final StringListQuestion q = (StringListQuestion) qq;
@@ -76,6 +78,4 @@ public class StringListQuestionRenderer
     public String getInvalidValueMessage(Question q) {
         return null;
     }
-
-    private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
 }
