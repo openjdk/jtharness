@@ -28,6 +28,7 @@ package com.sun.javatest;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -139,10 +140,30 @@ public class TestEnvironment {
 
     /**
      * Construct an environment for a named group of properties.
+     * This constructor is deprecated, please use the one accepting a list of maps.
      *
      * @param name           The name by which to identify the group of properties
      *                       for this environment
-     * @param propTables     Dictionaries containing (but not limited to) the
+     * @param propTables     Array of maps containing (but not limited to) the
+     *                       properties for this environment. They should be ordered
+     *                       so that values specified in later tables override those
+     *                       specified in subsequent tables.
+     * @param propTableNames The names of the property tables, for use in diagnostics etc
+     * @throws TestEnvironment.Fault if there is an error in the given tables
+     */
+    @java.lang.Deprecated
+    public TestEnvironment(String name, Map[] propTables, String... propTableNames)
+            throws Fault {
+        this(name, Arrays.<Map<String, String>>asList(propTables), propTableNames);
+    }
+
+
+    /**
+     * Construct an environment for a named group of properties.
+     *
+     * @param name           The name by which to identify the group of properties
+     *                       for this environment
+     * @param propTables     List of maps containing (but not limited to) the
      *                       properties for this environment. They should be ordered
      *                       so that values specified in later tables override those
      *                       specified in subsequent tables.
@@ -154,7 +175,9 @@ public class TestEnvironment {
         this.name = name;
         if (defaultPropTables != null && defaultPropTables.size() > 0) {
             List<Map<String, String>> newPropsTables = new ArrayList<>(defaultPropTables);
-            newPropsTables.addAll(propTables);
+            if (propTables != null) {
+                newPropsTables.addAll(propTables);
+            }
             propTables = newPropsTables;
             propTableNames = DynamicArray.join(defaultPropTableNames, propTableNames);
         }

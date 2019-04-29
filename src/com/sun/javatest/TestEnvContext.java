@@ -239,8 +239,11 @@ public class TestEnvContext {
         // if there are defaults, merge them with the TestEnvContext tables
         // for the purposes of determining the EnvTable
         if (defaultTables != null && defaultTables.size() > 0) {
-            tables = new ArrayList<>(defaultTables);
-            tables.addAll(tables);
+            List<Map<String, String>> newTables = new ArrayList<>(defaultTables);
+            if (tables != null) {
+                newTables.addAll(tables);
+            }
+            tables = newTables;
             tableNames = DynamicArray.join(defaultTableNames, tableNames);
         }
 
