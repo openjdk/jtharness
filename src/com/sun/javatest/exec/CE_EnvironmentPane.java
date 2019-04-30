@@ -84,7 +84,7 @@ class CE_EnvironmentPane extends CE_StdPane {
     @Override
     void load() {
         if (legacyEnvParameters != null) {
-            envFilesField.setItems(legacyEnvParameters.getEnvFiles());
+            envFilesField.setItems((Object[]) legacyEnvParameters.getEnvFiles());
 
             // setting the envFilesField will automatically cause
             // the list of choices for the envNameField to be updated

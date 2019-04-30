@@ -533,7 +533,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
                 switch (mode) {
                     case MutableExcludeListParameters.NO_EXCLUDE_LIST:
                         jtxMode.setText(uif.getI18NString("basicTf.exclude.mode.none"));
-                        setExcludeFiles(null);
+                        setExcludeFiles((File[])null);
                         isUnknown = false;
                         break;
                     case MutableExcludeListParameters.INITIAL_EXCLUDE_LIST:
@@ -543,7 +543,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
                         break;
                     case MutableExcludeListParameters.LATEST_EXCLUDE_LIST:
                         jtxMode.setText(uif.getI18NString("basicTf.exclude.mode.latest"));
-                        setExcludeFiles(null);
+                        setExcludeFiles((File[])null);
                         isUnknown = false;
                         break;
                     case MutableExcludeListParameters.CUSTOM_EXCLUDE_LIST:

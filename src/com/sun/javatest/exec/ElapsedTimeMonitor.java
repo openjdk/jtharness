@@ -87,7 +87,7 @@ class ElapsedTimeMonitor extends Monitor implements MonitorState.Observer {
 
         String[] args = {h, m, s};
 
-        return i18n.getString("etm.hms", args);
+        return i18n.getString("etm.hms", (Object[]) args);
     }
 
     @Override

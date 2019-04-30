@@ -552,7 +552,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             //int confirm = uif.showYesNoDialog("treep.purgeItemsSure",
             //createNodeListString(createNodeList(what)));
 
-            String[] paths = createNodeList(what);
+            String[] paths = createNodeList((Object[]) what);
             DefaultListModel<String> model = new DefaultListModel<>();
             for (int i = paths.length; i > 0; i--) {
                 model.add(model.getSize(), paths[model.getSize()]);
@@ -717,7 +717,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             return;
         }
 
-        execModel.runTests(createNodeList(what));
+        execModel.runTests(createNodeList((Object[]) what));
     }
 
     private void refreshNodes(TreePath... what) {
@@ -740,7 +740,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             //int confirm = uif.showYesNoDialog("treep.refreshNodeSure",
             //          createNodeListString(createNodeList(what)));
 
-            String[] paths = createNodeList(what);
+            String[] paths = createNodeList((Object[]) what);
             DefaultListModel<String> model = new DefaultListModel<>();
             for (int i = paths.length; i > 0; i--) {
                 model.add(model.getSize(), paths[model.getSize()]);

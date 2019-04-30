@@ -204,7 +204,7 @@ public class KnownFailuresListInterview
     public void setKflFiles(File... files) {
         if (files == null || files.length == 0) {
             qNeedKfl.setValue(YesNoQuestion.NO);
-            setCustomKflFiles(null);
+            setCustomKflFiles((File[]) null);
         } else {
             qNeedKfl.setValue(YesNoQuestion.YES);
             setCustomKflFiles(files);

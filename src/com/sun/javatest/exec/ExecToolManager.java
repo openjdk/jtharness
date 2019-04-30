@@ -636,7 +636,7 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
     //-------------------------------------------------------------------------
 
     void showError(String key) {
-        showError(key, null);
+        showError(key, (Object[]) null);
     }
 
     //-------------------------------------------------------------------------

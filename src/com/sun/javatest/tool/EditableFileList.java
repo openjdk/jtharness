@@ -127,7 +127,7 @@ public class EditableFileList extends EditableList {
      * @see #getFiles
      */
     public void setFiles(File... files) {
-        setItems(files);
+        setItems((Object[]) files);
     }
 
     /**

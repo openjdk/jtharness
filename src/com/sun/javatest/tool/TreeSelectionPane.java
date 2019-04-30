@@ -123,7 +123,7 @@ public class TreeSelectionPane extends JComponent implements Accessible {
      * @see #setSelection
      */
     public void clear() {
-        tree.setSelection(null);
+        tree.setSelection((String[]) null);
     }
 
     @Override
@@ -132,6 +132,7 @@ public class TreeSelectionPane extends JComponent implements Accessible {
         // propogate enabled-ness onto tree
         tree.setEnabled(b);
     }
+
     /**
      * The model for the tree whose nodes can be selected in a TreeSelectionPane.
      */

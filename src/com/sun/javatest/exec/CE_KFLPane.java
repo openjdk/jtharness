@@ -121,7 +121,7 @@ class CE_KFLPane extends CE_StdPane {
         if (customBtn.isSelected()) {
             customPanel.save();
         } else {
-            config.setKnownFailureFiles(null);
+            config.setKnownFailureFiles((File[]) null);
         }
     }
 
@@ -240,7 +240,7 @@ class CE_KFLPane extends CE_StdPane {
             if (files != null && files.length > 0) {
                 config.setKnownFailureFiles(files);
             } else {
-                config.setKnownFailureFiles(null);
+                config.setKnownFailureFiles((File[]) null);
             }
         }
     }

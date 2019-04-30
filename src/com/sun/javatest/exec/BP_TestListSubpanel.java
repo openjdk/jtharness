@@ -146,6 +146,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
     private String show = TestResult.EXEC_STATUS;
     private Vector<TestResult>[] newData;
     private boolean updateRequired;
+
     BP_TestListSubpanel(UIFactory uif, Harness h, ExecModel em,
                         BP_Model bpm, TestTreeModel ttm, int state) {
         super("tl" + state, uif, bpm, ttm, "br.list");
@@ -1013,7 +1014,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     final WorkDirectory wd = execModel.getWorkDirectory();
 
                     if (harness.isRunning()) {
-                        uif.showInformationDialog("treep.cantPurgeRunning", null);
+                        uif.showInformationDialog("treep.cantPurgeRunning", (Object[]) null);
                         return;
                     }
 
@@ -1119,7 +1120,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     // special case check, remove all items if root
                     // is selected
                     if (harness.isRunning()) {
-                        uif.showInformationDialog("treep.cantRunRunning", null);
+                        uif.showInformationDialog("treep.cantRunRunning", (Object[]) null);
                         return;
                     }
                     String[] result = new String[rows.length];
@@ -1146,7 +1147,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     // special case check, remove all items if root
                     // is selected
                     if (harness.isRunning()) {
-                        uif.showInformationDialog("bp.cp.isRunning", null);
+                        uif.showInformationDialog("bp.cp.isRunning", (Object[]) null);
                         return;
                     }
                     String[] result = new String[rows.length];

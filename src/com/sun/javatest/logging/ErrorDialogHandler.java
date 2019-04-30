@@ -86,7 +86,7 @@ public class ErrorDialogHandler extends StreamHandler {
                     "," + record.getSourceMethodName();
             showError("logger.error.message", argsToArr, message);
         } else if (record.getLevel().intValue() > 800) {
-            showError("logger.error.message", argsToArr, null);
+            showError("logger.error.message", argsToArr, (String[]) null);
         } else {
             showInformationDialog("logger.info.message", argsToArr[0]);
         }

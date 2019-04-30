@@ -374,7 +374,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         // if we reach this point, we have a usable interview which
         // we can now alter it
         Object[] items = {params.getEnv().getName(),
-                TestTreePanel.createNodeListString(TestTreePanel.createNodeList(paths))};
+                TestTreePanel.createNodeListString(TestTreePanel.createNodeList((Object[]) paths))};
         int option = 0;
         if (paths[0].isEmpty()) {
             option = uif.showYesNoDialog("rh.confirmQuickAll",
@@ -449,7 +449,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
                     } else {
                         String[] combined = reprocessTests2Run(paths, origTests);
                         if (combined == null || combined.length == 0) {
-                            uif.showInformationDialog("rh.nointersection", paths);
+                            uif.showInformationDialog("rh.nointersection", (Object[]) paths);
                             return;
                         }
                         mtps.setTests(combined);
