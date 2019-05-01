@@ -34,6 +34,7 @@ import com.sun.javatest.util.I18NResourceBundle;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
@@ -54,12 +55,12 @@ class ResultSection extends HTMLSection {
     };
     private final I18NResourceBundle i18n;
     private final String[] headings;
-    TreeSet<TestResult>[] lists;
+    List<TreeSet<TestResult>> lists;
     private TestResultTable resultTable;
     private File[] initFiles;
     private int totalFound;
     ResultSection(HTMLReport parent, ReportSettings settings, File dir, I18NResourceBundle i18n,
-                  TreeSet<TestResult>... sortedResults) {
+                  List<TreeSet<TestResult>> sortedResults) {
         super(i18n.getString("result.title"), settings, dir, parent);
         this.i18n = i18n;
 
@@ -124,16 +125,16 @@ class ResultSection extends HTMLSection {
 
         boolean thirdColumn = false;
         boolean secondColumn = false;
-        for (int i = 0; i < lists.length; i++) {
+        for (int i = 0; i < lists.size(); i++) {
             thirdColumn |= settings.isStateFileEnabled(i) && hasGroupedReport(i);
             secondColumn |= settings.isStateFileEnabled(i);
         }
         String grouped = i18n.getString("result.grouped");
         String plain = i18n.getString("result.plain");
 
-        for (int i = 0; i < lists.length; i++) {
+        for (int i = 0; i < lists.size(); i++) {
             String reportFile = HTMLReport.files[fileCodes[i]];
-            TreeSet<TestResult> l = lists[i];
+            TreeSet<TestResult> l = lists.get(i);
 
             int n = l.size();
             if (n > 0) {
@@ -195,7 +196,7 @@ class ResultSection extends HTMLSection {
     }
 
     private void writeStatusFiles() throws IOException {
-        for (int i = 0; i < lists.length; i++) {
+        for (int i = 0; i < lists.size(); i++) {
             // each file is optional
             if (!settings.isStateFileEnabled(i)) {
                 continue;
@@ -206,8 +207,8 @@ class ResultSection extends HTMLSection {
             if (hasGroupedReport(i)) {
                 // re-sort it
                 TreeSet<TestResult> newS = new TreeSet<>(new TestResultsByStatusAndTitleComparator());
-                newS.addAll(lists[i]);
-                lists[i] = newS;
+                newS.addAll(lists.get(i));
+                lists.set(i, newS);
 
                 writeGroupedReport(i);
             }
@@ -218,7 +219,7 @@ class ResultSection extends HTMLSection {
 
         ReportWriter out = openAuxFile(fileCodes[i], headings[i], i18n);
         try {
-            TreeSet<TestResult> list = lists[i];
+            TreeSet<TestResult> list = lists.get(i);
             if (!list.isEmpty()) {
                 boolean inList = false;
 
@@ -264,7 +265,7 @@ class ResultSection extends HTMLSection {
         ReportWriter out = openAuxFile(groupedFileCodes[i], headings[i], i18n);
         out.write(i18n.getString("result.groupByStatus"));
         try {
-            TreeSet<TestResult> list = lists[i];
+            TreeSet<TestResult> list = lists.get(i);
             if (!list.isEmpty()) {
                 boolean inList = false;
                 String currentHead = null;

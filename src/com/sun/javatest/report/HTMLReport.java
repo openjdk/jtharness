@@ -124,7 +124,7 @@ public class HTMLReport implements ReportFormat {
 
     // ----------------------------------------------------------------------
     File reportDir;
-    private TreeSet<TestResult>[] results;
+    private List<TreeSet<TestResult>> results;
     private KflSorter kflSorter;
 
     /**
@@ -320,11 +320,11 @@ public class HTMLReport implements ReportFormat {
         return new BufferedWriter(osw);
     }
 
-    TreeSet<TestResult>[] getResults() {
+    List<TreeSet<TestResult>> getResults() {
         return results;
     }
 
-    public void setResults(TreeSet<TestResult>... results) {
+    public void setResults(List<TreeSet<TestResult>> results) {
         this.results = results;
     }
 

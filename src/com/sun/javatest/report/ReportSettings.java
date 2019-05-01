@@ -42,6 +42,7 @@ import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -109,7 +110,7 @@ public class ReportSettings {
     boolean[] stateFiles = new boolean[Status.NUM_STATES];
     boolean doBackups = true;
     int backups = 1; // backup levels
-    private TreeSet<TestResult>[] sortedResults;
+    private List<TreeSet<TestResult>> sortedResults;
     private KflSorter kflSorter;
     private File[] mif = new File[0];
     private HashMap<?, ?> exchangeData;
@@ -502,9 +503,9 @@ public class ReportSettings {
         }
         TestResultTable resultTable = ip.getWorkDirectory().getTestResultTable();
         File[] initFiles = getInitialFiles();
-        sortedResults = new TreeSet[Status.NUM_STATES];
-        for (int i = 0; i < sortedResults.length; i++) {
-            sortedResults[i] = new TreeSet<>(new TestResultsByNameComparator());
+        sortedResults = new ArrayList<>();
+        for (int i = 0; i < Status.NUM_STATES; i++) {
+            sortedResults.add(new TreeSet<>(new TestResultsByNameComparator()));
         }
         Iterator<TestResult> iter;
         try {
@@ -523,7 +524,7 @@ public class ReportSettings {
         for (; iter.hasNext(); ) {
             TestResult tr = iter.next();
             Status s = tr.getStatus();
-            TreeSet<TestResult> list = sortedResults[s == null ? Status.NOT_RUN : s.getType()];
+            TreeSet<TestResult> list = sortedResults.get(s == null ? Status.NOT_RUN : s.getType());
             list.add(tr);
         }
     }
@@ -546,7 +547,7 @@ public class ReportSettings {
         return kflSorter;
     }
 
-    TreeSet<TestResult>[] getSortedResults() {
+    List<TreeSet<TestResult>> getSortedResults() {
         return sortedResults;
     }
 

@@ -104,6 +104,7 @@ public class TestEnvironment {
      * @param propTableNames The names of the property tables, for use in diagnostics etc
      * @throws TestEnvironment.Fault if there is an error in the given tables
      */
+    @SuppressWarnings("rawtypes")
     @java.lang.Deprecated
     public TestEnvironment(String name, Map[] propTables, String... propTableNames)
             throws Fault {

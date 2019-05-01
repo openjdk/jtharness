@@ -43,6 +43,7 @@ import java.io.StringReader;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -75,7 +76,7 @@ public class KnownFailuresList {
     public static final String KFLFILE_EXTN = ".kfl";
     public static final String KFL_FILE_VERSION = "1.0";
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(KnownFailuresList.class);
-    private Map table = new HashMap();
+    private Map<Key, Object> table = new HashMap<>();
     private String title;
     private boolean strict;
 
@@ -291,7 +292,11 @@ public class KnownFailuresList {
      */
     public Iterator<Entry> getIterator(boolean group) {
         if (group) {
-            return table.values().iterator();
+            List<Entry> result = new ArrayList<>();
+            for (Object value : table.values()) {
+                result.add((Entry) value);
+            }
+            return result.iterator();
         } else {
             // flatten the enumeration into a vector, then
             // enumerate that

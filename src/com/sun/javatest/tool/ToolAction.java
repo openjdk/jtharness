@@ -35,7 +35,9 @@ import javax.swing.KeyStroke;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,7 +50,7 @@ public abstract class ToolAction implements Action {
     private Icon icon;
     private Map<String, Object> misc;
     private boolean enabled = true;
-    private WeakReference<PropertyChangeListener>[] listeners = new WeakReference[0];
+    private List<WeakReference<PropertyChangeListener>> listeners = new ArrayList<>();
 
     /**
      * Construct an action with a specific mnemonic.  This is the
@@ -217,38 +219,35 @@ public abstract class ToolAction implements Action {
         boolean oldVal = enabled;
         enabled = newVal;
 
-        if (listeners.length > 0) {
+        if (listeners.size() > 0) {
             firePropertyChangeEvent("enabled", new Boolean(oldVal), new Boolean(newVal));
         }
     }
 
     @Override
     public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-        listeners = DynamicArray.append(listeners, new WeakReference<>(listener));
+        listeners.add(new WeakReference<>(listener));
     }
 
     @Override
     public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
-        WeakReference<PropertyChangeListener>[] l = listeners;
-        int size = l.length;
-        for (int i = size - 1; i >= 0; i--) {
-            if (l[i].get() == listener) {
-                System.arraycopy(l, i + 1, l, i, --size - i);
+        WeakReference<PropertyChangeListener> found = null;
+        for (WeakReference<PropertyChangeListener> reference : listeners) {
+            if (reference.get() == listener) {
+                found = reference;
+                break;
             }
         }
-
-        if (size < l.length) {
-            listeners = new WeakReference[size];
-            System.arraycopy(l, 0, listeners, 0, size);
+        if (found != null) {
+            listeners.remove(found);
         }
     }
 
     private void firePropertyChangeEvent(String name, Object oldVal, Object newVal) {
         PropertyChangeEvent ev = null; // lazy create event if needed
-        WeakReference<PropertyChangeListener>[] l = listeners;
-        if (l.length > 0) {
-            for (int i = l.length - 1; i >= 0; i--) {
-                PropertyChangeListener pcl = l[i].get();
+        if (listeners.size() > 0) {
+            for (int i = listeners.size() - 1; i >= 0; i--) {
+                PropertyChangeListener pcl = listeners.get(i).get();
                 if (pcl != null) {
                     if (ev == null) {
                         ev = new PropertyChangeEvent(this, name, oldVal, newVal);

@@ -69,6 +69,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -313,21 +314,21 @@ class BP_FilteredOutSubpanel extends BP_BranchSubpanel {
             synchronized (cache) {
                 synchronized (BP_FilteredOutSubpanel.this) {
                     // resync with this node cache
-                    Vector<TestResult>[] newData = cache.addObserver(cacheWatcher, true);
+                    List<Vector<TestResult>> newData = cache.addObserver(cacheWatcher, true);
 
                     // add tests into the list model - this doesn't make the data
                     // live though
-                    for (int j = 0; j < newData[newData.length - 1].size() - 1; j++) {
+                    for (int j = 0; j < newData.get(newData.size() - 1).size() - 1; j++) {
                         if (stopping) {
                             break;
                         }
 
-                        mod.addTest(newData[newData.length - 1].get(j), true);
+                        mod.addTest(newData.get(newData.size() - 1).get(j), true);
                     }   // for
 
-                    if (!newData[newData.length - 1].isEmpty() && !stopping) {
+                    if (!newData.get(newData.size() - 1).isEmpty() && !stopping) {
                         // final item with a notify
-                        Vector<TestResult> newDatum = newData[newData.length - 1];
+                        Vector<TestResult> newDatum = newData.get(newData.size() - 1);
                         mod.addTest(newDatum.get(newDatum.size() - 1), false);
                     }
 

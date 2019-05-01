@@ -77,6 +77,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
     private boolean wrap = true;
     private Preferences prefs = Preferences.access();
     private Icon streamIcon;
+    @SuppressWarnings("rawtypes")
     private JList toc;
     private JTextField titleField;
     private JPanel body;

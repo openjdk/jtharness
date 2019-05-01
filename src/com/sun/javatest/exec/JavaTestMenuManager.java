@@ -28,6 +28,7 @@ package com.sun.javatest.exec;
 
 import javax.swing.JMenuItem;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class to manage custom menus.  This class allows the test suite architect to
@@ -69,7 +70,7 @@ public abstract class JavaTestMenuManager {
     public static final int HELP_ABOUT = 16;
     public static final int TOOLS_OTHER = 17;
     private static final int NUM_POSITIONS = 18;
-    private ArrayList<JMenuItem>[] bank;
+    private List<ArrayList<JMenuItem>> bank;
 
     /**
      * Get the menu items to go into the specified position in the menu system.
@@ -87,7 +88,7 @@ public abstract class JavaTestMenuManager {
         if (bank == null) {
             return null;
         } else {
-            ArrayList<JMenuItem> al = bank[position];
+            ArrayList<JMenuItem> al = bank.get(position);
             if (al.isEmpty()) {
                 return null;
             } else {
@@ -120,12 +121,12 @@ public abstract class JavaTestMenuManager {
         }
 
         if (bank == null) {
-            bank = new ArrayList[NUM_POSITIONS];
+            bank = new ArrayList<>();
             for (int i = 0; i < NUM_POSITIONS; i++) {
-                bank[i] = new ArrayList<>();
+                bank.add( new ArrayList<JMenuItem>() );
             }
         }
 
-        bank[position].add(item);
+        bank.get(position).add(item);
     }
 }

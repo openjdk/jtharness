@@ -37,6 +37,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -226,13 +228,17 @@ public class KflSorter {
      * @return Number of comparison errors encountered.
      */
     synchronized int run(TestResultTable.TreeIterator iter) {
-        TreeSet<TestResult>[] lists = new TreeSet[Status.NUM_STATES];
+        List<TreeSet<TestResult>> lists = new LinkedList<>();
+
+        for (int i = 0; i < Status.NUM_STATES; i++) {
+            lists.add(new TreeSet<TestResult>());
+        }
         int totalFound = 0;
 
         for (; iter.hasNext(); ) {
             TestResult tr = iter.next();
             Status s = tr.getStatus();
-            TreeSet<TestResult> list = lists[s == null ? Status.NOT_RUN : s.getType()];
+            TreeSet<TestResult> list = lists.get(s == null ? Status.NOT_RUN : s.getType());
             list.add(tr);
             totalFound++;
         }
@@ -248,7 +254,7 @@ public class KflSorter {
      * @param tests
      * @return Number of comparison problems encountered.
      */
-    synchronized int run(TreeSet<?>... tests) {
+    synchronized int run(List<TreeSet<TestResult>> tests) {
         Iterator<KnownFailuresList.Entry> it = kfl.getIterator(false);
         int probs = 0;
         int tcprobs = 0;
@@ -339,8 +345,7 @@ public class KflSorter {
         }   // for
 
         // iterate failures, are they on the KFL?
-        for (Object o : tests[Status.FAILED]) {
-            TestResult tr = (TestResult) o;
+        for (TestResult tr : tests.get(Status.FAILED)) {
             KnownFailuresList.Entry[] entries = kfl.find(tr.getTestName());
 
             if (entries == null || entries.length == 0) {
@@ -429,8 +434,7 @@ public class KflSorter {
         }   // for FAILED
 
         // iterate errors, are they on the KFL?
-        for (Object o : tests[Status.ERROR]) {
-            TestResult tr = (TestResult) o;
+        for (TestResult tr : tests.get(Status.ERROR)) {
             KnownFailuresList.Entry[] entries = kfl.find(tr.getTestName());
 
             if (entries == null || entries.length == 0) {

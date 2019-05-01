@@ -34,6 +34,7 @@ import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.DynamicArray;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
@@ -66,7 +67,7 @@ class TT_NodeCache implements Runnable {
     private int localRejectCount;
     private Hashtable<TestResult, TestFilter> rejectReasons = new Hashtable<>();
     private TT_NodeCacheObserver[] observers = new TT_NodeCacheObserver[0];
-    private Vector<TestResult>[] testLists;     // could use unsynchronized data structure
+    private List<List<TestResult>> testLists;     // could use unsynchronized data structure
     private volatile int state;
     private volatile boolean valid = true;
 
@@ -83,9 +84,9 @@ class TT_NodeCache implements Runnable {
         log = l;
 
         // all the states plus filtered out
-        testLists = new Vector[Status.NUM_STATES + 1];
+        testLists = new ArrayList<>();
         for (int i = 0; i < Status.NUM_STATES + 1; i++) {
-            testLists[i] = new Vector<>();
+            testLists.add(new ArrayList<TestResult>());
         }
     }
 
@@ -197,7 +198,7 @@ class TT_NodeCache implements Runnable {
                 if (!wouldAccept) {
                     // add to filtered out list
                     localRejectCount++;
-                    testLists[testLists.length - 1].add(what);
+                    testLists.get(testLists.size() - 1).add(what);
                     rejectReasons.put(what, rejector);
                 } else {
                     int type = what.getStatus().getType();
@@ -207,9 +208,9 @@ class TT_NodeCache implements Runnable {
                     // condition.  I tried to find the problem, but 0-5 tests out
                     // of 10000 will end up added twice when loading a workdir at
                     // startup. 12/9/2002
-                    if (!testLists[type].contains(what)) {
+                    if (!testLists.get(type).contains(what)) {
                         stats[type]++;
-                        testLists[type].add(what);
+                        testLists.get(type).add(what);
                     } else {
                     }
                 }
@@ -257,7 +258,7 @@ class TT_NodeCache implements Runnable {
             // been necessary.
             if (needsProcessing) {
                 localRejectCount++;
-                testLists[testLists.length - 1].add(what);
+                testLists.get(testLists.size() - 1).add(what);
                 // this reject will not have a reason entry in
                 // rejectReasons
             }
@@ -288,7 +289,7 @@ class TT_NodeCache implements Runnable {
             int[] rmList = locateTestInLists(what, type, -1);
 
             if (rmList[0] != -1) {
-                testLists[rmList[0]].remove(rmList[1]);
+                testLists.get(rmList[0]).remove(rmList[1]);
 
                 // decrement counter
                 if (rmList[0] < stats.length) {
@@ -375,7 +376,7 @@ class TT_NodeCache implements Runnable {
             }   // catch
 
             // inserting into one of the status lists or the filtered out list
-            int targetList = wouldAcceptNew ? typeNew : testLists.length - 1;
+            int targetList = wouldAcceptNew ? typeNew : testLists.size() - 1;
             int[] rmList = null;
 
             // optimization to search based on expected location of old test
@@ -399,8 +400,8 @@ class TT_NodeCache implements Runnable {
             }
 
             if (rmList[0] != -1) {
-                testLists[rmList[0]].remove(rmList[1]);
-                testLists[targetList].add(what);
+                testLists.get(rmList[0]).remove(rmList[1]);
+                testLists.get(targetList).add(what);
 
                 // decrement counter
                 if (rmList[0] < stats.length) {
@@ -560,16 +561,16 @@ class TT_NodeCache implements Runnable {
      * @return A copy of the Vectors that contain the current list of tests.  Null if
      * <tt>needSnapshot</tt> is false.
      */
-    synchronized Vector<TestResult>[] addObserver(TT_NodeCacheObserver obs, boolean needSnapshot) {
+    synchronized List<Vector<TestResult>> addObserver(TT_NodeCacheObserver obs, boolean needSnapshot) {
         // snapshot the current data
         // must be done before adding the observer to ensure correct data
         // delivery to client
 
-        Vector<TestResult>[] cp = null;
+        List<Vector<TestResult>> cp = null;
         if (needSnapshot) {
-            cp = new Vector[testLists.length];
-            for (int i = 0; i < testLists.length; i++) {
-                cp[i] = (Vector<TestResult>) testLists[i].clone();
+            cp = new ArrayList<>();
+            for (int i = 0; i < testLists.size(); i++) {
+                cp.add(new Vector<>(testLists.get(i)));
             }
         }
 
@@ -633,9 +634,9 @@ class TT_NodeCache implements Runnable {
                             if (wouldAccept) {
                                 int type = tr.getStatus().getType();
 
-                                if (!testLists[type].contains(tr)) {
+                                if (!testLists.get(type).contains(tr)) {
                                     stats[type]++;
-                                    testLists[type].add(tr);
+                                    testLists.get(type).add(tr);
 
                                     // XXX We are not producing
                                     // the all the parameters.  it seems to be overkill
@@ -649,7 +650,7 @@ class TT_NodeCache implements Runnable {
 
                             } else {
                                 // filtered out list
-                                testLists[testLists.length - 1].add(tr);
+                                testLists.get(testLists.size() - 1).add(tr);
                                 rejectReasons.put(tr, rejector);
                                 localRejectCount++;
 
@@ -705,7 +706,7 @@ class TT_NodeCache implements Runnable {
         result[1] = -1;
 
         if (firstListToCheck >= 0) {
-            int possible = testLists[firstListToCheck].indexOf(tr);
+            int possible = testLists.get(firstListToCheck).indexOf(tr);
             if (possible != -1) {
                 // done with search
                 result[0] = firstListToCheck;
@@ -716,7 +717,7 @@ class TT_NodeCache implements Runnable {
 
         // do a more exhaustive search if not found yet
         if (result[0] == -1) {
-            for (int i = 0; i < testLists.length; i++) {
+            for (int i = 0; i < testLists.size(); i++) {
                 // skip the lists which have been checked or that should be
                 // checked last
                 // this is just a performance optimization
@@ -724,7 +725,7 @@ class TT_NodeCache implements Runnable {
                     continue;
                 }
 
-                int possible = testLists[i].indexOf(tr);
+                int possible = testLists.get(i).indexOf(tr);
                 if (possible != -1) {
                     // found in list i, position possible
                     // done with search
@@ -738,7 +739,7 @@ class TT_NodeCache implements Runnable {
         // if still not found, check the list which was specified to be checked
         // last, this is just a performance optimization
         if (result[0] == -1 && lastListToCheck >= 0) {
-            int possible = testLists[lastListToCheck].indexOf(tr);
+            int possible = testLists.get(lastListToCheck).indexOf(tr);
             if (possible != -1) {
                 result[0] = lastListToCheck;
                 result[1] = possible;
@@ -824,6 +825,7 @@ class TT_NodeCache implements Runnable {
         public static final int MSGS_FILTERED = 6;
         public static final int OFFSET_FROM_STATUS = 2;
         protected boolean[] interestList;
+
         public TT_NodeCacheObserver() {
             interestList = new boolean[EVENT_LIST_SIZE];
         }

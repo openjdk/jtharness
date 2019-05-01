@@ -245,6 +245,7 @@ class MessageStrip extends JSplitPane
         selector.addActionListener(actionListener);
         selector.setRenderer(new BasicComboBoxRenderer() {
             @Override
+            @SuppressWarnings("rawtypes")
             public Component getListCellRendererComponent(JList list, Object value,
                                                           int index, boolean isSelected, boolean cellHasFocus) {
                 Component c = super.getListCellRendererComponent(list, value,

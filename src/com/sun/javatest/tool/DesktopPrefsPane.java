@@ -353,6 +353,7 @@ class DesktopPrefsPane extends PreferencesPane {
 
     private class TipDelayRenderer extends BasicComboBoxRenderer {
         @Override
+        @SuppressWarnings("rawtypes")
         public Component getListCellRendererComponent(JList list,
                                                       Object value,
                                                       int index,
@@ -383,6 +384,7 @@ class DesktopPrefsPane extends PreferencesPane {
         }
 
         @Override
+        @SuppressWarnings("rawtypes")
         public Component getListCellRendererComponent(JList list,
                                                       Object value,
                                                       int index,

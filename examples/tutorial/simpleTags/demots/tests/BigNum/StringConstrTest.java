@@ -146,7 +146,7 @@ public class StringConstrTest implements Test
      * @return true if the expected exception is thrown when calling
      * the BigNum(String) constructor, and false otherwise.
      */
-    boolean negTest(String s, Class expectedThrowableClass) {
+    boolean negTest(String s, Class<?> expectedThrowableClass) {
         try {
             BigNum bn = new BigNum(s);
             err.println("arg: " + s + ", expected: "

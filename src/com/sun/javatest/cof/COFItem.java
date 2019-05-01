@@ -72,7 +72,7 @@ abstract class COFItem {
             try {
                 bi = Introspector.getBeanInfo(this.getClass());
                 pds = bi.getPropertyDescriptors();
-                Arrays.sort(pds, new Comparator() {
+                Arrays.sort(pds, new Comparator<Object>() {
                     public int compare(Object o1, Object o2) {
                         PropertyDescriptor pd1 = (PropertyDescriptor) o1;
                         PropertyDescriptor pd2 = (PropertyDescriptor) o2;
@@ -90,7 +90,7 @@ abstract class COFItem {
         }
 
         Object result = null;
-        int propIndex = Arrays.binarySearch(pds, name, new Comparator() {
+        int propIndex = Arrays.binarySearch(pds, name, new Comparator<Object>() {
             public int compare(Object o1, Object o2) {
                 PropertyDescriptor pd = (PropertyDescriptor) o1;
                 String propName = (String) o2;

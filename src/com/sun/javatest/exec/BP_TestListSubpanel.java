@@ -78,6 +78,7 @@ import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -144,7 +145,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
     private boolean debug = Debug.getBoolean(BP_TestListSubpanel.class);
     private boolean sortingRequested = false;
     private String show = TestResult.EXEC_STATUS;
-    private Vector<TestResult>[] newData;
+    private List<Vector<TestResult>> newData;
     private boolean updateRequired;
 
     BP_TestListSubpanel(UIFactory uif, Harness h, ExecModel em,
@@ -391,7 +392,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                     // add tests into the list model - this doesn't make the
                     // data
                     // live though
-                    for (int j = 0; j < newData[state].size() - 1; j++) {
+                    for (int j = 0; j < newData.get(state).size() - 1; j++) {
                         if (stopping) {
                             break;
                         }
@@ -400,14 +401,14 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                             mod.sortTests(mod.liveData, mod.SORTING_COLUMN,
                                     mod.SORTING_MODE);
                         } else {
-                            mod.addTest(newData[state].get(j), true);
+                            mod.addTest(newData.get(state).get(j), true);
                         }
 
                     } // for
 
-                    if (!newData[state].isEmpty() && !stopping) {
+                    if (!newData.get(state).isEmpty() && !stopping) {
                         // final item with a notify
-                        mod.addTest(newData[state].get(newData[state].size() - 1), false);
+                        mod.addTest(newData.get(state).get(newData.get(state).size() - 1), false);
                     }
 
                     // to indicate completion
