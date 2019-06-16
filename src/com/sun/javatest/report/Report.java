@@ -569,8 +569,8 @@ public class Report implements ReportModel {
         }
 
         @Deprecated
-        public void setFilter(CompositeFilter compositeFilter) {
-            sett.setFilter(compositeFilter);
+        public void setFilter(TestFilter testFilter) {
+            sett.setFilter(testFilter);
         }
 
         @Deprecated
