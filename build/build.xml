@@ -415,7 +415,8 @@
         </javadoc>
     </target>
 
-    <target name="test" depends="jar,test-nohead,test-i18n,test-copyrights,test-sanity" description="Runs test on JT Harness.">
+<!-- FIXME:test-i18n,CODETOOLS-7902488 <target name="test" depends="jar,test-nohead,test-i18n,test-copyrights,test-sanity" description="Runs test on JT Harness.">-->
+    <target name="test" depends="jar,test-nohead,test-copyrights,test-sanity" description="Runs test on JT Harness.">
         <java fork="true" failonerror="true" classname="${run.class}">
             <classpath>
                 <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
@@ -456,17 +457,15 @@
         <target name="test-sanity-simpletck" depends="jar,build-examples">
                 <property name="libs" value="${BUILD_DIR}/binaries/examples/tutorial/demots/lib" />
                 <delete dir="${build.tmp}/sanity-demo-wd" />
+            <property name="demo.jtx.path" location="${libs}/demo.jtx"/>
                 <java fork="true" failonerror="false" jar="${BUILD_DIR}/binaries/lib/javatest.jar"
-                        outputproperty="test.sanity.simpletck.output"
                         resultproperty="test.sanity.simpletck.result">
                         <classpath>
                                 <path path="${libs}/demots.jar" />
                                 <path path="${libs}/demoapi.jar" />
                         </classpath>
-                        <arg line="-verbose:max -ts ${BUILD_DIR}/binaries/examples/tutorial/demots/ -wd -create ${build.tmp}/sanity-demo-wd -config ${libs}/demots.jti -set demoTS.jvm ${java.home}/bin/java -excludelist lib/demo.jtx -runtests -writeReport report" />
+                        <arg line="-verbose:max -ts ${BUILD_DIR}/binaries/examples/tutorial/demots/ -wd -create ${build.tmp}/sanity-demo-wd -config ${libs}/demots.jti -set demoTS.jvm ${java.home}/bin/java -excludelist ${demo.jtx.path} -runtests -writeReport report" />
                 </java>
-
-                <property name="test-sanity-simpletck-pattern" value="Test results: passed: 16" />
 
                 <condition property="test.sanity.simpletck.success">
                         <and>
@@ -475,12 +474,8 @@
                         </and>
                 </condition>
                 <fail unless="test.sanity.simpletck.success">
-                        Simple tck run exited with code "${test.sanity.simpletck.result}"
-
-                        The output:
-                        ${test.sanity.simpletck.output}
-
-                        Pattern: ${test-sanity-simpletck-pattern}</fail>
+                    Simple tck run exited with code "${test.sanity.simpletck.result}"
+                </fail>
         </target>
 
     <target name="test-nohead" depends="dist" description="Runs all tests, which do not need display">
@@ -555,7 +550,7 @@
     </target>
 
     <!-- ********** examples ********************************************** -->
-    <target name="build-examples" depends="build-tutorial"/>
+    <target name="build-examples" depends="build-tutorial, build-services-ts"/>
 
     <target name="build-tutorial" depends="jar">
         <property name="build.examples" location="${BUILD_DIR}/binaries/examples/tutorial"/>
