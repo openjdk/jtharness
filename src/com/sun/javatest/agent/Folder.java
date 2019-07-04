@@ -123,8 +123,7 @@ class Folder extends Panel implements ItemSelectable {
     }
 
     public void showTab(String name, boolean visible) {
-        for (int i = 0; i < entries.size(); i++) {
-            Entry e = entries.get(i);
+        for (Entry e : entries) {
             if (e.name.equals(name)) {
                 if (e.visibleTab != visible) {
                     e.visibleTab = visible;
@@ -158,8 +157,7 @@ class Folder extends Panel implements ItemSelectable {
     }
 
     public Component current() {
-        for (int i = 0; i < entries.size(); i++) {
-            Entry e = entries.get(i);
+        for (Entry e : entries) {
             if (e.comp.isVisible()) {
                 return e.comp;
             }
@@ -168,8 +166,7 @@ class Folder extends Panel implements ItemSelectable {
     }
 
     public void show(Component comp) {
-        for (int i = 0; i < entries.size(); i++) {
-            Entry e = entries.get(i);
+        for (Entry e : entries) {
             if (e.comp == comp) {
                 show(e);
                 return;
@@ -178,8 +175,7 @@ class Folder extends Panel implements ItemSelectable {
     }
 
     public void show(String name) {
-        for (int i = 0; i < entries.size(); i++) {
-            Entry e = entries.get(i);
+        for (Entry e : entries) {
             if (e.name.equals(name)) {
                 show(e);
                 return;
@@ -199,8 +195,7 @@ class Folder extends Panel implements ItemSelectable {
         FontMetrics fm = g.getFontMetrics();
         int tabHeight = fm.getHeight() + tabpad;
         Entry selected = null;
-        for (int i = 0; i < entries.size(); i++) {
-            Entry e = entries.get(i);
+        for (Entry e : entries) {
             if (e.comp.isVisible()) {
                 selected = e;
                 break;
@@ -218,8 +213,7 @@ class Folder extends Panel implements ItemSelectable {
                 border, border);
         int x = border + hgap;
         int baseLine = tabHeight + vgap;
-        for (int i = 0; i < entries.size(); i++) {
-            Entry e = entries.get(i);
+        for (Entry e : entries) {
             int tabH = e.visibleTab || e.comp.isVisible() ? tabHeight : tabHeight / 3;
             int w = fm.stringWidth(e.name);
             Polygon tab = new Polygon();
@@ -271,8 +265,7 @@ class Folder extends Panel implements ItemSelectable {
     int getMinimumWidth() {
         FontMetrics fm = getFontMetrics(getFont());
         int w = border + 2 * hgap + tabSpace;
-        for (int i = 0; i < entries.size(); i++) {
-            Entry e = entries.get(i);
+        for (Entry e : entries) {
             w += slant + (fm == null ? 0 : fm.stringWidth(e.name)) + slant + tabSpace;
         }
         return w;
@@ -316,8 +309,7 @@ class Folder extends Panel implements ItemSelectable {
         FontMetrics fm = getFontMetrics(getFont());
         if (vgap < mouseY && mouseY < border + fm.getHeight() + vgap) {
             int x = border + hgap;
-            for (int i = 0; i < entries.size(); i++) {
-                Entry e = entries.get(i);
+            for (Entry e : entries) {
                 int w = fm.stringWidth(e.name);
                 x += slant + w + slant + tabSpace;
                 if (mouseX < x) {
