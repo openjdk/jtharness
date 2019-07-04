@@ -572,9 +572,8 @@ public class Audit {
                 }
             } else {
                 out.println(i18n.getString("adt.envKey", key));
-                for (int j = 0; j < allValuesForKey.size(); j++) {
-                    out.println(i18n.getString("adt.envValue",
-                            allValuesForKey.get(j)));
+                for (String s : allValuesForKey) {
+                    out.println(i18n.getString("adt.envValue", s));
                 }
             }
         }

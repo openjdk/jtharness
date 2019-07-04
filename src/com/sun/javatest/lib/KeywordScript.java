@@ -150,9 +150,9 @@ public class KeywordScript extends Script {
                 String s = envName + " has no suitable `script' entry";
                 trOut.println(s);
                 trOut.println("The keyword combinations for scripts in this environment are: ");
-                for (int i = 0; i < choices.size(); i++) {
-                    trOut.println(choices.get(i));
-                }   // for
+                for (String choice : choices) {
+                    trOut.println(choice);
+                }
 
                 setStatus(Status.error(s));
                 return;

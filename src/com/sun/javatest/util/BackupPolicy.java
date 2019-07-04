@@ -161,8 +161,7 @@ public abstract class BackupPolicy {
 
         // delete old backups
         int numBackupsToKeep = getNumBackupsToKeep(file);
-        for (int i = 0; i < backups.size(); i++) {
-            int index = backups.get(i).intValue();
+        for (Integer index : backups) {
             if (index <= (maxBackupIndex - numBackupsToKeep)) {
                 File backupToGo = new File(file.getPath() + "~" + index + "~");
                 // let SecurityExceptions out, but otherwise ignore failures
