@@ -569,8 +569,8 @@ class TT_NodeCache implements Runnable {
         List<Vector<TestResult>> cp = null;
         if (needSnapshot) {
             cp = new ArrayList<>();
-            for (int i = 0; i < testLists.size(); i++) {
-                cp.add(new Vector<>(testLists.get(i)));
+            for (List<TestResult> testList : testLists) {
+                cp.add(new Vector<>(testList));
             }
         }
 

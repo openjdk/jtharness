@@ -189,9 +189,9 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             String pref = map.get(ExecTool.ACTIVE_FILTER);
 
             // try to use filter indicated in preference
-            for (int i = 0; i < allFilters.size(); i++) {
-                if (allFilters.get(i).getClass().getName().equals(pref)) {
-                    return allFilters.get(i);
+            for (TestFilter filter : allFilters) {
+                if (filter.getClass().getName().equals(pref)) {
+                    return filter;
                 }
             }   // for
         }
