@@ -185,8 +185,7 @@ public class CommandContext {
             throws CommandContext.Fault {
         boolean foundAction = false;
 
-        for (int i = 0; i < commands.size(); i++) {
-            Command cmd = commands.get(i);
+        for (Command cmd : commands) {
             foundAction |= cmd.isActionCommand();
 
             // can't cache this ... may change while we execute commands
@@ -829,8 +828,7 @@ public class CommandContext {
      */
     public boolean isDesktopRequired() {
         int mode = Command.DEFAULT_DTMODE;
-        for (int i = 0; i < commands.size(); i++) {
-            Command cmd = commands.get(i);
+        for (Command cmd : commands) {
             mode = Math.max(mode, cmd.getDesktopMode());
         }
         return mode == Command.DESKTOP_NOT_REQUIRED_DTMODE ? false : true;

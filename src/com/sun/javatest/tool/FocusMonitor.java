@@ -602,8 +602,7 @@ class FocusMonitor {
         }
 
         void write(Writer out) throws IOException {
-            for (int i = 0; i < entries.size(); i++) {
-                Entry e = entries.get(i);
+            for (Entry e : entries) {
                 e.write(out);
             }
         }
@@ -611,8 +610,7 @@ class FocusMonitor {
         @Override
         public void setEnabled(boolean enabled) {
             super.setEnabled(enabled);
-            for (int i = 0; i < entries.size(); i++) {
-                Entry e = entries.get(i);
+            for (Entry e : entries) {
                 e.setParentEnabled(enabled);
             }
         }

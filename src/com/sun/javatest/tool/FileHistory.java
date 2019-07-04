@@ -204,8 +204,7 @@ public class FileHistory {
         // looking for the first entry. Non-existent entries are
         // skipped but not deleted because they might be for other
         // platforms.
-        for (int i = 0; i < entries.size(); i++) {
-            File f = entries.get(i);
+        for (File f : entries) {
             if (f.exists()) {
                 return f;
             }
@@ -217,8 +216,7 @@ public class FileHistory {
     public File getRelativeLatestEntry(String newRoot, String oldRoot) {
         ensureEntriesUpToDate();
 
-        for (int i = 0; i < entries.size(); i++) {
-            File f = entries.get(i);
+        for (File f : entries) {
             if (f.exists()) {
                 return f;
             } else {
@@ -277,8 +275,8 @@ public class FileHistory {
             bw.newLine();
             bw.write("# written at " + new Date());
             bw.newLine();
-            for (int i = 0; i < entries.size(); i++) {
-                bw.write(entries.get(i).toString());
+            for (File entry : entries) {
+                bw.write(entry.toString());
                 bw.newLine();
             }
             bw.close();

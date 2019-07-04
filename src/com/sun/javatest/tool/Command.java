@@ -132,11 +132,10 @@ public abstract class Command {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < args.size(); i++) {
+        for (String arg : args) {
             if (sb.length() > 0) {
                 sb.append(' ');
             }
-            String arg = args.get(i);
             boolean hasSpace = arg.indexOf(' ') != -1;
             boolean hasQuote = arg.indexOf('"') != -1;
             boolean hasEscape = arg.indexOf('\\') != -1;
