@@ -111,8 +111,8 @@ public class Report extends COFItem {
 
     Report(COFEnvironment[] envs, COFTestSuite ts) {
         this();
-        for (int i = 0; i < envs.length; i++) {
-            getEnvironments().getEnvironment().add(envs[i]);
+        for (COFEnvironment env : envs) {
+            getEnvironments().getEnvironment().add(env);
         }
         getTestsuites().getTestsuite().add(ts);
     }

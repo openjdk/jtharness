@@ -48,8 +48,7 @@ public class COFData {
     }
 
     COFData(Vector<Object> data) throws IOException {
-        for (int i = 0; i < data.size(); i++) {
-            Object o = data.get(i);
+        for (Object o : data) {
             if (o == null) {
                 throw new NullPointerException();
             } else if (o instanceof String) {

@@ -138,29 +138,29 @@ abstract class COFItem {
         out.startTag(itemTagName);
         if (itemAttributes != null) {
             String[] attrOrder = getAttributeProperties();
-            for (int i = 0; i < attrOrder.length; i++) {
-                out.writeAttr(itemAttributes.get(attrOrder[i]).toString(),
-                        (String) getProperty(attrOrder[i]));
+            for (String s : attrOrder) {
+                out.writeAttr(itemAttributes.get(s).toString(),
+                        (String) getProperty(s));
             }
         }
         if (itemElements != null) {
             String[] propOrder = getPropOrder();
-            for (int i = 0; i < propOrder.length; i++) {
-                Object propValue = getProperty(propOrder[i]);
+            for (String s : propOrder) {
+                Object propValue = getProperty(s);
                 if (propValue instanceof COFItem) {
                     COFItem item = (COFItem) propValue;
                     item.write(out);
                     continue;
                 } else if (propValue instanceof Collection) {
-                    writeCollection(out, propOrder[i]);
+                    writeCollection(out, s);
                     continue;
                 }
                 if (propValue == null) {
                     continue;
                 }
-                out.startTag(itemElements.get(propOrder[i]).toString());
+                out.startTag(itemElements.get(s).toString());
                 write(out, propValue);
-                out.endTag(itemElements.get(propOrder[i]).toString());
+                out.endTag(itemElements.get(s).toString());
             }
         }
         out.endTag(itemTagName);
@@ -178,8 +178,7 @@ abstract class COFItem {
 
     void writeCollection(XMLWriter out, String propName) throws IOException {
         Collection<?> col = (Collection<?>) getProperty(propName);
-        for (Iterator<?> iter = col.iterator(); iter.hasNext(); ) {
-            Object value = iter.next();
+        for (Object value : col) {
             if (value instanceof COFItem) {
                 ((COFItem) value).write(out);
             } else {

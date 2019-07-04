@@ -97,8 +97,8 @@ class COFTestSuite extends COFItem {
     void scan(File dir) {
         String[] entries = dir.list();
         if (entries != null) {
-            for (int i = 0; i < entries.length; i++) {
-                File f = new File(dir, entries[i]);
+            for (String entry : entries) {
+                File f = new File(dir, entry);
                 if (f.isDirectory()) {
                     scan(f);
                 } else if (TestResult.isResultFile(f)) {
