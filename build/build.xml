@@ -492,14 +492,14 @@
     <target name="run-unit-tests" depends="dist, compile.unit-tests" description="Runs all unit tests">
         <delete dir="${build.unit-tests.reports}"/>
         <mkdir dir="${build.unit-tests.reports}"/>
-        <junit fork="yes" haltonerror="true" haltonfailure="true" printsummary="yes" showoutput="on">
+        <junit fork="yes" printsummary="yes">
             <formatter type="plain"/>
             <classpath>
                 <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
                 <pathelement location="${junitlib}"/>
                 <pathelement location="${build.unit-tests}"/>
             </classpath>
-            <batchtest fork="true" skipnontests="true" haltonerror="true" haltonfailure="true" todir="${build.unit-tests.reports}">
+            <batchtest haltonerror="true" haltonfailure="true" todir="${build.unit-tests.reports}">
                 <fileset dir="${src.unit-tests.dir}" includes="**/*.java"/>
             </batchtest>
         </junit>
