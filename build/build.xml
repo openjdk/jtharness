@@ -304,6 +304,17 @@
 
     </target>
 
+    <target name="compile.unit-tests" depends="compile.classes">
+        <delete dir="${build.unit-tests}" quiet="true"/>
+        <mkdir dir="${build.unit-tests}"/>
+        <javac debug="true" source="1.7" target="1.7"
+               srcdir="${src.unit-tests.dir}"
+               destdir="${build.unit-tests}"
+               classpath="${build.classes}:${junitlib}">
+            <compilerarg value="-Xlint:all"/>
+        </javac>
+    </target>
+
     <target name="compile.test.copyright.classes">
         <mkdir dir="${build.classes}"/>
         <javac encoding="iso-8859-1" debug="true" source="1.7" target="1.7"
@@ -416,7 +427,7 @@
     </target>
 
 <!-- FIXME:test-i18n,CODETOOLS-7902488 <target name="test" depends="jar,test-nohead,test-i18n,test-copyrights,test-sanity" description="Runs test on JT Harness.">-->
-    <target name="test" depends="jar,test-nohead,test-copyrights,test-sanity" description="Runs test on JT Harness.">
+    <target name="test" depends="jar, run-unit-tests, test-copyrights, test-sanity" description="Runs test on JT Harness.">
         <java fork="true" failonerror="true" classname="${run.class}">
             <classpath>
                 <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
@@ -478,17 +489,21 @@
                 </fail>
         </target>
 
-    <target name="test-nohead" depends="dist" description="Runs all tests, which do not need display">
-          <antcall target="test-statusmsg"/>
-    </target>
-
-    <target name="test-statusmsg" depends="jar" description="Tests the message string filtering of the Status class">
-        <junit fork="no" haltonerror="off" printsummary="withOutAndErr" filtertrace="off" showoutput="on">
+    <target name="run-unit-tests" depends="dist, compile.unit-tests" description="Runs all unit tests">
+        <delete dir="${build.unit-tests.reports}"/>
+        <mkdir dir="${build.unit-tests.reports}"/>
+        <junit fork="yes" haltonerror="true" haltonfailure="true" printsummary="yes" showoutput="on">
+            <formatter type="plain"/>
             <classpath>
+                <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
                 <pathelement location="${junitlib}"/>
+                <pathelement location="${build.unit-tests}"/>
             </classpath>
-              <test name="StatusFilterTest"/>
+            <batchtest fork="true" skipnontests="true" haltonerror="true" haltonfailure="true" todir="${build.unit-tests.reports}">
+                <fileset dir="${src.unit-tests.dir}" includes="**/*.java"/>
+            </batchtest>
         </junit>
+
     </target>
 
     <target name="compile-javatest.help.main" unless="javatest.help.ok" >
