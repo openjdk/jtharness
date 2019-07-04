@@ -427,7 +427,7 @@
     </target>
 
 <!-- FIXME:test-i18n,CODETOOLS-7902488 <target name="test" depends="jar,test-nohead,test-i18n,test-copyrights,test-sanity" description="Runs test on JT Harness.">-->
-    <target name="test" depends="jar, run-unit-tests, test-copyrights, test-sanity" description="Runs test on JT Harness.">
+    <target name="test" depends="build, run-unit-tests, test-copyrights, test-sanity" description="Runs test on JT Harness.">
         <java fork="true" failonerror="true" classname="${run.class}">
             <classpath>
                 <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>

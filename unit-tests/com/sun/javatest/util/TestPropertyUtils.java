@@ -72,7 +72,7 @@ public class TestPropertyUtils {
         Map<String, String> props = new HashMap<>();
         props.put("key1", "va l1      sef  ::SDF        ");
         props.put("key2", "val2                 ");
-        props.put("key3", "val3           ; asdfp £@$%(&!£$%&)£$%&@£)$%__+!@£($)");
+        props.put("key3", "val3           ; asdfp !@$%^&*(__=+-~)");
         saveLoadCheck(props);
     }
 
