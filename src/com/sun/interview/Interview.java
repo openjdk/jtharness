@@ -701,8 +701,7 @@ public class Interview {
             return this;
         }
 
-        for (int i = 0; i < children.size(); i++) {
-            Interview c = children.get(i);
+        for (Interview c : children) {
             Interview iv = c.getInterview0(t);
             if (iv != null) {
                 return iv;
@@ -720,8 +719,7 @@ public class Interview {
 
     private void getInterviews0(Set<Interview> s) {
         s.add(this);
-        for (int i = 0; i < children.size(); i++) {
-            Interview child = children.get(i);
+        for (Interview child : children) {
             child.getInterviews0(s);
         }
     }
@@ -1351,8 +1349,7 @@ public class Interview {
     private void getQuestions0(Set<Question> s) {
         s.addAll(allQuestions.values());
 
-        for (int i = 0; i < children.size(); i++) {
-            Interview child = children.get(i);
+        for (Interview child : children) {
             child.getQuestions0(s);
         }
     }
@@ -1374,8 +1371,7 @@ public class Interview {
     private void getAllQuestions0(Map<String, Question> m) {
         m.putAll(allQuestions);
 
-        for (int i = 0; i < children.size(); i++) {
-            Interview child = children.get(i);
+        for (Interview child : children) {
             child.getAllQuestions0(m);
         }
     }
@@ -1727,8 +1723,7 @@ public class Interview {
             q.clear();
         }
 
-        for (int i = 0; i < children.size(); i++) {
-            Interview child = children.get(i);
+        for (Interview child : children) {
             child.clear();
         }
         if (parent == null) {
@@ -1790,8 +1785,7 @@ public class Interview {
             q.load(data);
         }
 
-        for (int i = 0; i < children.size(); i++) {
-            Interview child = children.get(i);
+        for (Interview child : children) {
             child.load(data, false);
         }
 
