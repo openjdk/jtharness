@@ -214,7 +214,7 @@ public class Main {
                     filterClass = args[++i];
                 } else if (args[i].startsWith("-")) {
                     throw new BadArgs(i18n, "main.badOpt", args[i]);
-                } else if (args[i].indexOf("=") != -1) {
+                } else if (args[i].contains("=")) {
                     data.add(args[i]);
                 } else if (i == args.length - 1) {
                     // currently, only accept one directory;

@@ -340,16 +340,12 @@ public class COFTest extends COFItem {
         List<String> mtlTestCases = mtl.getTestCases(tr.getTestName());
         if (mtlTestCases != null && !mtlTestCases.isEmpty()) {
             // for (COFTestCase jtrCase : jtrCases) {
-            Iterator<COFTestCase> it = jtrCases.iterator();
-            while (it.hasNext()) {
-                COFTestCase jtrCase = it.next();
+            for (COFTestCase jtrCase : jtrCases) {
                 mtlTestCases.remove(jtrCase.name);
             }
             if (!mtlTestCases.isEmpty()) {
                 //for (String testCaseName : mtlTestCases) {
-                Iterator<String> tcNamesIterator = mtlTestCases.iterator();
-                while (tcNamesIterator.hasNext()) {
-                    String testCaseName = tcNamesIterator.next();
+                for (String testCaseName : mtlTestCases) {
                     COFTestCase nTc = new COFTestCase();
                     COFStatus nStatus = new COFStatus();
                     nTc.setName(testCaseName);

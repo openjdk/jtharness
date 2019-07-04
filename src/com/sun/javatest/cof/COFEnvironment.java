@@ -338,7 +338,7 @@ import java.util.TimeZone;
         if (value.endsWith(".unknown")) {
             try {
                 machine = InetAddress.getLocalHost().getCanonicalHostName();
-                if (machine.indexOf(".") == -1) {
+                if (!machine.contains(".")) {
                     if ("false".equals(data.get("showWarnings"))) {
                         System.err.println(i18n.getString("environment.badMachineName", machine));
                     } else {
