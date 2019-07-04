@@ -80,13 +80,13 @@ public class KflSorter {
     protected SortedSet<TestDiff> tc_missing;
     protected SortedSet<TestDiff> tc_fail2pass;
 
-    /**
-     * Add all test cases for a test which match the given status to the tree set.
-     * @param entry The corresponding KFL entry.
-     * @param
-     * @param set the data set to add the selected test cases to
-     * @return the number of test cases which matched the status
-     */
+//    /**
+//     * Add all test cases for a test which match the given status to the tree set.
+//     * @param entry The corresponding KFL entry.
+//     * @param
+//     * @param set the data set to add the selected test cases to
+//     * @return the number of test cases which matched the status
+//     */
 //    private int addStatusTestCases(final KnownFailuresList.Entry entry,
 //            final String url, final TestResult tr, int status,
 //            Transitions t, Map<String, Status> tcs, TreeSet set) {
