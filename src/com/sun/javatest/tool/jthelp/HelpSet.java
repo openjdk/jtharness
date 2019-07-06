@@ -71,7 +71,7 @@ public class HelpSet {
                                 prefix = prefix + "moreInfo/";
                                 u = findHelpSet(loader, prefix + mapLocation);
                             }
-                            prefix = prefix + mapLocation.substring(0, mapLocation.lastIndexOf("/") + 1);
+                            prefix = prefix + mapLocation.substring(0, mapLocation.lastIndexOf('/') + 1);
                             localMap = parseMap(loader, u, prefix);
                         }
                     }
@@ -97,7 +97,7 @@ public class HelpSet {
                             String target = reader.getAttributeValue(0);
                             String htmlurl = reader.getAttributeValue(1);
                             if (htmlurl.contains("#")) {
-                                htmlurl = htmlurl.substring(0, htmlurl.indexOf("#"));
+                                htmlurl = htmlurl.substring(0, htmlurl.indexOf('#'));
                             }
                             result.put(target, htmlurl);
                         }

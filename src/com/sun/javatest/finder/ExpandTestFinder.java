@@ -156,7 +156,7 @@ public class ExpandTestFinder extends TagTestFinder {
                     expandVars.put(fqvName, v);
 
                     int pos;
-                    if ((pos = fqvName.indexOf(".")) == -1) {
+                    if ((pos = fqvName.indexOf('.')) == -1) {
                         continue;
                     }
                     String stem = fqvName.substring(0, pos);
@@ -240,7 +240,7 @@ public class ExpandTestFinder extends TagTestFinder {
                     String stem;
                     String qualifier;
                     int pos;
-                    if ((pos = varName.indexOf(".")) == -1) {
+                    if ((pos = varName.indexOf('.')) == -1) {
                         stem = varName;
                         qualifier = "";
                     } else {

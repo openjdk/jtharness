@@ -53,7 +53,7 @@ public class COFData {
                 throw new NullPointerException();
             } else if (o instanceof String) {
                 String s = (String) o;
-                int eq = s.indexOf("=");
+                int eq = s.indexOf('=');
                 if (eq < 1) {
                     throw new IllegalArgumentException(s);
                 }

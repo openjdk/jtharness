@@ -409,7 +409,7 @@ public class TagTestFinder extends TestFinder {
      */
     private int findTagStart(String s, int pos) {
         while (true) {
-            pos = s.indexOf("@", pos);
+            pos = s.indexOf('@', pos);
             if ((pos == -1) || (pos >= (s.length() - 1))) {
                 return -1;
             }

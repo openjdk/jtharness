@@ -641,7 +641,7 @@ public class TestResultTable {
      * no leading directory to strip.
      */
     static String behead(String path) {
-        int index = path.indexOf("/");
+        int index = path.indexOf('/');
 
         if (index == -1) {
             return path;

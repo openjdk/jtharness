@@ -120,7 +120,7 @@ public class PropertyServiceReader implements ServiceReader {
         Set<String> set = new HashSet<>();
         for (String key : keys) {
             if (key.startsWith(prefix)) {
-                int i = key.indexOf(".", len);
+                int i = key.indexOf('.', len);
                 if (i > 0) {
                     set.add(key.substring(len, i));
                 }

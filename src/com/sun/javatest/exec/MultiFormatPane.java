@@ -552,7 +552,7 @@ public class MultiFormatPane extends JPanel implements Printable {
             // JEditorPane doesn't allows javascript, so we delete this parameter and load
             // root page of help package
             if (correctURL.getProtocol().equals("file")) {
-                int pos = correctURL.toString().indexOf("?");
+                int pos = correctURL.toString().indexOf('?');
                 if (pos >= 0) {
                     try {
                         correctURL = new URL(correctURL.toString().substring(0, pos));

@@ -719,7 +719,7 @@ public class Wizard extends JComponent {
         if (currFile != null) {
             //  setCurrentDirectory required
             chooser.setCurrentDirectory(new File(currFile.getParent()));
-            int dot = currFile.getName().lastIndexOf(".");
+            int dot = currFile.getName().lastIndexOf('.');
             if (dot != -1) {
                 File f = new File(currFile.getName().substring(0, dot) + ".html");
                 chooser.setSelectedFile(f);
@@ -1142,7 +1142,7 @@ public class Wizard extends JComponent {
                 // setCurrentDirectory required
                 exportChooser.setCurrentDirectory(new File(currFile.getParent()));
                 String[] extns = e.getFileExtensions();
-                int dot = currFile.getName().lastIndexOf(".");
+                int dot = currFile.getName().lastIndexOf('.');
                 if (dot != -1 && extns != null && extns.length > 0) {
                     File f = new File(currFile.getName().substring(0, dot) + extns[0]);
                     exportChooser.setSelectedFile(f);

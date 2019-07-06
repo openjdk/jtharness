@@ -168,7 +168,7 @@ public class EditLinks {
         String msg = i18n.getString("editLinks.usage", program);
         int start = 0;
         int i;
-        while ((i = msg.indexOf("\n", start)) != -1) {
+        while ((i = msg.indexOf('\n', start)) != -1) {
             System.err.println(msg.substring(start, i));
             start = i + 1;
         }

@@ -945,7 +945,7 @@ public class ConfigManager
             try {
                 if (q instanceof CompositeQuestion) {
                     CompositeQuestion cq = (CompositeQuestion) q;
-                    int sepIndex = value.indexOf(":");
+                    int sepIndex = value.indexOf(':');
                     if (sepIndex > 0) {
                         // decode value and send to question
                         // could be handled differently in the future

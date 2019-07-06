@@ -422,7 +422,7 @@ public class ExcludeList {
     public Entry getEntry(String url) {
         String testCase = null;
         if (url.endsWith("]")) {
-            int i = url.lastIndexOf("[");
+            int i = url.lastIndexOf('[');
             if (i != -1) {
                 testCase = url.substring(i + 1, url.length() - 1);
                 url = url.substring(0, i);
@@ -767,7 +767,7 @@ public class ExcludeList {
             String testCase = null; // for now
 
             if (url.endsWith("]")) {
-                int i = url.lastIndexOf("[");
+                int i = url.lastIndexOf('[');
                 if (i != -1) {
                     testCase = url.substring(i + 1, url.length() - 1);
                     url = url.substring(0, i);

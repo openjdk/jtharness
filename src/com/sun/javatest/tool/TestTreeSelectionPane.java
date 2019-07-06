@@ -90,7 +90,7 @@ public class TestTreeSelectionPane extends TreeSelectionPane {
             } else if (node instanceof TestResult) {
                 TestResult tr = (TestResult) node;
                 String fullName = tr.getTestName();
-                int lastSlash = fullName.lastIndexOf("/");
+                int lastSlash = fullName.lastIndexOf('/');
                 return lastSlash == -1
                         ? fullName
                         : fullName.substring(lastSlash + 1);

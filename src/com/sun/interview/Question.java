@@ -92,7 +92,7 @@ public abstract class Question {
         interview.add(this);
 
         String c = interview.getClass().getName();
-        int dot = c.lastIndexOf(".");
+        int dot = c.lastIndexOf('.');
         if (dot != -1) {
             c = c.substring(dot + 1);
         }

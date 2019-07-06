@@ -785,7 +785,7 @@ public class SelectionTree extends JTree {
         String head;
         String tail;
 
-        int sep = path.indexOf("/");
+        int sep = path.indexOf('/');
         if (sep == -1) {
             head = path;
             tail = null;

@@ -187,7 +187,7 @@ public class WizPrint {
                 // try and create a default
                 if (interviewFile != null) {
                     String ip = interviewFile.getPath();
-                    int dot = ip.lastIndexOf(".");
+                    int dot = ip.lastIndexOf('.');
                     if (dot != -1) {
                         outFileName = new File(ip.substring(0, dot) + ".html");
                     }

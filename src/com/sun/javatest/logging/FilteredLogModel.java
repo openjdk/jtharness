@@ -340,7 +340,7 @@ public class FilteredLogModel extends LogModel {
                 return true;
             }
             String logName = model.getLogname(rec.loggerID);
-            int pos = logName.indexOf("#");
+            int pos = logName.indexOf('#');
             String shortName;
             if (pos >= 0) {
                 shortName = logName.substring(pos + 1);

@@ -164,7 +164,7 @@ public class JavaCompileCommand extends Command {
                     }
 
                     String s = options[++i];
-                    int colon = s.indexOf(":");
+                    int colon = s.indexOf(':');
                     if (colon == -1) {
                         compilerClassName = s;
                         compilerName = "java " + s;

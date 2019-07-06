@@ -263,7 +263,7 @@ public class ProductInfo {
             URL url = ProductInfo.class.getResource(classEntry);
             if (url.getProtocol().equals("jar")) {
                 String path = url.getPath();
-                int sep = path.lastIndexOf("!");
+                int sep = path.lastIndexOf('!');
                 path = path.substring(0, sep);
                 url = new URL(path);
             }

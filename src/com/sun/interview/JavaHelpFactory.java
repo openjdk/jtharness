@@ -58,7 +58,7 @@ public class JavaHelpFactory implements HelpSetFactory {
         String pref = "";
         if (name.startsWith("/")) {
             hsn = name.substring(1); // strip off leading /
-            pref = hsn.substring(0, hsn.lastIndexOf("/") + 1);
+            pref = hsn.substring(0, hsn.lastIndexOf('/') + 1);
         } else {
             String cn = c.getName();
             String pn = cn.substring(0, cn.lastIndexOf('.'));

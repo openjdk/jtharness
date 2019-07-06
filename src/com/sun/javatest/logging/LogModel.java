@@ -301,7 +301,7 @@ public class LogModel {
 
         public String getHeader(String logName) {
             StringBuilder out = new StringBuilder();
-            int pos = logName.indexOf("#");
+            int pos = logName.indexOf('#');
             if (pos >= 0) {
                 out.append(logName.substring(pos + 1));
             } else {

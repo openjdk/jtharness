@@ -484,7 +484,7 @@ public class TestResult {
      * given URL is null.
      */
     public static String getWorkRelativePath(String testURL) {
-        int pound = testURL.lastIndexOf("#");
+        int pound = testURL.lastIndexOf('#');
         if (pound == -1)        // no test id
         {
             return getWorkRelativePath(testURL, null);
@@ -2601,7 +2601,7 @@ public class TestResult {
                         int start = JTR_V2_SECTSTREAM.length();
                         lines = Integer.parseInt(extractSlice(header, start, "(", "/"));
                         chars = Integer.parseInt(extractSlice(header, start, "/", ")"));
-                        int rp = header.indexOf(")", start);
+                        int rp = header.indexOf(')', start);
                         if (rp >= 0 && rp < header.length() - 2) {
                             needsEscape = header.charAt(rp + 1) == '*';
                         } else {

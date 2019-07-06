@@ -268,7 +268,7 @@ public class Main {
         String file;
         String ref;
 
-        int hash = key.lastIndexOf("#");
+        int hash = key.lastIndexOf('#');
         if (hash == -1) {
             file = key;
             ref = null;
