@@ -492,7 +492,7 @@
     <target name="run-unit-tests" depends="dist, compile.unit-tests" description="Runs all unit tests">
         <delete dir="${build.unit-tests.reports}"/>
         <mkdir dir="${build.unit-tests.reports}"/>
-        <junit fork="yes" printsummary="yes">
+        <junit fork="yes" printsummary="yes" dir="${basedir}">
             <formatter type="plain"/>
             <classpath>
                 <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
