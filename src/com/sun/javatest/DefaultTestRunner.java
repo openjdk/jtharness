@@ -157,7 +157,7 @@ public class DefaultTestRunner extends TestRunner {
         }
     }
 
-    private boolean runTest(TestDescription td) {
+    protected boolean runTest(TestDescription td) {
         WorkDirectory workDir = getWorkDirectory();
         TestResult result = null;
 
