@@ -312,7 +312,7 @@ public class WorkDirChooser extends JFileChooser {
         if (value != null) {
             return value.booleanValue();
         }
-        value = new Boolean(WorkDirectory.isWorkDirectory(dir));
+        value = Boolean.valueOf(WorkDirectory.isWorkDirectory(dir));
         wdData.put(key, value);
         return value.booleanValue();
     }

@@ -136,7 +136,7 @@ public class VerboseCommand extends Command {
                 throw new Fault(i18n, "verb.badOpt", item);
             }
 
-            optionValues.put(item, new Boolean(on));
+            optionValues.put(item, Boolean.valueOf(on));
         }
     }
 

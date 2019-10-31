@@ -165,14 +165,14 @@ public class ChoiceArrayQuestionRenderer
             if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_A) {
                 boolean allSelected = true;
                 for (int i = 0; i < tm.getRowCount(); i++) {
-                    if (tm.getValueAt(i, 0).equals(new Boolean(false))) {
+                    if (tm.getValueAt(i, 0).equals(Boolean.FALSE)) {
                         allSelected = false;
                         break;
                     }
 
                 }
                 for (int i = 0; i < tm.getRowCount(); i++) {
-                    tm.setValueAt(new Boolean(!allSelected), i, 0);
+                    tm.setValueAt(Boolean.valueOf(!allSelected), i, 0);
                     TableModelEvent ev = new TableModelEvent(tm, i, i,
                             TableModelEvent.ALL_COLUMNS,
                             TableModelEvent.UPDATE);
@@ -201,7 +201,7 @@ public class ChoiceArrayQuestionRenderer
 
         @Override
         public Object getValueAt(int r, int c) {
-            return c == 0 ? new Boolean(values[r]) : displayChoices[r];
+            return c == 0 ? Boolean.valueOf(values[r]) : displayChoices[r];
         }
 
         @Override

@@ -176,7 +176,7 @@ public class TemplateUtilities {
         InputStream in = new FileInputStream(f);
         p.load(in);
         in.close();
-        return new Boolean(p.getProperty(InterviewParameters.IS_TEMPLATE)).booleanValue();
+        return Boolean.valueOf(p.getProperty(InterviewParameters.IS_TEMPLATE)).booleanValue();
     }
 
     public static ConfigInfo getConfigInfo(File f) throws IOException {

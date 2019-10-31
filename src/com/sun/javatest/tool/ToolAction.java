@@ -220,7 +220,7 @@ public abstract class ToolAction implements Action {
         enabled = newVal;
 
         if (listeners.size() > 0) {
-            firePropertyChangeEvent("enabled", new Boolean(oldVal), new Boolean(newVal));
+            firePropertyChangeEvent("enabled", Boolean.valueOf(oldVal), Boolean.valueOf(newVal));
         }
     }
 

@@ -139,7 +139,7 @@ class ToolBarPanel extends JPanel {
                             commponentsPerRow = 1;
                         }
                         if (m instanceof JComponent) {
-                            ((JComponent) m).putClientProperty(PB_PROP_NAME, new Boolean(!firstVisibleComponent));
+                            ((JComponent) m).putClientProperty(PB_PROP_NAME, Boolean.valueOf(!firstVisibleComponent));
                         }
                     }
                 }
