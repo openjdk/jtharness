@@ -199,7 +199,11 @@ public class JavaTestSecurityManager extends SecurityManager {
     public void checkSetFactory() {
     }
 
-    @Override
+    /**
+     * Still temporarily kept for compatibility with JDK7,
+     * the overridden methods are deprecated in SE8 and removed in SE11
+     */
+    @java.lang.Deprecated
     public boolean checkTopLevelWindow(Object window) {
         return true;
     }
@@ -212,12 +216,20 @@ public class JavaTestSecurityManager extends SecurityManager {
     public void checkWrite(String file) {
     }
 
+    /**
+     * Still temporarily kept for compatibility with JDK7,
+     * the overridden methods are deprecated in SE8 and removed in SE11
+     */
     // These methods are added for forward-compatibility with JDK1.1
-    @Override
+    @java.lang.Deprecated
     public void checkAwtEventQueueAccess() {
     }
 
-    @Override
+    /**
+     * Still temporarily kept for compatibility with JDK7,
+     * the overridden methods are deprecated in SE8 and removed in SE11
+     */
+    @java.lang.Deprecated
     public void checkMemberAccess(Class<?> clazz, int which) {
     }
 
@@ -237,7 +249,11 @@ public class JavaTestSecurityManager extends SecurityManager {
     public void checkSecurityAccess(String provider) {
     }
 
-    @Override
+    /**
+     * Still temporarily kept for compatibility with JDK7,
+     * the overridden methods are deprecated in SE8 and removed in SE11
+     */
+    @java.lang.Deprecated
     public void checkSystemClipboardAccess() {
     }
 

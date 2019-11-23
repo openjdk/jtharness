@@ -83,7 +83,7 @@ class BrowserPane extends JPanel {
     private JButton homeBtn;
     private JButton backBtn;
     private JButton forwardBtn;
-    private JComboBox<URL> selectBox;
+    private JComboBox<Object> selectBox;
 
     //------------------------------------------------------------------------------------
     private JPanel head;
@@ -95,7 +95,7 @@ class BrowserPane extends JPanel {
     private JEditorPane textArea;
     private URL currURL;
     private History history;
-    private DefaultComboBoxModel<URL> model;
+    private DefaultComboBoxModel<Object> model;
     private Listener listener = new Listener();
     private JToolBar toolBar;
     private UIFactory uif;
@@ -458,7 +458,7 @@ class BrowserPane extends JPanel {
         }
     }
 
-    private DefaultComboBoxModel<URL> createModel() {
+    private DefaultComboBoxModel<Object> createModel() {
         if (model == null) {
             model = new DefaultComboBoxModel<>();
         }

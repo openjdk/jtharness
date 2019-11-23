@@ -69,8 +69,8 @@ public class NavigationPane extends JPanel {
     private JButton homeBtn;
     private JButton backBtn;
     private JButton forwardBtn;
-    private JComboBox<URL> selectBox;
-    private DefaultComboBoxModel<URL> model;
+    private JComboBox<Object> selectBox;
+    private DefaultComboBoxModel<Object> model;
     private Listener listener = new Listener();
     private JToolBar toolBar;
     private MultiFormatPane mediaPane;
@@ -231,7 +231,7 @@ public class NavigationPane extends JPanel {
         };
     }
 
-    private DefaultComboBoxModel<URL> createModel() {
+    private DefaultComboBoxModel<Object> createModel() {
         if (model == null) {
             model = new DefaultComboBoxModel<>();
         }

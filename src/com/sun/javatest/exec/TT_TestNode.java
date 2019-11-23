@@ -46,7 +46,7 @@ public class TT_TestNode extends TT_TreeNode {
 
     // ------- interface methods --------
     @Override
-    public Enumeration<?> children() {
+    public Enumeration<? extends TreeNode> children() {
         throw new UnsupportedOperationException("Not supported.");
     }
 
