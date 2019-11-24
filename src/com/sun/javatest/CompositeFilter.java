@@ -58,7 +58,7 @@ public class CompositeFilter extends TestFilter {
      * <li>name
      * <li>reason
      * </ul>
-     * See the <tt>TestFilter</tt> class for a description of these values.
+     * See the TestFilter class for a description of these values.
      * <p>
      * An empty set of filters is accepted for convenience, but will result
      * allowing all tests passing through for filtering to be accepted.

@@ -309,7 +309,7 @@ public class InterviewEditor extends ToolDialog {
      *           <li><code>getDefaultConfigLoadPath()</code>
      *           <li><code>getAllowConfigLoadOutsideDefault()</code>
      *           </ul>
-     * @throws <code>IllegalArgumentException</code> if the following configuration errors found:
+     * @throws IllegalArgumentException if the following configuration errors found:
      *                                               <ul>
      *                                               <li> <code>getDefaultConfigLoadPath()</code> returns <code>null</code> when <code>getAllowConfigLoadOutsideDefault()</code> returns <code>false</code>
      *                                               <li> <code>getDefaultConfigLoadPath()</code> returns not absolute path

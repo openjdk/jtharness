@@ -67,7 +67,7 @@ import java.util.Vector;
 /**
  * The TestResult object encapsulates the results from a test.
  * Test results are formatted in sections of command output,
- * comments and sometimes "streams" of output (<tt>stdout</tt> for example).
+ * comments and sometimes "streams" of output (stdout for example).
  * Each of these sections is represented by a (@link TestResult.Section Section).
  * Instances of this class are mutable until the result of the section is
  * set or until the result of the test itself is set.

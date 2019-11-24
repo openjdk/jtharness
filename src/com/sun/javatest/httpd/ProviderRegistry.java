@@ -37,7 +37,7 @@ import java.util.Map;
  * Registry for JT Harness classes which wish to publish pages for the http
  * server.  Each handler is associated with a particular URL.  As a policy,
  * only the first directory name can be used as a key.  For example,
- * you cannot register <tt>/foo/bar/</tt>, you can only register <tt>/foo/</tt>.
+ * you cannot register /foo/bar/, you can only register /foo/.
  *
  * <p>
  * Rules about registration:
@@ -172,7 +172,7 @@ public class ProviderRegistry {
     }
 
     /**
-     * @param url The file portion of the url.  Ex: <tt>/harness/foo</tt>
+     * @param url The file portion of the url.  Ex: /harness/foo
      * @return The handler associated with the url.  A default provider is given
      * if the requested one cannot be found.
      */

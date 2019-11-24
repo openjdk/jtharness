@@ -1153,7 +1153,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * Updates the TD if needed.
      *
      * @param url   This is required if the test description is null.  may be null
-     *              if the <tt>oldTd</tt> is not null.  This parameter is
+     *              if the oldTd is not null.  This parameter is
      *              preferred over data derived from the second parameter.
      * @param oldTd Used for comparison purposes, may be null.
      * @return A new TD if it has changed, the original if not.  Null will only be
@@ -1877,8 +1877,8 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     /**
      * Return the prefix path for a testsuite root, to which a relative path can be attached.
      * This method exists to ensure compatibility when a webwalk-style root is being used, which ends
-     * in an unusable testsuite.html.  So <tt>/tmp/JCK/tests/testsuite.html</tt> will be transformed into
-     * <tt>/tmp/JCK/tests</tt>.  No trailing path separator will be added.
+     * in an unusable testsuite.html.  So /tmp/JCK/tests/testsuite.html will be transformed into
+     * /tmp/JCK/tests.  No trailing path separator will be added.
      */
     private File getTestSuiteRootPathPrefix() {
         File tsr = table.getTestSuiteRoot();

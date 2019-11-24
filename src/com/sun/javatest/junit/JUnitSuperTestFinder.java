@@ -337,7 +337,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
         }
 
         /**
-         * Looks for methods which are test methods by calling <tt>isTestMethodSignature</tt>.
+         * Looks for methods which are test methods by calling isTestMethodSignature.
          * You can override that method or this one.  If overriding this one,
          * use foundTestMethod(String) to register any test methods which you
          * find.

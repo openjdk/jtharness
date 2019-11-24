@@ -57,7 +57,7 @@ public abstract class CustomTestResultViewer extends JPanel {
     /**
      * Returns the name of this CustomTestResultViewer.
      *
-     * @return <tt>title</tt> for the viewer.
+     * @return title for the viewer.
      * Return value can't be null or empty String
      **/
     public abstract String getTitle();
@@ -68,7 +68,7 @@ public abstract class CustomTestResultViewer extends JPanel {
      * May be multiple sentences if desired.
      * The return value should be localized.
      *
-     * @return <tt>description</tt> for the viewer.
+     * @return description for the viewer.
      * Return value can't be null or empty String
      **/
     public abstract String getDescription();
@@ -101,10 +101,10 @@ public abstract class CustomTestResultViewer extends JPanel {
      * This method is called when a new test from the test tree is selected by
      * user. It does nothing by default.
      * Subclasses might override this method, e.g. to change
-     * the <tt>TestResult</tt> object to observe upon.
+     * the TestResult object to observe upon.
      *
-     * @param newTR    is a <tt>TestResult</tt> object for  selected test.
-     * @param isActive true if this <tt>CustomTestResultViewer</tt> is currently
+     * @param newTR    is a TestResult object for  selected test.
+     * @param isActive true if this CustomTestResultViewer is currently
      *                 selected otherwise false
      */
     public void onCangedTestResult(TestResult newTR, boolean isActive) {

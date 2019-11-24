@@ -364,8 +364,8 @@ public class TestResultTable {
 
     /**
      * Used to find a branch node somewhere in the tree based on a path.
-     * If the <tt>path</tt> string is of zero length (the empty string), the
-     * <tt>node</tt> parameter is returned.  This is desirable for proper operation
+     * If the path string is of zero length (the empty string), the
+     * node parameter is returned.  This is desirable for proper operation
      * because the path to the root is the empty path.
      *
      * @param node Where to start the search
@@ -1529,8 +1529,6 @@ public class TestResultTable {
      *
      * @param node the node representing the folder to be refreshed
      * @return true if any refreshing was needed, false otherwise.
-     * @throws TestResultTable.Fault if the node indicated cannot be located for
-     *                               refreshing.
      */
     public synchronized boolean refreshIfNeeded(TreeNode node) {
         if (node.getEnclosingTable() != this) {
@@ -1995,7 +1993,7 @@ public class TestResultTable {
     /**
      * Make all the initial files usable.  This method turns the file paths
      * into paths relative to the testsuite root.  It also removes any files
-     * which match the testsuite root path.  The <tt>getPath()</tt> value is
+     * which match the testsuite root path.  The getPath() value is
      * used to get the path to resolve.
      *
      * @param tests Files to resolve.  May be zero length or null.
@@ -2539,11 +2537,11 @@ public class TestResultTable {
         /**
          * Should the rejected tests be tracked.
          * The default is to not record this info, activating this feature will
-         * make <tt>getFilterStats()</tt> return useful info.  The setting can
+         * make getFilterStats() return useful info.  The setting can
          * be changed at any time, but never resets the statistics.  The
          * recorded statistics represent iterator output during this object's
          * lifetime, while this feature was enabled.  The setting here does not
-         * affect information from <tt>getRejectCount()</tt>
+         * affect information from getRejectCount()
          *
          * @param state True to activate this feature, false to disable.
          * @see com.sun.javatest.TestResultTable.TreeIterator#getFilterStats()

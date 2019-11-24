@@ -315,8 +315,6 @@ public abstract class FloatQuestion extends Question {
      *          but isValueValid() will return false.
      * @param l A locale that should be used to decode numeric value
      *          from given string parameter
-     * @throws Interview.Fault This exception is just retained for backwards
-     *                         compatibility; it should never actually be thrown.
      * @see #getValue
      * @see #getValue()
      * @see #setValue(String, Locale)

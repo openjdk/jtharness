@@ -469,7 +469,7 @@ public class UIFactory {
      * Also, the component's accessible description text will automatically
      * be set to the supplied tooltip text.<br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the component
      * </table>
      *
@@ -488,7 +488,7 @@ public class UIFactory {
     /**
      * Sets only the accessible description for the given context, using the
      * given key.
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.desc  <td>accessible description
      * </table>
      *
@@ -503,7 +503,7 @@ public class UIFactory {
     /**
      * Sets only the accessible description for the given context, using the
      * given key.
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.desc  <td>accessible description
      * </table>
      *
@@ -535,7 +535,7 @@ public class UIFactory {
     /**
      * Sets only the accessible name for the given context, using the
      * given key.
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name  <td>accessible name
      * </table>
      *
@@ -563,7 +563,7 @@ public class UIFactory {
      * Sets the accessibility name and description for the given context
      * using the given key as the base.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name  <td>accessible name
      * <tr><td><i>uiKey</i>.desc  <td>accessible description text
      * </table>
@@ -579,7 +579,7 @@ public class UIFactory {
     /**
      * Create a titled border, using a resource to specify the title. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.bdr  <td>the text for the title
      * </table>
      *
@@ -633,7 +633,7 @@ public class UIFactory {
     /**
      * Create a button, using resources to specify the name and the tool tip. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.btn  <td>the name for the button
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
      * </table>
@@ -685,7 +685,7 @@ public class UIFactory {
      * Create a button, using resources to specify the name and the tool tip,
      * and with a specified ActionListener. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.btn  <td>the name for the button
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
      * </table>
@@ -706,7 +706,7 @@ public class UIFactory {
      * Create a button, using resources to specify the name and the tool tip,
      * and with a specified ActionListener and action command. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.btn  <td>the name for the button
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
      * </table>
@@ -768,7 +768,7 @@ public class UIFactory {
      * Create a Close button, that will close the containing window when pressed,
      * using a resource to specify the information for the button.  <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.btn  <td>the name for the button
      * <tr><td><i>uiKey</i>.mne  <td>the mnemonic for the button
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
@@ -791,7 +791,7 @@ public class UIFactory {
      * Create a Close button, that will close the containing window when pressed,
      * using a resource to specify the information for the button.  <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.btn  <td>the name for the button
      * <tr><td><i>uiKey</i>.mne  <td>the mnemonic for the button, if required
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
@@ -820,7 +820,7 @@ public class UIFactory {
      * Create a Help button, that will display a specific help topic when pressed,
      * using a resource to specify the tool tip for the button.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
      * </table>
      * In addition, the name of the button is set to <i>uiKey</i>.
@@ -849,7 +849,7 @@ public class UIFactory {
      * Create a button containing an icon, using resources to specify the
      * icon image and the tool tip. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.icon <td>the name of the resource for the icon image
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
      * </table>
@@ -872,7 +872,7 @@ public class UIFactory {
      * Create a button containing an icon, using resources to specify the
      * icon image and the tool tip. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.icon <td>the name of the resource for the icon image
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
      * </table>
@@ -910,7 +910,7 @@ public class UIFactory {
      * Create a radio button, using resources to specify the name and tool tip. <br>
      * The button is initially set to <code>false</code>.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.rb  <td>the label for the button
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
      * <tr><td><i>uiKey</i>.mne  <td>the mnemonic for the button
@@ -937,7 +937,7 @@ public class UIFactory {
     /**
      * Set the mnemonic a button.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.mne <td>The keystroke to use
      * </table>
      *
@@ -959,7 +959,7 @@ public class UIFactory {
     /**
      * Create a check box, using resources to specify the name and the tool tip. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.ckb  <td>the name for the check box
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
      * <tr><td><i>uiKey</i>.mne  <td>the mnemonic for the button
@@ -977,7 +977,7 @@ public class UIFactory {
     /**
      * Create a check box, using resources to specify the name and the tool tip. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.ckb  <td>the name for the check box
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
      * <tr><td><i>uiKey</i>.mne  <td>the mnemonic for the button
@@ -997,7 +997,7 @@ public class UIFactory {
      * Create a check box, using resources to specify the name and the tool tip,
      * within a specified button group. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.ckb  <td>the name for the check box
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the button
      * <tr><td><i>uiKey</i>.mne  <td>the mnemonic for the button
@@ -1029,7 +1029,7 @@ public class UIFactory {
      * Create a choice item, using resources to specify the choices and the
      * tool tip. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.<i>choiceKeys<sub>i</sub></i>.chc  <td>the choice to appear in the item, for 0 &lt;= i &lt; choiceKeys.length
      * <tr><td><i>uiKey</i>.name <td>the accessible name for the selector
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the choice item
@@ -1115,7 +1115,7 @@ public class UIFactory {
     /**
      * Create an empty choice item, using a resource to specify the tool tip. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the choice item
      * </table>
      * In addition, the name of the choice is set to <i>uiKey</i>.
@@ -1215,7 +1215,7 @@ public class UIFactory {
      * if they are otherwise should probably be shown to the user using a renderer
      * which produces localized output.
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the choice item
      * </table>
      * In addition, the name of the choice is set to <i>uiKey</i>.
@@ -1235,7 +1235,7 @@ public class UIFactory {
     /**
      * Create an icon, using a resource to specify the image. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.icon  <td>the name of a resource containing the image
      * </table>
      *
@@ -1255,7 +1255,7 @@ public class UIFactory {
     /**
      * Get the resource URL for an icon specified in a resource bundle. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.icon  <td>the name of a resource containing the image
      * </table>
      *
@@ -1276,7 +1276,7 @@ public class UIFactory {
      * Create a label containing an icon, using a resource to specify the
      * icon image. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.icon <td>the name of the resource for the icon image
      * </table>
      *
@@ -1307,7 +1307,7 @@ public class UIFactory {
     /**
      * Create a label, using a resource to specify the text. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.lbl  <td>the text for the label
      * </table>
      *
@@ -1322,7 +1322,7 @@ public class UIFactory {
     /**
      * Create a label, using a resource to specify the text and an optional mnemonic.<br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.lbl  <td>the text for the label
      * <tr><td><i>uiKey</i>.tip  <td>the tooltip text for the label
      * <tr><td><i>uiKey</i>.mne  <td>the mnemonic for the label
@@ -1346,7 +1346,7 @@ public class UIFactory {
     /**
      * Create an input text field, using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * </table>
      * <p>
@@ -1356,7 +1356,7 @@ public class UIFactory {
      * Note: list components do not currently support tool tips.
      * When they do, this method will use a resource to specify the tool tip.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name  <td>the accessible name of the list
      * <tr><td><i>uiKey</i>.desc  <td>the accessible description of the list
      * </table>
@@ -1376,7 +1376,7 @@ public class UIFactory {
      * Note: list components do not currently support tool tips.
      * When they do, this method will use a resource to specify the tool tip.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name  <td>the accessible name of the list
      * <tr><td><i>uiKey</i>.desc  <td>the accessible description of the list
      * </table>
@@ -1395,7 +1395,7 @@ public class UIFactory {
     /**
      * Create an empty menu bar, using resources to specify the accessible info.<br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name <td>the accessible name text
      * <tr><td><i>uiKey</i>.desc <td>accessible description text
      * </table>
@@ -1417,7 +1417,7 @@ public class UIFactory {
     /**
      * Create an empty menu, using resources to specify the name and mnemonic. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.menu  <td>the display name of the menu
      * <tr><td><i>uiKey</i>.mne  <td>the single character mnemonic for the menu
      * <tr><td><i>uiKey</i>.desc <td>accessible description text
@@ -1436,7 +1436,7 @@ public class UIFactory {
     /**
      * Initialize an empty menu, using resources to specify the name and mnemonic. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.menu  <td>the display name of the menu
      * <tr><td><i>uiKey</i>.mne  <td>the single character mnemonic for the menu
      * <tr><td><i>uiKey</i>.desc <td>accessible description text
@@ -1457,7 +1457,7 @@ public class UIFactory {
      * Create a menu, using actions to specify the menu items,
      * and using resources to specify the name and mnemonic. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.menu  <td>the display name of the menu
      * <tr><td><i>uiKey</i>.mne  <td>the single character mnemonic for the menu
      * </table>
@@ -1484,7 +1484,7 @@ public class UIFactory {
      * Create a menu using resources and an action listener to specify
      * the menu items, and using resources to specify the name and mnemonic. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.menu  <td>the display name of the menu
      * <tr><td><i>uiKey</i>.mne  <td>the single character mnemonic for the menu
      * <tr><td><i>uiKey</i>.<i>actions<sub>i</sub></i>.mit  <td>the text for the menu item, for 0 &lt;= i &lt; choiceKeys.length
@@ -1509,7 +1509,7 @@ public class UIFactory {
      * Initialize a menu using resources and an action listener to specify
      * the menu items, and using resources to specify the name and mnemonic. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.menu  <td>the display name of the menu
      * <tr><td><i>uiKey</i>.mne  <td>the single character mnemonic for the menu
      * <tr><td><i>uiKey</i>.<i>actions<sub>i</sub></i>.mit  <td>the text for the menu item, for 0 &lt;= i &lt; choiceKeys.length
@@ -1595,7 +1595,7 @@ public class UIFactory {
     /**
      * Create a menu item, using resources to specify the text and mnemonic. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.<i>action</i>.mit  <td>the text for the menu item
      * <tr><td><i>uiKey</i>.<i>action</i>.mne  <td>the single character mnemonic for the menu item
      * </table>
@@ -1623,7 +1623,7 @@ public class UIFactory {
      * Create a check box menu item, using resources to specify the
      * name and the tool tip. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.<i>name</i>.ckb  <td>the name for the menu item
      * <tr><td><i>uiKey</i>.<i>name</i>.tip  <td>the tool tip for the menu item
      * </table>
@@ -1648,7 +1648,7 @@ public class UIFactory {
      * Create a Help menu item, that will display a specific help topic when pressed,
      * using resources to specify the name and mnemonic for the item.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.mit  <td>the text for the menu item
      * <tr><td><i>uiKey</i>.mne  <td>the mnemonic for the menu item
      * </table>
@@ -1698,7 +1698,7 @@ public class UIFactory {
      * @param uiKey the base name of the resources to be used
      * @return a spinner component
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.<code>name</code><td> the accessible name for the tab pane.
      *          Where <code>name</code> is the literal string "name".
      * <tr><td><i>uiKey</i>.<code>tip</code><td> the accessible name for the tab pane.
@@ -1725,7 +1725,7 @@ public class UIFactory {
      * Create a check box menu item, using resources to specify the
      * name and the tool tip. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.<i>name</i>.ckb  <td>the name for the menu item
      * <tr><td><i>uiKey</i>.<i>name</i>.tip  <td>the tool tip for the menu item
      * </table>
@@ -1785,7 +1785,7 @@ public class UIFactory {
     /**
      * Create a slider, using resources to specify the the tool tip. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.<i>name</i>.tip  <td>the tool tip for the menu item
      * </table>
      *
@@ -1856,7 +1856,7 @@ public class UIFactory {
      * @param uiKey the base name of the resources to be used
      * @return an empty (no tabs) tabbed pane
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.<code>name</code><td> the accessible name for the tab pane.
      * Where <code>name</code> is the literal string "name".
      * <tr><td><i>uiKey</i>.<code>tip</code><td> the accessible name for the tab pane.
@@ -1878,7 +1878,7 @@ public class UIFactory {
      * Create a tabbed pane with a given set of component panes,
      * using resources to determine the name and tool tip for each tab. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.<i>name<sub>i</sub></i>.tab  <td>the display name for the tab,
      * where <i>name<sub>i</sub></i> is the component name for children[i]
      * <tr><td><i>uiKey</i>.<i>name<sub>i</sub></i>.tip  <td>the tool tip for the tab,
@@ -1914,7 +1914,7 @@ public class UIFactory {
      * Add a component to a tabbed pane, using resources to specify
      * the name and the tool tip for the tab. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tab  <td>the name for the tab
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the tab
      * </table>
@@ -1933,7 +1933,7 @@ public class UIFactory {
     /**
      * Create a table with a given data model.
      * Resources used:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.<code>name</code><td> the accessible name for the tab pane.
      * Where <code>name</code> is the literal string "name".
      * <tr><td><i>uiKey</i>.<code>tip</code><td> the accessible name for the tab pane.
@@ -1961,7 +1961,7 @@ public class UIFactory {
      * Create a text field for use as a heading, using a resource to specify
      * the heading. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the text for the heading
      * </table>
      * In addition, the name of the output field is set to <i>uiKey</i>.
@@ -1986,7 +1986,7 @@ public class UIFactory {
     /**
      * Create an input text field, using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * </table>
      * In addition, the name of the input field is set to <i>uiKey</i>.
@@ -2002,7 +2002,7 @@ public class UIFactory {
     /**
      * Create an input text field, using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * </table>
      * In addition, the name of the input field is set to <i>uiKey</i>.
@@ -2020,7 +2020,7 @@ public class UIFactory {
      * Create an input text field with a specified number of columns,
      * using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * </table>
      * In addition, the name of the input field is set to <i>uiKey</i>.
@@ -2038,7 +2038,7 @@ public class UIFactory {
      * Create an input text field with a specified number of columns,
      * using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * </table>
      * In addition, the name of the input field is set to <i>uiKey</i>.
@@ -2073,7 +2073,7 @@ public class UIFactory {
      * Create a message area, using a resource to specify the content.
      * The message area will be transparent, uneditable, and word-wrapped. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the text for the message area
      * </table>
      *
@@ -2088,7 +2088,7 @@ public class UIFactory {
      * Create a message area, using a resource to specify the content.
      * The message area will be transparent, uneditable, and word-wrapped. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the text for the message area
      * <tr><td><i>uiKey</i>.name  <td>accessible name
      * <tr><td><i>uiKey</i>.desc  <td>accessible description text
@@ -2107,7 +2107,7 @@ public class UIFactory {
      * Create a message area, using a resource to specify the content.
      * The message area will be transparent, uneditable, and word-wrapped. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the text for the message area
      * <tr><td><i>uiKey</i>.name  <td>accessible name
      * <tr><td><i>uiKey</i>.desc  <td>accessible description text
@@ -2179,7 +2179,7 @@ public class UIFactory {
     /**
      * Create an output text field, using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * </table>
@@ -2228,7 +2228,7 @@ public class UIFactory {
      * Create an output text field with a specified number of columns,
      * and using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * </table>
@@ -2247,7 +2247,7 @@ public class UIFactory {
      * Create an output text field with a specified number of columns,
      * using a resource to specify the tool tip, with an attached label.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * </table>
@@ -2268,7 +2268,7 @@ public class UIFactory {
      * using a resource to specify the tool tip, with an attached label,
      * which can automaticly select contained text.<br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * </table>
@@ -2293,7 +2293,7 @@ public class UIFactory {
      * Create an output text field containing a specified value,
      * and using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * </table>
@@ -2313,7 +2313,7 @@ public class UIFactory {
      * using a resource to specify the tool tip,
      * with an attached label. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * </table>
@@ -2338,7 +2338,7 @@ public class UIFactory {
      * with a specified number of columns,
      * and using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * </table>
@@ -2359,7 +2359,7 @@ public class UIFactory {
      * using a resource to specify the tool tip,
      * with a label referencing this new field.<br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * </table>
@@ -2382,7 +2382,7 @@ public class UIFactory {
      * with a label referencing this new field,
      * which can automaticly select contained text.<br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the field
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * </table>
@@ -2434,7 +2434,7 @@ public class UIFactory {
     /**
      * Create a text area, using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the text area
      * </table>
      * In addition, the name of the text area is set to <i>uiKey</i>.
@@ -2453,7 +2453,7 @@ public class UIFactory {
     /**
      * Create a text area, using a resource to specify the tool tip.  <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the text area
      * </table>
      * In addition, the name of the text area is set to <i>uiKey</i>.
@@ -2484,7 +2484,7 @@ public class UIFactory {
     /**
      * Create a basic progress bar.
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the text area
      * </table>
@@ -2506,7 +2506,7 @@ public class UIFactory {
     /**
      * Create a basic progress bar.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name <td>accessible name
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the text area
      * </table>
@@ -2529,7 +2529,7 @@ public class UIFactory {
     /**
      * Create an empty toolbar.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name  <td>accessible name
      * <tr><td><i>uiKey</i>.desc  <td>accessible description text
      * </table>
@@ -2552,7 +2552,7 @@ public class UIFactory {
      * have their accessible description set to the short description of the
      * action.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name  <td>accessible name
      * <tr><td><i>uiKey</i>.desc  <td>accessible description text
      * </table>
@@ -2582,7 +2582,7 @@ public class UIFactory {
     /**
      * Create a toolbar, using buttons.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name  <td>accessible name
      * <tr><td><i>uiKey</i>.desc  <td>accessible description text
      * </table>
@@ -2629,7 +2629,7 @@ public class UIFactory {
     /**
      * Show an information dialog, using a resource to specify the error message. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.err  <td>the information message to be displayed
      * </table>
      * The method will block until the dialog is dismissed by the user.
@@ -2643,7 +2643,7 @@ public class UIFactory {
     /**
      * Show an error dialog, using a resource to specify the error message. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.err  <td>the error message to be displayed
      * </table>
      * The method will block until the dialog is dismissed by the user.
@@ -2657,7 +2657,7 @@ public class UIFactory {
     /**
      * Show an error dialog, using a resource to specify the error message. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.err  <td>the error message to be displayed
      * </table>
      *
@@ -2673,7 +2673,7 @@ public class UIFactory {
     /**
      * Show an error dialog, using a resource to specify the error message. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.err  <td>the error message to be displayed
      * </table>
      *
@@ -2711,7 +2711,7 @@ public class UIFactory {
      * Show an error dialog containing stack trace information, using a
      * resource to specify the error message. <br>
      * The resource used is:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.err  <td>the error message to be displayed
      * </table>
      *
@@ -2805,7 +2805,7 @@ public class UIFactory {
      * Show a confirmation dialog with OK and Cancel buttons,
      * using a resource to specify the message and title. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -2824,7 +2824,7 @@ public class UIFactory {
      * Show a confirmation dialog with OK and Cancel buttons,
      * using a resource to specify the message and title. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -2845,7 +2845,7 @@ public class UIFactory {
      * Show a confirmation dialog with OK and Cancel buttons,
      * using a resource to specify the message and title. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -2886,7 +2886,7 @@ public class UIFactory {
      * Show a confirmation dialog with Yes and No buttons,
      * using a resource to specify the message and title. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -2905,7 +2905,7 @@ public class UIFactory {
      * Show a confirmation dialog with Yes and No buttons,
      * using a resource to specify the message and title. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -2926,7 +2926,7 @@ public class UIFactory {
      * Show a confirmation dialog with Yes and No buttons,
      * using a resource to specify the title and component for the message.<br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
      * The method will block until the dialog is dismissed by the user.
@@ -2945,7 +2945,7 @@ public class UIFactory {
      * Show a confirmation dialog with Yes and No buttons,
      * using a resource to specify the message and title. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -3012,7 +3012,7 @@ public class UIFactory {
      * Show a confirmation dialog with Yes, No and Cancel buttons,
      * using a resource to specify the message and title. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -3036,7 +3036,7 @@ public class UIFactory {
      * Show a confirmation dialog with Yes and No buttons,
      * using a resource to specify the message and title. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -3058,7 +3058,7 @@ public class UIFactory {
      * Show a confirmation dialog with Yes and No buttons,
      * using a resource to specify the message and title. <br>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -3095,7 +3095,7 @@ public class UIFactory {
     /**
      * Show a message only dialog, no user feedback.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -3139,7 +3139,7 @@ public class UIFactory {
      * Show a dialog which provides the user with an informational message.
      * <p>
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
      *
@@ -3179,7 +3179,7 @@ public class UIFactory {
      * so this panel will be focusable.  Because of this, accessibility
      * information must be set, therefore the following resources are
      * required from the resource bundle:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name  <td>the accessible name of the panel
      * <tr><td><i>uiKey</i>.desc <td>accessible description text
      * </table>
@@ -3198,7 +3198,7 @@ public class UIFactory {
      * so this panel will be focusable.  Use this method to control
      * whether or not the panel remains focusable.  If you choose 'true',
      * the following must be provided in the resource bundle:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name  <td>the accessible name of the panel
      * <tr><td><i>uiKey</i>.desc <td>accessible description text
      * </table>
@@ -3222,7 +3222,7 @@ public class UIFactory {
      * so this panel will be focusable.  Because of this, accessibility
      * information must be set, therefore the following resources are
      * required from the resource bundle:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name  <td>the accessible name of the panel
      * <tr><td><i>uiKey</i>.desc <td>accessible description text
      * </table>
@@ -3242,7 +3242,7 @@ public class UIFactory {
      * so this panel will be focusable.  Use this method to control
      * whether or not the panel remains focusable.  If you choose 'true',
      * the following must be provided in the resource bundle:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name <td>the accessible name of the panel
      * <tr><td><i>uiKey</i>.desc <td>accessible description text
      * </table>
@@ -3373,7 +3373,7 @@ public class UIFactory {
     /**
      * Create an empty frame. Unlike to dialog <code>createDialog(String uiKey,
      * JFrame owner, String title, Container content)</code> it can't be modal,
-     * it's always free-floating and it has minimize and maximize buttons <br/>
+     * it's always free-floating and it has minimize and maximize buttons.
      * See <code>initFrame(JFrame,String)</code> for required resources.
      *
      * @param uiKey   the base name of the resource to be used
@@ -3392,7 +3392,7 @@ public class UIFactory {
     /**
      * Create a dialog which will ask the user to wait.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * </table>
@@ -3409,7 +3409,7 @@ public class UIFactory {
     /**
      * Create a dialog which will ask the user to wait.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.txt  <td>the message to be displayed
      * <tr><td><i>uiKey</i>.title  <td>the title for the dialog
      * <tr><td><i>uiKey</i>.desc <td>accessible description of the dialog
@@ -3467,7 +3467,7 @@ public class UIFactory {
 
     /**
      * Configure a dialog with accessibility information.
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.desc <td>accessible description of the dialog
      * <tr><td><i>uiKey</i>.name <td>accessible name of the dialog
      * <tr><td><i>uiKey</i>.root <td>component name for the root pane of the
@@ -3492,7 +3492,7 @@ public class UIFactory {
 
     /**
      * Configure a frame with accessibility information and an icon.
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.desc <td>accessible description of the frame
      * <tr><td><i>uiKey</i>.name <td>accessible name of the frame
      * <tr><td><i>uiKey</i>.root <td>component name for the root pane of the
@@ -3726,6 +3726,7 @@ public class UIFactory {
      * <b>
      * This class might be helpful, when a component extends another components
      * from a different package.
+     * </b>
      */
     public static class UIFactoryExt extends UIFactory {
         private I18NResourceBundle i18n_alt;

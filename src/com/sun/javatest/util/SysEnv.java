@@ -46,10 +46,11 @@ import java.util.Map;
  * <li> An OS-specific default, if one is known. The current set of
  * defaults is as follows:
  * <table>
- * <tr><th>OS              <th>Default
- * <tr><td>Mac OS X        <td>/usr/bin/env
- * <tr><td>Solaris         <td>/usr/bin/env
- * <tr><td>Windows XP      <td>cmd /c set
+ *     <caption>The current set of defaults</caption>
+ * <tr><th>OS              </th><th>Default</th></tr>
+ * <tr><td>Mac OS X        </td><td>/usr/bin/env</td></tr>
+ * <tr><td>Solaris         </td><td>/usr/bin/env</td></tr>
+ * <tr><td>Windows XP      </td><td>cmd /c set</td></tr>
  * </table>
  * <li> Finally, a simple default of "env" is used. While this may not
  * always work by default, a user could provide a suitable script

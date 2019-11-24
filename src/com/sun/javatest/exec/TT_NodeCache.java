@@ -121,7 +121,7 @@ class TT_NodeCache implements Runnable {
      * Pause processing, and return immediately.
      * If the node has completed processing, calling this method has no
      * effect.
-     * Be careful with MT activities when using <tt>pause() resume() isPaused()</tt>.
+     * Be careful with MT activities when using pause() resume() isPaused().
      *
      * @see #resume()
      */
@@ -137,7 +137,7 @@ class TT_NodeCache implements Runnable {
     /**
      * Continue processing after a pause.
      *
-     * @throws IllegalStateException if <tt>pause()</tt> was not previously called.
+     * @throws IllegalStateException if pause() was not previously called.
      * @see #pause
      */
     void resume() {
@@ -522,7 +522,7 @@ class TT_NodeCache implements Runnable {
     /**
      * Get the pass fail error notrun stats.
      * The data may be in flux if the data is still being collected, use
-     * <tt>isActive()</tt> to anticipate this.
+     * isActive() to anticipate this.
      *
      * @return An array of size Status.NUM_STATES.  This is not a copy, do not
      * alter.
@@ -559,7 +559,7 @@ class TT_NodeCache implements Runnable {
      * @param needSnapshot Does the caller want a snapshot of the current test lists.
      *                     True if yes, false if not.
      * @return A copy of the Vectors that contain the current list of tests.  Null if
-     * <tt>needSnapshot</tt> is false.
+     * needSnapshot is false.
      */
     synchronized List<Vector<TestResult>> addObserver(TT_NodeCacheObserver obs, boolean needSnapshot) {
         // snapshot the current data

@@ -107,8 +107,6 @@ public abstract class CustomReport {
      * @return The filename of a file that should be displayed if possible.
      * Currently, only HTML (with simple CSS), plain text and RTF
      * can be rendered.
-     * @throws com.sun.javatest.report.CustomReport.ReportException - if the report creation was unsuccessful.
-     *                                                              Harness can show Exception's text
      */
     public abstract File createReport(File rootDir);
 
@@ -136,8 +134,6 @@ public abstract class CustomReport {
      * @return The filename of a file that should be displayed if possible.
      * Currently, only HTML (with simple CSS), plain text and RTF
      * can be rendered.
-     * @throws com.sun.javatest.report.CustomReport.ReportException - if the report creation was unsuccessful.
-     *                                                              Harness can show Exception's text
      * @see com.sun.javatest.tool.Preferences
      */
     public abstract File createReport(String args, File rootDir,

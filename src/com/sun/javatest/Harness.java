@@ -477,10 +477,10 @@ public class Harness {
 
     /**
      * Indicates whether the harness has located all the tests it will execute.
-     * If true, then <tt>getTestsFoundCount()</tt> will return the number of test
+     * If true, then getTestsFoundCount() will return the number of test
      * which will be executed during this test run; assuming the harness does not
      * halt for special cases (errors, user request, etc...).  If false,
-     * <tt>getTestsFoundCount()</tt> returns the number of tests located so
+     * getTestsFoundCount() returns the number of tests located so
      * far.
      *
      * @return True if all tests have been located.  False if the harness is

@@ -451,8 +451,8 @@ public class Debug {
 
     /**
      * Wildcards are compared against the given key minus one field.
-     * So a search(<tt>"foo.bar.baz"</tt>) does a search for <tt>"foo.bar.*"</tt>.
-     * <tt>"foo.*"</tt> will not be a match.
+     * So a search("foo.bar.baz") does a search for "foo.bar.*".
+     * "foo.*" will not be a match.
      */
     private static class WildcardProperties extends Properties {
         static final String wildTail = Debug.SEPARATOR + Debug.WILD_SUFFIX;

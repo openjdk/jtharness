@@ -153,10 +153,6 @@ public class MultiTest implements Test {
      * and before the test cases are executed. By default, it does
      * nothing; it may be overridden to provide additional behavior.
      *
-     * @throws MultiTest.SetupException if processing should not continue.
-     *                                  This may be due to some inconsistency in the arguments,
-     *                                  or if it is determined the test should not execute for
-     *                                  some reason.
      */
     protected void init() {
     }

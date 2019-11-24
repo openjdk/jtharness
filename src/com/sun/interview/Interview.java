@@ -2131,7 +2131,6 @@ public class Interview {
      * Select PRE_32 behavior to select behaviors prior to 3.2.
      * </p>
      *
-     * <p>
      * In Version 32, the first versioned semantic change was introduced.
      * Interviews will generally request SEMANTIC_PRE_32 for old semantics.
      * This version has the behavioral changes:
@@ -2149,7 +2148,6 @@ public class Interview {
      * <dd>During construction, <code>clear()</code> will be called before the
      * default value is set, in older implementations it was not called.</dd>
      * </dl>
-     * </p>
      *
      * <p>
      * In Version 43 changes to the way in which <code>export()</code> works were

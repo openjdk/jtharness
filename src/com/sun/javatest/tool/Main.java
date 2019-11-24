@@ -259,8 +259,6 @@ public class Main {
      *
      * @param args Arguments for JT Harness, per the command-line spec.
      * @param ctx  A context to use to execute the commands in the args
-     * @throws Main.Fault           if there is a problem initializing the harness
-     * @throws Command.Fault        if there is a problem with a command's arguments
      * @throws CommandContext.Fault if there is a problem executing a command
      * @throws CommandParser.Fault  if there is a problem parsing the args
      */

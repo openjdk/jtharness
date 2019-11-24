@@ -103,7 +103,7 @@ public abstract class ToolAction implements Action {
     /**
      * Construct an internationalized action.
      * The resources used are:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.act  <td>the name for the button
      * <tr><td><i>uiKey</i>.tip  <td>the tool tip for the action
      * <tr><td><i>uiKey</i>.mne  <td>mnemonic for this action

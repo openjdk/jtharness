@@ -553,10 +553,6 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
      *
      * @param ts the test suite to seed the new tool with
      * @return tool instance now associated with the given test suite
-     * @throws Interview.Fault if there is a problem initializing
-     *                         the test suite interview parameters
-     * @throws TestSuite.Fault if there is a problem while accessing the test
-     *                         suite object
      * @deprecated
      */
     @Deprecated
@@ -616,10 +612,6 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
      *
      * @param wd the work directory to open
      * @return tool instance now associated with the given work directory
-     * @throws Interview.Fault if there is a problem initializing
-     *                         the test suite interview parameters
-     * @throws TestSuite.Fault if there is a problem while accessing the test
-     *                         suite object
      * @deprecated
      */
     @Deprecated

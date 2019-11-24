@@ -97,9 +97,6 @@ public interface Session {
 
     /**
      * Saves the config state to the map
-     *
-     * @param map
-     * @throws com.sun.javatest.exec.Session.Fault
      */
     void save(Map<String, String> map);
 
@@ -123,25 +120,25 @@ public interface Session {
      */
     List<String> getPropertyNames();
 
-    /**
-     * Gets test filter by its name.
-     * @param name - should be from the list of supported names.
-     * @return desired filter, if found
-     * @throw new IllegalArgumentException if name is null or unknown.
-     * @see getTestFilterNames
-     */
+//    /**
+//     * Gets test filter by its name.
+//     * @param name - should be from the list of supported names.
+//     * @return desired filter, if found
+//     * @throw new IllegalArgumentException if name is null or unknown.
+//     * @see getTestFilterNames
+//     */
     //public TestFilter getTestFilter(String name);
 
-    /**
-     * @return list of names of supported test filters.
-     */
+//    /**
+//     * @return list of names of supported test filters.
+//     */
     //public List<String> getTestFilterNames();
 
-    /**
-     * Saves the config state to the file
-     * @param file destination file
-     * @throws com.sun.javatest.exec.Session.Fault
-     */
+//    /**
+//     * Saves the config state to the file
+//     * @param file destination file
+//     * @throws com.sun.javatest.exec.Session.Fault
+//     */
     //public void save(File file) throws Fault;
 
     /**
@@ -152,11 +149,11 @@ public interface Session {
     String getValue(String name);
 
 
-    /**
-     * Restores the config state from the file
-     * @param file - source file
-     * @throws com.sun.javatest.exec.Session.Fault
-     */
+//    /**
+//     * Restores the config state from the file
+//     * @param file - source file
+//     * @throws com.sun.javatest.exec.Session.Fault
+//     */
     //public void restore(File file) throws Fault;
 
     /**

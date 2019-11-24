@@ -68,7 +68,7 @@ public abstract class Tool extends JPanel {
     /**
      * Create a tool object.
      * The resources used are from your resource bundle:
-     * <table>
+     * <table><caption></caption>
      * <tr><td><i>uiKey</i>.name <td>accessible name text
      * </table>
      *

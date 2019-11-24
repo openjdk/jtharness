@@ -42,7 +42,7 @@ public class httpURL {
     private int firstQ;     // location of the first question mark in the file path
     /**
      * The URL, of the format:
-     * <tt>/harness/foo/index.html?key1=value1?key2=value2</tt>
+     * /harness/foo/index.html?key1=value1?key2=value2
      */
     private String file;
 

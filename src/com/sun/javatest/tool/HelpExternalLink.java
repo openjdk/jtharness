@@ -40,10 +40,12 @@ import java.lang.reflect.Method;
  * This link type opens in external browser if current OS supports awt.Desktop
  * <p>
  * usage:
+ * <pre>{@code
  * <object classid="java:com.sun.javatest.tool.HelpExternalLink">
  * <param name="text" value=...>
  * <param name="target" value="http://...">
  * </object>
+ * }</pre>
  * note that the protocol should be specified in the URL path (e.g. value="http://www.google.com")
  *
  * @see HelpLink

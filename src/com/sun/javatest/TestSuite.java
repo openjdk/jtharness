@@ -145,7 +145,6 @@ public class TestSuite {
      *               in the root directory of the test suite.
      * @param cl     A class loader to be used to load additional classes as required,
      *               typically using a class path defined in the test suite properties file.
-     * @throws TestSuite.Fault if a problem occurs while creating this test suite.
      */
     public TestSuite(File root, Map<String, String> tsInfo, ClassLoader cl) {
         this.root = root;
@@ -603,10 +602,10 @@ public class TestSuite {
      * loader specified when the test suite was opened, if one was given;
      * otherwise, the system class loader will be used.
      * <p>
-     * The default implementation attempts to use a file <tt>testsuite.jtd</tt>
+     * The default implementation attempts to use a file testsuite.jtd
      * in the tests directory.  If found, a BinaryTestFinder will be created
      * using this file.  If it is not found, then it searches for a property
-     * named <tt>finder</tt> in the test suite properties and will attempt to
+     * named finder in the test suite properties and will attempt to
      * instantiate that.  If no entry is found or it is blank, an
      * HTMLTestFinder is used, using whatever a basic settings HTMLTestFinder
      * initializes to.
@@ -683,7 +682,6 @@ public class TestSuite {
      * @param jtdFile         Location of the JTD file to give to the BTF.
      * @return The binary test finder which was created.
      * @throws com.sun.javatest.TestSuite.Fault
-     * @throws com.sun.javatest.TestFinder.Fault
      * @see com.sun.javatest.TestFinder
      * @see com.sun.javatest.finder.BinaryTestFinder
      */
@@ -854,7 +852,6 @@ public class TestSuite {
      * Create a configuration interview based on specified map of template values
      *
      * @return A configuration interview to collect the configuration data for a test run.
-     * @throws TestSuite.Fault if a problem occurs while creating the interview
      */
     public InterviewParameters loadInterviewFromTemplate(Map<String, String> templateInfo, InterviewParameters newInterview) {
         newInterview.storeTemplateProperties(templateInfo);

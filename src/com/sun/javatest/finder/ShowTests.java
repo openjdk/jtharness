@@ -58,7 +58,7 @@ public class ShowTests {
      * @param args An array of strings, typically provided via the command line.
      *             The arguments should be of the form:<br>
      *             <em>[options]</em> <em>testsuite</em>
-     *             <table><tr><th colspan=2>Options</th></tr>
+     *             <table><caption></caption><tr><th colspan=2>Options</th></tr>
      *             <tr><td>-finder <em>finderClass</em> <em>finderArgs</em> <em>...</em> -end
      *             <td>The name of a test finder class and any arguments it might take.
      *             The results of reading this test finder will be stored in the

@@ -167,7 +167,7 @@ public class HTMLTestFinder extends TestFinder {
 
     /**
      * Specify the mode for how this test finder determines the child files
-     * to be scanned.  The default is <tt>DIR_WALK</tt>.
+     * to be scanned.  The default is DIR_WALK.
      *
      * @param mode One of {@link #WEB_WALK} or {@link #DIR_WALK}
      * @see #getMode

@@ -532,9 +532,6 @@ public class WorkDirectory {
      *                                             the test suite for which this is a work directory.
      *                                             If this exception is thrown, you can override the test suite
      *                                             using the other version of {@link #open(File, TestSuite)}.
-     * @throws WorkDirectory.InitializationFault   if there are unrecoverable
-     *                                             problems encountered while reading the data present in the
-     *                                             work directory
      */
     public static WorkDirectory open(File dir)
             throws FileNotFoundException,
@@ -618,9 +615,6 @@ public class WorkDirectory {
      *                                             you may want to call {@link #create} instead.
      * @throws WorkDirectory.MismatchFault         if the specified test suite does not
      *                                             match the ID recorded in the work directory.
-     * @throws WorkDirectory.InitializationFault   if there are unrecoverable
-     *                                             problems encountered while reading the data present in the
-     *                                             work directory
      */
     public static WorkDirectory open(File dir, TestSuite testSuite)
             throws FileNotFoundException,
@@ -998,7 +992,7 @@ public class WorkDirectory {
     }
 
     /**
-     * Clean the contents of the given path.  If <tt>path</tt> is a
+     * Clean the contents of the given path.  If path is a
      * directory, it is recursively deleted.  If it is a file, that file
      * is removed.
      * Any user confirmation should be done before calling this method.

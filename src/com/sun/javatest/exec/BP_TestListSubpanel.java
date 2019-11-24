@@ -950,7 +950,7 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
     /**
      * This is a double duty class; it commits changes the model and also
      * dispatches given events. If instance var. lt is null, it dispatches
-     * events, otherwise it triggers a commit on the list thread data using (<tt>goLive()</tt>).
+     * events, otherwise it triggers a commit on the list thread data using (goLive()).
      * This class is critical because it is the task which gets scheduled on the
      * event thread.
      */

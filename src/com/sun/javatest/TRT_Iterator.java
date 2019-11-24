@@ -364,7 +364,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
     /**
      * Determines whether or not filtered out tests are recorded for future use
-     * or not.  This does not affect operation of <tt>getRejectCount()</tt>.
+     * or not.  This does not affect operation of getRejectCount().
      * By default, this setting is false.
      *
      * @param state True if rejected tests should be logged, false otherwise.

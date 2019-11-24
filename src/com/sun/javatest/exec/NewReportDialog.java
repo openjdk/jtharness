@@ -369,7 +369,7 @@ class NewReportDialog extends ToolDialog {
 
 
         /**
-         * @param uiKey Key to use to call <tt>UIFactory.showError()</tt>
+         * @param uiKey Key to use to call UIFactory.showError()
          * @param msg The localized error message to show.
          */
         private void showError(final String uiKey, final String msg,

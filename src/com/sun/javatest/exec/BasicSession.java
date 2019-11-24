@@ -87,7 +87,6 @@ public class BasicSession implements SessionExt {
     /**
      * Creates empty session for the passed test suite.
      *
-     * @param ts
      * @throws com.sun.javatest.exec.Session.Fault
      */
     public BasicSession(TestSuite ts) throws Fault {
@@ -139,7 +138,6 @@ public class BasicSession implements SessionExt {
      * Applies the update. Ignores updates of unknown type. Subclasses need
      * override this method to support more update types.
      *
-     * @param u
      * @throws com.sun.javatest.exec.Session.Fault
      */
     @Override
@@ -152,7 +150,6 @@ public class BasicSession implements SessionExt {
      * Applies the update. Ignores updates of unknown type. Subclasses need
      * override this method to support more update types.
      *
-     * @param u
      * @throws com.sun.javatest.exec.Session.Fault
      * @since 4.4.1
      */
@@ -432,8 +429,6 @@ public class BasicSession implements SessionExt {
      * Associates session with the work dir.
      * To be overridden when wd should be applied not only to session, but template
      * or other properties.
-     *
-     * @param wd
      */
     protected void applyWorkDir(WorkDirectory wd) {
         if (config != null) {
@@ -447,7 +442,6 @@ public class BasicSession implements SessionExt {
      * Otherwise, copies new values into the main configuration instance,
      * notifies observers with E_NewConfig event.
      *
-     * @param ip
      * @throws com.sun.javatest.exec.Session.Fault
      */
     protected void updateNewConfig(InterviewParameters ip) throws Fault {

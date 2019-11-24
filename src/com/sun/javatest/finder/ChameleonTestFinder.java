@@ -106,7 +106,7 @@ public class ChameleonTestFinder extends TestFinder {
      * Check whether or not to ignore case when matching files against entries.
      * <p>
      * By default, case will be ignored on Windows platforms.
-     * (<code><font size=-1>System.getProperty("os.name").startsWith("Windows")</font></code>)
+     * (<code>System.getProperty("os.name").startsWith("Windows")</code>)
      * This can be overridden by setting the following system property:
      * <pre>
      *    -Djavatest.chameleon.ignoreCase=true|false

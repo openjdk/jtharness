@@ -789,7 +789,7 @@ public class KnownFailuresList {
          *
          * @param text The text to be read
          * @return the first entry read from the supplied text
-         * @throws ExcludeList.Fault if there is a problem reading the entry.
+         * @throws Fault if there is a problem reading the entry.
          */
         public static Entry read(String text) throws Fault {
             try {

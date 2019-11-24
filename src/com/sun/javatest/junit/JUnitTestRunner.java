@@ -106,10 +106,10 @@ public class JUnitTestRunner extends TestRunner {
     /**
      * Get the test class that should be used to execute this test.
      * The default implementation returns a JUnitBareMultiTest or
-     * JUnitAnnotationMultiTest depending on the <tt>junit.finderscantype</tt>
+     * JUnitAnnotationMultiTest depending on the junit.finderscantype
      * value in the test description.
      * <p>
-     * Override this method if you wish to return a <tt>JUnitMultiTest</tt> of
+     * Override this method if you wish to return a JUnitMultiTest of
      * your own.
      *
      * @see com.sun.javatest.junit.JUnitMultiTest

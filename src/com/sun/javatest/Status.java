@@ -76,7 +76,7 @@ public class Status {
      * PASSED, FAILED, ERROR, NOT_RUN.
      * The only values that should normally be returned from a test
      * are the first three; the other value is provided for completeness.
-     * <font size=-1> Note: The assignment is historical and cannot easily be changed. </font>
+     * Note: The assignment is historical and cannot easily be changed.
      */
     public static final int[] exitCodes = {95, 97, 98, 99};
     /**
@@ -299,7 +299,7 @@ public class Status {
      * Strings of ASCII chars only are encoded into themselves.<br>
      * Example:
      * <pre>
-     * System.out.println(Status.encode("X \u01AB")); //<Encoded>58 20 1AB </Encoded>
+     * System.out.println(Status.encode("X \u01AB")); // Encoded 58 20 1AB
      * System.out.println(Status.encode("Abc1")); // Abc1
      * </pre>
      *

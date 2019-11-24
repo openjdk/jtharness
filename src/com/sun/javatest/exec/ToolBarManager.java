@@ -60,7 +60,7 @@ public class ToolBarManager {
      * @param theBar    the tool bar which should be added to the TestManager,
      *                  can't be null
      * @param toolBarID unique string ID of theBar, can't be null or empty
-     * @return <tt>true</tt> if the bar was successfully added
+     * @return true if the bar was successfully added
      **/
     public boolean addToolBar(final JavaTestToolBar theBar, String toolBarID) {
         if (!store.containsKey(toolBarID)) {
@@ -87,7 +87,7 @@ public class ToolBarManager {
      * Finds toolbar by ID and returns it.
      *
      * @param toolBarID unique string ID of theBar, can't be null or empty
-     * @return the toolbar object, or <tt>null</tt> if the manager contains
+     * @return the toolbar object, or null if the manager contains
      * no tool bar for this key.
      **/
     public JavaTestToolBar getToolBar(String toolBarID) {
@@ -109,7 +109,7 @@ public class ToolBarManager {
      * Removes the toolbar by ID.
      *
      * @param toolBarID unique string ID of theBar, can't be null or empty
-     * @return <tt>true</tt> if the bar was successfully removed and <tt>false</tt>
+     * @return true if the bar was successfully removed and false
      * if the specified ID was not be found.
      **/
     boolean removeToolBar(String toolBarID) {

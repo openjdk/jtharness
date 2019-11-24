@@ -54,7 +54,7 @@ import java.io.PrintWriter;
  * </BLOCKQUOTE>
  *
  * <P>For an example of how to use this library see the UmbrellaTest library or the
- * JCK test case: <TT>tests/api/java_lang/Double/SerializeTests.html</TT>.
+ * JCK test case: tests/api/java_lang/Double/SerializeTests.html.
  */
 public class MultiStatus {
 

@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * This class adds the capability to have a filter which is
  * reconfigurable through the use of a GUI panel.  By definition, there
- * can be multiple instances of each <tt>ConfigurableTestFilter</tt> in
+ * can be multiple instances of each ConfigurableTestFilter in
  * in the system at any one time.
  *
  * <p>
@@ -115,7 +115,7 @@ abstract class ConfigurableTestFilter extends ObservableTestFilter {
 
     /**
      * Get the basic (static) name for this filter.
-     * This is different than <tt>getName()</tt> which returns a
+     * This is different than getName() which returns a
      * customizable name.
      *
      * @return The basic name for this filter.  Will never be null.
