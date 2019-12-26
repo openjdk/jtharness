@@ -308,7 +308,7 @@
         <delete dir="${build.unit-tests}" quiet="true"/>
         <mkdir dir="${build.unit-tests}"/>
         <javac debug="true" source="1.7" target="1.7"
-               srcdir="${src.unit-tests.dir}"
+               srcdir="${unit-tests.src.dir}:${unit-tests.src-support.dir}"
                destdir="${build.unit-tests}"
                classpath="${build.classes}:${junitlib}">
             <compilerarg value="-Xlint:all"/>
@@ -499,8 +499,9 @@
                 <pathelement location="${junitlib}"/>
                 <pathelement location="${build.unit-tests}"/>
             </classpath>
+            <jvmarg value="-Dunit-tests.data.dir=${unit-tests.data.dir}"/>
             <batchtest haltonerror="true" haltonfailure="true" todir="${build.unit-tests.reports}">
-                <fileset dir="${src.unit-tests.dir}" includes="**/*.java"/>
+                <fileset dir="${unit-tests.src.dir}" includes="**/*.java"/>
             </batchtest>
         </junit>
 
