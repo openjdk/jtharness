@@ -25,7 +25,7 @@
  * questions.
  */
 
-package com.sun.javatest.test.func.exclude;
+package com.sun.javatest;
 
 import com.sun.javatest.ExcludeList;
 import org.junit.Assert;
@@ -41,7 +41,7 @@ import java.util.List;
 
 public class ExcludeTest {
 
-    private File data = new File("unit-tests/com/sun/javatest/test/func/exclude");
+    private File data = new File(TU.getPathToData() + File.separator + "exclude");
     private boolean verbose = Boolean.getBoolean("verbose");
     private String currTest;
 

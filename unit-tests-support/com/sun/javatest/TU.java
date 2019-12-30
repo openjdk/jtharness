@@ -34,7 +34,11 @@ import java.io.File;
 public class TU {
 
    public static String getPathToTestTestSuite(String suiteName) {
-        return System.getProperty("unit-tests.data.dir") + File.separator + "suites" + File.separator + suiteName;
+        return getPathToData() + File.separator + "suites" + File.separator + suiteName;
+   }
+
+   public static String getPathToData() {
+        return System.getProperty("unit-tests.data.dir");
    }
 
 }

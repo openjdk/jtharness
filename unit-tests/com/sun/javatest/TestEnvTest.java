@@ -63,7 +63,6 @@ public class TestEnvTest {
         testLookupFault("Ebad", Ebad_env, "multiLoop");
         testLookupFault("Ebad", Ebad_env, "indirectLoop");
         testLookupFault("Ebad", Ebad_env, "mapLoop");
-        System.setProperty("srcDir", "unit-tests/com/sun/javatest");
         testFile("Ef1", "TestEnvTest1.jte", Ef1_ref);
         log.flush();
         return ok;
@@ -86,7 +85,7 @@ public class TestEnvTest {
         log.println("*****TEST file***** " + name + ": " + file);
         Map<String, String> ep = new HashMap<>();
         try {
-            String dir = System.getProperty("srcDir", System.getProperty("user.dir"));
+            String dir = TU.getPathToData();
             Reader in = new BufferedReader(new FileReader(new File(dir, file)));
             ep = PropertyUtils.load(in);
         } catch (IOException e) {
