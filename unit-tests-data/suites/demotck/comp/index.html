@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.X//EN">
+<html>
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2019, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<head>
+    <title>Basic compilation tests</title>
+</head>
+
+<body>
+<H1>Basic compilation tests</H1>
+
+The page contains a sequence of tests which are designed to test the
+basic operation of the test harness.
+
+
+<p>
+<hr>
+<p>
+
+    <a name=CompSucc>This test</a>
+    is supposed to pass, with the result "Compilation succeeded as expected".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Pass: Compilation succeeded as expected</td>
+    </tr>
+    <tr>
+        <td><b>source</b></td>
+        <td><a href="CompSucc.java">CompSucc.java</a></td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>compile positive ShouldPass</td>
+    </tr>
+</table>
+
+
+<p>
+<hr>
+<p>
+
+    <a name=CompSuccMulti>This test</a>
+    is supposed to pass, with the result "Compilation succeeded as expected".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Pass: Compilation succeeded as expected (multiple source files)</td>
+    </tr>
+    <tr>
+        <td><b>source</b></td>
+        <td><a href="CompSucc1.java">CompSucc1.java</a> <a href="CompSucc2.java">CompSucc2.java</a></td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>compile positive ShouldPass</td>
+    </tr>
+</table>
+
+<p>
+<hr>
+<p>
+
+    <a name=CompFailExp>This test</a>
+    is supposed to fail, with the result "Compilation failed as expected".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Pass: Compilation failed as expected</td>
+    </tr>
+    <tr>
+        <td><b>source</b></td>
+        <td><a href="CompFailExp.java">CompFailExp.java</a></td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>compile negative ShouldPass</td>
+    </tr>
+</table>
+
+<p>
+<hr>
+<p>
+
+    <a name=CompSuccUnexp>This test</a>
+    is supposed to fail, with the result "Compilation succeeded unexpectedly".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Fail: Compilation succeeded unexpectedly</td>
+    </tr>
+    <tr>
+        <td><b>source</b></td>
+        <td><a href="CompSuccUnexp.java">CompSuccUnexp.java</a></td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>compile negative ShouldFail</td>
+    </tr>
+</table>
+
+<p>
+<hr>
+<p>
+
+    <a name=CompError>This test</a>
+    is supposed to give an error, with the result "No source files found".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Error: No source files found</td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>compile ShouldError positive</td>
+    </tr>
+</table>
+
+<p>
+<hr>
+<p>
+
+    <a name=CompFail>This test</a>
+    is supposed to fail, with the result "Compilation failed unexpectedly".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Fail: Compilation failed unexpectedly</td>
+    </tr>
+    <tr>
+        <td><b>source</b></td>
+        <td><a href="CompFailUnexp.java">CompFailUnexp.java</a></td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>positive compile ShouldFail</td>
+    </tr>
+</table>
+
+<p>
+<hr>
+<p>
+
+
+    <a name=OtherLinks>Links to other places</a> such as
+    <A HREF="http://example.com">Example</A>,
+    <A HREF="mailto:sample@example.com">mail addresses</A>,
+    or <A HREF="../testsuite.html">up the tree</A>
+    should not be followed.
+
+</body>
+</html>
+

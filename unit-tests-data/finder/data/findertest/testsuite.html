@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.X//EN">
+<html>
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2019, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<head>
+<title>TestFinder tests</title>
+</head>
+
+<body>
+<H1>TestFinder tests</H1>
+
+This test-suite contains a collection of tests which are designed to test the
+ability of the TestFinder to detect test descriptions.
+
+<p> <hr> <p>
+
+This area contains some HTML comments, which should be ignored.
+
+<!--COMMENT-TESTS-->
+<!---->
+<!--X-->
+<!--
+ COMMENT TESTS
+-->
+<!--END-OF-COMMENT-TESTS-->
+
+<p> <hr> <p>
+
+<a name=NotATest1>This is not a test</a>
+because not all tables are tests. Only tables with the attribute <CODE>class=TestDescription</CODE>
+are treated as TestDescriptions.<P>
+
+<table border=1>
+<tr><td><b>title</b></td><td>Not A Test</td></tr>
+<tr><td><b>source</b></td><td><a href="FinderTest.java">FinderTest.java</a></td></tr>
+<tr><td><b>executeClass</b></td><td>NoSuchClassSoBoundToFail</td></tr>
+</table>
+
+<p> <a name=NotATest2>This is also not a test</a>
+because not all lists are tests. Only definition lists with the attribute <CODE>class=TestDescription</CODE>
+are treated as TestDescriptions.<P>
+
+<dl>
+<dt><b>title</b><dd>Also Not A Test
+<dt><b>source</b><dd><a href="FinderTest.java">FinderTest.java</a>
+<dt><b>executeClass</b><dd>NoSuchClassSoBoundToFail
+</dl>
+
+<p> <hr> <p>
+
+
+<p><a name=finder1>Table with all end tags present</a>
+<p><table border=1 class=TestDescription>
+<tr><td><b>title</b></td><td>Finder test: table, all end tags present</td></tr>
+<tr><td><b>name</b></td><td>FinderTest1</td></tr>
+<tr><td><b>source</b></td><td><a href="FinderTest.java">FinderTest.java</a></td></tr>
+<tr><td><b>executeClass</b></td><td>javasoft.sqe.tests.harness.finder.FinderTest</td></tr>
+<tr><td><b>keywords</b></td><td>compile execute positive</td></tr>
+</table>
+
+<p><a name=finder2>Table with &lt;/tr&gt; omitted</a>
+<p><table border=1 class=TestDescription>
+<tr><td><b>title</b></td><td>Finder test: table, &lt;/tr&gt; omitted</td>
+<tr><td><b>name</b></td><td>FinderTest2</td>
+<tr><td><b>source</b></td><td><a href="FinderTest.java">FinderTest.java</a></td>
+<tr><td><b>executeClass</b></td><td>javasoft.sqe.tests.harness.finder.FinderTest</td>
+<tr><td><b>keywords</b></td><td>compile execute positive</td>
+</table>
+
+<p><a name=finder3>Table with &lt;/td&gt; omitted</a>
+<p><table border=1 class=TestDescription>
+<tr><td><b>title</b><td>Finder test: table, &lt;/tr&gt; omitted</tr>
+<tr><td><b>name</b><td>FinderTest3</tr>
+<tr><td><b>source</b><td><a href="FinderTest.java">FinderTest.java</a></tr>
+<tr><td><b>executeClass</b><td>javasoft.sqe.tests.harness.finder.FinderTest</tr>
+<tr><td><b>keywords</b><td>compile execute positive</tr>
+</table>
+
+<p><a name=finder4>Table with &lt;/td&gt; and &lt;/tr&gt; omitted</a>
+<p><table border=1 class=TestDescription>
+<tr><td><b>title</b><td>Finder test: table, &lt;/td&gt; and &lt;/tr&gt; omitted
+<tr><td><b>name</b><td>FinderTest4
+<tr><td><b>source</b><td><a href="FinderTest.java">FinderTest.java</a>
+<tr><td><b>executeClass</b><td>javasoft.sqe.tests.harness.finder.FinderTest
+<tr><td><b>keywords</b><td>compile execute positive
+</table>
+
+<p><a name=finder5>Definition list</a>
+<p><dl class=TestDescription>
+<dt><b>title</b><dd>Finder test: definition list
+<dt><b>name</b><dd>FinderTest5
+<dt><b>source</b><dd><a href="FinderTest.java">FinderTest.java</a>
+<dt><b>executeClass</b><dd>javasoft.sqe.tests.harness.finder.FinderTest
+<dt><b>keywords</b><dd>compile execute positive
+</dl>
+
+<p><a name=finder6>Escape sequences</a>
+<p><dl class=TestDescription>
+<dt><b>title</b><dd>Finder test: escape sequences: -&lt;- -&gt;- -&amp;- -&#169;-
+<dt><b>name</b><dd>FinderTest6
+<dt><b>source</b><dd><a href="FinderTest.java">FinderTest.java</a>
+<dt><b>executeClass</b><dd>javasoft.sqe.tests.harness.finder.FinderTest
+<dt><b>keywords</b><dd>compile execute positive
+</dl>
+
+<p> <hr> <p>
+
+<a name=OtherLinks>Links to other places</a> such as
+<A HREF="http://example.com">Example</A>,
+<A HREF="mailto:example@example.com">mail addresses</A>,
+or <A HREF="../index.html">up the tree</A>
+should not be followed.
+
+</body>
+</html>
+

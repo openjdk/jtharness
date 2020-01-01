@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.X//EN">
+<html>
+<!--
+  $Id$
+
+  Copyright (c) 2002, 2019, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<head>
+    <title>Basic execution tests</title>
+</head>
+
+<body>
+<H1>Basic execution tests</H1>
+
+The page contains a sequence of tests which are designed to test the
+basic operation of the test harness.
+
+
+<p>
+<hr>
+<p>
+
+    <a name=ExecArgs>This test</a>
+    is supposed to pass, with the result "Execution args validated".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Pass: Execution args validated</td>
+    </tr>
+    <tr>
+        <td><b>source</b></td>
+        <td><a href="ExecArgs.java">ExecArgs.java</a></td>
+    </tr>
+    <tr>
+        <td><b>executeClass</b></td>
+        <td>ExecArgs</td>
+    </tr>
+    <tr>
+        <td><b>executeArgs</b></td>
+        <td>$testSuiteRootURL $testURL $testWorkDir $testClassDir $harnessClassDir</td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>compile execute positive ShouldPass ShouldExecute</td>
+    </tr>
+</table>
+
+
+<p>
+<hr>
+<p>
+
+    <a name=ExecFail>This test</a>
+    is supposed to fail, with the result "Execution assumed".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Fail: Execution failed</td>
+    </tr>
+    <tr>
+        <td><b>source</b></td>
+        <td><a href="ExecFail.java">ExecFail.java</a></td>
+    </tr>
+    <tr>
+        <td><b>executeClass</b></td>
+        <td>ExecFail</td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>compile execute positive ShouldFail ShouldExecute</td>
+    </tr>
+</table>
+
+
+<p>
+<hr>
+<p>
+
+    <a name=ExecFailRuntimExc>This test</a>
+    is supposed to fail, with the result "???".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Fail: Execution threw runtime exception</td>
+    </tr>
+    <tr>
+        <td><b>name</b></td>
+        <td>ExecFailRuntimeExc</td>
+    </tr>
+    <tr>
+        <td><b>source</b></td>
+        <td><a href="ExecExc.java">ExecExc.java</a></td>
+    </tr>
+    <tr>
+        <td><b>executeClass</b></td>
+        <td>ExecExc</td>
+    </tr>
+    <tr>
+        <td><b>executeArgs</b></td>
+        <td>-runtime</td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>compile execute positive ShouldFail ShouldExecute</td>
+    </tr>
+</table>
+
+
+<p>
+<hr>
+<p>
+
+    <a name=ExecFailError>This test</a>
+    is supposed to fail, with the result "Execution assumed".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Fail: Execution threw error</td>
+    </tr>
+    <tr>
+        <td><b>name</b></td>
+        <td>ExecFailError</td>
+    </tr>
+    <tr>
+        <td><b>source</b></td>
+        <td><a href="ExecExc.java">ExecExc.java</a></td>
+    </tr>
+    <tr>
+        <td><b>executeClass</b></td>
+        <td>ExecExc</td>
+    </tr>
+    <tr>
+        <td><b>executeArgs</b></td>
+        <td>-error</td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>compile execute positive ShouldFail ShouldExecute</td>
+    </tr>
+</table>
+
+
+<p>
+<hr>
+<p>
+
+    <a name=ExecSucc>This test</a>
+    is supposed to pass, with the result "This test has passed".
+<P>
+
+<table border class=TestDescription>
+    <tr>
+        <td><b>title</b></td>
+        <td>Should Pass: Simple execution</td>
+    </tr>
+    <tr>
+        <td><b>name</b></td>
+        <td>ExecSucc</td>
+    </tr>
+    <tr>
+        <td><b>source</b></td>
+        <td><a href="ExecSucc.java">ExecSucc.java</a></td>
+    </tr>
+    <tr>
+        <td><b>executeClass</b></td>
+        <td>ExecSucc</td>
+    </tr>
+    <tr>
+        <td><b>keywords</b></td>
+        <td>compile execute positive ShouldPass ShouldExecute</td>
+    </tr>
+</table>
+
+</body>
+</html>
+
