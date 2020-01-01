@@ -1000,6 +1000,19 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
             return true;
         }   // equals()
 
+        @Override
+        public int hashCode() {
+            int result = (keywordsEnabled ? 1 : 0);
+            result = 31 * result + (statusEnabled ? 1 : 0);
+            result = 31 * result + (jtxEnabled ? 1 : 0);
+            result = 31 * result + (tsfEnabled ? 1 : 0);
+            result = 31 * result + Arrays.hashCode(initialUrls);
+            result = 31 * result + Arrays.hashCode(statusFields);
+            result = 31 * result + (keyChoice != null ? keyChoice.hashCode() : 0);
+            result = 31 * result + (keyString != null ? keyString.hashCode() : 0);
+            return result;
+        }
+
         void save(Map<String, String> map) {
             map.put(MAP_URL_ENABLE, booleanToInt(urlsEnabled));
             map.put(MAP_KEY_ENABLE, booleanToInt(keywordsEnabled));
