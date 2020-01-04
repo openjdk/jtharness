@@ -263,7 +263,7 @@ public class JavaTestSecurityManager extends SecurityManager {
      * @param bool true if the JVM may be exited, and false otherwise
      * @return the previous value of this setting
      */
-    public boolean setAllowExit(boolean bool) {
+    public static boolean setAllowExit(boolean bool) {
         boolean prev = allowExit;
         allowExit = bool;
         return prev;
