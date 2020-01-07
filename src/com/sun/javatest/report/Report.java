@@ -59,6 +59,12 @@ import java.util.Vector;
 public class Report implements ReportModel {
     public static final String MARKER_FILE_NAME = "reportdir.dat";
     public static final String INDEX_FILE_NAME = "index.html";
+    /**
+     * If this system property is defined then its value is expected to contain comma-separated list
+     * of ReportFormat subclasses to load, which would be put in use instead of those loaded by ServiceLoader
+     * from the dedicated file.
+     */
+    public static final String REPORT_FORMATS_TO_LOAD = "services.com.sun.javatest.report.ReportFormat";
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Report.class);
     private InterviewParameters params;     // legacy
     private TestFilter[] paramFilters;      // legacy
@@ -172,8 +178,7 @@ public class Report implements ReportModel {
         ArrayList<ReportLink> links = new ArrayList<>();
 
         try {
-            // this is not a static field because service providers are not stateless
-            ServiceLoader<ReportFormat> reportLoader = ServiceLoader.load(ReportFormat.class);
+            Iterable<ReportFormat> reportLoader = loadSupportedReportFormats();
             for (ReportFormat rf : reportLoader) {
                 boolean wasInterrapted = doReport(rf, s, links);
                 if (wasInterrapted) {
@@ -266,9 +271,7 @@ public class Report implements ReportModel {
         settings.setupSortedResults();
         settings.setupKfl();
 
-        // I didn't make it as static calss field because
-        // not sure that all service providers are stateless
-        ServiceLoader<ReportFormat> reportLoader = ServiceLoader.load(ReportFormat.class);
+        Iterable<ReportFormat> reportLoader = loadSupportedReportFormats();
         ArrayList<ReportLink> links = new ArrayList<>();
         for (ReportFormat rf : reportLoader) {
             doCLReport(rf, settings, typesToGen, links);
@@ -281,6 +284,23 @@ public class Report implements ReportModel {
         }
 
         updateStaffFiles(reportDir, settings, links);
+    }
+
+    private Iterable<ReportFormat> loadSupportedReportFormats() {
+        String listOfFormatsToLoad = System.getProperty(REPORT_FORMATS_TO_LOAD);
+        if (listOfFormatsToLoad == null) {
+            return ServiceLoader.load(ReportFormat.class);
+        } else {
+            ArrayList<ReportFormat> formats = new ArrayList<ReportFormat>();
+            for (String name : listOfFormatsToLoad.split(",")) {
+                try {
+                    formats.add(Class.forName(name).asSubclass(ReportFormat.class).getDeclaredConstructor().newInstance());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return formats;
+        }
     }
 
     private void doCLReport(ReportFormat rf, ReportSettings settings,

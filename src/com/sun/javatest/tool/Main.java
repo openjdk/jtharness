@@ -42,6 +42,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,6 +53,11 @@ import java.util.Set;
 public class Main {
 
     private static final String CMDMGRLIST = "META-INF/services/com.sun.javatest.tool.CommandManager.lst";
+    /**
+     * If this system property is defined then its value is expected to contain comma-separated list
+     * of CommandManager subclasses to load, which would be put in use instead of those contained in the dedicated file.
+     */
+    public static final String COMMAND_MANAGERS_TO_LOAD = "services.com.sun.javatest.tool.CommandManager";
     private static final int RC_GUI_ACTIVE = -1;
     private static final int RC_OK = 0;
     private static final int RC_BATCH_TESTS_FAILED = 1;
@@ -269,8 +276,17 @@ public class Main {
             helpManager = new HelpManager();
             serviceManager = new ServiceManager.ServiceCommandManager();
             try {
-                ManagerLoader ml = new ManagerLoader(CommandManager.class, System.err);
-                Set<Object> mgrs = ml.loadManagers(CMDMGRLIST);
+                Set<Object> mgrs;
+                String listOfManagersToLoad = System.getProperty(COMMAND_MANAGERS_TO_LOAD);
+                if (listOfManagersToLoad == null) {
+                    ManagerLoader ml = new ManagerLoader(CommandManager.class, System.err);
+                    mgrs = ml.loadManagers(CMDMGRLIST);
+                } else {
+                    mgrs = new HashSet<>();
+                    for (String name : listOfManagersToLoad.split(",")) {
+                        mgrs.add(Class.forName(name).getDeclaredConstructor().newInstance());
+                    }
+                }
                 mgrs.add(desktopManager);
                 mgrs.add(helpManager);
                 mgrs.add(serviceManager);
@@ -278,6 +294,8 @@ public class Main {
                 helpManager.setCommandManagers(commandManagers);
             } catch (IOException e) {
                 throw new Fault(i18n, "main.cantAccessResource", CMDMGRLIST, e);
+            } catch (ReflectiveOperationException e) {
+                throw new RuntimeException(e);
             }
         }
 

@@ -146,6 +146,11 @@ public class Desktop {
     };
     private static final int FILE_HISTORY_MAX_SIZE = 10;
     private static final String TOOLMGRLIST = "META-INF/services/com.sun.javatest.tool.ToolManager.lst";
+    /**
+     * If this system property is defined then its value is expected to contain comma-separated list
+     * of ToolManager subclasses to load, which would be put in use instead of those contained in the dedicated file.
+     */
+    public static final String TOOL_MANAGERS_TO_LOAD = "services.com.sun.javatest.tool.ToolManager";
     private static final String defaultToolManager =
             System.getProperty("javatest.desktop.defaultToolManager", "com.sun.javatest.exec.ExecToolManager");
     private static Preferences preferences = Preferences.access();
@@ -1644,13 +1649,24 @@ public class Desktop {
         //System.err.println("Desktop.initToolManagers");
 
         try {
-            ManagerLoader ml = new ManagerLoader(ToolManager.class, System.err);
-            ml.setManagerConstructorArgs(new Class<?>[]{Desktop.class}, this);
-            Set<?> s = ml.loadManagers(TOOLMGRLIST);
+            Set<Object> s;
+            String listOfManagersToLoad = System.getProperty(TOOL_MANAGERS_TO_LOAD);
+            if (listOfManagersToLoad == null) {
+                ManagerLoader ml = new ManagerLoader(ToolManager.class, System.err);
+                ml.setManagerConstructorArgs(new Class<?>[]{Desktop.class}, this);
+                s = ml.loadManagers(TOOLMGRLIST);
+            } else {
+                s = new HashSet<>();
+                for (String name : listOfManagersToLoad.split(",")) {
+                    s.add(Class.forName(name).getDeclaredConstructor().newInstance());
+                }
+            }
             toolManagers = s.toArray(new ToolManager[s.size()]);
         } catch (IOException e) {
             throw new JavaTestError(uif.getI18NResourceBundle(),
                     "dt.cantAccessResource", new Object[]{TOOLMGRLIST, e});
+        } catch (ReflectiveOperationException e) {
+            throw new RuntimeException(e);
         }
     }
 
