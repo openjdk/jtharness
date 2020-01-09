@@ -26,7 +26,6 @@
  */
 package com.sun.javatest.tool;
 
-import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
 
 import javax.swing.Action;
