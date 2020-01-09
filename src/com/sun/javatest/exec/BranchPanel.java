@@ -342,11 +342,6 @@ class BranchPanel
     }
 
     @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-    }
-
-    @Override
     public void filterUpdated(TestFilter f) {
         for (BP_BranchSubpanel allPanel : allPanels) {
             allPanel.invalidateFilters();

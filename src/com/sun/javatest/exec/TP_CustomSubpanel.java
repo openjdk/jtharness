@@ -43,11 +43,6 @@ class TP_CustomSubpanel extends TP_Subpanel {
         ctrv.setResult(currTest);
     }
 
-    @Override
-    boolean isUpdateRequired(com.sun.javatest.TestResult currTest) {
-        return subpanelTest != currTest;
-    }
-
     protected void onCangedTestResult(TestResult currTest, boolean isActive) {
         ctrv.onCangedTestResult(currTest, isActive);
     }

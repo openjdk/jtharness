@@ -94,8 +94,4 @@ public class JUnitAnnotationMultiTest extends JUnitMultiTest {
         }
     }
 
-    @Override
-    protected void printStackTrace(Throwable t) {
-        t.printStackTrace(log);
-    }
 }

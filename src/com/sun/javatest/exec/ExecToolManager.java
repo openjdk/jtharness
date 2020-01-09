@@ -397,11 +397,6 @@ public class ExecToolManager extends ToolManager implements QSW_Listener {
     }
 
     @Override
-    public Action[] getTaskMenuActions() {
-        return null;
-    }
-
-    @Override
     public Action[] getWindowOpenMenuActions() {
         if (QuickStartWizard.isQswDisabled()) {
             return new Action[0];

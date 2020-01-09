@@ -72,29 +72,6 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
     //-----internal routines----------------------------------------------------
 
     /**
-     * Decode the arg at a specified position in the arg array.  If overridden
-     * by a subtype, the subtype should try and decode any arg it recognizes,
-     * and then call super.decodeArg to give the superclass(es) a chance to
-     * recognize any arguments.
-     *
-     * @param args The array of arguments
-     * @param i    The next argument to be decoded.
-     * @return The number of elements consumed in the array; for example,
-     * for a simple option like "-v" the result should be 1; for an
-     * option with an argument like "-f file" the result should be
-     * 2, etc.
-     * @throws TestFinder.Fault If there is a problem with the value of the current arg,
-     *                          such as a bad value to an option, the Fault exception can be
-     *                          thrown.  The exception should NOT be thrown if the current
-     *                          arg is unrecognized: in that case, an implementation should
-     *                          delegate the call to the supertype.
-     */
-    @Override
-    protected void decodeAllArgs(String... args) throws Fault {
-        super.decodeAllArgs(args);
-    }
-
-    /**
      * Scan a file, looking for test descriptions and/or more files to scan.
      *
      * @param file The file to scan
@@ -107,14 +84,6 @@ public class JUnitAnnotationTestFinder extends JUnitTestFinder {
         } else {
             scanFile(file);
         }
-    }
-
-    /**
-     * Call to register the methods which are test methods.
-     */
-    @Override
-    public void foundTestMethod(String name) {
-        testMethods.add(name);
     }
 
     /**

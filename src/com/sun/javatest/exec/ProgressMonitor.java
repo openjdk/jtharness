@@ -452,10 +452,6 @@ class ProgressMonitor extends ToolDialog {
         }
 
         @Override
-        void stopping() {
-        }
-
-        @Override
         void update() {
             testListData.removeAllElements();
             TestResult[] rt = state.getRunningTests();
