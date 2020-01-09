@@ -201,7 +201,7 @@ class HelpMenu extends JMenu {
      *
      * @param contKey  i18n bundle key for getting accessibility name and desc
      *                 for the container
-     * @param filedKey i18n bundle key for getting accessibility name and desc
+     * @param fieldKey i18n bundle key for getting accessibility name and desc
      *                 for each of the fields holding the "about" text
      */
     private void showAbout(String title, String s, String contKey, String fieldKey) {

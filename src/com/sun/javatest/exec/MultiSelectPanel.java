@@ -69,7 +69,6 @@ class MultiSelectPanel
      * which replaces the active TRT.  Changes to the parameters (filters,
      * initial URLs, etc... should propagate thru the FilterConfig system.
      *
-     * @param p A validated set of parameters.
      * @see com.sun.javatest.exec.FilterConfig
      * void setParameters(Parameters p) {
      * this.params = p;

@@ -696,7 +696,6 @@ abstract class DeskView {
      * @throws ClassNotFoundException    if the class for the tool cannot be found
      * @throws NoSuchMethodException     if the tool does not have the appropriate restore method
      * @throws IllegalAccessException    if the tool's restore method does not have public access
-     * @throws InvocationTargetException if the tool's restore method threw an exception
      * @see #saveTool
      */
     protected Tool restoreTool(Map<String, String> m, String name) throws Fault, ToolManager.Fault {

@@ -931,7 +931,6 @@ public class InterviewEditor extends ToolDialog {
      * In viewConfig differs from mainConfig asks user whether save changes
      * or not. Save changes in case of positive answer.
      *
-     * @param que
      * @return false iff user said "cancel".
      */
     private boolean askAndSave(String question) {

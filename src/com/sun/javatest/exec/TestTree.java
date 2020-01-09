@@ -59,7 +59,7 @@ class TestTree extends JTree {
     /**
      * @param uif       The UI factory object to use.
      * @param model     The GUI model object.
-     * @param fConfig   The active filter configuration object.
+     * @param fh   The active filter configuration object.
      * @param treeModel The data model.
      */
     public TestTree(UIFactory uif, TreePanelModel model, FilterSelectionHandler fh,

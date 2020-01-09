@@ -346,7 +346,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
      * Handles special reconfiguration required for quick-pick test execution.
      * If not ready, suggests configuring first.
      *
-     * @param tests Null or zero length indicates all tests.  Otherwise,
+     * @param paths Null or zero length indicates all tests.  Otherwise,
      *              the strings must be root relative locations in the testsuite.
      */
     @Override

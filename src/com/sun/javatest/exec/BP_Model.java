@@ -64,7 +64,6 @@ interface BP_Model {
      * Is the given component enabled or not?
      *
      * @param c     The component to query about.
-     * @param state True to enable, false to disable.
      * @return True if the given component is enabled, false otherwise, including the
      * case where the given component can't be found.
      * @see #setEnabled

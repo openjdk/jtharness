@@ -170,9 +170,6 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
 
     // UTILITY
 
-    /**
-     * @param headers Just an optimization right now.
-     */
     private void addGroup(String group, JPanel panel, ActionListener listener) {
         TableModel model = createTableModel(group, listener);
         // don't show empty tables

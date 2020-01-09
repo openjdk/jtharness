@@ -126,7 +126,6 @@ public class FilterConfig {
      *
      * @param f Should not be null.  Should also be a filter which was previously
      *          added to this object.
-     * @throws FilterInUseFault Thrown if you try to remove the active filter.
      */
     synchronized void remove(TestFilter f) {
         if (f == null) {

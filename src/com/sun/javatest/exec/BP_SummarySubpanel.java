@@ -736,7 +736,6 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
 
         /**
          * @param tn     The node whose stats are to be scanned and placed onscreen.
-         * @param fs     Filters used to correctly generate stats.
          * @param fields Components to be updated with stats.
          */
         CounterThread(TestResultTable.TreeNode tn, JTextField... fields) {

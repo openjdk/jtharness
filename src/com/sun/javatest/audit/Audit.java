@@ -531,8 +531,6 @@ public class Audit {
 
     /**
      * Print out a short summary report of the environment statistics.
-     *
-     * @param out A stream to which to write the output.
      */
     private void showEnvCounts() {
         int u = envCounts[0];
@@ -621,7 +619,7 @@ public class Audit {
      * Print out a labelled count if non-zero
      *
      * @param needSep Need a leading separator (comma)
-     * @param label   The label to display
+     * @param msg   The label to display
      * @param count   The count to display, if non-zero
      * @return true if a separator will be needed for the next value to be shown
      */

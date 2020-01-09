@@ -224,7 +224,7 @@ public class KflSorter {
      * May take a long time to execute, performing the operation on a background
      * thread may be appropriate.
      *
-     * @param tests Set of results to compare to.
+     * @param iter Set of results to compare to.
      * @return Number of comparison errors encountered.
      */
     synchronized int run(TestResultTable.TreeIterator iter) {
@@ -576,8 +576,8 @@ public class KflSorter {
      * Effectively - iterate test cases in result (tcs), if it is listed in the
      * KFL and matches the given status, add to the given set.
      *
-     * @param entry  The KFL entry.
-     * @param tcs    Test case results for the given test.
+     * @param url  The KFL entry.
+     * @param tr    Test case results for the given test.
      * @param status the status type to match
      * @param set    the data set to add the selected test cases to
      * @return the number of test cases which were added to the set

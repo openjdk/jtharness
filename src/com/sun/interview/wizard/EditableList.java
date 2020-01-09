@@ -205,7 +205,7 @@ public class EditableList extends JPanel {
      * to provide other ways of specifying items to be added, such as a
      * file chooser.
      *
-     * @param the item to be replaced in the list
+     * @param oldItem item to be replaced in the list
      * @return an object to replace the old item the list, or null if no
      * replacement should occur.
      */
