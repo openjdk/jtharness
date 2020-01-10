@@ -427,7 +427,7 @@
     </target>
 
 <!-- FIXME:test-i18n,CODETOOLS-7902488 <target name="test" depends="jar,test-nohead,test-i18n,test-copyrights,test-sanity" description="Runs test on JT Harness.">-->
-    <target name="test" depends="jar, run-unit-tests, test-copyrights, test-sanity" description="Runs test on JT Harness.">
+    <target name="test" depends="jar, run-regression-tests, test-copyrights, test-sanity" description="Runs test on JT Harness.">
         <java fork="true" failonerror="true" classname="${run.class}">
             <classpath>
                 <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
@@ -489,11 +489,11 @@
                 </fail>
         </target>
 
-    <target name="run-unit-tests" depends="compile.unit-tests" description="Runs all unit tests">
+    <target name="run-regression-tests" depends="compile.unit-tests" description="Runs all unit tests">
         <delete dir="${build.unit-tests.reports}"/>
         <mkdir dir="${build.unit-tests.reports}"/>
         <echo>java.home: ${java.home}</echo>
-        <junit fork="yes" printsummary="yes" dir="${basedir}" forkmode="perBatch" showoutput="true">
+        <junit fork="yes" printsummary="yes" dir="${basedir}" forkmode="perBatch">
             <formatter type="plain"/>
             <classpath>
                 <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
