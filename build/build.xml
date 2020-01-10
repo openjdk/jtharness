@@ -492,6 +492,7 @@
     <target name="run-unit-tests" depends="compile.unit-tests" description="Runs all unit tests">
         <delete dir="${build.unit-tests.reports}"/>
         <mkdir dir="${build.unit-tests.reports}"/>
+        <echo>java.home: ${java.home}</echo>
         <junit fork="yes" printsummary="yes" dir="${basedir}">
             <formatter type="plain"/>
             <classpath>
@@ -500,6 +501,8 @@
                 <pathelement location="${build.unit-tests}"/>
             </classpath>
             <jvmarg value="-Dunit-tests.data.dir=${unit-tests.data.dir}"/>
+            <jvmarg value="-Dbuild.tmp=${build.tmp}"/>
+            <jvmarg value="-Dbuild.java.home=${java.home}"/>
             <batchtest haltonerror="true" haltonfailure="true" todir="${build.unit-tests.reports}">
                 <fileset dir="${unit-tests.src.dir}" includes="**/*.java"/>
             </batchtest>

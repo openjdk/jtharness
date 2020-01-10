@@ -28,18 +28,18 @@
 
 #Environment file for "initurl" test suite
 
-StdTestScript=javasoft.sqe.javatest.lib.StdTestScript
+StdTestScript=com.sun.javatest.lib.StdTestScript
 SimpTestScript=javasoft.sqe.javatest.lib.SimpTestScript
 
-ExecStdTestSameJVMCmd=javasoft.sqe.javatest.lib.ExecStdTestSameJVMCmd
-ExecStdTestOtherJVMCmd=javasoft.sqe.javatest.lib.ExecStdTestOtherJVMCmd
-ProcessCommand=javasoft.sqe.javatest.lib.ProcessCommand
+ExecStdTestSameJVMCmd=com.sun.javatest.lib.ExecStdTestSameJVMCmd
+ExecStdTestOtherJVMCmd=com.sun.javatest.lib.ExecStdTestOtherJVMCmd
+ProcessCommand=com.sun.javatest.lib.ProcessCommand
 SlaveCommand=javasoft.sqe.javatest.lib.SlaveCommand
 
 SerialPortAgentCommand=com.sun.javatest.agent.SerialPortAgentCommand
 
 # default script setting for all envs
-script=javasoft.sqe.javatest.lib.KeywordScript
+script=com.sun.javatest.lib.KeywordScript
 
 #env.initurl.finder=com.sun.javatest.finder.HTMLTestFinder
 

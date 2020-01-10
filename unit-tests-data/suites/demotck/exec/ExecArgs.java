@@ -31,8 +31,8 @@ import java.io.PrintWriter;
 import java.io.File;
 import java.util.Hashtable;
 
-import javasoft.sqe.javatest.Status;
-import javasoft.sqe.javatest.Test;
+import com.sun.javatest.Status;
+import com.sun.javatest.Test;
 
 public class ExecArgs implements Test {
     public static void main(String[] args) {
@@ -57,11 +57,11 @@ public class ExecArgs implements Test {
             return Status.failed("wrong number of args");
 
         out.println("testSuiteRootURL: " + args[0]);
-        if (!args[0].endsWith("/basic/demotck/testsuite.html"))
+        if (!args[0].endsWith("/demotck/testsuite.html"))
             return Status.failed("bad value for testSuiteRootURL: " + args[0]);
 
         out.println("testURL: " + args[1]);
-        if (!args[1].endsWith("/basic/demotck/exec/index.html#ExecArgs"))
+        if (!args[1].endsWith("/demotck/exec/index.html#ExecArgs"))
             return Status.failed("bad value for testURL: " + args[1]);
 
         out.println("testWorkDir: " + args[2]);
@@ -72,6 +72,6 @@ public class ExecArgs implements Test {
         out.println("testClassDir: " + args[3]);
         out.println("harnessClassDir: " + args[4]);
 
-        return Status.passed("");
+        return Status.passed("Running test with arg verification was successful");
     }
 }

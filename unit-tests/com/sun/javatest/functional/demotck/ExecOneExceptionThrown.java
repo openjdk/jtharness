@@ -25,36 +25,40 @@
  * questions.
  */
 
-// This class should throw an exception
+package com.sun.javatest.functional.demotck;
 
-import java.io.PrintWriter;
+import com.sun.javatest.functional.FuncTestBase;
+import org.junit.Test;
 
-import com.sun.javatest.Status;
-import com.sun.javatest.Test;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
-public class ExecExc implements Test {
-    public static void main(String[] args) {
-        Test t = new ExecExc();
-        PrintWriter err = new PrintWriter(System.err);
-        PrintWriter out = new PrintWriter(System.out);
-        Status s = t.run(args, err, out);
-        err.flush();
-        out.flush();
-        s.exit();
+public class ExecOneExceptionThrown extends FuncTestBase {
+
+    @Test
+    public void test() throws IOException {
+        runJavaTest();
+        checkLinesInSummary(
+                "exec/index.html#ExecFailRuntimExc  Failed. exit code 1"
+        );
     }
 
-    public Status run(String[] args, PrintWriter log, PrintWriter out) {
-        if (args.length == 1) {
-            String arg = args[0];
-            if ("-runtime".equals(arg))
-                throw new RuntimeException("example runtime exception");
-            else if ("-error".equals(arg))
-                throw new Error("example error");
-        }
-        // we don't really mean "passed" in the next line since the test is
-        // supposed to demonstrate a test that fails with an unexpected exception.
-        // So, if we are here, we want to signal an unexpected return and
-        // passed would be unexpected for this test!
-        return Status.passed("This test has unexpectedly not thrown an exception");
+    protected List<String> getTailArgs() {
+        return Arrays.asList("exec/index.html#ExecFailRuntimExc");
     }
+
+    protected String getEnvName() {
+        return "basic";
+    }
+
+    protected String getEnvfileName() {
+        return "basic.jte";
+    }
+
+    protected String getTestsuiteName() {
+        return "demotck";
+    }
+
+
 }

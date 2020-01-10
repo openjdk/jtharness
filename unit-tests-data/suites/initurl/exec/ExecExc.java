@@ -29,8 +29,8 @@
 
 import java.io.PrintWriter;
 
-import javasoft.sqe.javatest.Status;
-import javasoft.sqe.javatest.Test;
+import com.sun.javatest.Status;
+import com.sun.javatest.Test;
 
 public class ExecExc implements Test {
     public static void main(String[] args) {

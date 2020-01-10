@@ -31,8 +31,8 @@ import java.io.PrintWriter;
 import java.io.File;
 import java.util.Hashtable;
 
-import javasoft.sqe.javatest.Status;
-import javasoft.sqe.javatest.Test;
+import com.sun.javatest.Status;
+import com.sun.javatest.Test;
 
 public class ExecArgs implements Test {
     public static void main(String[] args) {

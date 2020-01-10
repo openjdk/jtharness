@@ -1,31 +1,31 @@
 #Environment file for "basic" test suite
 
-StdTestScript=javasoft.sqe.javatest.lib.StdTestScript
+StdTestScript=com.sun.javatest.lib.StdTestScript
 SimpTestScript=javasoft.sqe.javatest.lib.SimpTestScript
 
-ExecStdTestSameJVMCmd=javasoft.sqe.javatest.lib.ExecStdTestSameJVMCmd
-ExecStdTestOtherJVMCmd=javasoft.sqe.javatest.lib.ExecStdTestOtherJVMCmd
-ProcessCommand=javasoft.sqe.javatest.lib.ProcessCommand
+ExecStdTestSameJVMCmd=com.sun.javatest.lib.ExecStdTestSameJVMCmd
+ExecStdTestOtherJVMCmd=com.sun.javatest.lib.ExecStdTestOtherJVMCmd
+ProcessCommand=com.sun.javatest.lib.ProcessCommand
 SlaveCommand=javasoft.sqe.javatest.lib.SlaveCommand
 
 SerialPortAgentCommand=com.sun.javatest.agent.SerialPortAgentCommand
 
 # default script setting for all envs
-script=javasoft.sqe.javatest.lib.KeywordScript
+script=com.sun.javatest.lib.KeywordScript
 
 env.basic.description=Environment to exercise the tests in the "basic" test suite
 env.basic.menu=true
-env.basic.script.compile_positive=$StdTestScript -compile 
-env.basic.script.compile_serial_positive=$StdTestScript -compile -compileIndividually 
-env.basic.script.compile_negative=$StdTestScript -compile -expectFail 
-env.basic.script.compile_serial_negative=$StdTestScript -compile -compileIndividually -expectFail 
-env.basic.script.execute_positive=$StdTestScript -execute  
-env.basic.script.execute_simple_positive=$SimpTestScript -execute   
-env.basic.script.execute_negative=$StdTestScript -execute  -expectFail 
-env.basic.script.compile_execute_positive=$StdTestScript -compile -execute  
-env.basic.script.compile_serial_execute_positive=$StdTestScript -compile -execute -compileIndividually  
-env.basic.script.compile_execute_simple_positive=$SimpTestScript -compile -execute   
-env.basic.script.compile_serial_execute_simple_positive=$SimpTestScript -compile -execute -compileIndividually   
+env.basic.script.compile_positive=$StdTestScript -compile
+env.basic.script.compile_serial_positive=$StdTestScript -compile -compileIndividually
+env.basic.script.compile_negative=$StdTestScript -compile -expectFail
+env.basic.script.compile_serial_negative=$StdTestScript -compile -compileIndividually -expectFail
+env.basic.script.execute_positive=$StdTestScript -execute
+env.basic.script.execute_simple_positive=$SimpTestScript -execute
+env.basic.script.execute_negative=$StdTestScript -execute  -expectFail
+env.basic.script.compile_execute_positive=$StdTestScript -compile -execute
+env.basic.script.compile_serial_execute_positive=$StdTestScript -compile -execute -compileIndividually
+env.basic.script.compile_execute_simple_positive=$SimpTestScript -compile -execute
+env.basic.script.compile_serial_execute_simple_positive=$SimpTestScript -compile -execute -compileIndividually
 #
 env.basic.command.compile.java=$ProcessCommand CLASSPATH=$javatestClassDir$:$testClassDir $JAVAC -d $testClassDir $javacFlags $testSource
 env.basic.command.execute=$ExecStdTestOtherJVMCmd DISPLAY=$DISPLAY CLASSPATH=$javatestClassDir$:$testClassDir $JAVA $testExecuteClass $testExecuteArgs
