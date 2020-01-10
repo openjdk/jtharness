@@ -91,8 +91,8 @@ public abstract class FuncTestBase {
 
     @Before
     public void setup() throws IOException {
-        System.setProperty("javatest.preferences.file", "NONE");
-        System.setProperty("debug.com.sun.javatest.TRT_TreeNode", "2");
+//        System.setProperty("javatest.preferences.file", "NONE");
+//        System.setProperty("debug.com.sun.javatest.TRT_TreeNode", "2");
 
 
         System.setProperty(Report.REPORT_FORMATS_TO_LOAD,
