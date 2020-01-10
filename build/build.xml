@@ -503,7 +503,7 @@
             <jvmarg value="-Dunit-tests.data.dir=${unit-tests.data.dir}"/>
             <jvmarg value="-Dbuild.tmp=${build.tmp}"/>
             <jvmarg value="-Dbuild.java.home=${java.home}"/>
-            <batchtest skipnontests="true" haltonfailure="true" todir="${build.unit-tests.reports}">
+            <batchtest haltonfailure="true" todir="${build.unit-tests.reports}">
                 <fileset dir="${unit-tests.src.dir}" includes="**/*.java"/>
             </batchtest>
         </junit>
