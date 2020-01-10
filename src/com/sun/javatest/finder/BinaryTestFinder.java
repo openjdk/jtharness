@@ -77,6 +77,7 @@ public class BinaryTestFinder extends TestFinder {
      * @see #BinaryTestFinder(File, File)
      * @deprecated Use BinaryTestFinder(File testSuiteRoot, File jtdFile) instead
      */
+    @Deprecated
     public BinaryTestFinder(File jtdFile) throws Fault {
         this.jtdFile = jtdFile;
         openBinaryFile(true);
@@ -95,6 +96,7 @@ public class BinaryTestFinder extends TestFinder {
      * @deprecated Use BinaryTestFinder(File, File, TestEnvironment) with null as
      * the last argument.
      */
+    @Deprecated
     public BinaryTestFinder(File testSuiteRoot, File jtdFile) throws Fault {
         init(testSuiteRoot, jtdFile);
     }
@@ -145,6 +147,7 @@ public class BinaryTestFinder extends TestFinder {
      * @throws TestFinder.Fault if there is a problem while reading the data file.
      * @deprecated Use init(File, File TestEnvironment) with null args as needed.
      */
+    @Deprecated
     public void init(File testSuiteRoot, File jtdFile) throws Fault {
         super.init(null, testSuiteRoot, null);
         this.jtdFile = jtdFile;

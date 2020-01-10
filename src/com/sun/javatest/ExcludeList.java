@@ -1042,6 +1042,7 @@ public class ExcludeList {
          * @param s  A short synopsis of the reasons why the test is excluded.
          * @deprecated use constructor with String[] bugIDs instead
          */
+        @java.lang.Deprecated
         public Entry(String u, String tc, int[] b, String[] p, String s) {
             if (b == null || p == null) {
                 throw new NullPointerException();
@@ -1203,6 +1204,7 @@ public class ExcludeList {
          * @return the bugs referenced by the entry
          * @deprecated use getBugIdStrings() instead
          */
+        @java.lang.Deprecated
         public int[] getBugIds() {
             if (bugIds == null) {
                 bugIds = new int[bugIdStrings.length];

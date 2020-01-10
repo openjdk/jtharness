@@ -244,6 +244,7 @@ public class TestFinderQueue {
      * @param tds the test descriptions to be "found again".
      * @deprecated retained for historical purposes
      */
+    @java.lang.Deprecated
     public void repeat(TestDescription... tds) {
         if (tests == null) {
             tests = new ArrayDeque<>(); // for now

@@ -83,6 +83,7 @@ public class Report implements ReportModel {
      * @deprecated It is expected that you call writeReport() if you use this
      * constructor.
      */
+    @Deprecated
     public Report(InterviewParameters params, File dir) {
         this.params = params;
         //this.resultTable = params.getWorkDirectory().getTestResultTable();
@@ -102,6 +103,7 @@ public class Report implements ReportModel {
      * @deprecated It is expected that you call writeReport() if you use this
      * constructor.
      */
+    @Deprecated
     public Report(InterviewParameters params, File dir, TestFilter tf) {
         this(params, dir);
 

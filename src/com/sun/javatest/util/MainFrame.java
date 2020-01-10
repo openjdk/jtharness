@@ -93,6 +93,7 @@ public class MainFrame {
      * @see #setContext
      * @deprecated replaced by acquireFrame.
      */
+    @Deprecated
     public static Container getContext() {
         try {
             return acquireFrame();
@@ -110,6 +111,7 @@ public class MainFrame {
      * @see #getContext
      * @deprecated replaced by @link(#setFrame)
      */
+    @Deprecated
     public static synchronized void setContext(Container c) {
         setFrame((Frame) c);
     }
@@ -198,6 +200,7 @@ public class MainFrame {
      * @throws ClassCastException    if the container is not a frame.
      * @deprecated replaced by releaseFrame.
      */
+    @Deprecated
     public static void restoreContext(Container c) {
         releaseFrame((Frame) c);
     }

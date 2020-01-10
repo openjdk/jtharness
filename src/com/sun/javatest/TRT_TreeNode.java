@@ -97,6 +97,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * @see Status
      * @deprecated
      */
+    @java.lang.Deprecated
     static void bubbleUpChildStat(TRT_TreeNode node, int which) {
         node.childStats[which]++;
         TRT_TreeNode parent = (TRT_TreeNode) node.getParent();
@@ -543,6 +544,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * @see Status
      * @deprecated Use bubbleUpChildStat()
      */
+    @java.lang.Deprecated
     void incChildStat(int which) {
         childStats[which]++;
     }
@@ -555,6 +557,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * @see Status
      * @deprecated Use bubbleUpChildStat()
      */
+    @java.lang.Deprecated
     void decChildStat(int which) {
         childStats[which]--;
     }
@@ -579,6 +582,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * @see #bubbleUpCounterInc()
      * @deprecated Use bubbleUpCounterInc() instead
      */
+    @java.lang.Deprecated
     void incNodeCounter() {
         counter++;
     }

@@ -35,6 +35,7 @@ import com.sun.javatest.TestSuite;
  *
  * @deprecated Use BasicInterviewParameters
  */
+@Deprecated
 public abstract class DefaultInterviewParameters extends BasicInterviewParameters {
     /**
      * Create a BasicInterviewParameters object.

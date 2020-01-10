@@ -171,6 +171,7 @@ public class ReadAheadIterator<T> implements Iterator<T> {
      * @return True if the source has no more elements, false otherwise.
      * @deprecated Use hasNext().
      */
+    @Deprecated
     public synchronized boolean isSourceExhausted() {
         return worker == null ? !source.hasNext() : !sourceHasNext;
     }
@@ -182,6 +183,7 @@ public class ReadAheadIterator<T> implements Iterator<T> {
      * @see #getItemsFoundCount
      * @deprecated Will not be supported in the future.
      */
+    @Deprecated
     public synchronized int getUsedElementCount() {
         return usedCount;
     }
@@ -193,6 +195,7 @@ public class ReadAheadIterator<T> implements Iterator<T> {
      * or equal-to zero
      * @deprecated Will not be supported in the future.
      */
+    @Deprecated
     public synchronized int getOutputQueueSize() {
         return queue.size();
     }

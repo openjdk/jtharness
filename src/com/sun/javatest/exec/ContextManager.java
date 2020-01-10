@@ -659,6 +659,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
      * @see #setWorkDirectory(WorkDirectory)
      * @deprecated use #setWorkDirectory(WorkDirectory) instead
      */
+    @Deprecated
     protected void setWorkDir(WorkDirectory w) {
         setWorkDirectory(w);
     }

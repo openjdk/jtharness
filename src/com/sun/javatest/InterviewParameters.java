@@ -728,6 +728,7 @@ public abstract class InterviewParameters
      * @see #getExcludeListFirstQuestion
      * @deprecated Use getExcludeListFirstQuestion().
      */
+    @java.lang.Deprecated
     protected Question getExcludeTableFirstQuestion() {
         return getExcludeListFirstQuestion();
     }
@@ -754,6 +755,7 @@ public abstract class InterviewParameters
      * @see #getExcludeListSuccessorQuestion
      * @deprecated Use getExcludeListFirstQuestion().
      */
+    @java.lang.Deprecated
     protected Question getExcludeTableSuccessorQuestion() {
         return getExcludeListSuccessorQuestion();
     }
@@ -942,6 +944,7 @@ public abstract class InterviewParameters
      * @see #getExcludeListFilter
      * @deprecated Use getExcludeListFilter().
      */
+    @java.lang.Deprecated
     public TestFilter getExcludeTableFilter() {
         return getExcludeListFilter();
     }

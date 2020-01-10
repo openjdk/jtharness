@@ -175,6 +175,7 @@ public abstract class ChoiceQuestion extends Question {
      * @deprecated Use the other setChoices() methods, which support i18n as
      * an option.
      */
+    @Deprecated
     protected void setI18NChoices(String... choices) {
         setChoices(choices, true);
     }

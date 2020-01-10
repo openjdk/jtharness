@@ -718,6 +718,7 @@ public class TestResultTable {
      * @return The workdir.  Null if not available.
      * @deprecated Use getWorkDirectory
      */
+    @java.lang.Deprecated
     public WorkDirectory getWorkDir() {
         return getWorkDirectory();
     }

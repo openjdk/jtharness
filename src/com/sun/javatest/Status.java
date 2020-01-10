@@ -201,6 +201,7 @@ public class Status {
      * @return a Status to indicate that a test failed because it was not applicable
      * @deprecated
      */
+    @java.lang.Deprecated
     public static Status notApplicable(String reason) {
         return new Status(FAILED, "Not Applicable: " + reason);
     }

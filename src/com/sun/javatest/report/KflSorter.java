@@ -460,6 +460,7 @@ public class KflSorter {
      *
      * @deprecated Method not in use.
      */
+    @Deprecated
     private int findChangedCases(TestResult tr, Map<String, Status> tcs,
                                  KnownFailuresList.Entry entry) {
         String kfltcl = entry.getTestCases();

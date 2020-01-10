@@ -434,6 +434,7 @@ public class TestDescription implements Serializable {
      * @return the class directory, or null if not specified
      * @deprecated use <code>getParameter("classDir")</code> instead
      */
+    @java.lang.Deprecated
     public String getClassDir() {
         return getParameter("classDir");
     }
@@ -445,6 +446,7 @@ public class TestDescription implements Serializable {
      * @return the execute class name, or null if not specified
      * @deprecated use <code>getParameter("executeClass")</code> instead
      */
+    @java.lang.Deprecated
     public String getExecuteClass() {
         return getParameter("executeClass");
     }
@@ -456,6 +458,7 @@ public class TestDescription implements Serializable {
      * @return the execute args, or null if not specified
      * @deprecated use <code>getParameter("executeArgs")</code> instead
      */
+    @java.lang.Deprecated
     public String getExecuteArgs() {
         return getParameter("executeArgs");
     }
@@ -467,6 +470,7 @@ public class TestDescription implements Serializable {
      * @return the timeout value, or 0 if not specified
      * @deprecated use <code>getParameter("timeout")</code> instead
      */
+    @java.lang.Deprecated
     public int getTimeout() {
         String t = getParameter("timeout");
         if (t == null) {
@@ -490,6 +494,7 @@ public class TestDescription implements Serializable {
      * in the future.  If needed the value can be determined by asking the test
      * suite's <code>TestFinder</code>.
      */
+    @java.lang.Deprecated
     public File getRoot() {
         return new File(rootDir, "testsuite.html");
     }
@@ -548,6 +553,7 @@ public class TestDescription implements Serializable {
      * @return the a relative path to the directory containing this test description
      * @deprecated Use getRootRelativeFile().getParent()
      */
+    @java.lang.Deprecated
     public File getRootRelativeDir() {
         String p = getRootRelativeFile().getParent();
         return p == null ? new File(".") : new File(p);

@@ -135,6 +135,7 @@ public class MultiTest implements Test {
      * @see #init()
      * @deprecated Use <code>decodeArg(String)</code> and <code>init()</code> instead.
      */
+    @java.lang.Deprecated
     protected Status init(String... args) {
         try {
             decodeAllArgs(args);

@@ -61,6 +61,7 @@ public abstract class TestFinder {
      * JT Harness but does not interact well with JT Harness 3.0's GUI features.
      * Use with discretion, if at all.
      */
+    @java.lang.Deprecated
     protected TestEnvironment env;
     // cache for canonicalized lists of keywords
     private Map<String, String> keywordCache = new HashMap<>();
@@ -135,6 +136,7 @@ public abstract class TestFinder {
      * longer supported.  Methods on TestResultTable should yield similar
      * results.
      */
+    @java.lang.Deprecated
     public void init(String[] args, File testSuiteRoot,
                      File[] tests, TestFilter[] filters,
                      TestEnvironment env) throws Fault {

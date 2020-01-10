@@ -197,6 +197,7 @@ public abstract class IntQuestion extends Question {
      * @see #clear
      * @deprecated see #isValueValid
      */
+    @Deprecated
     public boolean isValid() {
         // conceptually, we want to do the following:
         //      return (min <= value && value <= max);

@@ -40,6 +40,7 @@ import java.util.Map;
  * @see com.sun.javatest.util.PathClassLoader
  * @deprecated use PathClassLoader
  */
+@Deprecated
 public class DirectoryClassLoader extends ClassLoader {
     private File loadDir;
     private Map<String, Class<?>> classes = new Hashtable<>();

@@ -1076,6 +1076,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
      * @param node The node to invalidate in the cache.  Must not be null.
      * @deprecated The cache will be smart enough to not need this.
      */
+    @Deprecated
     void invalidateNodeInfo(TestResultTable.TreeNode node) {
         invalidateNodeInfo(node);
     }

@@ -100,6 +100,7 @@ public class Harness {
      * @see #setClassDir
      * @deprecated Use Harness() instead
      */
+    @java.lang.Deprecated
     public Harness(File classDir) {
         this();
         setClassDir(classDir);

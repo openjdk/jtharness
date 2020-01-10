@@ -286,6 +286,7 @@ public class TestResult {
     }
      */
     // this field is cleared when the test result is shrunk
+    @java.lang.Deprecated
     private Section[] sections;         // sections of output written during test execution
     private int maxTROutputSize = 0;    // maximum output size for this test result
     // only valid when this TR is in a TRT, should remain when shrunk
@@ -564,6 +565,7 @@ public class TestResult {
     /**
      * @deprecated Use the Section API to accomplish your task.
      */
+    @java.lang.Deprecated
     private static Reader getLastRefOutput(TestResult tr) {
         try {
             Section lastBlk = tr.getSection(tr.getSectionCount() - 1);

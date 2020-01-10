@@ -63,6 +63,7 @@ class Deck extends Panel {
     /**
      * @deprecated
      */
+    @java.lang.Deprecated
     @Override
     public Dimension preferredSize() {
 

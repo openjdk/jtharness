@@ -507,6 +507,7 @@ public class CommandContext {
      * @see #setInterviewParameters
      * @deprecated Use getConfig().
      */
+    @Deprecated
     public InterviewParameters getInterviewParameters()
             throws Fault {
         return getConfig();
@@ -523,6 +524,7 @@ public class CommandContext {
      * @see #getInterviewParameters
      * @deprecated Use setConfig().
      */
+    @Deprecated
     public void setInterviewParameters(InterviewParameters p)
             throws Fault {
         if (isInitConfigRequired()) {

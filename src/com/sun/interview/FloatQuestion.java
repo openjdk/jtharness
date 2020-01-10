@@ -154,6 +154,7 @@ public abstract class FloatQuestion extends Question {
      * @see #clear
      * @deprecated see #isValueValid
      */
+    @Deprecated
     public boolean isValid() {
         // conceptually, we want to do the following:
         //      return (!Float.isNaN(value) && min <= value && value <= max);

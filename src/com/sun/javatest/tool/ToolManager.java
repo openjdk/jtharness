@@ -151,6 +151,7 @@ public abstract class ToolManager {
      * if none are required.
      * @deprecated There is no tasks menu anymore.
      */
+    @Deprecated
     public Action[] getTaskMenuActions() {
         return null;
     }
@@ -162,6 +163,7 @@ public abstract class ToolManager {
      * if none are required.
      * @deprecated
      */
+    @Deprecated
     public Action[] getWindowOpenMenuActions() {
         return null;
     }

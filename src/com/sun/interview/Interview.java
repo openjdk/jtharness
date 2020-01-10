@@ -265,6 +265,7 @@ public class Interview {
      * @deprecated As of version 4.4.1, checksums are no longer
      * calculated or checked.  True is always returned.
      */
+    @Deprecated
     public static boolean isChecksumValid(Map<String, String> data, boolean okIfOmitted) {
         return true;
     }
