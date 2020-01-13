@@ -124,13 +124,15 @@ public abstract class FuncTestBase {
         pathToJavac = java_home + File.separator + "bin" + File.separator + "javac";
         pathToJava = java_home + File.separator + "bin" + File.separator + "java";
 
-        Path reportDir = Files.createTempDirectory(Paths.get(tmpDir), "jt-report-");
+        Path absTmpPath = Paths.get(tmpDir).toAbsolutePath().normalize();
+
+        Path reportDir = Files.createTempDirectory(absTmpPath, "jt-report-");
         reportDirAbsPath = reportDir.toAbsolutePath().toString();
 
         // not allowing to exit
         ExitCount.inc();
 
-        workDirAbsPath = Files.createTempDirectory(Paths.get(tmpDir), "jt-work-").toAbsolutePath().toString();
+        workDirAbsPath = Files.createTempDirectory(absTmpPath, "jt-work-").toAbsolutePath().toString();
         summaryTXT = reportDir.resolve("text").resolve("summary.txt");
     }
 

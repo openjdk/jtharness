@@ -31,19 +31,16 @@ import java.io.PrintStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 
-import com.sun.javatest.KeyTest;
 import com.sun.javatest.TU;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestFinder;
 import com.sun.javatest.TestFinderQueue;
-import com.sun.javatest.finder.BinaryTestFinder;
-import com.sun.javatest.finder.BinaryTestWriter;
-import com.sun.javatest.finder.HTMLTestFinder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -59,13 +56,14 @@ public class BinaryTestFinderTest {
     public void test() throws IOException, Fault {
         boolean ok;
         BinaryTestFinderTest t = new BinaryTestFinderTest();
-        Path work = Files.createTempDirectory("BinaryTestFinderTestWorkDir");
-        work.toFile().deleteOnExit();
-        ok = t.run(new String[]{TU.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html", work.toAbsolutePath().toString()}, System.out);
+        Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
+        String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir").toAbsolutePath().toString();
+        String testSuiteHtml = TU.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html";
+        ok = t.run(System.out, testSuiteHtml, workDir);
         Assert.assertTrue(ok);
     }
 
-    public boolean run(String[] args, PrintStream log) throws Fault {
+    public boolean run(PrintStream log, String... args) throws Fault {
         File testSuite;
         File testWorkDir;
         File binaryFile;
