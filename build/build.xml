@@ -56,13 +56,20 @@
 
     </target>
 
+    <!-- yet if it's been already defined externally it won't be redefined -->
+    <property name="jdk.builder.home" value="${java.home}"/>
+
+    <exec executable="${jdk.builder.home}/bin/java" outputproperty="jdk.builder.version">
+        <arg value="-version"/>
+    </exec>
+
     <presetdef name="buildinfo">
         <echo file="${build.classes}/META-INF/buildInfo.txt"># Build info
             date=${build.date}
             version=${build.version}
             milestone=${build.milestone}
             build=${build.number}
-            java=Java(TM) 2 SDK, Version ${java.version}
+            java=${jdk.builder.version}
             bundle-type=Classpath Loader
             harness-variety=Full Bundle
         </echo>
@@ -286,6 +293,7 @@
         <delete dir="${build.classes}" quiet="true"/>
         <mkdir dir="${build.classes}"/>
         <javac encoding="iso-8859-1" debug="true" source="1.7" target="1.7"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="${src.dir}"
                sourcepath=""
                destdir="${build.classes}"
@@ -308,6 +316,7 @@
         <delete dir="${build.unit-tests}" quiet="true"/>
         <mkdir dir="${build.unit-tests}"/>
         <javac debug="true" source="1.7" target="1.7"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="${unit-tests.src.dir}:${unit-tests.src-support.dir}"
                destdir="${build.unit-tests}"
                classpath="${build.classes}:${junitlib}">
@@ -318,6 +327,7 @@
     <target name="compile.test.copyright.classes">
         <mkdir dir="${build.classes}"/>
         <javac encoding="iso-8859-1" debug="true" source="1.7" target="1.7"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="${test.dir}"
                destdir="${build.classes}"
                classpath="${jdk14.classpath}">
@@ -332,6 +342,7 @@
     <target name="compile.junit.classes" if="jar.junit.dependencies.present" depends="verify-dependencies, compile.classes,compile.junit.resources">
         <mkdir dir="${build.junit.classes}"/>
         <javac encoding="iso-8859-1" debug="true" source="1.7" target="1.7"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="${src.dir}"
                destdir="${build.junit.classes}"
                classpath="${jdk14.classpath}:${build.classes}:${asmjar}:${asmcommonsjar}:${junitlib}">
@@ -382,7 +393,7 @@
 
     <target name="run" depends="compile" description="Run application.">
         <fail unless="run.class">${run.class.missing}</fail>
-        <java fork="true" classname="${run.class}">
+        <java fork="true" classname="${run.class}" jvm="${jdk.builder.home}/bin/java">
             <classpath>
                 <path path="${run.classpath}"/>
             </classpath>
@@ -398,7 +409,7 @@
         </condition>
 
         <mkdir dir="${javadoc.dir}"/>
-        <javadoc destdir="${javadoc.dir}" encoding="${javadoc.encoding}" notree="${javadoc.notree}" use="${javadoc.use}"
+        <javadoc executable="${jdk.builder.home}/bin/javadoc" destdir="${javadoc.dir}" encoding="${javadoc.encoding}" notree="${javadoc.notree}" use="${javadoc.use}"
                  nonavbar="${javadoc.nonavbar}"
                  noindex="${javadoc.noindex}" splitindex="${javadoc.splitindex}" author="${javadoc.author}"
                  version="${javadoc.version}"
@@ -428,7 +439,7 @@
 
 <!-- FIXME:test-i18n,CODETOOLS-7902488 <target name="test" depends="jar,test-nohead,test-i18n,test-copyrights,test-sanity" description="Runs test on JT Harness.">-->
     <target name="test" depends="jar, run-regression-tests, test-copyrights, test-sanity" description="Runs test on JT Harness.">
-        <java fork="true" failonerror="true" classname="${run.class}">
+        <java jvm="${jdk.builder.home}/bin/java" fork="true" failonerror="true" classname="${run.class}">
             <classpath>
                 <path path="${BUILD_DIR}/binaries/lib/javatest.jar"/>
             </classpath>
@@ -439,7 +450,7 @@
         <target name="test-sanity" depends="test-sanity-version,test-sanity-simpletck" />
 
         <target name="test-sanity-version" depends="jar">
-                <java fork="true" failonerror="false" classname="${run.class}"
+                <java jvm="${jdk.builder.home}/bin/java" fork="true" failonerror="false" classname="${run.class}"
                         outputproperty="test.sanity.version.output"
                         resultproperty="test.sanity.version.result">
                         <classpath>
@@ -469,7 +480,7 @@
                 <property name="libs" value="${BUILD_DIR}/binaries/examples/tutorial/demots/lib" />
                 <delete dir="${build.tmp}/sanity-demo-wd" />
             <property name="demo.jtx.path" location="${libs}/demo.jtx"/>
-                <java fork="true" failonerror="false" jar="${BUILD_DIR}/binaries/lib/javatest.jar"
+                <java jvm="${jdk.builder.home}/bin/java" fork="true" failonerror="false" jar="${BUILD_DIR}/binaries/lib/javatest.jar"
                         resultproperty="test.sanity.simpletck.result">
                         <classpath>
                                 <path path="${libs}/demots.jar" />
@@ -556,6 +567,7 @@
     <target name="compile-jct.utils">
         <mkdir dir="${build.classes}"/>
         <javac encoding="iso-8859-1" debug="true" source="1.4"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="${src.dir}"
                destdir="${build.classes}">
             <include name="com/sun/jct/utils/glossarygen/**"/>
@@ -578,6 +590,7 @@
         <mkdir dir="${build.examples}/demots/lib"/>
 
         <javac encoding="iso-8859-1" debug="true" source="1.7"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="${exam.dir}/tutorial/demoapi"
                destdir="${build.tmp}/${exam.dir}/demoapi">
             <compilerarg value="-version"/>
@@ -598,6 +611,7 @@
 
 
         <javac encoding="iso-8859-1" debug="true" source="1.7"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="${exam.dir}/tutorial/simpleTags"
                destdir="${build.tmp}/${exam.dir}/simpleTags"
                classpath="${BUILD_DIR}/binaries/lib/javatest.jar:${build.examples}/demots/lib/demoapi.jar">
@@ -646,6 +660,7 @@
 
 
             <javac encoding="iso-8859-1" debug="true"
+                   fork="true" executable="${jdk.builder.home}/bin/javac"
                    srcdir="${exam.dir}/services_demo/src"
                    destdir="${build.tmp}/${exam.dir}/services_demo/classes"
                    classpath="${BUILD_DIR}/binaries/lib/javatest.jar">
