@@ -486,7 +486,7 @@
                                 <path path="${libs}/demots.jar" />
                                 <path path="${libs}/demoapi.jar" />
                         </classpath>
-                        <arg line="-verbose:max -ts ${BUILD_DIR}/binaries/examples/tutorial/demots/ -wd -create ${build.tmp}/sanity-demo-wd -config ${libs}/demots.jti -set demoTS.jvm ${java.home}/bin/java -excludelist ${demo.jtx.path} -runtests -writeReport report" />
+                        <arg line="-verbose:max -ts ${BUILD_DIR}/binaries/examples/tutorial/demots/ -wd -create ${build.tmp}/sanity-demo-wd -config ${libs}/demots.jti -set demoTS.jvm ${jdk.builder.home}/bin/java -excludelist ${demo.jtx.path} -runtests -writeReport report" />
                 </java>
 
                 <condition property="test.sanity.simpletck.success">
@@ -503,7 +503,7 @@
     <target name="run-regression-tests" depends="compile.unit-tests" description="Runs all unit tests">
         <delete dir="${build.unit-tests.reports}"/>
         <mkdir dir="${build.unit-tests.reports}"/>
-        <echo>java.home: ${java.home}</echo>
+        <echo>jdk.builder.home: ${jdk.builder.home}</echo>
         <junit fork="yes" printsummary="yes" dir="${basedir}" forkmode="perBatch">
             <formatter type="plain"/>
             <classpath>
@@ -513,7 +513,7 @@
             </classpath>
             <jvmarg value="-Dunit-tests.data.dir=${unit-tests.data.dir}"/>
             <jvmarg value="-Dbuild.tmp=${build.tmp}"/>
-            <jvmarg value="-Dbuild.java.home=${java.home}"/>
+            <jvmarg value="-Dbuild.java.home=${jdk.builder.home}"/>
             <batchtest haltonfailure="true" todir="${build.unit-tests.reports}">
                 <fileset dir="${unit-tests.src.dir}" includes="**/*.java"/>
             </batchtest>
