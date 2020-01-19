@@ -49,7 +49,7 @@ public abstract class ToolManager {
     //----------------------------------------------------------------------------
     /**
      * The standard resource bundle for this tool manager, defined in the
-     * file <code>i18n.properties</code> in the same package as the tool manager.
+     * file {@code i18n.properties} in the same package as the tool manager.
      */
     protected final I18NResourceBundle i18n;
     private final Desktop desktop;
@@ -194,7 +194,7 @@ public abstract class ToolManager {
      *
      * @param key the base name for the resource specifying the image file for the
      *            icon. The actual name of the resource is formed as follows:
-     *            <i>key</i> "<code>.icon</code>"
+     *            <i>key</i> "{@code .icon}"
      * @return an icon containing the specified image
      */
     protected Icon createIcon(String key) {

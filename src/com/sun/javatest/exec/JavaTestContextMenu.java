@@ -32,7 +32,7 @@ import javax.swing.JMenuItem;
 
 /**
  * Class to encapsulate a custom context menu item to be added to the GUI by a
- * test suite.  The method <code>getMenuApplication</code> determines which type
+ * test suite.  The method {@code getMenuApplication} determines which type
  * of situations the menu should be presented in.  Processing the actual selection
  * action event for the menu item(s) should be processed as you normally would
  * with the Swing-provided Action mechanisms.
@@ -64,7 +64,7 @@ public abstract class JavaTestContextMenu {
 
     /**
      * Determine the contexts in which this menu is applicable.  Unless the value
-     * is set to <code>CUSTOM</code>, the system managing the menus assumes that
+     * is set to {@code CUSTOM}, the system managing the menus assumes that
      * it is allowed to control the enabled/disabled state of the menu item.
      *
      * @see #TESTS_AND_FOLDERS
@@ -78,10 +78,10 @@ public abstract class JavaTestContextMenu {
      * May multiple nodes be selected at one time for this menu item to be
      * enabled.  If not allowed and multiple items are currently selected,
      * updateState() methods will not be called.  The default state of this
-     * setting is <code>false</code>, override this method to change.
+     * setting is {@code false}, override this method to change.
      * <p>
      * If you need to enable/disabled based on the composition of the selection,
-     * you should return <code>true</code>, then override <code>updateState(String[],
+     * you should return {@code true}, then override <code>updateState(String[],
      * TestResult[])</code> and disable if needed.
      *
      * @return True if multiselect is permitted for this menu action.  False
@@ -100,12 +100,12 @@ public abstract class JavaTestContextMenu {
      * because it will may be invoked each time the user requests a popup to be
      * displayed.
      * <p>
-     * Implementations which return <code>CUSTOM</code> from
-     * <code>getMenuApplication</code> will generally override this.  This method
+     * Implementations which return {@code CUSTOM} from
+     * {@code getMenuApplication} will generally override this.  This method
      * is called regardless of what application type the object indicates.
      * <p>
      * The controlling class will first enable/disable the menu based on the
-     * application type (unless <code>CUSTOM</code>).
+     * application type (unless {@code CUSTOM}).
      * <p>
      * This method will be invoked on the GUI event thread.
      *
@@ -135,7 +135,7 @@ public abstract class JavaTestContextMenu {
      * @param folders The test paths which the user is acting upon, only the folders.
      *                The strings are forward slash separated locations within the
      *                test suite, a substring of that which would be returned by
-     *                <code>TestDescription.getRootRelativeURL()</code>.  Null if
+     *                {@code TestDescription.getRootRelativeURL()}.  Null if
      *                none.
      * @param trs     The tests which the user is acting upon.  Null if none.
      * @see com.sun.javatest.TestDescription#getRootRelativeURL

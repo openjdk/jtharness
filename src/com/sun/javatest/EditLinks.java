@@ -519,8 +519,8 @@ public class EditLinks {
     }
 
     /**
-     * Read the next character, after writing out the previous one, if <code>copying</code>
-     * is set to <code>true</code>.
+     * Read the next character, after writing out the previous one, if {@code copying}
+     * is set to {@code true}.
      */
     private void nextCh() throws IOException {
         if (copying) {

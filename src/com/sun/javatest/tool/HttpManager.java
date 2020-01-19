@@ -41,7 +41,7 @@ import java.util.ListIterator;
  * an HTTP server to monitor JT Harness's progress while executing tests.
  * The supported options are:
  * <ul>
- * <li><code>-startHttp</code>: start an HTTP server
+ * <li>{@code -startHttp}: start an HTTP server
  * </ul>
  */
 public class HttpManager extends CommandManager {

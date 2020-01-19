@@ -64,13 +64,13 @@ import java.util.Map;
  * this circumstance (in current implementation).  After a test suite is loaded
  * into a exec tool instance, the associate context manager object will be reused.
  * The implementation of that manager can learn of changes in workdir association
- * by monitoring the <code>setWorkDirectory()</code> method (be sure to call the
+ * by monitoring the {@code setWorkDirectory()} method (be sure to call the
  * superclass implementation if overriding.
  * <p>
- * When the exec tool is itself disposed, the <code>dispose()</code> method of
+ * When the exec tool is itself disposed, the {@code dispose()} method of
  * the associated context manager object will be invoked.  If the exec tool were
  * to diassociate a context manager object from itself (not usually done),
- * <code>dispose()</code> would be invoked.
+ * {@code dispose()} would be invoked.
  */
 public class ContextManager implements InterviewParameters.TemplateManager,
         Report.CustomReportManager, BasicSession.OrderedObserver {
@@ -314,7 +314,7 @@ public class ContextManager implements InterviewParameters.TemplateManager,
     /**
      * Method to be called, not on the event thread.
      * We have this method because we cannot guarantee which thread
-     * <code>refreshTests()</code> will be called on.  The function
+     * {@code refreshTests()} will be called on.  The function
      * of this method is to shove the operation to the back of the
      * GUI event queue, then run it for real.
      */

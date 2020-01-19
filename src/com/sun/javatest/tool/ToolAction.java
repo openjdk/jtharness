@@ -54,7 +54,7 @@ public abstract class ToolAction implements Action {
     /**
      * Construct an action with a specific mnemonic.  This is the
      * non-internationalized version and not recommended.  See
-     * <code>Action</code> for details on the parameters.
+     * {@code Action} for details on the parameters.
      *
      * @param name     Name of this action
      * @param desc     Description of this action
@@ -88,7 +88,7 @@ public abstract class ToolAction implements Action {
      *                 bundle.
      * @param needIcon True if an icon resource should be associated with
      *                 this action.  Will be retrieved through the uif.  And
-     *                 put into the <code>SMALL_ICON</code> property.
+     *                 put into the {@code SMALL_ICON} property.
      * @see #ToolAction(I18NResourceBundle, String)
      * @see javax.swing.Action#SMALL_ICON
      */
@@ -156,7 +156,7 @@ public abstract class ToolAction implements Action {
 
     /**
      * Sets one of this object's properties using the associated key.
-     * If the value has changed, a <code>PropertyChangeEvent</code> is sent
+     * If the value has changed, a {@code PropertyChangeEvent} is sent
      * to listeners.
      *
      * @param key    the key of the property to be stored

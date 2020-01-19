@@ -57,7 +57,7 @@ import java.util.WeakHashMap;
  * maintained in a specified file in a WorkDirectory, and can be
  * dynamically added to a menu by means of a Listener class.
  * The format of the file is one file per line, with most recently
- * added entries appearing first.  Lines beginning with <code>#</code> are ignored.
+ * added entries appearing first.  Lines beginning with {@code #} are ignored.
  */
 public class FileHistory {
     /**

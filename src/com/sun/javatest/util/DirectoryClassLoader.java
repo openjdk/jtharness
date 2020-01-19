@@ -109,7 +109,7 @@ public class DirectoryClassLoader extends ClassLoader {
      * Returns an input stream for reading the specified resource.
      *
      * @param name the resource name
-     * @return an input stream for reading the resource, or <code>null</code>
+     * @return an input stream for reading the resource, or {@code null}
      * if the resource could not be found
      * <p>
      * redundant in 1.2
@@ -135,11 +135,11 @@ public class DirectoryClassLoader extends ClassLoader {
      * the resource.
      * <p>
      * This method will first search the parent class loader for the
-     * resource, then call <code>findResource</code> to find the
+     * resource, then call {@code findResource} to find the
      * resource.
      *
      * @param name resource name
-     * @return a URL for reading the resource, or <code>null</code> if
+     * @return a URL for reading the resource, or {@code null} if
      * the resource could not be found or the caller doesn't have
      * adequate privileges to get the resource.
      * <p>
@@ -164,7 +164,7 @@ public class DirectoryClassLoader extends ClassLoader {
      * find resources.
      *
      * @param name the resource name
-     * @return a URL for reading the resource, or <code>null</code>
+     * @return a URL for reading the resource, or {@code null}
      * if the resource could not be found
      * @since JDK1.2
      */

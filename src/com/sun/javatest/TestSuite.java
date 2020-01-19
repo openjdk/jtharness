@@ -98,7 +98,7 @@ public class TestSuite {
 
     /**
      * Disposed of the shared TestSuite object for this test suite.  Use
-     * the value from <code>TestSuite.getRoot()</code> as the value for
+     * the value from {@code TestSuite.getRoot()} as the value for
      * canonRoot.  Using this is only desired when disposal of the shared
      * TestSuite object is not desired - traditionally, it is not disposed
      * and is reused if the test suite is reopened.
@@ -489,12 +489,12 @@ public class TestSuite {
      * Get the directory in the test suite that contains the tests.
      * By default, the following are checked:
      * <ol>
-     * <li>The <code>tests</code> property in the test suite properties file.
+     * <li>The {@code tests} property in the test suite properties file.
      * If this entry is found, it must either identify an absolute filename, or
      * a directory relative to the test suite root directory, using '/' to
      * separate the components of the path.
-     * <li>If the file <em>root</em><code>/tests/testsuite.html</code> exists,
-     * the result is the directory <em>root</em><code>/tests</code>. This is
+     * <li>If the file <em>root</em>{@code /tests/testsuite.html} exists,
+     * the result is the directory <em>root</em>{@code /tests}. This is
      * for compatibility with standard TCK layout.
      * <li>Otherwise, the result is the root directory of the test suite.
      * </ol>
@@ -596,7 +596,7 @@ public class TestSuite {
 
     /**
      * Create a test finder to be used to access the tests in this test suite.
-     * The default implementation looks for a <code>finder</code> entry in the
+     * The default implementation looks for a {@code finder} entry in the
      * test suite properties file, which should identify the class to be used
      * and any arguments it may require. The class will be loaded via the class
      * loader specified when the test suite was opened, if one was given;
@@ -727,8 +727,8 @@ public class TestSuite {
 
     /**
      * Create and initialize a Script that can be used to run a test.
-     * The default implementation looks for a <code>script</code> entry in the configuration
-     * data provided, and if not found, looks for a <code>script</code> entry in the
+     * The default implementation looks for a {@code script} entry in the configuration
+     * data provided, and if not found, looks for a {@code script} entry in the
      * test suite properties. The script entry should define the script class
      * to use and any arguments it may require. The class will be loaded via the class
      * loader specified when the test suite was opened, if one was given;
@@ -1271,9 +1271,9 @@ public class TestSuite {
     /**
      * Creates general purpose logger with given key and ResourceBundleName registered for given WorkDirectory.
      *
-     * @param wd  WorkDirectory logger should be registered for; may be <code>null</code> if no WorkDirectory
+     * @param wd  WorkDirectory logger should be registered for; may be {@code null} if no WorkDirectory
      *            currently available (the log will be registered for the first WD created for this TestSuite
-     * @param b   name of ResorceBundle used for this logger; may be <code>null</code> if not required
+     * @param b   name of ResorceBundle used for this logger; may be {@code null} if not required
      * @param key key for this log
      * @return general purpose logger with given key registered for given WorkDirectory or TestSuite (if WD is null)
      * @throws TestSuite.DuplicateLogNameFault if log with this key has been registered in the system already
@@ -1311,7 +1311,7 @@ public class TestSuite {
      * @param key key for this log
      * @return general purpose logger with given key registered for given WorkDirectory
      * @throws TestSuite.NoSuchLogFault if desired log not registered in the system
-     * @throws NullPointerException     if <code>wd</code> is null
+     * @throws NullPointerException     if {@code wd} is null
      * @see #createLog
      */
     public Logger getLog(WorkDirectory wd, String key) throws NoSuchLogFault {

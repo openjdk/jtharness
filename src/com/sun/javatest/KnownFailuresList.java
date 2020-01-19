@@ -169,7 +169,7 @@ public class KnownFailuresList {
      * Test if a file appears to be for an exclude list, by checking the extension.
      *
      * @param f The file to be tested.
-     * @return <code>true</code> if the file appears to be a known failures list.
+     * @return {@code true} if the file appears to be a known failures list.
      */
     public static boolean isKflFile(File f) {
         return f.getPath().endsWith(KFLFILE_EXTN);
@@ -279,13 +279,13 @@ public class KnownFailuresList {
     /**
      * Iterate over the contents of the table.
      *
-     * @param group if <code>true</code>, entries for the same relative
+     * @param group if {@code true}, entries for the same relative
      *              URL are grouped together, and if more than one, returned in an
-     *              array; if <code>false</code>, the iterator always returns
+     *              array; if {@code false}, the iterator always returns
      *              separate entries.
      * @return an iterator for the table: the entries are either
      * single instances of @link(Entry) or a mixture of @link(Entry)
-     * and @link(Entry)[], depending on the <code>group</code>
+     * and @link(Entry)[], depending on the {@code group}
      * parameter.
      * @see Entry
      */
@@ -396,7 +396,7 @@ public class KnownFailuresList {
      * It is completely excluded if there is an entry, and the test case field is null.
      *
      * @param td A test description for the test being checked.
-     * @return <code>true</code> if the table contains an entry for this test.
+     * @return {@code true} if the table contains an entry for this test.
      */
     public boolean listsAllOf(TestDescription td) {
         return listsAllOf(td.getRootRelativeURL());
@@ -407,7 +407,7 @@ public class KnownFailuresList {
      * It is completely excluded if there is an entry, and the test case field is null.
      *
      * @param url The test-suite root-relative URL for the test.
-     * @return <code>true</code> if the table contains an entry for this test.
+     * @return {@code true} if the table contains an entry for this test.
      */
     public boolean listsAllOf(String url) {
         Object o = table.get(new Key(url));
@@ -419,7 +419,7 @@ public class KnownFailuresList {
      * It is so excluded if there is any entry in the table for the test.
      *
      * @param td A test description for the test being checked.
-     * @return <code>true</code> if the table contains an entry for this test.
+     * @return {@code true} if the table contains an entry for this test.
      */
     public boolean listsAnyOf(TestDescription td) {
         return listsAnyOf(td.getRootRelativeURL());
@@ -430,7 +430,7 @@ public class KnownFailuresList {
      * It is so excluded if there is any entry in the table for the test.
      *
      * @param url The test-suite root-relative URL for the test.
-     * @return <code>true</code> if the table contains an entry for this test.
+     * @return {@code true} if the table contains an entry for this test.
      */
     public boolean listsAnyOf(String url) {
         Object o = table.get(new Key(url));

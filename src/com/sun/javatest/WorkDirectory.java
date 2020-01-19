@@ -516,13 +516,13 @@ public class WorkDirectory {
      *
      * @param dir the directory to be opened as a WorkDirectory
      * @return the WorkDirectory that is opened
-     * @throws FileNotFoundException               if the directory identified by <code>dir</code> does
+     * @throws FileNotFoundException               if the directory identified by {@code dir} does
      *                                             not exist. If this exception is thrown, you may want to call {@link #create}
      *                                             instead.
      * @throws WorkDirectory.BadDirectoryFault     if there was a problem opening the
      *                                             work directory.
      * @throws WorkDirectory.NotWorkDirectoryFault if the directory identified
-     *                                             by <code>dir</code> is a valid directory, but has not yet been
+     *                                             by {@code dir} is a valid directory, but has not yet been
      *                                             initialized as a work directory. If this exception is thrown,
      *                                             you may want to call {@link #create} instead.
      * @throws WorkDirectory.MismatchFault         if the test suite recorded in
@@ -604,13 +604,13 @@ public class WorkDirectory {
      * @param dir       The directory to be opened as a WorkDirectory.
      * @param testSuite The test suite to be associated with this work directory.
      * @return The WorkDirectory that is opened.
-     * @throws FileNotFoundException               if the directory identified by <code>dir</code> does
+     * @throws FileNotFoundException               if the directory identified by {@code dir} does
      *                                             not exist. If this exception is thrown, you may want to call {@link #create}
      *                                             instead.
      * @throws WorkDirectory.BadDirectoryFault     if there was a problem opening
      *                                             the work directory.
      * @throws WorkDirectory.NotWorkDirectoryFault if the directory identified by
-     *                                             <code>dir</code> is a valid directory, but has not yet been
+     *                                             {@code dir} is a valid directory, but has not yet been
      *                                             initialized as a work directory. f this exception is thrown,
      *                                             you may want to call {@link #create} instead.
      * @throws WorkDirectory.MismatchFault         if the specified test suite does not
@@ -881,7 +881,7 @@ public class WorkDirectory {
      * @param i18n a resource bundle containing the localized messages
      * @param key  a key into the resource bundle for the required message
      * @param arg  An argument to be formatted into the specified message.
-     *             If this is a <code>Throwable</code>, its stack trace
+     *             If this is a {@code Throwable}, its stack trace
      *             will be included in the log.
      * @since 3.0.1
      */
@@ -898,7 +898,7 @@ public class WorkDirectory {
      * @param i18n a resource bundle containing the localized messages
      * @param key  a key into the resource bundle for the required message
      * @param args An array of arguments to be formatted into the specified message.
-     *             If the first arg is a <code>Throwable</code>, its stack
+     *             If the first arg is a {@code Throwable}, its stack
      *             trace will be included in the log.
      * @since 3.0.1
      */
@@ -914,7 +914,7 @@ public class WorkDirectory {
     }
 
     /**
-     * See <code>putTestAnnotation(String,String,String)</code>.
+     * See {@code putTestAnnotation(String,String,String)}.
      *
      * @see #putTestAnnotation(String, String, String)
      */
@@ -926,9 +926,9 @@ public class WorkDirectory {
      * Add an annotation for the given test.
      *
      * @param testName Test for which the annotation should be added.  This is
-     *                 the value from <code>TestResult.getTestName()</code>.
+     *                 the value from {@code TestResult.getTestName()}.
      * @param key      The name of the value to be entered.  The namespace for this
-     *                 value is unique for each <code>testName</code>.
+     *                 value is unique for each {@code testName}.
      * @param value    The value of the annotation.  Null removes the value from
      *                 the map, an empty string should be used otherwise.
      */

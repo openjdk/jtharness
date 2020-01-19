@@ -380,7 +380,7 @@ public class Interview {
     /**
      * Get a descriptive title associated with this interview.
      * If not specified, the system will try and locate the title in the
-     * interview's resource bundle, using the resource name <code>title</code>.
+     * interview's resource bundle, using the resource name {@code title}.
      * of the interview.
      *
      * @return the title
@@ -2138,25 +2138,25 @@ public class Interview {
      * <dl>
      * <dt>ChoiceQuestion</dt>
      * <dd>If the value is reset to null, resulting in the value being
-     * "cleared", new behavior simply calls <code>clear()</code> to do this.  Old
+     * "cleared", new behavior simply calls {@code clear()} to do this.  Old
      * behavior was to select either the last value or first possible
-     * choice (from the array of possible choices) THEN call <code>updatePath()</code>
-     * and <code>setEdited()</code>.</dd>
+     * choice (from the array of possible choices) THEN call {@code updatePath()}
+     * and {@code setEdited()}.</dd>
      * <dt>FileListQuestion</dt>
-     * <dd>During construction, <code>clear()</code> will be called before the
+     * <dd>During construction, {@code clear()} will be called before the
      * default value is set, in older implementations it was not called.</dd>
      * <dt>FileQuestion</dt>
-     * <dd>During construction, <code>clear()</code> will be called before the
+     * <dd>During construction, {@code clear()} will be called before the
      * default value is set, in older implementations it was not called.</dd>
      * </dl>
      *
      * <p>
-     * In Version 43 changes to the way in which <code>export()</code> works were
+     * In Version 43 changes to the way in which {@code export()} works were
      * introduced.  Earlier than this version, the list of questions to call
-     * <code>export()</code> upon with pre-generated as a flattened list of
+     * {@code export()} upon with pre-generated as a flattened list of
      * Questions (with all sub-interviews removed).  In 43 and later, the
      * structure is NOT flattened, but instead exporting will recurse into
-     * sub-interviews by calling its (the Interview) <code>export()</code>.
+     * sub-interviews by calling its (the Interview) {@code export()}.
      * Additionally, questions which are on the path but hidden will be exported.
      * Note that being hidden is not the same at being disabled.
      * </p>

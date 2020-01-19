@@ -41,9 +41,9 @@ import java.util.Map;
  * default values into every test environment.
  * The supported options are:
  * <ul>
- * <li><code>-EsysProps</code>: add all the system properties into every
+ * <li>{@code -EsysProps}: add all the system properties into every
  * environment
- * <li><code>-E</code><i>name</i><code>=</code><i>value</i>: set <i>name</i>
+ * <li>{@code -E}<i>name</i><code>=</code><i>value</i>: set <i>name</i>
  * to <i>value</i> in every environment
  * </ul>
  */

@@ -635,10 +635,10 @@ public interface Parameters {
          * to filter tests for execution.
          *
          * @param mode  the value of the match keywords mode to be set if
-         *              <code>value</code> is not null
+         *              {@code value} is not null
          * @param value if null, the keywords mode will be set to NO_KEYWORDS;
          *              if not null, the keywords mode will be set to MATCH_KEYWORDS, the
-         *              match keywords mode will be set to <code>mode</code>,
+         *              match keywords mode will be set to {@code mode},
          *              and the match keywords value will be set to this value
          * @see #getKeywords
          * @see #NO_KEYWORDS
@@ -700,10 +700,10 @@ public interface Parameters {
          * Set how to match a tests keywords when the keywords mode
          * is set to MATCH_KEYWORDS.
          *
-         * @param mode  A value indicating how to interpret <code>value</code>
-         * @param value If <code>mode</code> is set to ANY_OF or ALL_OF,
+         * @param mode  A value indicating how to interpret {@code value}
+         * @param value If {@code mode} is set to ANY_OF or ALL_OF,
          *              this value should give a white-space separate list of keywords
-         *              to be matched; if <code>mode</code> is set to EXPR, this value
+         *              to be matched; if {@code mode} is set to EXPR, this value
          *              should be a boolean expression using terminals, &amp; (and), | (or),
          *              ! (negation) and parentheses, where the terminals are true if
          *              a test description contains that name as one of its keywords.

@@ -31,8 +31,8 @@ import com.sun.javatest.util.I18NResourceBundle;
 /**
  * A filter interface for TestDescriptions.
  * <p>
- * Implementations of this class <b>should</b> implement the <code>equals()</code>
- * and <code>hashCode()</code> as per the spec in java.lang.Object.  This is used
+ * Implementations of this class <b>should</b> implement the {@code equals()}
+ * and {@code hashCode()} as per the spec in java.lang.Object.  This is used
  * by the harness for file equality purposes which looking for changes and
  * optimizations to perform.
  *

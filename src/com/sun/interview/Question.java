@@ -165,7 +165,7 @@ public abstract class Question {
     /**
      * Get the text for this question. If not specified, the system will
      * try and locate the text in the containing interviews resource bundle,
-     * using the resource name <i>key</i><code>.text</code>.
+     * using the resource name <i>key</i>{@code .text}.
      *
      * @return the text for this question
      * @see #setText
@@ -183,7 +183,7 @@ public abstract class Question {
     /**
      * Set the text for this question. The text can also be provided
      * in the containing interview's resource bundle, using the resource name
-     * <i>key</i>.<code>text</code>.
+     * <i>key</i>.{@code text}.
      *
      * @param text the text for this question
      * @see #getText
@@ -247,7 +247,7 @@ public abstract class Question {
     /**
      * Set the summary text for this question. The text can also be provided
      * in the containing interview's resource bundle, using the resource name
-     * <i>key</i>.<code>smry</code>.
+     * <i>key</i>.{@code smry}.
      *
      * @param summary a short summary of the text for this question
      * @see #getSummary
@@ -260,7 +260,7 @@ public abstract class Question {
      * Get the graphic for this question. If {@link #setImage}
      * has been called to supply a specific image for this question,
      * that will be the result here; otherwise, the value defaults
-     * first to a question-specific resource (<i>tag</i><code>.gif</code>)
+     * first to a question-specific resource (<i>tag</i>{@code .gif})
      * and then to a {@link Interview#getDefaultImage default image}
      * for the interview.
      *
@@ -395,7 +395,7 @@ public abstract class Question {
      * It can be convenient to determine whether or not a question should be
      * disabled by using the values of earlier questions.
      * <em>Note:</em> for backwards compatibility, the default implementation
-     * returns <code>!isHidden()</code>.
+     * returns {@code !isHidden()}.
      *
      * @return true if this question should appear on the current path,
      * and false otherwise.

@@ -31,7 +31,7 @@ import com.sun.javatest.tool.selectiontree.selection.SelectionType;
 import java.util.EventListener;
 
 /**
- * <code>SelectionTreeListener</code> interface used to listen changing of selection type in the {@link SelectionTree}.
+ * {@code SelectionTreeListener} interface used to listen changing of selection type in the {@link SelectionTree}.
  *
  * @since 4.4
  */

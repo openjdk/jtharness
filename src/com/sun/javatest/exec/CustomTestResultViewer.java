@@ -77,8 +77,8 @@ public abstract class CustomTestResultViewer extends JPanel {
      * Determines whether this viewer should be visible when its
      * parent is visible
      *
-     * @return <code>true</code> if the viewer is visible,
-     * <code>false</code> otherwise
+     * @return {@code true} if the viewer is visible,
+     * {@code false} otherwise
      */
     public boolean isViewerVisible() {
         return isVisible;

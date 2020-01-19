@@ -343,7 +343,7 @@ class DesktopPrefsPane extends PreferencesPane {
     /**
      * How long tooltips should be shown, as known by the GUI.
      *
-     * @return <code>Desktop.TTIP_DURATION_FOREVER</code>, otherwise a duration in
+     * @return {@code Desktop.TTIP_DURATION_FOREVER}, otherwise a duration in
      * milliseconds.
      */
     private int getTooltipDuration() {

@@ -38,7 +38,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 /**
- * <code>SelectionTreeNode</code> class represents a tree node displayed in {@link SelectionTree}.
+ * {@code SelectionTreeNode} class represents a tree node displayed in {@link SelectionTree}.
  */
 public class SelectionTreeNode implements TreeNode {
 

@@ -74,9 +74,9 @@ public class JavaCompileCommand extends Command {
 
     /**
      * A stand-alone entry point for this command. An instance of this
-     * command is created, and its <code>run</code> method invoked,
-     * passing in the command line args and <code>System.out</code> and
-     * <code>System.err</code> as the two streams.
+     * command is created, and its {@code run} method invoked,
+     * passing in the command line args and {@code System.out} and
+     * {@code System.err} as the two streams.
      *
      * @param args command line arguments for this command.
      * @see #run
@@ -103,7 +103,7 @@ public class JavaCompileCommand extends Command {
 
     /**
      * Invoke a specified compiler, or the default, javac.
-     * If the first word in the <code>args</code> array is "-compiler"
+     * If the first word in the {@code args} array is "-compiler"
      * the second is interpreted as the class name for the compiler to be
      * invoked, optionally preceded by a name for the compiler, separated
      * from the class name by a colon.  If no -compiler is specified,
@@ -113,7 +113,7 @@ public class JavaCompileCommand extends Command {
      * will result in the class name being `Main' and the compiler name being
      * `java Main'. After determining the class and compiler name,
      * an instance of the compiler class will be created, passing it a stream
-     * using the <code>ref</code> parameter, and the name of the compiler.
+     * using the {@code ref} parameter, and the name of the compiler.
      * Then the `compile' method will be invoked, passing it the remaining
      * values of the `args' parameter.  If the compile method returns true,
      * the result will be a status of `passed'; if it returns `false', the

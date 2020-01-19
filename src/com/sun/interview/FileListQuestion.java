@@ -335,7 +335,7 @@ public abstract class FileListQuestion extends Question {
      * Set the filters used to select valid files for a response
      * to this question.  For pre-50 behavior, both the filters and the hint
      * filter values are treated the same, and neither is used for validation
-     * (e.g. <code>isValid()</code>.
+     * (e.g. {@code isValid()}.
      *
      * @param fs An array of filters used to select valid files for a response
      *           to this question
@@ -387,7 +387,7 @@ public abstract class FileListQuestion extends Question {
      * of files - this is somewhat exposing of the fact that there is a user
      * interface.  This should not be confused with setFilters(), which in
      * version 5.0 or later of the harness, are used to do validity checks on
-     * the actual value (e.g.. in <code>isValid()</code>.
+     * the actual value (e.g.. in {@code isValid()}.
      *
      * @param fs Filters which might be offered to the user.
      * @see #setFilters

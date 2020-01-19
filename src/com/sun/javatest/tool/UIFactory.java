@@ -908,7 +908,7 @@ public class UIFactory {
 
     /**
      * Create a radio button, using resources to specify the name and tool tip. <br>
-     * The button is initially set to <code>false</code>.
+     * The button is initially set to {@code false}.
      * The resources used are:
      * <table><caption></caption>
      * <tr><td><i>uiKey</i>.rb  <td>the label for the button
@@ -1052,7 +1052,7 @@ public class UIFactory {
     }
 
     /**
-     * Same as the two parameter <code>createChoice</code>, except you can
+     * Same as the two parameter {@code createChoice}, except you can
      * make this an mutable choice component (freeform editing of the
      * response).  If the component is to be editable, an additional
      * <i>uiKey</i>.ed resource is needed to set the component name of the
@@ -1699,13 +1699,13 @@ public class UIFactory {
      * @return a spinner component
      * The resources used are:
      * <table><caption></caption>
-     * <tr><td><i>uiKey</i>.<code>name</code><td> the accessible name for the tab pane.
-     *          Where <code>name</code> is the literal string "name".
-     * <tr><td><i>uiKey</i>.<code>tip</code><td> the accessible name for the tab pane.
-     *          Where <code>tip</code> is the literal string "tip".
+     * <tr><td><i>uiKey</i>.{@code name}<td> the accessible name for the tab pane.
+     *          Where {@code name} is the literal string "name".
+     * <tr><td><i>uiKey</i>.{@code tip}<td> the accessible name for the tab pane.
+     *          Where {@code tip} is the literal string "tip".
      * </table>
      * The tooltip will automatically be transferred to the pane's accessible
-     * description.  Use <code>setAccessibleDescription()</code> to set it
+     * description.  Use {@code setAccessibleDescription()} to set it
      * independently.
     public JSpinner createSpinner(String uiKey, SpinnerModel model) {
     JSpinner s = new JSpinner(model);
@@ -1747,7 +1747,7 @@ public class UIFactory {
 
     /**
      * Surround a component in a scroll pane.
-     * The name of the scroll pane component is set to <code>c.getName()</code>
+     * The name of the scroll pane component is set to {@code c.getName()}
      * plus the <i>.sp</i> suffix.
      *
      * @param c The component to put into the scroll pane.
@@ -1857,13 +1857,13 @@ public class UIFactory {
      * @return an empty (no tabs) tabbed pane
      * The resources used are:
      * <table><caption></caption>
-     * <tr><td><i>uiKey</i>.<code>name</code><td> the accessible name for the tab pane.
-     * Where <code>name</code> is the literal string "name".
-     * <tr><td><i>uiKey</i>.<code>tip</code><td> the accessible name for the tab pane.
-     * Where <code>tip</code> is the literal string "tip".
+     * <tr><td><i>uiKey</i>.{@code name}<td> the accessible name for the tab pane.
+     * Where {@code name} is the literal string "name".
+     * <tr><td><i>uiKey</i>.{@code tip}<td> the accessible name for the tab pane.
+     * Where {@code tip} is the literal string "tip".
      * </table>
      * The tooltip will automatically be transferred to the pane's accessible
-     * description.  Use <code>setAccessibleDescription()</code> to set it
+     * description.  Use {@code setAccessibleDescription()} to set it
      * independently.
      */
     public JTabbedPane createTabbedPane(String uiKey) {
@@ -1883,13 +1883,13 @@ public class UIFactory {
      * where <i>name<sub>i</sub></i> is the component name for children[i]
      * <tr><td><i>uiKey</i>.<i>name<sub>i</sub></i>.tip  <td>the tool tip for the tab,
      * where <i>name<sub>i</sub></i> is the component name for children[i]
-     * <tr><td><i>uiKey</i>.<code>name</code><td> the accessible name for the tab pane.
-     * Where <code>name</code> is the literal string "name".
-     * <tr><td><i>uiKey</i>.<code>tip</code><td> the accessible name for the tab pane.
-     * Where <code>tip</code> is the literal string "tip".
+     * <tr><td><i>uiKey</i>.{@code name}<td> the accessible name for the tab pane.
+     * Where {@code name} is the literal string "name".
+     * <tr><td><i>uiKey</i>.{@code tip}<td> the accessible name for the tab pane.
+     * Where {@code tip} is the literal string "tip".
      * </table>
      * The tooltip will automatically be transferred to the pane's accessible
-     * description.  Use <code>setAccessibleDescription()</code> to set it
+     * description.  Use {@code setAccessibleDescription()} to set it
      * independently.
      *
      * @param uiKey    the base name of the resources to be used
@@ -1934,13 +1934,13 @@ public class UIFactory {
      * Create a table with a given data model.
      * Resources used:
      * <table><caption></caption>
-     * <tr><td><i>uiKey</i>.<code>name</code><td> the accessible name for the tab pane.
-     * Where <code>name</code> is the literal string "name".
-     * <tr><td><i>uiKey</i>.<code>tip</code><td> the accessible name for the tab pane.
-     * Where <code>tip</code> is the literal string "tip".
+     * <tr><td><i>uiKey</i>.{@code name}<td> the accessible name for the tab pane.
+     * Where {@code name} is the literal string "name".
+     * <tr><td><i>uiKey</i>.{@code tip}<td> the accessible name for the tab pane.
+     * Where {@code tip} is the literal string "tip".
      * </table>
      * The tooltip will automatically be transferred to the pane's accessible
-     * description.  Use <code>setAccessibleDescription()</code> to set it
+     * description.  Use {@code setAccessibleDescription()} to set it
      * independently.
      *
      * @param uiKey the base name of the resources to be used (currently ignored)
@@ -2197,7 +2197,7 @@ public class UIFactory {
     /**
      * Same as the single parameter version, except a label, which labels
      * this new component, will be set.
-     * The label's <code>setLabelFor()</code> will be set.
+     * The label's {@code setLabelFor()} will be set.
      *
      * @param uiKey the base name of the resource to be used
      * @param label the label which is labeling this field
@@ -2212,7 +2212,7 @@ public class UIFactory {
      * Create an output text field with a specified number of columns,
      * using a resource to specify the tool tip,
      * which can automaticly select contained text.<br>
-     * The label's <code>setLabelFor()</code> will be set.
+     * The label's {@code setLabelFor()} will be set.
      *
      * @param uiKey      the base name of the resource to be used
      * @param label      the label which is labeling this field
@@ -2490,7 +2490,7 @@ public class UIFactory {
      * </table>
      *
      * @param uiKey  the base name of the resource to be used
-     * @param orient Value from <code>JProgressBar</code>
+     * @param orient Value from {@code JProgressBar}
      * @return Returns a progress bar component with the specified attributes.
      * @see javax.swing.JProgressBar#VERTICAL
      * @see javax.swing.JProgressBar#HORIZONTAL
@@ -2512,7 +2512,7 @@ public class UIFactory {
      * </table>
      *
      * @param uiKey  the base name of the resource to be used
-     * @param orient Value from <code>JProgressBar</code>
+     * @param orient Value from {@code JProgressBar}
      * @param model  Model to use for the progress bar.
      * @return Returns a progress bar component with the specified attributes.
      * @see javax.swing.JProgressBar#VERTICAL
@@ -3297,7 +3297,7 @@ public class UIFactory {
 
     /**
      * Create an empty dialog. <br>
-     * See <code>initDialog(JDialog,String)</code> for required resources.
+     * See {@code initDialog(JDialog,String)} for required resources.
      *
      * @param uiKey  the base name of the resource to be used
      * @param parent the parent component of this dialog
@@ -3311,7 +3311,7 @@ public class UIFactory {
 
     /**
      * Create an empty dialog. <br>
-     * See <code>initDialog(JDialog,String)</code> for required resources.
+     * See {@code initDialog(JDialog,String)} for required resources.
      *
      * @param uiKey the base name of the resource to be used
      * @param owner the parent frame of this dialog
@@ -3329,7 +3329,7 @@ public class UIFactory {
 
     /**
      * Create an empty dialog. <br>
-     * See <code>initDialog(JDialog,String)</code> for required resources.
+     * See {@code initDialog(JDialog,String)} for required resources.
      *
      * @param uiKey   the base name of the resource to be used
      * @param owner   the parent frame of this dialog. If owner is null - icon is set to the dialog
@@ -3346,7 +3346,7 @@ public class UIFactory {
 
     /**
      * Create an empty dialog. <br>
-     * See <code>initDialog(JDialog,String)</code> for required resources.
+     * See {@code initDialog(JDialog,String)} for required resources.
      *
      * @param uiKey   the base name of the resource to be used
      * @param owner   the parent frame of this dialog. If owner is null - icon is set to the dialog
@@ -3371,10 +3371,10 @@ public class UIFactory {
     }
 
     /**
-     * Create an empty frame. Unlike to dialog <code>createDialog(String uiKey,
-     * JFrame owner, String title, Container content)</code> it can't be modal,
+     * Create an empty frame. Unlike to dialog {@code createDialog(String uiKey,
+     * JFrame owner, String title, Container content)} it can't be modal,
      * it's always free-floating and it has minimize and maximize buttons.
-     * See <code>initFrame(JFrame,String)</code> for required resources.
+     * See {@code initFrame(JFrame,String)} for required resources.
      *
      * @param uiKey   the base name of the resource to be used
      * @param title   the localized title of this new frame

@@ -47,8 +47,8 @@ import java.lang.reflect.InvocationTargetException;
  * restricted from using private class loaders if you are running the
  * harness inside a web browser.
  *
- * <p> If the the <code>-repeat</code> option is provided, then the test will be
- * run multiple times in the same JVM.  <code>Status.error()</code> will be
+ * <p> If the the {@code -repeat} option is provided, then the test will be
+ * run multiple times in the same JVM.  {@code Status.error()} will be
  * returned (and the remainder of the iterations will not be performed) if any
  * repetition of the test returns an error, or if the status return type changes
  * between iterations.  The returned status after each iteration will be

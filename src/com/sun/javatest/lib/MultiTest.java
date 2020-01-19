@@ -48,7 +48,7 @@ import java.lang.reflect.Method;
  * the test method with the correct arguments.  The test case methods must
  * implement this interface:
  * <blockquote>
- * <strong><code>public Status methodName( )</code></strong>
+ * <strong>{@code public Status methodName( )}</strong>
  * </blockquote>
  *
  * @see com.sun.javatest.Test
@@ -124,16 +124,16 @@ public class MultiTest implements Test {
 
     /**
      * Initialize the test from the given arguments. The arguments will
-     * be passed to <code>decodeAllArgs</code>, and then <code>init()</code>
+     * be passed to {@code decodeAllArgs}, and then <code>init()</code>
      * will be called.
      *
-     * @param args The arguments for the test, passed to <code>decodeArgs</code>.
+     * @param args The arguments for the test, passed to {@code decodeArgs}.
      * @return null if initialization is successful, or a status indicating why
      * initialization was not successful.
      * @see #decodeAllArgs
      * @see #decodeArg
      * @see #init()
-     * @deprecated Use <code>decodeArg(String)</code> and <code>init()</code> instead.
+     * @deprecated Use {@code decodeArg(String)} and <code>init()</code> instead.
      */
     @java.lang.Deprecated
     protected Status init(String... args) {
@@ -162,7 +162,7 @@ public class MultiTest implements Test {
      * Parses the arguments passed to the test.
      * <p>
      * This method embodies the main loop for all of the test's arguments.
-     * It calls <code>decodeArg</code> for successive arguments in the
+     * It calls {@code decodeArg} for successive arguments in the
      * argument array.
      *
      * @param args arguments passed to the test.
@@ -186,7 +186,7 @@ public class MultiTest implements Test {
      * Decode the next argument in the argument array.  This will typically be
      * overridden by subtypes that wish to decode additional arguments. If an
      * overriding method does not recognize an argument, it should return
-     * <code>super.decodeArg(args, index)</code> to give supertypes a change
+     * {@code super.decodeArg(args, index)} to give supertypes a change
      * to decode the argument as well.
      *
      * @param args  The array containing all the arguments

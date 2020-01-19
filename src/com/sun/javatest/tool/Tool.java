@@ -312,7 +312,7 @@ public abstract class Tool extends JPanel {
      * Save information about a tool in a map, so that the
      * tool can be restored in a later invocation of JT Harness.
      * The tool must also implement the following method
-     * <code>public static Tool restore(Map m)</code>
+     * {@code public static Tool restore(Map m)}
      * which will be invoked to recreate the tool.
      *
      * @param m the map in which to store the significant state

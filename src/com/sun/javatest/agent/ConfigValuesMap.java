@@ -89,7 +89,7 @@ public class ConfigValuesMap {
     }
 
     /**
-     * Creates a map from the specified <code>java.util.Map</code>.
+     * Creates a map from the specified {@code java.util.Map}.
      *
      * @param map the java.util.Map instance to take key-value pairs from
      */

@@ -303,17 +303,17 @@ public class InterviewEditor extends ToolDialog {
     /**
      * Checks default settings relate to config file load fron the default location
      *
-     * @param cm <code>ContextManager</code> object defining current harness' context. The following methods
+     * @param cm {@code ContextManager} object defining current harness' context. The following methods
      *           affect this method functionality:
      *           <ul>
-     *           <li><code>getDefaultConfigLoadPath()</code>
-     *           <li><code>getAllowConfigLoadOutsideDefault()</code>
+     *           <li>{@code getDefaultConfigLoadPath()}
+     *           <li>{@code getAllowConfigLoadOutsideDefault()}
      *           </ul>
      * @throws IllegalArgumentException if the following configuration errors found:
      *                                               <ul>
-     *                                               <li> <code>getDefaultConfigLoadPath()</code> returns <code>null</code> when <code>getAllowConfigLoadOutsideDefault()</code> returns <code>false</code>
-     *                                               <li> <code>getDefaultConfigLoadPath()</code> returns not absolute path
-     *                                               <li> <code>getDefaultConfigLoadPath()</code> returns a file (not a directory)
+     *                                               <li> {@code getDefaultConfigLoadPath()} returns <code>null</code> when <code>getAllowConfigLoadOutsideDefault()</code> returns <code>false</code>
+     *                                               <li> {@code getDefaultConfigLoadPath()} returns not absolute path
+     *                                               <li> {@code getDefaultConfigLoadPath()} returns a file (not a directory)
      *                                               </ul>
      * @see ContextManager#setDefaultConfigLoadPath(java.io.File)
      * @see ContextManager#setAllowConfigLoadOutsideDefault(boolean state)
@@ -364,14 +364,14 @@ public class InterviewEditor extends ToolDialog {
      * account context settings relating to default locations for configuration
      * files loading and behaves according to them.
      *
-     * @param cm          <code>ContextManager</code> object defining current harness' context. The following methods
+     * @param cm          {@code ContextManager} object defining current harness' context. The following methods
      *                    affect this method functionality:
-     *                    <li><code>getDefaultConfigLoadPath()</code>
-     *                    <li><code>getAllowConfigLoadOutsideDefault()</code>
+     *                    <li>{@code getDefaultConfigLoadPath()}
+     *                    <li>{@code getAllowConfigLoadOutsideDefault()}
      *                    </ul>
-     * @param parent      A parent frame to be used for <code>fileChooser</code>/warning dialogs
+     * @param parent      A parent frame to be used for {@code fileChooser}/warning dialogs
      * @param uif         The UIFactory used to for configuration file loading operation
-     * @param fileChooser The <code>FileChooser</code> used for configuration file loading
+     * @param fileChooser The {@code FileChooser} used for configuration file loading
      * @return The configuration file selected by user if this file loading is allowed by
      * harness' contest settings
      * @see ContextManager#setDefaultConfigLoadPath(java.io.File)
@@ -460,22 +460,22 @@ public class InterviewEditor extends ToolDialog {
      * context settings relating to default locations for configuration files saving and behaves
      * according to them.
      *
-     * @param cm          <code>ContextManager</code> object defining current harness' context. The following methods
+     * @param cm          {@code ContextManager} object defining current harness' context. The following methods
      *                    affect this method functionality:
      *                    <ul>
-     *                    <li><code>getDefaultConfigSavePath()</code>
-     *                    <li><code>getAllowConfigSaveOutsideDefault()</code>
+     *                    <li>{@code getDefaultConfigSavePath()}
+     *                    <li>{@code getAllowConfigSaveOutsideDefault()}
      *                    </ul>
-     * @param parent      A parent frame to be used for <code>fileChooser</code>/warning dialogs
+     * @param parent      A parent frame to be used for {@code fileChooser}/warning dialogs
      * @param uif         The UIFactory used to for configuration file saving operation
-     * @param fileChooser The <code>FileChooser</code> used for configuration file saving
+     * @param fileChooser The {@code FileChooser} used for configuration file saving
      * @return The configuration file selected by user if this file saving is allowed by
      * harness' contest settings
-     * @throws <code>IllegalArgumentException</code> if the following configuration errors found:
+     * @throws {@code IllegalArgumentException} if the following configuration errors found:
      *                                               <ul>
-     *                                               <li> <code>getDefaultConfigSavePath()</code> returns <code>null</code> when <code>getAllowConfigSaveOutsideDefault()</code> returns <code>false</code>
-     *                                               <li> <code>getDefaultConfigSavePath()</code> returns not absolute path
-     *                                               <li> <code>getDefaultConfigSavePath()</code> returns a file (not a directory)
+     *                                               <li> {@code getDefaultConfigSavePath()} returns <code>null</code> when <code>getAllowConfigSaveOutsideDefault()</code> returns <code>false</code>
+     *                                               <li> {@code getDefaultConfigSavePath()} returns not absolute path
+     *                                               <li> {@code getDefaultConfigSavePath()} returns a file (not a directory)
      *                                               </ul>
      * @see ContextManager#setDefaultConfigSavePath(java.io.File)
      * @see ContextManager#setAllowConfigSaveOutsideDefault(boolean state)

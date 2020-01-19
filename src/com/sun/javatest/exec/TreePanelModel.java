@@ -78,7 +78,7 @@ interface TreePanelModel {
      * Find out which test is selected.
      *
      * @return null if a test is not selected.  Otherwise the string from
-     * <code>TestResult.getTestName()</code>.
+     * {@code TestResult.getTestName()}.
      */
     String getSelectedTest();
 

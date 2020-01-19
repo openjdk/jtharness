@@ -218,7 +218,7 @@ public class I18NUtils {
      * previous preference, or as defined in the resource bundle.  The
      * backup value will be used if a value cannot be located in any of
      * those three locations.  If read from system properties, the pref
-     * key is prefixed by <code>javatest.</code>.
+     * key is prefixed by {@code javatest.}.
      *
      * @param pref      The system property and preferences key for the color value.
      * @param bundle    The resource bundle key for the colors value.

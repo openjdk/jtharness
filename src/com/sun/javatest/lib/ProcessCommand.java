@@ -60,9 +60,9 @@ public class ProcessCommand extends Command {
 
     /**
      * A stand-alone entry point for this command. An instance of this
-     * command is created, and its <code>run</code> method invoked,
-     * passing in the command line args and <code>System.out</code> and
-     * <code>System.err</code> as the two streams.
+     * command is created, and its {@code run} method invoked,
+     * passing in the command line args and {@code System.out} and
+     * {@code System.err} as the two streams.
      *
      * @param args command line arguments for this command.
      * @see #run
@@ -189,7 +189,7 @@ public class ProcessCommand extends Command {
      *             The <em>environment-variables</em> are an
      *             optional list of environment variable to be supplied
      *             to the command. They should be in the form
-     *             <em>NAME</em><code>=</code><em>VALUE</em>.
+     *             <em>NAME</em>{@code =}<em>VALUE</em>.
      *             <br>
      *             <p>
      *             The <em>command</em> identifies the command to
@@ -203,14 +203,14 @@ public class ProcessCommand extends Command {
      * @param ref  A stream for reference output, if the test requires it.
      *             If not, it can be used as an additional logging stream.
      * @return The result of the method is obtained by calling
-     * <code>getStatus</code> after the command completes.
+     * {@code getStatus} after the command completes.
      * The default behaviour is to use the explicit or default
      * status given in the arguments, or via the API. If none
      * have been set up, then the following values are used:
-     * <code>Status.passed("exit code 0")</code>
+     * {@code Status.passed("exit code 0")}
      * if the command exited with exit status 0, or
-     * <code>Status.failed("exit code " + exitCode)</code>
-     * otherwise.  <code>getStatus</code> may be overridden
+     * {@code Status.failed("exit code " + exitCode)}
+     * otherwise.  {@code getStatus} may be overridden
      * to provide different behavior.
      * @see #getStatus
      **/
@@ -269,7 +269,7 @@ public class ProcessCommand extends Command {
      * @param ref    A stream for reference output, if the test requires it.
      *               If not, it can be used as an additional logging stream.
      * @return The result of the method is obtained by calling
-     * <code>getStatus</code> after the command completes.
+     * {@code getStatus} after the command completes.
      * @see #run
      * @see #getStatus
      */
@@ -388,20 +388,20 @@ public class ProcessCommand extends Command {
     /**
      * Generate a status for the command, based upon the command's exit code
      * and a status that may have been passed from the command by using
-     * <code>status.exit()</code>.
+     * {@code status.exit()}.
      *
      * @param exitCode  The exit code from the command that was executed.
      * @param logStatus If the command that was executed was a test program
-     *                  and exited by calling <code>status.exit()</code>,
+     *                  and exited by calling {@code status.exit()},
      *                  then logStatus will be set to `status'.  Otherwise,
      *                  it will be null.  The value of the status is passed
      *                  from the command by writing it as the last line to
      *                  stdout before exiting the process.   If it is not
      *                  received as the last line, the value will be lost.
      * @return Unless overridden, the default is
-     * <code>Status.passed("exit code 0")</code>
+     * {@code Status.passed("exit code 0")}
      * if the command exited with exit code 0, or
-     * <code>Status.failed("exit code " + exitCode)</code>
+     * {@code Status.failed("exit code " + exitCode)}
      * otherwise.
      **/
     protected Status getStatus(int exitCode, Status logStatus) {

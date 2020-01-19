@@ -185,7 +185,7 @@ public abstract class Command {
      * loaded.
      * <p>
      * In the resource bundle, there should be a property named
-     * <code>startup.icon</code>.
+     * {@code startup.icon}.
      *
      * @return the location of the splash screen resource bundle
      * @see java.util.ResourceBundle

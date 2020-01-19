@@ -72,7 +72,7 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
- * <code>SelectionTree</code> class provide tree functionality with check-boxes as nodes for comfort selection.
+ * {@code SelectionTree} class provide tree functionality with check-boxes as nodes for comfort selection.
  * Business-objects stored in the tree must implement {@link SelectionElement} interface.
  */
 public class SelectionTree extends JTree {

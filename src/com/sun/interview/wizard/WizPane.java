@@ -444,7 +444,7 @@ public class WizPane extends JPanel {
 
     /**
      * Advance to the next matching question, according to the criteria
-     * in the "search dialog" displayed by <code>find</code>. The dialog
+     * in the "search dialog" displayed by {@code find}. The dialog
      * will be displayed if it has not previously been displayed.
      */
     public void findNext() {

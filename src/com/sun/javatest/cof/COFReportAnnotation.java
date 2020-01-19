@@ -103,7 +103,7 @@ public class COFReportAnnotation extends COFItem {
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the name property.
+     * This is why there is not a {@code set} method for the name property.
      *
      * <p>
      * For example, to add a new item, do as follows:
@@ -130,7 +130,7 @@ public class COFReportAnnotation extends COFItem {
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the value property.
+     * This is why there is not a {@code set} method for the value property.
      *
      * <p>
      * For example, to add a new item, do as follows:

@@ -37,7 +37,7 @@ import java.util.Set;
 /**
  * Traditional implementation of the test execution engine which has been
  * used throughout the JT Harness 2.x harness.  It supplies all the basic
- * for creating threads for each test, running the <code>Script</code>,
+ * for creating threads for each test, running the {@code Script},
  * and handling timeouts.
  */
 public class DefaultTestRunner extends TestRunner {

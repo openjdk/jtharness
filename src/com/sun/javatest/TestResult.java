@@ -809,7 +809,7 @@ public class TestResult {
      * Check whether this object has been "shrunk" to reduce its
      * memory footprint. If it has, some or all of the data will have
      * to be reloaded.  This method is somewhat
-     * orthogonal to <code>isReloadable()</code> and should not be used as a
+     * orthogonal to {@code isReloadable()} and should not be used as a
      * substitute.
      *
      * @return True if this object is currently incomplete, false otherwise.

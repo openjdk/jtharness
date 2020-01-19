@@ -29,7 +29,7 @@ package com.sun.javatest.tool.selectiontree;
 import com.sun.javatest.tool.selectiontree.selection.SelectionElement;
 
 /**
- * <code>SelectionTreeFilter</code> class allows to show or find objects in the {@link SelectionTree}
+ * {@code SelectionTreeFilter} class allows to show or find objects in the {@link SelectionTree}
  * accepted by the given filter only.
  */
 public interface SelectionTreeFilter {

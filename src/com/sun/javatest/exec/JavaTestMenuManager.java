@@ -39,17 +39,17 @@ import java.util.List;
  * the positioning that the architect expected.
  * <p>
  * This class can be used in two ways.  First, the concrete class overrides
- * <code>getMenuItems()</code> to return the correct set of items for the given
+ * {@code getMenuItems()} to return the correct set of items for the given
  * category.  This method may be the most simple for straight forward insertions.
- * The second method is to use <code>addMenuItem()</code> to sequentially
+ * The second method is to use {@code addMenuItem()} to sequentially
  * specify which menu items should appear.  The default implementation of
- * <code>getMenuItems()</code> will use data provided by using this second
+ * {@code getMenuItems()} will use data provided by using this second
  * method.
  * <p>
- * By default, no menu category will have any custom menus (<code>getMenuItems()</code>
+ * By default, no menu category will have any custom menus ({@code getMenuItems()}
  * will always return null).
  * <p>
- * The <code>JMenuItem</code> objects may be "pull-right" menus if desired.  It is
+ * The {@code JMenuItem} objects may be "pull-right" menus if desired.  It is
  * the responsibility of the architect to manage keystroke mneumonics.
  */
 public abstract class JavaTestMenuManager {

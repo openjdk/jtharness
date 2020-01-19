@@ -42,7 +42,7 @@ import java.util.Map;
  * The list of valid entries is identical to those found for JCK.
  * There is no list of pre-defined keywords.  If keyword checking
  * is needed, then the list of allowed keywords must be
- * provided via the <code>-allowKeyword</code> option.
+ * provided via the {@code -allowKeyword} option.
  *
  * @see TagTestFinder
  */

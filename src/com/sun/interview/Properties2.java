@@ -35,8 +35,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 /**
- * The <code>Properties</code> class represents a persistent set of
- * properties. The <code>Properties</code> can be saved to a stream
+ * The {@code Properties} class represents a persistent set of
+ * properties. The {@code Properties} can be saved to a stream
  * or loaded from a stream. Each key and its corresponding value in
  * the property list is a string.
  * <p>
@@ -309,7 +309,7 @@ public class Properties2 extends Hashtable<String, Object> {
      * Searches for the property with the specified key in this property list.
      * If the key is not found in this property list, the default property list,
      * and its defaults, recursively, are then checked. The method returns
-     * <code>null</code> if the property is not found.
+     * {@code null} if the property is not found.
      *
      * @param key the property key.
      * @return the value in this property list with the specified key value.

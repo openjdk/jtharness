@@ -34,8 +34,8 @@ import java.util.ListIterator;
 /**
  * A tool manager to handle the command line options for the JT Harness desktop.
  * <ul>
- * <li><code>-newDesktop</code>: behave as though this is the first time startup
- * <li><code>-cleanDesktop</code>: synonym for newDesktop (backward compatibility)
+ * <li>{@code -newDesktop}: behave as though this is the first time startup
+ * <li>{@code -cleanDesktop}: synonym for newDesktop (backward compatibility)
  * </ul>
  */
 public class DesktopManager extends CommandManager {

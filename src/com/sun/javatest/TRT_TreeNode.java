@@ -1768,7 +1768,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      * @param newone The test to compare to the one at the given index.  Cannot
      *               be null.
      * @return True if the new test is the same test with a different status.
-     * False if the index is invalid, the <code>newone</code> is null,
+     * False if the index is invalid, the {@code newone} is null,
      * or the tests don't match in some way.
      */
     private boolean shouldReplaceTest(int index, TestResult newone,

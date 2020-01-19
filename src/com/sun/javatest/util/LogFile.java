@@ -101,7 +101,7 @@ public class LogFile {
      * @param i18n a resource bundle containing the localized messages
      * @param key  a key into the resource bundle for the required message
      * @param arg  An argument to be formatted into the specified message.
-     *             If this is a <code>Throwable</code>, its stack trace
+     *             If this is a {@code Throwable}, its stack trace
      *             will be included in the log.
      */
     public void log(I18NResourceBundle i18n, String key, Object arg) {
@@ -120,7 +120,7 @@ public class LogFile {
      * @param i18n a resource bundle containing the localized messages
      * @param key  a key into the resource bundle for the required message
      * @param args An array of arguments to be formatted into the specified message.
-     *             If the first arg is a <code>Throwable</code>, its stack
+     *             If the first arg is a {@code Throwable}, its stack
      *             trace will be included in the log.
      */
     public void log(I18NResourceBundle i18n, String key, Object... args) {

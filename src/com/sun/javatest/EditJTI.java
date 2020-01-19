@@ -56,7 +56,7 @@ import java.util.ResourceBundle;
  * It is intended to be invoked from the command line, as in: <pre>
  * java com.sun.javatest.EditJIT options...
  * </pre>
- * For details of the options, use the <code>-help</code> option.
+ * For details of the options, use the {@code -help} option.
  */
 public class EditJTI {
     private static int MAX_INDENT = Integer.getInteger("EditJTI.maxIndent", 32).intValue();
@@ -67,7 +67,7 @@ public class EditJTI {
     private PrintWriter out;
 
     /**
-     * Command line entry point. Run with <code>-help</code> to get
+     * Command line entry point. Run with {@code -help} to get
      * brief command line help.  Warning: this method uses System.exit
      * and so does not return if called directly.
      *

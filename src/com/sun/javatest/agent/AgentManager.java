@@ -341,8 +341,8 @@ public class AgentManager {
          *                     implementation of com.sun.javatest.Test, and must be
          *                     accessible by the agent: just the <em>name</em> of the class
          *                     is sent to the agent, not the classfile.
-         * @param args         The arguments to be passed to the <code>run</code> method
-         *                     of an instance of <code>classname</code> that will be executed
+         * @param args         The arguments to be passed to the {@code run} method
+         *                     of an instance of {@code classname} that will be executed
          *                     by the agent.
          * @param localizeArgs Whether or not to instruct the agent to localize the args
          *                     to be passed to the test class. For example, this may be
@@ -369,8 +369,8 @@ public class AgentManager {
          *                     implementation of com.sun.javatest.Command, and must be
          *                     accessible by the agent: just the <em>name</em> of the class
          *                     is sent to the agent, not the classfile.
-         * @param args         The arguments to be passed to the <code>run</code> method
-         *                     of an instance of <code>classname</code> that will be executed
+         * @param args         The arguments to be passed to the {@code run} method
+         *                     of an instance of {@code classname} that will be executed
          *                     by the agent.
          * @param localizeArgs Whether or not to instruct the agent to localize the args
          *                     to be passed to the test class. For example, this may be
@@ -398,8 +398,8 @@ public class AgentManager {
          *                     implementation of com.sun.javatest.Command, and must be
          *                     accessible by the agent: just the <em>name</em> of the class
          *                     is sent to the agent, not the classfile.
-         * @param args         The arguments to be passed to the <code>run</code> method
-         *                     of an instance of <code>classname</code> that will be executed
+         * @param args         The arguments to be passed to the {@code run} method
+         *                     of an instance of {@code classname} that will be executed
          *                     by the agent.
          * @param localizeArgs Whether or not to instruct the agent to localize the args
          *                     to be passed to the test class. For example, this may be

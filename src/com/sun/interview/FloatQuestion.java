@@ -100,8 +100,8 @@ public abstract class FloatQuestion extends Question {
      * @param min        The inclusive lower bound for responses to this question
      * @param max        The inclusive upper bound for responses to this question
      * @param resolution The resolution for responses to this question.
-     * @throws IllegalArgumentException if <code>min</code> is greater than
-     *                                  or equal to <code>max</code>.
+     * @throws IllegalArgumentException if {@code min} is greater than
+     *                                  or equal to {@code max}.
      */
     protected FloatQuestion(Interview interview, String tag, float min, float max, float resolution) {
         super(interview, tag);
@@ -116,8 +116,8 @@ public abstract class FloatQuestion extends Question {
      *
      * @param min The inclusive lower bound for responses to this question
      * @param max The inclusive upper bound for responses to this question
-     * @throws IllegalArgumentException if <code>min</code> is greater than
-     *                                  or equal to <code>max</code>.
+     * @throws IllegalArgumentException if {@code min} is greater than
+     *                                  or equal to {@code max}.
      */
     protected void setBounds(float min, float max) {
         if (min >= max) {

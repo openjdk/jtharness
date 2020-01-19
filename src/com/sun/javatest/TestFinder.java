@@ -187,7 +187,7 @@ public abstract class TestFinder {
 
     /**
      * Get the root file of the test suite, as passed in to the
-     * <code>init</code> method.
+     * {@code init} method.
      *
      * @return the root file of the test suite
      * @see #setRoot
@@ -246,7 +246,7 @@ public abstract class TestFinder {
      * Incoming files and test descriptions are sorted by their name during
      * processing, this method allows adjustment of the comparison method to
      * be used during this sorting.  Sorting can be disabled by calling this
-     * method with a <code>null</code> parameter.  By default, this class will
+     * method with a {@code null} parameter.  By default, this class will
      * do US Locale sorting.
      *
      * @param c The comparison operator to be used.  Null indicates no sorting (old behavior).

@@ -121,11 +121,11 @@ public final class DynamicArray {
      * Insert an object into the array at the specified index.
      *
      * @param oldArr   The array to insert into.  May be null, in which case a new array
-     *                 will be created using the type of <code>newObj</code>.
+     *                 will be created using the type of {@code newObj}.
      * @param newObj   The object to insert.
      * @param location The index at which to insert the item.  An exception will occur
      *                 if the location in out of range.  This location can be equal to
-     *                 <code>oldArr.length</code>, in which case this becomes an append
+     *                 {@code oldArr.length}, in which case this becomes an append
      *                 operation.
      * @return A new array with the object inserted into it at the specified location.
      */
@@ -167,7 +167,7 @@ public final class DynamicArray {
      *
      * @param oldArr The original array which we are removing from.  May not be
      *               null or zero length.
-     * @param index  The index to remove from <code>oldArr</code>.  Exception
+     * @param index  The index to remove from {@code oldArr}.  Exception
      *               will be thrown if it is out of range.
      * @return An array of the same type as the original array (element 0), without the
      * given index.  Zero length array if the last element is removed.

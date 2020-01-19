@@ -100,8 +100,8 @@ public abstract class IntQuestion extends Question {
      * @param tag       A unique tag to identify this specific question.
      * @param min       The inclusive lower bound for responses to this question
      * @param max       The inclusive upper bound for responses to this question
-     * @throws IllegalArgumentException if <code>min</code> is greater than
-     *                                  or equal to <code>max</code>.
+     * @throws IllegalArgumentException if {@code min} is greater than
+     *                                  or equal to {@code max}.
      */
     protected IntQuestion(Interview interview, String tag, int min, int max) {
         super(interview, tag);
@@ -117,8 +117,8 @@ public abstract class IntQuestion extends Question {
      *
      * @param min The inclusive lower bound for responses to this question
      * @param max The inclusive upper bound for responses to this question
-     * @throws IllegalArgumentException if <code>min</code> is greater than
-     *                                  or equal to <code>max</code>.
+     * @throws IllegalArgumentException if {@code min} is greater than
+     *                                  or equal to {@code max}.
      */
     protected void setBounds(int min, int max) {
         if (min >= max) {
@@ -190,7 +190,7 @@ public abstract class IntQuestion extends Question {
 
     /**
      * Check if the value is set. Unset values are represented by the
-     * special value <code>Integer.MIN_VALUE</code>.
+     * special value {@code Integer.MIN_VALUE}.
      *
      * @return true if a value has been set for this question and is within the
      * specified bounds
@@ -208,7 +208,7 @@ public abstract class IntQuestion extends Question {
 
     /**
      * Get the current (default or latest) response to this question.
-     * If the value is unset, the result will be <code>Integer.MIN_VALUE</code>.
+     * If the value is unset, the result will be {@code Integer.MIN_VALUE}.
      *
      * @return The current value.
      * @see #isValid

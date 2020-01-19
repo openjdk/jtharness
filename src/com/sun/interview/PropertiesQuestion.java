@@ -562,7 +562,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
      * Update the given properties.  New properties cannot be added this way.
      *
      * @param props Properties to update, keys in first index, values in the second.
-     * @throws IllegalArgumentException If a property in <code>props</code> does not
+     * @throws IllegalArgumentException If a property in {@code props} does not
      *                                  exist.
      */
     public void updateProperties(String[]... props) {
@@ -830,8 +830,8 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
     /**
      * Get the display (localized) name of the group.
      * The resource necessary is the question tag, with the group name and ".group"
-     * appended.  That is <code>jck.qTable.basic.group</code> and
-     * <code>jck.qTable.advanced.group</code>.
+     * appended.  That is {@code jck.qTable.basic.group} and
+     * {@code jck.qTable.advanced.group}.
      *
      * @param group The internal group name, as is used in the rest of this API.
      * @return The localized group name, the generated bundle key if that
@@ -1762,7 +1762,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
 
         /**
          * Supply some possible values that the user may want to
-         * select from.  The <code>getPath()</code> string will be used for
+         * select from.  The {@code getPath()} string will be used for
          * presentation and persistent storage of the value.
          */
         public void setSuggestions(File... sugs) {

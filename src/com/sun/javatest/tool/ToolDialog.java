@@ -84,7 +84,7 @@ abstract public class ToolDialog {
      */
     public static final int FRAME = 0x000001;
     /**
-     * Mask that allows free floating to dialog created with DIALOG mask. Doesn't affect dialogs created with <code>FRAME</code> mask.
+     * Mask that allows free floating to dialog created with DIALOG mask. Doesn't affect dialogs created with {@code FRAME} mask.
      *
      * @see #FRAME
      * @see #DIALOG
@@ -93,7 +93,7 @@ abstract public class ToolDialog {
     public static final int FREE = 0x000010;
     /**
      * Mask that sets default modality (as JDialog.setModal(true)) to dialog created with DIALOG mask that blocks all AWT
-     * frames. Doesn't affect dialogs created with <code>FRAME</code> mask.
+     * frames. Doesn't affect dialogs created with {@code FRAME} mask.
      *
      * @see #FRAME
      * @see #DIALOG
@@ -286,7 +286,7 @@ abstract public class ToolDialog {
 
     /**
      * packs the dialog. The method is useful when it's necessary to call pack
-     * separately from <code>setVisible(boolean)</code>
+     * separately from {@code setVisible(boolean)}
      *
      * @see #setVisible
      */

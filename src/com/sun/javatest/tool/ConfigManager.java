@@ -1176,12 +1176,12 @@ public class ConfigManager
 
         /**
          * Get custom help set for harness help.
-         * A file help.properties must be in the <code>lib</code> directory of
+         * A file help.properties must be in the {@code lib} directory of
          * the test suite.  An internationalization-aware search is then done
          * to find a properties bundle named "help".  That bundle must contain
          * a classpath entry, which is then used to generate the return value.
          * The classpath value is relative to the root of the test suite, not
-         * the <code>lib</code> directory.
+         * the {@code lib} directory.
          */
         @Override
         ClassLoader getCustomHelpLoader() {

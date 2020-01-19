@@ -973,8 +973,8 @@ public class TestResultTable {
      * Take a URL and find the node in the current test tree to which it refers
      * to.  The resulting node may be:
      * <ul>
-     * <li>A folder (non-leaf) node.  Type <code>TreeNode</code>
-     * <li>A test (leaf) node.  Type <code>TestResult</code>
+     * <li>A folder (non-leaf) node.  Type {@code TreeNode}
+     * <li>A test (leaf) node.  Type {@code TestResult}
      * </ul>
      *
      * @param url A forward-slash separated path referring to node names along a
@@ -1393,19 +1393,19 @@ public class TestResultTable {
 
     /**
      * This method purges the given test, including attempting to delete the
-     * associated JTR file, then replaces it with a basic <code>NOT_RUN</code>
+     * associated JTR file, then replaces it with a basic {@code NOT_RUN}
      * test of the same name.  This operation has no effect if the given test
      * is not in the tree.
      * <p>
      * Matching objects for removal is done only by reference.  The operation
-     * may fail (return <code>null</code>) if the test exists, but is not the
+     * may fail (return {@code null}) if the test exists, but is not the
      * same object.  If you really want to remove a test by name, you can use
-     * <code>resetTest(String)</code>.
+     * {@code resetTest(String)}.
      * <p>
      * NOTE: This method will cause waitUntilReady() to block.
      *
      * @param tr The test to find, purge and replace.
-     * @return The new <code>NOT_RUN</code> test.  Null if the operation fails
+     * @return The new {@code NOT_RUN} test.  Null if the operation fails
      * because the test could not be found.
      * @see #resetTest(String)
      * @since 3.0
@@ -1469,16 +1469,16 @@ public class TestResultTable {
 
     /**
      * This method purges the given test, including attempting to delete the
-     * associated JTR file, then replaces it with a basic <code>NOT_RUN</code>
+     * associated JTR file, then replaces it with a basic {@code NOT_RUN}
      * test of the same name.  This operation has no effect if the given test
-     * is not in the tree.  The <code>resetTest(TestResult)</code> method is
+     * is not in the tree.  The {@code resetTest(TestResult)} method is
      * more efficient than this one, use it if you already have the object.
      * <p>
      * NOTE: This method may cause waitUntilReady() to block.
      *
      * @param testName The test to find, purge and replace.  This is of the form
      *                 given by TestResult.getTestName().
-     * @return The new <code>NOT_RUN</code> test.  Null if the given test name
+     * @return The new {@code NOT_RUN} test.  Null if the given test name
      * could not be found.
      * @see com.sun.javatest.TestResult#getTestName
      * @since 3.0
@@ -1663,7 +1663,7 @@ public class TestResultTable {
 
     /**
      * Sort test and folder URLs by their ordering the tree, which is ultimately
-     * determined by the <code>TestFinder</code>.
+     * determined by the {@code TestFinder}.
      */
     private String[] sortByName(String... in) {
         if (in == null || in.length <= 1) {
@@ -2215,10 +2215,10 @@ public class TestResultTable {
          *
          * @param path  The path to the node that was inserted.  Does not include
          *              the actual object which is new.
-         * @param what  The actual object that changed.  So <code>path</code> plus
+         * @param what  The actual object that changed.  So {@code path} plus
          *              this is the entire path.  The type will either be TestResult or
          *              TreeNode.
-         * @param index The index in <code>path[path.length-1]</code> where the
+         * @param index The index in {@code path[path.length-1]} where the
          *              new node was placed.
          */
         void nodeInserted(TreeNode[] path, Object what, int index);
@@ -2231,10 +2231,10 @@ public class TestResultTable {
          *
          * @param path  The path to the node that changed.  Does not include
          *              the actual object which changed.
-         * @param what  The actual object that changed.  So <code>path</code> plus
+         * @param what  The actual object that changed.  So {@code path} plus
          *              this is the entire path.  The type will either be TestResult or
          *              TreeNode.
-         * @param index The index in <code>path[path.length-1]</code> that changed.
+         * @param index The index in {@code path[path.length-1]} that changed.
          * @param old   The old value at the changed location.
          */
         void nodeChanged(TreeNode[] path, Object what, int index, Object old);
@@ -2244,10 +2244,10 @@ public class TestResultTable {
          *
          * @param path  The path to the node that changed.  Does not include
          *              the actual object which changed.
-         * @param what  The actual object that was removed.  So <code>path</code> plus
+         * @param what  The actual object that was removed.  So {@code path} plus
          *              this is the entire path.  The type will either be TestResult or
          *              TreeNode.
-         * @param index The index in <code>path[path.length-1]</code> that was
+         * @param index The index in {@code path[path.length-1]} that was
          *              removed.
          */
         void nodeRemoved(TreeNode[] path, Object what, int index);
@@ -2498,7 +2498,7 @@ public class TestResultTable {
 
     /**
      * Defines an iterator/enumerator interface for retrieving tests out of the
-     * tree.  This is a read-only interface, so <code>remove()</code> is not
+     * tree.  This is a read-only interface, so {@code remove()} is not
      * supported.
      */
     public interface TreeIterator extends Enumeration<TestResult>, Iterator<TestResult> {
@@ -2599,8 +2599,8 @@ public class TestResultTable {
         /**
          * Peek into the future to see which object will be returned next.
          *
-         * @return The next object scheduled to come out of <code>next()</code>,
-         * or null if <code>hasNext()</code> is false.
+         * @return The next object scheduled to come out of {@code next()},
+         * or null if {@code hasNext()} is false.
          */
         Object peek();
 
@@ -2826,7 +2826,7 @@ public class TestResultTable {
         }
 
         /**
-         * Provides the indexes into each node provided by <code>getNodes()</code>.
+         * Provides the indexes into each node provided by {@code getNodes()}.
          *
          * @return The indexes of the corresponding TreeNode at each level.  Null if
          * no index information is available;

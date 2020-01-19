@@ -152,7 +152,7 @@ public class ExcludeList {
      * Test if a file appears to be for an exclude list, by checking the extension.
      *
      * @param f The file to be tested.
-     * @return <code>true</code> if the file appears to be an exclude list.
+     * @return {@code true} if the file appears to be an exclude list.
      */
     public static boolean isExcludeFile(File f) {
         return f.getPath().endsWith(EXCLUDEFILE_EXTN);
@@ -254,7 +254,7 @@ public class ExcludeList {
      * It is completely excluded if there is an entry, and the test case field is null.
      *
      * @param td A test description for the test being checked.
-     * @return <code>true</code> if the table contains an entry for this test.
+     * @return {@code true} if the table contains an entry for this test.
      */
     public boolean excludesAllOf(TestDescription td) {
         return excludesAllOf(td.getRootRelativeURL());
@@ -265,7 +265,7 @@ public class ExcludeList {
      * It is completely excluded if there is an entry, and the test case field is null.
      *
      * @param url The test-suite root-relative URL for the test.
-     * @return <code>true</code> if the table contains an entry for this test.
+     * @return {@code true} if the table contains an entry for this test.
      */
     public boolean excludesAllOf(String url) {
         Object o = table.get(new Key(url));
@@ -277,7 +277,7 @@ public class ExcludeList {
      * It is so excluded if there is any entry in the table for the test.
      *
      * @param td A test description for the test being checked.
-     * @return <code>true</code> if the table contains an entry for this test.
+     * @return {@code true} if the table contains an entry for this test.
      */
     public boolean excludesAnyOf(TestDescription td) {
         return excludesAnyOf(td.getRootRelativeURL());
@@ -288,7 +288,7 @@ public class ExcludeList {
      * It is so excluded if there is any entry in the table for the test.
      *
      * @param url The test-suite root-relative URL for the test.
-     * @return <code>true</code> if the table contains an entry for this test.
+     * @return {@code true} if the table contains an entry for this test.
      */
     public boolean excludesAnyOf(String url) {
         Object o = table.get(new Key(url));
@@ -583,13 +583,13 @@ public class ExcludeList {
     /**
      * Iterate over the contents of the table.
      *
-     * @param group if <code>true</code>, entries for the same relative
+     * @param group if {@code true}, entries for the same relative
      *              URL are grouped together, and if more than one, returned in an
-     *              array; if <code>false</code>, the iterator always returns
+     *              array; if {@code false}, the iterator always returns
      *              separate entries.
      * @return an iterator for the table: the entries are either
      * single instances of @link(Entry) or a mixture of @link(Entry)
-     * and @link(Entry)[], depending on the <code>group</code>
+     * and @link(Entry)[], depending on the {@code group}
      * parameter.
      * @see Entry
      */

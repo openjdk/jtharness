@@ -278,7 +278,7 @@ public class TestDescription implements Serializable {
     /**
      * Get the title of this test description. This title is determined from
      * the "title" parameter, if present, defaulting to the value returned
-     * by <code>getName()</code>.
+     * by {@code getName()}.
      *
      * @return the title of this test description
      */
@@ -432,7 +432,7 @@ public class TestDescription implements Serializable {
      * as specified by the "classDir" parameter.
      *
      * @return the class directory, or null if not specified
-     * @deprecated use <code>getParameter("classDir")</code> instead
+     * @deprecated use {@code getParameter("classDir")} instead
      */
     @java.lang.Deprecated
     public String getClassDir() {
@@ -444,7 +444,7 @@ public class TestDescription implements Serializable {
      * as specified by the "executeClass" parameter.
      *
      * @return the execute class name, or null if not specified
-     * @deprecated use <code>getParameter("executeClass")</code> instead
+     * @deprecated use {@code getParameter("executeClass")} instead
      */
     @java.lang.Deprecated
     public String getExecuteClass() {
@@ -456,7 +456,7 @@ public class TestDescription implements Serializable {
      * as specified by the "executeArgs" parameter.
      *
      * @return the execute args, or null if not specified
-     * @deprecated use <code>getParameter("executeArgs")</code> instead
+     * @deprecated use {@code getParameter("executeArgs")} instead
      */
     @java.lang.Deprecated
     public String getExecuteArgs() {
@@ -468,7 +468,7 @@ public class TestDescription implements Serializable {
      * as specified by the "timeout" parameter.
      *
      * @return the timeout value, or 0 if not specified
-     * @deprecated use <code>getParameter("timeout")</code> instead
+     * @deprecated use {@code getParameter("timeout")} instead
      */
     @java.lang.Deprecated
     public int getTimeout() {
@@ -492,7 +492,7 @@ public class TestDescription implements Serializable {
      * @see #getRootDir
      * @deprecated No longer relevant for some test suites, so will not be supported
      * in the future.  If needed the value can be determined by asking the test
-     * suite's <code>TestFinder</code>.
+     * suite's {@code TestFinder}.
      */
     @java.lang.Deprecated
     public File getRoot() {

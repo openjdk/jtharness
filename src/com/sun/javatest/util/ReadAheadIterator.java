@@ -177,7 +177,7 @@ public class ReadAheadIterator<T> implements Iterator<T> {
     }
 
     /**
-     * How many elements have been distributed through <code>getNext()</code>.
+     * How many elements have been distributed through {@code getNext()}.
      *
      * @return number of used elements, greater-than or equal-to zero
      * @see #getItemsFoundCount

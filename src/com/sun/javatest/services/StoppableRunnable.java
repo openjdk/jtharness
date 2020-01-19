@@ -28,9 +28,9 @@
 package com.sun.javatest.services;
 
 /**
- * In reaction to <code>stop()</code>, it is recommended that the runnable
+ * In reaction to {@code stop()}, it is recommended that the runnable
  * set itself to a
- * new or consistent state.  A new call to <code>run()</code>
+ * new or consistent state.  A new call to {@code run()}
  * should be handled as a restart.
  */
 public interface StoppableRunnable extends Runnable {
@@ -41,7 +41,7 @@ public interface StoppableRunnable extends Runnable {
      * a separate daemon thread.
      * <p>
      * The method(s) handling the service should be flagged to exit as soon
-     * as possible so the <code>Thread</code> can terminate in a timely manner.
+     * as possible so the {@code Thread} can terminate in a timely manner.
      */
     void stop();
 }

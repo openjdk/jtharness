@@ -339,7 +339,7 @@ public abstract class Script {
 
     /**
      * Run the script, to fill out the test results for the test description
-     * given to <code>init</code>. Most implementations will use the default
+     * given to {@code init}. Most implementations will use the default
      * implementation of this method, which delegates to a simpler (abstract)
      * method @link(run(String[],TestDescription, TestEnvironment)).  If you
      * override this method, be aware that this method does insert many of the
@@ -666,7 +666,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                <code>command.</code><i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
      * @param srcs    The names of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #compileTogether
@@ -705,7 +705,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                <code>command.</code><i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
      * @param srcs    The names of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #compileTogether
@@ -731,7 +731,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                <code>command.</code><i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
      * @param src     The name of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #compileTogether
@@ -756,7 +756,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                <code>command.</code><i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
      * @param src     The name of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #compileTogether
@@ -791,7 +791,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                <code>command.</code><i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
      * @param srcs    The names of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #invokeCommand
@@ -863,7 +863,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                <code>command.</code><i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
      * @param srcs    The names of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #invokeCommand
@@ -904,7 +904,7 @@ public abstract class Script {
      *
      * @param command  the base name of the command entry in the environment to be used
      *                 to compile any necessary sources. The complete entry name will be
-     *                 <code>command.</code><i>command</i><code>.</code><i>extn</i>
+     *                 {@code command.}<i>command</i><code>.</code><i>extn</i>
      * @param srcs     The names of the source files to be compiled if necessary
      * @param classDir The class directory in which the corresponding class files
      *                 (if any) will be found.
@@ -1033,7 +1033,7 @@ public abstract class Script {
      *
      * @param command  the base name of the command entry in the environment to be used
      *                 to compile any necessary sources. The complete entry name will be
-     *                 <code>command.</code><i>command</i><code>.</code><i>extn</i>
+     *                 {@code command.}<i>command</i><code>.</code><i>extn</i>
      * @param srcs     The names of the source files to be compiled if necessary
      * @param classDir The class directory in which the corresponding class files
      *                 (if any) will be found.
@@ -1178,10 +1178,10 @@ public abstract class Script {
      * Invoke a command in the environment identified by a given key.
      * The command is identified by looking up `<code>command.<em>key</em></code>'
      * property in the environment. The first word of this property identifies
-     * the name of a class that should be an implementation of <code>Command</code>,
+     * the name of a class that should be an implementation of {@code Command},
      * and the subsequent words are the arguments to be passed to a fresh instance
-     * of that class, via its <code>run</code> method.
-     * Standard library implementations of <code>Command</code> are available,
+     * of that class, via its {@code run} method.
+     * Standard library implementations of {@code Command} are available,
      * such as:
      * <DL>
      * <DT>com.sun.javatest.lib.ProcessCommand
@@ -1362,7 +1362,7 @@ public abstract class Script {
      * starting a test when the method run() is invoked and an event of
      * finishing the test when the method run() is completed. Those Scripts
      * which need to take a control over notifying should override this method
-     * to return <code>true</code>. In this case the <i>notifier</i> field will
+     * to return {@code true}. In this case the <i>notifier</i> field will
      * be initialized and the Harness will no longer notify the listeners when
      * a test starts/stops.
      *

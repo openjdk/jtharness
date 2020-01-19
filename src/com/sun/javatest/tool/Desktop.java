@@ -1349,7 +1349,7 @@ public class Desktop {
     /**
      * Allow for other custom prefs panes.  Current implementation scans
      * test suite properties for one called "prefsPane", which should be a
-     * class name referring to a class which subclasses <code>Preferences.Pane</code>.
+     * class name referring to a class which subclasses {@code Preferences.Pane}.
      * That class will be loaded and instantiated using the test suite's class loader.
      *
      * @return A set of prefs panes, beyond that of the currently active Tools.
@@ -1437,7 +1437,7 @@ public class Desktop {
      * @param i18n a resource bundle containing the localized messages
      * @param key  a key into the resource bundle for the required message
      * @param arg  An argument to be formatted into the specified message.
-     *             If this is a <code>Throwable</code>, its stack trace
+     *             If this is a {@code Throwable}, its stack trace
      *             will be included in the log.
      * @since 3.0.1
      */
@@ -1454,7 +1454,7 @@ public class Desktop {
      * @param i18n a resource bundle containing the localized messages
      * @param key  a key into the resource bundle for the required message
      * @param args An array of arguments to be formatted into the specified message.
-     *             If the first arg is a <code>Throwable</code>, its stack
+     *             If the first arg is a {@code Throwable}, its stack
      *             trace will be included in the log.
      * @since 3.0.1
      */

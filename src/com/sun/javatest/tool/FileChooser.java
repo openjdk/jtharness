@@ -100,8 +100,8 @@ public class FileChooser extends JFileChooser {
     /**
      * Allows to disable directories browsing
      *
-     * @param enableDirs <code>true</code> if directories browsing is allowed,
-     *                   <code>false</code> otherwise
+     * @param enableDirs {@code true} if directories browsing is allowed,
+     *                   {@code false} otherwise
      */
     public void enableDirectories(boolean enableDirs) {
         this.enableDirs = enableDirs;

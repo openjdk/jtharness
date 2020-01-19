@@ -53,7 +53,7 @@ public abstract class CustomReport {
 
     /**
      * Will this report need the standard XML data report if it is run.  The
-     * default implementation returns <code>false</code>.  Returning false does
+     * default implementation returns {@code false}.  Returning false does
      * not mean that the report cannot ask for the XML, but by correctly
      * answering, the harness may be able to apply some optimization based on
      * which other reports are being generated.
@@ -69,7 +69,7 @@ public abstract class CustomReport {
      * Request the content of the standard XML report from the harness.
      * This method will always succeed, unless insufficient information
      * exists to generate a report.  Should only be called subsequent to
-     * a call from the harness to one of the <code>createReport</code>
+     * a call from the harness to one of the {@code createReport}
      * methods.
      *
      * @see #needsXmlReport
@@ -149,8 +149,8 @@ public abstract class CustomReport {
      * <p>
      * This value is also used to generate a unique directory name
      * within the report directory when writing the report.  So, it will
-     * be used when constructing the <code>rootDir</code> parameter
-     * of the <code>createReport</code> methods.
+     * be used when constructing the {@code rootDir} parameter
+     * of the {@code createReport} methods.
      *
      * @see #getName
      * @see java.lang.Character#isJavaIdentifierStart(char)
@@ -206,9 +206,9 @@ public abstract class CustomReport {
 
     /**
      * Validate the options currently in the option panes.
-     * This method would only be called after <code>getOptionPanes</code>.
+     * This method would only be called after {@code getOptionPanes}.
      * It can be assumed that this method is called just before
-     * <code>createReport</code> to ensure that the user's settings are valid (in
+     * {@code createReport} to ensure that the user's settings are valid (in
      * GUI mode).  It is not called in non-GUI mode.
      *
      * @return Null if the current options are valid.  If something is invalid,

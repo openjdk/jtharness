@@ -71,7 +71,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
 
     /**
      * Common method for running the test, used by all entry points.
-     * <code>setTestCaseClass()</code> should have been invoked before calling this.
+     * {@code setTestCaseClass()} should have been invoked before calling this.
      */
     @Override
     public Status run0(String... argv) {

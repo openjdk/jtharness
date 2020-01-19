@@ -45,15 +45,15 @@ import java.util.Vector;
 /**
  * This class provides "environments", as embodied by groups of related properties.
  * Environments have a name, and consist of those properties provided whose names
- * do not begin with "<code>env.</code>", and in addition, those
- * properties provided whose names begin "<code>env.</code><i>env-name</i><code>.</code>".
+ * do not begin with "{@code env.}", and in addition, those
+ * properties provided whose names begin "{@code env.}<i>env-name</i><code>.</code>".
  * In addition, an environment may inherit the properties of another environment
- * by defining a property <code>env.</code><i>env-name</i><code>inherits=</code><i>inherited-env-name</i>
+ * by defining a property {@code env.}<i>env-name</i><code>inherits=</code><i>inherited-env-name</i>
  * The values of the environment's properties are split into words and various
  * substitutions are performed.
  *
  * <p>The preferred way to make an environment is via a configuration interview,
- * avoiding the use of the <code>env.</code><i>env-name</i> prefix, which is
+ * avoiding the use of the {@code env.}<i>env-name</i> prefix, which is
  * retained for backwards compatibility with older test suites that read environments
  * from environment (.jte) files.
  */
@@ -410,9 +410,9 @@ public class TestEnvironment {
      * quoted strings.
      * `<code>$<em>name</em></code>' and `<code>${<em>name</em>}</code>' are
      * replaced by the result of calling `lookup(<em>name</em>)'.
-     * `<code>$/</code>' is replaced by the platform-specific file separator;
-     * `<code>$:</code>' is replaced by the platform-specific path separator; and
-     * `<code>$$</code>' is replaced by a single `$'.
+     * `{@code $/}' is replaced by the platform-specific file separator;
+     * `{@code $:}' is replaced by the platform-specific path separator; and
+     * `{@code $$}' is replaced by a single `$'.
      * No substitutions are performed inside single-quoted strings; $ substitutions
      * are performed in double-quoted strings.
      *

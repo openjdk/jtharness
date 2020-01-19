@@ -112,38 +112,38 @@ public class FileParameters
      * Create a FileParameters object, based on command-line-like args.
      * The args that are accepted are:
      * <dl>
-     * <dt><code>-t</code> <i>testsuite</i><br><code>-testsuite</code> <i>testsuite</i>
+     * <dt>{@code -t} <i>testsuite</i><br><code>-testsuite</code> <i>testsuite</i>
      * <dd>Specify the test suite
-     * <dt><code>-keywords</code> <i>expr</i>
+     * <dt>{@code -keywords} <i>expr</i>
      * <dd>Specify a keyword expression, used to filter the tests to be run.
-     * <dt><code>-status</code> <i>status-list</i>
+     * <dt>{@code -status} <i>status-list</i>
      * <dd>Specify the status values used to select tests at runtime.
      * <i>status-list</i> should be a comma-separated list of words from
      * the following list:
-     * <code>passed</code>,
-     * <code>failed</code>,
-     * <code>error</code>,
-     * <code>notRun</code>
-     * <dt><code>-exclude</code> <i>exclude-list-file</i>
+     * {@code passed},
+     * {@code failed},
+     * {@code error},
+     * {@code notRun}
+     * <dt>{@code -exclude} <i>exclude-list-file</i>
      * <dd>Specify an exclude-list file containing a list of tests to
      * be excluded from the test run.
      * The option can be specified more than once, with different files.
-     * <dt><code>-envFile</code> <i>environment-file</i>
+     * <dt>{@code -envFile} <i>environment-file</i>
      * <dd>Specify an environment file, containing environment entries
      * providing details on how to run tests.
      * The option can be specified more than once, with different files.
-     * <dt><code>-env</code> <i>environment-name</i>
+     * <dt>{@code -env} <i>environment-name</i>
      * <dd>Specify the name of the environment to be used from the
      * set of environment files.
-     * <dt><code>-concurrency</code> <i>number</i>
+     * <dt>{@code -concurrency} <i>number</i>
      * <dd>Specify how many tests JT Harness may run at once. The default
      * is 1.
-     * <dt><code>-timeoutFactor</code> <i>number</i>
+     * <dt>{@code -timeoutFactor} <i>number</i>
      * <dd>Specify a scale factor to be used to multiply the timeout
      * value for each test, to allow for running on slow CPUs.
-     * <dt><code>-report</code> <i>report-dir</i><br><code>-r</code> <i>report-dir</i>
+     * <dt>{@code -report} <i>report-dir</i><br><code>-r</code> <i>report-dir</i>
      * <dd>Specify a directory in which to write reports at the end of the test run.
-     * <dt><code>-workDir</code> <i>work-dir</i><br><code>-w</code> <i>work-dir</i>
+     * <dt>{@code -workDir} <i>work-dir</i><br><code>-w</code> <i>work-dir</i>
      * <dd>Specify a directory in which to write the results of the individual tests.
      * <dt><i>initial-files</i>
      * <dd>Trailing file arguments are treated as initial files, used to select
@@ -543,7 +543,7 @@ public class FileParameters
     /**
      * Makes the given path relative to the user's CWD if it is a
      * relative value.  So "tests" may be turned into
-     * <code>/home/me/mytck/tests</code>.
+     * {@code /home/me/mytck/tests}.
      */
     private String adjustPath(String path) {
         if (path == null) {
