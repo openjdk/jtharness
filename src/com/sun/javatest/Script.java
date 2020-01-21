@@ -666,7 +666,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i>{@code .}<i>extn</i>
      * @param srcs    The names of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #compileTogether
@@ -705,7 +705,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i>{@code .}<i>extn</i>
      * @param srcs    The names of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #compileTogether
@@ -731,7 +731,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i>{@code .}<i>extn</i>
      * @param src     The name of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #compileTogether
@@ -756,7 +756,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i>{@code .}<i>extn</i>
      * @param src     The name of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #compileTogether
@@ -791,7 +791,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i>{@code .}<i>extn</i>
      * @param srcs    The names of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #invokeCommand
@@ -863,7 +863,7 @@ public abstract class Script {
      *
      * @param command the base name of the command entry in the environment to be used
      *                to compile any necessary sources. The complete entry name will be
-     *                {@code command.}<i>command</i><code>.</code><i>extn</i>
+     *                {@code command.}<i>command</i>{@code .}<i>extn</i>
      * @param srcs    The names of the file to be compiled.
      * @return The status of the compilation: passed or failed.
      * @see #invokeCommand
@@ -904,7 +904,7 @@ public abstract class Script {
      *
      * @param command  the base name of the command entry in the environment to be used
      *                 to compile any necessary sources. The complete entry name will be
-     *                 {@code command.}<i>command</i><code>.</code><i>extn</i>
+     *                 {@code command.}<i>command</i>{@code .}<i>extn</i>
      * @param srcs     The names of the source files to be compiled if necessary
      * @param classDir The class directory in which the corresponding class files
      *                 (if any) will be found.
@@ -1033,7 +1033,7 @@ public abstract class Script {
      *
      * @param command  the base name of the command entry in the environment to be used
      *                 to compile any necessary sources. The complete entry name will be
-     *                 {@code command.}<i>command</i><code>.</code><i>extn</i>
+     *                 {@code command.}<i>command</i>{@code .}<i>extn</i>
      * @param srcs     The names of the source files to be compiled if necessary
      * @param classDir The class directory in which the corresponding class files
      *                 (if any) will be found.

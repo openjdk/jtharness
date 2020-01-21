@@ -311,7 +311,7 @@ public class InterviewEditor extends ToolDialog {
      *           </ul>
      * @throws IllegalArgumentException if the following configuration errors found:
      *                                               <ul>
-     *                                               <li> {@code getDefaultConfigLoadPath()} returns <code>null</code> when <code>getAllowConfigLoadOutsideDefault()</code> returns <code>false</code>
+     *                                               <li> {@code getDefaultConfigLoadPath()} returns {@code null} when {@code getAllowConfigLoadOutsideDefault()} returns {@code false}
      *                                               <li> {@code getDefaultConfigLoadPath()} returns not absolute path
      *                                               <li> {@code getDefaultConfigLoadPath()} returns a file (not a directory)
      *                                               </ul>
@@ -473,7 +473,7 @@ public class InterviewEditor extends ToolDialog {
      * harness' contest settings
      * @throws {@code IllegalArgumentException} if the following configuration errors found:
      *                                               <ul>
-     *                                               <li> {@code getDefaultConfigSavePath()} returns <code>null</code> when <code>getAllowConfigSaveOutsideDefault()</code> returns <code>false</code>
+     *                                               <li> {@code getDefaultConfigSavePath()} returns {@code null} when {@code getAllowConfigSaveOutsideDefault()} returns {@code false}
      *                                               <li> {@code getDefaultConfigSavePath()} returns not absolute path
      *                                               <li> {@code getDefaultConfigSavePath()} returns a file (not a directory)
      *                                               </ul>

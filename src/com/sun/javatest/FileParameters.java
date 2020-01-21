@@ -112,7 +112,7 @@ public class FileParameters
      * Create a FileParameters object, based on command-line-like args.
      * The args that are accepted are:
      * <dl>
-     * <dt>{@code -t} <i>testsuite</i><br><code>-testsuite</code> <i>testsuite</i>
+     * <dt>{@code -t} <i>testsuite</i><br>{@code -testsuite} <i>testsuite</i>
      * <dd>Specify the test suite
      * <dt>{@code -keywords} <i>expr</i>
      * <dd>Specify a keyword expression, used to filter the tests to be run.
@@ -141,9 +141,9 @@ public class FileParameters
      * <dt>{@code -timeoutFactor} <i>number</i>
      * <dd>Specify a scale factor to be used to multiply the timeout
      * value for each test, to allow for running on slow CPUs.
-     * <dt>{@code -report} <i>report-dir</i><br><code>-r</code> <i>report-dir</i>
+     * <dt>{@code -report} <i>report-dir</i><br>{@code -r} <i>report-dir</i>
      * <dd>Specify a directory in which to write reports at the end of the test run.
-     * <dt>{@code -workDir} <i>work-dir</i><br><code>-w</code> <i>work-dir</i>
+     * <dt>{@code -workDir} <i>work-dir</i><br>{@code -w} <i>work-dir</i>
      * <dd>Specify a directory in which to write the results of the individual tests.
      * <dt><i>initial-files</i>
      * <dd>Trailing file arguments are treated as initial files, used to select

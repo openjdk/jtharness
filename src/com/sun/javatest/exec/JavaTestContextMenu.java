@@ -81,8 +81,8 @@ public abstract class JavaTestContextMenu {
      * setting is {@code false}, override this method to change.
      * <p>
      * If you need to enable/disabled based on the composition of the selection,
-     * you should return {@code true}, then override <code>updateState(String[],
-     * TestResult[])</code> and disable if needed.
+     * you should return {@code true}, then override {@code updateState(String[],
+     * TestResult[])} and disable if needed.
      *
      * @return True if multiselect is permitted for this menu action.  False
      * otherwise.

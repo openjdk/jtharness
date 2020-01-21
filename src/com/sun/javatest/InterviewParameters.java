@@ -603,7 +603,7 @@ public abstract class InterviewParameters
      * Get the first question to be asked concerning the environment to be
      * set up and used for each test to be run. If these questions are
      * contained in an interview, this method can be simply implemented as:<br>
-     * {@code return callInterview(}<i>envInterview</i><code>, getEnvSuccessorQuestion);</code><br>
+     * {@code return callInterview(}<i>envInterview</i>{@code , getEnvSuccessorQuestion);}<br>
      *
      * @return the first question to be asked concerning the environment to be
      * set up and used for each test to be run.

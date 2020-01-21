@@ -124,7 +124,7 @@ public class MultiTest implements Test {
 
     /**
      * Initialize the test from the given arguments. The arguments will
-     * be passed to {@code decodeAllArgs}, and then <code>init()</code>
+     * be passed to {@code decodeAllArgs}, and then {@code init()}
      * will be called.
      *
      * @param args The arguments for the test, passed to {@code decodeArgs}.
@@ -133,7 +133,7 @@ public class MultiTest implements Test {
      * @see #decodeAllArgs
      * @see #decodeArg
      * @see #init()
-     * @deprecated Use {@code decodeArg(String)} and <code>init()</code> instead.
+     * @deprecated Use {@code decodeArg(String)} and {@code init()} instead.
      */
     @java.lang.Deprecated
     protected Status init(String... args) {

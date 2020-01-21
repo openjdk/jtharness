@@ -46,9 +46,9 @@ import java.util.Vector;
  * This class provides "environments", as embodied by groups of related properties.
  * Environments have a name, and consist of those properties provided whose names
  * do not begin with "{@code env.}", and in addition, those
- * properties provided whose names begin "{@code env.}<i>env-name</i><code>.</code>".
+ * properties provided whose names begin "{@code env.}<i>env-name</i>{@code .}".
  * In addition, an environment may inherit the properties of another environment
- * by defining a property {@code env.}<i>env-name</i><code>inherits=</code><i>inherited-env-name</i>
+ * by defining a property {@code env.}<i>env-name</i>{@code inherits=}<i>inherited-env-name</i>
  * The values of the environment's properties are split into words and various
  * substitutions are performed.
  *
