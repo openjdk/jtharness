@@ -57,7 +57,7 @@
     </target>
 
     <!-- yet if it's been already defined externally it won't be redefined -->
-    <property name="jdk.builder.home" value="${java.home}"/>
+    <property name="jdk.builder.home" value="${env.JAVA_HOME}"/>
 
     <exec executable="${jdk.builder.home}/bin/java" outputproperty="jdk.builder.version">
         <arg value="-version"/>
@@ -289,6 +289,7 @@
     <target name="compile" depends="verify-dependencies, compile.classes,compile.resources,compile-javatest.help" description="Compile project."/>
 
     <target name="compile.classes">
+        <echo>jdk.builder.home set to ${jdk.builder.home}</echo>
 
         <delete dir="${build.classes}" quiet="true"/>
         <mkdir dir="${build.classes}"/>
