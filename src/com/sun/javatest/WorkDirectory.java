@@ -663,15 +663,15 @@ public class WorkDirectory {
         return wd;
     }
 
-    private static Map<String, String> loadTestSuiteInfo(File jtData) throws FileNotFoundException, IOException {
+    private static Map<String, String> loadTestSuiteInfo(File jtData) throws IOException {
         return loadInfo(jtData, TESTSUITE);
     }
 
-    private static Map<String, String> loadWdInfo(File jtData) throws FileNotFoundException, IOException {
+    private static Map<String, String> loadWdInfo(File jtData) throws IOException {
         return loadInfo(jtData, WD_INFO);
     }
 
-    private static Map<String, String> loadInfo(File jtData, String name) throws FileNotFoundException, IOException {
+    private static Map<String, String> loadInfo(File jtData, String name) throws IOException {
         try (InputStream in = new BufferedInputStream(new FileInputStream(new File(jtData, name)))) {
             return PropertyUtils.load(in);
         }
