@@ -72,8 +72,8 @@ public class BinaryTestFinderTest {
             log.println("Wrong # args (expected 2, got " + args.length + ")");
             return false;
         }
-        testSuite = new File(System.getProperty("user.dir"), args[0]);
-        testWorkDir = new File(System.getProperty("user.dir"), args[1]);
+        testSuite = new File(args[0]);
+        testWorkDir = new File(args[1]);
         binaryFile = new File(testWorkDir, "testsuite.jtd");
 
         try {
