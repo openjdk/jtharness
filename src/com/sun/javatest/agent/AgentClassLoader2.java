@@ -312,7 +312,7 @@ class AgentClassLoader2 extends InstantiationClassLoader {
 
         @Override
         public long getLastModified() {
-            return 0l;       // unknown
+            return 0L;       // unknown
         }
     }
 }

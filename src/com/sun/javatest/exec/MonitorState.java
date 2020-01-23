@@ -59,8 +59,8 @@ class MonitorState {
     MonitorState(Harness h) {
         h.addObserver(dispatcher);
         harness = h;
-        startTime = -1l;
-        finishTime = -1l;
+        startTime = -1L;
+        finishTime = -1L;
         stats = new int[Status.NUM_STATES];
     }
 
@@ -246,7 +246,7 @@ class MonitorState {
             running = true;
 
             startTime = System.currentTimeMillis();
-            finishTime = -1l;
+            finishTime = -1L;
             resetStats();
 
             synchronized (vLock) {

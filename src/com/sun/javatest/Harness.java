@@ -80,10 +80,10 @@ public class Harness {
     private TestEnvironment env;
     private TestResultTable resultTable;
     private Notifier notifier = new Notifier();
-    private long startTime = -1l;
-    private long finishTime = -1l;
-    private long cleanupFinishTime = -1l;
-    private long testsStartTime = -1l;
+    private long startTime = -1L;
+    private long finishTime = -1L;
+    private long cleanupFinishTime = -1L;
+    private long testsStartTime = -1L;
     private boolean isBatchRun;
     private boolean stopping;
 
@@ -557,16 +557,16 @@ public class Harness {
     }
 
     public long getTotalCleanupTime() {
-        if (cleanupFinishTime < finishTime || cleanupFinishTime == -1l) {
-            return -1l;
+        if (cleanupFinishTime < finishTime || cleanupFinishTime == -1L) {
+            return -1L;
         } else {
             return cleanupFinishTime - finishTime;
         }
     }
 
     public long getTotalSetupTime() {
-        if (testsStartTime < startTime || testsStartTime == -1l) {
-            return -1l;
+        if (testsStartTime < startTime || testsStartTime == -1L) {
+            return -1L;
         } else {
             return testsStartTime - startTime;
         }
@@ -673,9 +673,9 @@ public class Harness {
         boolean ok = true; // default return/finished notification value
         stopping = false;
         startTime = System.currentTimeMillis();
-        testsStartTime = -1l;
-        cleanupFinishTime = -1l;
-        finishTime = -1l;
+        testsStartTime = -1L;
+        cleanupFinishTime = -1L;
+        finishTime = -1L;
         numTestsDone = 0;
 
         if (!p.isValid()) {
