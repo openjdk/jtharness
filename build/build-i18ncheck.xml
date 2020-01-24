@@ -88,7 +88,7 @@
     <target name="compile.test.i18n" depends="visitor15.compile, visitor16.compile, dist">
 	<mkdir dir="${build.classes}"/>
 
-	<javac encoding="iso-8859-1" debug="true" target="1.5" source="1.5"
+	<javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
             srcdir="${test.dir}"
             destdir="${build.classes}"
             classpath="${jdk14.classpath}">
@@ -97,7 +97,7 @@
     </target>
     <target name="visitor15.compile" unless="jdk6.available">
 	<mkdir dir="${build.classes}"/>
-	<javac encoding="iso-8859-1" debug="true" target="1.5" source="1.5"
+	<javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
             srcdir="${test.dir}"
             destdir="${build.classes}"
             classpath="${jdk14.classpath}">
@@ -106,11 +106,11 @@
     </target>
     <target name="visitor16.compile" if="jdk6.available">
 	<mkdir dir="${build.classes}"/>
-	<javac encoding="iso-8859-1" debug="true" target="1.5" source="1.5"
+	<javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
             srcdir="${test.dir}"
             destdir="${build.classes}"
             classpath="${jdk14.classpath}">
 	    <include name="com/sun/jct/utils/i18ncheck/I18NVisitor16.java"/>
-        </javac>    
+        </javac>
     </target>
 </project>
