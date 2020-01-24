@@ -1581,7 +1581,7 @@ public class TestResultTable {
                 notifyRemoveLeaf(getObjectPath(parent), node, index);
             }
 
-            return index != -1 ? true : false;
+            return index != -1;
         }
 
         TreeNode[] childNodes = node.getTreeNodes();
@@ -1601,7 +1601,7 @@ public class TestResultTable {
                 notifyRemoveLeaf(getObjectPath(parent), node, index);
             }
 
-            return index != -1 ? true : false;
+            return index != -1;
         }
 
         return false;

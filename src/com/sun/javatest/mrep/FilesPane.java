@@ -210,7 +210,7 @@ class FilesPane extends JPanel {
             return false;
         }
 
-        return line.contains(target) ? true : false;
+        return line.contains(target);
     }
 
     boolean checkInput() {

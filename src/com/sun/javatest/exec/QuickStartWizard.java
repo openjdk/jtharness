@@ -1273,7 +1273,7 @@ class QuickStartWizard extends ToolDialog {
                 // "Your configuration is complete, but you can change it by using
                 // the Configuration Editor."
                 sb.append(uif.getI18NString("qsw.end.cfgComplete"));
-                configCheck.setSelected(task == BROWSE ? false : true);
+                configCheck.setSelected(task != BROWSE);
             } else {
                 if (configData != null) {
                     // "Your configuration is incomplete."
@@ -1283,7 +1283,7 @@ class QuickStartWizard extends ToolDialog {
                 // "Before you can run tests, you must complete (a|your) configuration
                 // by using the Configuration Editor."
                 sb.append(uif.getI18NString("qsw.end.needEditor", haveConfig));
-                configCheck.setSelected(task == BROWSE ? false : true);
+                configCheck.setSelected(task != BROWSE);
             }
             sb.append(" ");
             // "You can open the Configuration Editor automatically by

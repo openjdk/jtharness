@@ -384,9 +384,7 @@ public class FileParameters
     @Override
     public String getErrorMessage() {
         String basicError = super.getErrorMessage();
-        return basicError != null ? basicError
-                : envTableError != null ? envTableError
-                : null;
+        return basicError != null ? basicError : envTableError;
     }
 
     //---------------------------------------------------------------------

@@ -215,7 +215,7 @@ public class ChoiceArrayQuestionRenderer
 
         @Override
         public boolean isCellEditable(int r, int c) {
-            return c == 0 ? true : false;
+            return c == 0;
         }
     }
 

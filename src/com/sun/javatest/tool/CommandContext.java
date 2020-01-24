@@ -833,7 +833,7 @@ public class CommandContext {
         for (Command cmd : commands) {
             mode = Math.max(mode, cmd.getDesktopMode());
         }
-        return mode == Command.DESKTOP_NOT_REQUIRED_DTMODE ? false : true;
+        return mode != Command.DESKTOP_NOT_REQUIRED_DTMODE;
 
     }
 
