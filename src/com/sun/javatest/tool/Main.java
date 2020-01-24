@@ -153,7 +153,7 @@ public class Main {
 
             // all initialization is done; this thread has nothing left to do, so...
             boolean preload =
-                    System.getProperty("javatest.preload.classes", "true").equals("true");
+                    System.getProperty("javatest.preload.classes", "false").equals("true");
 
             if (preload) {
                 if (tracing) {
