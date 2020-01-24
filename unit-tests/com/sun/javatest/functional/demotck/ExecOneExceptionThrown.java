@@ -27,14 +27,14 @@
 
 package com.sun.javatest.functional.demotck;
 
-import com.sun.javatest.functional.FuncTestBase;
+import com.sun.javatest.functional.TestSuiteRunningTestBase;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class ExecOneExceptionThrown extends FuncTestBase {
+public class ExecOneExceptionThrown extends TestSuiteRunningTestBase {
 
     @Test
     public void test() throws IOException {

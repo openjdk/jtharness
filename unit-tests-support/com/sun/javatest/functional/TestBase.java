@@ -27,47 +27,43 @@
 
 package com.sun.javatest.functional;
 
-import org.junit.Test;
-
+import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-public class InitUrl6 extends TestSuiteRunningTestBase {
+/**
+ * A very common base class for regression tests containing helpful properties and utility methods.
+ */
+public class TestBase {
 
+    protected String java_home;
+    protected String pathToJavac;
+    protected String pathToJava;
 
-    @Test
-    public void test() throws IOException {
+    public TestBase() {
+        java_home = System.getProperty("build.java.home");
+        if (java_home.endsWith(File.separator + "jre")) {
+            // trimming it down to jdk home dir
+            java_home = java_home.substring(0, java_home.length() - 4);
+        }
 
-    runJavaTest();
-        checkLinesInSummary(
-                "comp/index.html#CompSucc       Passed. exit code 0",
-                "comp/index.html#CompSuccMulti  Passed. exit code 0",
-                "comp/index.html#CompSuccUnexp  Failed. compilation did not fail as expected [exit code 0]"
-        );
-    }
+        pathToJavac = java_home + File.separator + "bin" + File.separator + "javac";
+        pathToJava = java_home + File.separator + "bin" + File.separator + "java";
 
-    @Override
-    protected List<String> getTailArgs() {
-        return Arrays.asList("comp/index.html#CompSuccMulti",
-                "comp/index.html#CompSucc",
-                "comp/index.html#CompSuccUnexp");
-    }
-
-    @Override
-    protected String getEnvName() {
-        return "basic";
-    }
-
-    @Override
-    protected String getEnvfileName() {
-        return "basic.jte";
-    }
-
-    @Override
-    protected String getTestsuiteName() {
-        return "demotck";
     }
 
 
+    protected Path createTempDirectory(String prefix) throws IOException {
+        return Files.createTempDirectory(getTmpPath(), prefix);
+    }
+
+    protected String createTempDirAndReturnAbsPathString(String prefix) throws IOException {
+        return createTempDirectory(prefix).toAbsolutePath().toString();
+    }
+
+    protected Path getTmpPath() {
+        return Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
+    }
 }

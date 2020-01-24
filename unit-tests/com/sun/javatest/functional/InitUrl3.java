@@ -27,14 +27,13 @@
 
 package com.sun.javatest.functional;
 
-import com.sun.javatest.TU;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class InitUrl3 extends FuncTestBase {
+public class InitUrl3 extends TestSuiteRunningTestBase {
 
 
     @Test

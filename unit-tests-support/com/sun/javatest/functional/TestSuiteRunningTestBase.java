@@ -42,15 +42,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class FuncTestBase {
+public abstract class TestSuiteRunningTestBase extends TestBase {
 
     private String java_home;
-    protected String pathToJavac;
-    protected String pathToJava;
     protected String workDirAbsPath;
     protected String reportDirAbsPath;
     protected Path summaryTXT;
@@ -113,26 +110,13 @@ public abstract class FuncTestBase {
                         "com.sun.javatest.exec.ExecToolManager," +
                         "com.sun.javatest.mrep.ReportToolManager");
 
-
-        String tmpDir = System.getProperty("build.tmp");
-
-        java_home = System.getProperty("build.java.home");
-        if (java_home.endsWith(File.separator + "jre")) {
-            // trimming it down to jdk home dir
-            java_home = java_home.substring(0, java_home.length() - 4);
-        }
-        pathToJavac = java_home + File.separator + "bin" + File.separator + "javac";
-        pathToJava = java_home + File.separator + "bin" + File.separator + "java";
-
-        Path absTmpPath = Paths.get(tmpDir).toAbsolutePath().normalize();
-
-        Path reportDir = Files.createTempDirectory(absTmpPath, "jt-report-");
+        Path reportDir = createTempDirectory("jt-report-");
         reportDirAbsPath = reportDir.toAbsolutePath().toString();
 
         // not allowing to exit
         ExitCount.inc();
 
-        workDirAbsPath = Files.createTempDirectory(absTmpPath, "jt-work-").toAbsolutePath().toString();
+        workDirAbsPath = createTempDirAndReturnAbsPathString("jt-work-");
         summaryTXT = reportDir.resolve("text").resolve("summary.txt");
     }
 
