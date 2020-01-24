@@ -330,17 +330,9 @@ public class BackupUtil {
             }
 
             if (suffix.isEmpty()) {
-                if (!file.getName().endsWith("~")) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return !file.getName().endsWith("~");
             } else {
-                if (file.getName().endsWith(suffix)) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return file.getName().endsWith(suffix);
             }
         }
 

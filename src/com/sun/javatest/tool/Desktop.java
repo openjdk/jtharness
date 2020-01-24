@@ -1064,9 +1064,7 @@ public class Desktop {
             confirmDialog.dispose();
             confirmDialog = null;
 
-            if (pane.getValue() != yesBtn) {
-                return false;
-            }
+            return pane.getValue() == yesBtn;
         }
 
         return true;

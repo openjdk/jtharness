@@ -299,11 +299,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
     @Override
     public boolean hasMoreElements() {
         synchronized (outQueueLock) {
-            if (!finished) {
-                return true;
-            } else {
-                return false;
-            }
+            return !finished;
         }   // sync
     }
 
@@ -676,11 +672,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                         result = false;
                     }
 
-                    if (pos > currFrame.getCurrentIndex()) {
-                        result = true;
-                    } else {
-                        result = false;
-                    }
+                    result = pos > currFrame.getCurrentIndex();
                 }
             }   // if !done
 
@@ -817,11 +809,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
      * root node?
      */
     private boolean isTop(TestResultTable.TreeNode where) {
-        if (where.isRoot() || nodes[nodeIndex] == where) {
-            return true;
-        } else {
-            return false;
-        }
+        return where.isRoot() || nodes[nodeIndex] == where;
     }
 
     /**

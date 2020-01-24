@@ -463,11 +463,7 @@ public class TestResultTable {
             return false;
         }
 
-        if (part.startsWith(of) && (part.charAt(of.length()) == '#' || part.charAt(of.length()) == '/')) {
-            return true;
-        }
-
-        return false;
+        return part.startsWith(of) && (part.charAt(of.length()) == '#' || part.charAt(of.length()) == '/');
     }
 
     /**

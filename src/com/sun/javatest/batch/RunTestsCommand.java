@@ -428,11 +428,7 @@ class RunTestsCommand extends Command {
          * This affects our ability to update a progress counter.
          */
         private boolean isScolling() {
-            if (!isVerbose(START) && !isVerbose(FINISH)) {
-                return false;
-            } else {
-                return true;
-            }
+            return isVerbose(START) || isVerbose(FINISH);
         }
     }
 }

@@ -144,13 +144,8 @@ public class WorkDirectory {
         //System.err.println("WorkDirectory.isWorkDirectory: " + dir);
         File jtData = new File(dir, JTDATA);
 
-        if (jtData.exists() && jtData.isDirectory())
         // should consider checking for existence of test suite data
-        {
-            return true;
-        } else {
-            return false;
-        }
+        return jtData.exists() && jtData.isDirectory();
     }
 
     /**
@@ -213,11 +208,7 @@ public class WorkDirectory {
             return false;
         }
 
-        if (!f.canWrite()) {
-            return false;
-        }
-
-        return true;
+        return f.canWrite();
     }
 
     /**

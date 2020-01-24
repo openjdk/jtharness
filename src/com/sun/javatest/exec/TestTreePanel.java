@@ -1642,11 +1642,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
      * Does this panel currently have data to work from.
      */
     private boolean isPopulated() {
-        if (params == null || params.getTestSuite() == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return params != null && params.getTestSuite() != null;
     }
 
     /**
@@ -2102,11 +2098,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
         @Override
         public boolean isActive(TestResult tr) {
-            if (runningTests.containsKey(tr.getTestName())) {
-                return true;
-            } else {
-                return false;
-            }
+            return runningTests.containsKey(tr.getTestName());
         }
 
         public TestResult getActive(TestResult tr) {
@@ -2115,11 +2107,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
         @Override
         public boolean isActive(TT_TreeNode node) {
-            if (activeNodes.containsKey(node)) {
-                return true;
-            } else {
-                return false;
-            }
+            return activeNodes.containsKey(node);
         }
 
         // Harness.Observer

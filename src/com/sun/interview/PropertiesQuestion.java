@@ -392,13 +392,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
 
     @Override
     public boolean isValueValid() {
-        String[][] badVals = getInvalidKeys();
-
-        if (badVals == null) {
-            return true;
-        } else {
-            return false;
-        }
+        return getInvalidKeys() == null;
     }
 
     @Override
@@ -455,11 +449,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
      */
     public boolean isReadOnlyValue(String key) {
         ValueConstraints c = getConstraints(key);
-        if (c == null || !c.isReadOnly()) {
-            return false;
-        } else {
-            return true;
-        }
+        return c != null && c.isReadOnly();
     }
 
     // ------------- GROUP MANAGEMENT -------------
@@ -475,11 +465,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
      */
     public boolean isEntryVisible(String key) {
         ValueConstraints c = getConstraints(key);
-        if (c == null || c.isVisible()) {
-            return true;
-        } else {
-            return false;
-        }
+        return c == null || c.isVisible();
     }
 
     /**

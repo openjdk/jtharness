@@ -81,11 +81,7 @@ public abstract class CommandManager {
     protected static boolean isPrefixMatch(String arg, String prefix) {
         String s1 = prefix.toUpperCase();
         String s2 = arg.toUpperCase();
-        if (s2.startsWith(s1)) {
-            return true;
-        } else {
-            return false;
-        }
+        return s2.startsWith(s1);
     }
 
     /**

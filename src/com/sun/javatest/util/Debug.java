@@ -404,11 +404,7 @@ public class Debug {
         } else {
             try {
                 int num = Integer.parseInt(setting);
-                if (num > 0) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return num > 0;
             } catch (NumberFormatException e) {
                 // not "true", not an integer
                 return false;

@@ -398,9 +398,7 @@ public class ChameleonTestFinder extends TestFinder {
                     return false;
                 }
 
-                if (!p.regionMatches(ignoreCase, pLen - sufLen, suffix, 0, sufLen)) {
-                    return false;
-                }
+                return p.regionMatches(ignoreCase, pLen - sufLen, suffix, 0, sufLen);
             }
 
             // if we matched the prefix and possible suffix, we're done

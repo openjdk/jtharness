@@ -142,11 +142,7 @@ public class InitialUrlFilter extends TestFilter {
      * Is this a delimiter that ends/begins a valid startsWith segment.
      */
     private static boolean isDelimiter(char c) {
-        if (c == '/' || c == '#') {
-            return true;
-        } else {
-            return false;
-        }
+        return c == '/' || c == '#';
     }
 
     @Override

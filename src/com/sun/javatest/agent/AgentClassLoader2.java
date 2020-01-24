@@ -233,11 +233,7 @@ class AgentClassLoader2 extends InstantiationClassLoader {
         public void connect() {
             // could check Agent.Task parent for connection status
             // generally, ignore this call per the spec
-            if (bytes != null) {
-                connected = true;
-            } else {
-                connected = false;
-            }
+            connected = bytes != null;
         }
 
         @Override

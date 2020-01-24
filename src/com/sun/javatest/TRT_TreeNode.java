@@ -266,11 +266,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
     @Override
     public boolean isRoot() {
-        if (parent != null) {
-            return false;
-        } else {
-            return true;
-        }
+        return parent == null;
     }
 
     @Override
@@ -281,11 +277,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     @Override
     public boolean isUpToDate() {
         // compare timestamp in the future
-        if (lastScanDate == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return lastScanDate != 0;
     }
 
     /**
@@ -1843,13 +1835,9 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             return true;
         }
 
-        // both are populated, use the newer one
-        if (!oldShrunk && !newShrunk) {
-            return true;
-        }
-
-        // they are roughly equivalent
-        return false;
+        // both are populated, use the newer one - return "true"
+        // or they are roughly equivalent - return "false"
+        return !oldShrunk && !newShrunk;
     }
 
     /**

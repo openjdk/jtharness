@@ -325,11 +325,7 @@ class TT_Renderer extends DefaultTreeCellRenderer {
     }
 
     private boolean isRunning(TestResult tr) {
-        if (tpm.isActive(tr)) {
-            return true;
-        } else {
-            return false;
-        }
+        return tpm.isActive(tr);
     }
 }
 

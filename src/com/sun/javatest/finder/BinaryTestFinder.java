@@ -213,11 +213,7 @@ public class BinaryTestFinder extends TestFinder {
             return false;
         }
 
-        if (node != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return node != null;
     }
 
     /**

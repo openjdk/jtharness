@@ -286,11 +286,7 @@ public class JUnitSuperTestFinder extends JUnitTestFinder {
      * visitMethod(...) which is part of the ASM interface.
      */
     public boolean isTestMethodSignature(String sig) {
-        if (sig.startsWith(initialTag)) {
-            return true;
-        } else {
-            return false;
-        }
+        return sig.startsWith(initialTag);
     }
 
     private static class MethodFinderVisitor extends ClassVisitor {

@@ -285,11 +285,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
             // indicates that the GUI settings are not valid
             return true;
         }   // catch
-        if (activeSettings.equals(nowSettings)) {
-            return false;
-        } else {
-            return true;
-        }
+        return !activeSettings.equals(nowSettings);
     }
 
     // TestFilter interface
@@ -1076,11 +1072,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
                 return false;
             }
 
-            if (num.equals("1")) {
-                return true;
-            } else {
-                return false;
-            }
+            return num.equals("1");
         }
     }
 
