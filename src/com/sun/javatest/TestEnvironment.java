@@ -93,7 +93,6 @@ public class TestEnvironment {
 
     /**
      * Construct an environment for a named group of properties.
-     * This constructor is deprecated, please use the one accepting a list of maps.
      *
      * @param name           The name by which to identify the group of properties
      *                       for this environment
@@ -103,6 +102,7 @@ public class TestEnvironment {
      *                       specified in subsequent tables.
      * @param propTableNames The names of the property tables, for use in diagnostics etc
      * @throws TestEnvironment.Fault if there is an error in the given tables
+     * @deprecated please use constructor that accepts a list of maps
      */
     @SuppressWarnings("rawtypes")
     @java.lang.Deprecated
