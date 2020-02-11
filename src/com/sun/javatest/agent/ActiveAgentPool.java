@@ -155,12 +155,7 @@ public class ActiveAgentPool {
 
             serverSocket = SocketConnection.createServerSocket(port);
 
-            Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    acceptRequests();
-                }
-            };
+            Runnable r = this::acceptRequests;
             Thread worker = new Thread(r, "ActiveAgentPool" + counter++);
             worker.start();
             // could synchronize (wait()) with run() here
@@ -603,12 +598,7 @@ public class ActiveAgentPool {
             v.add(e);
             notifyAddedToPool(e);
             notifyAll();
-            Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    e.readAhead();
-                }
-            };
+            Runnable r = e::readAhead;
             Thread t = new Thread(r, "ActiveAgentPool.EntryWatcher" + entryWatcherCount++);
             t.start();
         }

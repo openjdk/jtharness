@@ -298,12 +298,7 @@ public class AgentFrame extends Frame {
 
         try {
             Method invokeLater = EventQueue.class.getMethod("invokeLater", Runnable.class);
-            invokeLater.invoke(null, new Runnable() {
-                @Override
-                public void run() {
-                    sf.showCentered();
-                }
-            });
+            invokeLater.invoke(null, (Runnable) sf::showCentered);
         } catch (NoSuchMethodException e) {
             // must be JDK 1.1
             sf.showCentered();
