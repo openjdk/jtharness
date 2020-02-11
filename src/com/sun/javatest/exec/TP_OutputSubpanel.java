@@ -528,12 +528,8 @@ class TP_OutputSubpanel extends TP_Subpanel {
         if (EventQueue.isDispatchThread()) {
             updateTOC();
         } else {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    updateTOC(); // will also update current entry
-                }
-            });
+            // will also update current entry
+            EventQueue.invokeLater(this::updateTOC);
         }
     }
 

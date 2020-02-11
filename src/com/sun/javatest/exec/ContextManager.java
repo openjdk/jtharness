@@ -296,12 +296,8 @@ public class ContextManager implements InterviewParameters.TemplateManager,
         // start the task on a new thread if needed to release
         // the GUI
         if (EventQueue.isDispatchThread()) {
-            Runnable cmd = new Runnable() {
-                @Override
-                public void run() {
-                    refreshTestsImpl();
-                }   // run()
-            };
+            // run()
+            Runnable cmd = this::refreshTestsImpl;
             Thread t = new Thread(cmd, "ContextMgr Refresh Defer");
             t.start();
             return;

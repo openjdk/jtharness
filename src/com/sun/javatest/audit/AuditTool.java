@@ -383,12 +383,7 @@ class AuditTool extends Tool {
         @Override
         public void hierarchyChanged(HierarchyEvent e) {
             if (isShowing() && autoShowOptions) {
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        showOptions();
-                    }
-                });
+                EventQueue.invokeLater(AuditTool.this::showOptions);
                 autoShowOptions = false;
             }
         }

@@ -411,33 +411,13 @@ class LogViewer extends ToolDialog {
         gridBagConstraints.insets = new Insets(11, 5, 5, 11);
         body.add(scrollPane, gridBagConstraints);
 
-        btnClose.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                onClose(evt);
-            }
-        });
+        btnClose.addActionListener(this::onClose);
 
-        btnNew.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                onNew(evt);
-            }
-        });
+        btnNew.addActionListener(this::onNew);
 
-        btnSave.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                onSave(evt);
-            }
-        });
+        btnSave.addActionListener(this::onSave);
 
-        btnClear.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                onClear(evt);
-            }
-        });
+        btnClear.addActionListener(this::onClear);
 
 
         gridBagConstraints = new GridBagConstraints();
@@ -522,42 +502,22 @@ class LogViewer extends ToolDialog {
 
         naviBtnPanel.setLayout(new GridLayout(1, 4, 10, 10));
         btnFirst.setEnabled(false);
-        btnFirst.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                goFirst(evt);
-            }
-        });
+        btnFirst.addActionListener(this::goFirst);
 
         naviBtnPanel.add(btnFirst);
 
         btnPrev.setEnabled(false);
-        btnPrev.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                goPrev(evt);
-            }
-        });
+        btnPrev.addActionListener(this::goPrev);
 
         naviBtnPanel.add(btnPrev);
 
         btnNext.setEnabled(false);
-        btnNext.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                goNext(evt);
-            }
-        });
+        btnNext.addActionListener(this::goNext);
 
         naviBtnPanel.add(btnNext);
 
         btnLast.setEnabled(false);
-        btnLast.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                goLast(evt);
-            }
-        });
+        btnLast.addActionListener(this::goLast);
 
         naviBtnPanel.add(btnLast);
 

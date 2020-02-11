@@ -421,12 +421,7 @@ abstract class DeskView {
                 synchronized (allFrames) {
                     if (allFrames.remove(frame) && allFrames.isEmpty()) {
                         // defer until outstanding events are processed
-                        EventQueue.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                ExitCount.dec();
-                            }
-                        });
+                        EventQueue.invokeLater(ExitCount::dec);
                     }
                 }
             }

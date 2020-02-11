@@ -272,13 +272,7 @@ class QuickStartWizard extends ToolDialog {
         nextBtn = uif.createButton("qsw.next", listener);
         doneBtn = uif.createButton("qsw.done", listener);
         JButton cancelBtn = uif.createCancelButton("qsw.cancel");
-        cancelBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                closeExecTool(e);
-            }
-
-        });
+        cancelBtn.addActionListener(this::closeExecTool);
         setPane(taskPane);
         setButtons(new JButton[]{backBtn, nextBtn, doneBtn, cancelBtn}, null);
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);

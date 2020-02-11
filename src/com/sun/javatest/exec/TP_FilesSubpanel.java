@@ -68,12 +68,7 @@ class TP_FilesSubpanel extends TP_Subpanel {
             if (EventQueue.isDispatchThread()) {
                 updateFiles();
             } else {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateFiles();
-                    }
-                });
+                SwingUtilities.invokeLater(this::updateFiles);
             }
         }
     }

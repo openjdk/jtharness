@@ -666,12 +666,7 @@ public class Desktop {
      */
     public void addDefaultTool() {
         if (!EventQueue.isDispatchThread()) {
-            invokeOnEventThread(new Runnable() {
-                @Override
-                public void run() {
-                    addDefaultTool();
-                }
-            });
+            invokeOnEventThread(this::addDefaultTool);
             return;
         }
 

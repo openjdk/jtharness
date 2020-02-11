@@ -89,12 +89,7 @@ public abstract class TestFinder {
         // this is the default
         final Collator c = Collator.getInstance(Locale.US);
         c.setStrength(Collator.PRIMARY);
-        return new Comparator<String>() {
-            @Override
-            public int compare(String s1, String s2) {
-                return c.compare(s1, s2);
-            }
-        };
+        return c::compare;
     }
 
     /**

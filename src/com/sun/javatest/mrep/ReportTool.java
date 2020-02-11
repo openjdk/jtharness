@@ -170,12 +170,7 @@ class ReportTool extends Tool {
 
     void updateGUI() {
         if (!EventQueue.isDispatchThread()) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    updateGUI();
-                }
-            });
+            EventQueue.invokeLater(this::updateGUI);
             return;
         }
 
