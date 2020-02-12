@@ -31,6 +31,7 @@ import com.sun.javatest.util.Debug;
 import com.sun.javatest.util.I18NResourceBundle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -947,6 +948,32 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
         // accepted
         return -1;
+    }
+
+    @Override
+    public String toString() {
+        return "TRT_Iterator{" +
+                "p=" + p +
+                ", outQueueLock=" + outQueueLock +
+                ", debug=" + debug +
+                ", recordRejectTR=" + recordRejectTR +
+                ", initialTests=" + Arrays.toString(initialTests) +
+                ", outQueue=" + outQueue +
+                ", nodes=" + Arrays.toString(nodes) +
+                ", nodeIndex=" + nodeIndex +
+                ", filters=" + Arrays.toString(filters) +
+                ", resultStats=" + Arrays.toString(resultStats) +
+                ", absoluteCount=" + absoluteCount +
+                ", rejectCount=" + rejectCount +
+                ", recordRejects=" + recordRejects +
+                ", filteredTRs=" + filteredTRs +
+                ", currentResult=" + currentResult +
+                ", rejLock=" + rejLock +
+                ", fo=" + fo +
+                ", stack=" + stack +
+                ", currFrame=" + currFrame +
+                ", finished=" + finished +
+                '}';
     }
 
     // INNER CLASS
