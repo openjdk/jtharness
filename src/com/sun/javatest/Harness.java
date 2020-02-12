@@ -895,36 +895,40 @@ public class Harness {
     public interface Observer {
         /**
          * The harness is beginning to execute tests.
+         * Default implementation does nothing.
          *
          * @param params the parameters for the test run
          */
-        void startingTestRun(Parameters params);
+        default void startingTestRun(Parameters params) {}
 
         /**
          * The harness is about to run the given test.
+         * Default implementation does nothing.
          *
          * @param tr The test result which is going to receive the data
          *           from the current execution of that test.
          */
-        void startingTest(TestResult tr);
+        default void startingTest(TestResult tr) {}
 
         /**
          * The harness has finished running the given test.
          * This message is sent without respect to the resulting test's
          * completion status (pass, fail, etc...).
+         * Default implementation does nothing.
          *
          * @param tr The result object containing the results from the
          *           execution which was just completed.
          */
-        void finishedTest(TestResult tr);
+        default void finishedTest(TestResult tr) {}
 
         /**
          * The harness is about to stop a test run, before it has finished
          * executing all the specified tests. The method is not notified if
          * the test run completes normally, after executing all the specified
          * tests.
+         * Default implementation does nothing.
          */
-        void stoppingTestRun();
+        default void stoppingTestRun() {}
 
         /**
          * The harness has finished running tests and is doing other activities
@@ -933,15 +937,17 @@ public class Harness {
          * a test completes normally. It may provide a reasonable opportunity
          * for a client to clean up any resources that were used during the test
          * run, before a new run is started.
+         * Default implementation does nothing.
          * @deprecated it is recommended to override {@code finishedTesting(TestResultTable.TreeIterator)} instead
          */
-        default void finishedTesting() {};
+        default void finishedTesting() {}
 
         /**
          * An enhanced new version of {@code finishedTesting} method
          * that allows to evaluate given {@code TestResultTable.TreeIterator} instance and get
          * any extra info about the finished test run.
          * Both versions of this method would be called after test run is finished.
+         * Default implementation does nothing.
          */
         default void finishedTesting(TestResultTable.TreeIterator treeIterator) {}
 
@@ -952,17 +958,19 @@ public class Harness {
          * perform another test run. Note that since the actions of other observers
          * are undefined, a new test run may have already been started by the time
          * this method is called for any specific observer.
+         * Default implementation does nothing.
          *
          * @param allOK True if all tests passed, false otherwise.
          */
-        void finishedTestRun(boolean allOK);
+        default void finishedTestRun(boolean allOK) {}
 
         /**
          * The given error occurred.
+         * Default implementation does nothing.
          *
          * @param msg A description of the error event.
          */
-        void error(String msg);
+        default void error(String msg) {}
     }
 
     /**
