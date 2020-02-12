@@ -788,7 +788,10 @@ public class Harness {
 
         finishTime = System.currentTimeMillis();
 
-        notifier.finishedTesting();
+        // calling only this version of ::finishedTesting - implemented by Notifier,
+        // it performs further notification of observers.
+        // The no-arg version of this method is not overridden by Notifier - so does nothing.
+        notifier.finishedTesting(testIter);
 
         // calculate number of tests executed
         // NOTE: the stats here don't indicate what the results of the test run were
@@ -930,8 +933,17 @@ public class Harness {
          * a test completes normally. It may provide a reasonable opportunity
          * for a client to clean up any resources that were used during the test
          * run, before a new run is started.
+         * @deprecated it is recommended to override {@code finishedTesting(TestResultTable.TreeIterator)} instead
          */
-        void finishedTesting();
+        default void finishedTesting() {};
+
+        /**
+         * An enhanced new version of {@code finishedTesting} method
+         * that allows to evaluate given {@code TestResultTable.TreeIterator} instance and get
+         * any extra info about the finished test run.
+         * Both versions of this method would be called after test run is finished.
+         */
+        default void finishedTesting(TestResultTable.TreeIterator treeIterator) {}
 
         /**
          * The test run has been completed, either because the user requested
@@ -1085,13 +1097,14 @@ public class Harness {
         }
 
         @Override
-        public void finishedTesting() {
+        public void finishedTesting(TestResultTable.TreeIterator treeIterator) {
             resultTable.finished();
 
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
             for (int i = stableObservers.length - 1; i >= 0; i--) {
                 stableObservers[i].finishedTesting();
+                stableObservers[i].finishedTesting(treeIterator);
             }
         }
 
