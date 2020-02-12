@@ -111,6 +111,11 @@ class RunTestsCommand extends Command {
                 ctx.printErrorMessage(i18n, "runTests.warnError");
             }
 
+            int[] boStats = bo.getStats();
+            // enhancing stats after the run by adding number of rejected tests - that were filtered out
+            // due to different reasons - keywords, exclude list etc.
+            boStats[Status.NOT_RUN] = harness.getTestIterator().getRejectCount();
+
             if (!ctx.isVerboseQuiet()) {
                 long tt = h.getElapsedTime();
                 long setupT = h.getTotalSetupTime();
@@ -119,7 +124,7 @@ class RunTestsCommand extends Command {
                 ctx.printMessage(i18n, "runTests.setupTime", setupT / 1000L);
                 ctx.printMessage(i18n, "runTests.cleanupTime", cleanupT / 1000L);
 
-                showResultStats(bo.getStats());
+                showResultStats(boStats);
             }
 
 
@@ -128,18 +133,17 @@ class RunTestsCommand extends Command {
             if (testsFound > 0 && !ctx.isVerboseQuiet()) {
                 ctx.printMessage(i18n, "runTests.resultsDone", p.getWorkDirectory().getPath());
             }
-            int[] stats = bo.getStats();
 
             if (!ok) {
                 if (testsFound > 0 &&
-                        testsFound != stats[Status.PASSED]) {
+                        testsFound != boStats[Status.PASSED]) {
                     // some tests are actually not passed, print
                     // appropriate message
                     ctx.printErrorMessage(i18n, "runTests.testsFailed");
                 }
             }
 
-            ctx.addTestStats(stats);
+            ctx.addTestStats(boStats);
         } catch (Harness.Fault e) {
             throw new Fault(i18n, "runTests.harnessError", e.getMessage());
         }
@@ -149,7 +153,7 @@ class RunTestsCommand extends Command {
         int passed = stats[Status.PASSED];
         int failed = stats[Status.FAILED];
         int errors = stats[Status.ERROR];
-        int notRun = stats[Status.NOT_RUN] = harness.getTestsFoundCount() - passed - failed - errors;
+        int notRun = stats[Status.NOT_RUN];
 
         if (passed + failed + errors + notRun == 0) {
             ctx.printMessage(i18n, "runTests.noTests");
