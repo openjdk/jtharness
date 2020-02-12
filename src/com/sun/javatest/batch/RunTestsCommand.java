@@ -149,15 +149,28 @@ class RunTestsCommand extends Command {
         int passed = stats[Status.PASSED];
         int failed = stats[Status.FAILED];
         int errors = stats[Status.ERROR];
-        int notRun = stats[Status.NOT_RUN] =
-                harness.getTestsFoundCount() - passed - failed - errors;
-
+        int notRun = stats[Status.NOT_RUN] = harness.getTestsFoundCount() - passed - failed - errors;
 
         if (passed + failed + errors + notRun == 0) {
             ctx.printMessage(i18n, "runTests.noTests");
         } else {
+            // runTests.tests=Test results:
+            // {0,choice,0#|0<passed: {0,number}}
+            // {1,choice,0#|1#; }
+            // {2,choice,0#|0<failed: {2,number}}
+            // {3,choice,0#|1#; }
+            // {4,choice,0#|0<error: {4,number}}
+            // {5,choice,0#|1#; }
+            // {6,choice,0#|0<not run:
+            // {6,number}}
             ctx.printMessage(i18n, "runTests.tests",
-                    Integer.valueOf(passed), Integer.valueOf((passed > 0) && (failed + errors + notRun > 0) ? 1 : 0), Integer.valueOf(failed), Integer.valueOf((failed > 0) && (errors + notRun > 0) ? 1 : 0), Integer.valueOf(errors), Integer.valueOf((errors > 0) && (notRun > 0) ? 1 : 0), Integer.valueOf(notRun));
+                    Integer.valueOf(passed),
+                    Integer.valueOf((passed > 0) && (failed + errors + notRun > 0) ? 1 : 0),
+                    Integer.valueOf(failed),
+                    Integer.valueOf((failed > 0) && (errors + notRun > 0) ? 1 : 0),
+                    Integer.valueOf(errors),
+                    Integer.valueOf((errors > 0) && (notRun > 0) ? 1 : 0),
+                    Integer.valueOf(notRun));
         }
     }
 
