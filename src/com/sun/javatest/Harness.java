@@ -608,6 +608,14 @@ public class Harness {
     }
 
     /**
+     * Returns test tree iterator containing useful info and stats about the test run
+     * @return test tree iterator containing test run data
+     */
+    public TreeIterator getTestIterator() {
+        return testIter;
+    }
+
+    /**
      * Set the threshold for automatic halting of a test run.
      * The current algorithm is to begin at zero, add one for every failure,
      * five for every error and subtract two for each pass.  This value must be
