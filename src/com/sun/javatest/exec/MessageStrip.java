@@ -186,10 +186,6 @@ class MessageStrip extends JSplitPane
     }
 
     @Override
-    public void finishedTest(TestResult tr) {
-    }
-
-    @Override
     public void stoppingTestRun() {
         setText(leftField, uif.getI18NString("strip.stop"));
     }
@@ -206,10 +202,6 @@ class MessageStrip extends JSplitPane
         if (clearTimer != null) {
             clearTimer.stop();
         }
-    }
-
-    @Override
-    public void error(String msg) {
     }
 
     void showMessage(ResourceBundle msgs, String key) {

@@ -1004,33 +1004,10 @@ public class Harness {
         }
 
         @Override
-        public void startingTestRun(Parameters p) {
-        }
-
-        @Override
         public synchronized void startingTest(TestResult tr) {
             testURLs.add(tr.getTestName());
         }
 
-        @Override
-        public void finishedTest(TestResult tr) {
-        }
-
-        @Override
-        public void stoppingTestRun() {
-        }
-
-        @Override
-        public void finishedTesting() {
-        }
-
-        @Override
-        public void finishedTestRun(boolean allOK) {
-        }
-
-        @Override
-        public void error(String msg) {
-        }
     }
 
     private class Notifier implements Harness.Observer {
@@ -1152,14 +1129,6 @@ public class Harness {
         }
 
         @Override
-        public void startingTestRun(Parameters p) {
-        }
-
-        @Override
-        public void startingTest(TestResult tr) {
-        }
-
-        @Override
         public void finishedTest(TestResult tr) {
             switch (tr.getStatus().getType()) {
                 case Status.FAILED:
@@ -1177,20 +1146,5 @@ public class Harness {
             }
         }
 
-        @Override
-        public void stoppingTestRun() {
-        }
-
-        @Override
-        public void finishedTesting() {
-        }
-
-        @Override
-        public void finishedTestRun(boolean allOK) {
-        }
-
-        @Override
-        public void error(String msg) {
-        }
     }
 }

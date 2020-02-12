@@ -396,10 +396,6 @@ class TestPanel extends JPanel {
     }
 
     private class Observer implements Harness.Observer, TestResult.Observer {
-        // ---------- Harness.Observer ----------
-        @Override
-        public void startingTestRun(Parameters params) {
-        }
 
         @Override
         public void startingTest(TestResult tr) {
@@ -422,22 +418,6 @@ class TestPanel extends JPanel {
                 updatePanel(tr, currPanel);
                 updateCustomPanels(tr, currPanel);
             }
-        }
-
-        @Override
-        public void stoppingTestRun() {
-        }
-
-        @Override
-        public void finishedTesting() {
-        }
-
-        @Override
-        public void finishedTestRun(boolean allOK) {
-        }
-
-        @Override
-        public void error(String msg) {
         }
 
         // ----- TestResult.Observer interface -----

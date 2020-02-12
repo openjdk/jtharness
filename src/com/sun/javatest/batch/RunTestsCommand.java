@@ -196,24 +196,8 @@ class RunTestsCommand extends Command {
         }
 
         @Override
-        public void startingTest(TestResult tr) {
-        }
-
-        @Override
         public void finishedTest(TestResult tr) {
             stats[tr.getStatus().getType()]++;
-        }
-
-        @Override
-        public void stoppingTestRun() {
-        }
-
-        @Override
-        public void finishedTesting() {
-        }
-
-        @Override
-        public void finishedTestRun(boolean allOK) {
         }
 
         @Override

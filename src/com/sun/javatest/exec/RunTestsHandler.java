@@ -645,22 +645,6 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         }
 
         @Override
-        public void startingTest(TestResult tr) {
-        }
-
-        @Override
-        public void finishedTest(TestResult tr) {
-        }
-
-        @Override
-        public void stoppingTestRun() {
-        }
-
-        @Override
-        public void finishedTesting() {
-        }
-
-        @Override
         public void finishedTestRun(boolean allOK) {
             EventQueue.invokeLater(new Runnable() {
                 @Override

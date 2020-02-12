@@ -650,25 +650,6 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
             ltrFilter.addTestURL(tr.getTestName());
         }
 
-        @Override
-        public void finishedTest(TestResult tr) {
-        }
-
-        @Override
-        public void stoppingTestRun() {
-        }
-
-        @Override
-        public void finishedTesting() {
-        }
-
-        @Override
-        public void finishedTestRun(boolean allOK) {
-        }
-
-        @Override
-        public void error(String msg) {
-        }
     }
 }
 

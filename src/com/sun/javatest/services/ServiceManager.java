@@ -318,11 +318,6 @@ public class ServiceManager implements Harness.Observer {
     }
 
     @Override
-    public void finishedTest(TestResult tr) {
-        // Needs do nothing here for now;
-    }
-
-    @Override
     public void stoppingTestRun() {
         stopServices();
     }
@@ -331,16 +326,6 @@ public class ServiceManager implements Harness.Observer {
     public void finishedTesting() {
         // Decided it's better to stop services right after test execution
         stopServices();
-    }
-
-    @Override
-    public void finishedTestRun(boolean allOK) {
-        // Or is it better to stop services after all post-processing done?
-    }
-
-    @Override
-    public void error(String msg) {
-        // Ignore test errors
     }
 
     /**

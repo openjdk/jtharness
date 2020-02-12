@@ -2200,14 +2200,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
         }
 
         @Override
-        public void stoppingTestRun() {
-        }
-
-        @Override
-        public void finishedTesting() {
-        }
-
-        @Override
         public void finishedTestRun(boolean allOK) {
             runningTests.clear();
             activeNodes.clear();
@@ -2217,10 +2209,6 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             refreshMI.setEnabled(true);
 
             tree.repaint();     // we're allowed to call this on any thread
-        }
-
-        @Override
-        public void error(String msg) {
         }
 
         // TestResultTable.Observer

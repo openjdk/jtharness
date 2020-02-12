@@ -558,33 +558,9 @@ class HarnessHttpHandler extends JThttpProvider
         out.println("</Table>");
     }
 
-    // ------------ Harness.Observer ------------
-    @Override
-    public void startingTestRun(Parameters params) {
-    }
-
-    @Override
-    public void startingTest(TestResult tr) {
-    }
-
     @Override
     public void finishedTest(TestResult tr) {
         stats[tr.getStatus().getType()]++;
     }
 
-    @Override
-    public void stoppingTestRun() {
-    }
-
-    @Override
-    public void finishedTesting() {
-    }
-
-    @Override
-    public void finishedTestRun(boolean allOK) {
-    }
-
-    @Override
-    public void error(String msg) {
-    }
 }

@@ -307,29 +307,10 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
             }
 
             @Override
-            public void startingTest(TestResult tr) {
-            }
-
-            @Override
-            public void finishedTest(TestResult tr) {
-            }
-
-            @Override
-            public void stoppingTestRun() {
-            }
-
-            @Override
-            public void finishedTesting() {
-            }
-
-            @Override
             public void finishedTestRun(boolean allOK) {
                 newReportAction.setEnabled(true);
             }
 
-            @Override
-            public void error(String msg) {
-            }
         });
     }
 

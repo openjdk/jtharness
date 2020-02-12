@@ -296,10 +296,6 @@ class MonitorState {
             notifyComplete(allOk);
         }
 
-        @Override
-        public void error(String msg) {
-        }
-
         // --------- private ----------
         private void notifySimple(final int which) {
             if (!EventQueue.isDispatchThread()) {
