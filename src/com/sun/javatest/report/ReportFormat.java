@@ -66,9 +66,13 @@ interface ReportFormat {
 
         @Override
         public String toString() {
-            return "ID=" + linkID + " FILE=" + linkFile;
+            return "ReportLink{" +
+                    "linkText='" + linkText + '\'' +
+                    ", linkID='" + linkID + '\'' +
+                    ", linkFile=" + linkFile +
+                    ", linkDesk='" + linkDesk + '\'' +
+                    '}';
         }
-
     }
 
 }
