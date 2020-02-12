@@ -146,18 +146,18 @@ class RunTestsCommand extends Command {
     }
 
     private void showResultStats(int... stats) {
-        int p = stats[Status.PASSED];
-        int f = stats[Status.FAILED];
-        int e = stats[Status.ERROR];
-        int nr = stats[Status.NOT_RUN] =
-                harness.getTestsFoundCount() - p - f - e;
+        int passed = stats[Status.PASSED];
+        int failed = stats[Status.FAILED];
+        int errors = stats[Status.ERROR];
+        int notRun = stats[Status.NOT_RUN] =
+                harness.getTestsFoundCount() - passed - failed - errors;
 
 
-        if (p + f + e + nr == 0) {
+        if (passed + failed + errors + notRun == 0) {
             ctx.printMessage(i18n, "runTests.noTests");
         } else {
             ctx.printMessage(i18n, "runTests.tests",
-                    Integer.valueOf(p), Integer.valueOf((p > 0) && (f + e + nr > 0) ? 1 : 0), Integer.valueOf(f), Integer.valueOf((f > 0) && (e + nr > 0) ? 1 : 0), Integer.valueOf(e), Integer.valueOf((e > 0) && (nr > 0) ? 1 : 0), Integer.valueOf(nr));
+                    Integer.valueOf(passed), Integer.valueOf((passed > 0) && (failed + errors + notRun > 0) ? 1 : 0), Integer.valueOf(failed), Integer.valueOf((failed > 0) && (errors + notRun > 0) ? 1 : 0), Integer.valueOf(errors), Integer.valueOf((errors > 0) && (notRun > 0) ? 1 : 0), Integer.valueOf(notRun));
         }
     }
 
