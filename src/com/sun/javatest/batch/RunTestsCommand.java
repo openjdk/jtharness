@@ -114,7 +114,11 @@ class RunTestsCommand extends Command {
             int[] boStats = bo.getStats();
             // enhancing stats after the run by adding number of rejected tests - that were filtered out
             // due to different reasons - keywords, exclude list etc.
-            boStats[Status.NOT_RUN] = harness.getTestIterator().getRejectCount();
+            // also adding a number of found tests that were not run for some reason other than rejection
+            int notFoundSinceRejected = harness.getTestIterator().getRejectCount();
+            int foundButNotRun =
+                    harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
+            boStats[Status.NOT_RUN] = notFoundSinceRejected + foundButNotRun;
 
             if (!ctx.isVerboseQuiet()) {
                 long tt = h.getElapsedTime();
