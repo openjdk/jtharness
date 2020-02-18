@@ -41,6 +41,11 @@ public class InitUrl2 extends TestSuiteRunningTestBase {
     }
 
     @Override
+    protected int[] getExpectedTestRunFinalStats() {
+        return new int[]{1, 1, 0, 0};
+    }
+
+    @Override
     protected String[] getExpectedLinesInTestrunSummary() {
         return new String[] {
                 "comp/foo/set2.html#CompSuccMulti  Passed. exit code 0",

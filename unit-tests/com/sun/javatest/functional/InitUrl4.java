@@ -41,6 +41,12 @@ public class InitUrl4 extends TestSuiteRunningTestBase {
     }
 
     @Override
+    protected int[] getExpectedTestRunFinalStats() {
+        return new int[]{0, 0, 0, 11};
+    }
+
+
+    @Override
     protected String[] getExpectedLinesInTestrunSummary() {
         return new String[]{};
     }

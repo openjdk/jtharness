@@ -38,9 +38,14 @@ public class InitUrl5_allTestsFilteredOut extends TestSuiteRunningTestBase {
 
     @Test
     public void test() throws IOException {
-
         runJavaTest();
     }
+
+    @Override
+    protected int[] getExpectedTestRunFinalStats() {
+        return new int[]{0, 0, 0, 1};
+    }
+
 
     @Override
     protected String[] getExpectedLinesInTestrunSummary() {

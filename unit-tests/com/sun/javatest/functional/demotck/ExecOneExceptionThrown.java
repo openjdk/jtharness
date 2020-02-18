@@ -42,6 +42,12 @@ public class ExecOneExceptionThrown extends TestSuiteRunningTestBase {
     }
 
     @Override
+    protected int[] getExpectedTestRunFinalStats() {
+        return new int[]{0, 1, 0, 0};
+    }
+
+
+    @Override
     protected String[] getExpectedLinesInTestrunSummary() {
         return new String[]{
                 "exec/index.html#ExecFailRuntimExc  Failed. exit code 1"

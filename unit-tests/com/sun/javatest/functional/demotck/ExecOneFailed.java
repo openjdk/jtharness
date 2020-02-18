@@ -42,14 +42,20 @@ public class ExecOneFailed extends TestSuiteRunningTestBase {
     }
 
     @Override
+    protected int[] getExpectedTestRunFinalStats() {
+        return new int[]{0, 1, 0, 0};
+    }
+
+
+    @Override
     protected String[] getExpectedLinesInTestrunSummary() {
         return new String[]{
-                "exec/index.html#ExecSucc  Passed. This test has passed"
+                "exec/index.html#ExecFail  Failed. This test intentionally fails"
         };
     }
 
     protected List<String> getTailArgs() {
-        return Arrays.asList("exec/index.html#ExecSucc");
+        return Arrays.asList("exec/index.html#ExecFail");
     }
 
     protected String getEnvName() {

@@ -42,8 +42,13 @@ public class InitUrl1 extends TestSuiteRunningTestBase {
     }
 
     @Override
+    protected int[] getExpectedTestRunFinalStats() {
+        return new int[]{4, 2, 1, 0};
+    }
+
+    @Override
     protected String[] getExpectedLinesInTestrunSummary() {
-        return new String[] {
+        return new String[]{
                 "comp/index.html#CompError      Error. no sources specified in test description",
                 "comp/index.html#CompFail       Failed. exit code 1",
                 "comp/index.html#CompFailExp    Passed. compilation failed as expected [exit code 1]",

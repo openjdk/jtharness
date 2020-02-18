@@ -29,6 +29,7 @@ package com.sun.javatest.functional;
 
 import com.sun.javatest.Harness;
 import com.sun.javatest.JavaTestSecurityManager;
+import com.sun.javatest.Status;
 import com.sun.javatest.TU;
 import com.sun.javatest.report.Report;
 import com.sun.javatest.tool.Desktop;
@@ -75,6 +76,13 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
 
         com.sun.javatest.tool.Main.main(args.toArray(new String[args.size()]));
         checkLinesInSummary(getExpectedLinesInTestrunSummary());
+
+        int[] expectedTestRunFinalStats = getExpectedTestRunFinalStats();
+        int passed = expectedTestRunFinalStats[Status.PASSED];
+        int failed = expectedTestRunFinalStats[Status.FAILED];
+        int error = expectedTestRunFinalStats[Status.ERROR];
+        int notRun = expectedTestRunFinalStats[Status.NOT_RUN];
+        TestObserver.assertFinalStats(passed, failed, error, notRun);
     }
 
     protected abstract List<String> getTailArgs();
@@ -86,6 +94,8 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
     protected abstract String getTestsuiteName();
 
     protected abstract String[] getExpectedLinesInTestrunSummary();
+
+    protected abstract int[] getExpectedTestRunFinalStats();
 
     @Before
     public void setup() throws IOException {
