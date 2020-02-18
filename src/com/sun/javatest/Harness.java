@@ -86,6 +86,7 @@ public class Harness {
     private long testsStartTime = -1L;
     private boolean isBatchRun;
     private boolean stopping;
+    public static final String DEBUG_OBSERVER_CLASSNAME_SYS_PROP = "com.sun.javatest.Harness.DEBUG_OBSERVER";
 
     {
         Integer i = Integer.getInteger("javatest.autostop.threshold");
@@ -117,6 +118,17 @@ public class Harness {
         if (!Boolean.getBoolean("javatest.noTraceRequired")) {
             trace = new Trace(backupPolicy);
             addObserver(trace);
+        }
+
+        String debugObserverClassName = System.getProperty(DEBUG_OBSERVER_CLASSNAME_SYS_PROP);
+        if (debugObserverClassName != null) {
+            try {
+                Observer debugObserverInstance =
+                        Class.forName(debugObserverClassName).asSubclass(Observer.class).getConstructor().newInstance();
+                addObserver(debugObserverInstance);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to instantiate debug observer: " + debugObserverClassName);
+            }
         }
 
         // web server
