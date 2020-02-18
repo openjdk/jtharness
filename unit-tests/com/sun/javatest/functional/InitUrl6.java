@@ -35,16 +35,18 @@ import java.util.List;
 
 public class InitUrl6 extends TestSuiteRunningTestBase {
 
-
     @Test
     public void test() throws IOException {
+        runJavaTest();
+    }
 
-    runJavaTest();
-        checkLinesInSummary(
+    @Override
+    protected String[] getExpectedLinesInTestrunSummary() {
+        return new String[]{
                 "comp/index.html#CompSucc       Passed. exit code 0",
                 "comp/index.html#CompSuccMulti  Passed. exit code 0",
                 "comp/index.html#CompSuccUnexp  Failed. compilation did not fail as expected [exit code 0]"
-        );
+        };
     }
 
     @Override

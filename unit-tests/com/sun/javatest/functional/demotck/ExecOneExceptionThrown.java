@@ -39,9 +39,13 @@ public class ExecOneExceptionThrown extends TestSuiteRunningTestBase {
     @Test
     public void test() throws IOException {
         runJavaTest();
-        checkLinesInSummary(
+    }
+
+    @Override
+    protected String[] getExpectedLinesInTestrunSummary() {
+        return new String[]{
                 "exec/index.html#ExecFailRuntimExc  Failed. exit code 1"
-        );
+        };
     }
 
     protected List<String> getTailArgs() {

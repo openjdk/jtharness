@@ -39,9 +39,13 @@ public class ExecOneFailed extends TestSuiteRunningTestBase {
     @Test
     public void test() throws IOException {
         runJavaTest();
-        checkLinesInSummary(
+    }
+
+    @Override
+    protected String[] getExpectedLinesInTestrunSummary() {
+        return new String[]{
                 "exec/index.html#ExecSucc  Passed. This test has passed"
-        );
+        };
     }
 
     protected List<String> getTailArgs() {

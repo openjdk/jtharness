@@ -39,9 +39,13 @@ public class ExecArgs extends TestSuiteRunningTestBase {
     @Test
     public void test() throws IOException {
         runJavaTest();
-        checkLinesInSummary(
+    }
+
+    @Override
+    protected String[] getExpectedLinesInTestrunSummary() {
+        return new String[] {
                 "exec/index.html#ExecArgs  Passed. Running test with arg verification was successful"
-        );
+        };
     }
 
     protected List<String> getTailArgs() {

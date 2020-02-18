@@ -35,17 +35,20 @@ import java.util.List;
 
 public class InitUrl5_filteringOutFailingWithAKeyword extends TestSuiteRunningTestBase {
 
-
     @Test
     public void test() throws IOException {
 
         runJavaTest();
-        checkLinesInSummary(
+        TestObserver.assertFinalStats(3, 0, 0, 3);
+    }
+
+    @Override
+    protected String[] getExpectedLinesInTestrunSummary() {
+        return new String[] {
                 "comp/foo/set1.html#CompSucc       Passed. exit code 0",
                 "comp/foo/set2.html#CompSuccMulti  Passed. exit code 0",
                 "comp/index.html#CompFailExp       Passed. compilation failed as expected [exit code 1]"
-        );
-        TestObserver.assertFinalStats(3, 0, 0, 3);
+        };
     }
 
     @Override

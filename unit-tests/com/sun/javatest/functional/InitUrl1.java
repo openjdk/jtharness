@@ -38,10 +38,12 @@ public class InitUrl1 extends TestSuiteRunningTestBase {
 
     @Test
     public void test() throws IOException {
-
         runJavaTest();
+    }
 
-        checkLinesInSummary(
+    @Override
+    protected String[] getExpectedLinesInTestrunSummary() {
+        return new String[] {
                 "comp/index.html#CompError      Error. no sources specified in test description",
                 "comp/index.html#CompFail       Failed. exit code 1",
                 "comp/index.html#CompFailExp    Passed. compilation failed as expected [exit code 1]",
@@ -49,7 +51,7 @@ public class InitUrl1 extends TestSuiteRunningTestBase {
                 "comp/index.html#CompSuccMulti  Passed. exit code 0",
                 "comp/index.html#CompSuccUnexp  Failed. compilation did not fail as expected [exit code 0]",
                 "exec/index.html#ExecSucc       Passed. This test has passed"
-        );
+        };
     }
 
     @Override

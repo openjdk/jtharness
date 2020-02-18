@@ -40,7 +40,11 @@ public class InitUrl5_allTestsFilteredOut extends TestSuiteRunningTestBase {
     public void test() throws IOException {
 
         runJavaTest();
-        checkLinesInSummary();
+    }
+
+    @Override
+    protected String[] getExpectedLinesInTestrunSummary() {
+        return new String[] {};
     }
 
     @Override

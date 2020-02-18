@@ -35,12 +35,14 @@ import java.util.List;
 
 public class InitUrl4 extends TestSuiteRunningTestBase {
 
-
     @Test
     public void test() throws IOException {
-
         runJavaTest();
-        checkLinesInSummary();
+    }
+
+    @Override
+    protected String[] getExpectedLinesInTestrunSummary() {
+        return new String[]{};
     }
 
     @Override

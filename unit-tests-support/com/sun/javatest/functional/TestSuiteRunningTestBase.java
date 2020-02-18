@@ -74,7 +74,7 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
         args.addAll(getTailArgs());
 
         com.sun.javatest.tool.Main.main(args.toArray(new String[args.size()]));
-
+        checkLinesInSummary(getExpectedLinesInTestrunSummary());
     }
 
     protected abstract List<String> getTailArgs();
@@ -84,6 +84,8 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
     protected abstract String getEnvfileName();
 
     protected abstract String getTestsuiteName();
+
+    protected abstract String[] getExpectedLinesInTestrunSummary();
 
     @Before
     public void setup() throws IOException {
