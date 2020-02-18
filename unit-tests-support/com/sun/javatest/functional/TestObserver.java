@@ -27,47 +27,32 @@
 
 package com.sun.javatest.functional;
 
-import org.junit.Test;
+import com.sun.javatest.Harness;
+import com.sun.javatest.Parameters;
+import com.sun.javatest.Status;
+import com.sun.javatest.TestResult;
+import com.sun.javatest.TestResultTable;
+import junit.framework.Assert;
 
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
-public class InitUrl5_filteringOutFailingWithAKeyword extends TestSuiteRunningTestBase {
+public class TestObserver implements Harness.Observer {
 
-
-    @Test
-    public void test() throws IOException {
-
-        runJavaTest();
-        checkLinesInSummary(
-                "comp/foo/set1.html#CompSucc       Passed. exit code 0",
-                "comp/foo/set2.html#CompSuccMulti  Passed. exit code 0",
-                "comp/index.html#CompFailExp       Passed. compilation failed as expected [exit code 1]"
-        );
-        TestObserver.assertFinalStats(3, 0, 0, 3);
-    }
+    private static int[] stats = {-1, -1, -1, -1};
 
     @Override
-    protected List<String> getTailArgs() {
-        // using 'ShouldPass' keyword and dispite the fact one test fails
-        return Arrays.asList("-keywords", "ShouldPass", "comp");
+    public void notifyOfTheFinalStats(int[] stats) {
+        this.stats = stats;
     }
 
-    @Override
-    protected String getEnvName() {
-        return "initurl";
+    public static int[] getStats() {
+        return stats;
     }
 
-    @Override
-    protected String getEnvfileName() {
-        return "initurl.jte";
+    public static void assertFinalStats(int passed, int failed, int errors, int notRun) {
+        Assert.assertEquals("Unexpected number of PASSED tests", passed, stats[Status.PASSED]);
+        Assert.assertEquals("Unexpected number of FAILED tests", failed, stats[Status.FAILED]);
+        Assert.assertEquals("Unexpected number of ERROR tests", errors, stats[Status.ERROR]);
+        Assert.assertEquals("Unexpected number of NOT_RUN tests", notRun, stats[Status.NOT_RUN]);
     }
-
-    @Override
-    protected String getTestsuiteName() {
-        return "initurl";
-    }
-
-
 }

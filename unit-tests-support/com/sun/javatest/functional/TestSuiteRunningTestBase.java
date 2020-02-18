@@ -27,6 +27,7 @@
 
 package com.sun.javatest.functional;
 
+import com.sun.javatest.Harness;
 import com.sun.javatest.JavaTestSecurityManager;
 import com.sun.javatest.TU;
 import com.sun.javatest.report.Report;
@@ -37,7 +38,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -109,6 +109,9 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
                 "com.sun.javatest.agent.AgentMonitorToolManager," +
                         "com.sun.javatest.exec.ExecToolManager," +
                         "com.sun.javatest.mrep.ReportToolManager");
+
+        System.setProperty(Harness.DEBUG_OBSERVER_CLASSNAME_SYS_PROP,
+                "com.sun.javatest.functional.TestObserver");
 
         Path reportDir = createTempDirectory("jt-report-");
         reportDirAbsPath = reportDir.toAbsolutePath().toString();
