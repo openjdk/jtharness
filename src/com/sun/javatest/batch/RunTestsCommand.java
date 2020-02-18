@@ -120,6 +120,8 @@ class RunTestsCommand extends Command {
                     harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
             boStats[Status.NOT_RUN] = notFoundSinceRejected + foundButNotRun;
 
+            h.notifyOfTheFinalStats(boStats);
+
             if (!ctx.isVerboseQuiet()) {
                 long tt = h.getElapsedTime();
                 long setupT = h.getTotalSetupTime();

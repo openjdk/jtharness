@@ -896,6 +896,15 @@ public class Harness {
     private void notifyLocalizedError(String msg) {
         notifier.error(msg);
     }
+
+    /**
+     * Informs all the observers of the final stats gathered after the test run
+     * @param stats status type is the number of element, value is the number or tests with that type of status
+     */
+    public void notifyOfTheFinalStats(int... stats) {
+        notifier.notifyOfTheFinalStats(stats);
+    }
+
     /**
      * This interface provides a means for Harness to report
      * on events that might be of interest as it executes.
@@ -979,6 +988,12 @@ public class Harness {
          * @param msg A description of the error event.
          */
         default void error(String msg) {}
+
+        /**
+         * Is called when final test run stats are available for evaluation.
+         * @param stats status type is the number of element, value is the number or tests with that type of status
+         */
+        default void notifyOfTheFinalStats(int... stats) {}
     }
 
     /**
@@ -1116,6 +1131,15 @@ public class Harness {
             Observer[] stableObservers = observers;
             for (int i = stableObservers.length - 1; i >= 0; i--) {
                 stableObservers[i].error(msg);
+            }
+        }
+
+        @Override
+        public void notifyOfTheFinalStats(int... stats) {
+            // protect against removing observers during notification
+            Observer[] stableObservers = observers;
+            for (int i = stableObservers.length - 1; i >= 0; i--) {
+                stableObservers[i].notifyOfTheFinalStats(stats);
             }
         }
 
