@@ -232,14 +232,14 @@ public class ReportManager
                 }
             }
 
-            InterviewParameters p = getConfig(ctx);
+            InterviewParameters interviewParameters = getConfig(ctx);
             TestFilter filterO = null;
 
             if (filter == null || filter.equalsIgnoreCase("currentConfig")) {
                 // must specially add the Tests to Run filter
-                // see javadoc for p.getTests()
+                // see javadoc for interviewParameters.getTests()
                 ParameterFilter pFilter = new ParameterFilter();
-                pFilter.update(p);
+                pFilter.update(interviewParameters);
                 filterO = pFilter;
             } else if (filter.equalsIgnoreCase("allTests")) {
                 filterO = new AllTestsFilter();
@@ -252,13 +252,13 @@ public class ReportManager
                 }
             } else    // should not happen!  use legacy setting
             {
-                filterO = new CompositeFilter(p.getFilters());
+                filterO = new CompositeFilter(interviewParameters.getFilters());
             }
 
             try {
-                // TEMP add p.getFilters -- in time, Report API should
+                // TEMP add interviewParameters.getFilters -- in time, Report API should
                 // provide more flexible reporting options
-                Report r = new Report(p, path, filterO);
+                Report r = new Report(interviewParameters, path, filterO);
                 String[] typesArgs = types == null ? null : types.toArray(new String[types.size()]);
                 r.writeReport(typesArgs);
 
