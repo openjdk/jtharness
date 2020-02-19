@@ -114,7 +114,7 @@ public class ReportSettings {
     private KflSorter kflSorter;
     private File[] mif = new File[0];
     private HashMap<?, ?> exchangeData;
-    private InterviewParameters ip;
+    private InterviewParameters interviewParameters;
     private List<CustomReport> customReports = Collections.emptyList();
     // generate summary.xml?
     private boolean genCofTestCases = true;
@@ -125,9 +125,9 @@ public class ReportSettings {
         }
     }
 
-    public ReportSettings(InterviewParameters p) {
+    public ReportSettings(InterviewParameters interviewParameters) {
         this();
-        ip = p;
+        this.interviewParameters = interviewParameters;
     }
 
     /**
@@ -449,11 +449,11 @@ public class ReportSettings {
     }
 
     public InterviewParameters getInterview() {
-        return ip;
+        return interviewParameters;
     }
 
     public void setInterview(InterviewParameters p) {
-        ip = p;
+        interviewParameters = p;
     }
 
     void cleanup() {
@@ -501,31 +501,31 @@ public class ReportSettings {
         if (sortedResults != null) {
             return;
         }
-        TestResultTable resultTable = ip.getWorkDirectory().getTestResultTable();
+        TestResultTable resultTable = interviewParameters.getWorkDirectory().getTestResultTable();
         File[] initFiles = getInitialFiles();
         sortedResults = new ArrayList<>();
         for (int i = 0; i < Status.NUM_STATES; i++) {
             sortedResults.add(new TreeSet<>(new TestResultsByNameComparator()));
         }
-        Iterator<TestResult> iter;
+        Iterator<TestResult> testResultIterator;
         try {
-            TestFilter[] fs = null;
+            TestFilter[] testFilters = null;
             // Note: settings.filter should not really be null, modernized clients
             //   of this class should set the filter before asking for a report.
             if (filter == null) {
-                fs = new TestFilter[0];
+                testFilters = new TestFilter[0];
             } else {
-                fs = new TestFilter[]{filter};
+                testFilters = new TestFilter[]{filter};
             }
-            iter = (initFiles == null) ? resultTable.getIterator(fs) : resultTable.getIterator(initFiles, fs);
+            testResultIterator = (initFiles == null) ? resultTable.getIterator(testFilters) : resultTable.getIterator(initFiles, testFilters);
         } catch (TestResultTable.Fault f) {
             throw new JavaTestError(ReportSettings.i18n.getString("result.testResult.err"));
         }
-        for (; iter.hasNext(); ) {
-            TestResult tr = iter.next();
-            Status s = tr.getStatus();
-            TreeSet<TestResult> list = sortedResults.get(s == null ? Status.NOT_RUN : s.getType());
-            list.add(tr);
+        for (; testResultIterator.hasNext(); ) {
+            TestResult result = testResultIterator.next();
+            Status status = result.getStatus();
+            TreeSet<TestResult> results = sortedResults.get(status == null ? Status.NOT_RUN : status.getType());
+            results.add(result);
         }
     }
 
