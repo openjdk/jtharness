@@ -345,44 +345,41 @@ public class RenderingUtilities {
                 browseBtn.setName("file.browse.btn");
                 browseBtn.setMnemonic(i18n.getString("file.browse.mne").charAt(0));
                 browseBtn.setToolTipText(i18n.getString("file.browse.tip"));
-                browseBtn.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        // default chooser to point at specified entry
-                        String s = (String) cb.getSelectedItem();
-                        if (s != null && !s.isEmpty()) {
-                            File f = new File(s);
-                            File baseDir = fc.getBaseDirectory();
-                            if (!f.isAbsolute() && baseDir != null) {
-                                f = new File(baseDir, s);
-                            }
-                            chooser.setSelectedFile(f);
+                browseBtn.addActionListener(e -> {
+                    // default chooser to point at specified entry
+                    String s = (String) cb.getSelectedItem();
+                    if (s != null && !s.isEmpty()) {
+                        File f1 = new File(s);
+                        File baseDir = fc.getBaseDirectory();
+                        if (!f1.isAbsolute() && baseDir != null) {
+                            f1 = new File(baseDir, s);
                         }
+                        chooser.setSelectedFile(f1);
+                    }
 
-                        int opt = chooser.showDialog(browseBtn, "Select");
-                        if (opt == JFileChooser.APPROVE_OPTION) {
+                    int opt = chooser.showDialog(browseBtn, "Select");
+                    if (opt == JFileChooser.APPROVE_OPTION) {
 
-                            String path = chooser.getSelectedFile().getPath();
-                            FileFilter ff = SwingFileFilter.unwrap(chooser.getFileFilter());
+                        String path = chooser.getSelectedFile().getPath();
+                        FileFilter ff = SwingFileFilter.unwrap(chooser.getFileFilter());
 
-                            if (ff != null && ff instanceof ExtensionFileFilter) {
-                                ExtensionFileFilter eff = (ExtensionFileFilter) ff;
-                                path = eff.ensureExtension(path);
-                            }
-                            File baseDir = fc.getBaseDirectory();
-                            if (baseDir != null) {
-                                String bp = baseDir.getPath();
-                                if (path.startsWith(bp + File.separatorChar)) {
-                                    path = path.substring(bp.length() + 1);
-                                }
-                            }
-                            if (cb.getSelectedIndex() != -1) {
-                                cb.removeItemAt(cb.getSelectedIndex());
-                            }
-                            cb.addItem(path);
-                            cb.setSelectedItem(path);
-                            table.getModel().setValueAt(path, row, column);
+                        if (ff != null && ff instanceof ExtensionFileFilter) {
+                            ExtensionFileFilter eff = (ExtensionFileFilter) ff;
+                            path = eff.ensureExtension(path);
                         }
+                        File baseDir = fc.getBaseDirectory();
+                        if (baseDir != null) {
+                            String bp = baseDir.getPath();
+                            if (path.startsWith(bp + File.separatorChar)) {
+                                path = path.substring(bp.length() + 1);
+                            }
+                        }
+                        if (cb.getSelectedIndex() != -1) {
+                            cb.removeItemAt(cb.getSelectedIndex());
+                        }
+                        cb.addItem(path);
+                        cb.setSelectedItem(path);
+                        table.getModel().setValueAt(path, row, column);
                     }
                 });
                 p.add(browseBtn, gbc);

@@ -56,12 +56,7 @@ public class TreeQuestionRenderer
 
         tree.setSelection(tq.getValue());
 
-        Runnable valueSaver = new Runnable() {
-            @Override
-            public void run() {
-                tq.setValue(tree.getSelection());
-            }
-        };
+        Runnable valueSaver = () -> tq.setValue(tree.getSelection());
 
         sp.putClientProperty(VALUE_SAVER, valueSaver);
 

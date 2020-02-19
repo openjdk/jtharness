@@ -140,12 +140,7 @@ public class Wizard extends JComponent {
     private final FileFilter jtiFilter = new ExtensionFileFilter(".jti");
     private final FileFilter htmlFilter =
             new ExtensionFileFilter(".htm", ".html");
-    private ActionListener performer = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            perform(e.getActionCommand());
-        }
-    };
+    private ActionListener performer = e -> perform(e.getActionCommand());
     private Interview interview;
     private Exporter[] exporters;
     private String title;
@@ -353,12 +348,7 @@ public class Wizard extends JComponent {
         }
 
         if (!EventQueue.isDispatchThread()) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    showInFrame(exitOnClose);
-                }
-            });
+            EventQueue.invokeLater(() -> showInFrame(exitOnClose));
             return;
         }
 
@@ -412,12 +402,7 @@ public class Wizard extends JComponent {
         }
 
         if (!EventQueue.isDispatchThread()) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    showInDialog(parent, okListener);
-                }
-            });
+            EventQueue.invokeLater(() -> showInDialog(parent, okListener));
             return;
         }
 

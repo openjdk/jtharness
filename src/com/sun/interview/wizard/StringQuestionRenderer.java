@@ -100,11 +100,6 @@ public class StringQuestionRenderer
     protected Runnable createValueSaver(final StringQuestion q,
                                         final JTextArea textArea) {
 
-        return new Runnable() {
-            @Override
-            public void run() {
-                q.setValue(textArea.getText());
-            }
-        };
+        return () -> q.setValue(textArea.getText());
     }
 }

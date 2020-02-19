@@ -117,12 +117,9 @@ public class YesNoQuestionRenderer implements QuestionRenderer {
 
     protected ActionListener createActionListener(final YesNoQuestion q,
                                                   final ActionListener editedListener) {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                q.setValue(e.getActionCommand());
-                fireEditedEvent(e.getSource(), editedListener);
-            }
+        return e -> {
+            q.setValue(e.getActionCommand());
+            fireEditedEvent(e.getSource(), editedListener);
         };
     }
 

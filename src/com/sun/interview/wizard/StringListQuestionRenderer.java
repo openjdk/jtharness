@@ -62,12 +62,7 @@ public class StringListQuestionRenderer
 
         panel.add(list, BorderLayout.CENTER);
 
-        Runnable valueSaver = new Runnable() {
-            @Override
-            public void run() {
-                q.setValue((String[]) list.getItems(String.class));
-            }
-        };
+        Runnable valueSaver = () -> q.setValue((String[]) list.getItems(String.class));
 
         panel.putClientProperty(VALUE_SAVER, valueSaver);
 

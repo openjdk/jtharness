@@ -462,12 +462,7 @@ public class Interview {
             URL[] url = {new URL("file:" + file.getAbsolutePath() + "/")};
             final URLClassLoader cl = new URLClassLoader(url);
             bundle = AccessController.doPrivileged(
-                    new PrivilegedAction<ResourceBundle>() {
-                        @Override
-                        public ResourceBundle run() {
-                            return ResourceBundle.getBundle(name, Locale.getDefault(), cl);
-                        }
-                    });
+                    (PrivilegedAction<ResourceBundle>) () -> ResourceBundle.getBundle(name, Locale.getDefault(), cl));
             bundleName = name;
         } catch (MalformedURLException e) {
         }
@@ -524,12 +519,7 @@ public class Interview {
             }
             //System.err.println("INT: looking for bundle: " + rn);
             bundle = AccessController.doPrivileged(
-                    new PrivilegedAction<ResourceBundle>() {
-                        @Override
-                        public ResourceBundle run() {
-                            return ResourceBundle.getBundle(rn, Locale.getDefault(), cl);
-                        }
-                    });
+                    (PrivilegedAction<ResourceBundle>) () -> ResourceBundle.getBundle(rn, Locale.getDefault(), cl));
             bundleName = name;
         }
     }

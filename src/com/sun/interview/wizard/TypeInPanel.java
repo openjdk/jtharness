@@ -123,14 +123,11 @@ public class TypeInPanel extends JPanel {
             add(btn, c);
         }
 
-        Runnable valueSaver = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    q.setValue(getValue());
-                } catch (Interview.Fault e) {
-                    throw new Error(e);
-                }
+        Runnable valueSaver = () -> {
+            try {
+                q.setValue(getValue());
+            } catch (Interview.Fault e) {
+                throw new Error(e);
             }
         };
 

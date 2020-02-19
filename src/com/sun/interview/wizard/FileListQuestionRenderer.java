@@ -96,12 +96,7 @@ public class FileListQuestionRenderer
 
         panel.add(list, BorderLayout.CENTER);
 
-        Runnable valueSaver = new Runnable() {
-            @Override
-            public void run() {
-                q.setValue(list.getFiles());
-            }
-        };
+        Runnable valueSaver = () -> q.setValue(list.getFiles());
 
         panel.putClientProperty(VALUE_SAVER, valueSaver);
 

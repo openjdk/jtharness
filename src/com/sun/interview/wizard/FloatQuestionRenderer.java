@@ -104,12 +104,9 @@ public class FloatQuestionRenderer
                 listener);
 
         if (resetBtn != null) {
-            resetBtn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
-                    p.setValue(fmt.format(Double.valueOf(defVal)));
-                }
+            resetBtn.addActionListener(e -> {
+                NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
+                p.setValue(fmt.format(Double.valueOf(defVal)));
             });
         }
 

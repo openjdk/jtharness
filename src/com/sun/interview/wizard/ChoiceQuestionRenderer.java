@@ -111,13 +111,10 @@ public class ChoiceQuestionRenderer
             rb[i].setFocusPainted(false);
             bg.add(rb[i]);
 
-            rb[i].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    CellEditor editor = tbl.getCellEditor();
-                    if (editor != null) {
-                        editor.stopCellEditing();
-                    }
+            rb[i].addActionListener(e -> {
+                CellEditor editor = tbl.getCellEditor();
+                if (editor != null) {
+                    editor.stopCellEditing();
                 }
             });
         }

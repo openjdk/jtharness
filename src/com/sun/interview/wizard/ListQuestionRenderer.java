@@ -89,21 +89,18 @@ public class ListQuestionRenderer
     }
 
     protected ActionListener createMoreBtnListener(final ListQuestion q) {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ListQuestion listStart = q.getOther();
-                /* suppress automatic new
-                ListQuestion.Body[] bodies = listStart.getBodies();
-                ListQuestion.Body[] newBodies = new ListQuestion.Body[bodies.length + 1];
-                System.arraycopy(bodies, 0, newBodies, 0, bodies.length);
-                newBodies[newBodies.length - 1] = listStart.createBody(newBodies.length - 1);
-                listStart.setBodies(newBodies, newBodies.length - 1);
-                */
-                try {
-                    getRootInterview(q).setCurrentQuestion(listStart);
-                } catch (Interview.Fault ignore) {
-                }
+        return e -> {
+            ListQuestion listStart = q.getOther();
+            /* suppress automatic new
+            ListQuestion.Body[] bodies = listStart.getBodies();
+            ListQuestion.Body[] newBodies = new ListQuestion.Body[bodies.length + 1];
+            System.arraycopy(bodies, 0, newBodies, 0, bodies.length);
+            newBodies[newBodies.length - 1] = listStart.createBody(newBodies.length - 1);
+            listStart.setBodies(newBodies, newBodies.length - 1);
+            */
+            try {
+                getRootInterview(q).setCurrentQuestion(listStart);
+            } catch (Interview.Fault ignore) {
             }
         };
     }

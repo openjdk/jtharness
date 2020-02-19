@@ -108,12 +108,9 @@ public class IntQuestionRenderer
                 listener);
 
         if (resetBtn != null) {
-            resetBtn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
-                    p.setValue(fmt.format(Integer.valueOf(defVal)));
-                }
+            resetBtn.addActionListener(e -> {
+                NumberFormat fmt = NumberFormat.getNumberInstance();  // will be locale-specific
+                p.setValue(fmt.format(Integer.valueOf(defVal)));
             });
         }
 
@@ -154,12 +151,7 @@ public class IntQuestionRenderer
         c.weightx = 1;
         panel.add(slider, c);
 
-        Runnable valueSaver = new Runnable() {
-            @Override
-            public void run() {
-                q.setValue(slider.getValue());
-            }
-        };
+        Runnable valueSaver = () -> q.setValue(slider.getValue());
 
         panel.putClientProperty(VALUE_SAVER, valueSaver);
 

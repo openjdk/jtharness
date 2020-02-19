@@ -100,16 +100,13 @@ public class PropertiesQuestionRenderer implements QuestionRenderer {
             showEmptyQuestion(panel);
         }
 
-        valueSaver = new Runnable() {
-            @Override
-            public void run() {
-                Set<String> keys = tables.keySet();
-                for (String key : keys) {
-                    JTable table = tables.get(key);
-                    CellEditor editor = table.getCellEditor();
-                    if (editor != null) {
-                        editor.stopCellEditing();
-                    }
+        valueSaver = () -> {
+            Set<String> keys = tables.keySet();
+            for (String key : keys) {
+                JTable table = tables.get(key);
+                CellEditor editor = table.getCellEditor();
+                if (editor != null) {
+                    editor.stopCellEditing();
                 }
             }
         };

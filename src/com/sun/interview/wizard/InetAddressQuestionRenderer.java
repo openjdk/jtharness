@@ -171,13 +171,10 @@ public class InetAddressQuestionRenderer
 
         lookupPane = new LookupPane(type);
 
-        lookupBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JDialog d = lookupPane.createDialog(p, i18n.getString("inet.lookup.title"));
-                d.setVisible(true);
-                p.setValue((String) lookupPane.getValue());
-            }
+        lookupBtn.addActionListener(e -> {
+            JDialog d = lookupPane.createDialog(p, i18n.getString("inet.lookup.title"));
+            d.setVisible(true);
+            p.setValue((String) lookupPane.getValue());
         });
 
         return p;
