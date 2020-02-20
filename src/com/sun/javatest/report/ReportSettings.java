@@ -110,7 +110,7 @@ public class ReportSettings {
     boolean[] stateFiles = new boolean[Status.NUM_STATES];
     boolean doBackups = true;
     int backups = 1; // backup levels
-    private List<TreeSet<TestResult>> sortedResults;
+    private List<TreeSet<TestResult>> sortedTestResults;
     private KflSorter kflSorter;
     private File[] mif = new File[0];
     private HashMap<?, ?> exchangeData;
@@ -498,14 +498,14 @@ public class ReportSettings {
     }
 
     void setupSortedResults() {
-        if (sortedResults != null) {
+        if (sortedTestResults != null) {
             return;
         }
         TestResultTable resultTable = interviewParameters.getWorkDirectory().getTestResultTable();
         File[] initFiles = getInitialFiles();
-        sortedResults = new ArrayList<>();
+        sortedTestResults = new ArrayList<>();
         for (int i = 0; i < Status.NUM_STATES; i++) {
-            sortedResults.add(new TreeSet<>(new TestResultsByNameComparator()));
+            sortedTestResults.add(new TreeSet<>(new TestResultsByNameComparator()));
         }
         Iterator<TestResult> testResultIterator;
         try {
@@ -524,7 +524,7 @@ public class ReportSettings {
         for (; testResultIterator.hasNext(); ) {
             TestResult result = testResultIterator.next();
             Status status = result.getStatus();
-            TreeSet<TestResult> results = sortedResults.get(status == null ? Status.NOT_RUN : status.getType());
+            TreeSet<TestResult> results = sortedTestResults.get(status == null ? Status.NOT_RUN : status.getType());
             results.add(result);
         }
     }
@@ -540,15 +540,15 @@ public class ReportSettings {
         kflSorter.setF2eEnabled(isKflF2eEnabled());
         kflSorter.setF2fEnabled(isKflF2fEnabled());
         kflSorter.setMissingEnabled(isKflMissingEnabled());
-        kflSorter.run(sortedResults);
+        kflSorter.run(sortedTestResults);
     }
 
     KflSorter getKflSorter() {
         return kflSorter;
     }
 
-    List<TreeSet<TestResult>> getSortedResults() {
-        return sortedResults;
+    List<TreeSet<TestResult>> getSortedTestResults() {
+        return sortedTestResults;
     }
 
     public List<CustomReport> getCustomReports() {

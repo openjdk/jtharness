@@ -153,7 +153,7 @@ public class HTMLReport implements ReportFormat {
         reportDir = dir;
         initCharset();
         setKflData(s.getKflSorter());
-        setResults(s.getSortedResults());
+        setResults(s.getSortedTestResults());
 
 
         List<HTMLSection> mainSecs = new ArrayList<>(3);
