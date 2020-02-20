@@ -142,12 +142,9 @@ public class TestFinderQueue {
         }
 
         this.testFinder = finder;
-        testFinder.setErrorHandler(new TestFinder.ErrorHandler() {
-            @Override
-            public void error(String msg) {
-                errorCount++;
-                notifier.error(msg);
-            }
+        testFinder.setErrorHandler(msg -> {
+            errorCount++;
+            notifier.error(msg);
         });
     }
 

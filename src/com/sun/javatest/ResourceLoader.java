@@ -90,12 +90,7 @@ public class ResourceLoader {
                 return url.openStream();
             } else {
                 return AccessController.doPrivileged(
-                        new PrivilegedAction<InputStream>() {
-                            @Override
-                            public InputStream run() {
-                                return ownClass.getResourceAsStream(name);
-                            }
-                        });
+                        (PrivilegedAction<InputStream>) () -> ownClass.getResourceAsStream(name));
             }
         } catch (IOException e) {
             return null;
@@ -209,12 +204,7 @@ public class ResourceLoader {
 
     private static ResourceBundle getSBundle(final String name, final Locale locale, final ClassLoader cl) {
         return AccessController.doPrivileged(
-                new PrivilegedAction<ResourceBundle>() {
-                    @Override
-                    public ResourceBundle run() {
-                        return ResourceBundle.getBundle(name, locale, cl);
-                    }
-                });
+                (PrivilegedAction<ResourceBundle>) () -> ResourceBundle.getBundle(name, locale, cl));
     }
 
     private synchronized static void initAltClassLoader() {

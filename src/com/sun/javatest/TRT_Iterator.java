@@ -252,12 +252,7 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
         }
 
         final ArrayList<TestFilter> out = new ArrayList<>();
-        TestFilter.Observer foo = new TestFilter.Observer() {
-            @Override
-            public void rejected(TestDescription td, TestFilter f) {
-                out.add(f);
-            }
-        };
+        TestFilter.Observer foo = (td1, f) -> out.add(f);
 
         for (TestFilter f : filters) {
             try {
