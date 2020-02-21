@@ -216,7 +216,7 @@ class ResultSection extends HTMLSection {
 
     private void writeUnGroupedReport(int i) throws IOException {
 
-        ReportWriter out = openAuxFile(fileCodes[i], headings[i], i18n);
+        ReportWriter reportWriter = openAuxFile(fileCodes[i], headings[i], i18n);
         try {
             TreeSet<TestResult> list = testResults.get(i);
             if (!list.isEmpty()) {
@@ -241,20 +241,20 @@ class ResultSection extends HTMLSection {
                     File eFile = new File(workDirRoot, eWRPath.replace('/', File.separatorChar));
                     String eName = e.getTestName();
                     if (eFile == null || e_s.getType() == Status.NOT_RUN) {
-                        out.write(eName);
+                        reportWriter.write(eName);
                     } else {
-                        out.writeLink(eFile, eName);
+                        reportWriter.writeLink(eFile, eName);
                     }
 
                     if (title != null) {
-                        out.write(": " + title);
+                        reportWriter.write(": " + title);
                     }
-                    out.startTag(HTMLWriterEx.BR);
-                    out.newLine();
+                    reportWriter.startTag(HTMLWriterEx.BR);
+                    reportWriter.newLine();
                 }
             }
         } finally {
-            out.close();
+            reportWriter.close();
         }
 
 
