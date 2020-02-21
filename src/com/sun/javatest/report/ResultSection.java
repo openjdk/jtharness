@@ -196,30 +196,30 @@ class ResultSection extends HTMLSection {
     }
 
     private void writeStatusFiles() throws IOException {
-        for (int i = 0; i < testResults.size(); i++) {
+        for (int resultStatusType = 0; resultStatusType < testResults.size(); resultStatusType++) {
             // each file is optional
-            if (!settings.isStateFileEnabled(i)) {
+            if (!settings.isStateFileEnabled(resultStatusType)) {
                 continue;
             }
 
-            writeUnGroupedReport(i);
+            writeUnGroupedReport(resultStatusType);
 
-            if (hasGroupedReport(i)) {
+            if (hasGroupedReport(resultStatusType)) {
                 // re-sort it
                 TreeSet<TestResult> newS = new TreeSet<>(new TestResultsByStatusAndTitleComparator());
-                newS.addAll(testResults.get(i));
-                testResults.set(i, newS);
+                newS.addAll(testResults.get(resultStatusType));
+                testResults.set(resultStatusType, newS);
 
-                writeGroupedReport(i);
+                writeGroupedReport(resultStatusType);
             }
         }
     }
 
-    private void writeUnGroupedReport(int i) throws IOException {
+    private void writeUnGroupedReport(int resultStatusType) throws IOException {
 
-        ReportWriter reportWriter = openAuxFile(fileCodes[i], headings[i], i18n);
+        ReportWriter reportWriter = openAuxFile(fileCodes[resultStatusType], headings[resultStatusType], i18n);
         try {
-            for (TestResult testResult : testResults.get(i)) {
+            for (TestResult testResult : testResults.get(resultStatusType)) {
                 String workDirRelativePath = testResult.getWorkRelativePath();
                 File file = new File(workDirRoot, workDirRelativePath.replace('/', File.separatorChar));
                 if (testResult.getStatus().getType() == Status.NOT_RUN) {
