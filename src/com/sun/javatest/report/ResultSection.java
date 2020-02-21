@@ -59,6 +59,7 @@ class ResultSection extends HTMLSection {
     private TestResultTable resultTable;
     private File[] initFiles;
     private int totalFound;
+
     ResultSection(HTMLReport parent, ReportSettings settings, File dir, I18NResourceBundle i18n,
                   List<TreeSet<TestResult>> sortedResults) {
         super(i18n.getString("result.title"), settings, dir, parent);
@@ -218,46 +219,25 @@ class ResultSection extends HTMLSection {
 
         ReportWriter reportWriter = openAuxFile(fileCodes[i], headings[i], i18n);
         try {
-            TreeSet<TestResult> list = testResults.get(i);
-            if (!list.isEmpty()) {
-                boolean inList = false;
-
-                for (TestResult e : list) {
-                    String title;
-                    try {
-                        TestDescription e_td = e.getDescription();
-                        title = e_td.getTitle();
-                    } catch (TestResult.Fault ex) {
-                        title = null;
-                    }
-
-                    Status e_s = e.getStatus();
-                    if (!inList) {
-                        inList = true;
-                    }
-
-                    //File eFile = e.getFile();
-                    String eWRPath = e.getWorkRelativePath();
-                    File eFile = new File(workDirRoot, eWRPath.replace('/', File.separatorChar));
-                    String eName = e.getTestName();
-                    if (eFile == null || e_s.getType() == Status.NOT_RUN) {
-                        reportWriter.write(eName);
-                    } else {
-                        reportWriter.writeLink(eFile, eName);
-                    }
-
-                    if (title != null) {
-                        reportWriter.write(": " + title);
-                    }
-                    reportWriter.startTag(HTMLWriterEx.BR);
-                    reportWriter.newLine();
+            for (TestResult testResult : testResults.get(i)) {
+                String workDirRelativePath = testResult.getWorkRelativePath();
+                File file = new File(workDirRoot, workDirRelativePath.replace('/', File.separatorChar));
+                if (testResult.getStatus().getType() == Status.NOT_RUN) {
+                    reportWriter.write(testResult.getTestName());
+                } else {
+                    reportWriter.writeLink(file, testResult.getTestName());
                 }
+                try {
+                    reportWriter.write(": " + testResult.getDescription().getTitle());
+                } catch (TestResult.Fault ex) {
+                    // OK, not writing title
+                }
+                reportWriter.startTag(HTMLWriterEx.BR);
+                reportWriter.newLine();
             }
         } finally {
             reportWriter.close();
         }
-
-
     }
 
     private void writeGroupedReport(int i) throws IOException {
