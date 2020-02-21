@@ -132,22 +132,21 @@ class ResultSection extends HTMLSection {
         String grouped = i18n.getString("result.grouped");
         String plain = i18n.getString("result.plain");
 
-        for (int i = 0; i < testResults.size(); i++) {
-            String reportFile = HTMLReport.files[fileCodes[i]];
-            TreeSet<TestResult> l = testResults.get(i);
+        for (int statusType = 0; statusType < testResults.size(); statusType++) {
+            String reportFile = HTMLReport.files[fileCodes[statusType]];
 
-            int n = l.size();
-            if (n > 0) {
+            int numberOfTests = testResults.get(statusType).size();
+            if (numberOfTests > 0) {
                 out.startTag(HTMLWriterEx.TR);
-                out.writeTH(headings[i], HTMLWriterEx.ROW);
+                out.writeTH(headings[statusType], HTMLWriterEx.ROW);
                 out.startTag(HTMLWriterEx.TD);
                 out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);
-                out.write(Integer.toString(n));
+                out.write(Integer.toString(numberOfTests));
                 out.endTag(HTMLWriterEx.TD);
 
                 if (secondColumn) {
                     out.startTag(HTMLWriterEx.TD);
-                    if (settings.isStateFileEnabled(i)) {
+                    if (settings.isStateFileEnabled(statusType)) {
                         out.writeLink(reportFile, plain);
                     } else {
                         out.writeLine(" ");
@@ -157,8 +156,8 @@ class ResultSection extends HTMLSection {
 
                 if (thirdColumn) {
                     out.startTag(HTMLWriterEx.TD);
-                    if (hasGroupedReport(i) && settings.isStateFileEnabled(i)) {
-                        out.writeLink(HTMLReport.files[groupedFileCodes[i]], grouped);
+                    if (hasGroupedReport(statusType) && settings.isStateFileEnabled(statusType)) {
+                        out.writeLink(HTMLReport.files[groupedFileCodes[statusType]], grouped);
                     } else {
                         out.writeLine(" ");
                     }
