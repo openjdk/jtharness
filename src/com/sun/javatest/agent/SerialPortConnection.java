@@ -121,18 +121,15 @@ public class SerialPortConnection implements Connection {
         // set up a listener to notify this thread when DSR/CD become true,
         // and to close this connection when they become false
         try {
-            port.addEventListener(new SerialPortEventListener() {
-                @Override
-                public void serialEvent(SerialPortEvent ev) {
-                    int t = ev.getEventType();
-                    switch (ev.getEventType()) {
-                        case SerialPortEvent.CD:
-                        case SerialPortEvent.DSR:
-                            // WARNING: The following line may cause ThreadDeath if
-                            // it determines the port should be closed.
-                            updateReadyStatus();
-                            break;
-                    }
+            port.addEventListener(ev -> {
+                int t = ev.getEventType();
+                switch (ev.getEventType()) {
+                    case SerialPortEvent.CD:
+                    case SerialPortEvent.DSR:
+                        // WARNING: The following line may cause ThreadDeath if
+                        // it determines the port should be closed.
+                        updateReadyStatus();
+                        break;
                 }
             });
         } catch (TooManyListenersException e) {

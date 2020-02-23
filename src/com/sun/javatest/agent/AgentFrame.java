@@ -86,17 +86,14 @@ public class AgentFrame extends Frame {
 
         GridBagConstraints c = new GridBagConstraints();
 
-        panel = new AgentPanel(modeOptions, new AgentPanel.MapReader() {
-            @Override
-            public ConfigValuesMap read(String name) throws IOException {
-                // Experiments indicate that the following code works OK
-                // on versions of PersonalJava that do not support local file systems.
-                // Just specify the map file as an http: URL.
-                if (name == null || name.isEmpty()) {
-                    return null;
-                } else {
-                    return ConfigValuesMap.readFileOrURL(name);
-                }
+        panel = new AgentPanel(modeOptions, name -> {
+            // Experiments indicate that the following code works OK
+            // on versions of PersonalJava that do not support local file systems.
+            // Just specify the map file as an http: URL.
+            if (name == null || name.isEmpty()) {
+                return null;
+            } else {
+                return ConfigValuesMap.readFileOrURL(name);
             }
         });
 

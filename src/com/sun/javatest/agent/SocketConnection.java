@@ -212,22 +212,18 @@ public class SocketConnection implements Connection {
             waitThread = Thread.currentThread();
         }
 
-        Timer.Timeable cb = new Timer.Timeable() {
-
-            @Override
-            public void timeout() {
-                synchronized (SocketConnection.this) {
-                    if (waitThread != null) {
-                        waitThread.interrupt();
-                    }
-                    try {
-                        socketInput.close();
-                    } catch (IOException ignore) {
-                    }
-                    try {
-                        socketOutput.close();
-                    } catch (IOException ignore) {
-                    }
+        Timer.Timeable cb = () -> {
+            synchronized (SocketConnection.this) {
+                if (waitThread != null) {
+                    waitThread.interrupt();
+                }
+                try {
+                    socketInput.close();
+                } catch (IOException ignore) {
+                }
+                try {
+                    socketOutput.close();
+                } catch (IOException ignore) {
                 }
             }
         };

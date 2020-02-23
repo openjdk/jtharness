@@ -150,16 +150,13 @@ public class AgentApplet extends Applet implements Agent.Observer {
 
         ModeOptions[] modeOptions = {amo, pmo, smo};
 
-        AgentPanel.MapReader mapReader = new AgentPanel.MapReader() {
-            @Override
-            public ConfigValuesMap read(String name) throws IOException {
-                if (name == null || name.isEmpty()) {
-                    return null;
-                } else {
-                    ConfigValuesMap m = ConfigValuesMap.readURL(new URL(getDocumentBase(), name));
-                    m.setTracing(tracing, System.out);
-                    return m;
-                }
+        AgentPanel.MapReader mapReader = name -> {
+            if (name == null || name.isEmpty()) {
+                return null;
+            } else {
+                ConfigValuesMap m = ConfigValuesMap.readURL(new URL(getDocumentBase(), name));
+                m.setTracing(tracing, System.out);
+                return m;
             }
         };
         AgentPanel ap = new AgentPanel(modeOptions, mapReader);

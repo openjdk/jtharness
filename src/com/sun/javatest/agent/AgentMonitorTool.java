@@ -275,12 +275,8 @@ public class AgentMonitorTool extends Tool {
         public void addedToPool(final Connection c) {
             // item must match that used in removedFromAgentPool
             if (!EventQueue.isDispatchThread()) {
-                Runnable cmd = new Runnable() {
-                    @Override
-                    public void run() {
-                        AgentMonitorTool.AgentPoolSubpanel.this.addedToPool(c);
-                    }   // run()
-                };      // end anon. class
+                // run()
+                Runnable cmd = () -> AgentPoolSubpanel.this.addedToPool(c);      // end anon. class
 
                 EventQueue.invokeLater(cmd);
             } else {
@@ -292,12 +288,8 @@ public class AgentMonitorTool extends Tool {
         public void removedFromPool(final Connection c) {
             // item must match that used in addedToAgentPool
             if (!EventQueue.isDispatchThread()) {
-                Runnable cmd = new Runnable() {
-                    @Override
-                    public void run() {
-                        AgentMonitorTool.AgentPoolSubpanel.this.removedFromPool(c);
-                    }   // run()
-                };      // end anon. class
+                // run()
+                Runnable cmd = () -> AgentPoolSubpanel.this.removedFromPool(c);      // end anon. class
 
                 EventQueue.invokeLater(cmd);
             } else {
@@ -464,12 +456,8 @@ public class AgentMonitorTool extends Tool {
                                          final String tag, final String request, final String executable,
                                          final String[] args, final boolean localizeArgs) {
             if (!EventQueue.isDispatchThread()) {
-                Runnable cmd = new Runnable() {
-                    @Override
-                    public void run() {
-                        AgentMonitorTool.CurrentAgentsSubpanel.this.started(c, tag, request, executable, args, localizeArgs);
-                    }   // run()
-                };      // end anon. class
+                // run()
+                Runnable cmd = () -> CurrentAgentsSubpanel.this.started(c, tag, request, executable, args, localizeArgs);      // end anon. class
 
                 EventQueue.invokeLater(cmd);
             } else {
@@ -480,12 +468,8 @@ public class AgentMonitorTool extends Tool {
         @Override
         public synchronized void finished(final Connection c, final Status status) {
             if (!EventQueue.isDispatchThread()) {
-                Runnable cmd = new Runnable() {
-                    @Override
-                    public void run() {
-                        AgentMonitorTool.CurrentAgentsSubpanel.this.finished(c, status);
-                    }   // run()
-                };      // end anon. class
+                // run()
+                Runnable cmd = () -> CurrentAgentsSubpanel.this.finished(c, status);      // end anon. class
 
                 EventQueue.invokeLater(cmd);
             } else {

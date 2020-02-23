@@ -1169,32 +1169,26 @@ public class Agent implements Runnable {
                 Timer alarmTimer = null;
                 if (timeoutValue != 0) {
                     alarmTimer = new Timer();
-                    alarmTimer.requestDelayedCallback(new Timer.Timeable() {
-                        @Override
-                        public void timeout() {
-                            result = Status.error("Marked as error by timeout after " + timeout + " seconds");
-                            timeout = true;
-                            synchronized (LOCK) {
-                                LOCK.notifyAll();
-                            }
+                    alarmTimer.requestDelayedCallback(() -> {
+                        result = Status.error("Marked as error by timeout after " + timeout + " seconds");
+                        timeout = true;
+                        synchronized (LOCK) {
+                            LOCK.notifyAll();
                         }
                     }, timeoutValue * MILLIS_PER_SECOND);
                 }
 
-                Thread executeThread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            result = tc.run(args, testLog, testRef);
-                        } catch (Exception e) {
-                            result = Status.error("Unhandled " + e.getClass().getName() + " exception " +
-                                    "for " + tc.getClass().getName() + " command. " +
-                                    "Exception message: " + e.getMessage());
-                        } finally {
-                            executed = true;
-                            synchronized (LOCK) {
-                                LOCK.notifyAll();
-                            }
+                Thread executeThread = new Thread(() -> {
+                    try {
+                        result = tc.run(args, testLog, testRef);
+                    } catch (Exception e) {
+                        result = Status.error("Unhandled " + e.getClass().getName() + " exception " +
+                                "for " + tc.getClass().getName() + " command. " +
+                                "Exception message: " + e.getMessage());
+                    } finally {
+                        executed = true;
+                        synchronized (LOCK) {
+                            LOCK.notifyAll();
                         }
                     }
                 }, "CommandExecutor executeThread for command args: " + Arrays.toString(args));
