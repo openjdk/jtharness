@@ -31,12 +31,13 @@ import com.sun.javatest.util.StringArray;
 
 import java.io.File;
 import java.text.Collator;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * Base implementation for test finders which search for test descriptions
@@ -72,12 +73,12 @@ public abstract class TestFinder {
 
     //--------------------------------------------------------------------------
     private Comparator<String> comp = getDefaultComparator();
-    private Vector<File> files;
-    private Vector<TestDescription> tests;
+    private List<File> files;
+    private List<TestDescription> tests;
 
     //--------------------------------------------------------------------------
     private Map<String, Integer> testsInFile = new HashMap<>();
-    private Vector<String> errorMessages = new Vector<>();
+    private List<String> errorMessages = new ArrayList<>();
 
     /**
      * Get the default to be used when the user does not want to specify
@@ -555,7 +556,7 @@ public abstract class TestFinder {
         }
 
         if (tests == null) {
-            tests = new Vector<>();
+            tests = new ArrayList<>();
         }
 
         int target = 0;
@@ -626,7 +627,7 @@ public abstract class TestFinder {
      */
     protected void foundFile(File newFile) {
         if (files == null) {
-            files = new Vector<>();
+            files = new ArrayList<>();
         }
 
         int target = 0;
