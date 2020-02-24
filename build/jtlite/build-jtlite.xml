@@ -38,6 +38,7 @@
         </delete>
 
         <javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="${lite.extra.src.dir}"
                destdir="${lite.classes.dir}"
                classpath="${javatest.jar}">

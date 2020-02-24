@@ -89,6 +89,7 @@
 	<mkdir dir="${build.classes}"/>
 
 	<javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
+           fork="true" executable="${jdk.builder.home}/bin/javac"
             srcdir="${test.dir}"
             destdir="${build.classes}"
             classpath="${jdk14.classpath}">
@@ -98,6 +99,7 @@
     <target name="visitor15.compile" unless="jdk6.available">
 	<mkdir dir="${build.classes}"/>
 	<javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
+           fork="true" executable="${jdk.builder.home}/bin/javac"
             srcdir="${test.dir}"
             destdir="${build.classes}"
             classpath="${jdk14.classpath}">
@@ -107,6 +109,7 @@
     <target name="visitor16.compile" if="jdk6.available">
 	<mkdir dir="${build.classes}"/>
 	<javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
+           fork="true" executable="${jdk.builder.home}/bin/javac"
             srcdir="${test.dir}"
             destdir="${build.classes}"
             classpath="${jdk14.classpath}">
