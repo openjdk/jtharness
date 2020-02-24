@@ -59,6 +59,9 @@
     </target>
 
     <target name="init-jtlite" description="creates necessary folders and initializes properties">
+        <!-- yet if it's been already defined externally it won't be redefined -->
+        <property name="jdk.builder.home" value="${env.JAVA_HOME}"/>
+        <echo>jdk.builder.home set to ${jdk.builder.home}</echo>
         <property name="LITE_AREA" location="${BUILD_DIR}/lite-area"/>
         <mkdir dir="${LITE_AREA}"/>
         <property name="build.lib.dir" value="${BUILD_DIR}/binaries/lib"/>
