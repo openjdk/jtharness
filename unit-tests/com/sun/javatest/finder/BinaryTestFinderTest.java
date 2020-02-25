@@ -53,12 +53,23 @@ public class BinaryTestFinderTest {
     }
 
     @Test
-    public void test() throws IOException, Fault {
+    public void testDemotck() throws IOException, Fault {
         boolean ok;
         BinaryTestFinderTest t = new BinaryTestFinderTest();
         Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
-        String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir").toAbsolutePath().toString();
+        String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_demotck").toAbsolutePath().toString();
         String testSuiteHtml = TU.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html";
+        ok = t.run(System.out, testSuiteHtml, workDir);
+        Assert.assertTrue(ok);
+    }
+
+    @Test
+    public void testIniturl() throws IOException, Fault {
+        boolean ok;
+        BinaryTestFinderTest t = new BinaryTestFinderTest();
+        Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
+        String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_initurl").toAbsolutePath().toString();
+        String testSuiteHtml = TU.getPathToTestTestSuite("initurl") + File.separator + "testsuite.html";
         ok = t.run(System.out, testSuiteHtml, workDir);
         Assert.assertTrue(ok);
     }
