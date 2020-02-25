@@ -257,160 +257,159 @@ public class BinaryTestFinderTest {
             return 4;
         return -1;
     }
-}
 
+    static class DiffRecord {
+        TestDescription left, right;
+        Hashtable<String, String> leftParams, rightParams;
+        int diff;
+        String diffParam;
+        String diffFile;
 
-class DiffRecord {
-    TestDescription left, right;
-    Hashtable<String, String> leftParams, rightParams;
-    int diff;
-    String diffParam;
-    String diffFile;
-
-    public DiffRecord() {
-        left = right = null;
-        leftParams = rightParams = null;
-        diff = 0;
-    }
-
-    public void addLeft(TestDescription td) {
-        leftParams = new Hashtable<>();
-
-        left = td;
-        for (Iterator<String> i = left.getParameterKeys(); i.hasNext(); ) {
-            String param = i.next();
-            leftParams.put(param, left.getParameter(param));
-        }
-    }
-
-    public void addRight(TestDescription td) {
-        rightParams = new Hashtable<>();
-
-        right = td;
-        for (Iterator<String> i = right.getParameterKeys(); i.hasNext(); ) {
-            String param = i.next();
-            rightParams.put(param, right.getParameter(param));
-        }
-    }
-
-    public String getPath() {
-        if (left == null)
-            return right.getRootRelativeFile().getPath();
-        else
-            return left.getRootRelativeFile().getPath();
-    }
-
-
-    public TestDescription getRight() {
-        return right;
-    }
-
-    public TestDescription getLeft() {
-        return left;
-    }
-
-
-    public int getDiff() {
-        return diff;
-    }
-
-
-    public void compare() {
-        if (left == null) {
-            diff = 1;
-            return;
-        }
-        if (right == null) {
-            diff = 2;
-            return;
+        public DiffRecord() {
+            left = right = null;
+            leftParams = rightParams = null;
+            diff = 0;
         }
 
-        if (compareParameters())
-            return;
+        public void addLeft(TestDescription td) {
+            leftParams = new Hashtable<>();
 
-        compareSources();
-        return;
-    }
-
-    /* Compares source files. Checks if same number of files. If true, then loops through each of the files and
-     * compares them between each test suite.
-     */
-
-    private void compareSources() {
-        File[] files1 = left.getSourceFiles();
-        File[] files2 = right.getSourceFiles();
-        if (files1.length != files2.length) {
-            diff = 4;
-            diffFile = "Different number of files";
-            return;
+            left = td;
+            for (Iterator<String> i = left.getParameterKeys(); i.hasNext(); ) {
+                String param = i.next();
+                leftParams.put(param, left.getParameter(param));
+            }
         }
 
-        for (File aFiles1 : files1) {
-            boolean found = false;
-            for (File aFiles2 : files2)
-                if (aFiles1.getName().equals(aFiles2.getName()) && compareFile(aFiles1, aFiles2))
-                    found = true;
-            if (!found) {
-                diff = 4;
-                diffFile = aFiles1.getPath();
+        public void addRight(TestDescription td) {
+            rightParams = new Hashtable<>();
+
+            right = td;
+            for (Iterator<String> i = right.getParameterKeys(); i.hasNext(); ) {
+                String param = i.next();
+                rightParams.put(param, right.getParameter(param));
+            }
+        }
+
+        public String getPath() {
+            if (left == null)
+                return right.getRootRelativeFile().getPath();
+            else
+                return left.getRootRelativeFile().getPath();
+        }
+
+
+        public TestDescription getRight() {
+            return right;
+        }
+
+        public TestDescription getLeft() {
+            return left;
+        }
+
+
+        public int getDiff() {
+            return diff;
+        }
+
+
+        public void compare() {
+            if (left == null) {
+                diff = 1;
                 return;
             }
+            if (right == null) {
+                diff = 2;
+                return;
+            }
+
+            if (compareParameters())
+                return;
+
+            compareSources();
+            return;
         }
-    }
 
-    /* COmpares 2 given files. Reads from them line by line and amkes sure that every line is the same.
-     */
+        /* Compares source files. Checks if same number of files. If true, then loops through each of the files and
+         * compares them between each test suite.
+         */
 
-    private static boolean compareFile(File file1, File file2) {
-        String line1, line2;
-        BufferedReader reader1, reader2;
+        private void compareSources() {
+            File[] files1 = left.getSourceFiles();
+            File[] files2 = right.getSourceFiles();
+            if (files1.length != files2.length) {
+                diff = 4;
+                diffFile = "Different number of files";
+                return;
+            }
 
-        try {
-            reader1 = new BufferedReader(new FileReader(file1));
-            reader2 = new BufferedReader(new FileReader(file2));
-        } catch (FileNotFoundException f) {
-            System.err.println("Error creating file reader");
+            for (File aFiles1 : files1) {
+                boolean found = false;
+                for (File aFiles2 : files2)
+                    if (aFiles1.getName().equals(aFiles2.getName()) && compareFile(aFiles1, aFiles2))
+                        found = true;
+                if (!found) {
+                    diff = 4;
+                    diffFile = aFiles1.getPath();
+                    return;
+                }
+            }
+        }
+
+        /* COmpares 2 given files. Reads from them line by line and amkes sure that every line is the same.
+         */
+
+        private static boolean compareFile(File file1, File file2) {
+            String line1, line2;
+            BufferedReader reader1, reader2;
+
+            try {
+                reader1 = new BufferedReader(new FileReader(file1));
+                reader2 = new BufferedReader(new FileReader(file2));
+            } catch (FileNotFoundException f) {
+                System.err.println("Error creating file reader");
+                return false;
+            }
+
+            try {
+                while ((line1 = reader1.readLine()) != null) {
+                    if ((line2 = reader2.readLine()) == null)
+                        return false;
+                    if (!line1.equals(line2))
+                        return false;
+                }
+                if (reader2.readLine() == null)
+                    return true;
+            } catch (IOException i) {
+                System.err.println("error reading from buffered readers");
+            }
+            return false;
+
+        }
+
+        /* compares parameters. FIrst makes sure each test has same number of parameters. If it does, it loops
+         * through each of them and compares the values for eahc of them.
+         */
+
+        private boolean compareParameters() {
+
+            if (leftParams.size() != rightParams.size()) {
+                diff = 3;
+                diffParam = "Different number of parameters";
+                return true;
+            }
+
+            for (Enumeration<String> e = leftParams.keys(); e.hasMoreElements(); ) {
+                String param = e.nextElement();
+                if (!rightParams.containsKey(param) || !left.getParameter(param).equals(right.getParameter(param))) {
+                    diff = 3;
+                    diffParam = param;
+                    return true;
+                }
+            }
+
             return false;
         }
-
-        try {
-            while ((line1 = reader1.readLine()) != null) {
-                if ((line2 = reader2.readLine()) == null)
-                    return false;
-                if (!line1.equals(line2))
-                    return false;
-            }
-            if (reader2.readLine() == null)
-                return true;
-        } catch (IOException i) {
-            System.err.println("error reading from buffered readers");
-        }
-        return false;
-
-    }
-
-    /* compares parameters. FIrst makes sure each test has same number of parameters. If it does, it loops
-     * through each of them and compares the values for eahc of them.
-     */
-
-    private boolean compareParameters() {
-
-        if (leftParams.size() != rightParams.size()) {
-            diff = 3;
-            diffParam = "Different number of parameters";
-            return true;
-        }
-
-        for (Enumeration<String> e = leftParams.keys(); e.hasMoreElements(); ) {
-            String param = e.nextElement();
-            if (!rightParams.containsKey(param) || !left.getParameter(param).equals(right.getParameter(param))) {
-                diff = 3;
-                diffParam = param;
-                return true;
-            }
-        }
-
-        return false;
     }
 }
 
