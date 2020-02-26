@@ -210,12 +210,9 @@ class AuditTool extends Tool {
 
         tabs = uif.createTabbedPane("tool.tabs", panes);
         tabs.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        tabs.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                Component c = tabs.getSelectedComponent();
-                ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(c));
-            }
+        tabs.addChangeListener(e -> {
+            Component c = tabs.getSelectedComponent();
+            ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(c));
         });
         ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(panes[0]));
 
@@ -313,13 +310,10 @@ class AuditTool extends Tool {
             }
         };
 
-        ActionListener al = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                // show dialog if still processing
-                if (worker != null && worker.isAlive()) {
-                    d.setVisible(true);
-                }
+        ActionListener al = evt -> {
+            // show dialog if still processing
+            if (worker != null && worker.isAlive()) {
+                d.setVisible(true);
             }
         };
 
@@ -337,12 +331,7 @@ class AuditTool extends Tool {
 
     private void updateGUI(final Audit a, final InterviewParameters p, final String msg) {
         if (!EventQueue.isDispatchThread()) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    updateGUI(a, p, msg);
-                }
-            });
+            EventQueue.invokeLater(() -> updateGUI(a, p, msg));
             return;
         }
 
