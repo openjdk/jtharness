@@ -292,7 +292,7 @@ class QuestionPanel extends JPanel
         renderers.put(StringListQuestion.class, new StringListQuestionRenderer());
         renderers.put(TreeQuestion.class, new TreeQuestionRenderer());
         renderers.put(YesNoQuestion.class, new YesNoQuestionRenderer());
-        setCustomRenderers(new HashMap<Class<? extends Question>, QuestionRenderer>());
+        setCustomRenderers(new HashMap<>());
     }
 
     /**

@@ -1550,7 +1550,7 @@ public abstract class InterviewParameters
         if (isTemplate()) {
             data.put(IS_TEMPLATE, TRUE);
 
-            storeTemplateProperties(new HashMap<String, String>());
+            storeTemplateProperties(new HashMap<>());
         } else {
             WorkDirectory wd = getWorkDirectory();
             if (wd != null && TemplateUtilities.getTemplatePath(wd) != null) {

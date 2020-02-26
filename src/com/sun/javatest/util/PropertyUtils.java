@@ -65,7 +65,7 @@ public class PropertyUtils {
      * and stores properties into a {@code Map<String, String>} that is returned.
      */
     public static Map<String, String> load(InputStream inputStream) throws IOException {
-        return populate(new HashMap<String, String>(), inputStream);
+        return populate(new HashMap<>(), inputStream);
     }
 
     /**
@@ -74,7 +74,7 @@ public class PropertyUtils {
      * and stores properties into a {@code Map<String, String>} that is returned.
      */
     public static Map<String, String> load(Reader reader) throws IOException {
-        return load0(new HashMap<String, String>(), new LineReader(reader));
+        return load0(new HashMap<>(), new LineReader(reader));
     }
 
     /**
@@ -83,7 +83,7 @@ public class PropertyUtils {
      * and stores string properties into a {@code SortedMap<String, String>} that is returned.
      */
     public static SortedMap<String, String> loadSorted(InputStream inputStream) throws IOException {
-        return populate(new TreeMap<String, String>(), inputStream);
+        return populate(new TreeMap<>(), inputStream);
     }
 
     /**
@@ -98,7 +98,7 @@ public class PropertyUtils {
      * picking only string properties from the given {@code java.util.Properties} instance.
      */
     public static Map<String, String> convertToStringProps(java.util.Properties properties) {
-        return extractStringPropsTo(new HashMap<String, String>(), properties);
+        return extractStringPropsTo(new HashMap<>(), properties);
     }
 
     private static <M extends Map<String, String>> M extractStringPropsTo(M stringProps, java.util.Properties p) {

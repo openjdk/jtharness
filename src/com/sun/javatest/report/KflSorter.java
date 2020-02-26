@@ -231,7 +231,7 @@ public class KflSorter {
         List<TreeSet<TestResult>> lists = new LinkedList<>();
 
         for (int i = 0; i < Status.NUM_STATES; i++) {
-            lists.add(new TreeSet<TestResult>());
+            lists.add(new TreeSet<>());
         }
         int totalFound = 0;
 

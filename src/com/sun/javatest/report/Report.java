@@ -293,7 +293,7 @@ public class Report implements ReportModel {
         if (listOfFormatsToLoad == null) {
             return ServiceLoader.load(ReportFormat.class);
         } else {
-            ArrayList<ReportFormat> formats = new ArrayList<ReportFormat>();
+            ArrayList<ReportFormat> formats = new ArrayList<>();
             for (String name : listOfFormatsToLoad.split(",")) {
                 try {
                     formats.add(Class.forName(name).asSubclass(ReportFormat.class).getDeclaredConstructor().newInstance());

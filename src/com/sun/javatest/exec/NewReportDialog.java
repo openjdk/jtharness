@@ -1410,7 +1410,7 @@ class NewReportDialog extends ToolDialog {
                 if (oldV && !newV) {
                     // disable
                     enabledComp = new HashSet<>();
-                    for (Component c : collectChildren(theContainer, new ArrayList<Component>())) {
+                    for (Component c : collectChildren(theContainer, new ArrayList<>())) {
                         if (c.isEnabled()) {
                             enabledComp.add(c);
                             c.setEnabled(false);
@@ -1418,7 +1418,7 @@ class NewReportDialog extends ToolDialog {
                     }
                 } else if (!oldV && newV && enabledComp != null) {
                     // enable
-                    for (Component c : collectChildren(theContainer, new ArrayList<Component>())) {
+                    for (Component c : collectChildren(theContainer, new ArrayList<>())) {
                         if (enabledComp.contains(c)) {
                             c.setEnabled(true);
                         }

@@ -907,8 +907,8 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                 trt.getTestFinder() == null ? null : trt.getTestFinder().getComparator());
 
         // prime relevant nodes with root and first level
-        relevantNodes = Collections.synchronizedSet(new HashSet<TT_TreeNode>());
-        relevantTests = Collections.synchronizedSet(new HashSet<TestResult>());
+        relevantNodes = Collections.synchronizedSet(new HashSet<>());
+        relevantTests = Collections.synchronizedSet(new HashSet<>());
 
         addRelevantNode((TT_TreeNode) getRoot());
         TT_BasicNode tn = (TT_BasicNode) getRoot();

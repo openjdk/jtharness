@@ -362,7 +362,7 @@ class OptionsPane extends JPanel {
                 if (oldV && !newV) {
                     // disable
                     Iterator<Component> chIt = collectChildren(theContainer,
-                            new ArrayList<Component>()).iterator();
+                            new ArrayList<>()).iterator();
                     enabledComp = new HashSet<>();
                     while (chIt.hasNext()) {
                         Component c = chIt.next();
@@ -375,7 +375,7 @@ class OptionsPane extends JPanel {
                 } else if (!oldV && newV && enabledComp != null) {
                     // enable
                     for (Component c : collectChildren(theContainer,
-                            new ArrayList<Component>())) {
+                            new ArrayList<>())) {
                         if (enabledComp.contains(c)) {
                             c.setEnabled(true);
                         }

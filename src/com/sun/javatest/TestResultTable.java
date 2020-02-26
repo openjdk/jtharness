@@ -122,7 +122,7 @@ public class TestResultTable {
     public TestResultTable() {
         statusTables = new ArrayList<>(Status.NUM_STATES);
         for (int i = 0; i < Status.NUM_STATES; i++) {
-            statusTables.add(new HashMap<String, Status>());
+            statusTables.add(new HashMap<>());
         }
 
         root = new TRT_TreeNode(this, null);

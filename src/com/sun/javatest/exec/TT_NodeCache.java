@@ -86,7 +86,7 @@ class TT_NodeCache implements Runnable {
         // all the states plus filtered out
         testLists = new ArrayList<>();
         for (int i = 0; i < Status.NUM_STATES + 1; i++) {
-            testLists.add(new ArrayList<TestResult>());
+            testLists.add(new ArrayList<>());
         }
     }
 

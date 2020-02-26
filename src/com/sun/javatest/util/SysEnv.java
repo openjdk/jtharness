@@ -103,7 +103,7 @@ public class SysEnv {
      * @return a map containing all the known environment variables.
      */
     public static Map<String, String> getAll() {
-        return getAll(new HashMap<String, String>());
+        return getAll(new HashMap<>());
     }
 
     /**

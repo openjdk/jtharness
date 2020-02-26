@@ -243,7 +243,7 @@ public class TestSuite {
             File parentDir = canonRootDir.getParentFile();
             File parent_jtt = parentDir == null ? null : new File(parentDir, TESTSUITE_JTT);
             if (isReadableFile(ts_html) && (parent_jtt == null || !parent_jtt.exists())) {
-                return open(canonRoot, new HashMap<String, String>());
+                return open(canonRoot, new HashMap<>());
             } else {
                 throw new NotTestSuiteFault(i18n, "ts.notTestSuiteFile", canonRoot);
             }

@@ -48,7 +48,7 @@ public class ToolBarManager {
     private JMenu toolBarMenu;
     private TBMenuManager mmanager = new TBMenuManager();
     private Map<String, JavaTestToolBar> store =
-            Collections.synchronizedMap(new LinkedHashMap<String, JavaTestToolBar>());
+            Collections.synchronizedMap(new LinkedHashMap<>());
     private ToolBarPanel panel;
 
     public ToolBarManager() {

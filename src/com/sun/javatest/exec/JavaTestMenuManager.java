@@ -123,7 +123,7 @@ public abstract class JavaTestMenuManager {
         if (bank == null) {
             bank = new ArrayList<>();
             for (int i = 0; i < NUM_POSITIONS; i++) {
-                bank.add( new ArrayList<JMenuItem>() );
+                bank.add(new ArrayList<>() );
             }
         }
 
