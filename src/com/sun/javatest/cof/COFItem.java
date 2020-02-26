@@ -112,13 +112,7 @@ abstract class COFItem {
             }
             /* null casted to Object[] for suppresing "non-varargs call" warning */
             result = readMethod.invoke(this, (Object[]) null);
-        } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

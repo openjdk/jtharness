@@ -163,8 +163,6 @@ public class Main {
             sourceChannel.transferTo(0, sourceChannel.size(), destinationChannel);
             sourceChannel.close();
             destinationChannel.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(e.getLocalizedMessage());
         } catch (IOException e) {
             System.out.println(e.getLocalizedMessage());
         }

@@ -317,10 +317,7 @@ public class COFTest extends COFItem {
                     }
                     s = reader.readLine();
                 }
-            } catch (ReloadFault e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (ReloadFault | IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
