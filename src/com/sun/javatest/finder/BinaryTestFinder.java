@@ -341,11 +341,11 @@ public class BinaryTestFinder extends TestFinder {
 
     /**
      * Read the binary file. The input file should be a zip file as written by
-     * BinaryTestWriter. All three sections are reed, but only the string table
+     * BinaryTestWriter. All three sections are read, but only the string table
      * and test tree are parsed at this point. The test table is read from an
      * internal byte array as required.
      */
-    private synchronized void readBinaryFile() {
+    public synchronized void readBinaryFile() {
         if (zipFile == null && zipFileRead) {
             try {
                 openBinaryFile(false);
