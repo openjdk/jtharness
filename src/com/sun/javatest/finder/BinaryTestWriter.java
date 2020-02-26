@@ -217,14 +217,11 @@ public class BinaryTestWriter {
         }
 
         if (strictFinder) {
-            testFinder.setErrorHandler(new TestFinder.ErrorHandler() {
-                                           @Override
-                                           public void error(String msg) {
-                                               numFinderErrors++;
-                                               System.err.println("Finder reported error:\n" + msg);
-                                               System.err.println("");
-                                           }
-                                       }
+            testFinder.setErrorHandler(msg -> {
+                numFinderErrors++;
+                System.err.println("Finder reported error:\n" + msg);
+                System.err.println("");
+            }
             );
         }
 
@@ -400,12 +397,7 @@ public class BinaryTestWriter {
         }
 
         Arrays.sort(files);
-        Arrays.sort(tests, new Comparator<TestDescription>() {
-            @Override
-            public int compare(TestDescription td1, TestDescription td2) {
-                return td1.getRootRelativeURL().compareTo(td2.getRootRelativeURL());
-            }
-        });
+        Arrays.sort(tests, (td1, td2) -> td1.getRootRelativeURL().compareTo(td2.getRootRelativeURL()));
 
         Vector<TestTree.Node> v = new Vector<>();
         for (File file1 : files) {

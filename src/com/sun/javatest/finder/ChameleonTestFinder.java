@@ -177,13 +177,10 @@ public class ChameleonTestFinder extends TestFinder {
      */
     public void readEntries(File file) throws Fault {
         //System.err.println("reading " + file);
-        SortedSet<Entry> s = new TreeSet<>(new Comparator<Entry>() {
-            @Override
-            public int compare(Entry o1, Entry o2) {
-                int n = o1.compareTo(o2);
-                // this gives us the reverse of the order we want, so ...
-                return -n;
-            }
+        SortedSet<Entry> s = new TreeSet<>((o1, o2) -> {
+            int n = o1.compareTo(o2);
+            // this gives us the reverse of the order we want, so ...
+            return -n;
         });
 
         try (BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {

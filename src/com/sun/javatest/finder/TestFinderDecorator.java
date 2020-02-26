@@ -49,13 +49,7 @@ public class TestFinderDecorator extends TestFinder {
         origTestFinder = testFinder;
         setCurrentTestFinder();
 
-        Preferences.access().addObserver("javatest.executionOrder", new Preferences.Observer() {
-
-            @Override
-            public void updated(String name, String newValue) {
-                setCurrentTestFinder();
-            }
-        });
+        Preferences.access().addObserver("javatest.executionOrder", (name, newValue) -> setCurrentTestFinder());
     }
 
     private void setCurrentTestFinder() {
