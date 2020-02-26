@@ -378,6 +378,18 @@ public class BinaryTestFinder extends TestFinder {
         }
     }
 
+    public StringTable getStringTable() {
+        return stringTable;
+    }
+
+    public TestTable getTestTable() {
+        return testTable;
+    }
+
+    public TestTree getTestTree() {
+        return testTree;
+    }
+
     //------------------------------------------------------------------------------------------
 
     /**
