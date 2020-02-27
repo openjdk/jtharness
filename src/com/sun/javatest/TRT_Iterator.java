@@ -301,17 +301,17 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
 
     @Override
     public TestResult nextElement() {
-        TestResult val = null;
+        TestResult testResult = null;
         synchronized (outQueueLock) {
             if (hasMoreElements()) {
-                val = outQueue.removeFirst();
+                testResult = outQueue.removeFirst();
 
                 findNext();
 
-                // XXX refresh val from TRT?
+                // XXX refresh testResult from TRT?
                 // the test in the TRT may have changed since it was selected by
-                resultStats[val.getStatus().getType()]++;
-                return val;
+                resultStats[testResult.getStatus().getType()]++;
+                return testResult;
             } else {
                 throw new NoSuchElementException(i18n.getString("trt.noElements"));
             }
