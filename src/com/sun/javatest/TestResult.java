@@ -51,6 +51,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
@@ -2095,6 +2096,23 @@ public class TestResult {
         String getOutput();
 
         PrintWriter getPrintWriter();
+    }
+
+    @Override
+    public String toString() {
+        return "TestResult{" +
+                "resultsFile=" + resultsFile +
+                ", execStatus=" + execStatus +
+                ", testURL='" + testURL + '\'' +
+                ", endTime=" + endTime +
+                ", checksumState=" + checksumState +
+                ", desc=" + desc +
+                ", props=" + Arrays.toString(props) +
+                ", env=" + Arrays.toString(env) +
+                ", sections=" + Arrays.toString(sections) +
+                ", maxTROutputSize=" + maxTROutputSize +
+                ", parent=" + parent +
+                '}';
     }
 
     /**
