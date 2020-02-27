@@ -743,13 +743,13 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                     currFrame = new PseudoFrame(node);
                     continue;               // recurse
                 } else {
-                    // we can assume that the node is a test since it is not
+                    // we can assume that the node is a TestResult since it is not
                     // null and not a node
-                    TestResult test = (TestResult) anonNode;
+                    TestResult testResult = (TestResult) anonNode;
 
                     // check the filters
                     try {
-                        int would = wouldAccept(test);
+                        int would = wouldAccept(testResult);
 
                         if (would >= 0) {               // rejected
                             continue;           // recurse
@@ -762,8 +762,8 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                         // probably better not to trust it
                         if (nodes != null && nodes[0] != null) {
                             trt = nodes[0].getEnclosingTable();
-                        } else if (test.getParent() != null) {
-                            trt = test.getParent().getEnclosingTable();
+                        } else if (testResult.getParent() != null) {
+                            trt = testResult.getParent().getEnclosingTable();
                         } else {
                             continue;
                         }
@@ -771,10 +771,10 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                         if (trt == null) {
                             continue;
                         } else {
-                            test = trt.resetTest(test);
+                            testResult = trt.resetTest(testResult);
                             // nowr retry once
                             try {
-                                if (wouldAccept(test) >= 0) {
+                                if (wouldAccept(testResult) >= 0) {
                                     continue;   // rejected
                                 }
                             } catch (TestResult.Fault f2) {
@@ -788,9 +788,9 @@ class TRT_Iterator implements TestResultTable.TreeIterator {
                     }
 
                     // not filtered out
-                    // put this test into the output queue
+                    // put this testResult into the output queue
                     synchronized (outQueueLock) {
-                        outQueue.addLast(test);
+                        outQueue.addLast(testResult);
                     }   // sync
 
                     done = true;
