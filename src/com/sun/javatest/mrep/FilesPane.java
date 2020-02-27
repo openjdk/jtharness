@@ -146,12 +146,9 @@ class FilesPane extends JPanel {
         // Panel with xml files begin
         // Buttons begin
 
-        nextBtn = uif.createButton("files.next", new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (checkInput()) {
-                    nextListener.actionPerformed(e);
-                }
+        nextBtn = uif.createButton("files.next", e -> {
+            if (checkInput()) {
+                nextListener.actionPerformed(e);
             }
         });
         nextBtn.setEnabled(false);
@@ -411,12 +408,7 @@ class FilesPane extends JPanel {
             merged = new ArrayList<>();
             this.mergedBtns = new ArrayList<>();
 
-            addMore = uif.createButton("files.addmore", new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    addXmlToMerge();
-                }
-            });
+            addMore = uif.createButton("files.addmore", e -> addXmlToMerge());
             GridBagConstraints bc = new GridBagConstraints();
             bc.gridwidth = GridBagConstraints.REMAINDER;
             bc.anchor = GridBagConstraints.NORTH;
@@ -449,18 +441,15 @@ class FilesPane extends JPanel {
             mergedField.addFocusListener(listener);
             this.add(mergedField, fc);
             JButton xmlBtn = uif.createButton("files.result.browse",
-                    new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            Object src = e.getSource();
-                            for (int i = 0; i < mergedBtns.size(); i++) {
-                                if (src == mergedBtns.get(i)) {
-                                    chooseXmlReportFile(merged
-                                            .get(i));
-                                }
+                    e -> {
+                        Object src = e.getSource();
+                        for (int i = 0; i < mergedBtns.size(); i++) {
+                            if (src == mergedBtns.get(i)) {
+                                chooseXmlReportFile(merged
+                                        .get(i));
                             }
-                            enableNext();
                         }
+                        enableNext();
                     });
             xmlBtn.setMnemonic('1' + num);
             this.add(xmlBtn, bc);

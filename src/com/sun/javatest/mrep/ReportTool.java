@@ -263,25 +263,22 @@ class ReportTool extends Tool {
         waitDialog.pack();
         waitDialogController = new WaitDialogController(waitDialog);
         final String cancelling = uif.getI18NString("tool.cancelling");
-        cancelBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JButton butt = (JButton) e.getSource();
-                butt.setEnabled(false);
-                Component[] cmp = waitDialog.getContentPane().getComponents();
-                if (worker != null && worker.isAlive()) {
-                    worker.interrupt();
-                }
-                for (Component aCmp : cmp) {
-                    if ("tool.wait".equals(aCmp.getName())) {
-                        if (aCmp instanceof JTextComponent) {
-                            ((JTextComponent) aCmp).setText(cancelling);
-                        }
-                        break;
-                    }
-                }
-
+        cancelBtn.addActionListener(e -> {
+            JButton butt = (JButton) e.getSource();
+            butt.setEnabled(false);
+            Component[] cmp = waitDialog.getContentPane().getComponents();
+            if (worker != null && worker.isAlive()) {
+                worker.interrupt();
             }
+            for (Component aCmp : cmp) {
+                if ("tool.wait".equals(aCmp.getName())) {
+                    if (aCmp instanceof JTextComponent) {
+                        ((JTextComponent) aCmp).setText(cancelling);
+                    }
+                    break;
+                }
+            }
+
         });
 
         worker = new Thread() {
@@ -332,13 +329,10 @@ class ReportTool extends Tool {
 
         };
 
-        ActionListener al = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                // show dialog if still processing
-                if (worker != null && worker.isAlive()) {
-                    waitDialogController.show();
-                }
+        ActionListener al = evt -> {
+            // show dialog if still processing
+            if (worker != null && worker.isAlive()) {
+                waitDialogController.show();
             }
         };
 
@@ -359,12 +353,7 @@ class ReportTool extends Tool {
             waitDialogController.finish();
         }
         // switch back to GUI thread
-        EventQueue.invokeLater(new Runnable() {
-                                   @Override
-                                   public void run() {
-                                       uif.showError(uiKey, msg);
-                                   }
-                               }
+        EventQueue.invokeLater(() -> uif.showError(uiKey, msg)
         );
     }
 
@@ -567,12 +556,7 @@ class ReportTool extends Tool {
                 waitDialog.setVisible(b);
             } else {
                 try {
-                    SwingUtilities.invokeAndWait(new Runnable() {
-                        @Override
-                        public void run() {
-                            waitDialog.setVisible(b);
-                        }
-                    });
+                    SwingUtilities.invokeAndWait(() -> waitDialog.setVisible(b));
                 } catch (InterruptedException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
@@ -694,12 +678,9 @@ class ReportTool extends Tool {
         @Override
         public void hierarchyChanged(HierarchyEvent e) {
             if (isShowing() && autoShowOptions) {
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        showOptions();
-                        updateGUI();
-                    }
+                EventQueue.invokeLater(() -> {
+                    showOptions();
+                    updateGUI();
                 });
                 autoShowOptions = false;
             }
