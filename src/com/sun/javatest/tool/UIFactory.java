@@ -115,15 +115,12 @@ public class UIFactory {
      * Constant to identify the cancellation option.
      */
     public static final String CANCEL = "cancel";
-    private static final ActionListener closeListener = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Component src = (Component) e.getSource();
-            for (Container p = src.getParent(); p != null; p = p.getParent()) {
-                if (p instanceof JInternalFrame || p instanceof Window) {
-                    p.setVisible(false);
-                    return;
-                }
+    private static final ActionListener closeListener = e -> {
+        Component src = (Component) e.getSource();
+        for (Container p = src.getParent(); p != null; p = p.getParent()) {
+            if (p instanceof JInternalFrame || p instanceof Window) {
+                p.setVisible(false);
+                return;
             }
         }
     };
@@ -429,25 +426,18 @@ public class UIFactory {
 
             final JComponent rootPane = d.getRootPane();
             KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
-            rootPane.registerKeyboardAction(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (helpBroker != null) {
-                        helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(rootPane));
-                    }
+            rootPane.registerKeyboardAction(e -> {
+                if (helpBroker != null) {
+                    helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(rootPane));
                 }
             }, keystroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         } else {
             if (comp instanceof JComponent) {
                 KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
-                ((JComponent) comp).registerKeyboardAction(new ActionListener() {
-
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (helpBroker != null) {
-                            helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(comp));
-                        }
+                ((JComponent) comp).registerKeyboardAction(e -> {
+                    if (helpBroker != null) {
+                        helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(comp));
                     }
                 }, keystroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
             }
@@ -833,12 +823,9 @@ public class UIFactory {
      */
     public JButton createHelpButton(String uiKey, final String helpID) {
         JButton hb = createButton(uiKey);
-        hb.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (helpBroker != null) {
-                    helpBroker.displayCurrentID(helpID);
-                }
+        hb.addActionListener(e -> {
+            if (helpBroker != null) {
+                helpBroker.displayCurrentID(helpID);
             }
         });
 
@@ -892,14 +879,11 @@ public class UIFactory {
         I18NResourceBundle save_i18n = i18n;
         try {
             i18n = local_i18n;
-            return createButton(uiKey, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Component c = (Component) e.getSource();
-                    JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
-                    op.setValue(c); // JOptionPane expects the value to be set to the selected button
-                    op.setVisible(false);
-                }
+            return createButton(uiKey, e -> {
+                Component c = (Component) e.getSource();
+                JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
+                op.setValue(c); // JOptionPane expects the value to be set to the selected button
+                op.setVisible(false);
             });
         } finally {
             i18n = save_i18n;
@@ -1663,12 +1647,9 @@ public class UIFactory {
     public JMenuItem createHelpMenuItem(String uiKey, final String helpID) {
         JMenuItem mi = new JMenuItem(getI18NString(uiKey + ".mit"));
         setMnemonic(mi, uiKey);
-        mi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (helpBroker != null) {
-                    helpBroker.displayCurrentID(helpID);
-                }
+        mi.addActionListener(e -> {
+            if (helpBroker != null) {
+                helpBroker.displayCurrentID(helpID);
             }
         });
 

@@ -274,13 +274,10 @@ class DesktopPrefsPane extends PreferencesPane {
         // override default name
         uif.setAccessibleName(ttipsCheck, "dt.prefs.ttips");
 
-        ttipsCheck.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean state = ttipsCheck.isSelected();
-                ttDelay.setEnabled(state);
-                ttDuration.setEnabled(state);
-            }
+        ttipsCheck.addActionListener(e -> {
+            boolean state = ttipsCheck.isSelected();
+            ttDelay.setEnabled(state);
+            ttDuration.setEnabled(state);
         });
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1;

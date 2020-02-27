@@ -98,12 +98,7 @@ class HelpMenu extends JMenu {
         }
 
         // first, collect the set of active test suites
-        Set<TestSuite> loadedTestSuites = new TreeSet<>(new Comparator<TestSuite>() {
-            @Override
-            public int compare(TestSuite o1, TestSuite o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
+        Set<TestSuite> loadedTestSuites = new TreeSet<>((o1, o2) -> o1.getName().compareTo(o2.getName()));
         Tool selTool = desktop.getSelectedTool();
         if (selTool != null) {
             TestSuite[] tss = selTool.getLoadedTestSuites();
@@ -308,12 +303,7 @@ class HelpMenu extends JMenu {
                 mi = new JMenuItem("  " + doc.getTitle());
             }
 
-            mi.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    showHelpSet(doc);
-                }
-            });
+            mi.addActionListener(e -> showHelpSet(doc));
 
             v.add(mi);
         }

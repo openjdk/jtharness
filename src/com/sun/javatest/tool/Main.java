@@ -433,12 +433,9 @@ public class Main {
         if (desktop != null) {
             if (ctx.isCloseDesktopWhenDoneEnabled()
                     && desktop.isOKToAutoExit()) {
-                Runnable task = new Runnable() {
-                    @Override
-                    public void run() {
-                        desktop.setVisible(false);
-                        desktop.dispose();
-                    }
+                Runnable task = () -> {
+                    desktop.setVisible(false);
+                    desktop.dispose();
                 };
                 try {
                     EventQueue.invokeAndWait(task);
@@ -458,38 +455,36 @@ public class Main {
                 }
                 final InterviewParameters ip = ip_tmp;
 
-                Runnable task = new Runnable() {
-                    @Override
-                    public void run() {
-                        // if a desktop has been started, make sure it is not empty
-                        if (desktop.isEmpty()) {
-                            if (ctx.hasConfig() && ip != null) {
-                                if (tracing) {
-                                    trace("show specified test suite");
-                                }
-                                desktop.restoreHistory();
-                                Tool tool = desktop.addDefaultTool(ip);
-                                Map<String, String> data = ctx.getDesktopData();
-                                if (data != null) {
-                                    tool.restore(data);
-                                }
-                            } else if (desktop.isFirstTime()) {
-                                if (tracing) {
-                                    trace("show default");
-                                }
-                                desktop.addDefaultTool();
-                            } else {
-                                if (tracing) {
-                                    trace("restore desktop");
-                                }
-                                desktop.restore();
+                // run()
+                Runnable task = () -> {
+                    // if a desktop has been started, make sure it is not empty
+                    if (desktop.isEmpty()) {
+                        if (ctx.hasConfig() && ip != null) {
+                            if (tracing) {
+                                trace("show specified test suite");
                             }
+                            desktop.restoreHistory();
+                            Tool tool = desktop.addDefaultTool(ip);
+                            Map<String, String> data = ctx.getDesktopData();
+                            if (data != null) {
+                                tool.restore(data);
+                            }
+                        } else if (desktop.isFirstTime()) {
+                            if (tracing) {
+                                trace("show default");
+                            }
+                            desktop.addDefaultTool();
+                        } else {
+                            if (tracing) {
+                                trace("restore desktop");
+                            }
+                            desktop.restore();
                         }
-                        if (tracing) {
-                            trace("set desktop visible");
-                        }
-                        desktop.setVisible(true);
-                    }   // run()
+                    }
+                    if (tracing) {
+                        trace("set desktop visible");
+                    }
+                    desktop.setVisible(true);
                 };   // Runnable
 
                 try {

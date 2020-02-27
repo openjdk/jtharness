@@ -395,12 +395,7 @@ abstract class DeskView {
         final HelpBroker helpBroker = desktop.getHelpBroker();
         JRootPane rootPane = frame.getRootPane();
         KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
-        rootPane.registerKeyboardAction(new ActionListener() {
-                                            @Override
-                                            public void actionPerformed(ActionEvent e) {
-                                                helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(getSelectedTool()));
-                                            }
-                                        }, keystroke,
+        rootPane.registerKeyboardAction(e -> helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(getSelectedTool())), keystroke,
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         Desktop.addPreferredSizeDebugListener(frame);

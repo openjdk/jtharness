@@ -226,12 +226,9 @@ public abstract class PreferencesPane extends JPanel {
             setName("prefs");
             setTitle(uif.getI18NString("prefs.title"));
             KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
-            getRootPane().registerKeyboardAction(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (helpBroker != null) {
-                        helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(getRootPane()));
-                    }
+            getRootPane().registerKeyboardAction(e -> {
+                if (helpBroker != null) {
+                    helpBroker.displayCurrentID(ContextHelpManager.getHelpIDString(getRootPane()));
                 }
             }, keystroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
             ContextHelpManager.setHelpIDString(getRootPane(), "ui.prefs.dialog.csh");

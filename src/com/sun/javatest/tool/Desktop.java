@@ -372,17 +372,14 @@ public class Desktop {
             throw new IllegalArgumentException();
         }
 
-        ActionListener showFocusListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Component src = (Component) e.getSource();
-                Component comp = javax.swing.SwingUtilities.findFocusOwner(src);
-                System.err.println("ALT-F2: source=" + src);
-                System.err.println("ALT-F2:  focus=" + comp);
-                String helpId = comp == null ? "(none)" : ContextHelpManager.getHelpIDString(comp);
-                helpId = helpId == null ? ContextHelpManager.getHelpIDString(src) : helpId;
-                System.err.println("ALT-F2: helpId=" + helpId);
-            }
+        ActionListener showFocusListener = e -> {
+            Component src = (Component) e.getSource();
+            Component comp = javax.swing.SwingUtilities.findFocusOwner(src);
+            System.err.println("ALT-F2: source=" + src);
+            System.err.println("ALT-F2:  focus=" + comp);
+            String helpId = comp == null ? "(none)" : ContextHelpManager.getHelpIDString(comp);
+            helpId = helpId == null ? ContextHelpManager.getHelpIDString(src) : helpId;
+            System.err.println("ALT-F2: helpId=" + helpId);
         };
 
         root.registerKeyboardAction(showFocusListener,
@@ -400,17 +397,14 @@ public class Desktop {
             throw new IllegalArgumentException();
         }
 
-        ActionListener showPrefSizeListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Component src = (Component) e.getSource();
-                Component c = javax.swing.SwingUtilities.findFocusOwner(src);
-                while (c != null) {
-                    Dimension d = c.getPreferredSize();
-                    System.err.println("ALT-1: comp=" + c.getName() + "(" + c.getClass().getName() + ") "
-                            + "[w:" + d.width + ",h:" + d.height + "]");
-                    c = c.getParent();
-                }
+        ActionListener showPrefSizeListener = e -> {
+            Component src = (Component) e.getSource();
+            Component c1 = javax.swing.SwingUtilities.findFocusOwner(src);
+            while (c1 != null) {
+                Dimension d = c1.getPreferredSize();
+                System.err.println("ALT-1: comp=" + c1.getName() + "(" + c1.getClass().getName() + ") "
+                        + "[w:" + d.width + ",h:" + d.height + "]");
+                c1 = c1.getParent();
             }
         };
 
@@ -843,12 +837,7 @@ public class Desktop {
      */
     public void setVisible(final boolean b) {
         if (!EventQueue.isDispatchThread()) {
-            invokeOnEventThread(new Runnable() {
-                @Override
-                public void run() {
-                    setVisible(b);
-                }
-            });
+            invokeOnEventThread(() -> setVisible(b));
             return;
         }
 
@@ -1042,12 +1031,9 @@ public class Desktop {
             // default option to "No"
 
             final JOptionPane pane = new JOptionPane(body, JOptionPane.WARNING_MESSAGE);
-            ActionListener l = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    pane.setValue(e.getSource());
-                    pane.setVisible(false);
-                }
+            ActionListener l = e -> {
+                pane.setValue(e.getSource());
+                pane.setVisible(false);
             };
             JButton yesBtn = uif.createButton("dt.confirm.yes", l);
             JButton noBtn = uif.createButton("dt.confirm.no", l);
@@ -1194,12 +1180,7 @@ public class Desktop {
     private void restore0(final Map<String, String> p) {
         //System.err.println("DT: restore " + file);
         if (!EventQueue.isDispatchThread()) {
-            invokeOnEventThread(new Runnable() {
-                @Override
-                public void run() {
-                    restore0(p);
-                }
-            });
+            invokeOnEventThread(() -> restore0(p));
             return;
         }
 

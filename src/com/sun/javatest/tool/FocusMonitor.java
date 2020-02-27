@@ -114,12 +114,9 @@ class FocusMonitor {
 
     private FocusMonitor() {
         KeyboardFocusManager fm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        fm.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent e) {
-                if (e.getPropertyName().equals("focusOwner")) {
-                    update();
-                }
+        fm.addPropertyChangeListener(e -> {
+            if (e.getPropertyName().equals("focusOwner")) {
+                update();
             }
         });
     }
@@ -378,12 +375,7 @@ class FocusMonitor {
             public void menuCanceled(MenuEvent e) {
             }
         });
-        showBackgroundMenuItem.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                setHighlightEnabled(showBackgroundMenuItem.isSelected());
-            }
-        });
+        showBackgroundMenuItem.addChangeListener(e -> setHighlightEnabled(showBackgroundMenuItem.isSelected()));
         viewMenu.add(showBackgroundMenuItem);
         menuBar.add(viewMenu);
 

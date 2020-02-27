@@ -97,16 +97,13 @@ public class ColorPrefsPane extends PreferencesPane {
 
         this.add(inputColors, c);
 
-        JButton defaults = uif.createButton("colorprefs.setdefaults", new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Component[] components = inputColors.getComponents();
-                for (Component c : components) {
-                    if (c instanceof JButton) {
-                        JButton b = (JButton) c;
-                        String name = b.getName();
-                        b.setBackground(Color.decode(i18n.getString("colorprefs." + name + ".defvalue")));
-                    }
+        JButton defaults = uif.createButton("colorprefs.setdefaults", e -> {
+            Component[] components = inputColors.getComponents();
+            for (Component c1 : components) {
+                if (c1 instanceof JButton) {
+                    JButton b = (JButton) c1;
+                    String name = b.getName();
+                    b.setBackground(Color.decode(i18n.getString("colorprefs." + name + ".defvalue")));
                 }
             }
         });
