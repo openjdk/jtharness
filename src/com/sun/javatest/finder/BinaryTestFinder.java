@@ -448,7 +448,7 @@ public class BinaryTestFinder extends TestFinder {
     /**
      * A TestTable is a collection of TestDescriptions.
      */
-    static class TestTable {
+    public static class TestTable {
         private ByteArrayInputStream bais;
         private StringTable stringTable;
 
@@ -504,7 +504,7 @@ public class BinaryTestFinder extends TestFinder {
      * A TestTree represents a tree of test descriptions; the data of the individual
      * descriptions is stored in a test table.
      */
-    static class TestTree {
+    public static class TestTree {
         private Node root;
 
         /**
@@ -526,7 +526,7 @@ public class BinaryTestFinder extends TestFinder {
         /**
          * Get the node for a path within the tree.
          */
-        Node getNode(String path) {
+        public Node getNode(String path) {
             return path.isEmpty() ? root : root.getNode(path);
         }
 
@@ -535,7 +535,7 @@ public class BinaryTestFinder extends TestFinder {
          * used to find the test descriptions with the test table, and a set of child
          * nodes.
          */
-        static class Node {
+        public static class Node {
             private String name;
             private int[] testIndexes;
             private Node[] children;
@@ -567,7 +567,7 @@ public class BinaryTestFinder extends TestFinder {
             /**
              * Get a child node as indicated by a relative path.
              */
-            Node getNode(String path) {
+            public Node getNode(String path) {
                 int sep = path.indexOf(File.separatorChar);
                 String head = sep == -1 ? path : path.substring(0, sep);
                 for (Node child : children) {
@@ -579,11 +579,23 @@ public class BinaryTestFinder extends TestFinder {
                 return null;
             }
 
+            public String getName() {
+                return name;
+            }
+
+            public int[] getTestIndexes() {
+                return testIndexes;
+            }
+
+            public Node[] getChildren() {
+                return children;
+            }
+
             /**
              * Get a TestDescription from this node, using the data in a
              * test table.
              */
-            TestDescription getTest(int index, File root, File path, TestTable testTable) throws IOException {
+            public TestDescription getTest(int index, File root, File path, TestTable testTable) throws IOException {
                 if (testIndexes == null || index > testIndexes.length) {
                     throw new IllegalArgumentException();
                 }
