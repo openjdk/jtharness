@@ -620,12 +620,12 @@ public abstract class TestFinder {
     }
 
     /**
-     * Returns total number of tests if it is already known in advance
-     * (for example if preliminary quick scan of the suite was done).
+     * Returns the total number of tests in the inspected suite if it is known.
+     * (For example if preliminary quick scan of the suite was done).
      * Default implementation returns empty Optional.
-     * @return total number of tests or empty optional
+     * @return total number of tests or empty optional if there's no info available
      */
-    public Optional<Integer> getTotalNumberOfTestsInSuite() {
+    public Optional<Integer> totalNumberOfTestsInTheSuite() {
         return Optional.empty();
     }
 

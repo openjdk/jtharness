@@ -393,7 +393,7 @@ public class BinaryTestFinder extends TestFinder {
     }
 
     @Override
-    public Optional<Integer> getTotalNumberOfTestsInSuite() {
+    public Optional<Integer> totalNumberOfTestsInTheSuite() {
         return Optional.of(testTree.testsTotal);
     }
 
@@ -517,6 +517,7 @@ public class BinaryTestFinder extends TestFinder {
 
         /**
          * Create a test tree from a root node.
+         * @param testsTotal total number of tests in this test tree
          */
         TestTree(Node root, int testsTotal) {
             this.root = root;
@@ -528,9 +529,9 @@ public class BinaryTestFinder extends TestFinder {
          */
         static TestTree read(ZipFile zf, ZipEntry ze) throws IOException {
             DataInputStream in = new DataInputStream(new BufferedInputStream(zf.getInputStream(ze)));
-            AtomicInteger totalTests = new AtomicInteger();
-            Node root = new Node(in, totalTests);
-            return new TestTree(root, totalTests.get());
+            AtomicInteger testCounter = new AtomicInteger();
+            Node root = new Node(in, testCounter);
+            return new TestTree(root, testCounter.get());
         }
 
         /**
@@ -555,11 +556,12 @@ public class BinaryTestFinder extends TestFinder {
              * a name, a count, followed by that many test indexes into the
              * corresponding test table, and a count, followed (recursively)
              * by that many child nodes.
+             * @param testCounter counter of the total test number that is incremented along with test tree scan
              */
-            Node(DataInputStream in, AtomicInteger totalTests) throws IOException {
+            Node(DataInputStream in, AtomicInteger testCounter) throws IOException {
                 name = in.readUTF();
                 int testCount = readInt(in);
-                totalTests.addAndGet(testCount);
+                testCounter.addAndGet(testCount);
                 if (testCount > 0) {
                     testIndexes = new int[testCount];
                     for (int i = 0; i < testIndexes.length; i++) {
@@ -570,7 +572,7 @@ public class BinaryTestFinder extends TestFinder {
                 if (childCount > 0) {
                     children = new Node[childCount];
                     for (int i = 0; i < children.length; i++) {
-                        children[i] = new Node(in, totalTests);
+                        children[i] = new Node(in, testCounter);
                     }
                 }
             }

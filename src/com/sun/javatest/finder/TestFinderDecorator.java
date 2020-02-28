@@ -120,8 +120,8 @@ public class TestFinderDecorator extends TestFinder {
     }
 
     @Override
-    public Optional<Integer> getTotalNumberOfTestsInSuite() {
-        return currentTestFinder.getTotalNumberOfTestsInSuite();
+    public Optional<Integer> totalNumberOfTestsInTheSuite() {
+        return currentTestFinder.totalNumberOfTestsInTheSuite();
     }
 
     @Override

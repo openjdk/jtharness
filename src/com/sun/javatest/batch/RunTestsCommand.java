@@ -114,7 +114,7 @@ class RunTestsCommand extends Command {
 
             int[] boStats = bo.getStats();
 
-            Optional<Integer> totalNumberOfTestsIfKnown = harness.getResultTable().getTestFinder().getTotalNumberOfTestsInSuite();
+            Optional<Integer> totalNumberOfTestsIfKnown = harness.getResultTable().getTestFinder().totalNumberOfTestsInTheSuite();
             if (totalNumberOfTestsIfKnown.isPresent()) {
                 boStats[Status.NOT_RUN] = totalNumberOfTestsIfKnown.get() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
             } else {
