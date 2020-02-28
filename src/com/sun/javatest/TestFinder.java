@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Base implementation for test finders which search for test descriptions
@@ -616,6 +617,16 @@ public abstract class TestFinder {
         } else {
             return tests.toArray(new TestDescription[tests.size()]);
         }
+    }
+
+    /**
+     * Returns total number of tests if it is already known in advance
+     * (for example if preliminary quick scan of the suite was done)
+     * @implNote default implementation returns empty Optional
+     * @return total number of tests or empty optional
+     */
+    public Optional<Integer> getTotalNumberOfTestsInSuite() {
+        return Optional.empty();
     }
 
     /**

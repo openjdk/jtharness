@@ -32,6 +32,7 @@ import com.sun.javatest.tool.Preferences;
 
 import java.io.File;
 import java.util.Comparator;
+import java.util.Optional;
 
 /**
  * A test finder decorator that reads tests from a delegate, and returns the
@@ -116,6 +117,11 @@ public class TestFinderDecorator extends TestFinder {
     @Override
     public boolean isFolder(File path) {
         return currentTestFinder.isFolder(path);
+    }
+
+    @Override
+    public Optional<Integer> getTotalNumberOfTestsInSuite() {
+        return currentTestFinder.getTotalNumberOfTestsInSuite();
     }
 
     @Override

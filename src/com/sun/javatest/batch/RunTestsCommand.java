@@ -41,6 +41,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.ListIterator;
+import java.util.Optional;
 
 class RunTestsCommand extends Command {
     private static final String DATE_OPTION = "date";
@@ -112,13 +113,17 @@ class RunTestsCommand extends Command {
             }
 
             int[] boStats = bo.getStats();
-            // enhancing stats after the run by adding number of rejected tests - that were filtered out
-            // due to different reasons - keywords, exclude list etc.
-            // also adding a number of found tests that were not run for some reason other than rejection
-            int notFoundSinceRejected = harness.getTestIterator().getRejectCount();
-            int foundButNotRun =
-                    harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
-            boStats[Status.NOT_RUN] = notFoundSinceRejected + foundButNotRun;
+
+            Optional<Integer> totalNumberOfTestsIfKnown = harness.getResultTable().getTestFinder().getTotalNumberOfTestsInSuite();
+            if (totalNumberOfTestsIfKnown.isPresent()) {
+                boStats[Status.NOT_RUN] = totalNumberOfTestsIfKnown.get() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
+            } else {
+                // enhancing stats after the run by adding number of rejected tests - that were filtered out
+                // due to different reasons - keywords, exclude list etc.
+                // also adding a number of found tests that were not run for some reason other than rejection
+                int notFoundSinceRejected = harness.getTestIterator().getRejectCount();
+                boStats[Status.NOT_RUN] = notFoundSinceRejected + harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
+            }
 
             h.notifyOfTheFinalStats(boStats);
 
