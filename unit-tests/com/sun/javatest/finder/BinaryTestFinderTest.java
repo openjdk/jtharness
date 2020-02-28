@@ -53,28 +53,39 @@ public class BinaryTestFinderTest {
     }
 
     @Test
-    public void testDemotck() throws IOException, Fault {
+    public void testDemoTCK() throws IOException, Fault {
         boolean ok;
         BinaryTestFinderTest t = new BinaryTestFinderTest();
         Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
         String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_demotck").toAbsolutePath().toString();
         String testSuiteHtml = TU.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html";
-        ok = t.run(System.out, testSuiteHtml, workDir);
+        ok = t.run(System.out, 11, testSuiteHtml, workDir);
         Assert.assertTrue(ok);
     }
 
     @Test
-    public void testIniturl() throws IOException, Fault {
+    public void testIniturlTCK() throws IOException, Fault {
         boolean ok;
         BinaryTestFinderTest t = new BinaryTestFinderTest();
         Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
         String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_initurl").toAbsolutePath().toString();
         String testSuiteHtml = TU.getPathToTestTestSuite("initurl") + File.separator + "testsuite.html";
-        ok = t.run(System.out, testSuiteHtml, workDir);
+        ok = t.run(System.out, 11, testSuiteHtml, workDir);
         Assert.assertTrue(ok);
     }
 
-    public boolean run(PrintStream log, String... args) throws Fault {
+    @Test
+    public void testSimpleHTMLTCK() throws IOException, Fault {
+        boolean ok;
+        BinaryTestFinderTest t = new BinaryTestFinderTest();
+        Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
+        String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_simplehtml").toAbsolutePath().toString();
+        String testSuiteHtml = TU.getPathToTestTestSuite("simplehtml") + File.separator + "tests" + File.separator + "testsuite.html";
+        ok = t.run(System.out, 17, testSuiteHtml, workDir);
+        Assert.assertTrue(ok);
+    }
+
+    public boolean run(PrintStream log, int expectedTotalTestNumber, String... args) throws Fault {
         File testSuite;
         File testWorkDir;
         File binaryFile;
@@ -116,13 +127,15 @@ public class BinaryTestFinderTest {
             return false;
         }
 
-        HTMLTestFinder tf1 = initializeHTMLTestFinder(testSuite);
+        HTMLTestFinder htmlTestFinder = initializeHTMLTestFinder(testSuite);
 
-        BinaryTestFinder tf2 = initializeBTF(testSuite, binaryFile.getPath());
+        BinaryTestFinder binaryTestFinder = initializeBTF(testSuite, binaryFile.getPath());
+        binaryTestFinder.readBinaryFile();
+        Assert.assertEquals(expectedTotalTestNumber, binaryTestFinder.totalNumberOfTestsInTheSuite().get().intValue());
 
         Map<String, DiffRecord> table = new HashMap<>();
 
-        addTestsToTable(table, tf1, tf2);
+        addTestsToTable(table, htmlTestFinder, binaryTestFinder);
 
         log.println("Comparing all tests");
         int diff;
