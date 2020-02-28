@@ -621,8 +621,8 @@ public abstract class TestFinder {
 
     /**
      * Returns total number of tests if it is already known in advance
-     * (for example if preliminary quick scan of the suite was done)
-     * @implNote default implementation returns empty Optional
+     * (for example if preliminary quick scan of the suite was done).
+     * Default implementation returns empty Optional.
      * @return total number of tests or empty optional
      */
     public Optional<Integer> getTotalNumberOfTestsInSuite() {
