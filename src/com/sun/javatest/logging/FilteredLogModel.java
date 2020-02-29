@@ -46,12 +46,9 @@ public class FilteredLogModel extends LogModel {
     public FilteredLogModel(ObservedFile logFile, String fileName) {
         super(logFile, fileName);
         setFilter(new LogFilter(this));
-        super.addNewPageListener(new NewPageListener() {
-            @Override
-            public void onNewPage(int startRecord, int endRecord, int p) {
-                if (noFilter() && isStableState()) {
-                    fireNewPage(startRecord, endRecord, p);
-                }
+        super.addNewPageListener((startRecord, endRecord, p) -> {
+            if (noFilter() && isStableState()) {
+                fireNewPage(startRecord, endRecord, p);
             }
         });
         setObservedFile(logFile);
