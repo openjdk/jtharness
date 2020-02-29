@@ -215,12 +215,8 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             return;        // we do it this way so that the tree updates itself, THEN we
             // ask it to restore
         }
-        Runnable restorer = new Runnable() {
-
-            @Override
-            public void run() {
-                //targetTree.restorePaths(paths);
-            }
+        Runnable restorer = () -> {
+            //targetTree.restorePaths(paths);
         };      // Runnable
 
         EventQueue.invokeLater(restorer);
@@ -646,21 +642,17 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                         finally {
                             // fixup GUI on GUI thread
                             try {
-                                EventQueue.invokeAndWait(new Runnable() {
+                                EventQueue.invokeAndWait(() -> {
+                                    if (d.isShowing()) {
+                                        d.hide();
+                                        // enable all menu items
+                                    }
+                                    setPopupItemsEnabled(true);
 
-                                    @Override
-                                    public void run() {
-                                        if (d.isShowing()) {
-                                            d.hide();
-                                            // enable all menu items
-                                        }
-                                        setPopupItemsEnabled(true);
-
-                                        // reselect tree nodes
-                                        TreePath[] translatedPaths = getTreePaths(finalList);
-                                        if (translatedPaths != null && tree != null) {
-                                            tree.setSelectionPaths(translatedPaths);
-                                        }
+                                    // reselect tree nodes
+                                    TreePath[] translatedPaths = getTreePaths(finalList);
+                                    if (translatedPaths != null && tree != null) {
+                                        tree.setSelectionPaths(translatedPaths);
                                     }
                                 });
                             } catch (InterruptedException | InvocationTargetException e) {
@@ -670,19 +662,15 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 }   // run()
             };  // thread
 
-            ActionListener al = new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    // show dialog if still processing
-                    if (t == null) {
-                        return;
-                    } else if (t.isAlive() && !d.isVisible()) {
-                        d.show();
-                    } else if (!t.isAlive() && d.isVisible()) {
-                        // just in case...a watchdog type check
-                        d.hide();
-                    }
+            ActionListener al = evt -> {
+                // show dialog if still processing
+                if (t == null) {
+                    return;
+                } else if (t.isAlive() && !d.isVisible()) {
+                    d.show();
+                } else if (!t.isAlive() && d.isVisible()) {
+                    // just in case...a watchdog type check
+                    d.hide();
                 }
             };
 
@@ -884,19 +872,15 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                         final boolean updateTree = changes;
                         // fixup GUI on GUI thread
                         try {
-                            EventQueue.invokeAndWait(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    if (d.isShowing()) {
-                                        d.hide();
-                                        // enable all menu items
-                                    }
-                                    setPopupItemsEnabled(true);
-                                    if (updateTree) {
-                                        restoreOpenTreePaths(openUrls);
-                                        tree.restoreSelection(selectedUrls);
-                                    }
+                            EventQueue.invokeAndWait(() -> {
+                                if (d.isShowing()) {
+                                    d.hide();
+                                    // enable all menu items
+                                }
+                                setPopupItemsEnabled(true);
+                                if (updateTree) {
+                                    restoreOpenTreePaths(openUrls);
+                                    tree.restoreSelection(selectedUrls);
                                 }
                             });
                         } catch (InterruptedException | InvocationTargetException e) {
@@ -905,19 +889,15 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                 }   // run()
             };  // thread
 
-            ActionListener al = new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    // show dialog if still processing
-                    if (t == null) {
-                        return;
-                    } else if (t.isAlive() && !d.isVisible()) {
-                        d.show();
-                    } else if (!t.isAlive() && d.isVisible()) {
-                        // just in case...a watchdog type check
-                        d.hide();
-                    }
+            ActionListener al = evt -> {
+                // show dialog if still processing
+                if (t == null) {
+                    return;
+                } else if (t.isAlive() && !d.isVisible()) {
+                    d.show();
+                } else if (!t.isAlive() && d.isVisible()) {
+                    // just in case...a watchdog type check
+                    d.hide();
                 }
             };
 
@@ -995,69 +975,63 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             trt.addObserver(pm);
         }
         if (trt != null) {
-            EventQueue.invokeLater(new Runnable() {
+            EventQueue.invokeLater(() -> new Thread("Test tree updater") {
 
                 @Override
                 public void run() {
-                    new Thread("Test tree updater") {
+                    if (trt != null && trt.getWorkDirectory() != null
+                            && treeModel != null && !disposed) {
+                        try {
+                            treeModel.pauseWork();
+                            trt.getLock().lock();
+                            trt.waitUntilReady();
+                            trt.refreshIfNeeded(trt.getRoot());
 
-                        @Override
-                        public void run() {
-                            if (trt != null && trt.getWorkDirectory() != null
-                                    && treeModel != null && !disposed) {
-                                try {
-                                    treeModel.pauseWork();
-                                    trt.getLock().lock();
-                                    trt.waitUntilReady();
-                                    trt.refreshIfNeeded(trt.getRoot());
-
-                                    TT_BasicNode root = (TT_BasicNode) treeModel.getRoot();
-                                    for (int i = 0; i >= 0 && i < root.getChildCount(); i++) {
-                                        Object c = root.getChildAt(i);
-                                        if (c instanceof TT_BasicNode) {
-                                            TT_BasicNode tn = (TT_BasicNode) c;
-                                            if (tn.getChildCount() == 0) {
-                                                trt.prune(tn.getTableNode());
-                                                i--;
-                                            }
-                                        }
-                                    }
-                                    String[] openPaths = null;
-                                    String[] selectedPaths = null;
-                                    if (tree != null) {
-                                        TreePath[] p = tree.snapshotOpenPaths();
-                                        openPaths = treeModel.pathsToStrings(p);
-
-                                        selectedPaths = treeModel.pathsToStrings(tree.snapshotSelectedPaths());
-
-                                    }
-
-                                    if (pm != null) {
-                                        pm.refreshTree();
-                                    }
-
-                                    if (tree != null) {
-                                        tree.invalidate();
-
-                                        if (openPaths != null && openPaths.length > 0) {
-                                            tree.restorePaths(openPaths, true);
-                                        }
-
-                                        tree.restoreSelection(selectedPaths);
-
-                                    }
-                                } finally {
-                                    trt.getLock().unlock();
-
-                                    if (!disposed) {
-                                        treeModel.unpauseWork();
+                            TT_BasicNode root = (TT_BasicNode) treeModel.getRoot();
+                            for (int i = 0; i >= 0 && i < root.getChildCount(); i++) {
+                                Object c = root.getChildAt(i);
+                                if (c instanceof TT_BasicNode) {
+                                    TT_BasicNode tn = (TT_BasicNode) c;
+                                    if (tn.getChildCount() == 0) {
+                                        trt.prune(tn.getTableNode());
+                                        i--;
                                     }
                                 }
                             }
+                            String[] openPaths = null;
+                            String[] selectedPaths = null;
+                            if (tree != null) {
+                                TreePath[] p = tree.snapshotOpenPaths();
+                                openPaths = treeModel.pathsToStrings(p);
+
+                                selectedPaths = treeModel.pathsToStrings(tree.snapshotSelectedPaths());
+
+                            }
+
+                            if (pm != null) {
+                                pm.refreshTree();
+                            }
+
+                            if (tree != null) {
+                                tree.invalidate();
+
+                                if (openPaths != null && openPaths.length > 0) {
+                                    tree.restorePaths(openPaths, true);
+                                }
+
+                                tree.restoreSelection(selectedPaths);
+
+                            }
+                        } finally {
+                            trt.getLock().unlock();
+
+                            if (!disposed) {
+                                treeModel.unpauseWork();
+                            }
                         }
-                    }.start();
+                    }
                 }
-            });
+            }.start());
         }
     }
 
@@ -1249,24 +1223,21 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             }
         }
 
-        Preferences.access().addObserver("javatest.executionOrder", new Preferences.Observer() {
-            @Override
-            public void updated(String name, String newValue) {
+        Preferences.access().addObserver("javatest.executionOrder", (name, newValue) -> {
 
-                treeModel.getTestResultTable().updateTestExecutionOrderOnTheFly();
+            treeModel.getTestResultTable().updateTestExecutionOrderOnTheFly();
 
-                try {
-                    WorkDirectory wd = execModel.getWorkDirectory();
-                    TestResultTable trt = getTestResultTable();
-                    if (trt != null && !wd.isTRTSet()) {
-                        wd.setTestResultTable(trt);
-                    }
-                    applyParameters(true);
-                } catch (Exception ee) {
-                    ee.printStackTrace();
+            try {
+                WorkDirectory wd1 = execModel.getWorkDirectory();
+                TestResultTable trt1 = getTestResultTable();
+                if (trt1 != null && !wd1.isTRTSet()) {
+                    wd1.setTestResultTable(trt1);
                 }
-
+                applyParameters(true);
+            } catch (Exception ee) {
+                ee.printStackTrace();
             }
+
         });
     }
 

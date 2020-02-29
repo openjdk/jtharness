@@ -109,12 +109,9 @@ class PropertiesBrowser extends ToolDialog {
             uif.addTab(tabs, pane.getKey(), pane);
         }
 
-        tabs.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                Component t = tabs.getSelectedComponent();
-                ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(t));
-            }
+        tabs.addChangeListener(e -> {
+            Component t = tabs.getSelectedComponent();
+            ContextHelpManager.setHelpIDString(tabs, ContextHelpManager.getHelpIDString(t));
         });
 
         Component t = tabs.getSelectedComponent();

@@ -106,28 +106,23 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
         });
 
         table.getSelectionModel().addListSelectionListener
-                (new ListSelectionListener() {
-
-                    @Override
-                    public void valueChanged(ListSelectionEvent e) {
-                        int[] ix = table.getSelectedRows();
+                (e -> {
+                    int[] ix = table.getSelectedRows();
 //                boolean allAlive = true;
-                        for (int i : ix) {
-                            Status stat;
-                            try {
-                                boolean isAlive = mgr.getAllServices().get(ids[i]).isAlive();
+                    for (int i : ix) {
+                        Status stat;
+                        try {
+                            boolean isAlive = mgr.getAllServices().get(ids[i]).isAlive();
 //                        allAlive &= isAlive;
-                                stat = isAlive ? Status.ALIVE : Status.NOT_ALIVE;
-                            } catch (NotConnectedException ex) {
-                                stat = Status.NOT_CONNECTED;
-                            } catch (ServiceError ex) {
-                                stat = Status.ERROR;
-                            }
-                            table.getModel().setValueAt(stat, i, 2);
+                            stat = isAlive ? Status.ALIVE : Status.NOT_ALIVE;
+                        } catch (NotConnectedException ex) {
+                            stat = Status.NOT_CONNECTED;
+                        } catch (ServiceError ex) {
+                            stat = Status.ERROR;
                         }
-                        table.repaint();
+                        table.getModel().setValueAt(stat, i, 2);
                     }
-
+                    table.repaint();
                 });
     }
 
@@ -149,34 +144,23 @@ public class ServiceViewer extends ToolDialog implements Interview.Observer {
         sp.setBorder(b);
 //        table.setFillsViewportHeight(true);
         btnStart = uif.createButton("serviceviewer.button.start");
-        btnStart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int[] selected = table.getSelectedRows();
-                for (int i : selected) {
-                    mgr.startService(ids[i]);
-                }
+        btnStart.addActionListener(e -> {
+            int[] selected = table.getSelectedRows();
+            for (int i : selected) {
+                mgr.startService(ids[i]);
             }
         });
 
         btnStop = uif.createButton("serviceviewer.button.stop");
-        btnStop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int[] selected = table.getSelectedRows();
-                for (int i : selected) {
-                    mgr.stopService(ids[i]);
-                }
+        btnStop.addActionListener(e -> {
+            int[] selected = table.getSelectedRows();
+            for (int i : selected) {
+                mgr.stopService(ids[i]);
             }
         });
 
         JButton btnClose = uif.createButton("serviceviewer.button.close");
-        btnClose.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
+        btnClose.addActionListener(e -> setVisible(false));
         setButtons(new JButton[]{btnStart, btnStop, btnClose}, btnClose);
 
         table.getColumnModel().getColumn(0).setPreferredWidth(100);

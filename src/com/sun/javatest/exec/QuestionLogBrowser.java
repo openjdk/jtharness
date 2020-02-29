@@ -147,13 +147,10 @@ class QuestionLogBrowser extends ToolDialog {
             }
         };  // thread
 
-        ActionListener al = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                // show dialog if still processing
-                if (t.isAlive()) {
-                    d.show();
-                }
+        ActionListener al = evt -> {
+            // show dialog if still processing
+            if (t.isAlive()) {
+                d.show();
             }
         };
 
@@ -170,15 +167,12 @@ class QuestionLogBrowser extends ToolDialog {
     private void finishContentUpdate(final JDialog waitDialog,
                                      final StringWriter out) {
         // done generating report, switch back to GUI thread
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                waitDialog.hide();
+        EventQueue.invokeLater(() -> {
+            waitDialog.hide();
 
-                TextPane textPane = (TextPane) body.getMediaPane(MultiFormatPane.TEXT);
-                textPane.showText(out.toString(), "text/html");
-                textPane.getCaret().setDot(0);
-            }
+            TextPane textPane = (TextPane) body.getMediaPane(MultiFormatPane.TEXT);
+            textPane.showText(out.toString(), "text/html");
+            textPane.getCaret().setDot(0);
         });
     }
 

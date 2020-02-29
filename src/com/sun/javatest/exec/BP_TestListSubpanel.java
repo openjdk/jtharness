@@ -1067,16 +1067,13 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                                     finally {
                                         // fixup GUI on GUI thread
                                         try {
-                                            EventQueue.invokeAndWait(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    if (d.isShowing()) {
-                                                        d.hide();
-                                                    }
-                                                    // enable all menu
-                                                    // items
-                                                    // setPopupItemsEnabled(true);
+                                            EventQueue.invokeAndWait(() -> {
+                                                if (d.isShowing()) {
+                                                    d.hide();
                                                 }
+                                                // enable all menu
+                                                // items
+                                                // setPopupItemsEnabled(true);
                                             });
                                         } catch (InterruptedException | InvocationTargetException e) {
                                         }
@@ -1085,18 +1082,15 @@ class BP_TestListSubpanel extends BP_BranchSubpanel {
                             } // run()
                         }; // thread
 
-                        ActionListener al = new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent evt) {
-                                // show dialog if still processing
-                                if (t == null) {
-                                    return;
-                                } else if (t.isAlive() && !d.isVisible()) {
-                                    d.show();
-                                } else if (!t.isAlive() && d.isVisible()) {
-                                    // just in case...a watchdog type check
-                                    d.hide();
-                                }
+                        ActionListener al = evt -> {
+                            // show dialog if still processing
+                            if (t == null) {
+                                return;
+                            } else if (t.isAlive() && !d.isVisible()) {
+                                d.show();
+                            } else if (!t.isAlive() && d.isVisible()) {
+                                // just in case...a watchdog type check
+                                d.hide();
                             }
                         };
 

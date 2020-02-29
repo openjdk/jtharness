@@ -158,12 +158,7 @@ class ExcludeListBrowser extends ToolDialog {
         table = new JTable();
         table.setRowSelectionAllowed(true);
         table.setColumnSelectionAllowed(false);
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                showSelectedEntry();
-            }
-        });
+        table.getSelectionModel().addListSelectionListener(e -> showSelectedEntry());
 
         uif.setAccessibleInfo(table, "elb.tbl");
         uif.setToolTip(table, "elb.tbl");
@@ -291,13 +286,10 @@ class ExcludeListBrowser extends ToolDialog {
             // The following operation is slow and should arguably be
             // done by a worker thread, perhaps using the nested List class as
             // a Runnable.
-            SortedSet<ExcludeList.Entry> sortedEntries = new TreeSet<>(new Comparator<ExcludeList.Entry>() {
-                @Override
-                public int compare(ExcludeList.Entry o1, ExcludeList.Entry o2) {
-                    String s1 = entryToString(o1);
-                    String s2 = entryToString(o2);
-                    return s1.compareTo(s2);
-                }
+            SortedSet<ExcludeList.Entry> sortedEntries = new TreeSet<>((o1, o2) -> {
+                String s1 = entryToString(o1);
+                String s2 = entryToString(o2);
+                return s1.compareTo(s2);
             });
 
             if (list != null) {

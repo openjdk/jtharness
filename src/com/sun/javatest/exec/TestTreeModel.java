@@ -279,13 +279,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                              final Object what, final int index) {
 
         if (!EventQueue.isDispatchThread()) {
-            Runnable t = new Runnable() {
-
-                @Override
-                public void run() {
-                    nodeInserted0(path, what, index);
-                }
-            };  // Runnable
+            Runnable t = () -> nodeInserted0(path, what, index);  // Runnable
 
             EventQueue.invokeLater(t);
         } else {
@@ -391,13 +385,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     public void nodeChanged(final TestResultTable.TreeNode[] path,
                             final Object what, final int index, final Object old) {
         if (!EventQueue.isDispatchThread()) {
-            Runnable t = new Runnable() {
-
-                @Override
-                public void run() {
-                    nodeChanged0(path, what, index, old);
-                }
-            };  // Runnable
+            Runnable t = () -> nodeChanged0(path, what, index, old);  // Runnable
 
             EventQueue.invokeLater(t);
         } else {
@@ -460,13 +448,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
                             final Object what, final int index) {
 
         if (!EventQueue.isDispatchThread()) {
-            Runnable t = new Runnable() {
-
-                @Override
-                public void run() {
-                    nodeRemoved0(path, what, index);
-                }
-            };  // Runnable
+            Runnable t = () -> nodeRemoved0(path, what, index);  // Runnable
 
             EventQueue.invokeLater(t);
         } else {
@@ -534,13 +516,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
     private void processRemove(final TT_BasicNode[] path, final TestResult tr,
                                final int index) {
         if (!EventQueue.isDispatchThread()) {
-            Runnable t = new Runnable() {
-
-                @Override
-                public void run() {
-                    processRemove0(path, tr, index);
-                }
-            };  // Runnable
+            Runnable t = () -> processRemove0(path, tr, index);  // Runnable
 
             EventQueue.invokeLater(t);
         } else {
@@ -563,13 +539,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
 
     private void processInsert(final TT_BasicNode[] path, final TestResult tr) {
         if (!EventQueue.isDispatchThread()) {
-            Runnable t = new Runnable() {
-
-                @Override
-                public void run() {
-                    processInsert0(path, tr);
-                }
-            };  // Runnable
+            Runnable t = () -> processInsert0(path, tr);  // Runnable
 
             EventQueue.invokeLater(t);
         } else {

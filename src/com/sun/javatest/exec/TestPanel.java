@@ -146,13 +146,10 @@ class TestPanel extends JPanel {
             updateGUIWhenVisible();
         } else {
             if (!updatePending && !needToUpdateGUIWhenShown) {
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        synchronized (TestPanel.this) {
-                            updateGUIWhenVisible();
-                            updatePending = false;
-                        }
+                EventQueue.invokeLater(() -> {
+                    synchronized (TestPanel.this) {
+                        updateGUIWhenVisible();
+                        updatePending = false;
                     }
                 });
                 updatePending = true;
@@ -317,16 +314,13 @@ class TestPanel extends JPanel {
         tabs.setTabPlacement(SwingConstants.TOP);
         tabs.setName("testTabs");
         tabs.setSelectedComponent(outputPanel);
-        tabs.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                Component c = tabs.getSelectedComponent();
-                if (c instanceof TP_Subpanel) {
-                    updatePanel(currTest, (TP_Subpanel) c);
-                }
-                if (c instanceof CustomTestResultViewer) {
-                    updatePanel(currTest, customViewTable.get(c));
-                }
+        tabs.addChangeListener(e -> {
+            Component c = tabs.getSelectedComponent();
+            if (c instanceof TP_Subpanel) {
+                updatePanel(currTest, (TP_Subpanel) c);
+            }
+            if (c instanceof CustomTestResultViewer) {
+                updatePanel(currTest, customViewTable.get(c));
             }
         });
 

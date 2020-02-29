@@ -291,36 +291,30 @@ class NewReportDialog extends ToolDialog {
             waitDialog.getContentPane().add(cancelBtn, gbc);
             waitDialog.pack();
             final String cancelling = uif.getI18NString("nrd.cancelling");
-            cancelBtn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JButton butt = (JButton) e.getSource();
-                    butt.setEnabled(false);
-                    Component[] cmp = waitDialog.getContentPane().getComponents();
-                    if (worker != null && worker.isAlive()) {
-                        stopper.waitWasHidden = true;
-                        worker.interrupt();
-                    }
-                    for (Component aCmp : cmp) {
-                        if ("nrd.wait".equals(aCmp.getName())) {
-                            if (aCmp instanceof JTextComponent) {
-                                ((JTextComponent) aCmp).setText(cancelling);
-                            }
-                            break;
-                        }
-                    }
-
+            cancelBtn.addActionListener(e -> {
+                JButton butt = (JButton) e.getSource();
+                butt.setEnabled(false);
+                Component[] cmp = waitDialog.getContentPane().getComponents();
+                if (worker != null && worker.isAlive()) {
+                    stopper.waitWasHidden = true;
+                    worker.interrupt();
                 }
+                for (Component aCmp : cmp) {
+                    if ("nrd.wait".equals(aCmp.getName())) {
+                        if (aCmp instanceof JTextComponent) {
+                            ((JTextComponent) aCmp).setText(cancelling);
+                        }
+                        break;
+                    }
+                }
+
             });
 
 
-            ActionListener al = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    // show dialog if still processing
-                    if (worker.isAlive()) {
-                        waitDialog.show();
-                    }
+            ActionListener al = evt -> {
+                // show dialog if still processing
+                if (worker.isAlive()) {
+                    waitDialog.show();
                 }
             };
 
@@ -337,33 +331,30 @@ class NewReportDialog extends ToolDialog {
         private void finishReport(final JDialog waitDialog,
                                   final ReportSettings snap, final Stopper stopper) {
             // done generating report, switch back to GUI thread
-            EventQueue.invokeLater(new Runnable() {
-                                       @Override
-                                       public void run() {
-                                           waitDialog.hide();
-                                           if (!stopper.waitWasHidden) {
-                                               int r = uif.showYesNoDialog("nrd.showReport");
+            EventQueue.invokeLater(() -> {
+                waitDialog.hide();
+                if (!stopper.waitWasHidden) {
+                    int r = uif.showYesNoDialog("nrd.showReport");
 
-                                               switch (r) {
-                                                   case JOptionPane.YES_OPTION:
-                                                       File index = new File(reportDir, Report.INDEX_FILE_NAME);
-                                                       if (index.exists() && index.canRead()) {
-                                                           showReportBrowser(index);
-                                                       } else {
-                                                           showReportBrowser(selectFileToShow(snap));
-                                                       }
-                                                       break;
-                                                   case JOptionPane.NO_OPTION:
-                                                       break;
-                                                   default:
-                                                       break;
-                                               }
-                                           }
+                    switch (r) {
+                        case JOptionPane.YES_OPTION:
+                            File index = new File(reportDir, Report.INDEX_FILE_NAME);
+                            if (index.exists() && index.canRead()) {
+                                showReportBrowser(index);
+                            } else {
+                                showReportBrowser(selectFileToShow(snap));
+                            }
+                            break;
+                        case JOptionPane.NO_OPTION:
+                            break;
+                        default:
+                            break;
+                    }
+                }
 
-                                           notifyDone();
-                                           notifyUpdate(getLastState());
-                                       }
-                                   }
+                notifyDone();
+                notifyUpdate(getLastState());
+            }
             );
         }
 
@@ -375,13 +366,10 @@ class NewReportDialog extends ToolDialog {
         private void showError(final String uiKey, final String msg,
                                final JDialog waitDialog) {
             // switch back to GUI thread
-            EventQueue.invokeLater(new Runnable() {
-                                       @Override
-                                       public void run() {
-                                           waitDialog.hide();
-                                           uif.showError(uiKey, msg);
-                                       }
-                                   }
+            EventQueue.invokeLater(() -> {
+                waitDialog.hide();
+                uif.showError(uiKey, msg);
+            }
             );
         }
 
@@ -1020,12 +1008,9 @@ class NewReportDialog extends ToolDialog {
         // these are given settings here, but setting will be reloaded
         // elsewhere before the user sees them
         JCheckBox cb = cbBak = uif.createCheckBox("nrd.backup.bak", true);
-        cbBak.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if (numBak != null) {
-                    numBak.setEnabled(cbBak.isSelected());
-                }
+        cbBak.addChangeListener(e -> {
+            if (numBak != null) {
+                numBak.setEnabled(cbBak.isSelected());
             }
         });
         p.add(cb, gbc);

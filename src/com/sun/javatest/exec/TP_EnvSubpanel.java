@@ -73,12 +73,9 @@ class TP_EnvSubpanel
             if (EventQueue.isDispatchThread()) {
                 updateEntries();
             } else {
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (tr == subpanelTest) {
-                            updateEntries();
-                        }
+                EventQueue.invokeLater(() -> {
+                    if (tr == subpanelTest) {
+                        updateEntries();
                     }
                 });
             }

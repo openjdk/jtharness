@@ -820,33 +820,22 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
         add(btnStop, gbc);
         add(btnLoop, gbc);
 
-        btnStart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isSampledAudioResource(currURL)) {
-                    loadSample(currURL);
-                    clip.start();
-                } else if (isMidiAudioResource(currURL)) {
-                    loadSequence(currURL);
-                    sequencer.start();
-                }
+        btnStart.addActionListener(e -> {
+            if (isSampledAudioResource(currURL)) {
+                loadSample(currURL);
+                clip.start();
+            } else if (isMidiAudioResource(currURL)) {
+                loadSequence(currURL);
+                sequencer.start();
             }
         });
 
-        btnStop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                stopAudio();
-            }
-        });
+        btnStop.addActionListener(e -> stopAudio());
 
-        btnLoop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isSampledAudioResource(currURL)) {
-                    loadSample(currURL);
-                    clip.loop(Clip.LOOP_CONTINUOUSLY);
-                }
+        btnLoop.addActionListener(e -> {
+            if (isSampledAudioResource(currURL)) {
+                loadSample(currURL);
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
             }
         });
 
@@ -903,12 +892,9 @@ class MusicPane extends JPanel implements MultiFormatPane.MediaPane {
 
             clip = (Clip) AudioSystem.getLine(info);
             clip.open(stream);
-            clip.addLineListener(new LineListener() {
-                @Override
-                public void update(LineEvent e) {
-                    if (e.getType() == LineEvent.Type.STOP) {
-                        clip.stop();
-                    }
+            clip.addLineListener(e -> {
+                if (e.getType() == LineEvent.Type.STOP) {
+                    clip.stop();
                 }
             });
         } catch (Exception e) {

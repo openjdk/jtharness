@@ -992,24 +992,20 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
             final int[] pieStats = new int[I18NUtils.NUM_STATES];
             System.arraycopy(basic, 0, pieStats, 0, basic.length);
             pieStats[I18NUtils.FILTERED_OUT] = values[FILTERED_INDEX];
-            EventQueue.invokeLater(new Runnable() {
+            EventQueue.invokeLater(() -> {
+                pie.setValue(pieStats, pieColors);
+            /*
+            int sum = 0;
+            for (int i = 0; i < pieStats[i]; i++)
+            sum += pieStats[i];
 
-                @Override
-                public void run() {
-                    pie.setValue(pieStats, pieColors);
-                /*
-                int sum = 0;
-                for (int i = 0; i < pieStats[i]; i++)
-                sum += pieStats[i];
-
-                // hide pie if all filtered out or not run
-                if (pieStats[FILTERED_INDEX] == sum ||
-                pieStats[I18NUtils.NOT_RUN] == sum)
-                pie.setVisible(false);
-                else
-                pie.setVisible(true);
-                 */
-                }
+            // hide pie if all filtered out or not run
+            if (pieStats[FILTERED_INDEX] == sum ||
+            pieStats[I18NUtils.NOT_RUN] == sum)
+            pie.setVisible(false);
+            else
+            pie.setVisible(true);
+             */
             });
         }
     }

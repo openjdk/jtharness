@@ -328,12 +328,9 @@ public class WorkDirChooseTool extends JDialog {
         };
 
 
-        ActionListener closeListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                setVisible(false);
-                dispose();
-            }
+        ActionListener closeListener = actionEvent -> {
+            setVisible(false);
+            dispose();
         };
         rootPane.registerKeyboardAction(closeListener,
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
@@ -413,39 +410,36 @@ public class WorkDirChooseTool extends JDialog {
 
 
             JButton browseBtn = uif.createButton("wdc.browse",
-                    new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent ae) {
-                            if (fileChooser == null) {
-                                fileChooser = new FileChooser(true);
-                            } else {
-                                fileChooser.resetChoosableFileFilters();
-                            }
+                    ae -> {
+                        if (fileChooser == null) {
+                            fileChooser = new FileChooser(true);
+                        } else {
+                            fileChooser.resetChoosableFileFilters();
+                        }
 
-                            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                            fileChooser.setDialogTitle(uif.getI18NString("wdc.filechoosertitle"));
+                        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                        fileChooser.setDialogTitle(uif.getI18NString("wdc.filechoosertitle"));
 
-                            File f = new File(dirField.getText());
-                            if (f.isDirectory()) {
-                                fileChooser.setCurrentDirectory(f);
-                            }
+                        File f = new File(dirField.getText());
+                        if (f.isDirectory()) {
+                            fileChooser.setCurrentDirectory(f);
+                        }
 
-                            int returnVal = fileChooser.showOpenDialog(parent);
-                            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                                File dir = fileChooser.getSelectedFile();
-                                if (!dir.exists()) {
-                                    int answer = uif.showYesNoDialog("wdc.createparents");
-                                    if (answer == JOptionPane.NO_OPTION) {
-                                        return;
-                                    }
-
-                                    if (!dir.mkdirs()) {
-                                        uif.showError("wdc.createerror", dir);
-                                        return;
-                                    }
+                        int returnVal = fileChooser.showOpenDialog(parent);
+                        if (returnVal == JFileChooser.APPROVE_OPTION) {
+                            File dir = fileChooser.getSelectedFile();
+                            if (!dir.exists()) {
+                                int answer = uif.showYesNoDialog("wdc.createparents");
+                                if (answer == JOptionPane.NO_OPTION) {
+                                    return;
                                 }
-                                dirField.setText(fileChooser.getSelectedFile().getAbsolutePath());
+
+                                if (!dir.mkdirs()) {
+                                    uif.showError("wdc.createerror", dir);
+                                    return;
+                                }
                             }
+                            dirField.setText(fileChooser.getSelectedFile().getAbsolutePath());
                         }
                     });
 
@@ -464,13 +458,10 @@ public class WorkDirChooseTool extends JDialog {
             ButtonGroup group = new ButtonGroup();
             noTemplateCB = uif.createRadioButton("wdc.notemplate", group);
             noTemplateCB.setSelected(true);
-            noTemplateCB.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    template = false;
-                    //makeBottom();
-                    setTemplatesEnabled(false);
-                }
+            noTemplateCB.addActionListener(e -> {
+                template = false;
+                //makeBottom();
+                setTemplatesEnabled(false);
             });
             lc = new GridBagConstraints();
             lc.gridy = 2;
@@ -484,13 +475,10 @@ public class WorkDirChooseTool extends JDialog {
             // fourth row, template
             templateCB = uif.createRadioButton("wdc.template", group);
             template = true;
-            templateCB.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    template = true;
-                    //makeBottom();
-                    setTemplatesEnabled(true);
-                }
+            templateCB.addActionListener(e -> {
+                template = true;
+                //makeBottom();
+                setTemplatesEnabled(true);
             });
 
             lc = new GridBagConstraints();
@@ -597,12 +585,7 @@ public class WorkDirChooseTool extends JDialog {
         } else {  // mode == LOAD_TEMPLATE
             launchEditorCB = uif.createCheckBox("wdc.launchteditor");
         }
-        launchEditorCB.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                showConfigEditorFlag = launchEditorCB.isSelected();
-            }
-        });
+        launchEditorCB.addItemListener(e -> showConfigEditorFlag = launchEditorCB.isSelected());
 
         if (!hideTemplates) {
             main.add(launchEditorCB, lc);
@@ -618,12 +601,9 @@ public class WorkDirChooseTool extends JDialog {
         }
         createBtn.setEnabled(false);
         cancelBtn = uif.createCancelButton("wdc.cancel",
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent ae) {
-                        setVisible(false);
-                        dispose();
-                    }
+                ae -> {
+                    setVisible(false);
+                    dispose();
                 });
 
         if (mode == LOAD_TEMPLATE &&
@@ -713,27 +693,24 @@ public class WorkDirChooseTool extends JDialog {
     private void setTableListeners() {
 
         ListSelectionModel rowSM = fileTable.getSelectionModel();
-        rowSM.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                //Ignore extra messages.
-                if (e.getValueIsAdjusting()) {
-                    return;
-                }
+        rowSM.addListSelectionListener(e -> {
+            //Ignore extra messages.
+            if (e.getValueIsAdjusting()) {
+                return;
+            }
 
-                ListSelectionModel lsm =
-                        (ListSelectionModel) e.getSource();
-                if (!lsm.isSelectionEmpty()) {
-                    int selectedRow = lsm.getMinSelectionIndex();
-                    FileSystemTableModel model = (FileSystemTableModel) fileTable.getModel();
-                    File selected = model.getNode(selectedRow);
-                    if (selected != null && selected.isFile()) {
-                        selectedTemplate = selected;
-                    } else {
-                        selectedTemplate = null;
-                    }
-                    updateCreateBtn();
+            ListSelectionModel lsm =
+                    (ListSelectionModel) e.getSource();
+            if (!lsm.isSelectionEmpty()) {
+                int selectedRow = lsm.getMinSelectionIndex();
+                FileSystemTableModel model = (FileSystemTableModel) fileTable.getModel();
+                File selected = model.getNode(selectedRow);
+                if (selected != null && selected.isFile()) {
+                    selectedTemplate = selected;
+                } else {
+                    selectedTemplate = null;
                 }
+                updateCreateBtn();
             }
         });
 
@@ -879,69 +856,65 @@ public class WorkDirChooseTool extends JDialog {
 
     private void makeBrowsTemplateButton() {
 
-        browseTmplBtn = uif.createButton("wdc.template.browse", new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (fileChooser == null) {
-                    fileChooser = new FileChooser(true);
-                } else {
-                    fileChooser.resetChoosableFileFilters();
-                }
-                fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+        browseTmplBtn = uif.createButton("wdc.template.browse", ae -> {
+            if (fileChooser == null) {
+                fileChooser = new FileChooser(true);
+            } else {
+                fileChooser.resetChoosableFileFilters();
+            }
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
-                switch (mode) {
-                    case WorkDirChooser.NEW:
-                    case LOAD_TEMPLATE:
-                        fileChooser.setDialogTitle(uif.getI18NString("wdc.templchoosertitle"));
-                        fileChooser.addChoosableExtension(JTM, uif.getI18NString("ce.jtmFiles"));
-                        break;
-                    case LOAD_CONFIG:
-                        fileChooser.setDialogTitle(uif.getI18NString("wdc.configchoosertitle"));
-                        fileChooser.addChoosableExtension(JTI, uif.getI18NString("ce.jtiFiles"));
-                        break;
-                    default:
-                }
-                fileChooser.setCurrentDirectory(currentTemplateDir);
+            switch (mode) {
+                case WorkDirChooser.NEW:
+                case LOAD_TEMPLATE:
+                    fileChooser.setDialogTitle(uif.getI18NString("wdc.templchoosertitle"));
+                    fileChooser.addChoosableExtension(JTM, uif.getI18NString("ce.jtmFiles"));
+                    break;
+                case LOAD_CONFIG:
+                    fileChooser.setDialogTitle(uif.getI18NString("wdc.configchoosertitle"));
+                    fileChooser.addChoosableExtension(JTI, uif.getI18NString("ce.jtiFiles"));
+                    break;
+                default:
+            }
+            fileChooser.setCurrentDirectory(currentTemplateDir);
 
-                File selectedFile = null;
+            File selectedFile = null;
 
-                int returnVal = fileChooser.showOpenDialog(parent);
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    currentTemplateDir = fileChooser.getSelectedFile();
-                    if (!currentTemplateDir.exists()) {
-                        int answer = uif.showYesNoDialog("wdc.createparents");
-                        if (answer == JOptionPane.NO_OPTION) {
-                            return;
-                        }
-
-                        if (!currentTemplateDir.mkdirs()) {
-                            uif.showError("wdc.createerror");
-                            return;
-                        }
+            int returnVal = fileChooser.showOpenDialog(parent);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                currentTemplateDir = fileChooser.getSelectedFile();
+                if (!currentTemplateDir.exists()) {
+                    int answer = uif.showYesNoDialog("wdc.createparents");
+                    if (answer == JOptionPane.NO_OPTION) {
+                        return;
                     }
-                    if (currentTemplateDir.isFile()) {
-                        selectedFile = currentTemplateDir;
-                        currentTemplateDir = currentTemplateDir.getParentFile();
+
+                    if (!currentTemplateDir.mkdirs()) {
+                        uif.showError("wdc.createerror");
+                        return;
                     }
-                    if (currentTemplateDir != null) {
-                        templateField.setText(currentTemplateDir.getAbsolutePath());
-                        fsm = new FileSystemTableModel(currentTemplateDir.getAbsolutePath(), getTableFilter(), defaultTemplateDir, allowTraversDirs);
-                        setUpTree(new FileTable(fsm, uif));
-                        if (selectedFile != null) {
-                            TableModel mod = fileTable.getModel();
-                            for (int i = 0; i < mod.getRowCount(); i++) {
-                                FileTableNode ftn = (FileTableNode) mod.getValueAt(i, 0);
-                                if (selectedFile.equals(ftn.getFile())) {
-                                    fileTable.getSelectionModel().setSelectionInterval(i, i);
-                                    fileTable.scrollRectToVisible(fileTable.getCellRect(i, 0, true));
-                                    break;
-                                }
+                }
+                if (currentTemplateDir.isFile()) {
+                    selectedFile = currentTemplateDir;
+                    currentTemplateDir = currentTemplateDir.getParentFile();
+                }
+                if (currentTemplateDir != null) {
+                    templateField.setText(currentTemplateDir.getAbsolutePath());
+                    fsm = new FileSystemTableModel(currentTemplateDir.getAbsolutePath(), getTableFilter(), defaultTemplateDir, allowTraversDirs);
+                    setUpTree(new FileTable(fsm, uif));
+                    if (selectedFile != null) {
+                        TableModel mod = fileTable.getModel();
+                        for (int i = 0; i < mod.getRowCount(); i++) {
+                            FileTableNode ftn = (FileTableNode) mod.getValueAt(i, 0);
+                            if (selectedFile.equals(ftn.getFile())) {
+                                fileTable.getSelectionModel().setSelectionInterval(i, i);
+                                fileTable.scrollRectToVisible(fileTable.getCellRect(i, 0, true));
+                                break;
                             }
                         }
                     }
                 }
             }
-
         });
         browseTmplBtn.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createEtchedBorder(),

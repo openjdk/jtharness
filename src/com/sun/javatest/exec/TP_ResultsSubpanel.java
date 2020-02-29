@@ -78,12 +78,9 @@ class TP_ResultsSubpanel
             if (EventQueue.isDispatchThread()) {
                 updateEntries();
             } else {
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (tr == subpanelTest) {
-                            updateEntries();
-                        }
+                EventQueue.invokeLater(() -> {
+                    if (tr == subpanelTest) {
+                        updateEntries();
                     }
                 });
             }
@@ -95,12 +92,9 @@ class TP_ResultsSubpanel
             if (EventQueue.isDispatchThread()) {
                 updateEntry(name, value);
             } else {
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (tr == subpanelTest) {
-                            updateEntry(name, value);
-                        }
+                EventQueue.invokeLater(() -> {
+                    if (tr == subpanelTest) {
+                        updateEntry(name, value);
                     }
                 });
             }

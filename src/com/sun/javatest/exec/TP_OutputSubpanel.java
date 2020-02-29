@@ -769,12 +769,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             //System.err.println("TPOS_TRO: written output[" + section.getTitle() + "/" + outputName + "]: " + tr.getWorkRelativePath());
             // this msg almost always on different thread - send it to the
             // event thread
-            Runnable t = new Runnable() {
-                @Override
-                public void run() {
-                    updateOutput(tr, section, outputName, start, end, text);
-                }
-            };  // Runnable
+            Runnable t = () -> updateOutput(tr, section, outputName, start, end, text);  // Runnable
 
             EventQueue.invokeLater(t);
         }

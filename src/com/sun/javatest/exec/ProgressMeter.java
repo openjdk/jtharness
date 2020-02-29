@@ -128,12 +128,7 @@ class ProgressMeter extends JComponent implements Accessible {
             myThread.start();
         } else {
             clear();
-            indetTimer = new Timer(100, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    System.err.println("updating, width=" + getSize().width);
-                }
-            });
+            indetTimer = new Timer(100, evt -> System.err.println("updating, width=" + getSize().width));
         }
     }
 

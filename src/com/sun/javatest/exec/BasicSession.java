@@ -212,20 +212,16 @@ public class BasicSession implements SessionExt {
      * Sorts observers by their order.
      */
     private void sortObservers() {
-        Collections.sort(observers, new Comparator<Observer>() {
-            @Override
-            public int compare(Observer o1, Observer o2) {
-                long order1 = 0;
-                if (o1 instanceof OrderedObserver) {
-                    order1 = ((OrderedObserver) o1).order();
-                }
-                long order2 = 0;
-                if (o2 instanceof OrderedObserver) {
-                    order2 = ((OrderedObserver) o2).order();
-                }
-                return (int) (order1 - order2); // long is used to avoid overflow
+        Collections.sort(observers, (o1, o2) -> {
+            long order1 = 0;
+            if (o1 instanceof OrderedObserver) {
+                order1 = ((OrderedObserver) o1).order();
             }
-
+            long order2 = 0;
+            if (o2 instanceof OrderedObserver) {
+                order2 = ((OrderedObserver) o2).order();
+            }
+            return (int) (order1 - order2); // long is used to avoid overflow
         });
         isSorted = true;
     }

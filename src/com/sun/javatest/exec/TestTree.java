@@ -145,13 +145,7 @@ class TestTree extends JTree {
             final TreePath[] paths = currModel.urlsToPaths(selectedUrls);
 
             if (!EventQueue.isDispatchThread()) {
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        restoreSelection(paths);
-                    }
-
-                });
+                EventQueue.invokeLater(() -> restoreSelection(paths));
             } else {
                 restoreSelection(paths);
             }
@@ -221,12 +215,7 @@ class TestTree extends JTree {
             final TreePath[] paths = currModel.urlsToPaths(openUrls);
 
             if (!EventQueue.isDispatchThread() || queue) {
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        restorePaths(paths);
-                    }
-                });
+                EventQueue.invokeLater(() -> restorePaths(paths));
             } else {
                 restorePaths(paths);
             }

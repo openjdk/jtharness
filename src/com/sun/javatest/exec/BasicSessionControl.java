@@ -384,19 +384,16 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             newConfig();
         }
 
-        showConfigEditor(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e2) {
-                // configuration has been completed: post a message to remind
-                // user that tests will now be run
-                if (ip.isTemplate() ||
-                        !ip.isFinishable()) {
-                    startAction.setEnabled(true);
-                } else {
-                    int option = uif.showOKCancelDialog("rh.configDone");
-                    if (option == JOptionPane.OK_OPTION) {
-                        startAction.actionPerformed(null);
-                    }
+        showConfigEditor(e2 -> {
+            // configuration has been completed: post a message to remind
+            // user that tests will now be run
+            if (ip.isTemplate() ||
+                    !ip.isFinishable()) {
+                startAction.setEnabled(true);
+            } else {
+                int option1 = uif.showOKCancelDialog("rh.configDone");
+                if (option1 == JOptionPane.OK_OPTION) {
+                    startAction.actionPerformed(null);
                 }
             }
         });
@@ -550,13 +547,10 @@ public class BasicSessionControl implements InterviewEditor.Observer,
             interviewEditor.setCustomRenderers(cm.getCustomRenderersMap());
             interviewEditor.setContextManager(cm);
         }
-        interviewEditor.setCheckExcludeListListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object src = e.getSource();
-                JComponent p = src instanceof JComponent ? (JComponent) src : parent;
-                checkExcludeListUpdate(p, false, session.getParameters());
-            }
+        interviewEditor.setCheckExcludeListListener(e -> {
+            Object src = e.getSource();
+            JComponent p = src instanceof JComponent ? (JComponent) src : parent;
+            checkExcludeListUpdate(p, false, session.getParameters());
         });
 
         interviewEditor.addObserver(this);
@@ -654,14 +648,11 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     }
 
     protected void showWorkDirDialog() {
-        ActionListener optionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Component c = (Component) e.getSource();
-                JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
-                op.setValue(c); // JOptionPane expects the value to be set to the selected button
-                op.setVisible(false);
-            }
+        ActionListener optionListener = e -> {
+            Component c = (Component) e.getSource();
+            JOptionPane op = (JOptionPane) SwingUtilities.getAncestorOfClass(JOptionPane.class, c);
+            op.setValue(c); // JOptionPane expects the value to be set to the selected button
+            op.setVisible(false);
         };
 
         JTextArea msg = uif.createMessageArea("exec.wd.need");
@@ -902,16 +893,13 @@ public class BasicSessionControl implements InterviewEditor.Observer,
     }
 
     protected void initHistoryListeners() {
-        configHistoryListener = new FileHistory.Listener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JMenuItem mi = (JMenuItem) e.getSource();
-                File f = (File) mi.getClientProperty(FileHistory.FILE);
-                if (f != null) {
-                    if (initEditor()) {
-                        // ensureConfigEditorInitialized();
-                        interviewEditor.loadAndEdit(f);
-                    }
+        configHistoryListener = new FileHistory.Listener(e -> {
+            JMenuItem mi = (JMenuItem) e.getSource();
+            File f = (File) mi.getClientProperty(FileHistory.FILE);
+            if (f != null) {
+                if (initEditor()) {
+                    // ensureConfigEditorInitialized();
+                    interviewEditor.loadAndEdit(f);
                 }
             }
         });

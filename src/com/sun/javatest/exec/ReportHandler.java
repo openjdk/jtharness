@@ -341,14 +341,11 @@ class ReportHandler implements ET_ReportControl, HarnessAware {
             }
         };
 
-        reportHistoryListener = new FileHistory.Listener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JMenuItem mi = (JMenuItem) e.getSource();
-                File f = (File) mi.getClientProperty(FileHistory.FILE);
-                if (f != null) {
-                    showReportBrowser(f);
-                }
+        reportHistoryListener = new FileHistory.Listener(e -> {
+            JMenuItem mi = (JMenuItem) e.getSource();
+            File f = (File) mi.getClientProperty(FileHistory.FILE);
+            if (f != null) {
+                showReportBrowser(f);
             }
         });
 

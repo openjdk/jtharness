@@ -143,12 +143,7 @@ class MessageStrip extends JSplitPane
         }
 
         if (!EventQueue.isDispatchThread()) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    setMonitor(index);
-                }
-            });
+            EventQueue.invokeLater(() -> setMonitor(index));
             return;
         }
 
@@ -170,12 +165,7 @@ class MessageStrip extends JSplitPane
         setMonitor(runningMonitor);
 
         if (clearTimer == null) {
-            clearTimer = new Timer(CLEAR_TIMEOUT, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evt) {
-                    setText(leftField, "");
-                }
-            });
+            clearTimer = new Timer(CLEAR_TIMEOUT, evt -> setText(leftField, ""));
         }
         clearTimer.start();
     }

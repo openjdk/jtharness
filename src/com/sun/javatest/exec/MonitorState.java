@@ -299,12 +299,8 @@ class MonitorState {
         // --------- private ----------
         private void notifySimple(final int which) {
             if (!EventQueue.isDispatchThread()) {
-                Runnable cmd = new Runnable() {
-                    @Override
-                    public void run() {
-                        MonitorState.Dispatcher.this.notifySimple(which);
-                    }   // run()
-                };      // end anon. class
+                // run()
+                Runnable cmd = () -> Dispatcher.this.notifySimple(which);      // end anon. class
 
                 EventQueue.invokeLater(cmd);
             } else {      // now on event thread
@@ -329,12 +325,8 @@ class MonitorState {
 
         private void notifyComplete(final boolean allOk) {
             if (!EventQueue.isDispatchThread()) {
-                Runnable cmd = new Runnable() {
-                    @Override
-                    public void run() {
-                        MonitorState.Dispatcher.this.notifyComplete(allOk);
-                    }   // run()
-                };      // end anon. class
+                // run()
+                Runnable cmd = () -> Dispatcher.this.notifyComplete(allOk);      // end anon. class
 
                 EventQueue.invokeLater(cmd);
             } else {      // now on event thread

@@ -242,12 +242,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             monitors[0] = new ElapsedTimeMonitor(mState, uif);
             monitors[1] = new RunProgressMonitor(mState, uif);
 
-            ActionListener zoom = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    setProgressMonitorVisible(!isProgressMonitorVisible());
-                }
-            };
+            ActionListener zoom = e -> setProgressMonitorVisible(!isProgressMonitorVisible());
             messageStrip = new MessageStrip(uif, monitors, mState, zoom);
             messageStrip.setRunningMonitor(monitors[1]);
             messageStrip.setIdleMonitor(monitors[0]);
@@ -630,29 +625,23 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
     private class HarnessObserver implements Harness.Observer {
         @Override
         public void startingTestRun(Parameters params) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    startAction.setEnabled(false);
-                    //pauseCheckBox.setEnabled(true);
-                    stopAction.setEnabled(true);
+            EventQueue.invokeLater(() -> {
+                startAction.setEnabled(false);
+                //pauseCheckBox.setEnabled(true);
+                stopAction.setEnabled(true);
 
-                    // get bundle not done inline to avoid i18n check problems
-                    I18NResourceBundle i18n = uif.getI18NResourceBundle();
-                    messageStrip.showMessage(i18n, "rh.starting.txt");
-                }
+                // get bundle not done inline to avoid i18n check problems
+                I18NResourceBundle i18n = uif.getI18NResourceBundle();
+                messageStrip.showMessage(i18n, "rh.starting.txt");
             });
         }
 
         @Override
         public void finishedTestRun(boolean allOK) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    startAction.setEnabled(true);
-                    //pauseCheckBox.setEnabled(false);
-                    stopAction.setEnabled(false);
-                }
+            EventQueue.invokeLater(() -> {
+                startAction.setEnabled(true);
+                //pauseCheckBox.setEnabled(false);
+                stopAction.setEnabled(false);
             });
 
             if (localParams != null && (localParams instanceof InterviewParameters)) {
@@ -663,12 +652,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
         @Override
         public void error(final String msg) {
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    uif.showError("rh.error", msg);
-                }
-            });
+            EventQueue.invokeLater(() -> uif.showError("rh.error", msg));
         }
     }
 }

@@ -380,29 +380,23 @@ class CE_KeywordsPane extends CE_StdPane {
             sp = new JScrollPane();
             lst = new JList<>(keywords);
 
-            ok = uif.createButton("keywordChooser.insert", new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Object[] sels = lst.getSelectedValues();
-                    String inserted = "";
-                    for (Object sel : sels) {
-                        inserted += sel + " ";
-                    }
-                    listener.insert(inserted.trim());
-                    lst.clearSelection();
-                    setVisible(false);
-                    dispose();
+            ok = uif.createButton("keywordChooser.insert", e -> {
+                Object[] sels = lst.getSelectedValues();
+                String inserted = "";
+                for (Object sel : sels) {
+                    inserted += sel + " ";
                 }
+                listener.insert(inserted.trim());
+                lst.clearSelection();
+                setVisible(false);
+                dispose();
             });
 
 
-            cancel = uif.createButton("keywordChooser.cancel", new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    lst.clearSelection();
-                    setVisible(false);
-                    dispose();
-                }
+            cancel = uif.createButton("keywordChooser.cancel", e -> {
+                lst.clearSelection();
+                setVisible(false);
+                dispose();
             });
 
             JPanel btnP = new JPanel();
@@ -439,12 +433,7 @@ class CE_KeywordsPane extends CE_StdPane {
             Dimension s = getPreferredSize();
             s.height = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.75);
             ok.setEnabled(false);
-            lst.addListSelectionListener(new ListSelectionListener() {
-                @Override
-                public void valueChanged(ListSelectionEvent e) {
-                    ok.setEnabled(lst.getSelectedIndex() != -1);
-                }
-            });
+            lst.addListSelectionListener(e -> ok.setEnabled(lst.getSelectedIndex() != -1));
 
             setSize(s);
         }

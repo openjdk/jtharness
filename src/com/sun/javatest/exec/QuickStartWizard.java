@@ -440,38 +440,35 @@ class QuickStartWizard extends ToolDialog {
             currPathComp = field;
 
             button = uif.createButton(key + ".browse");
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    // seed the path if the user has started to enter
-                    // something
-                    String path = getPath();
-                    if (chooser instanceof FileChooser &&
-                            ((FileChooser) chooser).getChosenExtension() != null &&
-                            ((FileChooser) chooser).getChosenExtension().equals(".jti")) {
+            button.addActionListener(e -> {
+                // seed the path if the user has started to enter
+                // something
+                String path = getPath();
+                if (chooser instanceof FileChooser &&
+                        ((FileChooser) chooser).getChosenExtension() != null &&
+                        ((FileChooser) chooser).getChosenExtension().equals(".jti")) {
 
-                        File f = InterviewEditor.loadConfigFile(
-                                contextManager, parent, uif,
-                                (FileChooser) chooser);
-                        path = f == null ? null : f.getPath();
-                    } else {
-                        // set chooser to value in field?
-                        if (path != null && !path.isEmpty()) {
-                            chooser.setSelectedFile(new File(path));
-                        }
-
-                        int rc = chooser.showDialog(body, chooser.getApproveButtonText());
-                        if (rc != JFileChooser.APPROVE_OPTION) {
-                            return;
-                        }
-
-                        path = chooser.getSelectedFile().getPath();
+                    File f = InterviewEditor.loadConfigFile(
+                            contextManager, parent, uif,
+                            (FileChooser) chooser);
+                    path = f == null ? null : f.getPath();
+                } else {
+                    // set chooser to value in field?
+                    if (path != null && !path.isEmpty()) {
+                        chooser.setSelectedFile(new File(path));
                     }
 
-                    field.setText(path);
-                    if (combo != null) {
-                        combo.setSelectedItem(path);
+                    int rc = chooser.showDialog(body, chooser.getApproveButtonText());
+                    if (rc != JFileChooser.APPROVE_OPTION) {
+                        return;
                     }
+
+                    path = chooser.getSelectedFile().getPath();
+                }
+
+                field.setText(path);
+                if (combo != null) {
+                    combo.setSelectedItem(path);
                 }
             });
 
@@ -560,12 +557,7 @@ class QuickStartWizard extends ToolDialog {
     //------------------------------------------------------------------------------
 
     private abstract class Pane extends JPanel {
-        private ChangeListener changeListener = new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                Pane.this.stateChanged();
-            }
-        };
+        private ChangeListener changeListener = e -> Pane.this.stateChanged();
         private String paneKey;
         private String head;
 
@@ -654,12 +646,7 @@ class QuickStartWizard extends ToolDialog {
                     public void ancestorRemoved(AncestorEvent e) {
                     }
                 });
-                rb.addChangeListener(new ChangeListener() {
-                    @Override
-                    public void stateChanged(ChangeEvent e) {
-                        fp.setEnabled(rb.isSelected());
-                    }
-                });
+                rb.addChangeListener(e -> fp.setEnabled(rb.isSelected()));
             }
 
             fp.setDocumentListener(new DocumentListener() {

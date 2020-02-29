@@ -59,12 +59,7 @@ public class FileTable extends JTable {
         getColumnModel().getColumn(2).setMinWidth(130);
         addAutoResizeColumn(2, true);
 
-        model.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                updateWidth();
-            }
-        });
+        model.addTableModelListener(e -> updateWidth());
         updateWidth();
     }
 

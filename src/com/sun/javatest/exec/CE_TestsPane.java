@@ -160,13 +160,10 @@ class CE_TestsPane extends CE_StdPane {
 
 
         selectTestsBtn = uif.createRadioButton("ce.tests.select", btnGrp);
-        selectTestsBtn.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                boolean s = selectTestsBtn.isSelected();
-                testsField.setEnabled(s);
-                loadBtn.setEnabled(s);
-            }
+        selectTestsBtn.addChangeListener(e -> {
+            boolean s = selectTestsBtn.isSelected();
+            testsField.setEnabled(s);
+            loadBtn.setEnabled(s);
         });
         c.gridheight = 2;
         c.gridwidth = 1;
@@ -182,12 +179,7 @@ class CE_TestsPane extends CE_StdPane {
         c.weighty = 1;
         p.add(testsField, c);
 
-        loadBtn = uif.createButton("ce.tests.load", new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectFromFile();
-            }
-        });
+        loadBtn = uif.createButton("ce.tests.load", e -> selectFromFile());
         loadBtn.setEnabled(selectTestsBtn.isSelected());
         c.anchor = GridBagConstraints.EAST;
         c.fill = GridBagConstraints.NONE;

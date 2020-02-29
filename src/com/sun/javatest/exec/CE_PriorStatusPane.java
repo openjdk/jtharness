@@ -147,12 +147,7 @@ class CE_PriorStatusPane extends CE_StdPane {
         c.weightx = 1;
 
         selectCheck = uif.createCheckBox("ce.status.select");
-        selectCheck.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                enableStatusFields();
-            }
-        });
+        selectCheck.addChangeListener(e -> enableStatusFields());
         p.add(selectCheck, c);
 
         JLabel anyOfLabel = uif.createLabel("ce.status.anyOf", true);

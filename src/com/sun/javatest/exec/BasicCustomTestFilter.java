@@ -601,13 +601,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
 
         keyMatchBtn = uif.createRadioButton("basicTf.keywords.match", keyBtnGrp);
         keyMatchBtn.setMnemonic(uif.getI18NString("basicTf.keywords.match.mne").charAt(0));
-        keyMatchBtn.addChangeListener(new ChangeListener() {
-
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                enableKeywordFields();
-            }
-        });
+        keyMatchBtn.addChangeListener(e -> enableKeywordFields());
         c.weightx = 0;
         c.gridwidth = 1;
         p.add(keyMatchBtn, c);
@@ -652,13 +646,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
 
         statusAnyOfBtn = uif.createRadioButton("basicTf.status.anyOf", statusBtnGrp);
         statusAnyOfBtn.setMnemonic(uif.getI18NString("basicTf.status.anyOf.mne").charAt(0));
-        statusAnyOfBtn.addChangeListener(new ChangeListener() {
-
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                enableStatusFields();
-            }
-        });
+        statusAnyOfBtn.addChangeListener(e -> enableStatusFields());
         c.gridwidth = 1;
         c.weightx = 0;
         p.add(statusAnyOfBtn, c);
@@ -806,15 +794,11 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
         p.add(uif.createScrollPane(jtxFileList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), c);
 
-        jtxCheckBox.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jtxFileList.setEnabled(jtxCheckBox.isSelected());
-                jtxMode.setEnabled(jtxCheckBox.isSelected());
-                modeLab.setEnabled(jtxCheckBox.isSelected());
-                fileLab.setEnabled(jtxCheckBox.isSelected());
-            }
+        jtxCheckBox.addActionListener(e -> {
+            jtxFileList.setEnabled(jtxCheckBox.isSelected());
+            jtxMode.setEnabled(jtxCheckBox.isSelected());
+            modeLab.setEnabled(jtxCheckBox.isSelected());
+            fileLab.setEnabled(jtxCheckBox.isSelected());
         });
 
         return p;

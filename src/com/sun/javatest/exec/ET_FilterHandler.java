@@ -617,28 +617,25 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
                     final JCheckBox cb = uif.createCheckBox("exec.fltr.noShow",
                             false);
                     final JTextArea msg = uif.createMessageArea("exec.fltr.note");
-                    EventQueue.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            pan.setLayout(new BorderLayout());
-                            pan.add(cb, BorderLayout.SOUTH);
-                            pan.add(msg, BorderLayout.CENTER);
+                    EventQueue.invokeLater(() -> {
+                        pan.setLayout(new BorderLayout());
+                        pan.add(cb, BorderLayout.SOUTH);
+                        pan.add(msg, BorderLayout.CENTER);
 
-                            JOptionPane pane = new JOptionPane(pan, JOptionPane.INFORMATION_MESSAGE,
-                                    JOptionPane.DEFAULT_OPTION, null, null, null);
-                            JDialog dialog = pane.createDialog(parentComponent, uif.getI18NString("exec.fltr.note.title"));
-                            dialog.show();
+                        JOptionPane pane = new JOptionPane(pan, JOptionPane.INFORMATION_MESSAGE,
+                                JOptionPane.DEFAULT_OPTION, null, null, null);
+                        JDialog dialog = pane.createDialog(parentComponent, uif.getI18NString("exec.fltr.note.title"));
+                        dialog.show();
 
-                            // can't use this, it doesn't indicate if the user pressed
-                            // OK or canceled the dialog some other way
-                            //uif.showCustomOptionDialog("exec.fltr.note", pan);
+                        // can't use this, it doesn't indicate if the user pressed
+                        // OK or canceled the dialog some other way
+                        //uif.showCustomOptionDialog("exec.fltr.note", pan);
 
-                            Object selectedValue = pane.getValue();
-                            if ((selectedValue instanceof Integer) &&
-                                    ((Integer) selectedValue).intValue() >= 0) {
-                                p.setPreference(ExecTool.FILTER_WARN_PREF,
-                                        Boolean.toString(!cb.isSelected()));
-                            }
+                        Object selectedValue = pane.getValue();
+                        if ((selectedValue instanceof Integer) &&
+                                ((Integer) selectedValue).intValue() >= 0) {
+                            p.setPreference(ExecTool.FILTER_WARN_PREF,
+                                    Boolean.toString(!cb.isSelected()));
                         }
                     });
                 }

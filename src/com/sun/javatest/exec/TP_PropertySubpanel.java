@@ -204,14 +204,11 @@ abstract class TP_PropertySubpanel
                     if (pendingValidate == false) {
                         //System.err.println("TP_PS.Table: revalidate inScrollPane !valid");
                         invalidate();
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                //System.err.println("TP_PS.Table: revalidate callback");
-                                synchronized (getTreeLock()) {
-                                    validate();
-                                    pendingValidate = false;
-                                }
+                        SwingUtilities.invokeLater(() -> {
+                            //System.err.println("TP_PS.Table: revalidate callback");
+                            synchronized (getTreeLock()) {
+                                validate();
+                                pendingValidate = false;
                             }
                         });
                         pendingValidate = true;

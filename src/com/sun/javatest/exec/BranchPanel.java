@@ -182,19 +182,16 @@ class BranchPanel
         bPane.setTabPlacement(SwingConstants.TOP);
         bPane.setBorder(BorderFactory.createEmptyBorder());
 
-        bPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                Component c = bPane.getSelectedComponent();
-                if (c instanceof BP_BranchSubpanel) {
-                    BP_BranchSubpanel bsp = (BP_BranchSubpanel) c;
-                    bsp.updateSubpanel(currNode);
+        bPane.addChangeListener(e -> {
+            Component c = bPane.getSelectedComponent();
+            if (c instanceof BP_BranchSubpanel) {
+                BP_BranchSubpanel bsp = (BP_BranchSubpanel) c;
+                bsp.updateSubpanel(currNode);
 
-                    if (bPane.isEnabledAt(bPane.indexOfComponent(c))) {
-                        // set the bottom text message to reflect this tab's info
-                        updatePanel(currNode, bsp);
-                        statusTf.setText(bsp.getLastMessage());
-                    }
+                if (bPane.isEnabledAt(bPane.indexOfComponent(c))) {
+                    // set the bottom text message to reflect this tab's info
+                    updatePanel(currNode, bsp);
+                    statusTf.setText(bsp.getLastMessage());
                 }
             }
         });
@@ -470,12 +467,8 @@ class BranchPanel
         @Override
         public void setEnabled(final Component c, final boolean state) {
             if (!EventQueue.isDispatchThread()) {
-                Runnable cmd = new Runnable() {
-                    @Override
-                    public void run() {
-                        BranchPanel.BranchModel.this.setEnabled(c, state);
-                    }   // run()
-                };      // end anon. class
+                // run()
+                Runnable cmd = () -> BranchModel.this.setEnabled(c, state);      // end anon. class
 
                 EventQueue.invokeLater(cmd);
             } else {      // now on event thread
@@ -512,12 +505,8 @@ class BranchPanel
             }
 
             if (!EventQueue.isDispatchThread()) {
-                Runnable cmd = new Runnable() {
-                    @Override
-                    public void run() {
-                        BranchPanel.BranchModel.this.setEnabled(index, newState);
-                    }   // run()
-                };      // end anon. class
+                // run()
+                Runnable cmd = () -> BranchModel.this.setEnabled(index, newState);      // end anon. class
 
                 EventQueue.invokeLater(cmd);
             } else {          // on dispatch thread
@@ -562,12 +551,7 @@ class BranchPanel
             // enabled any disabled tabs which have contents
             // disable any enabled tabs which are empty
             if (!EventQueue.isDispatchThread()) {
-                Runnable cmd = new Runnable() {
-                    @Override
-                    public void run() {
-                        statsUpdated(stats);
-                    }
-                };      // end anon. class
+                Runnable cmd = () -> statsUpdated(stats);      // end anon. class
 
                 EventQueue.invokeLater(cmd);
             } else {

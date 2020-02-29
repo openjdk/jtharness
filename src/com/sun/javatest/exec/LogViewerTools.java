@@ -82,13 +82,10 @@ class LogViewerTools extends Thread {
         waitDialog = uif.createWaitDialog("lvt.wait", parent);
         waitDialogEnabled = true;
 
-        ActionListener al = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                // show dialog if still processing
-                if (isAlive() && waitDialogEnabled) {
-                    waitDialog.show();
-                }
+        ActionListener al = evt -> {
+            // show dialog if still processing
+            if (isAlive() && waitDialogEnabled) {
+                waitDialog.show();
             }
         };
 

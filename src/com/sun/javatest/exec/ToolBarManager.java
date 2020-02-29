@@ -67,12 +67,9 @@ public class ToolBarManager {
             store.put(toolBarID, theBar);
 
             if (panel != null) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        panel.add(theBar);
-                        mmanager.addToolbar(theBar);
-                    }
+                SwingUtilities.invokeLater(() -> {
+                    panel.add(theBar);
+                    mmanager.addToolbar(theBar);
                 });
             } else {
                 // will occur in setPanel()
@@ -117,12 +114,9 @@ public class ToolBarManager {
             final JavaTestToolBar tb = store.get(toolBarID);
 
             if (panel != null) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        panel.remove(tb);
-                        mmanager.removeToolbar(tb);
-                    }
+                SwingUtilities.invokeLater(() -> {
+                    panel.remove(tb);
+                    mmanager.removeToolbar(tb);
                 });
             } else {
                 mmanager.removeToolbar(tb);

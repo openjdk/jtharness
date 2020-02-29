@@ -187,37 +187,31 @@ class LogViewer extends ToolDialog {
 
         });
 
-        model.addNewPageListener(new LogModel.NewPageListener() {
-            @Override
-            public void onNewPage(int from, int to, int page) {
-                synchronized (thePane) {
+        model.addNewPageListener((from, to, page) -> {
+            synchronized (thePane) {
 
-                    if (debugPages > 1) {
-                        System.out.println("isStable=" + model.isStableState() + " onNewPage from=" + from + " to=" + to + " page=" + page + " thePane.page=" + thePane.page);
-                        String text = "Records : " + model.recordsRead();
-                        counter.setText(text);
-                        text = "Pages : " + model.pagesRead();
-                        pageCounter.setText(text);
-                    }
+                if (debugPages > 1) {
+                    System.out.println("isStable=" + model.isStableState() + " onNewPage from=" + from + " to=" + to + " page=" + page + " thePane.page=" + thePane.page);
+                    String text = "Records : " + model.recordsRead();
+                    counter.setText(text);
+                    text = "Pages : " + model.pagesRead();
+                    pageCounter.setText(text);
+                }
 
-                    if (thePane.page == 0 && model.isStableState()) {
-                        setPage(page);
-                    } else if (thePane.page == page && model.isStableState()) {
-                        updatePage(from, to);
-                    } else if (model.isStableState()) {
-                        updateNavBtns();
-                    }
+                if (thePane.page == 0 && model.isStableState()) {
+                    setPage(page);
+                } else if (thePane.page == page && model.isStableState()) {
+                    updatePage(from, to);
+                } else if (model.isStableState()) {
+                    updateNavBtns();
                 }
             }
         });
 
-        model.addFilterChangedListener(new FilteredLogModel.FilterChangedListener() {
-            @Override
-            public void onFilterChanged() {
-                synchronized (thePane) {
-                    thePane.page = 0;
-                    thePane.fromRec = 0;
-                }
+        model.addFilterChangedListener(() -> {
+            synchronized (thePane) {
+                thePane.page = 0;
+                thePane.fromRec = 0;
             }
         });
 
@@ -286,51 +280,37 @@ class LogViewer extends ToolDialog {
         JLabel filterSubstringLbl = uif.createLabel("logviewer.label.find");
         final JTextField filterSubstring = uif.createInputField("logviewer.fitertext");
         uif.setAccessibleInfo(filterSubstring, filterSubstring.getName());
-        filterSubstring.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                model.getFilter().setSubstring(filterSubstring.getText());
-            }
-        });
+        filterSubstring.addActionListener(e -> model.getFilter().setSubstring(filterSubstring.getText()));
 
         autoScrollCheckBox = uif.createCheckBox("logviewer.autoscroll");
         autoScroll = Boolean.parseBoolean(prefs.getPreference(AUTOSCROLL_PREF, Boolean.toString(true)));
         autoScrollCheckBox.setSelected(autoScroll);
-        autoScrollCheckBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                autoScroll = e.getStateChange() == ItemEvent.SELECTED;
-                prefs.setPreference(AUTOSCROLL_PREF, Boolean.toString(autoScroll));
-            }
+        autoScrollCheckBox.addItemListener(e -> {
+            autoScroll = e.getStateChange() == ItemEvent.SELECTED;
+            prefs.setPreference(AUTOSCROLL_PREF, Boolean.toString(autoScroll));
         });
 
         JCheckBox wordWrapCheckBox = uif.createCheckBox("logviewer.wordwarp");
         wordWrap = Boolean.parseBoolean(prefs.getPreference(WORDWRAP_PREF, Boolean.toString(false)));
         wordWrapCheckBox.setSelected(wordWrap);
-        wordWrapCheckBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                wordWrap = e.getStateChange() == ItemEvent.SELECTED;
-                synchronized (thePane) {
+        wordWrapCheckBox.addItemListener(e -> {
+            wordWrap = e.getStateChange() == ItemEvent.SELECTED;
+            synchronized (thePane) {
 
-                    // try to restore position (not exactly)  -
-                    Point vp = scrollPane.getViewport().getViewPosition();
-                    Dimension vs = scrollPane.getViewport().getViewSize();
-                    final double magic = vp.getY() / vs.getHeight();
+                // try to restore position (not exactly)  -
+                Point vp = scrollPane.getViewport().getViewPosition();
+                Dimension vs = scrollPane.getViewport().getViewSize();
+                final double magic = vp.getY() / vs.getHeight();
 
-                    int p = thePane.page;
-                    clearPane(0);
-                    setPage(p);
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            double newMagic = thePane.getDocument().getLength() * magic;
-                            thePane.setCaretPosition((int) newMagic);
-                        }
-                    });
-                }
-                prefs.setPreference(WORDWRAP_PREF, Boolean.toString(wordWrap));
+                int p = thePane.page;
+                clearPane(0);
+                setPage(p);
+                SwingUtilities.invokeLater(() -> {
+                    double newMagic = thePane.getDocument().getLength() * magic;
+                    thePane.setCaretPosition((int) newMagic);
+                });
             }
+            prefs.setPreference(WORDWRAP_PREF, Boolean.toString(wordWrap));
         });
 
         scrollPane = new JScrollPane();
@@ -603,18 +583,15 @@ class LogViewer extends ToolDialog {
     }
 
     private void clearPane(final int from) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                if (doc != null) {
-                    try {
-                        doc.remove(0, doc.getEndPosition().getOffset() - 1);
-                        synchronized (thePane) {
-                            thePane.fromRec = from - 1;
-                        }
-                    } catch (BadLocationException ex) {
-                        ex.printStackTrace();
+        SwingUtilities.invokeLater(() -> {
+            if (doc != null) {
+                try {
+                    doc.remove(0, doc.getEndPosition().getOffset() - 1);
+                    synchronized (thePane) {
+                        thePane.fromRec = from - 1;
                     }
+                } catch (BadLocationException ex) {
+                    ex.printStackTrace();
                 }
             }
         });
@@ -634,52 +611,40 @@ class LogViewer extends ToolDialog {
 
     private void goLast(ActionEvent evt) {
         // it's important to put it to the end of the queue !
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (thePane) {
-                    setPage(model.pagesRead());
-                }
+        SwingUtilities.invokeLater(() -> {
+            synchronized (thePane) {
+                setPage(model.pagesRead());
             }
         });
     }
 
     private void goPrev(ActionEvent evt) {
         // it's important to put it to the end of the queue !
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (thePane) {
-                    autoScrollCheckBox.setSelected(false);
-                    autoScroll = false;
-                    setPage(thePane.page - 1);
-                }
+        SwingUtilities.invokeLater(() -> {
+            synchronized (thePane) {
+                autoScrollCheckBox.setSelected(false);
+                autoScroll = false;
+                setPage(thePane.page - 1);
             }
         });
     }
 
     private void goNext(ActionEvent evt) {
         // it's important to put it to the end of the queue !
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (thePane) {
-                    setPage(thePane.page + 1);
-                }
+        SwingUtilities.invokeLater(() -> {
+            synchronized (thePane) {
+                setPage(thePane.page + 1);
             }
         });
     }
 
     private void goFirst(ActionEvent evt) {
         // it's important to put it to the end of the queue !
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (thePane) {
-                    autoScrollCheckBox.setSelected(false);
-                    autoScroll = false;
-                    setPage(1);
-                }
+        SwingUtilities.invokeLater(() -> {
+            synchronized (thePane) {
+                autoScrollCheckBox.setSelected(false);
+                autoScroll = false;
+                setPage(1);
             }
         });
     }
@@ -747,12 +712,9 @@ class LogViewer extends ToolDialog {
 
         if (debugPages > 1) {
             System.out.println("setPage " + pageNum + " thePane.page=" + thePane.page);
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    if (thePane != null && currPage != null) {
-                        currPage.setText("Current page " + thePane.page);
-                    }
+            SwingUtilities.invokeLater(() -> {
+                if (thePane != null && currPage != null) {
+                    currPage.setText("Current page " + thePane.page);
                 }
             });
         }
@@ -760,30 +722,27 @@ class LogViewer extends ToolDialog {
 
     private void updateNavBtns() {
         // can be called not from swing thread
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                if (noWindow) {
-                    return;
-                }
-                synchronized (thePane) {
-                    if (model != null && btnFirst != null && btnLast != null &&
-                            btnPrev != null && btnNext != null && lblPageCounter != null &&
-                            naviPanel != null && btnSave != null) {
-                        btnFirst.setEnabled(thePane.page > 1);
-                        btnLast.setEnabled(thePane.page < model.pagesRead() && model.pagesRead() > 1);
-                        btnPrev.setEnabled(thePane.page > 1);
-                        btnNext.setEnabled(thePane.page < model.pagesRead() && model.pagesRead() > 1);
-                        String pop = uif.getI18NString("logviewer.pageofpage",
-                                thePane.page, model.pagesRead());
-                        lblPageCounter.setText(pop);
-                        naviPanel.setVisible(btnFirst.isEnabled() ||
-                                btnFirst.isEnabled() ||
-                                btnLast.isEnabled() ||
-                                btnNext.isEnabled());
-                        btnSave.setEnabled(model.isStableState() && model.recordsRead() > 0);
-                        btnClear.setEnabled(model.pagesRead() > 0);
-                    }
+        SwingUtilities.invokeLater(() -> {
+            if (noWindow) {
+                return;
+            }
+            synchronized (thePane) {
+                if (model != null && btnFirst != null && btnLast != null &&
+                        btnPrev != null && btnNext != null && lblPageCounter != null &&
+                        naviPanel != null && btnSave != null) {
+                    btnFirst.setEnabled(thePane.page > 1);
+                    btnLast.setEnabled(thePane.page < model.pagesRead() && model.pagesRead() > 1);
+                    btnPrev.setEnabled(thePane.page > 1);
+                    btnNext.setEnabled(thePane.page < model.pagesRead() && model.pagesRead() > 1);
+                    String pop = uif.getI18NString("logviewer.pageofpage",
+                            thePane.page, model.pagesRead());
+                    lblPageCounter.setText(pop);
+                    naviPanel.setVisible(btnFirst.isEnabled() ||
+                            btnFirst.isEnabled() ||
+                            btnLast.isEnabled() ||
+                            btnNext.isEnabled());
+                    btnSave.setEnabled(model.isStableState() && model.recordsRead() > 0);
+                    btnClear.setEnabled(model.pagesRead() > 0);
                 }
             }
         });
@@ -996,57 +955,54 @@ class LogViewer extends ToolDialog {
                 final String header = debug > 1 ? "#" + (i + 1) + " " + hd : hd;
                 final String substr = model.getFilter().getSubstring();
                 final int iter = i;
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
+                SwingUtilities.invokeLater(() -> {
+                    if (noWindow) {
+                        return;
+                    }
+                    synchronized (thePane) {
+                        if (iter <= thePane.fromRec) {
+                            return;
+                        }
+                        thePane.page = pagenum;
+                        thePane.fromRec = iter;
+                    }
+                    try {
+                        int pos = doc.getEndPosition().getOffset() - 1;
+                        if (thePane.getCaret() == null) {
+                            thePane.setCaretPosition(0);
+                        }
+                        int oldPos = thePane.getCaretPosition();
+                        doc.insertString(pos, header, getStyle(level));
+                        doc.insertString(doc.getEndPosition().getOffset() - 1, "\n", getStyle(level));
+
+                        if (substr != null && !substr.isEmpty()) {
+                            String up = header.toUpperCase();
+                            int s = 0;
+                            int ss;
+                            while ((ss = up.indexOf(substr, s)) >= 0) {
+                                doc.setCharacterAttributes(pos + ss, substr.length(), selected, false);
+                                s += substr.length();
+                            }
+                        }
+                        pos = doc.getEndPosition().getOffset() - 1;
+                        doc.insertString(pos, msg, styleMsg);
+                        doc.insertString(doc.getEndPosition().getOffset() - 1, "\n", getStyle(level));
+
+                        if (substr != null && !substr.isEmpty()) {
+                            String up = msg.toUpperCase();
+                            int s = 0;
+                            int ss;
+                            while ((ss = up.indexOf(substr, s)) >= 0) {
+                                doc.setCharacterAttributes(pos + ss, substr.length(), selected, false);
+                                s += substr.length();
+                            }
+                        }
+                        thePane.setCaretPosition(oldPos);
                         if (noWindow) {
                             return;
                         }
-                        synchronized (thePane) {
-                            if (iter <= thePane.fromRec) {
-                                return;
-                            }
-                            thePane.page = pagenum;
-                            thePane.fromRec = iter;
-                        }
-                        try {
-                            int pos = doc.getEndPosition().getOffset() - 1;
-                            if (thePane.getCaret() == null) {
-                                thePane.setCaretPosition(0);
-                            }
-                            int oldPos = thePane.getCaretPosition();
-                            doc.insertString(pos, header, getStyle(level));
-                            doc.insertString(doc.getEndPosition().getOffset() - 1, "\n", getStyle(level));
-
-                            if (substr != null && !substr.isEmpty()) {
-                                String up = header.toUpperCase();
-                                int s = 0;
-                                int ss;
-                                while ((ss = up.indexOf(substr, s)) >= 0) {
-                                    doc.setCharacterAttributes(pos + ss, substr.length(), selected, false);
-                                    s += substr.length();
-                                }
-                            }
-                            pos = doc.getEndPosition().getOffset() - 1;
-                            doc.insertString(pos, msg, styleMsg);
-                            doc.insertString(doc.getEndPosition().getOffset() - 1, "\n", getStyle(level));
-
-                            if (substr != null && !substr.isEmpty()) {
-                                String up = msg.toUpperCase();
-                                int s = 0;
-                                int ss;
-                                while ((ss = up.indexOf(substr, s)) >= 0) {
-                                    doc.setCharacterAttributes(pos + ss, substr.length(), selected, false);
-                                    s += substr.length();
-                                }
-                            }
-                            thePane.setCaretPosition(oldPos);
-                            if (noWindow) {
-                                return;
-                            }
-                        } catch (BadLocationException ex) {
-                            ex.printStackTrace();
-                        }
+                    } catch (BadLocationException ex) {
+                        ex.printStackTrace();
                     }
                 });
             }
@@ -1157,45 +1113,42 @@ class LogViewer extends ToolDialog {
                 @Override
                 public void onNewLogger(final String name) {
                     // it calls from Worker thread
-                    SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            // check for the same
+                    SwingUtilities.invokeLater(() -> {
+                        // check for the same
 
-                            PropagatedCheckBox ch = new PropagatedCheckBox(name);
-                            ch.setSelected(true);
-                            DefaultMutableTreeNode newLogger = new DefaultMutableTreeNode(ch, true);
+                        PropagatedCheckBox ch = new PropagatedCheckBox(name);
+                        ch.setSelected(true);
+                        DefaultMutableTreeNode newLogger = new DefaultMutableTreeNode(ch, true);
 
-                            for (int i = 0; i < levels.length; i++) {
-                                final JCheckBox chh = new FilterTreeItem(name, levels[i].intValue(), levelNames[i]);
-                                chh.setSelected(true);
-                                final int level = levels[i].intValue();
-                                chh.addItemListener(new ItemListener() {
-                                    JCheckBox box;
-                                    int l;
-                                    String logName;
+                        for (int i = 0; i < levels.length; i++) {
+                            final JCheckBox chh = new FilterTreeItem(name, levels[i].intValue(), levelNames[i]);
+                            chh.setSelected(true);
+                            final int level = levels[i].intValue();
+                            chh.addItemListener(new ItemListener() {
+                                JCheckBox box;
+                                int l;
+                                String logName;
 
-                                    {
-                                        box = chh;
-                                        l = level;
-                                        logName = name;
-                                    }
+                                {
+                                    box = chh;
+                                    l = level;
+                                    logName = name;
+                                }
 
-                                    @Override
-                                    public void itemStateChanged(ItemEvent e) {
-                                        model.getFilter().enableLogger(logName, l, box.isSelected());
-                                    }
-                                });
-                                ch.addChild(chh);
-                                DefaultMutableTreeNode node = new DefaultMutableTreeNode(chh);
-                                newLogger.add(node);
-                            }
-
-                            treeRoot.add(newLogger);
-                            nodesWereInserted(treeRoot, new int[]{treeRoot.getIndex(newLogger)});
-                            filterTree.expandPath(new TreePath(newLogger.getPath()));
-
+                                @Override
+                                public void itemStateChanged(ItemEvent e) {
+                                    model.getFilter().enableLogger(logName, l, box.isSelected());
+                                }
+                            });
+                            ch.addChild(chh);
+                            DefaultMutableTreeNode node = new DefaultMutableTreeNode(chh);
+                            newLogger.add(node);
                         }
+
+                        treeRoot.add(newLogger);
+                        nodesWereInserted(treeRoot, new int[]{treeRoot.getIndex(newLogger)});
+                        filterTree.expandPath(new TreePath(newLogger.getPath()));
+
                     });
 
                 }
@@ -1213,20 +1166,17 @@ class LogViewer extends ToolDialog {
 
         PropagatedCheckBox(String name) {
             super(name);
-            this.addItemListener(new ItemListener() {
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    for (JCheckBox aChildren : children) {
-                        boolean s = isSelected();
-                        if (aChildren.isSelected() != s) {
-                            aChildren.setSelected(s);
-                            if (debug > 1) {
-                                System.out.println(aChildren.getText() + " selected " + s);
-                            }
+            this.addItemListener(e -> {
+                for (JCheckBox aChildren : children) {
+                    boolean s = isSelected();
+                    if (aChildren.isSelected() != s) {
+                        aChildren.setSelected(s);
+                        if (debug > 1) {
+                            System.out.println(aChildren.getText() + " selected " + s);
                         }
                     }
-                    filterTree.repaint();
                 }
+                filterTree.repaint();
             });
         }
 
@@ -1326,13 +1276,7 @@ class LogViewer extends ToolDialog {
                             synchronized (thePane) {
                                 final JScrollBar sb = scrollPane.getVerticalScrollBar();
                                 if (sb != null) {
-                                    SwingUtilities.invokeLater(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            sb.setValue(sb.getMaximum());
-                                        }
-
-                                    });
+                                    SwingUtilities.invokeLater(() -> sb.setValue(sb.getMaximum()));
                                 }
                             }
                         } else {
