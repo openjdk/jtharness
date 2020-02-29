@@ -60,7 +60,13 @@ public class MissingLinkTest {
 
     public boolean run(PrintStream out) throws IOException, TestFinder.Fault {
         this.out = out;
-        File testSuite = new File(TU.getPathToData() + File.separator + "finder/data/missingLink/testsuite.html");
+        File testSuite = new File(TU.getPathToData() + File.separator + "finder" +
+                File.separator +
+                "data" +
+                File.separator +
+                "missingLink" +
+                File.separator +
+                "testsuite.html");
         File testSuiteDir = new File(testSuite.getParent());
         String[] webWalk = {"-webWalk"};
         boolean ok = true;
