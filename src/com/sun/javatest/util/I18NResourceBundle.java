@@ -135,22 +135,12 @@ public class I18NResourceBundle extends ResourceBundle {
         try {
             if (delegate == null) {
                 delegate = AccessController.doPrivileged(
-                        new PrivilegedAction<ResourceBundle>() {
-                            @Override
-                            public ResourceBundle run() {
-                                return ResourceLoader.getBundle(name, Locale.getDefault(), classLoader);
-                            }
-                        });
+                        (PrivilegedAction<ResourceBundle>) () -> ResourceLoader.getBundle(name, Locale.getDefault(), classLoader));
             }
             return delegate.getObject(key);
         } catch (MissingResourceException e) {
             ResourceBundle bundle = AccessController.doPrivileged(
-                    new PrivilegedAction<ResourceBundle>() {
-                        @Override
-                        public ResourceBundle run() {
-                            return ResourceBundle.getBundle(name, Locale.getDefault(), classLoader);
-                        }
-                    });
+                    (PrivilegedAction<ResourceBundle>) () -> ResourceBundle.getBundle(name, Locale.getDefault(), classLoader));
             return bundle.getObject(key);
         }
     }
@@ -184,12 +174,7 @@ public class I18NResourceBundle extends ResourceBundle {
     public Enumeration<String> getKeys() {
         if (delegate == null) {
             delegate = AccessController.doPrivileged(
-                    new PrivilegedAction<ResourceBundle>() {
-                        @Override
-                        public ResourceBundle run() {
-                            return ResourceLoader.getBundle(name, Locale.getDefault(), classLoader);
-                        }
-                    });
+                    (PrivilegedAction<ResourceBundle>) () -> ResourceLoader.getBundle(name, Locale.getDefault(), classLoader));
 
         }
         if (delegate.getKeys().hasMoreElements()) {
@@ -197,12 +182,7 @@ public class I18NResourceBundle extends ResourceBundle {
         }
 
         ResourceBundle bundle = AccessController.doPrivileged(
-                new PrivilegedAction<ResourceBundle>() {
-                    @Override
-                    public ResourceBundle run() {
-                        return ResourceBundle.getBundle(name, Locale.getDefault(), classLoader);
-                    }
-                });
+                (PrivilegedAction<ResourceBundle>) () -> ResourceBundle.getBundle(name, Locale.getDefault(), classLoader));
         return bundle.getKeys();
     }
 
