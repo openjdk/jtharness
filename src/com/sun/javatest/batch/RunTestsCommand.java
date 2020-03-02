@@ -114,16 +114,12 @@ class RunTestsCommand extends Command {
 
             int[] boStats = bo.getStats();
 
-            Optional<Integer> totalNumberOfTestsIfKnown = harness.getResultTable().getTestFinder().totalNumberOfTestsInTheSuite();
-            if (totalNumberOfTestsIfKnown.isPresent()) {
-                boStats[Status.NOT_RUN] = totalNumberOfTestsIfKnown.get() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
-            } else {
-                // enhancing stats after the run by adding number of rejected tests - that were filtered out
-                // due to different reasons - keywords, exclude list etc.
-                // also adding a number of found tests that were not run for some reason other than rejection
-                int notFoundSinceRejected = harness.getTestIterator().getRejectCount();
-                boStats[Status.NOT_RUN] = notFoundSinceRejected + harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
-            }
+            // enhancing stats after the run by adding number of rejected tests - that were filtered out
+            // due to different reasons - keywords, exclude list etc.
+            // also adding a number of found tests that were not run for some reason other than rejection
+            int notFoundSinceRejected = harness.getTestIterator().getRejectCount();
+            int foundButNotRun = harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
+            boStats[Status.NOT_RUN] = notFoundSinceRejected + foundButNotRun;
 
             h.notifyOfTheFinalStats(boStats);
 
@@ -165,9 +161,11 @@ class RunTestsCommand extends Command {
         int failed = stats[Status.FAILED];
         int errors = stats[Status.ERROR];
         int notRun = stats[Status.NOT_RUN];
+        Integer totalNumberOfTests =
+                harness.getResultTable().getTestFinder().totalNumberOfTestsInTheSuite().orElse(0);
 
         if (passed + failed + errors + notRun == 0) {
-            ctx.printMessage(i18n, "runTests.noTests");
+            ctx.printMessage(i18n, "runTests.noTests", totalNumberOfTests);
         } else {
             // runTests.tests=Test results:
             // {0,choice,0#|0<passed: {0,number}}
@@ -185,7 +183,9 @@ class RunTestsCommand extends Command {
                     Integer.valueOf((failed > 0) && (errors + notRun > 0) ? 1 : 0),
                     Integer.valueOf(errors),
                     Integer.valueOf((errors > 0) && (notRun > 0) ? 1 : 0),
-                    Integer.valueOf(notRun));
+                    Integer.valueOf(notRun),
+                    totalNumberOfTests
+            );
         }
     }
 
