@@ -36,23 +36,28 @@ import junit.framework.Assert;
 
 import java.util.Arrays;
 
+import static junit.framework.Assert.*;
+
 public class TestObserver implements Harness.Observer {
 
     private static int[] stats = {-1, -1, -1, -1};
+    private static int rejected = -1;
 
     @Override
-    public void notifyOfTheFinalStats(int[] stats) {
-        this.stats = stats;
+    public void notifyOfTheFinalStats(int rejected, int[] stats) {
+        TestObserver.rejected = rejected;
+        TestObserver.stats = stats;
     }
 
     public static int[] getStats() {
         return stats;
     }
 
-    public static void assertFinalStats(int passed, int failed, int errors, int notRun) {
-        Assert.assertEquals("Unexpected number of PASSED tests", passed, stats[Status.PASSED]);
-        Assert.assertEquals("Unexpected number of FAILED tests", failed, stats[Status.FAILED]);
-        Assert.assertEquals("Unexpected number of ERROR tests", errors, stats[Status.ERROR]);
-        Assert.assertEquals("Unexpected number of NOT_RUN tests", notRun, stats[Status.NOT_RUN]);
+    public static void assertFinalStats(int expectedPassed, int expectedFailed, int expectedErrors, int expectedNotRun, int expectedRejected) {
+        assertEquals("Unexpected number of PASSED tests", expectedPassed, stats[Status.PASSED]);
+        assertEquals("Unexpected number of FAILED tests", expectedFailed, stats[Status.FAILED]);
+        assertEquals("Unexpected number of ERROR tests", expectedErrors, stats[Status.ERROR]);
+        assertEquals("Unexpected number of NOT_RUN tests", expectedNotRun, stats[Status.NOT_RUN]);
+        assertEquals("Unexpected number of NOT_RUN tests", expectedRejected, TestObserver.rejected);
     }
 }

@@ -82,7 +82,7 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
         int failed = expectedTestRunFinalStats[Status.FAILED];
         int error = expectedTestRunFinalStats[Status.ERROR];
         int notRun = expectedTestRunFinalStats[Status.NOT_RUN];
-        TestObserver.assertFinalStats(passed, failed, error, notRun);
+        TestObserver.assertFinalStats(passed, failed, error, notRun, getExpectedRejectCount());
     }
 
     protected abstract List<String> getTailArgs();
@@ -96,6 +96,10 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
     protected abstract String[] getExpectedLinesInTestrunSummary();
 
     protected abstract int[] getExpectedTestRunFinalStats();
+
+    protected int getExpectedRejectCount() {
+        return 0;
+    }
 
     @Before
     public void setup() throws IOException {

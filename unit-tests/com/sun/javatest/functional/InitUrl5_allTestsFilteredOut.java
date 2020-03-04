@@ -43,9 +43,13 @@ public class InitUrl5_allTestsFilteredOut extends TestSuiteRunningTestBase {
 
     @Override
     protected int[] getExpectedTestRunFinalStats() {
-        return new int[]{0, 0, 0, 1};
+        return new int[]{0, 0, 0, 0};
     }
 
+    @Override
+    protected int getExpectedRejectCount() {
+        return 1;
+    }
 
     @Override
     protected String[] getExpectedLinesInTestrunSummary() {

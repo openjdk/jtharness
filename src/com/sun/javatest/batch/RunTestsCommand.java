@@ -114,14 +114,11 @@ class RunTestsCommand extends Command {
 
             int[] boStats = bo.getStats();
 
-            // enhancing stats after the run by adding number of rejected tests - that were filtered out
-            // due to different reasons - keywords, exclude list etc.
-            // also adding a number of found tests that were not run for some reason other than rejection
-            int notFoundSinceRejected = harness.getTestIterator().getRejectCount();
-            int foundButNotRun = harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
-            boStats[Status.NOT_RUN] = notFoundSinceRejected + foundButNotRun;
+            boStats[Status.NOT_RUN] = harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
+            // tests that were rejected by filters
+            int rejected = harness.getTestIterator().getRejectCount();
 
-            h.notifyOfTheFinalStats(boStats);
+            h.notifyOfTheFinalStats(rejected, boStats);
 
             if (!ctx.isVerboseQuiet()) {
                 long tt = h.getElapsedTime();
@@ -131,7 +128,7 @@ class RunTestsCommand extends Command {
                 ctx.printMessage(i18n, "runTests.setupTime", setupT / 1000L);
                 ctx.printMessage(i18n, "runTests.cleanupTime", cleanupT / 1000L);
 
-                showResultStats(boStats);
+                showResultStats(rejected, boStats);
             }
 
 
@@ -156,7 +153,8 @@ class RunTestsCommand extends Command {
         }
     }
 
-    private void showResultStats(int... stats) {
+    private void showResultStats(int rejected, int... stats) {
+
         int passed = stats[Status.PASSED];
         int failed = stats[Status.FAILED];
         int errors = stats[Status.ERROR];
@@ -166,7 +164,7 @@ class RunTestsCommand extends Command {
                 totalNumber -> ctx.printMessage(i18n, "runTests.testsInTheSuite", totalNumber)
         );
 
-        if (passed + failed + errors + notRun == 0) {
+        if (passed + failed + errors + notRun + rejected == 0) {
             ctx.printMessage(i18n, "runTests.noTests");
         } else {
             // runTests.tests=Test results:
@@ -180,12 +178,14 @@ class RunTestsCommand extends Command {
             // {6,number}}
             ctx.printMessage(i18n, "runTests.tests",
                     Integer.valueOf(passed),
-                    Integer.valueOf((passed > 0) && (failed + errors + notRun > 0) ? 1 : 0),
+                    Integer.valueOf((passed > 0) && (failed + errors + notRun + rejected > 0) ? 1 : 0),
                     Integer.valueOf(failed),
-                    Integer.valueOf((failed > 0) && (errors + notRun > 0) ? 1 : 0),
+                    Integer.valueOf((failed > 0) && (errors + notRun + rejected > 0) ? 1 : 0),
                     Integer.valueOf(errors),
-                    Integer.valueOf((errors > 0) && (notRun > 0) ? 1 : 0),
-                    Integer.valueOf(notRun));
+                    Integer.valueOf((errors > 0) && (notRun + rejected > 0) ? 1 : 0),
+                    Integer.valueOf(notRun),
+                    Integer.valueOf((notRun > 0) && (rejected > 0) ? 1 : 0),
+                    Integer.valueOf(rejected));
         }
     }
 

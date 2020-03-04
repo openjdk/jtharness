@@ -42,7 +42,12 @@ public class InitUrl5_filteringOutFailingWithAKeyword extends TestSuiteRunningTe
 
     @Override
     protected int[] getExpectedTestRunFinalStats() {
-        return new int[]{3, 0, 0, 3};
+        return new int[]{3, 0, 0, 0};
+    }
+
+    @Override
+    protected int getExpectedRejectCount() {
+        return 3;
     }
 
     @Override

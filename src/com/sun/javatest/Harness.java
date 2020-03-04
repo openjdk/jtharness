@@ -911,10 +911,11 @@ public class Harness {
 
     /**
      * Informs all the observers of the final stats gathered after the test run
+     * @param rejected number of tests rejected by filters
      * @param stats status type is the number of element, value is the number or tests with that type of status
      */
-    public void notifyOfTheFinalStats(int... stats) {
-        notifier.notifyOfTheFinalStats(stats);
+    public void notifyOfTheFinalStats(int rejected, int... stats) {
+        notifier.notifyOfTheFinalStats(rejected, stats);
     }
 
     /**
@@ -1003,9 +1004,10 @@ public class Harness {
 
         /**
          * Is called when final test run stats are available for evaluation.
+         * @param rejected number of tests rejected by filters
          * @param stats status type is the number of element, value is the number or tests with that type of status
          */
-        default void notifyOfTheFinalStats(int... stats) {}
+        default void notifyOfTheFinalStats(int rejected, int... stats) {}
     }
 
     /**
@@ -1147,11 +1149,11 @@ public class Harness {
         }
 
         @Override
-        public void notifyOfTheFinalStats(int... stats) {
+        public void notifyOfTheFinalStats(int rejected, int... stats) {
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
             for (int i = stableObservers.length - 1; i >= 0; i--) {
-                stableObservers[i].notifyOfTheFinalStats(stats);
+                stableObservers[i].notifyOfTheFinalStats(rejected, stats);
             }
         }
 

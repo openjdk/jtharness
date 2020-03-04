@@ -42,9 +42,13 @@ public class InitUrl4 extends TestSuiteRunningTestBase {
 
     @Override
     protected int[] getExpectedTestRunFinalStats() {
-        return new int[]{0, 0, 0, 11};
+        return new int[]{0, 0, 0, 0};
     }
 
+    @Override
+    protected int getExpectedRejectCount() {
+        return 11;
+    }
 
     @Override
     protected String[] getExpectedLinesInTestrunSummary() {
