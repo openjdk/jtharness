@@ -161,11 +161,13 @@ class RunTestsCommand extends Command {
         int failed = stats[Status.FAILED];
         int errors = stats[Status.ERROR];
         int notRun = stats[Status.NOT_RUN];
-        Integer totalNumberOfTests =
-                harness.getResultTable().getTestFinder().totalNumberOfTestsInTheSuite().orElse(0);
+
+        harness.getResultTable().getTestFinder().totalNumberOfTestsInTheSuite().ifPresent(
+                totalNumber -> ctx.printMessage(i18n, "runTests.testsInTheSuite", totalNumber)
+        );
 
         if (passed + failed + errors + notRun == 0) {
-            ctx.printMessage(i18n, "runTests.noTests", totalNumberOfTests);
+            ctx.printMessage(i18n, "runTests.noTests");
         } else {
             // runTests.tests=Test results:
             // {0,choice,0#|0<passed: {0,number}}
@@ -183,9 +185,7 @@ class RunTestsCommand extends Command {
                     Integer.valueOf((failed > 0) && (errors + notRun > 0) ? 1 : 0),
                     Integer.valueOf(errors),
                     Integer.valueOf((errors > 0) && (notRun > 0) ? 1 : 0),
-                    Integer.valueOf(notRun),
-                    totalNumberOfTests
-            );
+                    Integer.valueOf(notRun));
         }
     }
 
