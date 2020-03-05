@@ -563,13 +563,7 @@ public class SelectionTree extends JTree {
             return null;
         }
 
-        return findNodeByObjectFilter(new SelectionTreeFilter() {
-
-            @Override
-            public boolean accept(SelectionElement candidateNodeObject) {
-                return candidateNodeObject == nodeObject;
-            }
-        }, startingFrom, forward);
+        return findNodeByObjectFilter(candidateNodeObject -> candidateNodeObject == nodeObject, startingFrom, forward);
     }
 
     /**
@@ -992,13 +986,7 @@ public class SelectionTree extends JTree {
                     if (obj instanceof SelectionTreeNode) {
                         SelectionTreeNode node = (SelectionTreeNode) obj;
                         node.changeSelection();
-                        SwingUtilities.invokeLater(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                SelectionTree.this.setSelectionPath(treePath);
-                            }
-                        });
+                        SwingUtilities.invokeLater(() -> SelectionTree.this.setSelectionPath(treePath));
                         return;
                     }
                 }
@@ -1016,23 +1004,13 @@ public class SelectionTree extends JTree {
 
         @Override
         public void actionPerformed(final ActionEvent e) {
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    SwingUtilities.invokeLater(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            if (actionListener != null) {
-                                actionListener.actionPerformed(e);
-                            } else {
-                                fireAction(SelectionTreeAction.this);
-                            }
-                        }
-                    });
+            new Thread(() -> SwingUtilities.invokeLater(() -> {
+                if (actionListener != null) {
+                    actionListener.actionPerformed(e);
+                } else {
+                    fireAction(SelectionTreeAction.this);
                 }
-            }, "Selection Tree Action Thread").start();
+            }), "Selection Tree Action Thread").start();
         }
     }
 }
