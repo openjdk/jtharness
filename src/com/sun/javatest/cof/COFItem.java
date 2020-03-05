@@ -71,12 +71,10 @@ abstract class COFItem {
             try {
                 bi = Introspector.getBeanInfo(this.getClass());
                 pds = bi.getPropertyDescriptors();
-                Arrays.sort(pds, new Comparator<Object>() {
-                    public int compare(Object o1, Object o2) {
-                        PropertyDescriptor pd1 = (PropertyDescriptor) o1;
-                        PropertyDescriptor pd2 = (PropertyDescriptor) o2;
-                        return pd1.getName().compareTo(pd2.getName());
-                    }
+                Arrays.sort(pds, (Comparator<Object>) (o1, o2) -> {
+                    PropertyDescriptor pd1 = (PropertyDescriptor) o1;
+                    PropertyDescriptor pd2 = (PropertyDescriptor) o2;
+                    return pd1.getName().compareTo(pd2.getName());
                 });
             } catch (IntrospectionException e) {
                 // TODO Auto-generated catch block
@@ -89,13 +87,10 @@ abstract class COFItem {
         }
 
         Object result = null;
-        int propIndex = Arrays.binarySearch(pds, name, new Comparator<Object>() {
-            public int compare(Object o1, Object o2) {
-                PropertyDescriptor pd = (PropertyDescriptor) o1;
-                String propName = (String) o2;
-                return pd.getName().compareTo(propName);
-            }
-
+        int propIndex = Arrays.binarySearch(pds, name, (o1, o2) -> {
+            PropertyDescriptor pd = (PropertyDescriptor) o1;
+            String propName = (String) o2;
+            return pd.getName().compareTo(propName);
         });
 
         if (propIndex < 0 || propIndex >= pds.length) { // no such property
