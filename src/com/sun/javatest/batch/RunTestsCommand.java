@@ -115,10 +115,10 @@ class RunTestsCommand extends Command {
             int[] boStats = bo.getStats();
 
             boStats[Status.NOT_RUN] = harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
-            // tests that were rejected by filters
-            int rejected = harness.getTestIterator().getRejectCount();
+            // tests that were rejected by filters so skipped from the run
+            int skipped = harness.getTestIterator().getRejectCount();
 
-            h.notifyOfTheFinalStats(rejected, boStats);
+            h.notifyOfTheFinalStats(skipped, boStats);
 
             if (!ctx.isVerboseQuiet()) {
                 long tt = h.getElapsedTime();
@@ -128,7 +128,7 @@ class RunTestsCommand extends Command {
                 ctx.printMessage(i18n, "runTests.setupTime", setupT / 1000L);
                 ctx.printMessage(i18n, "runTests.cleanupTime", cleanupT / 1000L);
 
-                showResultStats(rejected, boStats);
+                showResultStats(skipped, boStats);
             }
 
 
@@ -153,7 +153,7 @@ class RunTestsCommand extends Command {
         }
     }
 
-    private void showResultStats(int rejected, int... stats) {
+    private void showResultStats(int skipped, int... stats) {
 
         int passed = stats[Status.PASSED];
         int failed = stats[Status.FAILED];
@@ -164,7 +164,7 @@ class RunTestsCommand extends Command {
                 totalNumber -> ctx.printMessage(i18n, "runTests.testsInTheSuite", totalNumber)
         );
 
-        if (passed + failed + errors + notRun + rejected == 0) {
+        if (passed + failed + errors + notRun + skipped == 0) {
             ctx.printMessage(i18n, "runTests.noTests");
         } else {
             // runTests.tests=Test results:
@@ -178,14 +178,14 @@ class RunTestsCommand extends Command {
             // {6,number}}
             ctx.printMessage(i18n, "runTests.tests",
                     Integer.valueOf(passed),
-                    Integer.valueOf((passed > 0) && (failed + errors + notRun + rejected > 0) ? 1 : 0),
+                    Integer.valueOf((passed > 0) && (failed + errors + notRun + skipped > 0) ? 1 : 0),
                     Integer.valueOf(failed),
-                    Integer.valueOf((failed > 0) && (errors + notRun + rejected > 0) ? 1 : 0),
+                    Integer.valueOf((failed > 0) && (errors + notRun + skipped > 0) ? 1 : 0),
                     Integer.valueOf(errors),
-                    Integer.valueOf((errors > 0) && (notRun + rejected > 0) ? 1 : 0),
+                    Integer.valueOf((errors > 0) && (notRun + skipped > 0) ? 1 : 0),
                     Integer.valueOf(notRun),
-                    Integer.valueOf((notRun > 0) && (rejected > 0) ? 1 : 0),
-                    Integer.valueOf(rejected));
+                    Integer.valueOf((notRun > 0) && (skipped > 0) ? 1 : 0),
+                    Integer.valueOf(skipped));
         }
     }
 

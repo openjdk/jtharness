@@ -28,24 +28,18 @@
 package com.sun.javatest.functional;
 
 import com.sun.javatest.Harness;
-import com.sun.javatest.Parameters;
 import com.sun.javatest.Status;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestResultTable;
-import junit.framework.Assert;
-
-import java.util.Arrays;
 
 import static junit.framework.Assert.*;
 
 public class TestObserver implements Harness.Observer {
 
     private static int[] stats = {-1, -1, -1, -1};
-    private static int rejected = -1;
+    private static int skipped = -1;
 
     @Override
-    public void notifyOfTheFinalStats(int rejected, int[] stats) {
-        TestObserver.rejected = rejected;
+    public void notifyOfTheFinalStats(int skipped, int[] stats) {
+        TestObserver.skipped = skipped;
         TestObserver.stats = stats;
     }
 
@@ -53,11 +47,11 @@ public class TestObserver implements Harness.Observer {
         return stats;
     }
 
-    public static void assertFinalStats(int expectedPassed, int expectedFailed, int expectedErrors, int expectedNotRun, int expectedRejected) {
+    public static void assertFinalStats(int expectedPassed, int expectedFailed, int expectedErrors, int expectedNotRun, int expectedSkipped) {
         assertEquals("Unexpected number of PASSED tests", expectedPassed, stats[Status.PASSED]);
         assertEquals("Unexpected number of FAILED tests", expectedFailed, stats[Status.FAILED]);
         assertEquals("Unexpected number of ERROR tests", expectedErrors, stats[Status.ERROR]);
         assertEquals("Unexpected number of NOT_RUN tests", expectedNotRun, stats[Status.NOT_RUN]);
-        assertEquals("Unexpected number of NOT_RUN tests", expectedRejected, TestObserver.rejected);
+        assertEquals("Unexpected number of skipped tests", expectedSkipped, TestObserver.skipped);
     }
 }
