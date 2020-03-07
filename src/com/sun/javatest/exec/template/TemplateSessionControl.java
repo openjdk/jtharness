@@ -273,16 +273,13 @@ public class TemplateSessionControl extends BasicSessionControl {
     @Override
     protected void initHistoryListeners() {
         super.initHistoryListeners();
-        configTemplateHistoryListener = new FileHistory.Listener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JMenuItem mi = (JMenuItem) e.getSource();
-                File f = (File) mi.getClientProperty(FileHistory.FILE);
-                if (f != null) {
-                    if (initTemplateEditor()) {
-                        // ensureConfigEditorInitialized();
-                        templateEditor.loadAndEdit(f);
-                    }
+        configTemplateHistoryListener = new FileHistory.Listener(e -> {
+            JMenuItem mi = (JMenuItem) e.getSource();
+            File f = (File) mi.getClientProperty(FileHistory.FILE);
+            if (f != null) {
+                if (initTemplateEditor()) {
+                    // ensureConfigEditorInitialized();
+                    templateEditor.loadAndEdit(f);
                 }
             }
         });
@@ -395,13 +392,10 @@ public class TemplateSessionControl extends BasicSessionControl {
         if (cm != null) {
             templateEditor.setCustomRenderers(cm.getCustomRenderersMap());
         }
-        templateEditor.setCheckExcludeListListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object src = e.getSource();
-                JComponent p = src instanceof JComponent ? (JComponent) src : parent;
-                checkExcludeListUpdate(p, false, template);
-            }
+        templateEditor.setCheckExcludeListListener(e -> {
+            Object src = e.getSource();
+            JComponent p = src instanceof JComponent ? (JComponent) src : parent;
+            checkExcludeListUpdate(p, false, template);
         });
         templateEditor.addObserver(this);
         return true;

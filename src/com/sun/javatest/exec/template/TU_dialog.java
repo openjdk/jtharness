@@ -269,35 +269,19 @@ public class TU_dialog extends JDialog {
         btnLater = uif.createButton("tu_dialog.btnRemindLater");
         btnClose = uif.createButton("tu_dialog.btnClose");
 
-        btnChangeNow.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                propagator.acceptAll();
-                setVisible(false);
-            }
+        btnChangeNow.addActionListener(e -> {
+            propagator.acceptAll();
+            setVisible(false);
         });
 
-        btnDontChange.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                propagator.rejectAll();
-                setVisible(false);
-            }
+        btnDontChange.addActionListener(e -> {
+            propagator.rejectAll();
+            setVisible(false);
         });
 
-        btnLater.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
+        btnLater.addActionListener(e -> setVisible(false));
 
-        btnClose.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
+        btnClose.addActionListener(e -> setVisible(false));
 
         buttonPanel.setLayout(new GridLayout(1, 4, 10, 10));
         if (hasConflicts) {
