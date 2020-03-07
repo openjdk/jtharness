@@ -29,6 +29,8 @@ package com.sun.javatest.batch;
 import com.sun.javatest.Harness;
 import com.sun.javatest.Parameters;
 import com.sun.javatest.Status;
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestFinder;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.tool.Command;
@@ -39,8 +41,10 @@ import com.sun.javatest.util.I18NResourceBundle;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Optional;
 
 class RunTestsCommand extends Command {
@@ -186,6 +190,12 @@ class RunTestsCommand extends Command {
                     Integer.valueOf(notRun),
                     Integer.valueOf((notRun > 0) && (skipped > 0) ? 1 : 0),
                     Integer.valueOf(skipped));
+        }
+        for (Map.Entry<TestFilter, ArrayList<TestDescription>> entry : harness.getTestIterator().getFilterStats().entrySet()) {
+            TestFilter filter = entry.getKey();
+            int number = entry.getValue().size();
+            ctx.getLogWriter().println(number + " " + (number == 1 ? "test" : "tests") +
+                    " skipped by filter \"" + filter.getName() + "\", reason: " + filter.getReason());
         }
     }
 
