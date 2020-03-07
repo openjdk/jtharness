@@ -142,12 +142,7 @@ public class JUnitBareMultiTest extends JUnitMultiTest {
         tests = new TreeMap<>();
         try {
             Method[] methods = AccessController.doPrivileged(
-                    new PrivilegedAction<Method[]>() {
-                        @Override
-                        public Method[] run() {
-                            return testCaseClass.getClass().getMethods();
-                        }
-                    });
+                    (PrivilegedAction<Method[]>) () -> testCaseClass.getClass().getMethods());
             for (Method m : methods) {
                 if (m == null || excludeTestCases.contains(m.getName())) {
                     continue;
