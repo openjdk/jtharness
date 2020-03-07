@@ -31,7 +31,6 @@ import javax.comm.NoSuchPortException;
 import javax.comm.PortInUseException;
 import javax.comm.SerialPort;
 import javax.comm.SerialPortEvent;
-import javax.comm.SerialPortEventListener;
 import javax.comm.UnsupportedCommOperationException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
