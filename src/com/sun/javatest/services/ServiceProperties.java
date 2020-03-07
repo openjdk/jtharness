@@ -164,11 +164,9 @@ public class ServiceProperties {
             return new HashMap<>(lastResolution);
         }
 
-        Map<String, String> result = new HashMap<>();
-        result.putAll(constProps);
+        Map<String, String> result = new HashMap<>(constProps);
 
-        Map<String, String> justResolved = new HashMap<>();
-        justResolved.putAll(constProps);
+        Map<String, String> justResolved = new HashMap<>(constProps);
 
         if (common != null) {
             justResolved.putAll(common.resolveProperties());

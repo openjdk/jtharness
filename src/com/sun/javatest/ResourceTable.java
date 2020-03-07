@@ -72,8 +72,7 @@ public class ResourceTable {
         if (resourceNames.length > 1) {
             // sort and remove duplicates
             // canonicalize acquisition order to prevent deadlocks
-            Set<String> ts = new TreeSet<>();
-            ts.addAll(Arrays.asList(resourceNames));
+            Set<String> ts = new TreeSet<>(Arrays.asList(resourceNames));
             String[] s = new String[ts.size()];
             ts.toArray(s);
             resourceNames = s;
