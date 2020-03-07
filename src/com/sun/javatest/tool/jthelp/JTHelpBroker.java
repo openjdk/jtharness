@@ -71,12 +71,7 @@ public class JTHelpBroker implements HelpBroker {
     public void enableHelpKey(final Component component, String helpID) {
         if (component instanceof JComponent) {
             KeyStroke keystroke = KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, false);
-            ((JComponent) component).registerKeyboardAction(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    displayCurrentID(ContextHelpManager.getHelpIDString(component));
-                }
-            }, keystroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+            ((JComponent) component).registerKeyboardAction(e -> displayCurrentID(ContextHelpManager.getHelpIDString(component)), keystroke, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         }
         ContextHelpManager.setHelpIDString(component, helpID);
     }

@@ -75,20 +75,10 @@ public class JTHelpProgressBar extends Component implements PropertyChangeListen
     public void propertyChange(PropertyChangeEvent evt) {
         if ("progress".equals(evt.getPropertyName())) {
             final int progress = (Integer) evt.getNewValue();
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    progressBar.setValue(progress);
-                }
-            });
+            SwingUtilities.invokeLater(() -> progressBar.setValue(progress));
         }
         if (SwingWorker.StateValue.DONE == evt.getNewValue()) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    frame.dispose();
-                }
-            });
+            SwingUtilities.invokeLater(() -> frame.dispose());
         }
     }
 
