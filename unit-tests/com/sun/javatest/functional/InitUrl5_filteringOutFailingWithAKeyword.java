@@ -46,7 +46,7 @@ public class InitUrl5_filteringOutFailingWithAKeyword extends TestSuiteRunningTe
     }
 
     @Override
-    protected int getExpectedRejectCount() {
+    protected int getExpectedNumberOfTestsSkipped() {
         return 3;
     }
 

@@ -46,7 +46,7 @@ public class InitUrl4 extends TestSuiteRunningTestBase {
     }
 
     @Override
-    protected int getExpectedRejectCount() {
+    protected int getExpectedNumberOfTestsSkipped() {
         return 11;
     }
 

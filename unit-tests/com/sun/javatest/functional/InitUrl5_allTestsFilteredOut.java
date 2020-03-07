@@ -47,7 +47,7 @@ public class InitUrl5_allTestsFilteredOut extends TestSuiteRunningTestBase {
     }
 
     @Override
-    protected int getExpectedRejectCount() {
+    protected int getExpectedNumberOfTestsSkipped() {
         return 1;
     }
 
