@@ -212,7 +212,7 @@ public class BasicSession implements SessionExt {
      * Sorts observers by their order.
      */
     private void sortObservers() {
-        Collections.sort(observers, (o1, o2) -> {
+        observers.sort((o1, o2) -> {
             long order1 = 0;
             if (o1 instanceof OrderedObserver) {
                 order1 = ((OrderedObserver) o1).order();
