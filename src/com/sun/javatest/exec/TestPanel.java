@@ -28,7 +28,6 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.Harness;
 import com.sun.javatest.JavaTestError;
-import com.sun.javatest.Parameters;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestResult;
@@ -41,8 +40,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;

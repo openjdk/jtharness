@@ -28,7 +28,6 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.Harness;
 import com.sun.javatest.Parameters;
-import com.sun.javatest.TestResult;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.report.Report;
 import com.sun.javatest.report.ReportDirChooser;
@@ -44,7 +43,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
