@@ -45,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Optional;
 
 class RunTestsCommand extends Command {
     private static final String DATE_OPTION = "date";
