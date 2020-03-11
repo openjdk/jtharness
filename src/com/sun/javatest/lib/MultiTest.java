@@ -75,7 +75,7 @@ public class MultiTest implements Test {
          * this test is not applicable. The cases when it is needed
          * are rare, so please think twice whether you really need it.
          *
-         * @param s the string containing a comment
+         * @param msg the string containing a comment
          */
         public static SetupException notApplicable(String msg) {
             SetupException e = new SetupException("Test not applicable: " + msg);
@@ -92,7 +92,7 @@ public class MultiTest implements Test {
         }
 
         /**
-         * Indicate whether this exception was the result of calling {@notApplicable}.
+         * Indicate whether this exception was the result of calling notApplicable(String).
          *
          * @serial
          */
