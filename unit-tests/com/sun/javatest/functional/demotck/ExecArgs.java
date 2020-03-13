@@ -39,6 +39,10 @@ public class ExecArgs extends TestSuiteRunningTestBase {
     @Test
     public void test() throws IOException {
         runJavaTest();
+        checkJTRLine(41, "----------messages:(4/219)----------", "exec", "index_ExecArgs.jtr");
+        checkJTRLine(57, "----------out1:(1/64)----------", "exec", "index_ExecArgs.jtr");
+        checkJTRLine(58, "STATUS:Passed.Running test with arg verification was successful", "exec", "index_ExecArgs.jtr");
+        checkJTRLineStartsWith(59, "----------out2:(5/", "exec", "index_ExecArgs.jtr");
     }
 
     @Override

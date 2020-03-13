@@ -39,6 +39,17 @@ public class InitUrl1 extends TestSuiteRunningTestBase {
     @Test
     public void test() throws IOException {
         runJavaTest();
+        checkJTRLine(35, "----------messages:(4/219)----------", "comp", "index_CompSuccUnexp.jtr");
+        checkJTRLineStartsWith(42, "----------messages:(1/", "comp", "index_CompSuccUnexp.jtr");
+
+        checkJTRLine(35, "----------messages:(4/202)----------", "comp", "index_CompSucc.jtr");
+        checkJTRLineStartsWith(42, "----------messages:(1/", "comp", "index_CompSucc.jtr");
+
+        checkJTRLine(31, "----------messages:(4/203)----------", "comp", "index_CompError.jtr");
+        checkJTRLine(5, "id=CompError", "comp", "index_CompError.jtr");
+        checkJTRLine(6, "keywords=compile positive shoulderror", "comp", "index_CompError.jtr");
+        checkJTRLine(17, "execStatus=Error. no sources specified in test description", "comp", "index_CompError.jtr");
+
     }
 
     @Override

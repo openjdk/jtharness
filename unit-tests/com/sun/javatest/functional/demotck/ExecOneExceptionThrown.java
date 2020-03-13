@@ -39,6 +39,18 @@ public class ExecOneExceptionThrown extends TestSuiteRunningTestBase {
     @Test
     public void test() throws IOException {
         runJavaTest();
+        checkJTRLine(8, "keywords=compile execute positive shouldexecute shouldfail", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(28, "execStatus=Failed. exit code 1", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(42, "----------messages:(4/228)----------", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(51, "----------out1:(0/0)----------", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(52, "----------out2:(0/0)----------", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(53, "result: Passed. exit code 0", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(58, "----------out1:(10/393)----------", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(59, "System err printing 934588596674637", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(60, "Exception in thread \"main\" java.lang.RuntimeException: example runtime exception", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(69, "----------out2:(1/36)----------", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(70, "System out printing 203974850982375", "exec", "index_ExecFailRuntimExc.jtr");
+        checkJTRLine(71, "result: Failed. exit code 1", "exec", "index_ExecFailRuntimExc.jtr");
     }
 
     @Override
