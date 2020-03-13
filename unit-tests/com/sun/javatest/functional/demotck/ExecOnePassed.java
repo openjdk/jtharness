@@ -39,6 +39,18 @@ public class ExecOnePassed extends TestSuiteRunningTestBase {
     @Test
     public void test() throws IOException {
         runJavaTest();
+        checkJTRLine(13, "ExecStdTestOtherJVMCmd=com.sun.javatest.lib.ExecStdTestOtherJVMCmd", "exec", "index_ExecSucc.jtr");
+        checkJTRLine(41, "----------messages:(4/219)----------", "exec", "index_ExecSucc.jtr");
+        checkJTRLine(50, "----------out1:(0/0)----------", "exec", "index_ExecSucc.jtr");
+        checkJTRLine(51, "----------out2:(0/0)----------", "exec", "index_ExecSucc.jtr");
+        checkJTRLine(52, "result: Passed. exit code 0", "exec", "index_ExecSucc.jtr");
+        checkJTRLineStartsWith(55, "----------messages:(1", "exec", "index_ExecSucc.jtr");
+        checkJTRLine(57, "----------out1:(1/35)----------", "exec", "index_ExecSucc.jtr");
+        checkJTRLine(58, "STATUS:Passed.This test has passed", "exec", "index_ExecSucc.jtr");
+        checkJTRLine(59, "----------out2:(0/0)----------", "exec", "index_ExecSucc.jtr");
+        checkJTRLine(59, "----------out2:(0/0)----------", "exec", "index_ExecSucc.jtr");
+        checkJTRLine(60, "result: Passed. This test has passed", "exec", "index_ExecSucc.jtr");
+        checkJTRLine(63, "test result: Passed. This test has passed", "exec", "index_ExecSucc.jtr");
     }
 
     @Override
