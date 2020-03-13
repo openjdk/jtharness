@@ -38,6 +38,14 @@ public class InitUrl2 extends TestSuiteRunningTestBase {
     @Test
     public void test() throws IOException {
         runJavaTest();
+        checkJTRLine(5, "id=CompSuccUnexp", "comp", "foo", "set2_CompSuccUnexp.jtr");
+        checkJTRLine(7, "source=CompSuccUnexp.java", "comp", "foo", "set2_CompSuccUnexp.jtr");
+        checkJTRLine(14, "command.compile.java=$ProcessCommand CLASSPATH\\=$javatestClassDir$\\:$testClassDir $JAVAC -d $testClassDir $javacFlags $testSource",
+                "comp", "foo", "set2_CompSuccUnexp.jtr");
+        checkJTRLine(20, "environment=initurl", "comp", "foo", "set2_CompSuccUnexp.jtr");
+        checkJTRLine(27, "sections=script_messages compile.java", "comp", "foo", "set2_CompSuccUnexp.jtr");
+        checkJTRLine(29, "test=comp/foo/set2.html\\#CompSuccUnexp", "comp", "foo", "set2_CompSuccUnexp.jtr");
+        checkJTRLine(35, "----------messages:(4/222)----------", "comp", "foo", "set2_CompSuccUnexp.jtr");
     }
 
     @Override
