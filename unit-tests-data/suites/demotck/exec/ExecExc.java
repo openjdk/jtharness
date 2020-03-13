@@ -46,8 +46,12 @@ public class ExecExc implements Test {
     public Status run(String[] args, PrintWriter log, PrintWriter out) {
         if (args.length == 1) {
             String arg = args[0];
-            if ("-runtime".equals(arg))
-                throw new RuntimeException("example runtime exception");
+            if ("-runtime".equals(arg)) {
+                System.out.println("System out printing 203974850982375");
+                System.err.println("System err printing 934588596674637");
+                throw new RuntimeException("example runtime exception",
+                        new IllegalArgumentException(new Throwable("inner cause", new Throwable("more inner cause"))));
+            }
             else if ("-error".equals(arg))
                 throw new Error("example error");
         }
