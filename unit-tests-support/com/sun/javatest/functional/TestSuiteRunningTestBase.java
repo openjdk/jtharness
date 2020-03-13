@@ -40,11 +40,15 @@ import org.junit.Assert;
 import org.junit.Before;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class TestSuiteRunningTestBase extends TestBase {
 
@@ -139,6 +143,31 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
         summaryTXT = reportDir.resolve("text").resolve("summary.txt");
     }
 
+    private Map<Path, List<String>> jtrsCache = new HashMap<>();
+
+    protected void checkJTRLine(int lineNumber, String expectedLine, String... pathsToJtr) {
+        Assert.assertEquals(expectedLine, allLines(pathsToJtr).get(lineNumber));
+    }
+
+    protected void checkJTRLineStartsWith(int lineNumber, String expectedPrefix, String... pathsToJtr) {
+        Assert.assertTrue(allLines(pathsToJtr).get(lineNumber).startsWith(expectedPrefix));
+    }
+
+    private List<String> allLines(String[] pathsToJtr) {
+        List<String> allLines;
+        try {
+            Path path = Paths.get(workDirAbsPath, pathsToJtr);
+            allLines = jtrsCache.get(path);
+            if (allLines == null) {
+                allLines = Files.readAllLines(path);
+                jtrsCache.put(path, allLines);
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+        return allLines;
+    }
+
     @After
     public void tearDown() {
         // now letting the unit test to complete
@@ -151,7 +180,7 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
             try {
                 summaryTxt = Files.readAllLines(summaryTXT, StandardCharsets.UTF_8);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new UncheckedIOException(e);
             }
         }
         return summaryTxt;
