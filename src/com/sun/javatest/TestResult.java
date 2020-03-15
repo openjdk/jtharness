@@ -2442,62 +2442,29 @@ public class TestResult {
 
             for (OutputBuffer buffer : buffers) {
                 String text = buffer.getOutput();
-                int numLines = 0;
-                int numBackslashes = 0;
-                int numNonASCII = 0;
-                boolean needsFinalNewline = false;
-                boolean needsEscape;
-
-                // scan for newlines and characters requiring escapes
-                for (int i = 0; i < text.length(); i++) {
-                    char c = text.charAt(i);
-                    if (c < 32) {
-                        if (c == '\n') {
-                            numLines++;
-                        } else if (c != '\t' && c != '\r') {
-                            numNonASCII++;
-                        }
-                    } else if (c < 127) {
-                        if (c == '\\') {
-                            numBackslashes++;
-                        }
-                    } else {
-                        numNonASCII++;
-                    }
-                }
-
-                needsEscape = numBackslashes > 0 || numNonASCII > 0;
-
-                // Check the text ends with a final newline ('\n', not line.separator)
-                // Note this must match the check when reading the text back in,
-                // when we also check for just '\n' and not line.separator, because
-                // line.separator now, and line.separator then, might be different.
-                if (!text.isEmpty() && !text.endsWith("\n")) {
-                    needsFinalNewline = true;
-                    numLines++;
-                }
+                TextScanResult scanRes = TextScanResult.scan(text);
 
                 out.write(JTR_V2_SECTSTREAM);
                 out.write(buffer.getName());
                 out.write(":");
                 out.write('(');
-                out.write(String.valueOf(numLines));
+                out.write(String.valueOf(scanRes.numLines));
                 out.write('/');
-                if (needsEscape) {
+                if (scanRes.needsEscape) {
                     // count one per character, plus an additional one per \ (written as "\ \") and an
                     // additional 5 per nonASCII (written as "\ u x x x x")
-                    out.write(String.valueOf(text.length() + numBackslashes + 5 * numNonASCII));
+                    out.write(String.valueOf(text.length() + scanRes.numBackslashes + 5 * scanRes.numNonASCII));
                 } else {
                     out.write(String.valueOf(text.length()));
                 }
                 out.write(')');
-                if (needsEscape) {
+                if (scanRes.needsEscape) {
                     out.write('*');
                 }
                 out.write(JTR_V2_SECTSTREAM);
                 out.write(lineSeparator);
 
-                if (needsEscape) {
+                if (scanRes.needsEscape) {
                     for (int i = 0; i < text.length(); i++) {
                         char c = text.charAt(i);
                         if (32 <= c && c < 127 && c != '\\') {
@@ -2526,7 +2493,7 @@ public class TestResult {
                     out.write(text);
                 }
 
-                if (needsFinalNewline) {
+                if (scanRes.needsFinalNewline) {
                     out.write(lineSeparator);
                 }
             }
@@ -2825,6 +2792,56 @@ public class TestResult {
                 makeOutputImmutable(this, name, new String(output));
                 notifyCompletedOutput(Section.this, name);
             }
+        }
+    }
+
+    /**
+     * Encapsulates info needed for a proper writing of the given piece of text.
+     */
+    static class TextScanResult {
+        int numLines;
+        int numBackslashes;
+        int numNonASCII;
+        boolean needsFinalNewline;
+        boolean needsEscape;
+
+        public static TextScanResult scan(String text) {
+            TextScanResult tsr = new TextScanResult();
+
+            tsr.numLines = 0;
+            tsr.numBackslashes = 0;
+            tsr.numNonASCII = 0;
+            tsr.needsFinalNewline = false;
+
+            // scan for newlines and characters requiring escapes
+            for (int i = 0; i < text.length(); i++) {
+                char c = text.charAt(i);
+                if (c < 32) {
+                    if (c == '\n') {
+                        tsr.numLines++;
+                    } else if (c != '\t' && c != '\r') {
+                        tsr.numNonASCII++;
+                    }
+                } else if (c < 127) {
+                    if (c == '\\') {
+                        tsr.numBackslashes++;
+                    }
+                } else {
+                    tsr.numNonASCII++;
+                }
+            }
+
+            tsr.needsEscape = tsr.numBackslashes > 0 || tsr.numNonASCII > 0;
+
+            // Check the text ends with a final newline ('\n', not line.separator)
+            // Note this must match the check when reading the text back in,
+            // when we also check for just '\n' and not line.separator, because
+            // line.separator now, and line.separator then, might be different.
+            if (!text.isEmpty() && !text.endsWith("\n")) {
+                tsr.needsFinalNewline = true;
+                tsr.numLines++;
+            }
+            return tsr;
         }
     }
 
