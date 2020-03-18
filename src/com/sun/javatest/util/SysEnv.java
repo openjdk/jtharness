@@ -160,7 +160,7 @@ public class SysEnv {
         }
     }
 
-    private static String getDefaultCommand() {
+    static String getDefaultCommand() {
         String prop = System.getProperty("javatest.sysEnv.command");
         if (prop != null) {
             return prop;
