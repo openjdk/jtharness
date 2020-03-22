@@ -29,22 +29,16 @@ package com.sun.javatest.finder;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Properties;
 
 import com.sun.javatest.FileParameters;
-import com.sun.javatest.TU;
+import com.sun.javatest.TestUtil;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.TestFinder;
 import com.sun.javatest.TestFinderQueue;
-import com.sun.javatest.TestFilter;
-import com.sun.javatest.finder.BinaryTestFinderTest;
-import com.sun.javatest.finder.ExpandTestFinder;
-import com.sun.javatest.finder.HTMLTestFinderTest;
 import com.sun.javatest.functional.TestBase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -56,9 +50,9 @@ public class ExpandTestFinderTest extends TestBase {
         int exitCode;
         ExpandTestFinderTest expandTestFinderTest = new ExpandTestFinderTest();
         exitCode = expandTestFinderTest.run(new String[]{
-                new File(TU.getPathToData() + File.separator + "finder" + File.separator + "data" + File.separator + "expand").toPath().toAbsolutePath().toString(),
-                createTempDirAndReturnAbsPathString("ExpandTestFinderTest-report"),
-                createTempDirAndReturnAbsPathString("ExpandTestFinderTest-work")
+                new File(TestUtil.getPathToData() + File.separator + "finder" + File.separator + "data" + File.separator + "expand").toPath().toAbsolutePath().toString(),
+                TestUtil.createTempDirAndReturnAbsPathString("ExpandTestFinderTest-report"),
+                TestUtil.createTempDirAndReturnAbsPathString("ExpandTestFinderTest-work")
         }, System.out);
         Assert.assertEquals(0, exitCode);
     }

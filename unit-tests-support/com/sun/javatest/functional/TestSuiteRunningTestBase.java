@@ -30,7 +30,7 @@ package com.sun.javatest.functional;
 import com.sun.javatest.Harness;
 import com.sun.javatest.JavaTestSecurityManager;
 import com.sun.javatest.Status;
-import com.sun.javatest.TU;
+import com.sun.javatest.TestUtil;
 import com.sun.javatest.report.Report;
 import com.sun.javatest.tool.Desktop;
 import com.sun.javatest.tool.Main;
@@ -67,7 +67,7 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
         args.add("-EJAVA=" + pathToJava);
         args.add("-params");
         args.add( "-testsuite");
-        args.add( TU.getPathToTestTestSuite(getTestsuiteName()));
+        args.add( TestUtil.getPathToTestTestSuite(getTestsuiteName()));
         args.add("-envfile");
         args.add(getEnvfileName());
         args.add("-env");
@@ -133,13 +133,13 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
         System.setProperty(Harness.DEBUG_OBSERVER_CLASSNAME_SYS_PROP,
                 "com.sun.javatest.functional.TestObserver");
 
-        Path reportDir = createTempDirectory("jt-report-");
+        Path reportDir = TestUtil.createTempDirectory("jt-report-");
         reportDirAbsPath = reportDir.toAbsolutePath().toString();
 
         // not allowing to exit
         ExitCount.inc();
 
-        workDirAbsPath = createTempDirAndReturnAbsPathString("jt-work-");
+        workDirAbsPath = TestUtil.createTempDirAndReturnAbsPathString("jt-work-");
         summaryTXT = reportDir.resolve("text").resolve("summary.txt");
     }
 

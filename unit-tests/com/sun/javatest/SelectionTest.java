@@ -34,18 +34,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 
-import com.sun.javatest.FileParameters;
-import com.sun.javatest.Harness;
-import com.sun.javatest.Parameters;
-import com.sun.javatest.Status;
-import com.sun.javatest.TU;
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestEnvironment;
-import com.sun.javatest.TestFilter;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestResultTable;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.finder.BinaryTestFinderTest;
 import com.sun.javatest.functional.TestBase;
 import org.junit.Assert;
@@ -58,9 +46,9 @@ public class SelectionTest extends TestBase implements Harness.Observer {
         SelectionTest t = new SelectionTest();
         String args[] = {
                 System.getProperty("build.classes"),
-                TU.getPathToTestTestSuite("demotck/testsuite.html"),
+                TestUtil.getPathToTestTestSuite("demotck/testsuite.html"),
                 "basic.jte",
-                createTempDirAndReturnAbsPathString("selectionTestWorkDir")
+                TestUtil.createTempDirAndReturnAbsPathString("selectionTestWorkDir")
         };
 
         boolean ok = t.run(args, System.out);

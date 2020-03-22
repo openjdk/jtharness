@@ -27,7 +27,6 @@
 package com.sun.javatest;
 
 import com.sun.javatest.util.PropertyUtils;
-import com.sun.javatest.util.StringArray;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -85,7 +84,7 @@ public class TestEnvTest {
         log.println("*****TEST file***** " + name + ": " + file);
         Map<String, String> ep = new HashMap<>();
         try {
-            String dir = TU.getPathToData();
+            String dir = TestUtil.getPathToData();
             Reader in = new BufferedReader(new FileReader(new File(dir, file)));
             ep = PropertyUtils.load(in);
         } catch (IOException e) {

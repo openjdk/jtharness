@@ -27,13 +27,11 @@
 
 package com.sun.javatest;
 
-import com.sun.javatest.ExcludeList;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -41,7 +39,7 @@ import java.util.List;
 
 public class ExcludeTest {
 
-    private File data = new File(TU.getPathToData() + File.separator + "exclude");
+    private File data = new File(TestUtil.getPathToData() + File.separator + "exclude");
     private boolean verbose = Boolean.getBoolean("verbose");
     private String currTest;
 

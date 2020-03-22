@@ -26,21 +26,15 @@
  */
 package com.sun.javatest.finder;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Dictionary;
-import java.util.Enumeration;
 
-import com.sun.javatest.KeyTest;
-import com.sun.javatest.TU;
+import com.sun.javatest.TestUtil;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestFinder;
 import com.sun.javatest.TestFinderQueue;
-import com.sun.javatest.finder.HTMLTestFinder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -60,7 +54,7 @@ public class MissingLinkTest {
 
     public boolean run(PrintStream out) throws IOException, TestFinder.Fault {
         this.out = out;
-        File testSuite = new File(TU.getPathToData() + File.separator + "finder" +
+        File testSuite = new File(TestUtil.getPathToData() + File.separator + "finder" +
                 File.separator +
                 "data" +
                 File.separator +

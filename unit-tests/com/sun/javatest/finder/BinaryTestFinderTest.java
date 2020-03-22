@@ -37,7 +37,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 
-import com.sun.javatest.TU;
+import com.sun.javatest.TestUtil;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestFinder;
 import com.sun.javatest.TestFinderQueue;
@@ -58,7 +58,7 @@ public class BinaryTestFinderTest {
         BinaryTestFinderTest t = new BinaryTestFinderTest();
         Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
         String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_demotck").toAbsolutePath().toString();
-        String testSuiteHtml = TU.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html";
+        String testSuiteHtml = TestUtil.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html";
         ok = t.run(System.out, 11, testSuiteHtml, workDir);
         Assert.assertTrue(ok);
     }
@@ -69,7 +69,7 @@ public class BinaryTestFinderTest {
         BinaryTestFinderTest t = new BinaryTestFinderTest();
         Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
         String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_initurl").toAbsolutePath().toString();
-        String testSuiteHtml = TU.getPathToTestTestSuite("initurl") + File.separator + "testsuite.html";
+        String testSuiteHtml = TestUtil.getPathToTestTestSuite("initurl") + File.separator + "testsuite.html";
         ok = t.run(System.out, 11, testSuiteHtml, workDir);
         Assert.assertTrue(ok);
     }
@@ -80,7 +80,7 @@ public class BinaryTestFinderTest {
         BinaryTestFinderTest t = new BinaryTestFinderTest();
         Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
         String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_simplehtml").toAbsolutePath().toString();
-        String testSuiteHtml = TU.getPathToTestTestSuite("simplehtml") + File.separator + "tests" + File.separator + "testsuite.html";
+        String testSuiteHtml = TestUtil.getPathToTestTestSuite("simplehtml") + File.separator + "tests" + File.separator + "testsuite.html";
         ok = t.run(System.out, 17, testSuiteHtml, workDir);
         Assert.assertTrue(ok);
     }

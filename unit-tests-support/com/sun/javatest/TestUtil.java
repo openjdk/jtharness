@@ -27,18 +27,37 @@
 package com.sun.javatest;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Test utilities, helper methods.
  */
-public class TU {
+public class TestUtil {
 
    public static String getPathToTestTestSuite(String suiteName) {
         return getPathToData() + File.separator + "suites" + File.separator + suiteName;
    }
 
-   public static String getPathToData() {
-        return System.getProperty("unit-tests.data.dir");
+   public static String getPathToData(String... subdirs) {
+       String property = System.getProperty("unit-tests.data.dir");
+       for (String subdir : subdirs) {
+           property += File.separator + subdir;
+       }
+       return property;
    }
 
+    public static Path createTempDirectory(String prefix) throws IOException {
+        return Files.createTempDirectory(getTmpPath(), prefix);
+    }
+
+    public static String createTempDirAndReturnAbsPathString(String prefix) throws IOException {
+        return createTempDirectory(prefix).toAbsolutePath().toString();
+    }
+
+    protected static Path getTmpPath() {
+        return Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
+    }
 }

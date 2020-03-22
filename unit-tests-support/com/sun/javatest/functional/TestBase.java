@@ -55,15 +55,4 @@ public class TestBase {
     }
 
 
-    protected Path createTempDirectory(String prefix) throws IOException {
-        return Files.createTempDirectory(getTmpPath(), prefix);
-    }
-
-    protected String createTempDirAndReturnAbsPathString(String prefix) throws IOException {
-        return createTempDirectory(prefix).toAbsolutePath().toString();
-    }
-
-    protected Path getTmpPath() {
-        return Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
-    }
 }

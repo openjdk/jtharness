@@ -32,10 +32,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sun.interview.Interview;
-import com.sun.interview.InterviewSetTest;
-import com.sun.interview.Question;
-import com.sun.javatest.TU;
+import com.sun.javatest.TestUtil;
 import com.sun.javatest.TestSuite;
 import org.junit.Assert;
 import org.junit.Test;
@@ -45,7 +42,7 @@ public class InterviewSaveTest {
     @Test
     public void test() throws Exception {
         InterviewSaveTest t = new InterviewSaveTest();
-        boolean ok = t.run(new String[] {TU.getPathToTestTestSuite("demotck")});
+        boolean ok = t.run(new String[] {TestUtil.getPathToTestTestSuite("demotck")});
         Assert.assertTrue(ok);
     }
 

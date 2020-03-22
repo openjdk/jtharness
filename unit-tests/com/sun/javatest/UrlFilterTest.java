@@ -39,7 +39,7 @@ public class UrlFilterTest {
     public void test() throws Exception {
 
         UrlFilterTest st = new UrlFilterTest();
-        boolean ok = st.run(new String[] {TU.getPathToTestTestSuite("initurl")}, System.out);
+        boolean ok = st.run(new String[] {TestUtil.getPathToTestTestSuite("initurl")}, System.out);
         Assert.assertTrue(ok);
     }
 

@@ -29,16 +29,13 @@ package com.sun.javatest.finder;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Iterator;
 
-import com.sun.javatest.TU;
+import com.sun.javatest.TestUtil;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestFinder;
 import com.sun.javatest.TestFinderQueue;
-import com.sun.javatest.finder.HTMLTestFinder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,7 +45,7 @@ public class HTMLTestFinderTest {
     public void test() throws IOException, BinaryTestFinderTest.Fault, TestFinder.Fault {
         boolean ok;
         HTMLTestFinderTest hft = new HTMLTestFinderTest();
-        ok = hft.run(new String[]{TU.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html"}, System.out);
+        ok = hft.run(new String[]{TestUtil.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html"}, System.out);
         Assert.assertTrue(ok);
     }
 

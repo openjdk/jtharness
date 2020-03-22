@@ -31,12 +31,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
 
-import com.sun.javatest.TU;
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestEnvironment;
-import com.sun.javatest.TestFilter;
-import com.sun.javatest.TestFinder;
-import com.sun.javatest.TestFinderQueue;
 import com.sun.javatest.finder.HTMLTestFinder;
 import com.sun.javatest.util.StringArray;
 import org.junit.Assert;
@@ -47,7 +41,7 @@ public class FinderTest {
     @Test
     public void test() {
         FinderTest ft = new FinderTest();
-        boolean ok = ft.run(new String[] {TU.getPathToData() + File.separator + "finder" + File.separator + "data" + File.separator + "findertest" + File.separator + "testsuite.html"}, System.out);
+        boolean ok = ft.run(new String[] {TestUtil.getPathToData() + File.separator + "finder" + File.separator + "data" + File.separator + "findertest" + File.separator + "testsuite.html"}, System.out);
         Assert.assertTrue(ok);
     }
 

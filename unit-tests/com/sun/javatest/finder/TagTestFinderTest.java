@@ -31,12 +31,11 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Iterator;
 
-import com.sun.javatest.TU;
+import com.sun.javatest.TestUtil;
 import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestFinder;
 import com.sun.javatest.TestFinderQueue;
-import com.sun.javatest.finder.TagTestFinder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -50,7 +49,7 @@ public class TagTestFinderTest {
     }
 
     public boolean run(PrintStream out) throws IOException, TestFinder.Fault {
-        File testSuite = new File(TU.getPathToData() + File.separator + "tagtests");
+        File testSuite = new File(TestUtil.getPathToData() + File.separator + "tagtests");
         int expected = 2;    // exception is possible
 
         testSuite = new File(testSuite.getCanonicalPath());

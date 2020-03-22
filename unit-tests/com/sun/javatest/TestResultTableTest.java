@@ -36,17 +36,6 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.Vector;
 
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestEnvironment;
-import com.sun.javatest.TestFilter;
-import com.sun.javatest.TestFinder;
-import com.sun.javatest.TestFinderQueue;
-import com.sun.javatest.Keywords;
-import com.sun.javatest.KeywordsFilter;
-import com.sun.javatest.TestResultTable;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestSuite;
-
 import com.sun.javatest.finder.HTMLTestFinder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -55,17 +44,17 @@ public class TestResultTableTest {
 
     @Test
     public void demotck() throws TestSuite.Fault, Keywords.Fault, TestResult.Fault, IOException {
-        Assert.assertTrue(new TestResultTableTest().run(System.out, TU.getPathToTestTestSuite("demotck")));
+        Assert.assertTrue(new TestResultTableTest().run(System.out, TestUtil.getPathToTestTestSuite("demotck")));
     }
 
     @Test
     public void initurl() throws TestSuite.Fault, Keywords.Fault, TestResult.Fault, IOException {
-        Assert.assertTrue(new TestResultTableTest().run(System.out, TU.getPathToTestTestSuite("initurl")));
+        Assert.assertTrue(new TestResultTableTest().run(System.out, TestUtil.getPathToTestTestSuite("initurl")));
     }
 
     @Test
     public void simplehtml() throws TestSuite.Fault, Keywords.Fault, TestResult.Fault, IOException {
-        Assert.assertTrue(new TestResultTableTest().run(System.out, TU.getPathToTestTestSuite("simplehtml")));
+        Assert.assertTrue(new TestResultTableTest().run(System.out, TestUtil.getPathToTestTestSuite("simplehtml")));
     }
 
     /**
