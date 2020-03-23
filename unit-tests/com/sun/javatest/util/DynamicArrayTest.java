@@ -95,7 +95,7 @@ public class DynamicArrayTest {
         Integer[] array = new Integer[count];
 
         for (int i = 0; i < count; i++) {
-            array[i] = new Integer(i);
+            array[i] = Integer.valueOf(i);
         }
 
         return array;
@@ -108,15 +108,15 @@ public class DynamicArrayTest {
         Object[] back = null;
 
         // ---- remove beginning of even size array ----
-        back = DynamicArray.append(data1, new Integer(99));
+        back = DynamicArray.append(data1, Integer.valueOf(99));
 
         back = null;
         Object[] data2 = null;
-        back = DynamicArray.append(data2, new Integer(100));
+        back = DynamicArray.append(data2, Integer.valueOf(100));
 
         back = null;
         Object[] data3 = newIntArr(0);
-        back = DynamicArray.append(data3, new Integer(101));
+        back = DynamicArray.append(data3, Integer.valueOf(101));
 
         back = null;
         try {
@@ -479,7 +479,7 @@ public class DynamicArrayTest {
         // Integer and Float are not compatible
         try {
             Object[] data1 = newIntArr(2);
-            back = DynamicArray.append(data1, new Float(1.2));
+            back = DynamicArray.append(data1, Float.valueOf(1.2f));
             localResult = false;
             out.println("Stored inappropriate entry in array.");
         } catch (ArrayStoreException e) {
@@ -523,7 +523,7 @@ public class DynamicArrayTest {
 
         // invalid object to remove, transparent failure expected
         Object[] data5 = newIntArr(2);
-        back = DynamicArray.remove(data5, new Integer(1995));
+        back = DynamicArray.remove(data5, Integer.valueOf(1995));
 
         if (back != data5 || back == null) {
             // we should have gotten the old array back
@@ -535,7 +535,7 @@ public class DynamicArrayTest {
 
         // invalid array, transparent failure expected
         Object[] data6 = null;
-        back = DynamicArray.remove(data6, new Integer(1996));
+        back = DynamicArray.remove(data6, Integer.valueOf(1996));
 
         if (back != data6) {
             // we should have gotten the old array back
@@ -554,7 +554,7 @@ public class DynamicArrayTest {
         Integer[] back = null;
 
         // valid removal of an object
-        Integer[] data1 = {new Integer(311), new Integer(911)};
+        Integer[] data1 = {Integer.valueOf(311), Integer.valueOf(911)};
         back = DynamicArray.remove(data1, data1[0]);
 
         if (back.length != 1 || back[0] != data1[1]) {
@@ -595,8 +595,8 @@ public class DynamicArrayTest {
         Integer[] back = null;
 
         // insert object in the middle
-        Integer[] data1 = {new Integer(311), new Integer(911), new Integer(0)};
-        Integer newInt = new Integer(611);
+        Integer[] data1 = {Integer.valueOf(311), Integer.valueOf(911), Integer.valueOf(0)};
+        Integer newInt = Integer.valueOf(611);
         back = DynamicArray.insert(data1, newInt, 1);
 
         if (back.length != 4 || back[1] != newInt) {
@@ -608,7 +608,7 @@ public class DynamicArrayTest {
         back = null;
 
         // insert object at the beginning
-        Integer[] data2 = {new Integer(311), new Integer(911)};
+        Integer[] data2 = {Integer.valueOf(311), Integer.valueOf(911)};
         back = DynamicArray.insert(data2, newInt, 0);
 
         if (back.length != 3 || back[0] != newInt) {
@@ -620,7 +620,7 @@ public class DynamicArrayTest {
         back = null;
 
         // insert object at the end
-        Integer[] data3 = {new Integer(311), new Integer(911)};
+        Integer[] data3 = {Integer.valueOf(311), Integer.valueOf(911)};
         back = DynamicArray.insert(data3, newInt, 2);
 
         if (back.length != 3 || back[2] != newInt) {
@@ -651,7 +651,7 @@ public class DynamicArrayTest {
         }
 
         // check to see that is uses the supplied class if the orig. arr is null
-        arr = DynamicArray.append(arr, new Integer(1), intClass);
+        arr = DynamicArray.append(arr, Integer.valueOf(1), intClass);
 
         if (arr.getClass().getComponentType() != intClass) {
             out.println("New array type does not correspond to the requested type.");
@@ -659,7 +659,7 @@ public class DynamicArrayTest {
         }
 
         try {
-            arr = (Integer[]) DynamicArray.append(arr, new Float(1.0), intClass);
+            arr = (Integer[]) DynamicArray.append(arr, Float.valueOf(1.0f), intClass);
             // we are supposed to end up in the catch
             return false;
         } catch (java.lang.ArrayStoreException e) {
@@ -668,7 +668,7 @@ public class DynamicArrayTest {
 
         // check to see that it does not use the supplied class for a non-null orig. arr
         arr = new Integer[0];
-        arr = (Integer[]) DynamicArray.append(arr, new Integer(1), boolClass);
+        arr = (Integer[]) DynamicArray.append(arr, Integer.valueOf(1), boolClass);
 
         if (arr.getClass().getComponentType() != intClass) {
             out.println("Array type should not be the requested type.");
