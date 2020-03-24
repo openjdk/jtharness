@@ -31,7 +31,7 @@ import java.io.PrintStream;
 import java.util.Properties;
 
 import com.sun.javatest.util.Debug;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
