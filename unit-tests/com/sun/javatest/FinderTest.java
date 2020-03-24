@@ -78,7 +78,7 @@ public class FinderTest {
             // TestEnvironment, thus, it's fine to create an empty one.
             TestEnvironment env = null;
             try {
-                env = new TestEnvironment("", new HashMap<String, String>(), "");
+                env = new TestEnvironment("", new HashMap<>(), "");
             } catch (TestEnvironment.Fault e) {
                 failed("unable to create empty test environment");
                 return false;

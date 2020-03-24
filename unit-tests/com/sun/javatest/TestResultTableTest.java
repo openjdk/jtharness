@@ -94,7 +94,7 @@ public class TestResultTableTest {
             // TestEnvironment, thus, it's fine to create an empty one.
             TestEnvironment env = null;
             try {
-                env = new TestEnvironment("", new Hashtable<String, String>(), "");
+                env = new TestEnvironment("", new Hashtable<>(), "");
             } catch (TestEnvironment.Fault e) {
                 log.println("unable to create empty test environment");
                 return false;
