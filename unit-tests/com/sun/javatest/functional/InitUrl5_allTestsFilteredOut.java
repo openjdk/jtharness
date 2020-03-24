@@ -37,7 +37,7 @@ public class InitUrl5_allTestsFilteredOut extends TestSuiteRunningTestBase {
 
 
     @Test
-    public void test() throws IOException {
+    public void test() {
         runJavaTest();
     }
 

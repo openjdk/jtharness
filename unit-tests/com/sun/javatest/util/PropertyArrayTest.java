@@ -57,7 +57,7 @@ public class PropertyArrayTest {
     class NowhereWriter extends Writer {
         public void write(char cbuf[],
                           int off,
-                          int len) throws IOException {
+                          int len) {
             // bit bucket
         }
 

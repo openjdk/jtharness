@@ -46,7 +46,7 @@ import org.junit.Test;
 public class ExpandTestFinderTest extends TestBase {
 
     @Test
-    public void test() throws IOException, BinaryTestFinderTest.Fault, TestFinder.Fault {
+    public void test() throws IOException {
         int exitCode;
         ExpandTestFinderTest expandTestFinderTest = new ExpandTestFinderTest();
         exitCode = expandTestFinderTest.run(new String[]{

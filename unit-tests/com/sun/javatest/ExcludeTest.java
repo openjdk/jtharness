@@ -44,7 +44,7 @@ public class ExcludeTest {
     private String currTest;
 
     @Test
-    public void empty() throws IOException, ExcludeList.Fault {
+    public void empty() {
         ExcludeList el = new ExcludeList();
         Assert.assertTrue(el.isEmpty());
         Assert.assertFalse(el.isStrictModeEnabled());
@@ -58,7 +58,7 @@ public class ExcludeTest {
     }
 
     @Test
-    public void addRemove() throws IOException, ExcludeList.Fault {
+    public void addRemove() throws ExcludeList.Fault {
         ExcludeList el = new ExcludeList();
         ExcludeList.Entry added = new ExcludeList.Entry("q/w/e", "tc", new String[]{"23"}, new String[]{"platform1"}, "synopsys");
         el.addEntry(added);
@@ -75,7 +75,7 @@ public class ExcludeTest {
     }
 
     @Test
-    public void addRemove2() throws IOException, ExcludeList.Fault {
+    public void addRemove2() throws ExcludeList.Fault {
         ExcludeList el = new ExcludeList();
         ExcludeList.Entry added = new ExcludeList.Entry("q/w/e#x", null, new String[]{"45"}, new String[]{"platform"}, "synopsys");
         el.addEntry(added);
@@ -189,12 +189,12 @@ public class ExcludeTest {
     }
 
     @Test
-    public void test2_1() throws ExcludeList.Fault {
+    public void test2_1() {
         test2(true);
     }
 
     @Test
-    public void test2_2() throws ExcludeList.Fault {
+    public void test2_2() {
         test2(false);
     }
 

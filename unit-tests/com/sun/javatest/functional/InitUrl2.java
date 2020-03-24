@@ -36,7 +36,7 @@ import java.util.List;
 public class InitUrl2 extends TestSuiteRunningTestBase {
 
     @Test
-    public void test() throws IOException {
+    public void test() {
         runJavaTest();
         checkJTRLine(5, "id=CompSuccUnexp", "comp", "foo", "set2_CompSuccUnexp.jtr");
         checkJTRLine(7, "source=CompSuccUnexp.java", "comp", "foo", "set2_CompSuccUnexp.jtr");

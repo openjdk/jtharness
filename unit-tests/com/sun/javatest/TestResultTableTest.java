@@ -43,17 +43,17 @@ import org.junit.Test;
 public class TestResultTableTest {
 
     @Test
-    public void demotck() throws TestSuite.Fault, Keywords.Fault, TestResult.Fault, IOException {
+    public void demotck() throws Keywords.Fault, TestResult.Fault {
         Assert.assertTrue(new TestResultTableTest().run(System.out, TestUtil.getPathToTestTestSuite("demotck")));
     }
 
     @Test
-    public void initurl() throws TestSuite.Fault, Keywords.Fault, TestResult.Fault, IOException {
+    public void initurl() throws Keywords.Fault, TestResult.Fault {
         Assert.assertTrue(new TestResultTableTest().run(System.out, TestUtil.getPathToTestTestSuite("initurl")));
     }
 
     @Test
-    public void simplehtml() throws TestSuite.Fault, Keywords.Fault, TestResult.Fault, IOException {
+    public void simplehtml() throws Keywords.Fault, TestResult.Fault {
         Assert.assertTrue(new TestResultTableTest().run(System.out, TestUtil.getPathToTestTestSuite("simplehtml")));
     }
 
@@ -62,7 +62,7 @@ public class TestResultTableTest {
      * Argument 1 is the work dir with jtr files.
      */
     public boolean run(PrintStream log, String... args)
-            throws IOException, Keywords.Fault, TestSuite.Fault, TestResult.Fault {
+            throws Keywords.Fault, TestResult.Fault {
 
         boolean localResult = true;
         this.log = log;

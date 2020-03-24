@@ -122,8 +122,7 @@ public class BatchTest2 {
         // OK, passed
     }
 
-    @Test public void test_concurrency_excessArgs_cmd()
-            throws Command.Fault {
+    @Test public void test_concurrency_excessArgs_cmd() {
         CommandContext ctx = new CommandContext();
         try {
             String[] args = {"-batch", "concurrency 1 2"};
@@ -236,7 +235,7 @@ public class BatchTest2 {
     }
 
     @Test public void test_excludeList_arg_cmd()
-            throws Command.Fault, CommandParser.Fault {
+            throws CommandParser.Fault {
         CommandContext ctx = new CommandContext();
         String[] args = {"-batch", "excludeList dummyExcludeList"};
         parser.parse(args, ctx);
@@ -244,7 +243,7 @@ public class BatchTest2 {
     }
 
     @Test public void test_excludeList_multipleArgs_cmd()
-            throws Command.Fault, CommandParser.Fault {
+            throws CommandParser.Fault {
         CommandContext ctx = new CommandContext();
         String[] args = {"-batch", "excludeList dummyExcludeList1 dummyExcludeList2"};
         parser.parse(args, ctx);
@@ -438,8 +437,7 @@ public class BatchTest2 {
         // OK, passed
     }
 
-    @Test public void test_priorStatus_badArg_cmd()
-            throws CommandParser.Fault {
+    @Test public void test_priorStatus_badArg_cmd() {
         try {
             CommandContext ctx = new CommandContext();
             String[] args = {"-batch", "priorStatus pass,wombat"};

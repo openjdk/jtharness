@@ -37,7 +37,7 @@ import java.util.List;
 public class ExecOneFailed extends TestSuiteRunningTestBase {
 
     @Test
-    public void test() throws IOException {
+    public void test() {
         runJavaTest();
     }
 

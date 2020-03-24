@@ -42,7 +42,7 @@ import org.junit.Test;
 public class HTMLTestFinderTest {
 
     @Test
-    public void test() throws IOException, BinaryTestFinderTest.Fault, TestFinder.Fault {
+    public void test() throws IOException, TestFinder.Fault {
         boolean ok;
         HTMLTestFinderTest hft = new HTMLTestFinderTest();
         ok = hft.run(new String[]{TestUtil.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html"}, System.out);

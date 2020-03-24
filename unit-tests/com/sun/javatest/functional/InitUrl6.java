@@ -36,7 +36,7 @@ import java.util.List;
 public class InitUrl6 extends TestSuiteRunningTestBase {
 
     @Test
-    public void test() throws IOException {
+    public void test() {
         runJavaTest();
     }
 

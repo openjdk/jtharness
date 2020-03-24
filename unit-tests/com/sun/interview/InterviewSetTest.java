@@ -167,7 +167,7 @@ public class InterviewSetTest {
             addDependency(ent, ency);
         }
 
-        private void remove(String entName, String encyName) throws Exception {
+        private void remove(String entName, String encyName) {
             //System.err.println("remove " + entName + " " + encyName);
             Interview ent = children.get(entName);
             Interview ency = children.get(encyName);

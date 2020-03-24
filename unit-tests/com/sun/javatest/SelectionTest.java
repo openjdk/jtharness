@@ -42,7 +42,7 @@ import org.junit.Test;
 public class SelectionTest extends TestBase implements Harness.Observer {
 
     @Test
-    public void test() throws IOException, BinaryTestFinderTest.Fault {
+    public void test() throws IOException {
         SelectionTest t = new SelectionTest();
         String args[] = {
                 System.getProperty("build.classes"),
@@ -172,15 +172,17 @@ public class SelectionTest extends TestBase implements Harness.Observer {
     }
 
     private void printlns(String[] msgs) {
-        for (String msg : msgs) log.println(msg);
+        for (String msg : msgs) {
+            log.println(msg);
+        }
     }
 
     private FileParameters createParameters() {
         FileParameters params = new FileParameters();
         params.setTestSuite(basicTestSuite);
         params.setWorkDirectory(testWorkDir);
-        params.setTests((String[])null);
-        params.setExcludeFiles((File[])null);
+        params.setTests((String[]) null);
+        params.setExcludeFiles((File[]) null);
         params.setKeywords(FileParameters.EXPR, null);
         params.setPriorStatusValues(null);
         params.setEnvFiles(new File[]{envFile});
@@ -225,99 +227,90 @@ public class SelectionTest extends TestBase implements Harness.Observer {
     }
 
     private void checkPreviousStateSelection(int state, String prefix, int expected) {
-        try {
-            FileParameters params = createParameters();
-            boolean[] b = new boolean[Status.NUM_STATES];
-            b[state] = true;
-            params.setPriorStatusValues(b);
+        FileParameters params = createParameters();
+        boolean[] b = new boolean[Status.NUM_STATES];
+        b[state] = true;
+        params.setPriorStatusValues(b);
 
-            int found = 0;
+        int found = 0;
 
-            TestDescription td = null;
-            Iterator<TestResult> it = createTestEnum(params);
-            while (it.hasNext()) {
-                TestResult tr = it.next();
-                try {
-                    td = tr.getDescription();
-                } catch (TestResult.Fault f) {
-                    log.println("Problem getting TD: " + f);
-                    failed("TestResult would not give TestDescription");
-                }
-
-                if (!td.getTitle().startsWith(prefix)) {
-                    log.println("state: " + state);
-                    log.println("found test: " + td.getRootRelativeURL());
-                    log.println("title: " + td.getTitle());
-                    log.println("expected prefix of title is: " + prefix);
-                    failed("unexpected test found");
-                }
-                found++;
+        TestDescription td = null;
+        Iterator<TestResult> it = createTestEnum(params);
+        while (it.hasNext()) {
+            TestResult tr = it.next();
+            try {
+                td = tr.getDescription();
+            } catch (TestResult.Fault f) {
+                log.println("Problem getting TD: " + f);
+                failed("TestResult would not give TestDescription");
             }
 
-            if (found != expected) {
+            if (!td.getTitle().startsWith(prefix)) {
                 log.println("state: " + state);
-                log.println("expected number of tests: " + expected);
-                log.println("found: " + found);
-                failed("wrong number of tests found");
+                log.println("found test: " + td.getRootRelativeURL());
+                log.println("title: " + td.getTitle());
+                log.println("expected prefix of title is: " + prefix);
+                failed("unexpected test found");
             }
-        } catch (TestSuite.Fault e) {
-            log.println("problem running harness: " + e);
-            failed("problem running harness");
+            found++;
+        }
+
+        if (found != expected) {
+            log.println("state: " + state);
+            log.println("expected number of tests: " + expected);
+            log.println("found: " + found);
+            failed("wrong number of tests found");
         }
     }
 
     private void checkKeywordSelection(String keyInfo, String matchInfo, int expected) {
-        try {
-            String matchField = matchInfo.substring(0, matchInfo.indexOf('/'));
-            String matchPrefix = matchInfo.substring(matchInfo.indexOf('/') + 1);
-            String keyType = keyInfo.substring(0, keyInfo.indexOf('/'));
-            String keyText = keyInfo.substring(keyInfo.indexOf('/') + 1);
 
-            FileParameters params = createParameters();
-            //params.put(Parameters.KEYWORD_OP, keyType);
-            int op = keyType.equals("expr") ? FileParameters.MutableKeywordsParameters.EXPR
-                    : keyType.equals("all of") ? FileParameters.MutableKeywordsParameters.ALL_OF
-                    : keyType.equals("any of") ? FileParameters.MutableKeywordsParameters.ANY_OF
-                    : -1;
-            params.setKeywords(op, keyText);
+        String matchField = matchInfo.substring(0, matchInfo.indexOf('/'));
+        String matchPrefix = matchInfo.substring(matchInfo.indexOf('/') + 1);
+        String keyType = keyInfo.substring(0, keyInfo.indexOf('/'));
+        String keyText = keyInfo.substring(keyInfo.indexOf('/') + 1);
 
-            //harness.setParameters(params);
-            //TestFinderQueue tfq = createTestFinderQueue();
+        FileParameters params = createParameters();
+        //params.put(Parameters.KEYWORD_OP, keyType);
+        int op = keyType.equals("expr") ? FileParameters.MutableKeywordsParameters.EXPR
+                : keyType.equals("all of") ? FileParameters.MutableKeywordsParameters.ALL_OF
+                : keyType.equals("any of") ? FileParameters.MutableKeywordsParameters.ANY_OF
+                : -1;
+        params.setKeywords(op, keyText);
 
-            int found = 0;
+        //harness.setParameters(params);
+        //TestFinderQueue tfq = createTestFinderQueue();
 
-            TestDescription td = null;
-            Iterator<TestResult> it = createTestEnum(params);
+        int found = 0;
 
-            //while ((td = tfq.next()) != null) {
-            while (it.hasNext()) {
-                TestResult tr = it.next();
-                try {
-                    td = tr.getDescription();
-                } catch (TestResult.Fault f) {
-                    log.println("Problem getting TD: " + f);
-                    failed("TestResult would not give TestDescription");
-                }
+        TestDescription td = null;
+        Iterator<TestResult> it = createTestEnum(params);
 
-                String matchData = matchField.equals("TITLE") ? td.getTitle() :
-                        matchField.equals("ID") ? td.getId() : null;
-                if (!matchData.startsWith(matchPrefix)) {
-                    log.println("keyInfo: " + keyInfo);
-                    log.println("found test: " + td.getRootRelativeURL());
-                    failed("unexpected test found");
-                }
-                found++;
+        //while ((td = tfq.next()) != null) {
+        while (it.hasNext()) {
+            TestResult tr = it.next();
+            try {
+                td = tr.getDescription();
+            } catch (TestResult.Fault f) {
+                log.println("Problem getting TD: " + f);
+                failed("TestResult would not give TestDescription");
             }
 
-            if (found != expected) {
+            String matchData = matchField.equals("TITLE") ? td.getTitle() :
+                    matchField.equals("ID") ? td.getId() : null;
+            if (!matchData.startsWith(matchPrefix)) {
                 log.println("keyInfo: " + keyInfo);
-                log.println("expected number of tests: " + expected);
-                log.println("found: " + found);
-                failed("wrong number of tests found");
+                log.println("found test: " + td.getRootRelativeURL());
+                failed("unexpected test found");
             }
-        } catch (TestSuite.Fault e) {
-            log.println("problem running harness: " + e);
-            failed("problem running harness");
+            found++;
+        }
+
+        if (found != expected) {
+            log.println("keyInfo: " + keyInfo);
+            log.println("expected number of tests: " + expected);
+            log.println("found: " + found);
+            failed("wrong number of tests found");
         }
     }
 
@@ -342,7 +335,7 @@ public class SelectionTest extends TestBase implements Harness.Observer {
     }
     */
 
-    private Iterator<TestResult> createTestEnum(Parameters params) throws TestSuite.Fault {
+    private Iterator<TestResult> createTestEnum(Parameters params) {
     /*
     File testSuiteRoot = params.getTestSuiteRoot();
     TestSuite ts = TestSuite.create(params.getEnv());
@@ -355,19 +348,21 @@ public class SelectionTest extends TestBase implements Harness.Observer {
 
         String[] initialURLs;
 
-        if (tests != null)
+        if (tests != null) {
             initialURLs = tests;
-        else
+        } else {
             initialURLs = new String[0];
+        }
 
         System.out.println(filters.length + " filters.");
 
         Iterator<TestResult> it;
 
-        if (initialURLs.length == 0)
+        if (initialURLs.length == 0) {
             it = trt.getIterator(trt.getRoot(), filters);
-        else
+        } else {
             it = trt.getIterator(initialURLs, filters);
+        }
 
         return it;
     }

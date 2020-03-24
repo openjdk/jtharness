@@ -37,7 +37,7 @@ import java.util.List;
 public class ExecOnePassed extends TestSuiteRunningTestBase {
 
     @Test
-    public void test() throws IOException {
+    public void test() {
         runJavaTest();
         checkJTRLine(13, "ExecStdTestOtherJVMCmd=com.sun.javatest.lib.ExecStdTestOtherJVMCmd", "exec", "index_ExecSucc.jtr");
         checkJTRLine(41, "----------messages:(4/219)----------", "exec", "index_ExecSucc.jtr");

@@ -37,7 +37,7 @@ public class InitUrl1 extends TestSuiteRunningTestBase {
 
 
     @Test
-    public void test() throws IOException {
+    public void test() {
         runJavaTest();
         checkJTRLine(35, "----------messages:(4/219)----------", "comp", "index_CompSuccUnexp.jtr");
         checkJTRLineStartsWith(42, "----------messages:(1/", "comp", "index_CompSuccUnexp.jtr");

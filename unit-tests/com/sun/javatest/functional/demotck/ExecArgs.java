@@ -37,7 +37,7 @@ import java.util.List;
 public class ExecArgs extends TestSuiteRunningTestBase {
 
     @Test
-    public void test() throws IOException {
+    public void test() {
         runJavaTest();
         checkJTRLine(41, "----------messages:(4/219)----------", "exec", "index_ExecArgs.jtr");
         checkJTRLine(57, "----------out1:(1/64)----------", "exec", "index_ExecArgs.jtr");

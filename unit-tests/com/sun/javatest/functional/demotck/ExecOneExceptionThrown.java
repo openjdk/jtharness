@@ -37,7 +37,7 @@ import java.util.List;
 public class ExecOneExceptionThrown extends TestSuiteRunningTestBase {
 
     @Test
-    public void test() throws IOException {
+    public void test() {
         runJavaTest();
         checkJTRLine(8, "keywords=compile execute positive shouldexecute shouldfail", "exec", "index_ExecFailRuntimExc.jtr");
         checkJTRLine(28, "execStatus=Failed. exit code 1", "exec", "index_ExecFailRuntimExc.jtr");

@@ -67,7 +67,7 @@ public class BatchTest1 {
     // verify that a command can be given in a single string
     @Test
     public void test_cmd()
-            throws Command.Fault, CommandParser.Fault {
+            throws CommandParser.Fault {
         String[] args = {"-batch", "testSuite dummyTestSuite"};
         CommandContext ctx = new CommandContext();
         createParser().parse(args, ctx);
@@ -76,7 +76,7 @@ public class BatchTest1 {
     // verify that a command can be given as a series of strings, the first
     // prefixed with -
     @Test
-    public void test_opt() throws Command.Fault, CommandParser.Fault {
+    public void test_opt() throws CommandParser.Fault {
         String[] args = {"-batch", "-testSuite", "dummyTestSuite"};
         CommandContext ctx = new CommandContext();
         createParser().parse(args, ctx);
@@ -85,7 +85,7 @@ public class BatchTest1 {
     // verify that a command can be given in a file
     @Test
     public void test_file1()
-            throws Command.Fault, CommandParser.Fault, IOException {
+            throws CommandParser.Fault, IOException {
         File f = File.createTempFile("BatchTest1-", ".jtb");
         BufferedWriter w = new BufferedWriter(new FileWriter(f));
         w.write("testSuite dummyTestSuite");
@@ -99,7 +99,7 @@ public class BatchTest1 {
     // verify comments, newlines, semicolons in files
     @Test
     public void test_file2()
-            throws Command.Fault, CommandParser.Fault, IOException {
+            throws CommandParser.Fault, IOException {
         File f = File.createTempFile("BatchTest1-", ".jtb");
         BufferedWriter w = new BufferedWriter(new FileWriter(f));
         w.write("#this is a comment, followed by a blank line");
