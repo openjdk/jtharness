@@ -35,6 +35,8 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.lang.ref.WeakReference;
 import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
@@ -766,6 +768,14 @@ public class TestResultCache {
 
         raf.writeLong(tr.getEndTime());
         totalEntryCount++;
+    }
+
+    /**
+     * Returns unmodifiable collection of the tests to write.
+     * @return unmodifiable collection of the tests to write
+     */
+    public Collection<TestResult> getTestsToWrite() {
+        return Collections.unmodifiableCollection(testsToWrite);
     }
 
     private void getLock() throws IOException {
