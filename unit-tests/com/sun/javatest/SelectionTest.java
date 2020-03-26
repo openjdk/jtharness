@@ -46,9 +46,9 @@ public class SelectionTest extends TestBase implements Harness.Observer {
         SelectionTest t = new SelectionTest();
         String args[] = {
                 System.getProperty("build.classes"),
-                TestUtil.getPathToTestTestSuite("demotck/testsuite.html"),
+                TestUtil.getPathToTestTestSuite("demotck" + File.separator + "testsuite.html"),
                 "basic.jte",
-                TestUtil.createTempDirAndReturnAbsPathString("selectionTestWorkDir")
+                TestUtil.createTempDirAndReturnAbsPathString("selectionTest-workdir")
         };
 
         boolean ok = t.run(args, System.out);
