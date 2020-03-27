@@ -28,4 +28,4 @@
 /**
  * Contains (preview) testing helper libraries and frameworks.
  */
-package com.sun.tck.test;
+package com.sun.tck;
