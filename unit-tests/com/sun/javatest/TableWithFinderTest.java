@@ -71,7 +71,7 @@ public class TableWithFinderTest {
 
         try {
             ok = t.run(new String[]{
-                    TestUtil.getPathToTestTestSuite("variety_tests" + File.separator + "testsuite.html"),
+                    TestUtil.getPathToTestTestSuite("variety_tests", "testsuite.html"),
                     TestUtil.getPathToTestTestSuite("variety_tests"),
                     TestUtil.createTempDirAndReturnAbsPathString("TableWithFinderTest-workdir")
             }, System.out);

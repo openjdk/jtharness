@@ -50,7 +50,7 @@ public class ExpandTestFinderTest extends TestBase {
         int exitCode;
         ExpandTestFinderTest expandTestFinderTest = new ExpandTestFinderTest();
         exitCode = expandTestFinderTest.run(new String[]{
-                new File(TestUtil.getPathToData() + File.separator + "finder" + File.separator + "data" + File.separator + "expand").toPath().toAbsolutePath().toString(),
+                new File(TestUtil.getPathToData("finder", "data", "expand")).toPath().toAbsolutePath().toString(),
                 TestUtil.createTempDirAndReturnAbsPathString("ExpandTestFinderTest-report"),
                 TestUtil.createTempDirAndReturnAbsPathString("ExpandTestFinderTest-work")
         }, System.out);
@@ -71,21 +71,27 @@ public class ExpandTestFinderTest extends TestBase {
         workDir = args[argc++];
 
         File rd = new File(reportDir);
-        if (!rd.exists()) rd.mkdirs();
+        if (!rd.exists()) {
+            rd.mkdirs();
+        }
 
         File wd = new File(workDir);
-        if (!wd.exists()) wd.mkdirs();
+        if (!wd.exists()) {
+            wd.mkdirs();
+        }
 
         // Create a map of the execute arguments that we expect
         // from our single test
         Map<String, String> expArgs = new HashMap<>();
 
-        for (int i = 0; i < 4; i++)
-            for (int j = 0; j < 3; j++)
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 3; j++) {
                 for (int k = 0; k < 3; k++) {
                     expArgs.put("a" + i + " b" + j + " c" + j + " d" + k, TRUE);
                     out.println("adding... " + "a" + i + " b" + j + " c" + j + " d" + k);
                 }
+            }
+        }
 
         // Call our ExpandTestFinder on our single test, then verify
         // that we have exactly one test for the cross-product of
@@ -104,8 +110,9 @@ public class ExpandTestFinderTest extends TestBase {
             while ((td = tfq.next()) != null) {
                 String execArgs = td.getParameter("executeArgs");
                 out.println("removing... " + execArgs);
-                if (expArgs.remove(execArgs) == null)
+                if (expArgs.remove(execArgs) == null) {
                     return 1;
+                }
             }
 
             if (!expArgs.isEmpty()) {
@@ -158,7 +165,7 @@ public class ExpandTestFinderTest extends TestBase {
         p.setTests("SimpleTest.java");
 
         p.setEnvName("expand-test");
-        p.setEnvFiles((File[])null);
+        p.setEnvFiles((File[]) null);
 
         return p;
     }

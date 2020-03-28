@@ -58,7 +58,7 @@ public class BinaryTestFinderTest {
         BinaryTestFinderTest t = new BinaryTestFinderTest();
         Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
         String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_demotck").toAbsolutePath().toString();
-        String testSuiteHtml = TestUtil.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html";
+        String testSuiteHtml = TestUtil.getPathToTestTestSuite("demotck", "testsuite.html");
         ok = t.run(System.out, 11, testSuiteHtml, workDir);
         Assert.assertTrue(ok);
     }
@@ -69,7 +69,7 @@ public class BinaryTestFinderTest {
         BinaryTestFinderTest t = new BinaryTestFinderTest();
         Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
         String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_initurl").toAbsolutePath().toString();
-        String testSuiteHtml = TestUtil.getPathToTestTestSuite("initurl") + File.separator + "testsuite.html";
+        String testSuiteHtml = TestUtil.getPathToTestTestSuite("initurl", "testsuite.html");
         ok = t.run(System.out, 11, testSuiteHtml, workDir);
         Assert.assertTrue(ok);
     }
@@ -80,7 +80,7 @@ public class BinaryTestFinderTest {
         BinaryTestFinderTest t = new BinaryTestFinderTest();
         Path absTmpPath = Paths.get(System.getProperty("build.tmp")).toAbsolutePath().normalize();
         String workDir = Files.createTempDirectory(absTmpPath, "BinaryTestFinderTestWorkDir_simplehtml").toAbsolutePath().toString();
-        String testSuiteHtml = TestUtil.getPathToTestTestSuite("simplehtml") + File.separator + "tests" + File.separator + "testsuite.html";
+        String testSuiteHtml = TestUtil.getPathToTestTestSuite("simplehtml", "tests", "testsuite.html");
         ok = t.run(System.out, 17, testSuiteHtml, workDir);
         Assert.assertTrue(ok);
     }
@@ -103,8 +103,9 @@ public class BinaryTestFinderTest {
             log.println("work: " + testWorkDir.getPath());
             log.println("binary: " + binaryFile.getPath());
 
-            if (!testWorkDir.exists())
+            if (!testWorkDir.exists()) {
                 testWorkDir.mkdirs();
+            }
 
             String[] btwArgs = {
                     "-finder", "com.sun.javatest.finder.HTMLTestFinder", "-dirWalk", "-end",
@@ -144,10 +145,12 @@ public class BinaryTestFinderTest {
             diff = record.getDiff();
             if (diff != 0) {
                 log.println("Found a different test: " + record.getPath() + " (" + diff + ")");
-                if (record.diffParam != null)
+                if (record.diffParam != null) {
                     log.println("-- " + record.diffParam);
-                if (record.diffFile != null)
+                }
+                if (record.diffFile != null) {
                     log.println("-- " + record.diffFile);
+                }
                 return false;
             }
         }
@@ -237,37 +240,45 @@ public class BinaryTestFinderTest {
 
     private File getTestSuiteFile(String file) throws Fault {
         File tsa = new File(file);
-        if (tsa.isFile())
+        if (tsa.isFile()) {
             return tsa;
-        else {
+        } else {
             File tsb = new File(tsa, "testsuite.html");
-            if (tsb.exists())
+            if (tsb.exists()) {
                 return tsb;
-            else {
+            } else {
                 File tsc = new File(tsa, "tests/testsuite.html");
-                if (tsc.exists())
+                if (tsc.exists()) {
                     return tsc;
-                else
+                } else {
                     throw new Fault("Bad input. " + file + " is not a test suite");
+                }
             }
         }
     }
 
     private int decodeOption(String option) {
-        if (option.equals("-showSame"))
+        if (option.equals("-showSame")) {
             return 0;
-        if (option.equals("-showLeft"))
+        }
+        if (option.equals("-showLeft")) {
             return 1;
-        if (option.equals("-showRight"))
+        }
+        if (option.equals("-showRight")) {
             return 2;
-        if (option.equals("-showDiffs"))
+        }
+        if (option.equals("-showDiffs")) {
             return 3;
-        if (option.equals("-showRightDiffs"))
+        }
+        if (option.equals("-showRightDiffs")) {
             return 6;
-        if (option.equals("-showLeftDiffs"))
+        }
+        if (option.equals("-showLeftDiffs")) {
             return 5;
-        if (option.equals("-showAllDiffs"))
+        }
+        if (option.equals("-showAllDiffs")) {
             return 4;
+        }
         return -1;
     }
 
@@ -305,10 +316,11 @@ public class BinaryTestFinderTest {
         }
 
         public String getPath() {
-            if (left == null)
+            if (left == null) {
                 return right.getRootRelativeFile().getPath();
-            else
+            } else {
                 return left.getRootRelativeFile().getPath();
+            }
         }
 
 
@@ -336,8 +348,9 @@ public class BinaryTestFinderTest {
                 return;
             }
 
-            if (compareParameters())
+            if (compareParameters()) {
                 return;
+            }
 
             compareSources();
             return;
@@ -358,9 +371,11 @@ public class BinaryTestFinderTest {
 
             for (File aFiles1 : files1) {
                 boolean found = false;
-                for (File aFiles2 : files2)
-                    if (aFiles1.getName().equals(aFiles2.getName()) && compareFile(aFiles1, aFiles2))
+                for (File aFiles2 : files2) {
+                    if (aFiles1.getName().equals(aFiles2.getName()) && compareFile(aFiles1, aFiles2)) {
                         found = true;
+                    }
+                }
                 if (!found) {
                     diff = 4;
                     diffFile = aFiles1.getPath();
@@ -386,13 +401,16 @@ public class BinaryTestFinderTest {
 
             try {
                 while ((line1 = reader1.readLine()) != null) {
-                    if ((line2 = reader2.readLine()) == null)
+                    if ((line2 = reader2.readLine()) == null) {
                         return false;
-                    if (!line1.equals(line2))
+                    }
+                    if (!line1.equals(line2)) {
                         return false;
+                    }
                 }
-                if (reader2.readLine() == null)
+                if (reader2.readLine() == null) {
                     return true;
+                }
             } catch (IOException i) {
                 System.err.println("error reading from buffered readers");
             }

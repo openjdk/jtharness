@@ -54,13 +54,10 @@ public class MissingLinkTest {
 
     public boolean run(PrintStream out) throws IOException, TestFinder.Fault {
         this.out = out;
-        File testSuite = new File(TestUtil.getPathToData() + File.separator + "finder" +
-                File.separator +
-                "data" +
-                File.separator +
-                "missingLink" +
-                File.separator +
-                "testsuite.html");
+        File testSuite = new File(TestUtil.getPathToData("finder",
+                "data",
+                "missingLink",
+                "testsuite.html"));
         File testSuiteDir = new File(testSuite.getParent());
         String[] webWalk = {"-webWalk"};
         boolean ok = true;
@@ -72,24 +69,26 @@ public class MissingLinkTest {
         TestFinderQueue hfq = new TestFinderQueue();
         hfq.setTestFinder(hf);
         hfq.addObserver(new TFQObserver(hf));
-        hfq.setTests((String[])null);
+        hfq.setTests((String[]) null);
 
-        if (ok)
+        if (ok) {
             out.println("check OK");
-        else
+        } else {
             out.println("***** check failed");
+        }
         out.println();
 
         TestDescription td;
         int n = 0;
-        while ((td = hfq.next()) != null)
+        while ((td = hfq.next()) != null) {
             n++;
+        }
 
         out.print("Read " + hfq.getTestsFoundCount() + " tests.");
         out.print("Found " + hfq.getErrorCount() + " errors.");
-        if (hfq.getErrorCount() == expectedErrors)
+        if (hfq.getErrorCount() == expectedErrors) {
             out.println(", as expected");
-        else {
+        } else {
             out.println(", but expected " + expectedErrors);
             ok = false;
         }

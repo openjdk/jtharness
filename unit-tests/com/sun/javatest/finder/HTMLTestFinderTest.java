@@ -45,7 +45,7 @@ public class HTMLTestFinderTest {
     public void test() throws IOException, TestFinder.Fault {
         boolean ok;
         HTMLTestFinderTest hft = new HTMLTestFinderTest();
-        ok = hft.run(new String[]{TestUtil.getPathToTestTestSuite("demotck") + File.separator + "testsuite.html"}, System.out);
+        ok = hft.run(new String[]{TestUtil.getPathToTestTestSuite("demotck", "testsuite.html")}, System.out);
         Assert.assertTrue(ok);
     }
 
@@ -80,9 +80,9 @@ public class HTMLTestFinderTest {
                       int expectedTests, int expectedErrors,
                       String[] htmlArgs)
             throws TestFinder.Fault {
-        if (tests == null)
+        if (tests == null) {
             out.println("Checkingresults for null initial files");
-        else {
+        } else {
             out.println("Checking results for " + tests.length + " initial files");
             for (int i = 0; i < tests.length; i++) {
                 out.println(" " + i + ": " + tests[i]);
@@ -97,10 +97,11 @@ public class HTMLTestFinderTest {
         hfq.addObserver(new TFQObserver(hf));
 
         boolean ok = check(hfq, expectedTests, expectedErrors);
-        if (ok)
+        if (ok) {
             out.println("check OK");
-        else
+        } else {
             out.println("***** check failed");
+        }
         out.println();
 
         return ok;
@@ -111,21 +112,22 @@ public class HTMLTestFinderTest {
 
         TestDescription td;
         int n = 0;
-        while ((td = tfq.next()) != null)
+        while ((td = tfq.next()) != null) {
             n++;
+        }
 
         out.print("read " + tfq.getTestsFoundCount() + " tests");
-        if (tfq.getTestsFoundCount() == expectedTests)
+        if (tfq.getTestsFoundCount() == expectedTests) {
             out.println(", as expected");
-        else {
+        } else {
             out.println(", but expected " + expectedTests);
             ok = false;
         }
 
         out.print("found " + tfq.getErrorCount() + " errors");
-        if (tfq.getErrorCount() == expectedErrors)
+        if (tfq.getErrorCount() == expectedErrors) {
             out.println(", as expected");
-        else {
+        } else {
             out.println(", but expected " + expectedErrors);
             ok = false;
         }
@@ -134,9 +136,9 @@ public class HTMLTestFinderTest {
     }
 
     void show(TestDescription td, String label) {
-        if (td == null)
+        if (td == null) {
             out.println(label + ": null");
-        else {
+        } else {
             out.println(label + ": " + td.getRootRelativeURL());
             for (Iterator<String> i = td.getParameterKeys(); i.hasNext(); ) {
                 String key = i.next();

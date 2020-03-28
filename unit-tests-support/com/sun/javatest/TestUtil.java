@@ -31,23 +31,28 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Test utilities, helper methods.
  */
 public class TestUtil {
 
-   public static String getPathToTestTestSuite(String suiteName) {
-        return getPathToData() + File.separator + "suites" + File.separator + suiteName;
-   }
+    public static String getPathToTestTestSuite(String... subComponents) {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("suites");
+        strings.addAll(Arrays.asList(subComponents));
+        return getPathToData(strings.toArray(new String[strings.size()]));
+    }
 
-   public static String getPathToData(String... subdirs) {
-       String property = System.getProperty("unit-tests.data.dir");
-       for (String subdir : subdirs) {
-           property += File.separator + subdir;
-       }
-       return property;
-   }
+    public static String getPathToData(String... subComponents) {
+        String property = System.getProperty("unit-tests.data.dir");
+        for (String subdir : subComponents) {
+            property += File.separator + subdir;
+        }
+        return property;
+    }
 
     public static Path createTempDirectory(String prefix) throws IOException {
         return Files.createTempDirectory(getTmpPath(), prefix);

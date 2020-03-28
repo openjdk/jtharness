@@ -49,7 +49,7 @@ public class TagTestFinderTest {
     }
 
     public boolean run(PrintStream out) throws IOException, TestFinder.Fault {
-        File testSuite = new File(TestUtil.getPathToData() + File.separator + "tagtests");
+        File testSuite = new File(TestUtil.getPathToData("tagtests"));
         int expected = 2;    // exception is possible
 
         testSuite = new File(testSuite.getCanonicalPath());
@@ -80,9 +80,9 @@ public class TagTestFinderTest {
                       int expectedTests, int expectedErrors,
                       String[] args)
             throws TestFinder.Fault {
-        if (tests == null)
+        if (tests == null) {
             out.println("Checkingresults for null initial files");
-        else {
+        } else {
             out.println("Checking results for " + tests.length + " initial files");
             for (int i = 0; i < tests.length; i++) {
                 out.println(" " + i + ": " + tests[i]);
@@ -97,10 +97,11 @@ public class TagTestFinderTest {
         tfq.addObserver(new TFQObserver(tf));
 
         boolean ok = check(tfq, expectedTests, expectedErrors);
-        if (ok)
+        if (ok) {
             out.println("check OK");
-        else
+        } else {
             out.println("***** check failed");
+        }
         out.println();
 
         return ok;
@@ -111,21 +112,22 @@ public class TagTestFinderTest {
 
         TestDescription td;
         int n = 0;
-        while ((td = tfq.next()) != null)
+        while ((td = tfq.next()) != null) {
             n++;
+        }
 
         out.print("read " + tfq.getTestsFoundCount() + " tests");
-        if (tfq.getTestsFoundCount() == expectedTests)
+        if (tfq.getTestsFoundCount() == expectedTests) {
             out.println(", as expected");
-        else {
+        } else {
             out.println(", but expected " + expectedTests);
             ok = false;
         }
 
         out.print("found " + tfq.getErrorCount() + " errors");
-        if (tfq.getErrorCount() == expectedErrors)
+        if (tfq.getErrorCount() == expectedErrors) {
             out.println(", as expected");
-        else {
+        } else {
             out.println(", but expected " + expectedErrors);
             ok = false;
         }
@@ -134,9 +136,9 @@ public class TagTestFinderTest {
     }
 
     void show(TestDescription td, String label) {
-        if (td == null)
+        if (td == null) {
             out.println(label + ": null");
-        else {
+        } else {
             out.println(label + ": " + td.getRootRelativeURL());
             for (Iterator<String> i = td.getParameterKeys(); i.hasNext(); ) {
                 String key = i.next();

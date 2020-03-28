@@ -39,7 +39,7 @@ import java.util.List;
 
 public class ExcludeTest {
 
-    private File data = new File(TestUtil.getPathToData() + File.separator + "exclude");
+    private File data = new File(TestUtil.getPathToData(), "exclude");
     private boolean verbose = Boolean.getBoolean("verbose");
     private String currTest;
 
@@ -91,7 +91,7 @@ public class ExcludeTest {
         Assert.assertTrue(el.isEmpty());
     }
 
-        @Test
+    @Test
     public void reading_empty() throws IOException, ExcludeList.Fault {
         ExcludeList el = new ExcludeList(new File(data, "empty.jtx"));
         Assert.assertEquals(0, el.size());
@@ -152,12 +152,12 @@ public class ExcludeTest {
         }
         Collections.sort(urls);
         Assert.assertEquals(6, urls.size());
-        Assert.assertEquals("a/b/c"  ,urls.get(0));
-        Assert.assertEquals("a/b/c#d",urls.get(1));
-        Assert.assertEquals("a/b/c#e",urls.get(2));
-        Assert.assertEquals("a/b/c#e",urls.get(3));
-        Assert.assertEquals("d/e/f"  ,urls.get(4));
-        Assert.assertEquals("j/h/k#t"  ,urls.get(5));
+        Assert.assertEquals("a/b/c", urls.get(0));
+        Assert.assertEquals("a/b/c#d", urls.get(1));
+        Assert.assertEquals("a/b/c#e", urls.get(2));
+        Assert.assertEquals("a/b/c#e", urls.get(3));
+        Assert.assertEquals("d/e/f", urls.get(4));
+        Assert.assertEquals("j/h/k#t", urls.get(5));
     }
 
     @Test
@@ -173,8 +173,8 @@ public class ExcludeTest {
     }
 
     private void checkEntry(ExcludeList.Entry entry, String bugid, String platform, String synopsys) {
-        Assert.assertArrayEquals(new String[] {bugid}, entry.getBugIdStrings());
-        Assert.assertArrayEquals(new String[] {platform}, entry.getPlatforms());
+        Assert.assertArrayEquals(new String[]{bugid}, entry.getBugIdStrings());
+        Assert.assertArrayEquals(new String[]{platform}, entry.getPlatforms());
         Assert.assertEquals(synopsys, entry.getSynopsis());
     }
 

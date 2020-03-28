@@ -61,7 +61,7 @@ public class TraceTest implements Harness.Observer {
         boolean ok = t.run(
                 new String[]{
                         System.getProperty("build.classes"),
-                        TestUtil.getPathToTestTestSuite("empty") + File.separator + "testsuite.html",
+                        TestUtil.getPathToTestTestSuite("empty", "testsuite.html"),
                         "empty.jte",
                         TestUtil.createTempDirAndReturnAbsPathString("TraceTest-work")
                 }
