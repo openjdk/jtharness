@@ -392,7 +392,7 @@ public class TestPureAssert {
 
     @Test
     public void testAssertEquals_Positive_primitive_int() {
-        com.sun.tck.lib.Assert.assertEquals((int) 890890, (int) 890890);
+        com.sun.tck.lib.Assert.assertEquals(890890, 890890);
         com.sun.tck.lib.Assert.assertEquals(Integer.MAX_VALUE, Integer.MAX_VALUE);
         com.sun.tck.lib.Assert.assertEquals(Integer.MIN_VALUE, Integer.MIN_VALUE);
     }
@@ -1536,7 +1536,7 @@ public class TestPureAssert {
 
     @Test(expected = AssertionFailedException.class)
     public void testAssertEquals_Negative_primitive_longInt() {
-        com.sun.tck.lib.Assert.assertEquals(89345634563453L, (int) 643576537);
+        com.sun.tck.lib.Assert.assertEquals(89345634563453L, 643576537);
     }
 
     @Test(expected = AssertionFailedException.class)
@@ -1561,7 +1561,7 @@ public class TestPureAssert {
 
     @Test(expected = AssertionFailedException.class)
     public void testAssertEquals_Negative_primitive_int() {
-        com.sun.tck.lib.Assert.assertEquals((int) 43, (int) 85);
+        com.sun.tck.lib.Assert.assertEquals(43, 85);
     }
 
     @Test(expected = AssertionFailedException.class)
@@ -2947,7 +2947,7 @@ public class TestPureAssert {
 
     @Test
     public void testAssertEquals_Iterable_3_pos_2() {
-        com.sun.tck.lib.Assert.assertEquals(new Vector(), Arrays.asList());
+        com.sun.tck.lib.Assert.assertEquals(new Vector<>(), Arrays.asList());
     }
 
     @Test
@@ -3012,12 +3012,12 @@ public class TestPureAssert {
 
     @Test
     public void testAssertEquals_Iterable_4_pos_22() {
-        com.sun.tck.lib.Assert.assertEquals(new HashSet(Arrays.asList("1", "2")), new HashSet(Arrays.asList("2", "1")));
+        com.sun.tck.lib.Assert.assertEquals(new HashSet<>(Arrays.asList("1", "2")), new HashSet<>(Arrays.asList("2", "1")));
     }
 
     @Test(expected = AssertionFailedException.class)
     public void testAssertEquals_Iterable_4_pos_3() {
-        com.sun.tck.lib.Assert.assertEquals(Arrays.asList("1", "2"), new Vector() {{
+        com.sun.tck.lib.Assert.assertEquals(Arrays.asList("1", "2"), new Vector<String>() {{
             add("2");
             add("1");
         }});
@@ -3025,7 +3025,7 @@ public class TestPureAssert {
 
     @Test
     public void testAssertEquals_Iterable_4_pos_3234() {
-        com.sun.tck.lib.Assert.assertEquals(Arrays.asList("1", "2"), new Vector() {{
+        com.sun.tck.lib.Assert.assertEquals(Arrays.asList("1", "2"), new Vector<String>() {{
             add("1");
             add("2");
         }});
@@ -3127,7 +3127,7 @@ public class TestPureAssert {
 
     @Test
     public void testAssertEquals_Iterable_5_pos_9() {
-        com.sun.tck.lib.Assert.assertEquals(of("2", "1"), new HashSet(Arrays.asList("1", "2")));
+        com.sun.tck.lib.Assert.assertEquals(of("2", "1"), new HashSet<>(Arrays.asList("1", "2")));
     }
 
     @Test(expected = AssertionFailedException.class)
@@ -3371,7 +3371,7 @@ public class TestPureAssert {
         com.sun.tck.lib.Assert.assertEquals(hs, of(2, 1, 3));
     }
 
-    Set of(Object... objs) {
+    Set<Object> of(Object... objs) {
         HashSet<Object> objects = new HashSet<>();
         for (Object object : objs) {
             objects.add(object);
@@ -3381,13 +3381,13 @@ public class TestPureAssert {
 
     @Test
     public void testAssertEquals_Set_2() {
-        Set hs1 = new HashSet();
+        Set<Number> hs1 = new HashSet<>();
         hs1.add(1);
         hs1.add(2);
         hs1.add(null);
         hs1.add(null);
 
-        Set hs2 = new HashSet();
+        Set<Number> hs2 = new HashSet<>();
         hs2.add(1);
         hs2.add(2);
         hs2.add(null);
@@ -3396,12 +3396,12 @@ public class TestPureAssert {
 
     @Test(expected = AssertionFailedException.class)
     public void testAssertEquals_Set_3() {
-        Set ts = new TreeSet();
+        Set<String> ts = new TreeSet<>();
         ts.add("one");
         ts.add("ne");
         ts.add("e");
 
-        Set hs = new HashSet();
+        Set<Number> hs = new HashSet<>();
         hs.add(2);
         hs.add(1);
         hs.add(3);
@@ -3410,12 +3410,12 @@ public class TestPureAssert {
 
     @Test(expected = AssertionFailedException.class)
     public void testAssertEquals_Set_4() {
-        Set ts = new TreeSet();
+        Set<String> ts = new TreeSet<>();
         ts.add("one");
         ts.add("ne");
         ts.add("e");
 
-        Set hs = new HashSet();
+        Set<Number> hs = new HashSet<>();
         hs.add(2);
         hs.add(1);
         hs.add(3);
