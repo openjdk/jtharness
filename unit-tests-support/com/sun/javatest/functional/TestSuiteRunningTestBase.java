@@ -192,7 +192,7 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
     }
 
     protected void checkLinesInSummary(String... lines) {
-        Assert.assertEquals(lines.length, getSummaryTxt().size());
+        Assert.assertEquals("Summary file contains unexpected number of lines", lines.length, getSummaryTxt().size());
         for (int i = 0; i < lines.length; i++) {
             checkLineInSummary(i, lines[i]);
         }
