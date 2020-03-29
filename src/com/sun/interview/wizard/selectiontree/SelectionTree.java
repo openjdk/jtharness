@@ -260,9 +260,8 @@ public class SelectionTree extends JTree {
     }
 
     /**
-     * Expand all nodes depending on current selection.<P>
-     * <p/>
-     * In case of parameter is true and there is at least one node selected, expand all nodes starting from selected nodes.<BR>
+     * Expand all nodes depending on current selection.
+     * In case of parameter is true and there is at least one node selected, expand all nodes starting from selected nodes.
      * In case of parameter is false or there is no selected node, expand all nodes.
      */
     public void expandAll(boolean considerSelection) {
@@ -282,9 +281,8 @@ public class SelectionTree extends JTree {
     }
 
     /**
-     * Collapse all nodes depending on current selection.<P>
-     * <p/>
-     * In case of parameter is true and there is at least one node selected, collapse all nodes starting from selected nodes.<BR>
+     * Collapse all nodes depending on current selection.
+     * In case of parameter is true and there is at least one node selected, collapse all nodes starting from selected nodes.
      * In case of parameter is false or there is no selected node, collapse all nodes.
      */
     public void collapseAll(boolean considerSelection) {
@@ -321,9 +319,8 @@ public class SelectionTree extends JTree {
     }
 
     /**
-     * Set all nodes selected depending on current selection.<P>
-     * <p/>
-     * In case of parameter is true and there is at least one selected node, set all nodes selected starting from selected nodes.<BR>
+     * Set all nodes selected depending on current selection.
+     * In case of parameter is true and there is at least one selected node, set all nodes selected starting from selected nodes.
      * In case of parameter is false or there is no selected node, set all nodes selected.
      */
     public void selectAll(boolean considerSelection) {
@@ -352,9 +349,8 @@ public class SelectionTree extends JTree {
     }
 
     /**
-     * Set all nodes unselected depending on current selection.<P>
-     * <p/>
-     * In case of parameter is true and there is at least one selected node, set all nodes unselected starting from selected nodes.<BR>
+     * Set all nodes unselected depending on current selection.
+     * In case of parameter is true and there is at least one selected node, set all nodes unselected starting from selected nodes.
      * In case of parameter is false or there is no selected node, set all nodes unselected.
      */
     public void deselectAll(boolean considerSelection) {
