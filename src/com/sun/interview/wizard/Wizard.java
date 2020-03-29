@@ -950,8 +950,8 @@ public class Wizard extends JComponent {
     /**
      * Create a menu according to an array of data
      *
-     * @title the title for the menu
-     * @menuData the data for the menu; one element per menu item; an element can be
+     * @param uiKey the title for the menu
+     * @param menuData the data for the menu; one element per menu item; an element can be
      * one of
      * <dl>
      * <dt> null

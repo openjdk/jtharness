@@ -49,7 +49,7 @@ class I18NResourceBundle extends ResourceBundle {
      * Create a resource bundle for the given name.
      * The actual resource bundle will not be loaded until it is needed.
      *
-     * @arg name The name of the actual resource bundle to use.
+     * @param name The name of the actual resource bundle to use.
      */
     private I18NResourceBundle(String name, boolean logging, ClassLoader cl) {
         this.name = name;
