@@ -192,24 +192,6 @@ public class TraceTest implements Harness.Observer {
         }
     }
 
-    public void startingTestRun(Parameters params) {
-    }
-
-    public void startingTest(TestResult tr) {
-    }
-
-    public void finishedTest(TestResult tr) {
-    }
-
-    public void stoppingTestRun() {
-    }
-
-    public void finishedTesting() {
-    }
-
-    public void finishedTestRun(boolean allOK) {
-    }
-
     private static final String TRACE_FILE = "harness.trace";
     private static final String TRACE_HEADER_PREFIX = "# Trace file started at ";
 

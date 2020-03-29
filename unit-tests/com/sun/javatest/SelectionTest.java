@@ -152,24 +152,6 @@ public class SelectionTest extends TestBase implements Harness.Observer {
         printlns(s2);
     }
 
-    public void startingTestRun(Parameters params) {
-    }
-
-    public void startingTest(TestResult tr) {
-    }
-
-    public void finishedTest(TestResult tr) {
-    }
-
-    public void stoppingTestRun() {
-    }
-
-    public void finishedTesting() {
-    }
-
-    public void finishedTestRun(boolean allOK) {
-    }
-
     private void printlns(String[] msgs) {
         for (String msg : msgs) {
             log.println(msg);
