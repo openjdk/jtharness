@@ -70,9 +70,6 @@ public interface Exporter {
      * Export the data to the given file.
      *
      * @param f The file to which to write the data
-     * @throws IOException     if there is a problem while writing the file
-     * @throws Interview.Fault if there is a problem exporting the data
-     *                         from the interview.
      */
     void export(File f);
 }
