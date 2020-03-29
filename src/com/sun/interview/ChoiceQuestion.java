@@ -214,7 +214,6 @@ public abstract class ChoiceQuestion extends Question {
      *
      * @return The display values for the set of possible responses for this question.
      * @see #setChoices
-     * @see #getDisplayChoices
      */
     public String[] getDisplayChoices() {
         if (displayChoices == null) {

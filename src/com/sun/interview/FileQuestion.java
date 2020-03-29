@@ -287,7 +287,6 @@ public abstract class FileQuestion extends Question {
      *
      * @param b this parameter should be true if all valid responses
      *          to this question should be relative to the base directory
-     * @see #setBaseRelativeOnly
      */
     public void setBaseRelativeOnly(boolean b) {
         baseRelativeOnly = b;

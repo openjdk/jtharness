@@ -318,7 +318,6 @@ public abstract class FloatQuestion extends Question {
      *          from given string parameter
      * @see #getValue
      * @see #getValue()
-     * @see #setValue(String, Locale)
      */
     public void setValue(String s, Locale l) {
         //String s1 = s;

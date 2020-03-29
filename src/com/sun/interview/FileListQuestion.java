@@ -340,7 +340,6 @@ public abstract class FileListQuestion extends Question {
      * @param fs An array of filters used to select valid files for a response
      *           to this question
      * @see #getFilters
-     * @see #setFilters
      * @see #getHintFilters
      */
     public void setFilters(FileFilter... fs) {
@@ -437,7 +436,6 @@ public abstract class FileListQuestion extends Question {
      *
      * @param b this parameter should be true if all valid responses
      *          to this question should be relative to the base directory
-     * @see #setBaseRelativeOnly
      */
     public void setBaseRelativeOnly(boolean b) {
         baseRelativeOnly = b;
