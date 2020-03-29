@@ -27,12 +27,8 @@
 package com.sun.javatest.util;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Hashtable;
 
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.util.DynamicArray;
 import org.junit.Assert;
 import org.junit.Test;
 

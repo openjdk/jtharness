@@ -31,7 +31,6 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import com.sun.javatest.lib.MultiTest;
 import com.sun.javatest.Status;
 import org.junit.Assert;
 import org.junit.Test;

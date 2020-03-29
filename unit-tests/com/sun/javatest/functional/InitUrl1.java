@@ -29,7 +29,6 @@ package com.sun.javatest.functional;
 
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 

@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
 
-import com.sun.javatest.finder.BinaryTestFinderTest;
 import com.sun.javatest.functional.TestBase;
 import org.junit.Assert;
 import org.junit.Test;

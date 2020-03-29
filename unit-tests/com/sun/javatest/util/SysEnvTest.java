@@ -28,13 +28,9 @@
 package com.sun.javatest.util;
 
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 
-import com.sun.javatest.util.SysEnv;
 import org.junit.Assert;
 import org.junit.Test;
 

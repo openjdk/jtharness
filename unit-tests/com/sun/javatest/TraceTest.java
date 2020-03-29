@@ -36,19 +36,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.sun.javatest.Harness;
-import com.sun.javatest.FileParameters;
-import com.sun.javatest.Parameters;
-import com.sun.javatest.TestDescription;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.TestUtil;
-import com.sun.javatest.WorkDirectory;
-import com.sun.javatest.util.PropertyUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

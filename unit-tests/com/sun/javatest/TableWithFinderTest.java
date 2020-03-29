@@ -33,16 +33,7 @@ import java.io.PrintStream;
 
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.NoSuchElementException;
-
-import com.sun.javatest.TestEnvironment;
-import com.sun.javatest.TestFinder;
-import com.sun.javatest.TestResultTable;
-import com.sun.javatest.TestResult;
-import com.sun.javatest.TestSuite;
-import com.sun.javatest.TestUtil;
-import com.sun.javatest.WorkDirectory;
 
 import com.sun.javatest.finder.HTMLTestFinder;
 import org.junit.Assert;

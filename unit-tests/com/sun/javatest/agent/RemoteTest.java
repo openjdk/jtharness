@@ -36,10 +36,6 @@ import java.io.Reader;
 import java.net.ServerSocket;
 import java.util.Vector;
 
-import com.sun.javatest.agent.Agent;
-import com.sun.javatest.agent.AgentManager;
-import com.sun.javatest.agent.ConnectionFactory;
-import com.sun.javatest.agent.PassiveConnectionFactory;
 import com.sun.javatest.Status;
 import com.sun.javatest.Test;
 import org.junit.Assert;

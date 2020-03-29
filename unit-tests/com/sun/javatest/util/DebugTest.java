@@ -30,7 +30,6 @@ package com.sun.javatest.util;
 import java.io.PrintStream;
 import java.util.Properties;
 
-import com.sun.javatest.util.Debug;
 import org.junit.Assert;
 import org.junit.Test;
 

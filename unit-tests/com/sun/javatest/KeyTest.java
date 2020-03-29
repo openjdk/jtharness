@@ -29,8 +29,6 @@ package com.sun.javatest;
 import java.io.PrintStream;
 import java.util.*;
 
-import com.sun.javatest.Keywords;
-import com.sun.javatest.FileParameters;
 import org.junit.Assert;
 import org.junit.Test;
 

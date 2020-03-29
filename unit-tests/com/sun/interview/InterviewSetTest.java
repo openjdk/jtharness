@@ -27,7 +27,6 @@
 
 package com.sun.interview;
 
-import com.sun.javatest.KeyTest;
 import org.junit.Assert;
 import org.junit.Test;
 

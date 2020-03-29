@@ -29,7 +29,6 @@ package com.sun.javatest.util;
 
 import java.util.Arrays;
 
-import com.sun.javatest.util.StringArray;
 import org.junit.Assert;
 import org.junit.Test;
 

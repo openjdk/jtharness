@@ -26,18 +26,7 @@
  */
 package com.sun.javatest;
 
-import com.sun.javatest.finder.HTMLTestFinder;
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.Vector;
 
 import static org.junit.Assert.*;
 

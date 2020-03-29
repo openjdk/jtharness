@@ -30,7 +30,6 @@ import java.lang.reflect.Method;
 
 import com.sun.javatest.TestUtil;
 import com.sun.javatest.report.ReportManager;
-import com.sun.javatest.tool.Command;
 import com.sun.javatest.tool.CommandContext;
 import com.sun.javatest.tool.CommandManager;
 import com.sun.javatest.tool.CommandParser;

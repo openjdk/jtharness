@@ -31,22 +31,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Vector;
 
-import com.sun.javatest.KeyTest;
-import com.sun.javatest.batch.BatchManager;
-import com.sun.javatest.tool.Command;
 import com.sun.javatest.tool.CommandContext;
 import com.sun.javatest.tool.CommandManager;
 import com.sun.javatest.tool.CommandParser;
 import com.sun.javatest.tool.ConfigManager;
 import com.sun.javatest.tool.HelpManager;
-import com.sun.javatest.tool.Main;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
