@@ -563,7 +563,7 @@ public class WizPrint {
                 else
                     writeTag(STRIKE, choices[i]);
                 */
-                if (values[i] == false) {
+                if (!values[i]) {
                     startTag(STRIKE);
                 }
 
@@ -573,7 +573,7 @@ public class WizPrint {
                     writeI18N("wp.display", displayChoices[i]);
                 }
 
-                if (values[i] == false) {
+                if (!values[i]) {
                     endTag(STRIKE);
                 }
 
