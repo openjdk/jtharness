@@ -149,8 +149,7 @@ public class TestEnvTest {
             }
             if (rp.size() != 0) {
                 log.println("ERROR: unmatched entries in reference list");
-                for (Iterator<?> i = rp.keySet().iterator(); i.hasNext(); ) {
-                    String k = (String) i.next();
+                for (String k : rp.keySet()) {
                     String r = rp.get(k);
                     log.println("UNMATCHED: `" + k + "' = `" + r + "'");
                 }
