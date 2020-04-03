@@ -206,7 +206,7 @@ public class TableWithFinderTest {
             TestEnvironment env = null;
             String[] finderArgs = {};
             try {
-                env = new TestEnvironment("", new HashMap<String, String>(), "");
+                env = new TestEnvironment("", new HashMap<>(), "");
             } catch (TestEnvironment.Fault e) {
                 log.println("unable to create empty test environment");
                 e.printStackTrace(log);
@@ -232,7 +232,7 @@ public class TableWithFinderTest {
             TestEnvironment env = null;
             String[] finderArgs = {};
             try {
-                env = new TestEnvironment("", new HashMap<String, String>(), "");
+                env = new TestEnvironment("", new HashMap<>(), "");
             } catch (TestEnvironment.Fault e) {
                 log.println("unable to create empty test environment");
                 e.printStackTrace(log);
