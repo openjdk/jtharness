@@ -48,11 +48,6 @@ public class AllTestsRun extends TestSuiteRunningTestBase {
     }
 
     @Override
-    protected int getExpectedNumberOfTestsSkipped() {
-        return 0;
-    }
-
-    @Override
     protected String[] getExpectedLinesInTestrunSummary() {
         return new String[]{
         "comp/index.html#CompError          Error. no sources specified in test description",
