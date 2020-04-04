@@ -478,7 +478,7 @@ public class DynamicArrayTest {
             back = DynamicArray.append(data1, 1.2f);
             localResult = false;
             out.println("Stored inappropriate entry in array.");
-        } catch (ArrayStoreException e) {
+        } catch (ArrayStoreException ignored) {
         }
 
         back = null;
@@ -489,7 +489,7 @@ public class DynamicArrayTest {
             back = DynamicArray.remove(data2, 1);
             localResult = false;
             out.println("Null array allowed remove.");
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
 
         back = null;
@@ -500,7 +500,7 @@ public class DynamicArrayTest {
             back = DynamicArray.remove(data3, 1);
             localResult = false;
             out.println("Invalid index removal did not work as expected. (1)");
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
 
         back = null;
@@ -511,7 +511,7 @@ public class DynamicArrayTest {
             back = DynamicArray.remove(data4, 4);
             localResult = false;
             out.println("Invalid index removal did not work as expected. (2)");
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ignored) {
         }
 
 
