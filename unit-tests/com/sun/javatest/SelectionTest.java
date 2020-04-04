@@ -340,7 +340,7 @@ public class SelectionTest extends TestBase implements Harness.Observer {
         Iterator<TestResult> it;
 
         if (initialURLs.length == 0) {
-            it = trt.getIterator(trt.getRoot(), filters);
+            it = TestResultTable.getIterator(trt.getRoot(), filters);
         } else {
             it = trt.getIterator(initialURLs, filters);
         }

@@ -252,7 +252,7 @@ public class TestResultTableTest {
         Keywords kw = Keywords.create("any of", theKeyword);
         TestFilter filter = new KeywordsFilter(kw);
 
-        Enumeration<TestResult> tabItems = tab.elements(tab.getRoot(), filter);
+        Enumeration<TestResult> tabItems = TestResultTable.elements(tab.getRoot(), filter);
 
         try {
             while (tabItems.hasMoreElements()) {
