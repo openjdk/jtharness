@@ -278,11 +278,7 @@ public class ExcludeTest {
             if (!expectOK) {
                 errorNoFault();
             }
-        } catch (ExcludeList.Fault e) {
-            if (expectOK) {
-                errorFault(e);
-            }
-        } catch (IOException e) {
+        } catch (ExcludeList.Fault | IOException e) {
             if (expectOK) {
                 errorFault(e);
             }

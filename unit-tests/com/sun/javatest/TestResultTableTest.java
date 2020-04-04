@@ -230,11 +230,8 @@ public class TestResultTableTest {
 
                 count++;
             }   // for
-        } catch (TestResult.Fault f) {
+        } catch (TestResult.Fault | ClassCastException f) {
             f.printStackTrace(log);
-            localResult = false;
-        } catch (ClassCastException e) {
-            e.printStackTrace(log);
             localResult = false;
         }
 

@@ -114,15 +114,7 @@ public class TableWithFinderTest {
 
             TestSuite dirTestSuite = TestSuite.open(testDir);
             dirWorkDir = WorkDirectory.create(new File(workDir, "dirWalk"), dirTestSuite);
-        } catch (IOException e) {
-            log.println("Error processing the work dir argument.");
-            e.printStackTrace(log);
-            return false;
-        } catch (TestSuite.Fault e) {
-            log.println("Error processing the work dir argument.");
-            e.printStackTrace(log);
-            return false;
-        } catch (WorkDirectory.Fault e) {
+        } catch (IOException | WorkDirectory.Fault | TestSuite.Fault e) {
             log.println("Error processing the work dir argument.");
             e.printStackTrace(log);
             return false;
