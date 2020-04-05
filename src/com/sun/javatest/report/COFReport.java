@@ -41,7 +41,7 @@ public class COFReport implements ReportFormat {
 
     private static final String ID = "cof";
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(COFReport.class);
-    private final String FNAME = "cof.xml";
+    private static final String FNAME = "cof.xml";
 
     @Override
     public ReportLink write(ReportSettings s, File dir) {

@@ -47,7 +47,7 @@ public class ActiveAgentPool {
     private static boolean debug = Boolean.getBoolean("debug.ActiveAgentPool");
 
     //--------------------------------------------------------------------------
-    private final int MAX_ERRORS = 10;
+    private static final int MAX_ERRORS = 10;
     private Thread worker;
     private int counter;
     private Entries entries = new Entries();

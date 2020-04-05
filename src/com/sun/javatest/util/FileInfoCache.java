@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class FileInfoCache {
 
-    private final int SIZE = 500;
+    private static final int SIZE = 500;
 
     private Map<String, Boolean> map = Collections.synchronizedMap(new LinkedHashMap<String, Boolean>() {
         @Override

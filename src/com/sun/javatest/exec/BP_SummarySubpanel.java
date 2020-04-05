@@ -82,8 +82,8 @@ class BP_SummarySubpanel extends BP_BranchSubpanel {
     private static Color[] pieColors;
     private static int debug = Debug.getInt(BP_SummarySubpanel.class);
     protected final int[] stateOrdering = {Status.ERROR, Status.FAILED, Status.NOT_RUN, Status.PASSED};
-    private final int NTFIELD_WIDTH = 5;
-    private final int TFIELD_WIDTH = 7;
+    private static final int NTFIELD_WIDTH = 5;
+    private static final int TFIELD_WIDTH = 7;
     private CounterThread ct;
     private int[] stats;
     private int filtered;

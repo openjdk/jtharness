@@ -116,8 +116,8 @@ class LogViewer extends ToolDialog {
                     LoggerFactory.getLocalizedLevelName(Level.WARNING),
                     LoggerFactory.getLocalizedLevelName(Level.INFO),
                     LoggerFactory.getLocalizedLevelName(Level.FINE)};
-    private final int debug = 0;
-    private final int debugPages = 0;
+    private static final int debug = 0;
+    private static final int debugPages = 0;
     private UIFactory uif;
     private DefaultMutableTreeNode treeRoot;
     private JComboBox<?> filterCombo;
