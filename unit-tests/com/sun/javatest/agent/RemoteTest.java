@@ -148,10 +148,7 @@ public class RemoteTest {
                     }
                     return Status.failed("test failed");
                 }
-            } catch (InterruptedException e) {
-                log.println("Unexpected exception: " + e);
-                return Status.failed("Unexpected exception: " + e.getClass().getName());
-            } catch (IOException e) {
+            } catch (InterruptedException | IOException e) {
                 log.println("Unexpected exception: " + e);
                 return Status.failed("Unexpected exception: " + e.getClass().getName());
             }

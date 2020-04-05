@@ -120,10 +120,7 @@ public class BinaryTestFinderTest {
             log.println("A problem occurred");
             log.println(e.toString());
             return false;
-        } catch (BinaryTestWriter.BadArgs f) {
-            log.println(f.getMessage());
-            return false;
-        } catch (BinaryTestWriter.Fault f) {
+        } catch (BinaryTestWriter.BadArgs | BinaryTestWriter.Fault f) {
             log.println(f.getMessage());
             return false;
         }
