@@ -161,7 +161,7 @@ public class AgentMain {
         // System.exit unless we ask it nicely..
         SecurityManager sc = System.getSecurityManager();
         if (sc instanceof JavaTestSecurityManager) {
-            ((JavaTestSecurityManager) sc).setAllowExit(true);
+            JavaTestSecurityManager.setAllowExit(true);
         }
 
         System.exit(rc);

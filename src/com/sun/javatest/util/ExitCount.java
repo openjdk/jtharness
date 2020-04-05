@@ -66,7 +66,7 @@ public class ExitCount {
         if (--count == 0) {
             SecurityManager sc = System.getSecurityManager();
             if (sc instanceof JavaTestSecurityManager) {
-                ((JavaTestSecurityManager) sc).setAllowExit(true);
+                JavaTestSecurityManager.setAllowExit(true);
             }
 
             if (autoExitIfZero) {

@@ -238,7 +238,7 @@ public class Main {
         // System.exit unless we ask it nicely, pretty please, thank you.
         SecurityManager sc = System.getSecurityManager();
         if (sc instanceof JavaTestSecurityManager) {
-            ((JavaTestSecurityManager) sc).setAllowExit(true);
+            JavaTestSecurityManager.setAllowExit(true);
         }
         System.exit(exitCode);
         throw new JavaTestError(i18n, "main.cannotExit.err");
