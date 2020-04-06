@@ -1,4 +1,5 @@
 /*
+/*
  * $Id$
  *
  * Copyright (c) 1996, 2009, Oracle and/or its affiliates. All rights reserved.
@@ -260,11 +261,10 @@ public abstract class InetAddressQuestion extends Question {
      * Set the current value.
      *
      * @param newValue The value to be set.
-     * @throws Interview.Fault (retained for compatibility; should not be thrown)
      * @see #getValue
      */
     @Override
-    public void setValue(String newValue) throws Interview.Fault {
+    public void setValue(String newValue) {
         InetAddress v = parse(newValue);
 
         newStringValue = newValue;
