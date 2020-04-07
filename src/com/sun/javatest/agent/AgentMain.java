@@ -225,8 +225,6 @@ public class AgentMain {
      * @param index the position of the next option to be decoded
      * @return the number of elements consumed from the array
      * @throws AgentMain.BadArgs if a problem is found decoding the args
-     * @throws AgentMain.Fault   if the args can be decoded successfully but
-     *                           if there is a problem in their interpretation (e.g invalid port number)
      */
     protected int decodeArg(String[] args, int index) throws BadArgs {
         int i = index;
@@ -295,8 +293,6 @@ public class AgentMain {
      *
      * @throws AgentMain.BadArgs if a problem is found validating the args that
      *                           is likely caused by a misunderstanding of the command line options or syntax
-     * @throws AgentMain.Fault   if there is some other problem with the args, such
-     *                           as a bad host name or a port not being available for use
      */
     protected void validateArgs() throws BadArgs {
         if (modeCheck == 0) {

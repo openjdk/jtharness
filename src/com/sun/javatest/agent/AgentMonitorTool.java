@@ -123,7 +123,6 @@ public class AgentMonitorTool extends Tool {
      * Restore an AgentMonitorTool from its saved state.
      *
      * @param m The map containing the saved data
-     * @return An AgentMonitorTool restored from the data in the map.
      */
     @Override
     protected void restore(Map<String, String> m) {

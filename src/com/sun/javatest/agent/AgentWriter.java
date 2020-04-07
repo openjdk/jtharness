@@ -43,8 +43,8 @@ class AgentWriter extends Writer {
     /**
      * Create a stream that sends its data back to the parent Task.
      *
-     * @arg type        A tag to pass back to parent.sendChars().
-     * @arg parent      The parent object to which to pass the data written to the stream.
+     * @param type        A tag to pass back to parent.sendChars().
+     * @param parent      The parent object to which to pass the data written to the stream.
      */
     AgentWriter(byte type, Agent.Task parent) {
         this.type = type;
