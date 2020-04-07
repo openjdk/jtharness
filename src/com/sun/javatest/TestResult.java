@@ -2814,10 +2814,12 @@ public class TestResult {
             tsr.needsFinalNewline = false;
 
             // scan for newlines and characters requiring escapes
+            int lastCharPos = text.length() - 1;
             for (int i = 0; i < text.length(); i++) {
                 char c = text.charAt(i);
-                if (c < 32) {
-                    if (c == '\n') {
+                char nextChar = (i == lastCharPos) ? 0 : text.charAt(i + 1);
+                if (c < 32) {   // if it's "\r\n" sep we skip the \r and would count only the \n on the next step
+                    if ((c == '\n') || (c == '\r' && nextChar != '\n')) {
                         tsr.numLines++;
                     } else if (c != '\t' && c != '\r') {
                         tsr.numNonASCII++;
@@ -2837,7 +2839,7 @@ public class TestResult {
             // Note this must match the check when reading the text back in,
             // when we also check for just '\n' and not line.separator, because
             // line.separator now, and line.separator then, might be different.
-            if (!text.isEmpty() && !text.endsWith("\n")) {
+            if (!text.isEmpty() && !text.endsWith("\n") && !text.endsWith("\r") && !text.endsWith("\r\n")) {
                 tsr.needsFinalNewline = true;
                 tsr.numLines++;
             }

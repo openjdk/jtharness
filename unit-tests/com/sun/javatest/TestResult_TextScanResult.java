@@ -69,7 +69,7 @@ public class TestResult_TextScanResult {
         assertEquals(1, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
-        assertTrue(scan.needsFinalNewline);
+        assertFalse(scan.needsFinalNewline);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class TestResult_TextScanResult {
         assertEquals(1, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
-        assertTrue(scan.needsFinalNewline);
+        assertFalse(scan.needsFinalNewline);
     }
 
     @Test
@@ -103,13 +103,23 @@ public class TestResult_TextScanResult {
     }
 
     @Test
+    public void space_nr()  {
+        TestResult.TextScanResult scan = TestResult.TextScanResult.scan(" \n\r");
+        assertEquals(0, scan.numBackslashes);
+        assertEquals(2, scan.numLines);
+        assertEquals(0, scan.numNonASCII);
+        assertFalse(scan.needsEscape);
+        assertFalse(scan.needsFinalNewline);
+    }
+
+    @Test
     public void rr()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("\r\r");
         assertEquals(0, scan.numBackslashes);
-        assertEquals(1, scan.numLines);
+        assertEquals(2, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
-        assertTrue(scan.needsFinalNewline);
+        assertFalse(scan.needsFinalNewline);
     }
 
     @Test
@@ -123,10 +133,43 @@ public class TestResult_TextScanResult {
     }
 
     @Test
+    public void nr()  {
+        TestResult.TextScanResult scan = TestResult.TextScanResult.scan("\n\r");
+        assertEquals(0, scan.numBackslashes);
+        assertEquals(2, scan.numLines);
+        assertEquals(0, scan.numNonASCII);
+        assertFalse(scan.needsEscape);
+        assertFalse(scan.needsFinalNewline);
+    }
+
+    @Test
     public void rnrn()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("\r\n\r\n");
         assertEquals(0, scan.numBackslashes);
         assertEquals(2, scan.numLines);
+        assertEquals(0, scan.numNonASCII);
+        assertFalse(scan.needsEscape);
+        assertFalse(scan.needsFinalNewline);
+    }
+
+    /**
+     * n, rn, r
+     */
+    @Test
+    public void nrnr()  {
+        TestResult.TextScanResult scan = TestResult.TextScanResult.scan("\n\r\n\r");
+        assertEquals(0, scan.numBackslashes);
+        assertEquals(3, scan.numLines);
+        assertEquals(0, scan.numNonASCII);
+        assertFalse(scan.needsEscape);
+        assertFalse(scan.needsFinalNewline);
+    }
+
+    @Test
+    public void nnnn()  {
+        TestResult.TextScanResult scan = TestResult.TextScanResult.scan("\n\n\n\n");
+        assertEquals(0, scan.numBackslashes);
+        assertEquals(4, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
         assertFalse(scan.needsFinalNewline);
@@ -196,7 +239,7 @@ public class TestResult_TextScanResult {
     public void twoLines_r()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\rsecond");
         assertEquals(0, scan.numBackslashes);
-        assertEquals(1, scan.numLines);
+        assertEquals(2, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
         assertTrue(scan.needsFinalNewline);
@@ -223,23 +266,33 @@ public class TestResult_TextScanResult {
     }
 
     @Test
+    public void twoLines_n_endsWith_rn()  {
+        TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\nsecond\r\n");
+        assertEquals(0, scan.numBackslashes);
+        assertEquals(2, scan.numLines);
+        assertEquals(0, scan.numNonASCII);
+        assertFalse(scan.needsEscape);
+        assertFalse(scan.needsFinalNewline);
+    }
+
+    @Test
     public void twoLines_n_endsWith_r()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\nsecond\r");
         assertEquals(0, scan.numBackslashes);
         assertEquals(2, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
-        assertTrue(scan.needsFinalNewline);
+        assertFalse(scan.needsFinalNewline);
     }
 
     @Test
     public void twoLines_r_endsWith_r()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\rsecond\r");
         assertEquals(0, scan.numBackslashes);
-        assertEquals(1, scan.numLines);
+        assertEquals(2, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
-        assertTrue(scan.needsFinalNewline);
+        assertFalse(scan.needsFinalNewline);
     }
 
     @Test
@@ -274,10 +327,20 @@ public class TestResult_TextScanResult {
     }
 
     @Test
+    public void threeLines_n_endsWith_n()  {
+        TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\nsecond\nthird\n");
+        assertEquals(0, scan.numBackslashes);
+        assertEquals(3, scan.numLines);
+        assertEquals(0, scan.numNonASCII);
+        assertFalse(scan.needsEscape);
+        assertFalse(scan.needsFinalNewline);
+    }
+
+    @Test
     public void threeLines_n_r()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\nsecond\rthird");
         assertEquals(0, scan.numBackslashes);
-        assertEquals(2, scan.numLines);
+        assertEquals(3, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
         assertTrue(scan.needsFinalNewline);
@@ -287,7 +350,7 @@ public class TestResult_TextScanResult {
     public void threeLines_r_n()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\rsecond\nthird");
         assertEquals(0, scan.numBackslashes);
-        assertEquals(2, scan.numLines);
+        assertEquals(3, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
         assertTrue(scan.needsFinalNewline);
@@ -297,17 +360,27 @@ public class TestResult_TextScanResult {
     public void threeLines_r_n_endsWith_r()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\rsecond\nthird\r");
         assertEquals(0, scan.numBackslashes);
-        assertEquals(2, scan.numLines);
+        assertEquals(3, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
-        assertTrue(scan.needsFinalNewline);
+        assertFalse(scan.needsFinalNewline);
     }
 
     @Test
     public void threeLines_r_n_endsWith_n()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\rsecond\nthird\n");
         assertEquals(0, scan.numBackslashes);
-        assertEquals(2, scan.numLines);
+        assertEquals(3, scan.numLines);
+        assertEquals(0, scan.numNonASCII);
+        assertFalse(scan.needsEscape);
+        assertFalse(scan.needsFinalNewline);
+    }
+
+    @Test
+    public void threeLines_n_n_endsWith_n()  {
+        TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\rsecond\nthird\n");
+        assertEquals(0, scan.numBackslashes);
+        assertEquals(3, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
         assertFalse(scan.needsFinalNewline);
@@ -317,7 +390,7 @@ public class TestResult_TextScanResult {
     public void threeLines_r_n_endsWith_rn()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\rsecond\nthird\r\n");
         assertEquals(0, scan.numBackslashes);
-        assertEquals(2, scan.numLines);
+        assertEquals(3, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
         assertFalse(scan.needsFinalNewline);
@@ -327,7 +400,7 @@ public class TestResult_TextScanResult {
     public void threeLines_r_r()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\rsecond\rthird");
         assertEquals(0, scan.numBackslashes);
-        assertEquals(1, scan.numLines);
+        assertEquals(3, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
         assertTrue(scan.needsFinalNewline);
@@ -357,7 +430,17 @@ public class TestResult_TextScanResult {
     public void threeLines_rn_r()  {
         TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\r\nsecond\rthird");
         assertEquals(0, scan.numBackslashes);
-        assertEquals(2, scan.numLines);
+        assertEquals(3, scan.numLines);
+        assertEquals(0, scan.numNonASCII);
+        assertFalse(scan.needsEscape);
+        assertTrue(scan.needsFinalNewline);
+    }
+
+    @Test
+    public void fourLines_nr_r()  {
+        TestResult.TextScanResult scan = TestResult.TextScanResult.scan("first\n\rsecond\rthird");
+        assertEquals(0, scan.numBackslashes);
+        assertEquals(4, scan.numLines);
         assertEquals(0, scan.numNonASCII);
         assertFalse(scan.needsEscape);
         assertTrue(scan.needsFinalNewline);
