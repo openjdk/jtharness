@@ -163,12 +163,7 @@ public class TestResultCache {
 
         raf = new RandomAccessFile(cacheFile, "rw");
 
-        worker = new Thread() {
-            @Override
-            public void run() {
-                doWorkUntilDone();
-            }
-        };
+        worker = new Thread(() -> doWorkUntilDone());
         worker.setName("TestResultCache.worker" + workerNumber++ + "[" + workDir.getRoot() + "]");
         worker.setDaemon(true); // allows thread to run during shutdown
 
@@ -179,12 +174,7 @@ public class TestResultCache {
 
         worker.start();
 
-        shutdownHandler = new Thread() {
-            @Override
-            public void run() {
-                shutdown();
-            }
-        };
+        shutdownHandler = new Thread(() -> shutdown());
         Runtime.getRuntime().addShutdownHook(shutdownHandler);
     }
 

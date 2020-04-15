@@ -654,24 +654,21 @@ public class Harness {
             throw new Fault(i18n, "harness.alreadyRunning");
         }
 
-        worker = new Thread() {
-            @Override
-            public void run() {
-                boolean ok = false;
-                try {
-                    ok = runTests(p, ZERO_TESTS_ERROR);
-                } catch (Fault | TestSuite.Fault e) {
-                    notifyLocalizedError(e.getMessage());
-                } finally {
-                    synchronized (Harness.this) {
-                        worker = null;
-                        Harness.this.notifyAll();
-                    }
-
-                    notifier.finishedTestRun(ok);
+        worker = new Thread(() -> {
+            boolean ok = false;
+            try {
+                ok = runTests(p, ZERO_TESTS_ERROR);
+            } catch (Fault | TestSuite.Fault e) {
+                notifyLocalizedError(e.getMessage());
+            } finally {
+                synchronized (Harness.this) {
+                    worker = null;
+                    Harness.this.notifyAll();
                 }
+
+                notifier.finishedTestRun(ok);
             }
-        };
+        });
 
         worker.setName("Harness:Worker");
         worker.setPriority(Thread.NORM_PRIORITY - 2); // below AWT!
