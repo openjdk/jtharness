@@ -45,6 +45,9 @@ public class TestUtil {
         strings.addAll(Arrays.asList(subComponents));
         return getPathToData(strings.toArray(new String[strings.size()]));
     }
+    public static String getAbsPathToTestTestSuite(String... subComponents) {
+        return new File(getPathToTestTestSuite(subComponents)).toPath().toAbsolutePath().toString();
+    }
 
     public static String getPathToData(String... subComponents) {
         String property = System.getProperty("unit-tests.data.dir");
