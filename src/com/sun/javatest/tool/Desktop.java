@@ -1632,7 +1632,7 @@ public class Desktop {
             } else {
                 s = new HashSet<>();
                 for (String name : listOfManagersToLoad.split(",")) {
-                    s.add(Class.forName(name).getDeclaredConstructor().newInstance());
+                    s.add(Class.forName(name).getDeclaredConstructor(Desktop.class).newInstance(this));
                 }
             }
             toolManagers = s.toArray(new ToolManager[s.size()]);
