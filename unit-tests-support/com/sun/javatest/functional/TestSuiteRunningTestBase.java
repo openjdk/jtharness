@@ -110,7 +110,19 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
 //        System.setProperty("javatest.preferences.file", "NONE");
 //        System.setProperty("debug.com.sun.javatest.TRT_TreeNode", "2");
 
+        predefineStandardCoreJTHManagers();
 
+        Path reportDir = TestUtil.createTempDirectory("jt-report-");
+        reportDirAbsPath = reportDir.toAbsolutePath().toString();
+
+        // not allowing to exit
+        ExitCount.inc();
+
+        workDirAbsPath = TestUtil.createTempDirAndReturnAbsPathString("jt-work-");
+        summaryTXT = reportDir.resolve("text").resolve("summary.txt");
+    }
+
+    public static void predefineStandardCoreJTHManagers() {
         System.setProperty(Report.REPORT_FORMATS_TO_LOAD,
                 "com.sun.javatest.report.HTMLReport" +
                         ",com.sun.javatest.report.PlainTextReport" +
@@ -132,15 +144,6 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
 
         System.setProperty(Harness.DEBUG_OBSERVER_CLASSNAME_SYS_PROP,
                 "com.sun.javatest.functional.TestObserver");
-
-        Path reportDir = TestUtil.createTempDirectory("jt-report-");
-        reportDirAbsPath = reportDir.toAbsolutePath().toString();
-
-        // not allowing to exit
-        ExitCount.inc();
-
-        workDirAbsPath = TestUtil.createTempDirAndReturnAbsPathString("jt-work-");
-        summaryTXT = reportDir.resolve("text").resolve("summary.txt");
     }
 
     private Map<Path, List<String>> jtrsCache = new HashMap<>();
