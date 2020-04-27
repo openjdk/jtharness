@@ -117,6 +117,7 @@
         <patternset refid="javatest.packages.jar"/>
         <!-- needed for running a complete set of unit tests but not to be packed in javatest.jar -->
         <include name="com/sun/tck/**"/>
+        <include name="com/oracle/**"/>
     </patternset>
 
         <patternset id="test.packages">
