@@ -710,5 +710,7 @@
         <target name="test-copyrights" depends="compile.test.copyright.classes">
                 <taskdef name="checkCopyrights" classpath="${build.classes}" classname="com.sun.jct.utils.copyrightcheck.CheckCopyrights"/>
                 <checkCopyrights pattern="${copyright.pattern}" dir="${src.dir}" includes="${copyright.includes}" excludes="${copyright.excludes}" failOnError="yes"/>
+                <checkCopyrights pattern="${copyright.pattern}" dir="${unit-tests.src-support.dir}" includes="${copyright.includes}" excludes="${copyright.excludes}" failOnError="yes"/>
+                <checkCopyrights pattern="${copyright.pattern}" dir="${unit-tests.src.dir}" includes="${copyright.includes}" excludes="${copyright.excludes}" failOnError="yes"/>
         </target>
 </project>
