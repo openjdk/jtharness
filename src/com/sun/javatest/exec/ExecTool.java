@@ -87,7 +87,7 @@ public class ExecTool extends Tool implements ExecModel,
         this.etm = mgr;
         context = createContextManager();
         ET_ControlFactory controlFactory = context.getExecToolControlFactory(this, uif);
-        ET_PrivateControlFactory prviateFactory = new ET_PrivateControlFactory(this, uif, this);
+        ET_PrivateControlFactory privateFactory = new ET_PrivateControlFactory(this, uif, this);
 
 
         sessionControl = controlFactory.createSessionControl();
@@ -101,7 +101,7 @@ public class ExecTool extends Tool implements ExecModel,
         controls.add(sessionControl);
 
 
-        runTestsHandler = prviateFactory.createRunTestControl();
+        runTestsHandler = privateFactory.createRunTestControl();
         runTestsHandler.setConfig(session);
         controls.add(runTestsHandler);
 
@@ -116,7 +116,7 @@ public class ExecTool extends Tool implements ExecModel,
         }
         controls.add(filterHandler);
 
-        testTreePanel = prviateFactory.createTestTreeControl();
+        testTreePanel = privateFactory.createTestTreeControl();
         testTreePanel.setFilterSelectionHandler(filterHandler.getFilterSelectionHandler());
         testTreePanel.setParameters(session.getParameters());
         runTestsHandler.setTreePanelModel(testTreePanel.getTreePanelModel());
