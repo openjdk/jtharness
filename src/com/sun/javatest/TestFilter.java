@@ -108,7 +108,7 @@ public abstract class TestFilter {
      */
     public interface Observer {
         /**
-         * Notification methodcalled when a test has been rejected.
+         * Notification method called when a test has been rejected.
          *
          * @param d        The test that has been rejected.
          * @param rejector The filter rejecting the test.
