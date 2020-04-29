@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Concurrent implementation of test execution engine
  * based on java.util.concurrent APIs to run tests effectively using a fixed thread pool.
- * Inheriting default test runner's implementaiton of running a single test.
+ * Inheriting default test runner's implementation of running a single test.
  *
  * THIS IS YET AN EXPERIMENTAL IMPLEMENTATION - USE AT YOUR OWN RISK
  */
