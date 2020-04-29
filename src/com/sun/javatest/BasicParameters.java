@@ -839,10 +839,7 @@ public abstract class BasicParameters
             v.add(statusFilter);
         }
 
-        TestFilter testSuiteFilter = getRelevantTestFilter();
-        if (testSuiteFilter != null) {
-            v.add(testSuiteFilter);
-        }
+        v.addAll(getAllRelevantFiltersInTheSuite());
 
         if (v.isEmpty()) {
             return null;

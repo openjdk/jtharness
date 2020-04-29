@@ -38,6 +38,8 @@ import com.sun.javatest.util.I18NResourceBundle;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -224,15 +226,15 @@ public class BasicSession implements SessionExt {
         isSorted = true;
     }
 
-    public TestFilter getTestFilter(String name) {
+    public List<TestFilter> getTestFilter(String name) {
         if (config == null) {
             throw new IllegalStateException(i18n.getString("bc.configNotReady.err"));
         }
-        TestFilter tf;
+        List<TestFilter> filters;
         if (filterNames.contains(name)) {
-            tf = findFilter(name);
-            if (tf != null) {
-                return tf;
+            filters = findFilter(name);
+            if (!filters.isEmpty()) {
+                return filters;
             }
         }
         throw new IllegalArgumentException(i18n.getString("bc.unknownFilter.err", name));
@@ -244,17 +246,17 @@ public class BasicSession implements SessionExt {
      * @param name
      * @return found filter or null, if not found.
      */
-    protected TestFilter findFilter(String name) {
+    protected List<TestFilter> findFilter(String name) {
         if (EL_FILTER.equals(name)) {
-            return config.getExcludeListFilter();
+            return Arrays.asList(config.getExcludeListFilter());
         } else if (KWD_FILTER.equals(name)) {
-            return config.getKeywordsFilter();
+            return Arrays.asList(config.getKeywordsFilter());
         } else if (PRIOR_FILTER.equals(name)) {
-            return config.getPriorStatusFilter();
+            return Arrays.asList(config.getPriorStatusFilter());
         } else if (RELEVANT_FILTER.equals(name)) {
-            return config.getRelevantTestFilter();
+            return config.getAllRelevantFiltersInTheSuite();
         }
-        return null;
+        return Collections.emptyList();
     }
 
     public List<String> getTestFilterNames() {

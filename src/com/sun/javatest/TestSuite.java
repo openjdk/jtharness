@@ -54,8 +54,11 @@ import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.logging.Handler;
@@ -554,9 +557,27 @@ public class TestSuite {
      * @param filterEnv Configuration data that may be used by the filter.
      * @return a test suite filter, or null if no test suite specific filter is
      * required for this test suite.
+     * @deprecated this method is deprecated, it is temporarily kept for easier migration
+     * of client subclasses that provide their implementaitons of this method.
+     * To do the migration please override {@code createAdditionalTestFilters} to return a collection of filters (even having one element).
+     * Both this method and {@code createAdditionalTestFilters} are called by the framework and taken into account.
      */
+    @java.lang.Deprecated
     public TestFilter createTestFilter(TestEnvironment filterEnv) {
         return null;
+    }
+
+    /**
+     * Create test suite specific filters to be used to filter the tests for a test run.
+     * The method should return empty collection if no test suite specific filtering is required.
+     * Default implementation of this method returns an empty collection.
+     * Both this method and {@code createTestFilter} are called by the framework and taken into account.
+     *
+     * @param filterEnv Configuration data that may be used by the filters.
+     * @return collection of test suite filters (if there are any)
+     */
+    public List<TestFilter> createTestFilters(TestEnvironment filterEnv) {
+        return Collections.emptyList();
     }
 
     /**

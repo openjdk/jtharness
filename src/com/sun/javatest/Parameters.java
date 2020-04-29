@@ -27,6 +27,8 @@
 package com.sun.javatest;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -246,17 +248,38 @@ public interface Parameters {
     TestFilter getPriorStatusFilter();
 
     /**
-     * Get a test-suite specific filter which will filter tests according
-     * to test-suite-specific criteria, as perhaps determined by
+     * Get test-suite specific filters which will filter tests according
+     * to test-suite-specific criterias, as perhaps determined by
      * a configuration interview. For example, if the platform being tested
      * does not support some optional feature, the tests for that feature
      * could be automatically filtered out. If no such filter is required,
-     * null can be returned.
+     * empty collection can be returned.
      *
-     * @return a test-suite-specific filter, or null if no such filter is
+     * @return test-suite-specific filters, or empty collection if no such filter is
      * required.
      */
     TestFilter getRelevantTestFilter();
+
+    /**
+     * Get test-suite specific filters which will filter tests according
+     * to test-suite-specific criterias, as perhaps determined by
+     * a configuration interview. For example, if the platform being tested
+     * does not support some optional feature, the tests for that feature
+     * could be automatically filtered out. If no such filter is required,
+     * empty collection can be returned.
+     *
+     * @return test-suite-specific filters, or empty collection if no such filter is
+     * required.
+     */
+    default List<TestFilter> getAllRelevantFiltersInTheSuite() {
+        List<TestFilter> result = new ArrayList<>();
+        TestFilter relevantTestFilter = getRelevantTestFilter();
+        if (relevantTestFilter != null) {
+            result.add(relevantTestFilter);
+        }
+        result.addAll(getTestSuite().createTestFilters(getEnv()));
+        return result;
+    }
 
     /**
      * Get an array of the non-null filters returned from
@@ -268,7 +291,7 @@ public interface Parameters {
      * @see #getExcludeListFilter
      * @see #getKeywordsFilter
      * @see #getPriorStatusFilter
-     * @see #getRelevantTestFilter
+     * @see #getRelevantTestFilters
      */
     TestFilter[] getFilters();
 

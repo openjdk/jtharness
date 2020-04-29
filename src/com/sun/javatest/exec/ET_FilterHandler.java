@@ -51,6 +51,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +80,7 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
     private ParameterFilter paramFilter;    // current param filter
     private BasicCustomTestFilter bctf;     // "custom" filter
     private AllTestsFilter allFilter;
-    private TestFilter certFilter;          // "certification" filter
+    private Collection<TestFilter> certFilters;          // "certification" filters
     // custom filter info
     private TestSuite lastTs;
 
@@ -219,39 +220,42 @@ public class ET_FilterHandler implements ET_FilterControl, Session.Observer {
 
         paramFilter.update(ips);
 
-        TestFilter newCertFilter = ips.getRelevantTestFilter();
+        List<TestFilter> newCertFilters = ips.getAllRelevantFiltersInTheSuite();
+
         // check for filter behavior equality
-        if (newCertFilter == null) {
-            if (certFilter != null) {
+        if (newCertFilters.isEmpty()) {
+            if (certFilters != null) {
                 // we had a certification filter earlier, now it is gone
-                if (fHandler.getActiveFilter() == certFilter) {
+                if (certFilters.contains(fHandler.getActiveFilter())) {
                     // switch to another filter before removing
                     // XXX may want to notify user!
                     fHandler.setFilter(paramFilter);
                 }
 
-                fConfig.remove(certFilter);
+                certFilters.forEach(fConfig::remove);
             } else {
                 // FilterConfig is clean
             }
         }   // outer if
-        else if (!newCertFilter.equals(certFilter)) {
+        else if (!newCertFilters.equals(certFilters)) {
             // check for reference equality
-            if (newCertFilter == certFilter) {
+            if (newCertFilters == certFilters) {
                 // this is ignored by fConfig if it is not relevant
-                fConfig.notifyUpdated(certFilter);
+                certFilters.forEach(fConfig::notifyUpdated);
             } else {
                 // rm old one, put in new one
-                fConfig.add(newCertFilter);
+                newCertFilters.forEach(fConfig::add);
 
-                if (fHandler.getActiveFilter() == certFilter) {
+                if (certFilters.contains(fHandler.getActiveFilter())) {
                     // switch to another filter before removing
                     // XXX may want to notify user!
-                    fHandler.setFilter(newCertFilter);
+                    if ( !newCertFilters.isEmpty()) {
+                        fHandler.setFilter(newCertFilters.get(0));
+                    }
                 }
 
-                fConfig.remove(certFilter);
-                certFilter = newCertFilter;
+                certFilters.forEach(fConfig::remove);
+                certFilters = newCertFilters;
             }
         } else {
             // filter is the same

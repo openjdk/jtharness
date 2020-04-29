@@ -1024,15 +1024,7 @@ public abstract class InterviewParameters
             v.add(statusFilter);
         }
 
-        TestFilter testSuiteFilter = null;
-        try {
-            testSuiteFilter = getRelevantTestFilter();
-        } catch (Exception e) {
-            testSuiteFilter = null;
-        }
-        if (testSuiteFilter != null) {
-            v.add(testSuiteFilter);
-        }
+        v.addAll(getAllRelevantFiltersInTheSuite());
 
         if (v.isEmpty()) {
             return null;
