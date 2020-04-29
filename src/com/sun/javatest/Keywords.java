@@ -154,7 +154,7 @@ public abstract class Keywords {
     }
 
     /**
-     * Get a human digestable version of the kw represented by this object.
+     * Get a human digestible version of the kw represented by this object.
      *
      * @return Human readable, fully descriptive rendering of current kw setting
      */

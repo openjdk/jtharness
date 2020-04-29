@@ -180,7 +180,7 @@ public class Harness {
             }
         }
 
-        // for convienence, null is never returned
+        // for convenience, null is never returned
         return result;
     }
 
