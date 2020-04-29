@@ -559,8 +559,8 @@ public class TestSuite {
      * required for this test suite.
      * @deprecated this method is deprecated, it is temporarily kept for easier migration
      * of client subclasses that provide their implementaitons of this method.
-     * To do the migration please override {@code createAdditionalTestFilters} to return a collection of filters (even having one element).
-     * Both this method and {@code createAdditionalTestFilters} are called by the framework and taken into account.
+     * To do the migration please override {@code createTestFilters} to return a collection of filters (even having one element).
+     * Both this method and {@code createTestFilters} are called by the framework and taken into account.
      */
     @java.lang.Deprecated
     public TestFilter createTestFilter(TestEnvironment filterEnv) {
