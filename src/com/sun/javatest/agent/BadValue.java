@@ -27,7 +27,7 @@
 package com.sun.javatest.agent;
 
 /**
- * This exception is used to report bad user-specifed data.
+ * This exception is used to report bad user-specified data.
  */
 public class BadValue extends Exception {
     private String[] msgs;

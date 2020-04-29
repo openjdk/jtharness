@@ -329,7 +329,7 @@ public class AgentMain {
      * Normally called from createAgent.
      *
      * @return a connection factory based on the values decoded by decodeAllArgs
-     * @throws AgentMain.Fault if there is a problem createing the factory
+     * @throws AgentMain.Fault if there is a problem creating the factory
      */
     protected ConnectionFactory createConnectionFactory() throws Fault {
         String s = AgentMain.class.getName();
@@ -409,7 +409,7 @@ public class AgentMain {
      * by the agent.
      *
      * @return an agent based on the values decoded by decodeAllArgs
-     * @throws AgentMain.Fault if there is a problem createing the agent
+     * @throws AgentMain.Fault if there is a problem creating the agent
      */
     protected Agent createAgent() throws Fault {
         ConnectionFactory cf = createConnectionFactory();

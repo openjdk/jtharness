@@ -186,7 +186,7 @@ public class Agent implements Runnable {
      * If an incoming request permits it, occurrences of certain substrings
      * will be replaced with corresponding local variants. This is typically
      * used to remap file systems which might have different mount points
-     * on different systems, but has been superceded by the environment's
+     * on different systems, but has been superseded by the environment's
      * map substitution facility.
      *
      * @param map The translation map to be used.

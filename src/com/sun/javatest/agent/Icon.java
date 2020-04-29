@@ -101,7 +101,7 @@ class Icon extends Component {
     // --- member variables ------------------------------------------
 
     /**
-     * provides sychronization with the determination of the image size.
+     * provides synchronization with the determination of the image size.
      */
     protected void waitForSize() {
         MediaTracker tracker = new MediaTracker(this);

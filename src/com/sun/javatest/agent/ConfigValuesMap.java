@@ -47,7 +47,7 @@ import java.util.Vector;
  * adjusting filenames because of differences introduced by different mount points
  * for various file systems.
  * <p>
- * This facility has been largely superceded by the map substitution mechanism
+ * This facility has been largely superseded by the map substitution mechanism
  * provided by environment files.
  */
 public class ConfigValuesMap {
