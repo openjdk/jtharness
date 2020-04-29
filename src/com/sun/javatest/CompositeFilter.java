@@ -99,7 +99,7 @@ public class CompositeFilter extends TestFilter {
      * This is usually acceptable for composites which are operating at a level
      * where messages will never be user-visible.
      * <p>
-     * An empty set of filters is accepted for convienience, but will result
+     * An empty set of filters is accepted for convenience, but will result
      * allowing all tests passing through for filtering to be accepted.
      *
      * @param filters The filters that constitute this composite filter.
