@@ -1181,7 +1181,7 @@ public class Interview {
     /**
      * Get the current set path of questions, including some things normally
      * hidden.  Hidden, disabled and final questions are included upon demand.
-     * The list of questions is flattend to only include questions, no
+     * The list of questions is flattened to only include questions, no
      * representation of the interview structure is given.
      *
      * @param includeFinals Should FinalQuestions be included.
@@ -1485,7 +1485,7 @@ public class Interview {
      * Remove a named marker for a question.
      *
      * @param q    The question for which to remove the marker
-     * @param name The name of the marker to be removeded.
+     * @param name The name of the marker to be removed.
      * @throws NullPointerException if the question is null.
      */
     void removeMarker(Question q, String name) {

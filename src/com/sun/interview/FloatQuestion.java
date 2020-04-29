@@ -334,7 +334,7 @@ public abstract class FloatQuestion extends Question {
             ParsePosition pos = new ParsePosition(0);
             Number num = fmt.parse(s, pos);
             if (pos.getIndex() != s.length()) {
-                fmt = NumberFormat.getNumberInstance(Locale.getDefault()); //aternative
+                fmt = NumberFormat.getNumberInstance(Locale.getDefault()); //alternative
                 pos = new ParsePosition(0);
                 num = fmt.parse(s, pos);
             }

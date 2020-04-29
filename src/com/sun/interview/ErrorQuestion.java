@@ -58,7 +58,7 @@ public class ErrorQuestion extends NullQuestion {
     }
 
     /*
-     * Returns the MIME type for the text retutned
+     * Returns the MIME type for the text returned
      * by getText() method.
      * Supported types are "text/plain" and "text/html"
      */

@@ -144,7 +144,7 @@ public class Help {
     }
 
     /**
-     * An exception used to report errors while using a TestSUite object.
+     * An exception used to report errors while using a TestSuite object.
      */
     public static class Fault extends Exception {
         /**
