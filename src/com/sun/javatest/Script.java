@@ -194,7 +194,7 @@ public abstract class Script {
     protected PrintWriter trOut;
     /**
      * Notifier of starting/finishing tests.
-     * Initialized only when useNotifer() returns true.
+     * Initialized only when useNotifier() returns true.
      *
      * @see #useNotifier
      * @see #setNotifier
@@ -479,7 +479,7 @@ public abstract class Script {
 
     /**
      * The primary method to be provided by Scripts. It is responsible for compiling
-     * and executing the test appropiately.  Normally, a script should call `init' and
+     * and executing the test appropriately.  Normally, a script should call `init' and
      * then decode any script-specific options it is given in `args'. It should then
      * examine the test description it is given so that it can compile and execute
      * the test as appropriate. Various convenience routines are provided to
@@ -1193,7 +1193,7 @@ public abstract class Script {
      * </DL>
      * For full details, the documentation for the various appropriate classes.
      *
-     * <p> The use of `<code>command.<em>key</em></code>' supercedes an earlier
+     * <p> The use of `<code>command.<em>key</em></code>' supersedes an earlier
      * mechanism involving multiple properties. For backwards compatibility,
      * if the `<code>command.<em>key</em></code>' property is not found, the
      * properties for the earlier mechanism are checked as well.
