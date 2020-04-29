@@ -27,8 +27,23 @@
 
 package com.sun.tck;
 
+import com.oracle.tck.lib.autd2.TestResult;
+import com.oracle.tck.lib.autd2.TestRunner;
+import com.oracle.tck.lib.autd2.processors.Processor;
+import com.oracle.tck.lib.autd2.processors.tc.DefaultExecutionResult;
+import com.oracle.tck.lib.autd2.processors.tc.DefaultNoArgTestCaseMethodSetting;
+import com.oracle.tck.lib.autd2.processors.tc.DefaultThreadRunning;
+import com.oracle.tck.lib.autd2.processors.tc.TestCaseResultCanBeStatus;
+import com.oracle.tck.lib.autd2.processors.tg.NonPublicTestCasesReporter;
+import com.oracle.tck.lib.autd2.processors.tg.PublicNonTestCaseMethodsReporter;
+import com.oracle.tck.lib.autd2.processors.tg.RunningTestCases;
+import com.oracle.tck.lib.autd2.processors.tg.TestCaseExcluding;
+import com.oracle.tck.lib.autd2.processors.tg.TestCaseSelecting;
 import com.sun.tck.lib.Assert;
 import com.sun.tck.lib.AssertionFailedException;
+
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -40,8 +55,72 @@ import java.util.Random;
  */
 public class TU {
 
+    public static final String[] EMPTY_ARGV = new String[]{};
+
     public static String generateRandomString() {
         return "random" + new Random().nextInt();
+    }
+
+    /**
+     * Processors which are bound to @TestGroup annotation
+     */
+    public static final Set<Class<? extends Processor.TestGroupProcessor>> TG_PROC = new HashSet() {{addAll(Arrays.asList(
+            TestCaseSelecting.class,
+            TestCaseExcluding.class,
+            RunningTestCases.class,
+            PublicNonTestCaseMethodsReporter.class,
+            NonPublicTestCasesReporter.class));}};
+
+
+    /**
+     * Processors which are bound to @TestCase annotation
+     */
+    public static final Set<Class<? extends Processor.TestCaseProcessor>> TC_PROC_STATUS_RECOGNIZED = new HashSet() {{addAll(Arrays.asList(
+            DefaultThreadRunning.class,
+            DefaultExecutionResult.class,
+            DefaultNoArgTestCaseMethodSetting.class,
+            TestCaseResultCanBeStatus.class
+    ));}};
+    /**
+     * Processors which are bound to @TestCase annotation
+     */
+    public static final Set<Class<? extends Processor.TestCaseProcessor>> TC_PROC_STATUS_NOT_EXPECTED = new HashSet() {{addAll(Arrays.asList(
+            DefaultThreadRunning.class,
+            DefaultExecutionResult.class,
+            DefaultNoArgTestCaseMethodSetting.class
+    ));}};
+
+
+    public static TestResult runTestGroup(Object tg, String... args) {
+        PrintWriter log = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.err, StandardCharsets.UTF_8)), true);
+        PrintWriter ref = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8)), true);
+        return runTestGroup(tg, log, ref, args);
+    }
+
+    public static TestResult runTestGroup(Object tg) {
+        PrintWriter log = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.err, StandardCharsets.UTF_8)), true);
+        PrintWriter ref = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8)), true);
+        return runTestGroup(tg, log, ref, EMPTY_ARGV);
+    }
+
+    public static TestResult runTestGroup(Object tg,
+                                          PrintWriter log, PrintWriter ref,
+                                          Set<Class<? extends Processor.TestGroupProcessor>> additionalUserTGProcessors,
+                                          Set<Class<? extends Processor.TestCaseProcessor>>  additionalUserTCProcessors,
+                                          String... args) {
+        Set<Class<? extends Processor.TestGroupProcessor>> finalTGProc = new HashSet<>(TG_PROC);
+        Set<Class<? extends Processor.TestCaseProcessor>> finalTCProc = new HashSet<>(TC_PROC_STATUS_RECOGNIZED);
+        finalTGProc.addAll(additionalUserTGProcessors);
+        finalTCProc.addAll(additionalUserTCProcessors);
+        return TestRunner.run(tg, log, ref, finalTGProc, finalTCProc, args);
+    }
+
+    public static TestResult runTestGroup(
+            Object test,
+            PrintWriter log,
+            PrintWriter ref,
+            String... args) {
+        return runTestGroup(test, log, ref, new HashSet<>(), new HashSet<>(), args);
     }
 
 }
