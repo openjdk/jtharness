@@ -90,7 +90,7 @@ public class ExpandTestFinder extends TagTestFinder {
             "interactive",
             "jniinvocationapi",
             "optionalPJava",
-            // will eventually be superceded/deprecated
+            // will eventually be superseded/deprecated
             "serial"
     };
 

@@ -485,7 +485,7 @@ public class BinaryTestWriter {
         }
 
         /**
-         * Return the number of sstrings that were written to the output file.
+         * Return the number of strings that were written to the output file.
          * Not all strings are written out: only frequently used ones are.
          */
         int getWrittenSize() {
@@ -543,7 +543,7 @@ public class BinaryTestWriter {
 
         /**
          * Write a reference to a string to a stream.  The string must have
-         * previously been added into nthe string table, and the string table
+         * previously been added into the string table, and the string table
          * written out.
          * If the string is a frequent one, a pointer to its position in the
          * previously written stream will be generated. If it is not a frequent
@@ -654,7 +654,7 @@ public class BinaryTestWriter {
 
         /**
          * Write the contents of the table to a stream. The position of each test
-         * description in the stream is recorded, so that a random acess stream
+         * description in the stream is recorded, so that a random access stream
          * can randomly access the individual test descriptions. The table is
          * written as a count, followed by that many encoded test descriptions.
          * Each test description is written as a count followed by that many

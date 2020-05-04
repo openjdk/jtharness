@@ -208,7 +208,7 @@ public class BinaryTestFinder extends TestFinder {
 
         // temporary fix which will handle most TCKs
         // need to find algorithm to determine if the path is a test in
-        // a leightweight manner
+        // a lightweight manner
         if (path.getPath().endsWith(".html") ||
                 path.getPath().endsWith(".java") ||
                 path.getPath().endsWith(".xml")) {

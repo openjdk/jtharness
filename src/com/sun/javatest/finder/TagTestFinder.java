@@ -239,7 +239,7 @@ public class TagTestFinder extends TestFinder {
         // subdirectories and other files that should be scanned
         String[] names = dir.list();
         if (names == null) {
-            // from File spec, only null if an i/o problem occured
+            // from File spec, only null if an i/o problem occurred
             error(i18n, "tag.readError", dir.getAbsolutePath());
             return;
         }
