@@ -27,7 +27,7 @@
 
 package com.sun.tck.lib.asserts;
 
-import com.sun.tck.TU;
+import com.oracle.tck.lib.autd2.unittests.TU;
 import com.sun.tck.TestObject;
 import com.sun.tck.lib.Assert;
 import com.sun.tck.lib.AssertionFailedException;

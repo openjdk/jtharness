@@ -25,7 +25,7 @@
  * questions.
  */
 
-package com.sun.tck;
+package com.oracle.tck.lib.autd2.unittests;
 
 import com.oracle.tck.lib.autd2.TestResult;
 import com.oracle.tck.lib.autd2.TestRunner;

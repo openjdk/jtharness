@@ -30,7 +30,6 @@ import com.oracle.tck.lib.autd2.TestResult;
 import com.oracle.tck.lib.autd2.TestedStatement;
 
 import com.sun.javatest.Status;
-import com.sun.tck.TU;
 import com.sun.tck.test.TestCase;
 import com.sun.tck.test.TestGroup;
 import org.junit.Assert;

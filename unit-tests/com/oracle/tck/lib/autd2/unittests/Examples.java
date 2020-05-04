@@ -27,7 +27,6 @@
 package com.oracle.tck.lib.autd2.unittests;
 
 import com.oracle.tck.lib.autd2.TestResult;
-import com.sun.tck.TU;
 import com.sun.tck.lib.ExpectedExceptions;
 import com.sun.tck.lib.tgf.DataFactory;
 import com.sun.tck.lib.tgf.TestData;
