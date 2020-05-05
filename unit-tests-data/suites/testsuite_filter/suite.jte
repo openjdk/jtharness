@@ -105,10 +105,3 @@ env.initurl-serial-com1.javaHome=L:\\java\\jdk1.1.7\\win32
 env.initurl-report.description=Environment to report the results of tests in the "initurl" test suite
 env.initurl-report.finder=com.sun.javatest.finder.HTMLTestFinder
 env.initurl-report.script=com.sun.javatest.lib.ReportScript
-
-
-#env.initurl.test=VALUE_NOT_DEFINED: hello
-
-
-env.initurl-win32.inherits=initurl
-env.initurl-win32.javaHome=L:\\java\\jdk1.1.7\\win32
