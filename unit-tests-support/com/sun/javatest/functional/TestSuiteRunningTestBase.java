@@ -104,14 +104,14 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
     }
 
 
-    protected void checkSystemErrLineIs(int lineNumber, String expectedContent) {
-        Assert.assertEquals(expectedContent, savedSystemErr.get(lineNumber));
+    protected void checkSystemErrLineIs(int lineZeroBasedIndex, String expectedContent) {
+        Assert.assertEquals(expectedContent, savedSystemErr.get(lineZeroBasedIndex));
     }
 
-    protected void checkSystemErrLineStartsWith(int lineNumber, String expectedPrefix) {
+    protected void checkSystemErrLineStartsWith(int lineZeroBasedIndex, String expectedPrefix) {
         Assert.assertTrue(
-                "\"" + savedSystemErr.get(lineNumber) + "\" is expected to start with \"" + expectedPrefix + "\"",
-                savedSystemErr.get(lineNumber).startsWith(expectedPrefix));
+                "\"" + savedSystemErr.get(lineZeroBasedIndex) + "\" is expected to start with \"" + expectedPrefix + "\"",
+                savedSystemErr.get(lineZeroBasedIndex).startsWith(expectedPrefix));
     }
 
     protected abstract List<String> getTailArgs();
