@@ -49,6 +49,7 @@ public class InitUrl1 extends TestSuiteRunningTestBase {
         checkJTRLine(6, "keywords=compile positive shoulderror", "comp", "index_CompError.jtr");
         checkJTRLine(17, "execStatus=Error. no sources specified in test description", "comp", "index_CompError.jtr");
 
+        checkSystemErrLineIs(6, "Test results: passed: 4; failed: 2; error: 1 ");
     }
 
     @Override
