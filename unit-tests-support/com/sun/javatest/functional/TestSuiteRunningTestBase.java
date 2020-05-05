@@ -104,11 +104,11 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
     }
 
 
-    protected void testSystemErrLineIs(int lineNumber, String expectedContent) {
+    protected void checkSystemErrLineIs(int lineNumber, String expectedContent) {
         Assert.assertEquals(expectedContent, savedSystemErr.get(lineNumber));
     }
 
-    protected void testSystemErrLineStartsWith(int lineNumber, String expectedPrefix) {
+    protected void checkSystemErrLineStartsWith(int lineNumber, String expectedPrefix) {
         Assert.assertTrue(
                 "\"" + savedSystemErr.get(lineNumber) + "\" is expected to start with \"" + expectedPrefix + "\"",
                 savedSystemErr.get(lineNumber).startsWith(expectedPrefix));
