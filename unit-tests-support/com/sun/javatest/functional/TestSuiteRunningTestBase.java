@@ -40,11 +40,13 @@ import org.junit.Assert;
 import org.junit.Before;
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,8 +59,20 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
     protected String reportDirAbsPath;
     protected Path summaryTXT;
     private List<String> summaryTxt;
+    private final List<String> savedSystemErr = new ArrayList<>();
 
     protected void runJavaTest() {
+
+        System.setErr(new PrintStream(System.err) {
+            @Override
+            public void write(byte[] buf, int off, int len) {
+                super.write(buf, off, len);
+                String printed = new String(buf, off, len);
+                for (String s : printed.split("\n")) {
+                    savedSystemErr.add(s);
+                }
+            }
+        });
 
         List<String> args = new LinkedList<>();
         args.add("-Eworkdir=" + workDirAbsPath);
@@ -87,6 +101,17 @@ public abstract class TestSuiteRunningTestBase extends TestBase {
         int error = expectedTestRunFinalStats[Status.ERROR];
         int notRun = expectedTestRunFinalStats[Status.NOT_RUN];
         TestObserver.assertFinalStats(passed, failed, error, notRun, getExpectedNumberOfTestsSkipped());
+    }
+
+
+    protected void testSystemErrLineIs(int lineNumber, String expectedContent) {
+        Assert.assertEquals(expectedContent, savedSystemErr.get(lineNumber));
+    }
+
+    protected void testSystemErrLineStartsWith(int lineNumber, String expectedPrefix) {
+        Assert.assertTrue(
+                "\"" + savedSystemErr.get(lineNumber) + "\" is expected to start with \"" + expectedPrefix + "\"",
+                savedSystemErr.get(lineNumber).startsWith(expectedPrefix));
     }
 
     protected abstract List<String> getTailArgs();
