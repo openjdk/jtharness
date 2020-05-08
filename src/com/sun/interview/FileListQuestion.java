@@ -458,12 +458,7 @@ public abstract class FileListQuestion extends Question {
      */
     @Override
     protected void load(Map<String, String> data) {
-        Object o = data.get(tag);
-        if (o instanceof File[]) {
-            setValue((File[]) o);
-        } else if (o instanceof String) {
-            setValue(split((String) o));
-        }
+        setValue(split(data.get(tag)));
     }
 
     /**
