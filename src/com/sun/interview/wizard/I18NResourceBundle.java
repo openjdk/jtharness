@@ -92,7 +92,7 @@ class I18NResourceBundle extends ResourceBundle {
      * @return the formatted string
      */
     public String getString(String key, Object arg) {
-        return getString(key, arg);
+        return getString(key, new Object[] {arg});
     }
 
     /**
