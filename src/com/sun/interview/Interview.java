@@ -2642,7 +2642,7 @@ public class Interview {
      * @return the formatted string
      */
     private String getI18NString(String key, Object arg) {
-        return getI18NString(key, arg);
+        return getI18NString(key, new Object[]{arg});
     }
 
     /**
