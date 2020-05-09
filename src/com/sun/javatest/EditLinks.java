@@ -273,12 +273,12 @@ public class EditLinks {
 
             File canonicalDest = dest.getCanonicalFile();
             ignores.add(canonicalDest);
-            String[] files = src.list();
-            if (files != null) {
-                for (String file : files) {
-                    File srcFile = new File(src, file);
-                    File destFile = new File(dest, file);
-                    if (ignores.contains(file) || ignores.contains(srcFile.getCanonicalFile())) {
+            String[] fileNames = src.list();
+            if (fileNames != null) {
+                for (String fileName : fileNames) {
+                    File srcFile = new File(src, fileName);
+                    File destFile = new File(dest, fileName);
+                    if (ignores.contains(srcFile.getCanonicalFile())) {
                         continue;
                     }
                     edit(srcFile, destFile);
