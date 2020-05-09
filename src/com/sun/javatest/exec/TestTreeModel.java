@@ -1048,7 +1048,7 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
      */
     @Deprecated
     void invalidateNodeInfo(TestResultTable.TreeNode node) {
-        invalidateNodeInfo(node);
+        invalidateNodeInfo(new TestResultTable.TreeNode[]{node});
     }
 
     /**
