@@ -309,12 +309,7 @@ public abstract class FileQuestion extends Question {
      */
     @Override
     protected void load(Map<String, String> data) {
-        Object o = data.get(tag);
-        if (o instanceof File) {
-            setValue((File) o);
-        } else if (o instanceof String) {
-            setValue(new File((String) o));
-        }
+        setValue(new File(data.get(tag)));
     }
 
     /**
