@@ -1940,7 +1940,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
 
         private Hashtable<String, TestResult> runningTests;
         private Hashtable<Object, Integer> activeNodes;
-        private Integer ONE = Integer.valueOf(1);
+        private final Integer ONE = Integer.valueOf(1);
 
         PanelModel() {
             runningTests = new Hashtable<>();
@@ -2158,7 +2158,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
                         // during the run
                         continue;
                     }
-                    if (hit == ONE) {
+                    if (ONE.equals(hit)) {
                         activeNodes.remove(node);
                     } else {
                         int currHits = hit.intValue();
