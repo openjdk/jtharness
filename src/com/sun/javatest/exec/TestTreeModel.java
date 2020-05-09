@@ -400,11 +400,6 @@ class TestTreeModel implements TreeModel, TestResultTable.TreeObserver {
         }
 
         if (what instanceof TestResultTable.TreeNode) {
-            // check relevance
-            if (relevantNodes.contains(path[path.length - 1])) {
-                notifyModelListeners(makeEvent(path, what, index), Notifier.CHANGE);
-                notifyModelListeners(new TreeModelEvent(this, path, null, null), Notifier.STRUCT);
-            }
         } else {            // test result
             if (relevantTests.contains(old) && old != what) {
                 relevantTests.remove(old);
