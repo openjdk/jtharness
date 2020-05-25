@@ -60,23 +60,9 @@ env.basic.command.execute=$ExecStdTestOtherJVMCmd DISPLAY=$DISPLAY CLASSPATH=$ja
 #
 env.basic.javaHome=${java.home}
 
-
-env.basic-reverse.description=Uses ReverseTestFinder to locate tests
-env.basic-reverse.inherits=basic
-env.basic-reverse.finder=com.sun.javatest.finder.ReverseTestFinder com.sun.javatest.finder.HTMLTestFinder
-
 env.basic-active-otherJVM.inherits=basic
 env.basic-active-otherJVM.description=Environment to exercise the tests in the "basic" test suite, using a slave in otherJVM mode
-#
-env.basic-active-otherJVM.command.compile.java=$SlaveCommand -tag $testPath $ProcessCommand CLASSPATH=$javatestClassDir$:$testClassDir $javaHome$/bin$/javac -d $testClassDir $javacFlags $testSource
-env.basic-active-otherJVM.command.execute=$SlaveCommand -tag $testPath $ExecStdTestOtherJVMCmd DISPLAY=$DISPLAY CLASSPATH=$javatestClassDir$:$testClassDir $javaHome$/bin$/java $testExecuteClass $testExecuteArgs
 
-
-env.basic-active-sameJVM.inherits=basic
-env.basic-active-sameJVM.description=Environment to exercise the tests in the "basic" test suite, using a slave in otherJVM mode
-#
-env.basic-active-sameJVM.command.compile.java=$ProcessCommand CLASSPATH=$javatestClassDir$:$testClassDir $javaHome$/bin$/javac -d $testClassDir $javacFlags $testSource
-env.basic-active-sameJVM.command.execute=$SlaveCommand -tag $testPath -cp $javatestClassDir$:$testClassDir $ExecStdTestSameJVMCmd $testExecuteClass $testExecuteArgs
 
 env.basic-passive-otherJVM.inherits=basic
 env.basic-passive-otherJVM.description=Environment to exercise the tests in the "basic" test suite, using a slave in otherJVM mode
