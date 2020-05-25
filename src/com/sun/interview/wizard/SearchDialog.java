@@ -55,6 +55,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Objects;
 
 class SearchDialog extends JDialog {
     private static final String ANSWER = "answer";
@@ -316,7 +317,7 @@ class SearchDialog extends JDialog {
             public Component getListCellRendererComponent(JList<?> list, Object o, int index, boolean isSelected, boolean cellHasFocus) {
                 Object c = o;
                 for (int i = 0; i < choiceKeys.length; i++) {
-                    if (choiceKeys[i] == o) {
+                    if (Objects.equals(choiceKeys[i], o)) {
                         c = choices[i];
                         break;
                     }
