@@ -25,7 +25,7 @@
  * questions.
  */
 
-package com.sun.tck.lib.asserts;
+package com.oracle.tck.lib.autd2.unittests.tgfported.asserts;
 
 import com.oracle.tck.lib.autd2.unittests.TU;
 import com.sun.tck.TestObject;
