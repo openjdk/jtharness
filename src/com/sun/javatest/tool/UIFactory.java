@@ -97,6 +97,7 @@ import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.MissingResourceException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 //import javax.swing.JSpinner;
@@ -1083,7 +1084,7 @@ public class UIFactory {
                                                           boolean isSelected, boolean cellHasFocus) {
                 Object c = o;
                 for (int i = 0; i < choiceKeys.length; i++) {
-                    if (choiceKeys[i] == o) {
+                    if (Objects.equals(choiceKeys[i], o)) {
                         c = choices[i];
                         break;
                     }
