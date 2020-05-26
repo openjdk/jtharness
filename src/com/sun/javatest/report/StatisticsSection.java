@@ -29,6 +29,7 @@ package com.sun.javatest.report;
 import com.sun.javatest.JavaTestError;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.I18NResourceBundle;
@@ -36,6 +37,7 @@ import com.sun.javatest.util.StringArray;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -79,23 +81,31 @@ class StatisticsSection extends HTMLSection {
             try {
                 Status s = tr.getStatus();
                 TestDescription td = tr.getDescription();
-
-                String[] keys = td.getKeywords();
-                Arrays.sort(keys);
-                String sortedKeys = StringArray.join(keys);
-
-                int[] v = keywordTable.get(sortedKeys);
-                if (v == null) {
-                    v = new int[Status.NUM_STATES];
-                    keywordTable.put(sortedKeys, v);
-                }
-                v[s.getType()]++;
-
-                statusTotals[s.getType()]++;
+                processKeywords(s.getType(), td);
             } catch (TestResult.Fault ex) {
                 // hmmm. Could count problem files here and report on them later
             }
         }
+        // additionally processing keywords of the filtered tests
+        settings.getFilterStats().entrySet().forEach(
+                e -> e.getValue().forEach(td -> processKeywords(Status.NOT_RUN, td)));
+
+    }
+
+    private void processKeywords(int statusType, TestDescription td) {
+
+        String[] keys = td.getKeywords();
+        Arrays.sort(keys);
+        String sortedKeys = StringArray.join(keys);
+
+        int[] v = keywordTable.get(sortedKeys);
+        if (v == null) {
+            v = new int[Status.NUM_STATES];
+            keywordTable.put(sortedKeys, v);
+        }
+        v[statusType]++;
+
+        statusTotals[statusType]++;
     }
 
     @Override

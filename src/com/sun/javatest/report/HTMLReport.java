@@ -66,6 +66,7 @@ public class HTMLReport implements ReportFormat {
             KEYWORD_ANCHOR = 4;
     static final String SECOND_FAILED_REPORT = "failed_gr.html";
     static final String SECOND_PASSED_REPORT = "passed_gr.html";
+    static final String SECOND_NOTRUN_REPORT = "notRun_gr.html";
 
 
     // --------------- Utility Methods --------------------------------------
@@ -86,7 +87,8 @@ public class HTMLReport implements ReportFormat {
             KflSection.NEWFAILURES,
             SECOND_PASSED_REPORT,
             SECOND_FAILED_REPORT,
-            SECOND_ERROR_REPORT
+            SECOND_ERROR_REPORT,
+            SECOND_NOTRUN_REPORT
     };
     // The following must be kept in sync with the preceding list
     static final int
@@ -105,7 +107,8 @@ public class HTMLReport implements ReportFormat {
             KFL_NEW = 12,
             PASSED_HTML_2 = 13,
             FAILED_HTML_2 = 14,
-            ERROR_HTML_2 = 15;
+            ERROR_HTML_2 = 15,
+            NOTRUN_HTML_2 = 16;
     private static final String ID = "html";
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HTMLReport.class);
     /**

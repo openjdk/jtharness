@@ -51,7 +51,8 @@ class ResultSection extends HTMLSection {
     private final int[] groupedFileCodes = {
             HTMLReport.PASSED_HTML_2,
             HTMLReport.FAILED_HTML_2,
-            HTMLReport.ERROR_HTML_2
+            HTMLReport.ERROR_HTML_2,
+            HTMLReport.NOTRUN_HTML_2
     };
     private final I18NResourceBundle i18n;
     private final String[] headings;
@@ -187,7 +188,7 @@ class ResultSection extends HTMLSection {
     }
 
     private boolean hasGroupedReport(int st) {
-        return st == Status.FAILED || st == Status.PASSED || st == Status.ERROR;
+        return st == Status.FAILED || st == Status.PASSED || st == Status.ERROR || st == Status.NOT_RUN;
     }
 
     @Override

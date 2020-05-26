@@ -34,6 +34,7 @@ import com.sun.javatest.KnownFailuresList;
 import com.sun.javatest.LastRunFilter;
 import com.sun.javatest.ParameterFilter;
 import com.sun.javatest.Status;
+import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
@@ -527,7 +528,24 @@ public class ReportSettings {
             TreeSet<TestResult> results = sortedTestResults.get(status == null ? Status.NOT_RUN : status.getType());
             results.add(result);
         }
+        // additionally appending filtered tests to the list of NOT_RUN
+        // specifying rejection reason as their Status message
+        getFilterStats().entrySet().forEach(
+                e -> e.getValue().forEach(
+                        td -> sortedTestResults.get(Status.NOT_RUN).add(
+                                new TestResult(td, new Status(Status.NOT_RUN, e.getKey().getReason()))
+                        )
+                )
+        );
     }
+
+    /**
+     * @return filters that rejected tests mapped to test descriptions of the rejected
+     */
+    HashMap<TestFilter, ArrayList<TestDescription>> getFilterStats() {
+        return getInterview().getTestSuite().getHarness().getTestIterator().getFilterStats();
+    }
+
 
     void setupKfl() {
         if (kflSorter != null) {
