@@ -190,6 +190,7 @@ class RunTestsCommand extends Command {
                     Integer.valueOf((notRun > 0) && (skipped > 0) ? 1 : 0),
                     Integer.valueOf(skipped));
         }
+        ctx.getLogWriter().println();
         for (Map.Entry<TestFilter, ArrayList<TestDescription>> entry : harness.getTestIterator().getFilterStats().entrySet()) {
             TestFilter filter = entry.getKey();
             int number = entry.getValue().size();

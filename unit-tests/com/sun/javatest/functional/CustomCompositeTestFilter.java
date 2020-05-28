@@ -41,7 +41,7 @@ public class CustomCompositeTestFilter extends TestSuiteRunningTestBase {
         // todo order might change, need to look into this
 //        checkSystemErrLineIs(7, "1 test skipped by filter \"Name: doesn't like 2s\", reason: rejecting tests with names ending with 2");
 //        checkSystemErrLineIs(8, "2 tests skipped by filter \"Name: doesn't like 1s\", reason: rejecting tests with names ending with 1");
-        checkSystemErrLineStartsWith(9, "Report written to");
+        checkSystemErrLineStartsWith(10, "Report written to");
     }
 
     @Override
