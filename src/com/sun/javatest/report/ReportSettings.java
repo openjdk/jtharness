@@ -27,6 +27,7 @@
 
 package com.sun.javatest.report;
 
+import com.sun.javatest.Harness;
 import com.sun.javatest.InitialUrlFilter;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.JavaTestError;
@@ -542,8 +543,14 @@ public class ReportSettings {
     /**
      * @return filters that rejected tests mapped to test descriptions of the rejected
      */
-    HashMap<TestFilter, ArrayList<TestDescription>> getFilterStats() {
-        return getInterview().getTestSuite().getHarness().getTestIterator().getFilterStats();
+    Map<TestFilter, ArrayList<TestDescription>> getFilterStats() {
+        Harness harness = getInterview().getTestSuite().getHarness();
+        // it might be that no test run was done, so the harness was not inited
+        if (harness != null) {
+            return harness.getTestIterator().getFilterStats();
+        } else {
+            return Collections.emptyMap();
+        }
     }
 
 
