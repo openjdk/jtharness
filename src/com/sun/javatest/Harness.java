@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -908,11 +909,11 @@ public class Harness {
 
     /**
      * Informs all the observers of the final stats gathered after the test run
-     * @param skipped number of tests rejected by filters
+     * @param filterStats the final statistics about happened test filtering
      * @param stats status type is the number of element, value is the number or tests with that type of status
      */
-    public void notifyOfTheFinalStats(int skipped, int... stats) {
-        notifier.notifyOfTheFinalStats(skipped, stats);
+    public void notifyOfTheFinalStats(Map<TestFilter, List<TestDescription>> filterStats, int... stats) {
+        notifier.notifyOfTheFinalStats(filterStats, stats);
     }
 
     /**
@@ -1001,10 +1002,10 @@ public class Harness {
 
         /**
          * Is called when final test run stats are available for evaluation.
-         * @param skipped number of tests rejected by filters
+         * @param filterStats the final statistics about happened test filtering
          * @param stats status type is the number of element, value is the number or tests with that type of status
          */
-        default void notifyOfTheFinalStats(int skipped, int... stats) {}
+        default void notifyOfTheFinalStats(Map<TestFilter, List<TestDescription>> filterStats, int... stats) {}
     }
 
     /**
@@ -1146,11 +1147,11 @@ public class Harness {
         }
 
         @Override
-        public void notifyOfTheFinalStats(int skipped, int... stats) {
+        public void notifyOfTheFinalStats(Map<TestFilter, List<TestDescription>> filterStats, int... stats) {
             // protect against removing observers during notification
             Observer[] stableObservers = observers;
             for (int i = stableObservers.length - 1; i >= 0; i--) {
-                stableObservers[i].notifyOfTheFinalStats(skipped, stats);
+                stableObservers[i].notifyOfTheFinalStats(filterStats, stats);
             }
         }
 

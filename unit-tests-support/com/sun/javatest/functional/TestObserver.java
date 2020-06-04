@@ -29,6 +29,13 @@ package com.sun.javatest.functional;
 
 import com.sun.javatest.Harness;
 import com.sun.javatest.Status;
+import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestFilter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static junit.framework.Assert.*;
 
@@ -38,8 +45,11 @@ public class TestObserver implements Harness.Observer {
     private static int skipped = -1;
 
     @Override
-    public void notifyOfTheFinalStats(int skipped, int[] stats) {
-        TestObserver.skipped = skipped;
+    public void notifyOfTheFinalStats(Map<TestFilter, List<TestDescription>> filterStats, int[] stats) {
+        TestObserver.skipped = 0;
+        for (List<TestDescription> testDescriptions : filterStats.values()) {
+            TestObserver.skipped += testDescriptions.size();
+        }
         TestObserver.stats = stats;
     }
 

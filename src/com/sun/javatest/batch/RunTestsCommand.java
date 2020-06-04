@@ -42,7 +42,9 @@ import com.sun.javatest.util.I18NResourceBundle;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
@@ -121,7 +123,12 @@ class RunTestsCommand extends Command {
             // tests that were rejected by filters so skipped from the run
             int skipped = harness.getTestIterator().getRejectCount();
 
-            h.notifyOfTheFinalStats(skipped, boStats);
+
+            Map<TestFilter, List<TestDescription>> filterStats =
+                    harness.getTestIterator().getFilterStats() != null
+                            ? Collections.unmodifiableMap(harness.getTestIterator().getFilterStats())
+                            : Collections.emptyMap();
+            h.notifyOfTheFinalStats(filterStats, boStats);
 
             if (!ctx.isVerboseQuiet()) {
                 long tt = h.getElapsedTime();
