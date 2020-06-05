@@ -87,7 +87,7 @@ class StatisticsSection extends HTMLSection {
             }
         }
         // additionally processing keywords of the filtered tests
-        settings.getFilterStats().entrySet().forEach(
+        settings.getFilterStatsIfReportIsNotForAllTests().entrySet().forEach(
                 e -> e.getValue().forEach(td -> processKeywords(Status.NOT_RUN, td)));
 
     }

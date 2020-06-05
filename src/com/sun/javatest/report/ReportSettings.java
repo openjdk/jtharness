@@ -27,6 +27,7 @@
 
 package com.sun.javatest.report;
 
+import com.sun.javatest.AllTestsFilter;
 import com.sun.javatest.Harness;
 import com.sun.javatest.InitialUrlFilter;
 import com.sun.javatest.InterviewParameters;
@@ -531,7 +532,7 @@ public class ReportSettings {
         }
         // additionally appending filtered tests to the list of NOT_RUN
         // specifying rejection reason as their Status message
-        getFilterStats().entrySet().forEach(
+        getFilterStatsIfReportIsNotForAllTests().entrySet().forEach(
                 e -> e.getValue().forEach(
                         td -> sortedTestResults.get(Status.NOT_RUN).add(
                                 new TestResult(td, new Status(Status.NOT_RUN, e.getKey().getReason()))
@@ -543,10 +544,13 @@ public class ReportSettings {
     /**
      * @return filters that rejected tests mapped to test descriptions of the rejected
      */
-    Map<TestFilter, ArrayList<TestDescription>> getFilterStats() {
+    Map<TestFilter, ArrayList<TestDescription>> getFilterStatsIfReportIsNotForAllTests() {
         Harness harness = getInterview().getTestSuite().getHarness();
         // it might be that no test run was done, so the harness was not inited
-        if (harness != null) {
+        // also if the report is for "All Tests" filter
+        // then not giving filtering stats from the last run
+        // since if might corrupt the overall stats calculation
+        if ( harness != null && !(filter instanceof AllTestsFilter) ) {
             return harness.getTestIterator().getFilterStats();
         } else {
             return Collections.emptyMap();
