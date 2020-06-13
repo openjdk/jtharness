@@ -118,11 +118,11 @@ class ResultSection extends HTMLSection {
     }
 
     @Override
-    void writeSummary(ReportWriter out) throws IOException {
-        super.writeSummary(out);
+    void writeSummary(ReportWriter repWriter) throws IOException {
+        super.writeSummary(repWriter);
 
-        out.startTag(HTMLWriterEx.TABLE);
-        out.writeAttr(HTMLWriterEx.BORDER, 1);
+        repWriter.startTag(HTMLWriterEx.TABLE);
+        repWriter.writeAttr(HTMLWriterEx.BORDER, 1);
 
 
         boolean thirdColumn = false;
@@ -139,52 +139,52 @@ class ResultSection extends HTMLSection {
 
             int numberOfTests = testResults.get(statusType).size();
             if (numberOfTests > 0) {
-                out.startTag(HTMLWriterEx.TR);
-                out.writeTH(headings[statusType], HTMLWriterEx.ROW);
-                out.startTag(HTMLWriterEx.TD);
-                out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);
-                out.write(Integer.toString(numberOfTests));
-                out.endTag(HTMLWriterEx.TD);
+                repWriter.startTag(HTMLWriterEx.TR);
+                repWriter.writeTH(headings[statusType], HTMLWriterEx.ROW);
+                repWriter.startTag(HTMLWriterEx.TD);
+                repWriter.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);
+                repWriter.write(Integer.toString(numberOfTests));
+                repWriter.endTag(HTMLWriterEx.TD);
 
                 if (secondColumn) {
-                    out.startTag(HTMLWriterEx.TD);
+                    repWriter.startTag(HTMLWriterEx.TD);
                     if (settings.isStateFileEnabled(statusType)) {
-                        out.writeLink(reportFile, plain);
+                        repWriter.writeLink(reportFile, plain);
                     } else {
-                        out.writeLine(" ");
+                        repWriter.writeLine(" ");
                     }
-                    out.endTag(HTMLWriterEx.TD);
+                    repWriter.endTag(HTMLWriterEx.TD);
                 }
 
                 if (thirdColumn) {
-                    out.startTag(HTMLWriterEx.TD);
+                    repWriter.startTag(HTMLWriterEx.TD);
                     if (hasGroupedReport(statusType) && settings.isStateFileEnabled(statusType)) {
-                        out.writeLink(HTMLReport.files[groupedFileCodes[statusType]], grouped);
+                        repWriter.writeLink(HTMLReport.files[groupedFileCodes[statusType]], grouped);
                     } else {
-                        out.writeLine(" ");
+                        repWriter.writeLine(" ");
                     }
-                    out.endTag(HTMLWriterEx.TD);
+                    repWriter.endTag(HTMLWriterEx.TD);
                 }
 
-                out.endTag(HTMLWriterEx.TR);
+                repWriter.endTag(HTMLWriterEx.TR);
             }
 
         }
 
-        out.startTag(HTMLWriterEx.TR);
-        out.writeTH(i18n.getString("result.total"), HTMLWriterEx.ROW);
-        out.writeTD(Integer.toString(totalFound));
+        repWriter.startTag(HTMLWriterEx.TR);
+        repWriter.writeTH(i18n.getString("result.total"), HTMLWriterEx.ROW);
+        repWriter.writeTD(Integer.toString(totalFound));
 
         if (secondColumn) {
-            out.writeTD("");
+            repWriter.writeTD("");
         }
 
         if (thirdColumn) {
-            out.writeTD("");
+            repWriter.writeTD("");
         }
 
-        out.endTag(HTMLWriterEx.TR);
-        out.endTag(HTMLWriterEx.TABLE);
+        repWriter.endTag(HTMLWriterEx.TR);
+        repWriter.endTag(HTMLWriterEx.TABLE);
     }
 
     private boolean hasGroupedReport(int st) {

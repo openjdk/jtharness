@@ -109,27 +109,27 @@ class StatisticsSection extends HTMLSection {
     }
 
     @Override
-    void writeContents(ReportWriter out) throws IOException {
+    void writeContents(ReportWriter repWriter) throws IOException {
         // arguably, this should be conditional on whether
         // the test suite has tests that use keywords!
 
-        super.writeContents(out);
+        super.writeContents(repWriter);
 
-        out.startTag(HTMLWriterEx.UL);
-        out.startTag(HTMLWriterEx.LI);
-        out.writeLink("#" + HTMLReport.anchors[HTMLReport.KEYWORD_ANCHOR],
+        repWriter.startTag(HTMLWriterEx.UL);
+        repWriter.startTag(HTMLWriterEx.LI);
+        repWriter.writeLink("#" + HTMLReport.anchors[HTMLReport.KEYWORD_ANCHOR],
                 i18n.getString("stats.keywordValue"));
-        out.endTag(HTMLWriterEx.UL);
-        out.newLine();
+        repWriter.endTag(HTMLWriterEx.UL);
+        repWriter.newLine();
     }
 
     @Override
-    void writeSummary(ReportWriter out) throws IOException {
+    void writeSummary(ReportWriter repWriter) throws IOException {
         // arguably, this should be conditional on whether
         // the test suite has tests that use keywords!
 
-        super.writeSummary(out);
-        writeKeywordSummary(out);
+        super.writeSummary(repWriter);
+        writeKeywordSummary(repWriter);
     }
 
     private void writeKeywordSummary(ReportWriter out) throws IOException {
