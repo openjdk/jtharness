@@ -108,4 +108,9 @@ abstract class HTMLSection {
                                        I18NResourceBundle i18n) throws IOException {
         return new ReportWriter(openWriter(reportCode), title, i18n);
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + " {name='" + name + "'}";
+    }
 }
