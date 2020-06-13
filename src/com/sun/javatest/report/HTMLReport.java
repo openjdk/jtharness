@@ -253,16 +253,16 @@ public class HTMLReport implements ReportFormat {
 
             // info from sections for main report
             repWriter.startTag(HTMLWriterEx.UL);
-            for (HTMLSection mainSection1 : mainSections) {
+            for (HTMLSection section : mainSections) {
                 repWriter.startTag(HTMLWriterEx.LI);
-                mainSection1.writeContents(repWriter);
+                section.writeContents(repWriter);
                 repWriter.endTag(HTMLWriterEx.LI);
             }
             repWriter.endTag(HTMLWriterEx.UL);
 
-            for (HTMLSection mainSection : mainSections) {
+            for (HTMLSection section : mainSections) {
                 repWriter.startTag(HTMLWriterEx.HR);
-                mainSection.writeSummary(repWriter);
+                section.writeSummary(repWriter);
                 repWriter.newLine();
             }
 
