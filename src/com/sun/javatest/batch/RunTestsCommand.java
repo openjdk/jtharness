@@ -199,7 +199,7 @@ class RunTestsCommand extends Command {
             TestFilter filter = entry.getKey();
             int number = entry.getValue().size();
             ctx.getLogWriter().println(number + " " + (number == 1 ? "test" : "tests") +
-                    " skipped by filter \"" + filter.getName() + "\", reason: " + filter.getReason());
+                    " skipped by filter \"" + filter.getName() + "\"");
         }
     }
 
