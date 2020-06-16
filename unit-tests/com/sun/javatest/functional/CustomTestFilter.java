@@ -39,7 +39,7 @@ public class CustomTestFilter extends TestSuiteRunningTestBase {
         runJavaTest();
         checkSystemErrLineIs(6, "Test results: skipped: 3 ");
         checkSystemErrLineIs(7, "");
-        checkSystemErrLineIs(8, "3 tests skipped by filter \"My suite-specific test filter\", reason: Not going to allow any test to run");
+        checkSystemErrLineIs(8, "3 tests skipped by filter \"My suite-specific test filter\"");
         checkSystemErrLineStartsWith(9, "Report written to");
     }
 
