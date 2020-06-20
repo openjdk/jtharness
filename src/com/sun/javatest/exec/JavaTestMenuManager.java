@@ -50,7 +50,7 @@ import java.util.List;
  * will always return null).
  * <p>
  * The {@code JMenuItem} objects may be "pull-right" menus if desired.  It is
- * the responsibility of the architect to manage keystroke mneumonics.
+ * the responsibility of the architect to manage keystroke mnemonics.
  */
 public abstract class JavaTestMenuManager {
     public static final int FILE_PRIMARY = 0;

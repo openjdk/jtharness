@@ -301,7 +301,7 @@ public class InterviewEditor extends ToolDialog {
     }
 
     /**
-     * Checks default settings relate to config file load fron the default location
+     * Checks default settings relate to config file load from the default location
      *
      * @param cm {@code ContextManager} object defining current harness' context. The following methods
      *           affect this method functionality:
@@ -907,7 +907,7 @@ public class InterviewEditor extends ToolDialog {
     }
 
     /**
-     * Does actual save work. should be overriden, when needed.
+     * Does actual save work. should be overridden, when needed.
      */
     protected void doSave(File file) throws Interview.Fault, IOException {
         viewConfig.save(file);
