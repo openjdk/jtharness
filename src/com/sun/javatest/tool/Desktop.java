@@ -490,7 +490,7 @@ public class Desktop {
                 } catch (Throwable e) {
                 }
                 break;
-            // no need to process CommandContext.DEFAULT_LAF - it should equal one of the others constatns
+            // no need to process CommandContext.DEFAULT_LAF - it should equal one of the others constants
         }
 
     }
