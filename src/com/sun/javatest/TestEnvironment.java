@@ -621,7 +621,7 @@ public class TestEnvironment {
             return;
         }
 
-        // this algorithm is directly based on the "map" algorithm in the map which it supercedes
+        // this algorithm is directly based on the "map" algorithm in the map which it supersedes
         for (int i = 0; i < v.length; i++) {
             String word = v[i];
             for (int j = 0; j + 1 < map.length; j += 2) {

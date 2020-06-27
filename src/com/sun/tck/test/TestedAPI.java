@@ -33,7 +33,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * TestedAPI annotation is used to specify package, class and class memeber
+ * TestedAPI annotation is used to specify package, class and class member
  * under test by TestGroup.
  */
 @Retention(RetentionPolicy.RUNTIME)
