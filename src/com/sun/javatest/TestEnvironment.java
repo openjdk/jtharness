@@ -86,9 +86,13 @@ public class TestEnvironment {
      */
     public TestEnvironment(String name, final Map<String, String> propTable, String propTableName)
             throws Fault {
-        this(name, new ArrayList<Map<String, String>>() {{
+        this(name, new PropTableArrayList(propTable), propTableName);
+    }
+
+    private static class PropTableArrayList extends ArrayList<Map<String, String>> {
+        public PropTableArrayList(Map<String, String> propTable) {
             add(propTable);
-        }}, propTableName);
+        }
     }
 
     /**
