@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * A writer that will automatically word wrap lines to fit within
@@ -49,7 +50,7 @@ public class WrapWriter extends Writer {
      * @param out the stream to which the WrapWriter will write
      */
     public WrapWriter(OutputStream out) {
-        this.out = new OutputStreamWriter(out);
+        this.out = new OutputStreamWriter(out, StandardCharsets.UTF_8);
     }
 
     /**

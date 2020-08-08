@@ -38,6 +38,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
@@ -68,8 +69,8 @@ public class ProcessCommand extends Command {
      * @see #run
      */
     public static void main(String... args) {
-        PrintWriter log = new PrintWriter(new OutputStreamWriter(System.err));
-        PrintWriter ref = new PrintWriter(new OutputStreamWriter(System.out));
+        PrintWriter log = new PrintWriter(new OutputStreamWriter(System.err, StandardCharsets.UTF_8));
+        PrintWriter ref = new PrintWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
         Status s;
         try {
             Command cmd = new ProcessCommand();

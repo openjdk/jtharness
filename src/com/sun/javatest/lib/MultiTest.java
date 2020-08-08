@@ -32,6 +32,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -120,8 +121,8 @@ public class MultiTest implements Test {
      * @see #init
      */
     public final Status run(String[] argv, PrintStream log, PrintStream ref) {
-        PrintWriter pwLog = new PrintWriter(new OutputStreamWriter(log));
-        PrintWriter pwRef = new PrintWriter(new OutputStreamWriter(ref));
+        PrintWriter pwLog = new PrintWriter(new OutputStreamWriter(log, StandardCharsets.UTF_8));
+        PrintWriter pwRef = new PrintWriter(new OutputStreamWriter(ref, StandardCharsets.UTF_8));
         try {
             return run(argv, pwLog, pwRef);
         } finally {
