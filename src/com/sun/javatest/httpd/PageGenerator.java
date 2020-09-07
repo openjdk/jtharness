@@ -62,7 +62,7 @@ public class PageGenerator {
     }
 
     /**
-     * Generate the correct HTTP header for a sucessful request (200)
+     * Generate the correct HTTP header for a successful request (200)
      */
     public static void generateOkHttp(PrintWriter out) {
         out.println(HTTP_OK);

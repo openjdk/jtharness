@@ -61,7 +61,7 @@ import java.lang.reflect.Modifier;
  * }
  * </pre>
  * This means the command is suitable for (but not limited to) the
- * compiler javac suplied with JDK. (Note that this uses an internal
+ * compiler javac supplied with JDK. (Note that this uses an internal
  * API of javac which is not documented and is not guaranteed to exist
  * in any specific release of JDK.)
  */
