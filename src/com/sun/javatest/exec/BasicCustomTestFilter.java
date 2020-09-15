@@ -816,7 +816,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     /**
      * Capture the settings in the current GUI.
      *
-     * @return A snapshot of the settings currently entred into the GUI.
+     * @return A snapshot of the settings currently entered into the GUI.
      * @throws IllegalStateException If any part of the GUI has a state which
      *                               does not produce a consistent setting.  The message of this
      *                               exception will contain an internationalized message to help the
@@ -825,7 +825,7 @@ class BasicCustomTestFilter extends ConfigurableTestFilter {
     private SettingsSnapshot grabSettings() {
         SettingsSnapshot shot = new SettingsSnapshot();
 
-        // grad top level togggle state of each type
+        // grad top level toggle state of each type
         shot.keywordsEnabled = !keyAllBtn.isSelected();
         //shot.urlsEnabled = !allTestsBtn.isSelected();
         shot.urlsEnabled = true;        // always enabled in current impl.

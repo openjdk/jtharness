@@ -30,6 +30,7 @@
 a/b/c       0
 a/b/c#d     123  win32    this is a synopsis
 a/b/c#e[g]  457  solaris  descriptive text
+# just a comment
 a/b/c#e[f]  456  solaris  descriptive text
 d/e/f       0
 a/b/c#d[h]     123  win32    can't add test case if test added

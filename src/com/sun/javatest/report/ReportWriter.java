@@ -119,6 +119,7 @@ class ReportWriter extends HTMLWriterEx {
         Date now = new Date();
         String name = ProductInfo.getName();
         String version = ProductInfo.getVersion();
+        String buildNumber = ProductInfo.getBuildNumber();
 
         // for i18n
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);
@@ -140,7 +141,7 @@ class ReportWriter extends HTMLWriterEx {
         startTag(HTMLWriterEx.SMALL);
         writeI18N("reportWriter.generatedOn", now);
         startTag(HTMLWriterEx.BR);
-        writeI18N("reportWriter.productInfo", name, version, build_date, build_version);
+        writeI18N("reportWriter.productInfo", name, version, buildNumber, build_date, build_version);
         endTag(HTMLWriterEx.SMALL);
         endTag(HTMLWriterEx.BODY);
         endTag(HTMLWriterEx.HTML);

@@ -106,11 +106,6 @@ public class Main {
         public int compare(Node n1, Node n2) {
             return n1.getName().compareToIgnoreCase(n2.getName());
         }
-
-        @Override
-        public boolean equals(Object o) {
-            return false;
-        }
     };
 
     public Main() {

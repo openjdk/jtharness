@@ -52,7 +52,7 @@ class XMLReportReader {
 
     private final static String JAXP_SCHEMA_VALIDATION = "http://xml.org/sax/features/validation";
 
-    // this copyes constants from non-API com.sun.org.apache.xerces.internal.jaxp.JAXPConstants
+    // this copies constants from non-API com.sun.org.apache.xerces.internal.jaxp.JAXPConstants
     private static final String JAXP_SCHEMA_LANGUAGE =
             "http://java.sun.com/xml/jaxp/properties/schemaLanguage";
     private static final String W3C_XML_SCHEMA =

@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Note: This class works properly only with encodings, which use simple encoding
@@ -65,7 +66,7 @@ public class WriterStream extends OutputStream {
      */
     public WriterStream(Writer w) {
         writer = w;
-        OutputStreamWriter osw = new OutputStreamWriter(this);
+        OutputStreamWriter osw = new OutputStreamWriter(this, StandardCharsets.UTF_8);
         charsetName = osw.getEncoding();
     }
 

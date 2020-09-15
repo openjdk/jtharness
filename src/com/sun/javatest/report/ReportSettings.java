@@ -27,6 +27,8 @@
 
 package com.sun.javatest.report;
 
+import com.sun.javatest.AllTestsFilter;
+import com.sun.javatest.Harness;
 import com.sun.javatest.InitialUrlFilter;
 import com.sun.javatest.InterviewParameters;
 import com.sun.javatest.JavaTestError;
@@ -34,6 +36,7 @@ import com.sun.javatest.KnownFailuresList;
 import com.sun.javatest.LastRunFilter;
 import com.sun.javatest.ParameterFilter;
 import com.sun.javatest.Status;
+import com.sun.javatest.TestDescription;
 import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
@@ -527,7 +530,33 @@ public class ReportSettings {
             TreeSet<TestResult> results = sortedTestResults.get(status == null ? Status.NOT_RUN : status.getType());
             results.add(result);
         }
+        // additionally appending filtered tests to the list of NOT_RUN
+        // specifying rejection reason as their Status message
+        getFilterStatsIfReportIsNotForAllTests().entrySet().forEach(
+                e -> e.getValue().forEach(
+                        td -> sortedTestResults.get(Status.NOT_RUN).add(
+                                new TestResult(td, new Status(Status.NOT_RUN, e.getKey().getReason()))
+                        )
+                )
+        );
     }
+
+    /**
+     * @return filters that rejected tests mapped to test descriptions of the rejected
+     */
+    Map<TestFilter, ArrayList<TestDescription>> getFilterStatsIfReportIsNotForAllTests() {
+        Harness harness = getInterview().getTestSuite().getHarness();
+        // it might be that no test run was done, so the harness was not inited
+        // also if the report is for "All Tests" filter
+        // then not giving filtering stats from the last run
+        // since if might corrupt the overall stats calculation
+        if ( harness != null && !(filter instanceof AllTestsFilter) ) {
+            return harness.getTestIterator().getFilterStats();
+        } else {
+            return Collections.emptyMap();
+        }
+    }
+
 
     void setupKfl() {
         if (kflSorter != null) {

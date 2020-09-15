@@ -52,7 +52,7 @@ public class LogFile {
      * The messages will be written to System.err.
      */
     public LogFile() {
-        this(new OutputStreamWriter(System.err));
+        this(new OutputStreamWriter(System.err, StandardCharsets.UTF_8));
     }
 
     /**

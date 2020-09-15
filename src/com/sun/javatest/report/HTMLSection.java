@@ -42,24 +42,23 @@ abstract class HTMLSection {
     protected HTMLReport parent;
     protected File workDirRoot;
 
-    HTMLSection(String n, ReportSettings s, File dir, HTMLReport parent) {
-        name = n;
-        settings = s;
-        reportDir = dir;
+    HTMLSection(String name, ReportSettings settings, File reportDir, HTMLReport parent) {
+        this.name = name;
+        this.settings = settings;
+        this.reportDir = reportDir;
         this.parent = parent;
 
-
-        workDirRoot = settings.getInterview().getWorkDirectory().getRoot();
+        workDirRoot = this.settings.getInterview().getWorkDirectory().getRoot();
 
         String workPath;
         String reportDirPath;
 
         try {
             workPath = workDirRoot.getCanonicalPath();
-            reportDirPath = reportDir.getCanonicalPath();
+            reportDirPath = this.reportDir.getCanonicalPath();
         } catch (IOException e) {
             workPath = workDirRoot.getPath();
-            reportDirPath = reportDir.getPath();
+            reportDirPath = this.reportDir.getPath();
         }
 
         if (!workPath.endsWith(File.separator)) {
@@ -68,7 +67,7 @@ abstract class HTMLSection {
 
         if (reportDirPath.startsWith(workPath)) {
             // since reportFile is in reportDir, reset path to be relative
-            File d = reportDir;
+            File d = this.reportDir;
             StringBuilder sb = new StringBuilder();
             try {
                 while (d != null && !d.getCanonicalPath().equals(workDirRoot.getCanonicalPath())) {
@@ -84,29 +83,34 @@ abstract class HTMLSection {
         }
     }
 
-    Writer openWriter(int code) throws IOException {
-        return parent.openWriter(reportDir, code);
+    Writer openWriter(int reportCode) throws IOException {
+        return parent.openWriter(reportDir, reportCode);
     }
 
     String getName() {
         return name;
     }
 
-    void writeContents(ReportWriter out) throws IOException {
-        out.writeLink('#' + name, name);
+    void writeContents(ReportWriter repWriter) throws IOException {
+        repWriter.writeLink('#' + name, name);
     }
 
-    void writeSummary(ReportWriter out) throws IOException {
-        out.startTag(HTMLWriterEx.H2);
-        out.writeLinkDestination(name, name);
-        out.endTag(HTMLWriterEx.H2);
+    void writeSummary(ReportWriter repWriter) throws IOException {
+        repWriter.startTag(HTMLWriterEx.H2);
+        repWriter.writeLinkDestination(name, name);
+        repWriter.endTag(HTMLWriterEx.H2);
     }
 
     void writeExtraFiles() throws IOException {
     }
 
-    protected ReportWriter openAuxFile(int code, String title,
+    protected ReportWriter openAuxFile(int reportCode, String title,
                                        I18NResourceBundle i18n) throws IOException {
-        return new ReportWriter(openWriter(code), title, i18n);
+        return new ReportWriter(openWriter(reportCode), title, i18n);
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + " {name='" + name + "'}";
     }
 }

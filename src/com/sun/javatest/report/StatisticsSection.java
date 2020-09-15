@@ -29,6 +29,7 @@ package com.sun.javatest.report;
 import com.sun.javatest.JavaTestError;
 import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
+import com.sun.javatest.TestFilter;
 import com.sun.javatest.TestResult;
 import com.sun.javatest.TestResultTable;
 import com.sun.javatest.util.I18NResourceBundle;
@@ -36,6 +37,7 @@ import com.sun.javatest.util.StringArray;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -79,47 +81,55 @@ class StatisticsSection extends HTMLSection {
             try {
                 Status s = tr.getStatus();
                 TestDescription td = tr.getDescription();
-
-                String[] keys = td.getKeywords();
-                Arrays.sort(keys);
-                String sortedKeys = StringArray.join(keys);
-
-                int[] v = keywordTable.get(sortedKeys);
-                if (v == null) {
-                    v = new int[Status.NUM_STATES];
-                    keywordTable.put(sortedKeys, v);
-                }
-                v[s.getType()]++;
-
-                statusTotals[s.getType()]++;
+                processKeywords(s.getType(), td);
             } catch (TestResult.Fault ex) {
                 // hmmm. Could count problem files here and report on them later
             }
         }
+        // additionally processing keywords of the filtered tests
+        settings.getFilterStatsIfReportIsNotForAllTests().entrySet().forEach(
+                e -> e.getValue().forEach(td -> processKeywords(Status.NOT_RUN, td)));
+
+    }
+
+    private void processKeywords(int statusType, TestDescription td) {
+
+        String[] keys = td.getKeywords();
+        Arrays.sort(keys);
+        String sortedKeys = StringArray.join(keys);
+
+        int[] v = keywordTable.get(sortedKeys);
+        if (v == null) {
+            v = new int[Status.NUM_STATES];
+            keywordTable.put(sortedKeys, v);
+        }
+        v[statusType]++;
+
+        statusTotals[statusType]++;
     }
 
     @Override
-    void writeContents(ReportWriter out) throws IOException {
+    void writeContents(ReportWriter repWriter) throws IOException {
         // arguably, this should be conditional on whether
         // the test suite has tests that use keywords!
 
-        super.writeContents(out);
+        super.writeContents(repWriter);
 
-        out.startTag(HTMLWriterEx.UL);
-        out.startTag(HTMLWriterEx.LI);
-        out.writeLink("#" + HTMLReport.anchors[HTMLReport.KEYWORD_ANCHOR],
+        repWriter.startTag(HTMLWriterEx.UL);
+        repWriter.startTag(HTMLWriterEx.LI);
+        repWriter.writeLink("#" + HTMLReport.anchors[HTMLReport.KEYWORD_ANCHOR],
                 i18n.getString("stats.keywordValue"));
-        out.endTag(HTMLWriterEx.UL);
-        out.newLine();
+        repWriter.endTag(HTMLWriterEx.UL);
+        repWriter.newLine();
     }
 
     @Override
-    void writeSummary(ReportWriter out) throws IOException {
+    void writeSummary(ReportWriter repWriter) throws IOException {
         // arguably, this should be conditional on whether
         // the test suite has tests that use keywords!
 
-        super.writeSummary(out);
-        writeKeywordSummary(out);
+        super.writeSummary(repWriter);
+        writeKeywordSummary(repWriter);
     }
 
     private void writeKeywordSummary(ReportWriter out) throws IOException {

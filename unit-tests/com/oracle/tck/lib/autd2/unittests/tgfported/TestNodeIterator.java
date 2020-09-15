@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2020, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -24,33 +24,26 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
+package com.oracle.tck.lib.autd2.unittests.tgfported;
 
-package com.sun.tck.test;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.sun.tck.lib.tgf.NodeIterator;
+import org.junit.Test;
 
 /**
- * TestedAPI annotation is used to specify package, class and class member
- * under test by TestGroup.
+ *
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface TestedAPI {
-    /**
-     * package under test
-     */
-    public String[] testedPackage();
+public class TestNodeIterator {
 
-    /**
-     * class under test
-     */
-    public String[] testedClass() default "";
+    @Test(expected = RuntimeException.class)
+    public void testCreateCopy() {
+        NodeIterator nodeIterator = new NodeIterator(){
+            public void shift() {
+            }
+            public boolean hasNext() {
+                return false;
+            }
+        };
+        nodeIterator.createCopy();
 
-    /**
-     * methods under test
-     */
-    public String[] testedMember() default "";
+    }
 }

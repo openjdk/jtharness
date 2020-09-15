@@ -136,6 +136,7 @@ public class TestSuite {
     private String[] keywords;
     private ServiceReader serviceReader;
     private ServiceManager serviceManager;
+    private Harness harness;
 
     /**
      * Create a TestSuite object.
@@ -540,6 +541,7 @@ public class TestSuite {
      *                         initialization that should cause the test run to be aborted.
      */
     public void starting(Harness harness) throws Fault {
+        this.harness = harness;
         if (getServiceManager() != null) {
             serviceManager.setHarness(harness);
         }
@@ -1355,6 +1357,10 @@ public class TestSuite {
                 }
             }
         }
+    }
+
+    public Harness getHarness() {
+        return harness;
     }
 
     /**

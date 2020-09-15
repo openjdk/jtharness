@@ -272,7 +272,7 @@ public class ProviderRegistry {
 
     /**
      * @return Whether or not the insertion was successful.
-     * @throws IllegalArgumentException Thrown if the suppled url/object
+     * @throws IllegalArgumentException Thrown if the supplied url/object
      *                                  combination cannot be properly inserted.  This is most likely
      *                                  a name conflict.
      */
@@ -406,7 +406,7 @@ public class ProviderRegistry {
                     start = pos + 1;
                     pos++;
                     break;
-                case ' ':   // fall thru
+                case ' ':   // fall-through
                 case '?':
                     done = true;
                     break;

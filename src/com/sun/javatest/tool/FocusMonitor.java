@@ -238,7 +238,7 @@ class FocusMonitor {
         try {
             Writer out;
             if (reportFile == null) {
-                out = new OutputStreamWriter(System.out) {
+                out = new OutputStreamWriter(System.out, StandardCharsets.UTF_8) {
                     @Override
                     public void close() throws IOException {
                         flush();  // don't close System.out

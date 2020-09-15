@@ -27,21 +27,13 @@
 #
 
 #Environment file for "initurl" test suite
-
 StdTestScript=com.sun.javatest.lib.StdTestScript
 SimpTestScript=javasoft.sqe.javatest.lib.SimpTestScript
-
 ExecStdTestSameJVMCmd=com.sun.javatest.lib.ExecStdTestSameJVMCmd
 ExecStdTestOtherJVMCmd=com.sun.javatest.lib.ExecStdTestOtherJVMCmd
 ProcessCommand=com.sun.javatest.lib.ProcessCommand
-SlaveCommand=javasoft.sqe.javatest.lib.SlaveCommand
-
-SerialPortAgentCommand=com.sun.javatest.agent.SerialPortAgentCommand
-
 # default script setting for all envs
 script=com.sun.javatest.lib.KeywordScript
-
-#env.initurl.finder=com.sun.javatest.finder.HTMLTestFinder
 
 env.initurl.description=Environment to exercise the tests in the "initurl" test suite
 env.initurl.menu=true
@@ -61,35 +53,13 @@ env.initurl.command.compile.java=$ProcessCommand CLASSPATH=$javatestClassDir$:$t
 env.initurl.command.execute=$ExecStdTestOtherJVMCmd DISPLAY=$DISPLAY CLASSPATH=$javatestClassDir$:$testClassDir $JAVA $testExecuteClass $testExecuteArgs
 #
 env.initurl.javaHome=${java.home}
-
 env.binary.inherits=initurl
 env.binary.finder=com.sun.javatest.finder.BinaryTestFinder testsuite.jtd
-
 env.initurl-reverse.description=Uses ReverseTestFinder to locate tests
 env.initurl-reverse.inherits=initurl
 env.initurl-reverse.finder=com.sun.javatest.finder.ReverseTestFinder com.sun.javatest.finder.HTMLTestFinder
 
 env.initurl-active-otherJVM.inherits=initurl
-env.initurl-active-otherJVM.description=Environment to exercise the tests in the "initurl" test suite, using a slave in otherJVM mode
-#
-env.initurl-active-otherJVM.command.compile.java=$SlaveCommand -tag $testPath $ProcessCommand CLASSPATH=$javatestClassDir$:$testClassDir $javaHome$/bin$/javac -d $testClassDir $javacFlags $testSource
-env.initurl-active-otherJVM.command.execute=$SlaveCommand -tag $testPath $ExecStdTestOtherJVMCmd DISPLAY=$DISPLAY CLASSPATH=$javatestClassDir$:$testClassDir $javaHome$/bin$/java $testExecuteClass $testExecuteArgs
-
-
-env.initurl-active-sameJVM.inherits=initurl
-env.initurl-active-sameJVM.description=Environment to exercise the tests in the "initurl" test suite, using a slave in otherJVM mode
-#
-env.initurl-active-sameJVM.command.compile.java=$ProcessCommand CLASSPATH=$javatestClassDir$:$testClassDir $javaHome$/bin$/javac -d $testClassDir $javacFlags $testSource
-env.initurl-active-sameJVM.command.execute=$SlaveCommand -tag $testPath -cp $javatestClassDir$:$testClassDir $ExecStdTestSameJVMCmd $testExecuteClass $testExecuteArgs
-
-
-
-env.initurl-passive-otherJVM.inherits=initurl
-env.initurl-passive-otherJVM.description=Environment to exercise the tests in the "initurl" test suite, using a slave in otherJVM mode
-#
-env.initurl-passive-otherJVM.command.compile.java=$SlaveCommand -host $localHost -tag $testPath $ProcessCommand CLASSPATH=$javatestClassDir$:$testClassDir $javaHome$/bin$/javac -d $testClassDir $javacFlags $testSource
-env.initurl-passive-otherJVM.command.execute=$SlaveCommand -host $localHost -tag $testPath $ExecStdTestOtherJVMCmd DISPLAY=$DISPLAY CLASSPATH=$javatestClassDir$:$testClassDir $javaHome$/bin$/java $testExecuteClass $testExecuteArgs
-
 env.initurl-report.description=Environment to report the results of tests in the "initurl" test suite
 env.initurl-report.finder=com.sun.javatest.finder.HTMLTestFinder
 env.initurl-report.script=com.sun.javatest.lib.ReportScript

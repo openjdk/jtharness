@@ -242,31 +242,31 @@ class KflSection extends HTMLSection {
     }
 
     @Override
-    void writeSummary(ReportWriter out) throws IOException {
-        super.writeSummary(out);
+    void writeSummary(ReportWriter repWriter) throws IOException {
+        super.writeSummary(repWriter);
 
-        out.write(i18n.getString("kfl.files.list"));
+        repWriter.write(i18n.getString("kfl.files.list"));
         File[] kfls = settings.getInterview().getKnownFailureFiles();
 
         if (kfls != null && kfls.length > 0) {
-            out.startTag(HTMLWriterEx.UL);
+            repWriter.startTag(HTMLWriterEx.UL);
 
             for (File f : kfls) {
-                out.startTag(HTMLWriterEx.LI);
-                out.writeLink(f.toURI().toString(), f.getCanonicalPath());
+                repWriter.startTag(HTMLWriterEx.LI);
+                repWriter.writeLink(f.toURI().toString(), f.getCanonicalPath());
             }   // for
 
-            out.endTag(HTMLWriterEx.UL);
+            repWriter.endTag(HTMLWriterEx.UL);
         } else {
-            out.write(i18n.getString("kfl.nofiles"));
-            out.newLine();
+            repWriter.write(i18n.getString("kfl.nofiles"));
+            repWriter.newLine();
             return;     // no need to continue with section
         }
 
         if (kfl == null) {
-            out.write(i18n.getString("kfl.unable"));
-            out.startTag(HTMLWriterEx.BR);
-            out.newLine();
+            repWriter.write(i18n.getString("kfl.unable"));
+            repWriter.startTag(HTMLWriterEx.BR);
+            repWriter.newLine();
             return;
         }
 
@@ -279,121 +279,121 @@ class KflSection extends HTMLSection {
         int errors = sorter.run(parent.getResults());
          */
 
-        out.startTag(HTMLWriterEx.TABLE);
-        out.writeAttr(HTMLWriterEx.BORDER, 1);
+        repWriter.startTag(HTMLWriterEx.TABLE);
+        repWriter.writeAttr(HTMLWriterEx.BORDER, 1);
 
-        out.startTag(HTMLWriterEx.TR);
-        out.writeTH(i18n.getString("kfl.changes.hdr"), HTMLWriterEx.ROW);
-        out.writeTH(i18n.getString("kfl.tests.hdr", Integer.toString(sorter.getErrorCount())), HTMLWriterEx.ROW);
+        repWriter.startTag(HTMLWriterEx.TR);
+        repWriter.writeTH(i18n.getString("kfl.changes.hdr"), HTMLWriterEx.ROW);
+        repWriter.writeTH(i18n.getString("kfl.tests.hdr", Integer.toString(sorter.getErrorCount())), HTMLWriterEx.ROW);
 
         if (settings.isKflTestCasesEnabled()) {
-            out.writeTH(i18n.getString("kfl.tc.hdr", Integer.toString(sorter.getTestCasesErrorCount())), HTMLWriterEx.ROW);
+            repWriter.writeTH(i18n.getString("kfl.tc.hdr", Integer.toString(sorter.getTestCasesErrorCount())), HTMLWriterEx.ROW);
         }
 
         // FAIL to PASS
-        out.startTag(HTMLWriterEx.TR);
-        out.writeTH(i18n.getString("kfl.f2p.summary"), HTMLWriterEx.ROW);
+        repWriter.startTag(HTMLWriterEx.TR);
+        repWriter.writeTH(i18n.getString("kfl.f2p.summary"), HTMLWriterEx.ROW);
 
-        out.startTag(HTMLWriterEx.TD);
-        out.writeLink(FAIL2PASS, Integer.toString(sorter.getSet(KflSorter.Transitions.FAIL2PASS).size()));
-        out.endTag(HTMLWriterEx.TD);
+        repWriter.startTag(HTMLWriterEx.TD);
+        repWriter.writeLink(FAIL2PASS, Integer.toString(sorter.getSet(KflSorter.Transitions.FAIL2PASS).size()));
+        repWriter.endTag(HTMLWriterEx.TD);
 
         if (settings.isKflTestCasesEnabled()) {
-            out.startTag(HTMLWriterEx.TD);
-            out.writeLink(TC_FAIL2PASS, Integer.toString(sorter.getSet(KflSorter.Transitions.TC_FAIL2PASS).size()));
-            out.endTag(HTMLWriterEx.TD);
+            repWriter.startTag(HTMLWriterEx.TD);
+            repWriter.writeLink(TC_FAIL2PASS, Integer.toString(sorter.getSet(KflSorter.Transitions.TC_FAIL2PASS).size()));
+            repWriter.endTag(HTMLWriterEx.TD);
         }
 
         // FAIL to ERROR
         if (settings.isKflF2eEnabled()) {
-            out.startTag(HTMLWriterEx.TR);
-            out.writeTH(i18n.getString("kfl.f2e.summary"), HTMLWriterEx.ROW);
+            repWriter.startTag(HTMLWriterEx.TR);
+            repWriter.writeTH(i18n.getString("kfl.f2e.summary"), HTMLWriterEx.ROW);
 
-            out.startTag(HTMLWriterEx.TD);
-            out.writeLink(FAIL2ERROR, Integer.toString(sorter.getSet(KflSorter.Transitions.FAIL2ERROR).size()));
-            out.endTag(HTMLWriterEx.TD);
+            repWriter.startTag(HTMLWriterEx.TD);
+            repWriter.writeLink(FAIL2ERROR, Integer.toString(sorter.getSet(KflSorter.Transitions.FAIL2ERROR).size()));
+            repWriter.endTag(HTMLWriterEx.TD);
 
             if (settings.isKflTestCasesEnabled()) {
-                out.startTag(HTMLWriterEx.TD);
-                out.writeLink(TC_FAIL2ERROR, Integer.toString(sorter.getSet(KflSorter.Transitions.TC_FAIL2ERROR).size()));
-                out.endTag(HTMLWriterEx.TD);
+                repWriter.startTag(HTMLWriterEx.TD);
+                repWriter.writeLink(TC_FAIL2ERROR, Integer.toString(sorter.getSet(KflSorter.Transitions.TC_FAIL2ERROR).size()));
+                repWriter.endTag(HTMLWriterEx.TD);
             }
         }
 
         // UNRELATED ERRORS
-        out.startTag(HTMLWriterEx.TR);
-        out.writeTH(i18n.getString("kfl.errors.summary"), HTMLWriterEx.ROW);
+        repWriter.startTag(HTMLWriterEx.TR);
+        repWriter.writeTH(i18n.getString("kfl.errors.summary"), HTMLWriterEx.ROW);
 
-        out.startTag(HTMLWriterEx.TD);
-        out.writeLink(OTHER_ERRORS, Integer.toString(sorter.getSet(KflSorter.Transitions.OTHER_ERRORS).size()));
-        out.endTag(HTMLWriterEx.TD);
+        repWriter.startTag(HTMLWriterEx.TD);
+        repWriter.writeLink(OTHER_ERRORS, Integer.toString(sorter.getSet(KflSorter.Transitions.OTHER_ERRORS).size()));
+        repWriter.endTag(HTMLWriterEx.TD);
 
         // print that no TC info is available
-        out.startTag(HTMLWriterEx.TD);
-        out.write(i18n.getString("kfl.f2f.notc"));
-        out.endTag(HTMLWriterEx.TD);
+        repWriter.startTag(HTMLWriterEx.TD);
+        repWriter.write(i18n.getString("kfl.f2f.notc"));
+        repWriter.endTag(HTMLWriterEx.TD);
 
         // FAIL to NOT RUN
-        out.startTag(HTMLWriterEx.TR);
-        out.writeTH(i18n.getString("kfl.f2nr.summary"), HTMLWriterEx.ROW);
+        repWriter.startTag(HTMLWriterEx.TR);
+        repWriter.writeTH(i18n.getString("kfl.f2nr.summary"), HTMLWriterEx.ROW);
 
-        out.startTag(HTMLWriterEx.TD);
-        out.writeLink(FAIL2NOTRUN, Integer.toString(sorter.getSet(KflSorter.Transitions.FAIL2NOTRUN).size()));
-        out.endTag(HTMLWriterEx.TD);
+        repWriter.startTag(HTMLWriterEx.TD);
+        repWriter.writeLink(FAIL2NOTRUN, Integer.toString(sorter.getSet(KflSorter.Transitions.FAIL2NOTRUN).size()));
+        repWriter.endTag(HTMLWriterEx.TD);
 
         if (settings.isKflTestCasesEnabled()) {
-            out.startTag(HTMLWriterEx.TD);
-            out.writeLink(TC_FAIL2NOTRUN, Integer.toString(sorter.getSet(KflSorter.Transitions.TC_FAIL2NOTRUN).size()));
-            out.endTag(HTMLWriterEx.TD);
+            repWriter.startTag(HTMLWriterEx.TD);
+            repWriter.writeLink(TC_FAIL2NOTRUN, Integer.toString(sorter.getSet(KflSorter.Transitions.TC_FAIL2NOTRUN).size()));
+            repWriter.endTag(HTMLWriterEx.TD);
         }
 
         if (settings.isKflMissingEnabled()) {
-            out.startTag(HTMLWriterEx.TR);
-            out.writeTH(i18n.getString("kfl.f2m.summary"), HTMLWriterEx.ROW);
+            repWriter.startTag(HTMLWriterEx.TR);
+            repWriter.writeTH(i18n.getString("kfl.f2m.summary"), HTMLWriterEx.ROW);
 
             // FAIL to MISSING
-            out.startTag(HTMLWriterEx.TD);
-            out.writeLink(FAIL2MISSING, Integer.toString(sorter.getSet(KflSorter.Transitions.FAIL2MISSING).size()));
-            out.endTag(HTMLWriterEx.TD);
+            repWriter.startTag(HTMLWriterEx.TD);
+            repWriter.writeLink(FAIL2MISSING, Integer.toString(sorter.getSet(KflSorter.Transitions.FAIL2MISSING).size()));
+            repWriter.endTag(HTMLWriterEx.TD);
 
             if (settings.isKflTestCasesEnabled()) {
-                out.startTag(HTMLWriterEx.TD);
-                out.writeLink(TC_FAIL2MISSING, Integer.toString(sorter.getSet(KflSorter.Transitions.TC_FAIL2MISSING).size()));
-                out.endTag(HTMLWriterEx.TD);
+                repWriter.startTag(HTMLWriterEx.TD);
+                repWriter.writeLink(TC_FAIL2MISSING, Integer.toString(sorter.getSet(KflSorter.Transitions.TC_FAIL2MISSING).size()));
+                repWriter.endTag(HTMLWriterEx.TD);
             }
         }
 
         // NEW FAILURES
-        out.startTag(HTMLWriterEx.TR);
-        out.writeTH(i18n.getString("kfl.new.summary"), HTMLWriterEx.ROW);
-        out.startTag(HTMLWriterEx.TD);
-        out.writeLink(NEWFAILURES, Integer.toString(sorter.getSet(KflSorter.Transitions.NEWFAILURES).size()));
-        out.endTag(HTMLWriterEx.TD);
+        repWriter.startTag(HTMLWriterEx.TR);
+        repWriter.writeTH(i18n.getString("kfl.new.summary"), HTMLWriterEx.ROW);
+        repWriter.startTag(HTMLWriterEx.TD);
+        repWriter.writeLink(NEWFAILURES, Integer.toString(sorter.getSet(KflSorter.Transitions.NEWFAILURES).size()));
+        repWriter.endTag(HTMLWriterEx.TD);
 
         if (settings.isKflTestCasesEnabled()) {
-            out.startTag(HTMLWriterEx.TD);
-            out.writeLink(TC_NEWFAILURES, Integer.toString(sorter.getSet(KflSorter.Transitions.TC_NEWFAILURES).size()));
-            out.endTag(HTMLWriterEx.TD);
+            repWriter.startTag(HTMLWriterEx.TD);
+            repWriter.writeLink(TC_NEWFAILURES, Integer.toString(sorter.getSet(KflSorter.Transitions.TC_NEWFAILURES).size()));
+            repWriter.endTag(HTMLWriterEx.TD);
         }
 
-        out.endTag(HTMLWriterEx.TR);
+        repWriter.endTag(HTMLWriterEx.TR);
 
         // FAIL to FAIL
         if (settings.isKflF2fEnabled()) {
-            out.startTag(HTMLWriterEx.TR);
-            out.writeTH(i18n.getString("kfl.f2f.summary"), HTMLWriterEx.ROW);
-            out.startTag(HTMLWriterEx.TD);
-            out.writeLink(FAIL2FAIL, Integer.toString(sorter.getSet(KflSorter.Transitions.FAIL2FAIL).size()));
-            out.endTag(HTMLWriterEx.TD);
+            repWriter.startTag(HTMLWriterEx.TR);
+            repWriter.writeTH(i18n.getString("kfl.f2f.summary"), HTMLWriterEx.ROW);
+            repWriter.startTag(HTMLWriterEx.TD);
+            repWriter.writeLink(FAIL2FAIL, Integer.toString(sorter.getSet(KflSorter.Transitions.FAIL2FAIL).size()));
+            repWriter.endTag(HTMLWriterEx.TD);
 
             if (settings.isKflTestCasesEnabled()) {
-                out.startTag(HTMLWriterEx.TD);
-                out.write(i18n.getString("kfl.f2f.notc"));
-                out.endTag(HTMLWriterEx.TD);
+                repWriter.startTag(HTMLWriterEx.TD);
+                repWriter.write(i18n.getString("kfl.f2f.notc"));
+                repWriter.endTag(HTMLWriterEx.TD);
             }
         }
 
-        out.endTag(HTMLWriterEx.TABLE);
+        repWriter.endTag(HTMLWriterEx.TABLE);
     }
 
     @Override

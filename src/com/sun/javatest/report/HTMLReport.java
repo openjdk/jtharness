@@ -66,6 +66,7 @@ public class HTMLReport implements ReportFormat {
             KEYWORD_ANCHOR = 4;
     static final String SECOND_FAILED_REPORT = "failed_gr.html";
     static final String SECOND_PASSED_REPORT = "passed_gr.html";
+    static final String SECOND_NOTRUN_REPORT = "notRun_gr.html";
 
 
     // --------------- Utility Methods --------------------------------------
@@ -86,7 +87,8 @@ public class HTMLReport implements ReportFormat {
             KflSection.NEWFAILURES,
             SECOND_PASSED_REPORT,
             SECOND_FAILED_REPORT,
-            SECOND_ERROR_REPORT
+            SECOND_ERROR_REPORT,
+            SECOND_NOTRUN_REPORT
     };
     // The following must be kept in sync with the preceding list
     static final int
@@ -105,7 +107,8 @@ public class HTMLReport implements ReportFormat {
             KFL_NEW = 12,
             PASSED_HTML_2 = 13,
             FAILED_HTML_2 = 14,
-            ERROR_HTML_2 = 15;
+            ERROR_HTML_2 = 15,
+            NOTRUN_HTML_2 = 16;
     private static final String ID = "html";
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(HTMLReport.class);
     /**
@@ -149,19 +152,19 @@ public class HTMLReport implements ReportFormat {
     }
 
     @Override
-    public ReportLink write(ReportSettings s, File dir) throws IOException {
+    public ReportLink write(ReportSettings repSettings, File dir) throws IOException {
         reportDir = dir;
         initCharset();
-        setKflData(s.getKflSorter());
-        setResults(s.getSortedTestResults());
+        setKflData(repSettings.getKflSorter());
+        setResults(repSettings.getSortedTestResults());
 
 
         List<HTMLSection> mainSecs = new ArrayList<>(3);
         List<HTMLSection> auxSecs = new ArrayList<>(3);
 
         // optional section
-        ConfigSection cs = new ConfigSection(this, s, dir, i18n);
-        if (s.isConfigSectionEnabled()) {
+        ConfigSection cs = new ConfigSection(this, repSettings, dir, i18n);
+        if (repSettings.isConfigSectionEnabled()) {
             mainSecs.add(cs);
             auxSecs.add(cs);
         }
@@ -172,39 +175,39 @@ public class HTMLReport implements ReportFormat {
 
         // slightly workaround ifs here to prevent unnecessary
         // initialization if it is not going to be used
-        ResultSection rs = null;
-        if (s.isResultsEnabled() || s.isKflEnabled()) {
+        ResultSection resultSection = null;
+        if (repSettings.isResultsEnabled() || repSettings.isKflEnabled()) {
             // necessary because the result section generates a sorted
             // set of results
-            rs = new ResultSection(this, s, dir, i18n, getResults());
+            resultSection = new ResultSection(this, repSettings, dir, i18n, getResults());
         }
 
-        if (s.isResultsEnabled()) {
-            mainSecs.add(rs);
+        if (repSettings.isResultsEnabled()) {
+            mainSecs.add(resultSection);
         }
 
-        if (s.isStateFileEnabled(Status.PASSED) ||
-                s.isStateFileEnabled(Status.ERROR) ||
-                s.isStateFileEnabled(Status.NOT_RUN) ||
-                s.isStateFileEnabled(Status.FAILED)) {
-            if (rs == null) {
-                rs = new ResultSection(this, s, dir, i18n, getResults());
+        if (repSettings.isStateFileEnabled(Status.PASSED) ||
+                repSettings.isStateFileEnabled(Status.ERROR) ||
+                repSettings.isStateFileEnabled(Status.NOT_RUN) ||
+                repSettings.isStateFileEnabled(Status.FAILED)) {
+            if (resultSection == null) {
+                resultSection = new ResultSection(this, repSettings, dir, i18n, getResults());
             }
-            auxSecs.add(rs);
+            auxSecs.add(resultSection);
         }
 
         // optional section
         KflSection kfl;
-        if (s.isKflEnabled()) {
-            kfl = new KflSection(this, s, dir, i18n, kflSorter);
+        if (repSettings.isKflEnabled()) {
+            kfl = new KflSection(this, repSettings, dir, i18n, kflSorter);
             mainSecs.add(kfl);
             auxSecs.add(kfl);
         }
 
         // optional section
-        if (s.isKeywordSummaryEnabled()) {
-            mainSecs.add(new StatisticsSection(this, s, dir, i18n));
-            auxSecs.add(new StatisticsSection(this, s, dir, i18n));
+        if (repSettings.isKeywordSummaryEnabled()) {
+            mainSecs.add(new StatisticsSection(this, repSettings, dir, i18n));
+            auxSecs.add(new StatisticsSection(this, repSettings, dir, i18n));
         }
 
         HTMLSection[] mainSections = new HTMLSection[mainSecs.size()];
@@ -215,13 +218,13 @@ public class HTMLReport implements ReportFormat {
 
         // prepare main report file
         Writer writer = null;
-        if (s.reportHtml && s.indexHtml) {
+        if (repSettings.reportHtml && repSettings.indexHtml) {
             writer = new DuplexWriter(
                     openWriter(reportDir, REPORT_HTML),
                     openWriter(reportDir, INDEX_HTML));
-        } else if (s.reportHtml) {
+        } else if (repSettings.reportHtml) {
             writer = openWriter(reportDir, REPORT_HTML);
-        } else if (s.indexHtml) {
+        } else if (repSettings.indexHtml) {
             writer = openWriter(reportDir, INDEX_HTML);
         } else {
             // no main report output specified in settings
@@ -231,39 +234,39 @@ public class HTMLReport implements ReportFormat {
         // report
         ReportWriter.initializeDirectory(reportDir);
         if (writer != null) {
-            ReportWriter out = new ReportWriter(writer,
+            ReportWriter repWriter = new ReportWriter(writer,
                     i18n.getString("report.title"), i18n, reportCharset);
 
             // test suite name
-            String testSuiteName = s.getInterview().getTestSuite().getName();
+            String testSuiteName = repSettings.getInterview().getTestSuite().getName();
             if (testSuiteName != null) {
-                out.startTag(HTMLWriterEx.H2);
-                out.writeI18N("report.testSuite", testSuiteName);
-                out.endTag(HTMLWriterEx.H2);
+                repWriter.startTag(HTMLWriterEx.H2);
+                repWriter.writeI18N("report.testSuite", testSuiteName);
+                repWriter.endTag(HTMLWriterEx.H2);
             }
 
-            if (s.getTestFilter() != null && s.getTestFilter().getName() != null) {
-                out.startTag(HTMLWriterEx.H3);
-                out.writeI18N("report.filter", s.getTestFilter().getName());
-                out.endTag(HTMLWriterEx.H3);
+            if (repSettings.getTestFilter() != null && repSettings.getTestFilter().getName() != null) {
+                repWriter.startTag(HTMLWriterEx.H3);
+                repWriter.writeI18N("report.filter", repSettings.getTestFilter().getName());
+                repWriter.endTag(HTMLWriterEx.H3);
             }
 
             // info from sections for main report
-            out.startTag(HTMLWriterEx.UL);
-            for (HTMLSection mainSection1 : mainSections) {
-                out.startTag(HTMLWriterEx.LI);
-                mainSection1.writeContents(out);
-                out.endTag(HTMLWriterEx.LI);
+            repWriter.startTag(HTMLWriterEx.UL);
+            for (HTMLSection section : mainSections) {
+                repWriter.startTag(HTMLWriterEx.LI);
+                section.writeContents(repWriter);
+                repWriter.endTag(HTMLWriterEx.LI);
             }
-            out.endTag(HTMLWriterEx.UL);
+            repWriter.endTag(HTMLWriterEx.UL);
 
-            for (HTMLSection mainSection : mainSections) {
-                out.startTag(HTMLWriterEx.HR);
-                mainSection.writeSummary(out);
-                out.newLine();
+            for (HTMLSection section : mainSections) {
+                repWriter.startTag(HTMLWriterEx.HR);
+                section.writeSummary(repWriter);
+                repWriter.newLine();
             }
 
-            out.close();
+            repWriter.close();
         }
 
         for (HTMLSection auxSection : auxSections) {
@@ -271,9 +274,9 @@ public class HTMLReport implements ReportFormat {
         }
 
         File f;
-        if (s.indexHtml) {
+        if (repSettings.indexHtml) {
             f = new File(ID + File.separator + "index.html");
-        } else if (s.reportHtml) {
+        } else if (repSettings.reportHtml) {
             f = new File(ID + File.separator + "report.html");
         } else {
             f = new File(ID + File.separator);

@@ -66,13 +66,13 @@ public class TestEnvironment {
      * comments. You should specify "true" value for this property to enable
      * the bugfix, disabling the inline comments.
      */
-    static String DISABLE_INLINE_COMMENTS_PROPERTY = "com.sun.javatest.InlineEnvComments";
-    private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestEnvironment.class);
-    private String name;
-    private String[] inherits;
+    static final String DISABLE_INLINE_COMMENTS_PROPERTY = "com.sun.javatest.InlineEnvComments";
+    private static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(TestEnvironment.class);
+    private final String name;
+    private final String[] inherits;
     private Map<String, Element> table = new HashMap<>();
     private Map<String, String[]> extras = new HashMap<>();
-    private Map<String, Element> cache = new HashMap<>();
+    private final Map<String, Element> cache = new HashMap<>();
 
     /**
      * Construct an environment for a named group of properties.
@@ -86,9 +86,13 @@ public class TestEnvironment {
      */
     public TestEnvironment(String name, final Map<String, String> propTable, String propTableName)
             throws Fault {
-        this(name, new ArrayList<Map<String, String>>() {{
+        this(name, new PropTableArrayList(propTable), propTableName);
+    }
+
+    private static class PropTableArrayList extends ArrayList<Map<String, String>> {
+        public PropTableArrayList(Map<String, String> propTable) {
             add(propTable);
-        }}, propTableName);
+        }
     }
 
     /**
@@ -108,7 +112,7 @@ public class TestEnvironment {
     @java.lang.Deprecated
     public TestEnvironment(String name, Map[] propTables, String... propTableNames)
             throws Fault {
-        this(name, Arrays.<Map<String, String>>asList(propTables), propTableNames);
+        this(name, Arrays.asList(propTables), propTableNames);
     }
 
     /**
@@ -213,8 +217,8 @@ public class TestEnvironment {
         }
 
         //System.err.println("TEC: add default propTable " + name);
-        defaultPropTableNames = DynamicArray.append(defaultPropTableNames, name);
-        defaultPropTables.add(propTable);
+        TestEnvironment.defaultPropTableNames = DynamicArray.append(TestEnvironment.defaultPropTableNames, name);
+        TestEnvironment.defaultPropTables.add(propTable);
     }
 
     /**
@@ -229,7 +233,7 @@ public class TestEnvironment {
      * @see #clearDefaultPropTables
      */
     public static synchronized void addDefaultPropTable(String name, Properties propTable) {
-        addDefaultPropTable(name, PropertyUtils.convertToStringProps(propTable));
+        TestEnvironment.addDefaultPropTable(name, PropertyUtils.convertToStringProps(propTable));
     }
 
     /**
@@ -238,8 +242,8 @@ public class TestEnvironment {
      * @see #addDefaultPropTable
      */
     public static synchronized void clearDefaultPropTables() {
-        defaultPropTableNames = new String[0];
-        defaultPropTables = new ArrayList<>();
+        TestEnvironment.defaultPropTableNames = new String[0];
+        TestEnvironment.defaultPropTables = new ArrayList<>();
     }
 
     static boolean isInlineCommentsDisabled() {
@@ -610,19 +614,18 @@ public class TestEnvironment {
         return false;
     }
 
-    private void substituteChar(String[] v, char from, char to) {
+    private static void substituteChar(String[] v, char from, char to) {
         for (int i = 0; i < v.length; i++) {
             v[i] = v[i].replace(from, to);
         }
     }
 
-    private void substituteMap(String[] v, String... map) {
+    private static void substituteMap(String[] v, String... map) {
         if (map == null) {
             return;
         }
 
-        // this algorithm is directly based on the "map" algorithm in
-        // Slave.Map, which it supercedes
+        // this algorithm is directly based on the "map" algorithm in the map which it supersedes
         for (int i = 0; i < v.length; i++) {
             String word = v[i];
             for (int j = 0; j + 1 < map.length; j += 2) {
@@ -638,7 +641,7 @@ public class TestEnvironment {
         }
     }
 
-    private String convertToName(String... v) {
+    private static String convertToName(String... v) {
         String s = "";
         for (int i = 0; i < v.length; i++) {
             if (i > 0) {
@@ -646,7 +649,7 @@ public class TestEnvironment {
             }
             for (int j = 0; j < v[i].length(); j++) {
                 char c = v[i].charAt(j);
-                s += isNameChar(c) ? c : '_';
+                s += TestEnvironment.isNameChar(c) ? c : '_';
             }
         }
         return s;

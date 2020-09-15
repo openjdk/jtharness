@@ -214,7 +214,7 @@ public abstract class Service implements MessageHandler {
 
     /**
      * Method to provide access for ServiceExecutor's error output. Redirects
-     * invokation to connector.
+     * invocation to connector.
      *
      * @return InputStream to read service error output.
      * @throws com.sun.javatest.services.Service.NotConnectedException if
@@ -230,7 +230,7 @@ public abstract class Service implements MessageHandler {
 
     /**
      * Method to provide access for ServiceExecutor's output. Redirects
-     * invokation to connector.
+     * invocation to connector.
      *
      * @return InputStream to read service output.
      * @throws com.sun.javatest.services.Service.NotConnectedException if

@@ -317,7 +317,7 @@ public class httpURL {
         }
 
         /**
-         * Provide description and pass-thru exception
+         * Provide description and pass-through exception
          */
         public Fault(String s, Throwable e) {
             super(s);

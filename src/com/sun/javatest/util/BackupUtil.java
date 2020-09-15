@@ -42,7 +42,7 @@ public class BackupUtil {
     }
 
     /**
-     * Performs backup of file. Searchs for all files with the same name + "~i~"(such names
+     * Performs backup of file. Searches for all files with the same name + "~i~"(such names
      * we use for backupped files). For each backup it increase it's number for 1
      * (older backups has higher numbers). Then checks, if there more backups, then
      * maxBackups allows, and remove superfluous old backups.
@@ -118,7 +118,7 @@ public class BackupUtil {
      * This method created to backup dirs. It just renames directories, not content of
      * this directories. Renaming mechanism is the same, as for backupFile().
      * If dir is empty, returns.
-     * If parametr is not dir, returns.
+     * If parameter is not dir, returns.
      */
     public static void backupDir(File file, int maxBackups) {
         if (!file.isDirectory()) {

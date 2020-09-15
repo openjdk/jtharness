@@ -42,7 +42,10 @@ import com.sun.javatest.util.I18NResourceBundle;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
@@ -121,7 +124,8 @@ class RunTestsCommand extends Command {
             // tests that were rejected by filters so skipped from the run
             int skipped = harness.getTestIterator().getRejectCount();
 
-            h.notifyOfTheFinalStats(skipped, boStats);
+            HashMap<TestFilter, ArrayList<TestDescription>> stats = harness.getTestIterator().getFilterStats();
+            h.notifyOfTheFinalStats(stats != null ? Collections.unmodifiableMap(stats) : Collections.emptyMap(), boStats);
 
             if (!ctx.isVerboseQuiet()) {
                 long tt = h.getElapsedTime();
@@ -190,11 +194,12 @@ class RunTestsCommand extends Command {
                     Integer.valueOf((notRun > 0) && (skipped > 0) ? 1 : 0),
                     Integer.valueOf(skipped));
         }
+        ctx.getLogWriter().println();
         for (Map.Entry<TestFilter, ArrayList<TestDescription>> entry : harness.getTestIterator().getFilterStats().entrySet()) {
             TestFilter filter = entry.getKey();
             int number = entry.getValue().size();
             ctx.getLogWriter().println(number + " " + (number == 1 ? "test" : "tests") +
-                    " skipped by filter \"" + filter.getName() + "\", reason: " + filter.getReason());
+                    " skipped by filter \"" + filter.getName() + "\"");
         }
     }
 

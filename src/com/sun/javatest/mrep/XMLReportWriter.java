@@ -203,7 +203,7 @@ class CopyHandler extends DefaultHandler {
                 ser.startElement("", "", qName, newAttrs);
             } else if (qName.equals(Scheme.TR)) {
                 // for TR TR_WDID may be updated
-                // or TR may be skipped during conflic resolving
+                // or TR may be skipped during conflict resolving
                 AttributesImpl newAttrs = new AttributesImpl();
                 for (int i = 0; i < attrs.getLength(); i++) {
                     if (attrs.getQName(i).equals(Scheme.TR_WDID)) {

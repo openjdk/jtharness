@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2020, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -24,61 +24,35 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
+package com.sun.javatest.util;
 
-package com.sun.javatest.functional;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class CustomTestFilter extends TestSuiteRunningTestBase {
+public class ConsoleLoggingTestDefaultLevel extends ConsoleLoggingTestBase {
 
     @Test
     public void test() {
-        runJavaTest();
-        checkSystemErrLineIs(6, "Test results: skipped: 3 ");
-        checkSystemErrLineIs(7, "");
-        checkSystemErrLineIs(8, "3 tests skipped by filter \"My suite-specific test filter\"");
-        checkSystemErrLineStartsWith(9, "Report written to");
+        savedSystemErr.clear();
+        Log.info("info message 345-");
+        Log.warning("warning message 345-");
+        Log.fine("fine message-");
+        Log.finer("finer message-");
+        Log.finest("finest message-");
+        Log.error("error message 890-");
+        warningFromOtherMethod();
+        Assert.assertEquals(4, savedSystemErr.size());
+        checkSystemErrLineEndsWith(0, "[INFO] (ConsoleLoggingTestDefaultLevel.test) info message 345-");
+        checkSystemErrLineEndsWith(1, "[WARNING] (ConsoleLoggingTestDefaultLevel.test) warning message 345-");
+        checkSystemErrLineEndsWith(2, "[SEVERE] (ConsoleLoggingTestDefaultLevel.test) error message 890-");
+        checkSystemErrLineEndsWith(3,
+                "[WARNING] (ConsoleLoggingTestDefaultLevel.warningFromOtherMethod) warning message from other method");
     }
 
-    @Override
-    protected int[] getExpectedTestRunFinalStats() {
-        return new int[]{0, 0, 0, 0};
+    private void warningFromOtherMethod() {
+        Log.warning("warning message from other method");
     }
-
-
-    @Override
-    protected String[] getExpectedLinesInTestrunSummary() {
-        return new String[]{
-        };
-    }
-
-    @Override
-    protected int getExpectedNumberOfTestsSkipped() {
-        return 3;
-    }
-
-    @Override
-    protected List<String> getTailArgs() {
-        return Arrays.asList("");
-    }
-
-    @Override
-    protected String getEnvName() {
-        return "initurl";
-    }
-
-    @Override
-    protected String getEnvfileName() {
-        return "suite.jte";
-    }
-
-    @Override
-    protected String getTestsuiteName() {
-        return "testsuite_filter";
-    }
-
 
 }
+

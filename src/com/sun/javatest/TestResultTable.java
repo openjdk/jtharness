@@ -2898,33 +2898,33 @@ public class TestResultTable {
 
         @Override
         public void timeoutWaitingForLock() {
-            // in time, could propogate this message to TRT.Observer so that
+            // in time, could propagate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
             writeI18N("trt.timeoutForLock", workDir.getRoot());
         }
 
         @Override
         public void acquiredLock() {
-            // in time, could propogate this message to TRT.Observer so that
+            // in time, could propagate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
         }
 
         @Override
         public void releasedLock() {
-            // in time, could propogate this message to TRT.Observer so that
+            // in time, could propagate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
         }
 
         @Override
         public void buildingCache(boolean reset) {
-            // in time, could propogate this message to TRT.Observer so that
+            // in time, could propagate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
             rebuildCount = 0;
         }
 
         @Override
         public void buildingCache(TestResult tr) {
-            // in time, could propogate this message to TRT.Observer so that
+            // in time, could propagate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
             rebuildCount++;
             if (rebuildCount == 100) {
@@ -2936,7 +2936,7 @@ public class TestResultTable {
 
         @Override
         public void builtCache() {
-            // in time, could propogate this message to TRT.Observer so that
+            // in time, could propagate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
             if (rebuildCount > 0) {
                 System.err.println();
@@ -2945,7 +2945,7 @@ public class TestResultTable {
 
         @Override
         public void error(Throwable t) {
-            // in time, could propogate this message to TRT.Observer so that
+            // in time, could propagate this message to TRT.Observer so that
             // GUI code could present the info better, but, for now, stay basic
             writeI18N("trt.cacheError", t);
             t.printStackTrace();

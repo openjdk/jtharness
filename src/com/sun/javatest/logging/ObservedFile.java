@@ -121,7 +121,7 @@ public class ObservedFile extends File {
             }
             logs.close();
 
-            // recored index
+            // recorded index
             recs = new RandomAccessFile(getRecordInexFile(), "rw");
             recs.seek(recs.length());
             recs.writeInt(logNum);

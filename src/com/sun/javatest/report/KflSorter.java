@@ -393,7 +393,7 @@ public class KflSorter {
 
                                     // could optimize slightly to avoid repeated
                                     // adds if multiple test cases are new fails.
-                                    // ensures that a tc-only differnece is also
+                                    // ensures that a tc-only difference is also
                                     // reported in the non-tc new failures list
                                     TestDiff diff = new TestDiff(tr.getTestName(), tr,
                                             Transitions.NEWFAILURES);

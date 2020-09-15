@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2020, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -24,33 +24,33 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
+package com.oracle.tck.lib.autd2.unittests.tgfported;
 
-package com.sun.tck.test;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.sun.tck.lib.tgf.EmptyIterator;
+import com.sun.tck.lib.tgf.LeafIterator;
+import com.sun.tck.lib.tgf.Transform;
+import com.sun.tck.lib.tgf.TransformingIterator;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * TestedAPI annotation is used to specify package, class and class member
- * under test by TestGroup.
+ *
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface TestedAPI {
-    /**
-     * package under test
-     */
-    public String[] testedPackage();
+public class TestEmptyIterator {
 
-    /**
-     * class under test
-     */
-    public String[] testedClass() default "";
+    @Test(expected = java.util.NoSuchElementException.class)
+    public void testEmptyIterator_NSE() {
+        EmptyIterator iterator = EmptyIterator.EMPTY_ITERATOR;
+        iterator.rollback();
+        iterator.shift();
+        iterator.next();
+    }
 
-    /**
-     * methods under test
-     */
-    public String[] testedMember() default "";
+    @Test
+    public void testEmptyIterator_rollback_shift() {
+        EmptyIterator iterator = EmptyIterator.EMPTY_ITERATOR;
+        iterator.rollback();
+        iterator.shift();
+    }
+
 }

@@ -57,75 +57,75 @@ class ConfigSection extends HTMLSection {
     }
 
     @Override
-    void writeContents(ReportWriter out) throws IOException {
-        super.writeContents(out);
+    void writeContents(ReportWriter repWriter) throws IOException {
+        super.writeContents(repWriter);
 
         if (settings.isQuestionLogEnabled()) {
-            out.startTag(HTMLWriterEx.UL);
-            out.startTag(HTMLWriterEx.LI);
-            out.writeLink(HTMLReport.files[HTMLReport.CONFIG_HTML],
+            repWriter.startTag(HTMLWriterEx.UL);
+            repWriter.startTag(HTMLWriterEx.LI);
+            repWriter.writeLink(HTMLReport.files[HTMLReport.CONFIG_HTML],
                     i18n.getString("config.confInterview"));
-            out.endTag(HTMLWriterEx.LI);
-            out.endTag(HTMLWriterEx.UL);
+            repWriter.endTag(HTMLWriterEx.LI);
+            repWriter.endTag(HTMLWriterEx.UL);
         }
 
         if (settings.isStdEnabled()) {
-            out.startTag(HTMLWriterEx.UL);
-            out.startTag(HTMLWriterEx.LI);
-            out.writeLink("#" + HTMLReport.anchors[HTMLReport.SELECT_ANCHOR],
+            repWriter.startTag(HTMLWriterEx.UL);
+            repWriter.startTag(HTMLWriterEx.LI);
+            repWriter.writeLink("#" + HTMLReport.anchors[HTMLReport.SELECT_ANCHOR],
                     i18n.getString("config.selectValue"));
-            out.endTag(HTMLWriterEx.LI);
+            repWriter.endTag(HTMLWriterEx.LI);
 
             if (settings.isEnvEnabled()) {
-                out.startTag(HTMLWriterEx.LI);
-                out.writeLink("#" + HTMLReport.anchors[HTMLReport.EXEC_ANCHOR],
+                repWriter.startTag(HTMLWriterEx.LI);
+                repWriter.writeLink("#" + HTMLReport.anchors[HTMLReport.EXEC_ANCHOR],
                         i18n.getString("config.execValue"));
-                out.endTag(HTMLWriterEx.LI);
+                repWriter.endTag(HTMLWriterEx.LI);
             }
 
-            out.startTag(HTMLWriterEx.LI);
-            out.writeLink("#" + HTMLReport.anchors[HTMLReport.LOC_ANCHOR],
+            repWriter.startTag(HTMLWriterEx.LI);
+            repWriter.writeLink("#" + HTMLReport.anchors[HTMLReport.LOC_ANCHOR],
                     i18n.getString("config.locValue"));
-            out.endTag(HTMLWriterEx.LI);
-            out.endTag(HTMLWriterEx.UL);
+            repWriter.endTag(HTMLWriterEx.LI);
+            repWriter.endTag(HTMLWriterEx.UL);
         }
     }
 
     @Override
-    void writeSummary(ReportWriter out) throws IOException {
-        super.writeSummary(out);
+    void writeSummary(ReportWriter repWriter) throws IOException {
+        super.writeSummary(repWriter);
 
         // info about test suite
-        out.startTag(HTMLWriterEx.TABLE);
-        out.writeAttr(HTMLWriterEx.BORDER, 1);
-        out.startTag(HTMLWriterEx.TR);
-        out.writeTH(i18n.getString("config.testSuite"), HTMLWriterEx.ROW);
-        out.startTag(HTMLWriterEx.TD);
+        repWriter.startTag(HTMLWriterEx.TABLE);
+        repWriter.writeAttr(HTMLWriterEx.BORDER, 1);
+        repWriter.startTag(HTMLWriterEx.TR);
+        repWriter.writeTH(i18n.getString("config.testSuite"), HTMLWriterEx.ROW);
+        repWriter.startTag(HTMLWriterEx.TD);
 
         TestSuite ts = settings.getInterview().getTestSuite();
         if (ts != null) {
-            out.writeLink(ts.getRoot());
+            repWriter.writeLink(ts.getRoot());
         } else {
-            out.write(i18n.getString("config.noTestSuite"));
+            repWriter.write(i18n.getString("config.noTestSuite"));
         }
 
-        out.endTag(HTMLWriterEx.TD);
-        out.endTag(HTMLWriterEx.TR);
-        out.endTag(HTMLWriterEx.TABLE);
+        repWriter.endTag(HTMLWriterEx.TD);
+        repWriter.endTag(HTMLWriterEx.TR);
+        repWriter.endTag(HTMLWriterEx.TABLE);
 
         // standard values
         if (settings.isStdEnabled()) {
-            writeStdValSummary(out);
+            writeStdValSummary(repWriter);
         }
 
         // optional section
         if (settings.isEnvEnabled()) {
-            writeExecutionSummary(out);
+            writeExecutionSummary(repWriter);
         }
 
         // non-optional section
         // shows workdir, and report dir
-        writeLocationSummary(out);
+        writeLocationSummary(repWriter);
     }
 
     @Override
