@@ -299,7 +299,6 @@
     <target name="compile.classes">
         <echo>jdk.builder.home set to ${jdk.builder.home}</echo>
 
-        <!--<delete dir="${build.classes}" quiet="true"/>-->
         <depend srcdir="${src.dir}" destdir="${build.classes}"/>
         <mkdir dir="${build.classes}"/>
         <javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
@@ -536,7 +535,6 @@
 
     <target name="compile-javatest.help.main" unless="javatest.help.ok" >
         <!-- copy across the help files -->
-        <!--<delete dir="${build.javatest.help}"/>-->
         <mkdir dir="${build.tmp}"/>
 
         <copy todir="${build.javatest.help}" >
