@@ -346,7 +346,7 @@ public abstract class FileListQuestion extends Question {
         if (interview.getInterviewSemantics() >= Interview.SEMANTIC_VERSION_50) {
             filters = fs;
         } else {
-            // old behavior, the fitlers act as hint filters, not validation
+            // old behavior, the filters act as hint filters, not validation
             // filters
             filters = hintFilters = fs;
         }

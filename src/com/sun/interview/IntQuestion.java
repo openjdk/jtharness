@@ -311,7 +311,7 @@ public abstract class IntQuestion extends Question {
             ParsePosition pos = new ParsePosition(0);
             Number num = fmt.parse(s, pos);
             if (pos.getIndex() != s.length()) {
-                fmt = NumberFormat.getIntegerInstance(Locale.getDefault()); //aternative
+                fmt = NumberFormat.getIntegerInstance(Locale.getDefault()); //alternative
                 pos = new ParsePosition(0);
                 num = fmt.parse(s, pos);
             }

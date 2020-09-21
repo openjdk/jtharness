@@ -378,7 +378,7 @@ public class Properties2 extends Hashtable<String, Object> {
     }
 
     /**
-     * Enumerates all key/value pairs in the specified hastable.
+     * Enumerates all key/value pairs in the specified hashtable.
      *
      * @param h the hashtable
      */

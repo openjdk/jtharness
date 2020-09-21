@@ -344,7 +344,7 @@ public abstract class PropertiesQuestion extends CompositeQuestion {
      * Make the given value read-only.  It may be viewed, and used for
      * export, but not be modified by the user.
      * @throws IllegalArgumentException If the given key does not exist
-     *      in the quuestion's property table.
+     *      in the question's property table.
      */
      /*
     public void setReadOnlyValue(String key) {
