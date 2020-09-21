@@ -27,11 +27,11 @@
 
 package com.sun.tck.lib;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
-
 
 
 /**
@@ -1085,19 +1085,32 @@ public class Assert {
     }
 
     /**
-     * Invokes the specified function and checks that it throws the expected exception.
+     * Invokes the specified function and checks that it throws one of the expected exceptions
      */
-    public static void assertThrows(Class<? extends Throwable> expected, Thrower thrower) {
+    public static void assertThrows(Thrower thrower, Class<?>... expectedExceptions) {
+        if (expectedExceptions.length == 0) {
+            fail("Please specify exception(s) that are expected to be thrown");
+        }
         try {
             thrower.throwThrowable();
         } catch (Throwable t) {
-            if (!expected.isAssignableFrom(t.getClass())) {
-                fail("Expected " + expected.getCanonicalName() + " was not thrown. "
-                     + t.getClass().getCanonicalName() + "was thrown instead", t);
+            for (Class<?> expected : expectedExceptions) {
+                if (expected.isAssignableFrom(t.getClass())) {
+                    return; // OK
+                }
             }
-            return; // OK
+            List<String> names = new ArrayList<>();
+            for (Class<?> expected : expectedExceptions) {
+                names.add(expected.getName());
+            }
+            fail("None of the expected " + names + " was thrown. "
+                    + t.getClass().getName() + " was thrown instead", t);
         }
-        fail("Expected " + expected.getCanonicalName() + " was not thrown");
+        List<String> names = new ArrayList<>();
+        for (Class<?> expected : expectedExceptions) {
+            names.add(expected.getName());
+        }
+        fail("None of the expected " + names + " was thrown");
     }
 
 }

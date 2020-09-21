@@ -29,8 +29,6 @@ package com.oracle.tck.lib.autd2.unittests.tgfported.testruntimeskipping;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import static com.sun.tck.lib.Assert.*;
 import static com.sun.tck.lib.tgf.Values.*;
 
@@ -42,10 +40,10 @@ public class NotApplicableIndices {
 
     @Test
     public void indexIAE() {
-        assertThrows(IllegalArgumentException.class, () -> ExcludedRange.of(-1));
-        assertThrows(IllegalArgumentException.class, () -> ExcludedRange.of(-4));
-        assertThrows(IllegalArgumentException.class, () -> ExcludedRange.of(-12341232344L));
-        assertThrows(IllegalArgumentException.class, () -> ExcludedRange.of(Long.MIN_VALUE));
+        assertThrows(() -> ExcludedRange.of(-1), IllegalArgumentException.class);
+        assertThrows(() -> ExcludedRange.of(-4), IllegalArgumentException.class);
+        assertThrows(() -> ExcludedRange.of(-12341232344L), IllegalArgumentException.class);
+        assertThrows(() -> ExcludedRange.of(Long.MIN_VALUE), IllegalArgumentException.class);
     }
 
     @Test
@@ -81,11 +79,11 @@ public class NotApplicableIndices {
 
     @Test
     public void rangeIAE() {
-        assertThrows(IllegalArgumentException.class, () -> ExcludedRange.of(-1, 12));
-        assertThrows(IllegalArgumentException.class, () -> ExcludedRange.of(-1, -13));
-        assertThrows(IllegalArgumentException.class, () -> ExcludedRange.of(1, -13));
-        assertThrows(IllegalArgumentException.class, () -> ExcludedRange.of(1, 1));
-        assertThrows(IllegalArgumentException.class, () -> ExcludedRange.of(Long.MIN_VALUE, 1));
+        assertThrows(() -> ExcludedRange.of(-1, 12), IllegalArgumentException.class);
+        assertThrows(() -> ExcludedRange.of(-1, -13), IllegalArgumentException.class);
+        assertThrows(() -> ExcludedRange.of(1, -13), IllegalArgumentException.class);
+        assertThrows(() -> ExcludedRange.of(1, 1), IllegalArgumentException.class);
+        assertThrows(() -> ExcludedRange.of(Long.MIN_VALUE, 1), IllegalArgumentException.class);
     }
 
     @Test

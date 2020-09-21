@@ -28,12 +28,16 @@
 package com.oracle.tck.lib.autd2.unittests.tgfported.asserts;
 
 import com.oracle.tck.lib.autd2.unittests.TU;
-import com.sun.tck.TestObject;
+import com.oracle.tck.lib.autd2.unittests.TestObject;
 import com.sun.tck.lib.Assert;
 import com.sun.tck.lib.AssertionFailedException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.channels.IllegalBlockingModeException;
+import java.rmi.UnknownHostException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -392,7 +396,7 @@ public class TestPureAssert {
 
     @Test
     public void testAssertEquals_Positive_primitive_int() {
-        com.sun.tck.lib.Assert.assertEquals(890890, 890890);
+        com.sun.tck.lib.Assert.assertEquals((int) 890890, (int) 890890);
         com.sun.tck.lib.Assert.assertEquals(Integer.MAX_VALUE, Integer.MAX_VALUE);
         com.sun.tck.lib.Assert.assertEquals(Integer.MIN_VALUE, Integer.MIN_VALUE);
     }
@@ -1536,7 +1540,7 @@ public class TestPureAssert {
 
     @Test(expected = AssertionFailedException.class)
     public void testAssertEquals_Negative_primitive_longInt() {
-        com.sun.tck.lib.Assert.assertEquals(89345634563453L, 643576537);
+        com.sun.tck.lib.Assert.assertEquals(89345634563453L, (int) 643576537);
     }
 
     @Test(expected = AssertionFailedException.class)
@@ -1561,7 +1565,7 @@ public class TestPureAssert {
 
     @Test(expected = AssertionFailedException.class)
     public void testAssertEquals_Negative_primitive_int() {
-        com.sun.tck.lib.Assert.assertEquals(43, 85);
+        com.sun.tck.lib.Assert.assertEquals((int) 43, (int) 85);
     }
 
     @Test(expected = AssertionFailedException.class)
@@ -3426,83 +3430,606 @@ public class TestPureAssert {
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_not_throws_01() {
         com.sun.tck.lib.Assert.assertThrows(
-                Throwable.class,
                 () -> {
-                });
+                }, Throwable.class
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_not_throws_01_1() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                }, Throwable.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_not_throws_01_multiple() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                }, Throwable.class, RuntimeException.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_not_throws_01_multiple_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                }, IllegalArgumentException.class, OutOfMemoryError.class);
     }
 
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_not_throws_02() {
         com.sun.tck.lib.Assert.assertThrows(
-                RuntimeException.class,
                 () -> {
-                });
+                }, RuntimeException.class
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_not_throws_02_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                }, RuntimeException.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_not_throws_02_multi() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                }, RuntimeException.class, ThreadDeath.class);
     }
 
 
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_wrongType_01() {
         com.sun.tck.lib.Assert.assertThrows(
-                RuntimeException.class,
                 () -> {
                     throw new Throwable();
-                });
+                }, RuntimeException.class
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_wrongType_01_1() {
+        com.sun.tck.lib.Assert.assertThrows(
+
+                () -> {
+                    throw new Throwable();
+                }, RuntimeException.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_wrongType_01_1_multiple() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Throwable();
+                }, IllegalArgumentException.class, UncheckedIOException.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_wrongType_01_1_multiple_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Throwable();
+                }, IllegalArgumentException.class, UncheckedIOException.class, RuntimeException.class);
     }
 
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_wrongType_02() {
         com.sun.tck.lib.Assert.assertThrows(
-                IllegalArgumentException.class,
                 () -> {
                     throw new IllegalStateException();
-                });
+                }, IllegalArgumentException.class
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_wrongType_02_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new IllegalStateException();
+                }, IllegalArgumentException.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_wrongType_02_01_multiple() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new IllegalStateException();
+                }, IllegalArgumentException.class, StackOverflowError.class, IOException.class);
     }
 
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_wrongType_03() {
         com.sun.tck.lib.Assert.assertThrows(
-                Error.class,
                 () -> {
                     throw new IllegalArgumentException();
-                });
+                }, Error.class
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_wrongType_03_1() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new IllegalArgumentException();
+                }, Error.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_wrongType_03_1_multiple() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new IllegalArgumentException();
+                }, Error.class, UncheckedIOException.class);
     }
 
 
     @Test
     public void test_assertThrows_OK_01() {
         com.sun.tck.lib.Assert.assertThrows(
-                Throwable.class,
                 () -> {
                     throw new Throwable();
-                });
+                }, Throwable.class
+        );
+    }
+
+    @Test
+    public void test_assertThrows_OK_01_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Throwable();
+                }, Throwable.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_01_01_multiple() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Throwable();
+                }, Throwable.class, Error.class, RuntimeException.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_01_01_multiple_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new UncheckedIOException(new IOException());
+                }, Throwable.class, Error.class, RuntimeException.class);
     }
 
     @Test
     public void test_assertThrows_OK_02() {
         com.sun.tck.lib.Assert.assertThrows(
-                ArithmeticException.class,
                 () -> {
                     throw new ArithmeticException();
-                });
+                }, ArithmeticException.class
+        );
+    }
+
+    @Test
+    public void test_assertThrows_OK_0_1() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new ArithmeticException();
+                }, ArithmeticException.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_0_1_multiple() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new ArithmeticException();
+                }, UnknownHostException.class, ArithmeticException.class, IllegalBlockingModeException.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_0_1_multiple_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new ArithmeticException() {
+                    };
+                }, UnknownHostException.class, ArithmeticException.class, IllegalBlockingModeException.class);
     }
 
     @Test
     public void test_assertThrows_OK_subtype_01() {
         com.sun.tck.lib.Assert.assertThrows(
-                Throwable.class,
+                () -> {
+                    throw new RuntimeException();
+                }, Throwable.class
+        );
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_01_1() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new RuntimeException();
+                }, Throwable.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_01_1_multiple() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new RuntimeException();
+                }, Throwable.class, IllegalBlockingModeException.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_OK_supertype_01_1_multiple_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Throwable();
+                }, RuntimeException.class, IllegalBlockingModeException.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_02() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new IllegalArgumentException();
+                }, RuntimeException.class
+        );
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_02_1() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new IllegalArgumentException();
+                }, RuntimeException.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_02_1_multiple() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new IllegalArgumentException();
+                }, RuntimeException.class, Error.class, Throwable.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_02_1_multiple_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new RuntimeException() {
+                    };
+                }, RuntimeException.class, Error.class, Throwable.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_02_1_multiple_02() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex1();
+                }, Ex1.class, Ex2.class, Ex3.class, Ex4.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_02_1_multiple_03() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex1() {
+                    };
+                }, Ex1.class, Ex2.class, Ex3.class, Ex4.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_02_1_multiple_03_1() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex3_1 extends Ex3 {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex3_1();
+                }, Ex1.class, Ex2.class, Ex3.class, Ex4.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_02_1_multiple_03_3() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex3_1 extends Ex3 {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex3_1() {{
+                    }};
+                }, Ex1.class, Ex2.class, Ex3.class, Ex4.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_OK_subtype_02_1_multiple_03_4() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex3_1 extends Ex3 {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex3() {{
+                    }};
+                }, Ex1.class, Ex2.class, Ex3_1.class, Ex4.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_02_1_multiple_03_2() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex3_1 extends Ex3 {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex4();
+                }, Ex1.class, Ex2.class, Ex3.class, Ex3_1.class, Ex4.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_OK_subtype_02_1_multiple_04() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new RuntimeException();
+                }, Ex1.class, Ex2.class, Ex3.class, Ex4.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_OK_subtype_02_1_multiple_05() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new RuntimeException();
+                }, Ex1.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subtype_02_1_multiple_06() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex3_1 extends Ex3 {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex3_1();
+                }, RuntimeException.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_OK_wrongType_02_1_multiple_04() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex2();
+                }, Ex1.class, Ex3.class, Ex4.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subType_02_1_multiple_04() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex2();
+                }, Ex1.class, Ex3.class, Ex4.class, Throwable.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subType_02_1_multiple_05() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends RuntimeException {
+        }
+        class Ex3 extends RuntimeException {
+        }
+        class Ex4 extends RuntimeException {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex2();
+                }, Ex1.class, RuntimeException.class, Ex3.class, Ex4.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_nothingSpecified() {
+        com.sun.tck.lib.Assert.assertThrows(
                 () -> {
                     throw new RuntimeException();
                 });
     }
 
     @Test
-    public void test_assertThrows_OK_subtype_02() {
+    public void test_assertThrows_OK_subType_02_1_multiple_06() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends Ex1 {
+        }
+        class Ex3 extends Ex2 {
+        }
+        class Ex4 extends Ex3 {
+        }
         com.sun.tck.lib.Assert.assertThrows(
-                RuntimeException.class,
                 () -> {
-                    throw new IllegalArgumentException();
-                });
+                    throw new Ex1();
+                }, Ex1.class, Ex3.class, Ex4.class);
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex2();
+                }, Ex1.class, Ex3.class, Ex4.class);
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex3();
+                }, Ex1.class, Ex3.class, Ex4.class);
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex4();
+                }, Ex1.class, Ex3.class, Ex4.class);
+
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex1();
+                }, Ex1.class);
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex2();
+                }, Ex1.class);
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex3();
+                }, Ex1.class);
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex4();
+                }, Ex1.class);
+
     }
 
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_OK_subType_02_1_multiple_07() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends Ex1 {
+        }
+        class Ex3 extends Ex2 {
+        }
+        class Ex4 extends Ex3 {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex1();
+                }, Ex2.class, Ex3.class, Ex4.class);
+
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_OK_subType_02_1_multiple_08() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends Ex1 {
+        }
+        class Ex3 extends Ex2 {
+        }
+        class Ex4 extends Ex3 {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex1();
+                }, Ex3.class, Ex4.class);
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrows_OK_subType_02_1_multiple_10() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends Ex1 {
+        }
+        class Ex3 extends Ex2 {
+        }
+        class Ex4 extends Ex3 {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new RuntimeException();
+                }, Ex3.class, Ex4.class);
+    }
+
+    @Test
+    public void test_assertThrows_OK_subType_02_1_multiple_09() {
+        class Ex1 extends RuntimeException {
+        }
+        class Ex2 extends Ex1 {
+        }
+        class Ex3 extends Ex2 {
+        }
+        class Ex4 extends Ex3 {
+        }
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex4();
+                }, Ex2.class, Ex1.class);
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex4() {
+                    };
+                }, Ex2.class, Ex1.class);
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Ex4() {
+                    };
+                }, Ex1.class);
+    }
 
 }
