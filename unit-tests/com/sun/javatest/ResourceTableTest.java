@@ -35,19 +35,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.*;
+
 
 public class ResourceTableTest implements Harness.Observer {
 
     @Test
     public void test_01() throws IOException {
         ResourceTable resourceTable = new ResourceTable();
-        Assert.assertTrue(resourceTable.table().isEmpty());
+        assertTrue(resourceTable.table().isEmpty());
     }
 
     @Test
     public void test_02() throws IOException {
         ResourceTable resourceTable = new ResourceTable(1000);
-        Assert.assertTrue(resourceTable.table().isEmpty());
+        assertTrue(resourceTable.table().isEmpty());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -62,112 +64,306 @@ public class ResourceTableTest implements Harness.Observer {
     }
 
     @Test
+    public void test_01_release_nonexisting() throws IOException, InterruptedException {
+        ResourceTable rt = new ResourceTable();
+        Map<String, Thread> table = rt.table();
+        rt.release("a");
+        assertEquals(0, table.size());
+    }
+
+    @Test
+    public void test_02_release_nonexisting() throws IOException, InterruptedException {
+        ResourceTable rt = new ResourceTable();
+        Map<String, Thread> table = rt.table();
+        rt.release("a", "b", "c");
+        assertEquals(0, table.size());
+    }
+
+    @Test
+    public void test_02_release_empty() throws IOException, InterruptedException {
+        ResourceTable rt = new ResourceTable();
+        Map<String, Thread> table = rt.table();
+        rt.release();
+        assertEquals(0, table.size());
+    }
+
+    @Test
     public void test_03() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
-        Assert.assertTrue( resourceTable.acquire(new String[] {"x"}, 1) );
         Map<String, Thread> table = resourceTable.table();
-        Assert.assertEquals(1, table.size());
-        Assert.assertEquals(Thread.currentThread(), table.get("x"));
+        assertTrue(resourceTable.acquire(new String[]{"x"}, 1));
+        assertEquals(1, table.size());
+        assertEquals(Thread.currentThread(), table.get("x"));
+    }
+
+    @Test
+    public void test_03_addrelease_01() throws IOException, InterruptedException {
+        ResourceTable rt = new ResourceTable();
+        Map<String, Thread> table = rt.table();
+        assertTrue(rt.acquire(new String[]{"a"}, 1));
+        assertEquals(1, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        rt.release("a");
+        assertEquals(0, table.size());
+    }
+
+    @Test
+    public void test_03_addrelease_02() throws IOException, InterruptedException {
+        ResourceTable rt = new ResourceTable();
+        Map<String, Thread> table = rt.table();
+        assertTrue(rt.acquire(new String[]{"a"}, 1));
+        assertEquals(1, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        rt.release("a", "x", "y", "z", "non_existing");
+        assertEquals(0, table.size());
+    }
+
+    @Test
+    public void test_03_addrelease_03() throws IOException, InterruptedException {
+        ResourceTable rt = new ResourceTable();
+        Map<String, Thread> table = rt.table();
+        assertTrue(rt.acquire(new String[]{"a", "b"}, 1));
+        assertEquals(2, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        assertEquals(Thread.currentThread(), table.get("b"));
+        rt.release("b");
+        assertEquals(1, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        rt.release("b");
+        assertEquals(1, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        rt.release("a");
+        assertEquals(0, table.size());
+    }
+
+    @Test
+    public void test_03_addrelease_04() throws IOException, InterruptedException {
+        ResourceTable rt = new ResourceTable();
+        Map<String, Thread> table = rt.table();
+        assertTrue(rt.acquire(new String[]{"a", "b", "c"}, 100));
+        assertEquals(3, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        assertEquals(Thread.currentThread(), table.get("b"));
+        assertEquals(Thread.currentThread(), table.get("c"));
+        rt.release("b");
+        assertEquals(2, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        assertEquals(Thread.currentThread(), table.get("c"));
+        assertTrue(rt.acquire(new String[]{"b"}, 100));
+        assertEquals(3, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        assertEquals(Thread.currentThread(), table.get("b"));
+        assertEquals(Thread.currentThread(), table.get("c"));
+
+        assertFalse(rt.acquire(new String[]{"b"}, 100));
+        assertEquals(2, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        assertEquals(Thread.currentThread(), table.get("c"));
+        rt.release("b");
+        assertEquals(2, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        assertEquals(Thread.currentThread(), table.get("c"));
+        rt.release("a");
+        assertEquals(1, table.size());
+        assertEquals(Thread.currentThread(), table.get("c"));
+
+        assertTrue(rt.acquire(new String[]{"x", "y"}, 100));
+        assertEquals(3, table.size());
+        assertEquals(Thread.currentThread(), table.get("x"));
+        assertEquals(Thread.currentThread(), table.get("y"));
+        assertEquals(Thread.currentThread(), table.get("c"));
+
+        assertFalse(rt.acquire(new String[]{"y"}, 100));
+        assertEquals(2, table.size());
+        assertEquals(Thread.currentThread(), table.get("x"));
+        assertEquals(Thread.currentThread(), table.get("c"));
+        rt.release("x", "c");
+        assertEquals(0, table.size());
+
+        assertTrue(rt.acquire(new String[]{"a", "b", "c"}, 100));
+        assertEquals(3, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        assertEquals(Thread.currentThread(), table.get("b"));
+        assertEquals(Thread.currentThread(), table.get("c"));
+        assertFalse(rt.acquire(new String[]{"b", "c"}, 100));
+        assertEquals(1, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        assertTrue(rt.acquire(new String[]{"b", "c"}, 100));
+        assertEquals(3, table.size());
+        assertEquals(Thread.currentThread(), table.get("a"));
+        assertEquals(Thread.currentThread(), table.get("b"));
+        assertEquals(Thread.currentThread(), table.get("c"));
+        rt.release("c", "a", "b");
+        assertEquals(0, table.size());
+        rt.release("c", "a", "b");
+        assertEquals(0, table.size());
     }
 
     @Test
     public void test_03_01() throws IOException, InterruptedException {
-        for (int i=0; i < 20; i ++) {
+        for (int i = 0; i < 20; i++) {
             ResourceTable rt = new ResourceTable();
-            Assert.assertTrue(rt.acquire(new String[]{"x"}, 100));
-            Assert.assertFalse(rt.acquire(new String[]{"x"}, 100));
-            Assert.assertTrue(rt.acquire(new String[]{"x"}, 100));
-            Assert.assertFalse(rt.acquire(new String[]{"x"}, 100));
+            assertTrue(rt.acquire(new String[]{"x"}, 100));
+            assertFalse(rt.acquire(new String[]{"x"}, 100));
+            assertTrue(rt.acquire(new String[]{"x"}, 100));
+            assertFalse(rt.acquire(new String[]{"x"}, 100));
         }
     }
 
-   @Test
-   public void test_03_02() throws IOException, InterruptedException {
+    @Test
+    public void test_03_01_01() throws IOException, InterruptedException {
+        ResourceTable rt = new ResourceTable();
+        Map<String, Thread> table = rt.table();
+        for (int i = 0; i < 20; i++) {
+            assertTrue(rt.acquire(new String[]{"x"}, 100));
+            assertEquals(1, table.size());
+            assertEquals(Thread.currentThread(), table.get("x"));
+            assertFalse(rt.acquire(new String[]{"x"}, 100));
+            assertEquals(0, table.size());
+        }
+    }
+
+    @Test
+    public void test_03_01_01_release() throws IOException, InterruptedException {
+        ResourceTable rt = new ResourceTable();
+        Map<String, Thread> table = rt.table();
+        for (int i = 0; i < 20; i++) {
+            assertTrue(rt.acquire(new String[]{"x"}, 100));
+            assertEquals(1, table.size());
+            assertEquals(Thread.currentThread(), table.get("x"));
+            rt.release("x");
+            assertEquals(0, table.size());
+        }
+    }
+
+    @Test
+    public void test_03_02() throws IOException, InterruptedException {
 
         List<Integer> timeouts = Arrays.asList(10, 50, 100, 200, 300);
         for (Integer timeout : timeouts) {
             ResourceTable resourceTable = new ResourceTable();
-            Assert.assertTrue( resourceTable.acquire(new String[] {"x"}, timeout) );
+            assertTrue(resourceTable.acquire(new String[]{"x"}, timeout));
             Map<String, Thread> table;
             table = resourceTable.table();
-            Assert.assertEquals(1, table.size());
-            Assert.assertEquals(Thread.currentThread(), table.get("x"));
-            Assert.assertFalse( resourceTable.acquire(new String[] {"x"}, timeout) );
-            Assert.assertEquals(0, table.size());
+            assertEquals(1, table.size());
+            assertEquals(Thread.currentThread(), table.get("x"));
+            assertFalse(resourceTable.acquire(new String[]{"x"}, timeout));
+            assertEquals(0, table.size());
         }
     }
 
     @Test
     public void test_04() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
-        Assert.assertTrue( resourceTable.acquire(new String[] {"x", "y"}, 1) );
+        assertTrue(resourceTable.acquire(new String[]{"x", "y"}, 1));
         Map<String, Thread> table = resourceTable.table();
-        Assert.assertEquals(2, table.size());
-        Assert.assertEquals(Thread.currentThread(), table.get("x"));
-        Assert.assertEquals(Thread.currentThread(), table.get("y"));
+        assertEquals(2, table.size());
+        assertEquals(Thread.currentThread(), table.get("x"));
+        assertEquals(Thread.currentThread(), table.get("y"));
+    }
+
+    @Test
+    public void test_04_01() throws IOException, InterruptedException {
+        ResourceTable resourceTable = new ResourceTable();
+        assertTrue(resourceTable.acquire(new String[]{"x"}, 1));
+        assertTrue(resourceTable.acquire(new String[]{"y"}, 1));
+        Map<String, Thread> table = resourceTable.table();
+        assertEquals(2, table.size());
+        assertEquals(Thread.currentThread(), table.get("x"));
+        assertEquals(Thread.currentThread(), table.get("y"));
     }
 
     @Test
     public void test_05() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
-        Assert.assertTrue(resourceTable.acquire(new String[] {"x", "y", "z"}, 200));
+        assertTrue(resourceTable.acquire(new String[]{"x", "y", "z"}, 200));
         Map<String, Thread> table = resourceTable.table();
-        Assert.assertEquals(3, table.size());
-        Assert.assertEquals(Thread.currentThread(), table.get("x"));
-        Assert.assertEquals(Thread.currentThread(), table.get("y"));
-        Assert.assertEquals(Thread.currentThread(), table.get("z"));
+        assertEquals(3, table.size());
+        assertEquals(Thread.currentThread(), table.get("x"));
+        assertEquals(Thread.currentThread(), table.get("y"));
+        assertEquals(Thread.currentThread(), table.get("z"));
     }
 
     @Test
     public void test_05_pushingOut() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
-        Assert.assertTrue(resourceTable.acquire(new String[] {"x", "y", "z"}, 200));
-        Assert.assertEquals(3, resourceTable.table().size());
-        Assert.assertEquals(Thread.currentThread(), resourceTable.table().get("x"));
-        Assert.assertEquals(Thread.currentThread(), resourceTable.table().get("y"));
-        Assert.assertEquals(Thread.currentThread(), resourceTable.table().get("z"));
-        
-        Assert.assertFalse(resourceTable.acquire(new String[] {"x"}, 100));
+        assertTrue(resourceTable.acquire(new String[]{"x", "y", "z"}, 200));
+        assertEquals(3, resourceTable.table().size());
+        assertEquals(Thread.currentThread(), resourceTable.table().get("x"));
+        assertEquals(Thread.currentThread(), resourceTable.table().get("y"));
+        assertEquals(Thread.currentThread(), resourceTable.table().get("z"));
 
-        Assert.assertEquals(2, resourceTable.table().size());
-        Assert.assertEquals(Thread.currentThread(), resourceTable.table().get("y"));
-        Assert.assertEquals(Thread.currentThread(), resourceTable.table().get("z"));
+        assertFalse(resourceTable.acquire(new String[]{"x"}, 100));
 
-        Assert.assertFalse(resourceTable.acquire(new String[] {"y"}, 100));
+        assertEquals(2, resourceTable.table().size());
+        assertEquals(Thread.currentThread(), resourceTable.table().get("y"));
+        assertEquals(Thread.currentThread(), resourceTable.table().get("z"));
 
-        Assert.assertEquals(1, resourceTable.table().size());
-        Assert.assertEquals(Thread.currentThread(), resourceTable.table().get("z"));
+        assertFalse(resourceTable.acquire(new String[]{"y"}, 100));
+
+        assertEquals(1, resourceTable.table().size());
+        assertEquals(Thread.currentThread(), resourceTable.table().get("z"));
 
 
-        Assert.assertTrue(resourceTable.acquire(new String[] {"x"}, 1000));
+        assertTrue(resourceTable.acquire(new String[]{"x"}, 1000));
 
-        Assert.assertEquals(2, resourceTable.table().size());
-        Assert.assertEquals(Thread.currentThread(), resourceTable.table().get("x"));
-        Assert.assertEquals(Thread.currentThread(), resourceTable.table().get("z"));
+        assertEquals(2, resourceTable.table().size());
+        assertEquals(Thread.currentThread(), resourceTable.table().get("x"));
+        assertEquals(Thread.currentThread(), resourceTable.table().get("z"));
 
-        Assert.assertFalse(resourceTable.acquire(new String[] {"x", "z"}, 1000));
+        assertFalse(resourceTable.acquire(new String[]{"x", "z"}, 1000));
 
-        Assert.assertEquals(0, resourceTable.table().size());
+        assertEquals(0, resourceTable.table().size());
 
     }
 
     @Test
     public void test_06_pushingOut() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
-        Assert.assertTrue(resourceTable.acquire(new String[] {"a", "b", "c"}, 200));
-        Assert.assertEquals(3, resourceTable.table().size());
-        Assert.assertFalse(resourceTable.acquire(new String[] {"a", "b", "c"}, 200));
-        Assert.assertEquals(0, resourceTable.table().size());
+        assertTrue(resourceTable.acquire(new String[]{"a", "b", "c"}, 200));
+        assertEquals(3, resourceTable.table().size());
+        assertFalse(resourceTable.acquire(new String[]{"a", "b", "c"}, 200));
+        assertEquals(0, resourceTable.table().size());
     }
 
     @Test
     public void test_07_pushingOut() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
-        Assert.assertTrue(resourceTable.acquire(new String[] {"a", "b", "c"}, 200));
-        Assert.assertEquals(3, resourceTable.table().size());
+        assertTrue(resourceTable.acquire(new String[]{"a", "b", "c"}, 200));
+        Map<String, Thread> table = resourceTable.table();
+        assertEquals(3, table.size());
         // evrything is rejected, "d" is not going to be added
-        Assert.assertFalse(resourceTable.acquire(new String[] {"a", "b", "c", "d"}, 200));
-        Assert.assertEquals(0, resourceTable.table().size());
+        assertFalse(resourceTable.acquire(new String[]{"a", "b", "c", "d"}, 200));
+        assertEquals(0, table.size());
+    }
+
+    @Test
+    public void test_08() throws IOException, InterruptedException {
+        ResourceTable resourceTable = new ResourceTable();
+        Map<String, Thread> table = resourceTable.table();
+        assertTrue(resourceTable.acquire(new String[]{"c", "d"}, 200));
+        assertEquals(2, table.size());
+        assertEquals(Thread.currentThread(), resourceTable.table().get("c"));
+        assertEquals(Thread.currentThread(), resourceTable.table().get("d"));
+
+        // pushing out "d"
+        assertFalse(resourceTable.acquire(new String[]{"d"}, 200));
+        assertEquals(1, table.size());
+        assertEquals(Thread.currentThread(), resourceTable.table().get("c"));
+
+        assertTrue(resourceTable.acquire(new String[]{"d"}, 200));
+        assertEquals(2, table.size());
+        assertEquals(Thread.currentThread(), resourceTable.table().get("c"));
+        assertEquals(Thread.currentThread(), resourceTable.table().get("d"));
+
+        // pushing out "c"
+        assertFalse(resourceTable.acquire(new String[]{"c"}, 200));
+        assertEquals(1, table.size());
+        assertEquals(Thread.currentThread(), resourceTable.table().get("d"));
+        // pushing out "d"
+        assertFalse(resourceTable.acquire(new String[]{"d"}, 200));
+        assertEquals(0, table.size());
+
     }
 
 
