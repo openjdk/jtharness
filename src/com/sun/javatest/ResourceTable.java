@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -27,6 +27,7 @@
 package com.sun.javatest;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -120,5 +121,17 @@ public class ResourceTable {
             }
         }
         notifyAll();
+    }
+
+    /**
+     * Returns unmodifiable copy of the resource table.
+     * Table contains resource names mapped to threads that originally called {@link #acquire acquire} method.
+     * Please note that query operations on the returned map "read through" to the internal original map
+     * which could be changing over time.
+     * 
+     * @return unmodifiable resource table
+     */
+    public Map<String, Thread> table() {
+        return Collections.unmodifiableMap(table);
     }
 }
