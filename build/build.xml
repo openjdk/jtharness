@@ -297,7 +297,14 @@
     <target name="compile" depends="verify-dependencies, compile.classes,compile.resources,compile-javatest.help" description="Compile project."/>
 
     <target name="compile.classes">
+        <echo>=================================================================</echo>
         <echo>jdk.builder.home set to ${jdk.builder.home}</echo>
+        <echo>=================================================================</echo>
+        <echo>Using ant.version=${ant.version}</echo>
+        <echo>Using ant.home=${ant.home}</echo>
+        <echo>Using ant.java.version=${ant.java.version}</echo>
+        <echo>Using java.home=${java.home}</echo>
+        <echo>=================================================================</echo>
 
         <depend srcdir="${src.dir}" destdir="${build.classes}"/>
         <mkdir dir="${build.classes}"/>
