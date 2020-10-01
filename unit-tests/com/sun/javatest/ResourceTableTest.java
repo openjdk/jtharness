@@ -71,15 +71,17 @@ public class ResourceTableTest implements Harness.Observer {
     }
 
     @Test
-    @Ignore("CODETOOLS-7902771")
     public void test_03_01() throws IOException, InterruptedException {
-        ResourceTable rt = new ResourceTable();
-        rt.acquire(new String[] {"x"}, 100);
-        rt.acquire(new String[] {"x"}, 100);
+        for (int i=0; i < 20; i ++) {
+            ResourceTable rt = new ResourceTable();
+            Assert.assertTrue(rt.acquire(new String[]{"x"}, 100));
+            Assert.assertFalse(rt.acquire(new String[]{"x"}, 100));
+            Assert.assertTrue(rt.acquire(new String[]{"x"}, 100));
+            Assert.assertFalse(rt.acquire(new String[]{"x"}, 100));
+        }
     }
 
    @Test
-   @Ignore("CODETOOLS-7902771")
    public void test_03_02() throws IOException, InterruptedException {
 
         List<Integer> timeouts = Arrays.asList(10, 50, 100, 200, 300);
@@ -96,7 +98,6 @@ public class ResourceTableTest implements Harness.Observer {
     }
 
     @Test
-    @Ignore("CODETOOLS-7902771")
     public void test_04() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
         Assert.assertTrue( resourceTable.acquire(new String[] {"x", "y"}, 1) );
@@ -107,7 +108,6 @@ public class ResourceTableTest implements Harness.Observer {
     }
 
     @Test
-    @Ignore("CODETOOLS-7902771")
     public void test_05() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
         Assert.assertTrue(resourceTable.acquire(new String[] {"x", "y", "z"}, 200));
@@ -119,7 +119,6 @@ public class ResourceTableTest implements Harness.Observer {
     }
 
     @Test
-    @Ignore("CODETOOLS-7902771")
     public void test_05_pushingOut() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
         Assert.assertTrue(resourceTable.acquire(new String[] {"x", "y", "z"}, 200));
@@ -153,7 +152,6 @@ public class ResourceTableTest implements Harness.Observer {
     }
 
     @Test
-    @Ignore("CODETOOLS-7902771")
     public void test_06_pushingOut() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
         Assert.assertTrue(resourceTable.acquire(new String[] {"a", "b", "c"}, 200));
@@ -163,7 +161,6 @@ public class ResourceTableTest implements Harness.Observer {
     }
 
     @Test
-    @Ignore("CODETOOLS-7902771")
     public void test_07_pushingOut() throws IOException, InterruptedException {
         ResourceTable resourceTable = new ResourceTable();
         Assert.assertTrue(resourceTable.acquire(new String[] {"a", "b", "c"}, 200));

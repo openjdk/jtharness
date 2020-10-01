@@ -87,7 +87,7 @@ public class ResourceTable {
                 Object owner = null;
                 while ((owner = table.get(resourceName)) != null) {
                     long remain = start + timeout - now;
-                    if (remain < 0) {
+                    if (remain <= 0) {
                         release(resourceNames);
                         return false;
                     }
