@@ -26,6 +26,8 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.util.Log;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -85,6 +87,7 @@ public class ResourceTable {
 
         try {
             for (String resourceName : resourceNames) {
+                Log.finer(Thread.currentThread() + " acquiring for "  + resourceName);
                 Object owner = null;
                 while ((owner = table.get(resourceName)) != null) {
                     long remain = start + timeout - now;
@@ -93,11 +96,11 @@ public class ResourceTable {
                         return false;
                     }
 
-                    //System.out.println("waiting for resource: " + resourceName);
+                    Log.finer(Thread.currentThread() + " waiting for resource: " + resourceName + " owned by " + owner);
                     wait(remain);
                     now = System.currentTimeMillis();
                 }
-
+                Log.finer(Thread.currentThread() + " putting " + resourceName);
                 table.put(resourceName, Thread.currentThread());
             }
             return true;
@@ -118,6 +121,7 @@ public class ResourceTable {
         for (String resourceName : resourceNames) {
             Object owner = table.get(resourceName);
             if (owner == Thread.currentThread()) {
+                Log.finer(owner + " releasing " + resourceName);
                 table.remove(resourceName);
             }
         }

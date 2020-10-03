@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.*;
 
@@ -364,6 +365,58 @@ public class ResourceTableTest implements Harness.Observer {
         assertFalse(resourceTable.acquire(new String[]{"d"}, 200));
         assertEquals(0, table.size());
 
+    }
+
+
+    @Test
+    public void test_09_01() throws IOException, InterruptedException {
+
+        CountDownLatch latch = new CountDownLatch(3);
+        ResourceTable rt = new ResourceTable();
+
+        new Thread(() -> {
+            try {
+                assertTrue(rt.acquire(new String[]{"x", "y"}, Integer.MAX_VALUE));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Map<String, Thread> table = rt.table();
+            assertEquals(2, table.size());
+            assertEquals(Thread.currentThread(), table.get("x"));
+            assertEquals(Thread.currentThread(), table.get("y"));
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            rt.release("x", "y");
+            latch.countDown();
+        }, "first").start();
+
+        new Thread(() -> {
+            try {
+                rt.acquire(new String[] {"y"}, Integer.MAX_VALUE);
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            rt.release( "y");
+            latch.countDown();
+        }, "second").start();
+
+
+        new Thread(() -> {
+            try {
+                rt.acquire(new String[] {"y"}, Integer.MAX_VALUE);
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            rt.release( "y");
+            latch.countDown();
+        }, "third").start();
+
+        latch.await();
     }
 
 
