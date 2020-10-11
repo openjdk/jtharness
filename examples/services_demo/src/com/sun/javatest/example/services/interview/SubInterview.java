@@ -60,7 +60,7 @@ public class SubInterview extends Interview {
     }
 
     @Override
-    public void export(Map map) {
+    public void export(Map<String, String> map)  {
         super.export(map);
         System.err.println("Subinteview exporting!");
     }
@@ -87,7 +87,7 @@ public class SubInterview extends Interview {
             return true;
         }
 
-        public void export(Map data) {
+        protected void export(Map<String, String> data) {
             data.put("subconf desc", "services description");
         }
 

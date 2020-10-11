@@ -69,7 +69,7 @@ public class ServicesInterview extends BasicInterviewParameters implements
     }
 
     @Override
-    public void export(Map map) {
+    public void export(Map<String, String> map) {
         super.export(map);
         System.err.println("exporting main interview");
     }
@@ -162,7 +162,7 @@ public class ServicesInterview extends BasicInterviewParameters implements
            return callInterview(subI, getTestsFirstQuestion());
         }
 
-        public void export(Map data) {
+        protected void export(Map<String, String> data) {
             if (value == null || value.equals(""))
                 data.put("description", "[Not Specified]");   // would need i18n
             else
@@ -215,7 +215,7 @@ public class ServicesInterview extends BasicInterviewParameters implements
                 };
             }
 
-            public void export(Map data) {
+        protected void export(Map<String, String> data) {
                 String cmd;
                 if (value != null && value.equals(OTHER_VM))
                     cmd = getOtherVMExecuteCommand();
@@ -303,11 +303,11 @@ public class ServicesInterview extends BasicInterviewParameters implements
             return qBasicParams;
         }
 
-        public void export(Map data) {
+        protected void export(Map<String, String> data) {
             // raw dump of all properties into test env.
             Properties p = getValue();
 
-            Enumeration e = p.propertyNames();
+            Enumeration<?> e = p.propertyNames();
             while(e.hasMoreElements()) {
                 String key = (String)(e.nextElement());
                 data.put(key, p.getProperty(key));
@@ -332,15 +332,15 @@ public class ServicesInterview extends BasicInterviewParameters implements
     // interface EnvParameters
     public TestEnvironment getEnv() {
         // this doesn't do anything right now
-        HashMap data = new HashMap();
+        HashMap<String, String> data = new HashMap<>();
         export(data);
 
-        Set keys = getPropertyKeys();  //extra values
+        Set<String> keys = getPropertyKeys();  //extra values
 
         if(keys != null) {
-            Iterator it = keys.iterator();
+            Iterator<String> it = keys.iterator();
             while (it.hasNext()) {
-                String k = (String)(it.next());     // cast not needed
+                String k = it.next();
                 data.put(k, retrieveProperty(k));
             }   // while
         }
