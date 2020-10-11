@@ -26,6 +26,9 @@
  */
 package com.sun.demoapi;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Basic support for immutable arbitrary size integers.
  * Numbers are held as a sign and an array of ints. The sign is
@@ -224,24 +227,24 @@ public class BigNum
      * @return true if and only if <i>other</i> is a BigNum
      * representing the same value as this one.
      */
-    public boolean equals(Object other) {
-        if (!(other instanceof BigNum))
-            return false;
-
-        BigNum o = (BigNum) other;
-
-        if (sign != o.sign)
-            return false;
-
-        if (data.length != o.data.length)
-            return false;
-
-        for (int i = 0; i < data.length; i++) {
-            if (data[i] != o.data[i])
-                return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
         }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        BigNum bigNum = (BigNum) o;
+        return sign == bigNum.sign &&
+                Arrays.equals(data, bigNum.data);
+    }
 
-        return true;
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(sign);
+        result = 31 * result + Arrays.hashCode(data);
+        return result;
     }
 
     /**

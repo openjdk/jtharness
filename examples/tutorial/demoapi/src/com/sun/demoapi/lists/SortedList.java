@@ -26,6 +26,8 @@
  */
 package com.sun.demoapi.lists;
 
+import java.util.Objects;
+
 /**
  * Sorted linked lists of objects.
  * A list is represented by a series of Entry objects, each containing
@@ -112,6 +114,24 @@ public class SortedList
 
         Object data;
         Entry next;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Entry entry = (Entry) o;
+            return Objects.equals(data, entry.data) &&
+                    Objects.equals(next, entry.next);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(data, next);
+        }
     };
 
     public static interface Comparator {
@@ -218,22 +238,23 @@ public class SortedList
      * @return true if the other object is a linked list, and corresponding
      * entries in the two lists are either both null, or are equal.
      */
-    public boolean equals(Object other) {
-        if (!(other instanceof SortedList))
-            return false;
-
-        Entry e1 = first;
-        Entry e2 = ((SortedList) other).first;
-        while (e1 != null && e2 != null) {
-            boolean match = (e1.data == null ? e2.data == null : e1.data.equals(e2.data));
-            if (!match)
-                return false;
-
-             e1 = e1.next;
-             e2 = e2.next;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
         }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SortedList that = (SortedList) o;
+        return ignoreDuplicates == that.ignoreDuplicates &&
+                Objects.equals(first, that.first) &&
+                Objects.equals(comp, that.comp);
+    }
 
-        return (e1 == null && e2 == null);
+    @Override
+    public int hashCode() {
+        return Objects.hash(first, comp, ignoreDuplicates);
     }
 
     /**
