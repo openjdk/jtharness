@@ -223,7 +223,6 @@ public class BigNum
 
     /**
      * Check this BigNum for equality with another object.
-     * @param other the object to be compared against
      * @return true if and only if <i>other</i> is a BigNum
      * representing the same value as this one.
      */

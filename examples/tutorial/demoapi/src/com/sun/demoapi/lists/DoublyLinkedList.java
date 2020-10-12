@@ -236,7 +236,6 @@ public class DoublyLinkedList
 
     /**
      * Check if the contents of this list match another.
-     * @param other An object to be checked for equality with this one
      * @return true if the other object is a linked list, and corresponding
      * entries in the two lists are either both null, or are equal.
      */
