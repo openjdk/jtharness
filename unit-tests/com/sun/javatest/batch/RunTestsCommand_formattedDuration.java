@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2019, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -41,10 +41,6 @@ import java.util.List;
  */
 public class RunTestsCommand_formattedDuration {
 
-    public static class Clazz {
-        public void method() { }
-    }
-    
     @Test
     public void zero() {
         Assert.assertEquals("0 seconds", RunTestsCommand.formattedDuration(0));

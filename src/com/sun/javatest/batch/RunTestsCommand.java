@@ -166,7 +166,7 @@ class RunTestsCommand extends Command {
      * for example "2 days 1 minute 4 seconds".
      * This method doesn't generates weeks, months or years, only days
      * which is expected to be sufficient for printing total time taken by even a long test run.
-     * 
+     *
      * @param durationSeconds the seconds to convert to human-readable form
      * @return formatted representation, i.e. "1 hour 53 seconds"
      */
