@@ -43,11 +43,12 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.TreeMap;
 
 class RunTestsCommand extends Command {
     private static final String DATE_OPTION = "date";
@@ -131,9 +132,9 @@ class RunTestsCommand extends Command {
                 long tt = h.getElapsedTime();
                 long setupT = h.getTotalSetupTime();
                 long cleanupT = h.getTotalCleanupTime();
-                ctx.printMessage(i18n, "runTests.totalTime", tt / 1000L);
-                ctx.printMessage(i18n, "runTests.setupTime", setupT / 1000L);
-                ctx.printMessage(i18n, "runTests.cleanupTime", cleanupT / 1000L);
+                ctx.printMessage(i18n, "runTests.totalTime", formattedDuration(tt / 1000L));
+                ctx.printMessage(i18n, "runTests.setupTime", formattedDuration(setupT / 1000L));
+                ctx.printMessage(i18n, "runTests.cleanupTime", formattedDuration(cleanupT / 1000L));
 
                 showResultStats(skipped, boStats);
             }
@@ -158,6 +159,42 @@ class RunTestsCommand extends Command {
         } catch (Harness.Fault e) {
             throw new Fault(i18n, "runTests.harnessError", e.getMessage());
         }
+    }
+
+    /**
+     * Converts the given duration in seconds to a more readable string representation:
+     * for example "2 days 1 minute 4 seconds".
+     * This method doesn't generates weeks, months or years, only days
+     * which is expected to be sufficient for printing total time taken by even a long test run.
+     *
+     * @param durationSeconds the seconds to convert to human-readable form
+     * @return formatted representation, i.e. "1 hour 53 seconds"
+     */
+    public static String formattedDuration(long durationSeconds) {
+
+        if (durationSeconds < 1) {
+            return "0 seconds";
+        }
+        String result = "";
+        long remaining_seconds = durationSeconds;
+        // have to map duration to names to have durations sorted (TreeMap maintains order for keys)
+        TreeMap<Long, String> units = new TreeMap(Comparator.reverseOrder()) {{
+            put(1L, "second");
+            put(60L, "minute");
+            put(60L * 60L, "hour");
+            put(60L * 60L * 24L, "day");
+        }};
+        for (Map.Entry<Long, String> entry : units.entrySet()) {
+            long amount = remaining_seconds / entry.getKey();
+            if (amount > 0 ) {
+                remaining_seconds = remaining_seconds % entry.getKey();
+                result += " " + amount + " " + entry.getValue();
+                if (amount > 1) {
+                    result += "s";
+                }
+            }
+        }
+        return result.trim();
     }
 
     private void showResultStats(int skipped, int... stats) {
