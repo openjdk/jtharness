@@ -310,7 +310,7 @@ public class MultiTest implements Test {
             return 2;
         }
 
-        Vector tests = new Vector();
+        Vector<Method> tests = new Vector<>();
         while (i < argv.length && !argv[i].startsWith("-")) {
             tests.addElement(getTestCase(argv[i++]));
         }
@@ -331,7 +331,7 @@ public class MultiTest implements Test {
         ps.close();
     }
 
-    private void split(String s, Vector v) {
+    private void split(String s, Vector<String> v) {
         int start = 0;
         for (int i = s.indexOf(','); i != -1; i = s.indexOf(',', start)) {
             v.addElement(s.substring(start, i));
@@ -427,9 +427,9 @@ public class MultiTest implements Test {
      * @see #testMethods
      */
     protected void getAllTestCases() throws SetupException {
-        Vector tests = new Vector();
-        Vector sortedTests = new Vector();
-        Vector reversed = new Vector();
+        Vector<Method> tests = new Vector<>();
+        Vector<Method> sortedTests = new Vector<>();
+        Vector<Method> reversed = new Vector<>();
 
         try {
             /* Get public methods for this class
@@ -439,8 +439,8 @@ public class MultiTest implements Test {
             Method[] methods = testClass.getMethods();
             for (int i = 0; i < methods.length; ++i) {
 
-                Class[] paramTypes = methods[i].getParameterTypes();
-                Class returnType = methods[i].getReturnType();
+                Class<?>[] paramTypes = methods[i].getParameterTypes();
+                Class<?> returnType = methods[i].getReturnType();
                 if ((paramTypes.length == 0) &&
                         Status.class.isAssignableFrom(returnType)) {
                     tests.addElement(methods[i]);
@@ -459,17 +459,17 @@ public class MultiTest implements Test {
                     (testcaseOrder.equals("sorted") ||
                             testcaseOrder.equals("reverseSorted"))) {
                 Object[] methodNameArray = new Object[tests.size()];
-                Hashtable ht = new Hashtable();
+                Hashtable<String, Method> ht = new Hashtable<>();
                 Method m;
 
-                for (Enumeration e = tests.elements(); e.hasMoreElements(); ) {
-                    m = (Method) e.nextElement();
+                for (Enumeration<Method> e = tests.elements(); e.hasMoreElements(); ) {
+                    m = e.nextElement();
                     ht.put(m.getName(), m);
                 }
 
                 int j = 0;
-                for (Enumeration e = tests.elements(); e.hasMoreElements(); ) {
-                    methodNameArray[j] = ((Method) e.nextElement()).getName();
+                for (Enumeration<Method> e = tests.elements(); e.hasMoreElements(); ) {
+                    methodNameArray[j] = e.nextElement().getName();
                     j++;
                 }
 
@@ -506,8 +506,8 @@ public class MultiTest implements Test {
     }
 
     // Reverse a vector containing methods to run
-    public Vector reverse(Vector v) {
-        Vector reversed = new Vector();
+    public Vector<Method> reverse(Vector<Method> v) {
+        Vector<Method> reversed = new Vector<>();
 
         for (int i = v.size() - 1; i >= 0; i--) {
             reversed.addElement(v.elementAt(i));
@@ -550,9 +550,9 @@ public class MultiTest implements Test {
 
     /* Convenience variables, also added to improve performance
      */
-    protected final Class testClass = this.getClass();
+    protected final Class<?> testClass = this.getClass();
 
-    protected static final Class[] testArgTypes = {};
+    protected static final Class<?>[] testArgTypes = {};
 
 
     /**
@@ -595,7 +595,7 @@ public class MultiTest implements Test {
     /**
      * The set of test cases to be excluded.
      */
-    protected Vector excludeTestCases = new Vector();
+    protected Vector<String> excludeTestCases = new Vector<>();
 
     // may be set if SetupException is thrown during decodeArgs() or init
     private boolean testNotApplicable = false;
