@@ -178,7 +178,7 @@ class RunTestsCommand extends Command {
         String result = "";
         long remaining_seconds = durationSeconds;
         // have to map duration to names to have durations sorted (TreeMap maintains order for keys)
-        TreeMap<Long, String> units = new TreeMap(Comparator.reverseOrder()) {{
+        TreeMap<Long, String> units = new TreeMap<Long, String>(Comparator.reverseOrder()) {{
             put(1L, "second");
             put(60L, "minute");
             put(60L * 60L, "hour");
