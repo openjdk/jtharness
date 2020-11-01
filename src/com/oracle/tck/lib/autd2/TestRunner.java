@@ -59,15 +59,14 @@ public final class TestRunner {
     }
     private static final Map<Class<?>, AnnotatedStructure> cache = new ConcurrentHashMap<>();
 
-    private static void putUsersProcessorsIntoCache(Map<Class<? extends Annotation>, Set<Processor>> set,
-                                                    Set<Processor> processors) {
-        for (Processor p : processors) {
-            for (Class clazz : ReflectionUtils.getClassHierarchy(p.getClass())) {
-                final InterestedInAnnotations interestedIn =
-                        (InterestedInAnnotations) clazz.getAnnotation(InterestedInAnnotations.class);
+    private static void putUsersProcessorsIntoCache(Map<Class<? extends Annotation>, Set<Processor<?,?>>> set,
+                                                    Set<Processor<?,?>> processors) {
+        for (Processor<?,?> p : processors) {
+            for (Class<?> clazz : ReflectionUtils.getClassHierarchy(p.getClass())) {
+                final InterestedInAnnotations interestedIn = clazz.getAnnotation(InterestedInAnnotations.class);
                 if (interestedIn != null) {
                     for (Class<? extends Annotation> annotation : interestedIn.value()) {
-                        Set<Processor> classes = set.get(annotation);
+                        Set<Processor<?,?>> classes = set.get(annotation);
                         if (classes == null) {
                             classes = new HashSet<>();
                             set.put(annotation, classes);
@@ -90,13 +89,15 @@ public final class TestRunner {
 
         Class<?> tgClass = testGroupContext.getTestGroupInstance().getClass();
 
-        Map<Class<? extends Annotation>, Set<Processor>> userProcCache = new HashMap<>();
+        Map<Class<? extends Annotation>, Set<Processor<?,?>>> userProcCache = new HashMap<>();
 
         putUsersProcessorsIntoCache(userProcCache, AUTD2Utils.getAllUserProcessors(tgClass));
-        putUsersProcessorsIntoCache(userProcCache, userTGProcessors.stream().map(AUTD2Utils::instantiateProcessor).collect(Collectors.toSet()));
-        putUsersProcessorsIntoCache(userProcCache, userTCProcessors.stream().map(AUTD2Utils::instantiateProcessor).collect(Collectors.toSet()));
+        putUsersProcessorsIntoCache(userProcCache,
+                userTGProcessors.stream().<Processor<?, ?>>map(AUTD2Utils::instantiateProcessor).collect(Collectors.toSet()));
+        putUsersProcessorsIntoCache(userProcCache,
+                userTCProcessors.stream().<Processor<?, ?>>map(AUTD2Utils::instantiateProcessor).collect(Collectors.toSet()));
 
-        final Map<String, Processor> applicableProcessors = new HashMap<>();
+        final Map<String, Processor<?,?>> applicableProcessors = new HashMap<>();
 
         // todo here we have a chance process the structure on the first run through the testgroup if it has not been cached
         AnnotatedStructure annStructure = getCachedStructure(
@@ -131,32 +132,32 @@ public final class TestRunner {
     }
 
     private static void createApplicableProcessors(
-            Map<Class<? extends Annotation>, Set<Processor>> userProcCache,
-            Map<String, Processor> applicableProcessors,
+            Map<Class<? extends Annotation>, Set<Processor<?,?>>> userProcCache,
+            Map<String, Processor<?,?>> applicableProcessors,
             AnnotatedElement element,
             Annotation annotation) {
 
         InterestedProcessors interestedProcessors = annotation.annotationType().getAnnotation(InterestedProcessors.class);
-        List<Class<? extends Processor>> classes = new LinkedList<>();
+        List<Class<? extends Processor<?,?>>> classes = new LinkedList<>();
         if (interestedProcessors != null) {
             classes.addAll(Arrays.asList(interestedProcessors.value()));
         }
 
         if (classes != null) {
             addApplicable(applicableProcessors, element, annotation,
-                    classes.stream().map(AUTD2Utils::instantiateProcessor).collect(Collectors.toSet()));
+                    classes.stream().<Processor<?, ?>>map(AUTD2Utils::instantiateProcessor).collect(Collectors.toSet()));
         }
-        Set<Processor> userProcessors = userProcCache.get(annotation.annotationType());
+        Set<Processor<?,?>> userProcessors = userProcCache.get(annotation.annotationType());
         if (userProcessors != null) {
             addApplicable(applicableProcessors, element, annotation, userProcessors);
         }
     }
 
-    private static void addApplicable(Map<String, Processor> applicableProcessors, AnnotatedElement annElem,
-                                      Annotation annotation, Set<Processor> processors) {
-        for (Processor p : processors) {
+    private static void addApplicable(Map<String, Processor<?,?>> applicableProcessors, AnnotatedElement annElem,
+                                      Annotation annotation, Set<Processor<?,?>> processors) {
+        for (Processor<?, ?> p : processors) {
             if (p.isProcessorApplicableToAnnotationInstance(annotation)) {
-                Processor processor = applicableProcessors.get(p.getClass().getName());
+                Processor<?, ?> processor = applicableProcessors.get(p.getClass().getName());
                 if (processor == null) {
                     applicableProcessors.put(p.getClass().getName(), p);
                 } else {

@@ -32,4 +32,4 @@ package com.oracle.tck.lib.autd2;
  * @see com.oracle.tck.lib.autd2.TestCaseContext.TestCaseLifePhase
  * @see com.oracle.tck.lib.autd2.TestGroupContext.TestGroupLifePhase
  */
-public interface LifePhase<C extends Context> {}
+public interface LifePhase<C extends Context<?,?>> {}

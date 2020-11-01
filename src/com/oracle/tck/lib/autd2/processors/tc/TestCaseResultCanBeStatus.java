@@ -80,7 +80,7 @@ public class TestCaseResultCanBeStatus extends DefaultExecutionResult {
      * @return true except when the given one is about processing expected exceptions throwing
      */
     @Override
-    public boolean hasHigherPriorityThan(Processor another) {
+    public boolean hasHigherPriorityThan(Processor<TestCaseContext, TestCaseContext.TestCaseLifePhase> another) {
         return !(another instanceof ExceptionsExpected);
     }
 }

@@ -201,7 +201,7 @@ public class AUTD2Utils {
      *  Method performs iteration over processors
      *  which are bound to a particular life phase.
      */
-    static <C extends Context, L extends LifePhase<C>>
+    static <C extends Context<?,?>, L extends LifePhase<C>>
             void iterateThroughProcessorsUntilAllAreDone(
             C context, TreeMap<L, L> stopAfterAndGetBack,
             L currentPhase, List<? extends Processor<C, L>> processors) {
@@ -247,7 +247,7 @@ public class AUTD2Utils {
         } while (shouldGoToAnotherRound);
     }
 
-    static <L extends LifePhase<C>, C extends  Context, P extends Processor<C, L>> void mapToLifePhases(Map<L, List<P>> container, P newProc) {
+    static <L extends LifePhase<C>, C extends Context<?,?>, P extends Processor<C, L>> void mapToLifePhases(Map<L, List<P>> container, P newProc) {
         L[] interestedLifePhases = newProc.getLifePhasesInterestedIn();
         for (L interestedLifePhase : interestedLifePhases) {
             List<P> processors = container.get(interestedLifePhase);
@@ -259,7 +259,7 @@ public class AUTD2Utils {
         }
     }
 
-    static <L extends LifePhase<C>, C extends  Context, P extends Processor<C, L>>
+    static <L extends LifePhase<C>, C extends Context<?,?>, P extends Processor<C, L>>
                     void wiselyAddNewProcessorToTheListOfExisting(P newProc, L interestedLifePhase, List<P> existingProcessors) {
         if (existingProcessors.isEmpty()) {
             existingProcessors.add(newProc);
@@ -295,7 +295,7 @@ public class AUTD2Utils {
      * Results of invocation of method  <code>hasHigherPriorityThan()</code> should conform to each other -
      * if one says 'yes' then another one should say 'no'.
      */
-    public static <P extends Processor<C, L>, C extends Context, L extends LifePhase<C>>
+    public static <P extends Processor<C, L>, C extends Context<?,?>, L extends LifePhase<C>>
                                             P getProcessorWithHigherPriority(P p1, P p2) {
         if (p1.hasHigherPriorityThan(p2) && !p2.hasHigherPriorityThan(p1)) {
             return p1;
@@ -311,7 +311,7 @@ public class AUTD2Utils {
      * Returns lists of processors mapped by a life phases.
      */
     public static Map<TestCaseContext.TestCaseLifePhase, List<Processor.TestCaseProcessor>>
-                                 getProc2LifePhaseForTheTestCaseMethod(Method method, Set<Processor> usedProcessors) {
+                                 getProc2LifePhaseForTheTestCaseMethod(Method method, Set<Processor<?,?>> usedProcessors) {
         Map<TestCaseContext.TestCaseLifePhase, List<Processor.TestCaseProcessor>> result =
                 new HashMap<>();
         usedProcessors.forEach(p -> {
@@ -323,7 +323,7 @@ public class AUTD2Utils {
         return result;
     }
 
-    static boolean appliesToThisTestCase(Method method, Processor p) {
+    static boolean appliesToThisTestCase(Method method, Processor<?, ?> p) {
 
         // todo ! implement - won't work if processor attached to method argument
 
@@ -346,7 +346,7 @@ public class AUTD2Utils {
                 }
             }
             if (annotatedElement instanceof Constructor) {
-                Constructor constructor = (Constructor) annotatedElement;
+                Constructor<?> constructor = (Constructor<?>) annotatedElement;
                 // todo do we really have to check it - this should always be true ?
                 if (constructor.getDeclaringClass().equals(method.getDeclaringClass())) {
                     return true;
@@ -409,14 +409,14 @@ public class AUTD2Utils {
      * and aggregates declared processor instances into the returned set.
      * @return aggregated set of processors used through all the class and interface hierarchy
      */
-    public static Set<Processor> getAllUserProcessors(Class<?> tgClass) {
+    public static Set<Processor<?,?>> getAllUserProcessors(Class<?> tgClass) {
         // todo in future replace manual aggregation with usage of bulk-data API
-        final HashSet<Processor> result = new HashSet<>();
+        final HashSet<Processor<?,?>> result = new HashSet<>();
         final List<Class<?>> classHierarchy = ReflectionUtils.getClassHierarchy(tgClass);
         for (Class<?> aClass : classHierarchy) {
             final UseProcessors annotation = aClass.getAnnotation(UseProcessors.class);
             if (annotation != null) {
-                for (Class<? extends Processor> pClass : annotation.value()) {
+                for (Class<? extends Processor<?,?>> pClass : annotation.value()) {
                     result.add(instantiateProcessor(pClass));
                 }
             }
@@ -429,7 +429,7 @@ public class AUTD2Utils {
      * @param pClass class to use for instantiation
      * @return processor instance
      */
-    static Processor instantiateProcessor(Class<? extends Processor> pClass) {
+    static Processor<?,?> instantiateProcessor(Class<? extends Processor<?,?>> pClass) {
         try {
             return pClass.getConstructor().newInstance();
         } catch (Exception e) {

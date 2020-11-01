@@ -68,7 +68,7 @@ public class DefaultNoArgTestCaseMethodSetting extends Processor.TestCaseProcess
      * {@inheritDoc}
      */
     @Override
-    public boolean hasHigherPriorityThan(Processor anotherProc) {
+    public boolean hasHigherPriorityThan(Processor<TestCaseContext, TestCaseContext.TestCaseLifePhase> anotherProc) {
         return false;
     }
 

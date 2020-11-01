@@ -74,7 +74,7 @@ public class DefaultExecutionResult extends Processor.TestCaseProcessor {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasHigherPriorityThan(Processor anotherProc) {
+    public boolean hasHigherPriorityThan(Processor<TestCaseContext, TestCaseContext.TestCaseLifePhase> anotherProc) {
         return false;
     }
 
@@ -150,7 +150,7 @@ public class DefaultExecutionResult extends Processor.TestCaseProcessor {
     /**
      * {@inheritDoc}
      */
-    static String unmatchedArgsExceptionThrown(String exceptionName, Context c, Throwable iae, Method method, Object... args) {
+    static String unmatchedArgsExceptionThrown(String exceptionName, Context<?, ?> c, Throwable iae, Method method, Object... args) {
         final String message = format(
                 exceptionName + " was thrown when data values {0} were passed to method \"{1}\" that has parameter types {2}",
                 Arrays.deepToString(args), method.getName(), Arrays.toString(method.getParameterTypes()));

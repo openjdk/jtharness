@@ -44,6 +44,6 @@ public @interface InterestedProcessors {
     /**
      * List of processors that are interested in this annotation.
      */
-    Class<? extends Processor>[] value();
+    Class<? extends Processor<?,?>>[] value();
 
 }

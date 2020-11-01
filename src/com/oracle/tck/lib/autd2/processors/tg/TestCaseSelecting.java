@@ -56,7 +56,7 @@ public class TestCaseSelecting extends Processor.TestGroupProcessor {
     public void process(TestGroupContext.TestGroupLifePhase lifePhase,
                         TestGroupContext tgContext) {
         Object testGroupInstance = tgContext.getTestGroupInstance();
-        Class testGroupClass = testGroupInstance.getClass();
+        Class<?> testGroupClass = testGroupInstance.getClass();
 
         final List<Class<?>> hierarchy = ReflectionUtils.getClassHierarchy(testGroupClass);
         for (Class<?> clazz : hierarchy) {
@@ -67,7 +67,7 @@ public class TestCaseSelecting extends Processor.TestGroupProcessor {
                     tcContext.setTestCaseMethod(method);
                     tcContext.setParentContext(tgContext);
 
-                    Set<Processor> usedProcessors = tgContext.getAllUsedProcessors();
+                    Set<Processor<?,?>> usedProcessors = tgContext.getAllUsedProcessors();
 
                     Map<TestCaseContext.TestCaseLifePhase, List<TestCaseProcessor>>
                             proc2LifePhaseForTheTestCaseMethod =

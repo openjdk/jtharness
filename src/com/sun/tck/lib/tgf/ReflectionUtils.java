@@ -83,7 +83,7 @@ public final class ReflectionUtils {
      * @param aClass class to start scan from scan
      * @return all, even inherited fields
      */
-    public static List<Field> getAllFields(Class aClass) {
+    public static List<Field> getAllFields(Class<?> aClass) {
         List<Field> result = fieldCache.get(aClass);
         if (result != null) {
             return new ArrayList<>(result);
@@ -98,7 +98,7 @@ public final class ReflectionUtils {
      * @param aClass class to start scan from scan
      * @return all, even inherited methods
      */
-    public static List<Method> getAllMethods(Class aClass) {
+    public static List<Method> getAllMethods(Class<?> aClass) {
         final List<Method> result = methodCache.get(aClass);
         if (result != null) {
             return new ArrayList<>(result);

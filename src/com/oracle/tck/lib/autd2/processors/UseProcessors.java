@@ -41,5 +41,5 @@ public @interface UseProcessors {
     /**
      * Gives the answer of which processor classes to use.
      */
-    Class<? extends Processor>[] value();
+    Class<? extends Processor<?,?>>[] value();
 }

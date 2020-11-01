@@ -58,7 +58,7 @@ public class DefaultThreadRunning extends Processor.TestCaseProcessor {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasHigherPriorityThan(Processor anotherProc) {
+    public boolean hasHigherPriorityThan(Processor<TestCaseContext, TestCaseContext.TestCaseLifePhase> anotherProc) {
         return false;
     }
 

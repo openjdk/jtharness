@@ -67,7 +67,7 @@ public class TestGroupContext extends Context<Processor.TestGroupProcessor, Test
     private final TreeMap<String, TestCaseContext> tcContexts = new TreeMap<>(TEST_METHOD_COMPARATOR);
     private Object testGroupInstance;
     private String[] executionArgs;
-    private Set<Processor> allUsedProcessors;
+    private Set<Processor<?,?>> allUsedProcessors;
     private boolean quietOutput = false;
 
     /**
@@ -189,7 +189,7 @@ public class TestGroupContext extends Context<Processor.TestGroupProcessor, Test
      * Sets all the processors that are going to be used
      * for running this testgroup.
      */
-    public void setAllUsedProcessors(Set<Processor> allUsedProcessors) {
+    public void setAllUsedProcessors(Set<Processor<?,?>> allUsedProcessors) {
         this.allUsedProcessors = allUsedProcessors;
     }
 
@@ -197,7 +197,7 @@ public class TestGroupContext extends Context<Processor.TestGroupProcessor, Test
      * Returns all the processors that are used
      * for running this testgroup.
      */
-    public Set<Processor> getAllUsedProcessors() {
+    public Set<Processor<?,?>> getAllUsedProcessors() {
         return allUsedProcessors;
     }
 

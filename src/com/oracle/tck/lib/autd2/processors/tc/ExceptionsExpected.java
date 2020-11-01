@@ -69,7 +69,7 @@ public class ExceptionsExpected extends Processor.TestCaseProcessor {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasHigherPriorityThan(Processor anotherProc) {
+    public boolean hasHigherPriorityThan(Processor<TestCaseContext, TestCaseContext.TestCaseLifePhase> anotherProc) {
         return true;
     }
 

@@ -64,7 +64,7 @@ public class TestCaseContext extends Context<Processor.TestCaseProcessor, TestCa
 
     private TestGroupContext parentContext;
     private Method testCaseMethod;
-    private Callable callableTestCase;
+    private Callable<?> callableTestCase;
     private TestCaseResult testCaseResult;
     private Object[] testCaseInvocationArgValues;
     private long rowIndex = -1;
@@ -332,14 +332,14 @@ public class TestCaseContext extends Context<Processor.TestCaseProcessor, TestCa
      * invocation of a testcase.
      * This action does not necessary mean direct invocation of testcase method.
      */
-    public void setCallableTestCase(Callable callableTestCase) {
+    public void setCallableTestCase(Callable<?> callableTestCase) {
         this.callableTestCase = callableTestCase;
     }
 
     /**
      * Sets a testcase "action" wrapped in {@code Callable}.
      */
-    public Callable getCallableTestCase() {
+    public Callable<?> getCallableTestCase() {
         return callableTestCase;
     }
 

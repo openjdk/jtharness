@@ -44,7 +44,7 @@ import java.util.*;
  * @see com.oracle.tck.lib.autd2.processors.Processor.TestCaseProcessor
  * @see com.oracle.tck.lib.autd2.processors.Processor.TestGroupProcessor
  */
-public abstract class Processor<C extends Context, L extends LifePhase<C>> implements Cloneable {
+public abstract class Processor<C extends Context<?,?>, L extends LifePhase<C>> implements Cloneable {
 
 
     /**
@@ -170,8 +170,8 @@ public abstract class Processor<C extends Context, L extends LifePhase<C>> imple
      * Returns all annotations attached to the testgroup (specified in the passed
      * context).
      */
-    protected Set<Annotation> getAllAnnotationsAttachedToTestGroup(Context c) {
-        final Class testGroup = c.getTestGroupInstance().getClass();
+    protected Set<Annotation> getAllAnnotationsAttachedToTestGroup(Context<?, ?> c) {
+        final Class<?> testGroup = c.getTestGroupInstance().getClass();
         HashSet<Annotation> annotations = new HashSet<>();
         Collections.addAll(annotations, testGroup.getDeclaredAnnotations());
         return annotations;
@@ -181,7 +181,7 @@ public abstract class Processor<C extends Context, L extends LifePhase<C>> imple
      * Method returns only annotations for the testgroup class (specified in the
      * passed context) that this processor is interested in.
      */
-    protected Set<Annotation> getTestGroupAnnotationsInterestedIn(Context c) {
+    protected Set<Annotation> getTestGroupAnnotationsInterestedIn(Context<?, ?> c) {
         return getAnnotatedElements().get(c.getTestGroupInstance().getClass());
     }
 
@@ -198,7 +198,7 @@ public abstract class Processor<C extends Context, L extends LifePhase<C>> imple
      * method <code>getTestGroupAnnotationsInterestedIn(TestCaseContext)</code>
      *
      */
-    protected Annotation getTheOnlyTestGroupAnnotationInterestedIn(Context c) {
+    protected Annotation getTheOnlyTestGroupAnnotationInterestedIn(Context<?, ?> c) {
         final Set<Annotation> annotations =
                         getTestGroupAnnotationsInterestedIn(c);
         if (annotations == null) {

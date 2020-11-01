@@ -294,8 +294,8 @@ public class DataFactory {
         } else if (o instanceof List) {
             values = DataFactory.createColumn(((List)o).toArray());
         } else if (o instanceof Iterator) {
-            List result = new ArrayList();
-            ((Iterator<Object>)o).forEachRemaining(result::add);
+            ArrayList<?> result = new ArrayList<>();
+            ((Iterator<Object>) o).forEachRemaining((Object e) -> ((ArrayList<Object>)result).add(e));
             if (result.size() > 0 && result.get(0) instanceof Object[]) {
                 values = new ValuesImpl(new CachedIterator((ArrayList<Object[]>) result));
             } else{

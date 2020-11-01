@@ -40,5 +40,5 @@ import java.lang.annotation.ElementType;
 @Target(ElementType.PARAMETER)
 @InterestedProcessors({TGFTestCaseMethodSetting.class, TGFWrongAnnotationsChecking.class})
 public @interface Classes {
-    Class[] value();
+    Class<?>[] value();
 }

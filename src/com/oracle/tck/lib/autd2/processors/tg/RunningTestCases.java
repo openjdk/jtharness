@@ -97,7 +97,7 @@ public class RunningTestCases extends Processor.TestGroupProcessor {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasHigherPriorityThan(Processor anotherProc) {
+    public boolean hasHigherPriorityThan(Processor<TestGroupContext, TestGroupContext.TestGroupLifePhase> anotherProc) {
         return true;
     }
 

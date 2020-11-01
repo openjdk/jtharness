@@ -60,7 +60,8 @@ import static java.util.Arrays.asList;
 @InterestedInAnnotations(TestGroup.class)
 public class PublicNonTestCaseMethodsReporter extends Processor.TestGroupProcessor {
 
-    private static final List<Class<NonPublicTestCasesReporter>> USE_BEFORE = asList(NonPublicTestCasesReporter.class);
+    private static final List<Class<? extends Processor<TestGroupContext, TestGroupContext.TestGroupLifePhase>>>
+            USE_BEFORE = asList(NonPublicTestCasesReporter.class);
 
     /**
      * {@inheritDoc}
@@ -117,10 +118,10 @@ public class PublicNonTestCaseMethodsReporter extends Processor.TestGroupProcess
      * @return methods from class hierarchy and methods from interface hierarchy
      * which declaring class has any parent class or interface annotated with @TestGroup
      */
-    private List<Method> getInspectedMethodsFromHierarchy(Class aClass) {
+    private List<Method> getInspectedMethodsFromHierarchy(Class<?> aClass) {
         final LinkedList<Method> result = new LinkedList<>();
         ReflectionUtils.getClassHierarchy(aClass).forEach(clazz -> {
-            for (Class c : ReflectionUtils.getClassHierarchy(clazz)) {
+            for (Class<?> c : ReflectionUtils.getClassHierarchy(clazz)) {
                 if (c.getAnnotation(TestGroup.class) != null) {
                     Collections.addAll(result, clazz.getDeclaredMethods());
                     break;
@@ -134,13 +135,13 @@ public class PublicNonTestCaseMethodsReporter extends Processor.TestGroupProcess
     private boolean isRunMethod(Method method) {
         return "run".equals(method.getName())
                 && Arrays.equals(
-                new Class[]{String[].class, PrintWriter.class, PrintWriter.class},
+                new Class<?>[]{String[].class, PrintWriter.class, PrintWriter.class},
                 method.getParameterTypes())
                 && Status.class.equals(method.getReturnType());
     }
 
     @Override
-    public List useBefore() {
+    public List<Class<? extends Processor<TestGroupContext, TestGroupContext.TestGroupLifePhase>>> useBefore() {
         return USE_BEFORE;
     }
 }
