@@ -129,7 +129,7 @@ public class PlainTextReport implements ReportFormat {
 
     @Override
     public List<ReportFormat> getSubReports() {
-        return Collections.<ReportFormat>emptyList();
+        return Collections.emptyList();
     }
 
     private Writer openWriter(File reportDir, String filename) throws IOException {

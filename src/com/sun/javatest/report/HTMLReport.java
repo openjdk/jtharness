@@ -308,7 +308,7 @@ public class HTMLReport implements ReportFormat {
 
     @Override
     public List<ReportFormat> getSubReports() {
-        return Collections.<ReportFormat>emptyList();
+        return Collections.emptyList();
     }
 
     File getReportDirectory() {

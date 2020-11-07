@@ -117,7 +117,7 @@ public class XMLReport implements ReportFormat {
 
     @Override
     public List<ReportFormat> getSubReports() {
-        return Collections.<ReportFormat>emptyList();
+        return Collections.emptyList();
     }
 
     public void write(Writer w, ReportSettings sett) throws IOException, SAXException {

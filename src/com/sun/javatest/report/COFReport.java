@@ -89,7 +89,7 @@ public class COFReport implements ReportFormat {
 
     @Override
     public List<ReportFormat> getSubReports() {
-        return Collections.<ReportFormat>emptyList();
+        return Collections.emptyList();
     }
 
     @Override
