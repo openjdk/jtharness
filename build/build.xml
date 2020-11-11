@@ -23,7 +23,7 @@
   or visit www.oracle.com if you need additional information or have any
   questions.
 -->
-<project name="jtharness" default="build" basedir="..">
+<project name="jtharness" default="build" basedir=".." xmlns:if="ant:if" xmlns:unless="ant:unless">
 
     <import file="build-i18ncheck.xml"/>
     <import file="check-dependencies.xml"/>
@@ -241,7 +241,7 @@
 
     <!-- JAR Section -->
 
-    <target name="jar" depends="jar.check,stamp" unless="javatest.jar.ok" description="Build JAR.">
+    <target name="jar" depends="jar.check,stamp, generate.release.file" unless="javatest.jar.ok" description="Build JAR.">
         <mkdir dir="${BUILD_DIR}/binaries/lib"/>
         <jar destfile="${BUILD_DIR}/binaries/lib/javatest.jar" basedir="${build.classes}" index="false">
             <manifest>
@@ -254,6 +254,23 @@
             <include name="META-INF/services/com.sun.javatest.report.ReportFormat"/>
             <patternset refid="javatest.packages.jar"/>
         </jar>
+    </target>
+
+    <target name="generate.release.file">
+        <tstamp>
+            <format property="BUILD_DATE" pattern="MMM dd, YYYY" locale="en,GB"/>
+        </tstamp>
+        <available file="git" type="file" filepath="${env.PATH}" property="GIT_FOUND"/>
+        <exec if:set="GIT_FOUND" executable="git"
+              failonerror="false"
+              failifexecutionfails="false"
+              outputproperty="BUILT_FROM_COMMIT">
+            <arg line="log -1 --format=%H"/>
+        </exec>
+        <echo unless:set="GIT_FOUND">'git' command not found on the system path, unable to identify latest commit ID</echo>
+        <echo file="${BUILD_DIR}/binaries/release">JTHARNESS_VERSION=${build.version} ${build.number}${line.separator}</echo>
+        <echo append="true" file="${BUILD_DIR}/binaries/release">BUILD_DATE=${BUILD_DATE}${line.separator}</echo>
+        <echo if:set="BUILT_FROM_COMMIT" append="true" file="${BUILD_DIR}/binaries/release">SOURCE=jtharness:${BUILT_FROM_COMMIT}${line.separator}</echo>
     </target>
 
     <target name="jar.check" depends="compile">
