@@ -271,6 +271,11 @@
         <echo file="${BUILD_DIR}/binaries/release">JTHARNESS_VERSION=${build.version} ${build.number}${line.separator}</echo>
         <echo append="true" file="${BUILD_DIR}/binaries/release">BUILD_DATE=${BUILD_DATE}${line.separator}</echo>
         <echo if:set="BUILT_FROM_COMMIT" append="true" file="${BUILD_DIR}/binaries/release">SOURCE=jtharness:${BUILT_FROM_COMMIT}${line.separator}</echo>
+
+        <loadfile property="release.file.content" srcfile="${BUILD_DIR}/binaries/release"/>
+        <echo>generated ${BUILD_DIR}/binaries/release file:</echo>
+        <echo>=================================================================</echo>
+        <echo>${release.file.content}</echo>
     </target>
 
     <target name="jar.check" depends="compile">
