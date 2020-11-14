@@ -37,9 +37,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
 public class Constructors {
 
     @Test
@@ -211,17 +208,17 @@ public class Constructors {
     @Test
     public void test_LazyInitialization() {
         Values values = DataFactory.createColumn(
-        new AbstractValue() {
+        new AbstractValue<Object>() {
             public Object create() {
                 return new TestObject("a");
             }
         },
-        new AbstractValue() {
+        new AbstractValue<Object>() {
             public Object create() {
                 return new TestObject("b");
             }
         },
-        new AbstractValue() {
+        new AbstractValue<Object>() {
             public Object create() {
                 return new TestObject("c");
             }

@@ -37,9 +37,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
 public class General {
 
     @Test(expected = UnsupportedOperationException.class)
@@ -220,8 +217,8 @@ public class General {
 
         Object test = new BaseTestGroup() {
 
-            Class[] createArray() {
-                return new Class[] {null, Class.class, Object.class};
+            Class<?>[] createArray() {
+                return new Class<?>[] {null, Class.class, Object.class};
             }
 
             Values sampleSetup() {
@@ -231,7 +228,7 @@ public class General {
 
             @TestCase
             @TestData("sampleSetup")
-            public void test(Class o1, Class o2) {
+            public void test(Class<?> o1, Class<?> o2) {
                 System.out.println("o1 = " + o1);
                 System.out.println("o2 = " + o2);
             }
