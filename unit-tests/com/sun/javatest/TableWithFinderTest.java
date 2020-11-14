@@ -45,6 +45,7 @@ import org.junit.Test;
  * Argument 2 is the test suite root for dir walk
  * Argument 3 is a scratch work dir
  */
+@SuppressWarnings("deprecation")
 public class TableWithFinderTest {
 
     private File testWeb;    // web walk location

@@ -40,6 +40,7 @@ import com.sun.javatest.finder.HTMLTestFinder;
 import org.junit.Assert;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class TestResultTableTest {
 
     @Test

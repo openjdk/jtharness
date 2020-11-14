@@ -86,7 +86,8 @@ public class SelectionTest extends TestBase implements Harness.Observer {
             // set the "previous" status of each test to a known state
             Parameters params = createParameters();
 
-            Harness harness = new Harness(harnessClassDir);
+            Harness harness = new Harness();
+            Harness.setClassDir(harnessClassDir);
             harness.addObserver(this);
             log.println("running tests to set status to known state");
             harness.batch(params);

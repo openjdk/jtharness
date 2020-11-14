@@ -37,15 +37,14 @@ import com.sun.tck.test.TestGroup;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- *
- */
 public class InvalidTestCases {
 
 
@@ -948,7 +947,7 @@ public class InvalidTestCases {
 
                 @TestCase
                 public void baseMethod() {
-                    Function f = el -> "123";
+                    Function<Object, String> f = el -> "123";
                 }
             });
         Assert.assertTrue(status.isOK());
@@ -965,7 +964,7 @@ public class InvalidTestCases {
 
                 @TestCase
                 public void baseMethod() {
-                    Function f = el -> "123";
+                    Function<Object, String> f = el -> "123";
                 }
             });
         Assert.assertTrue(status.isOK());
@@ -1087,33 +1086,33 @@ public class InvalidTestCases {
         @TestCase
         default void baseTestCase() {
             // this will transform into synthetic method
-            Function f = el -> "123";
+            Function<?, String> f = el -> "123";
         }
     }
 
     @TestGroup
     public static interface DefaultTestCasesWithLambda2 {
 
-        static final Function[] f = {null};
+        static final List<Function<?, String>> f = new ArrayList<>();
 
         @TestCase
         default void baseTestCase() {
             // this will transform into synthetic method
-            f[0] = el -> "123";
+            f.add(el -> "123");
         }
 
         @TestCase
         default void baseTestCase2() {
             // this will transform into synthetic method
-            Predicate p1 = obj -> false;
-            Predicate p2 = obj -> true;
+            Predicate<Boolean> p1 = obj -> false;
+            Predicate<Boolean> p2 = obj -> true;
         }
 
         @NonTestCase
         default void baseNonTestCase() {
             // this will transform into synthetic method
-            Predicate p1 = obj -> false;
-            Predicate p2 = obj -> true;
+            Predicate<Boolean> p1 = obj -> false;
+            Predicate<Boolean> p2 = obj -> true;
         }
 
     }

@@ -46,6 +46,7 @@ public class FinderTest {
     }
 
 
+    @SuppressWarnings("deprecation")
     public boolean run(String[] args, PrintStream out) {
         int nTests = 0;
 

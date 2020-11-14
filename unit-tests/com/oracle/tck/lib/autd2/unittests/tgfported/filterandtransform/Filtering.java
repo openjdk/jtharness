@@ -915,8 +915,8 @@ public class Filtering {
             Assert.fail("Exception expected");
         } catch (RuntimeException e) {
             Assert.assertTrue(e.getCause() instanceof InvocationTargetException);
-            Assert.assertTrue(e.getCause().getCause() instanceof InstantiationException);
-            Assert.assertEquals("java.lang.Double", e.getCause().getCause().getMessage());
+            Assert.assertTrue(e.getCause().getCause() instanceof NoSuchMethodException);
+            Assert.assertEquals("java.lang.Double.<init>()", e.getCause().getCause().getMessage());
         }
     }
 
@@ -930,8 +930,8 @@ public class Filtering {
             Assert.fail("Exception expected");
         } catch (RuntimeException e) {
             Assert.assertTrue(e.getCause() instanceof InvocationTargetException);
-            Assert.assertTrue(e.getCause().getCause() instanceof InstantiationException);
-            Assert.assertEquals("java.lang.Double", e.getCause().getCause().getMessage());
+            Assert.assertTrue(e.getCause().getCause() instanceof NoSuchMethodException);
+            Assert.assertEquals("java.lang.Double.<init>()", e.getCause().getCause().getMessage());
         }
     }
 

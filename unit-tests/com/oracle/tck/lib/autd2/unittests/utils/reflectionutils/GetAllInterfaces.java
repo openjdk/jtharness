@@ -37,15 +37,7 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
 
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.junit.jupiter.api.Assertions.*;
-
-/**
- *
- */
 public class GetAllInterfaces {
 
     @Test
@@ -117,6 +109,7 @@ public class GetAllInterfaces {
     @Test
     public void test_08() {
         class Clazzz implements Runnable, Serializable {
+            private static final long serialVersionUID = 0L;
             @Override
             public void run() {
 
@@ -144,6 +137,7 @@ public class GetAllInterfaces {
     @Test
     public void test_09() {
         class Clazzz implements Runnable, Serializable, I1 {
+            private static final long serialVersionUID = 0L;
             @Override
             public void run() {
 

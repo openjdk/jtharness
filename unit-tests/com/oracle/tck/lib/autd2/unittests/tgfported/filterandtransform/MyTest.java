@@ -43,9 +43,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.sun.tck.lib.tgf.DataFactory.*;
 import static com.sun.tck.lib.tgf.DataFactory.createColumn;
 
-/**
- *
- */
 public class MyTest {
 
     @Test
@@ -190,7 +187,7 @@ public class MyTest {
     public void test_color() {
         Integer[] component = {0, 100, 255};
         final Values colors =
-            createColumn(component).multiply(component).multiply(component).filter(
+            createColumn((Object[])component).multiply((Object[])component).multiply((Object[])component).filter(
                     (Integer r, Integer g, Integer b) -> new Color(r, g, b)
             );
 
@@ -870,7 +867,7 @@ public class MyTest {
                 createColumn("1", "2", "3").filter(
                 new Object() {
                     public @Transform
-                    List build(String s) {
+                    List<String> build(String s) {
                         return Arrays.asList(s + "one", s + "two", s + "three_");
                     }
                 }
@@ -894,7 +891,7 @@ public class MyTest {
                 createColumn("1", "2", "3").filter(
                 new Object() {
                     public @Transform
-                    Iterator build(String s) {
+                    Iterator<String> build(String s) {
                         return Arrays.asList(s + "one", s + "two", s + "three_").iterator();
                     }
                 }

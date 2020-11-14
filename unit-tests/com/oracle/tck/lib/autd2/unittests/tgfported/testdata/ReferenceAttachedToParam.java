@@ -40,9 +40,6 @@ import org.junit.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
 public class ReferenceAttachedToParam {
 
     @org.junit.Test
@@ -89,7 +86,7 @@ public class ReferenceAttachedToParam {
     public void class_1() {
         final List<Class<?>> list = new ArrayList<Class<?>>();
         com.oracle.tck.lib.autd2.TestResult status = TU.runTestGroup(new BaseTestGroup() {
-            Class[] classes = {String.class, Throwable.class};
+            Class<?>[] classes = {String.class, Throwable.class};
 
             @TestCase
             public void test(@TestData("classes") Class<?> c) throws Throwable {
@@ -125,7 +122,7 @@ public class ReferenceAttachedToParam {
         final List<String> list_2 = new ArrayList<String>();
         com.oracle.tck.lib.autd2.TestResult status = TU.runTestGroup(new BaseTestGroup() {
             Values strings_ = DataFactory.createColumn("a", "b", "c");
-            Class[] classes = {String.class, Throwable.class};
+            Class<?>[] classes = {String.class, Throwable.class};
 
             @TestCase
             public void test(@TestData("classes") Class<?> c, @TestData("strings_") String s) throws Throwable {
@@ -151,7 +148,7 @@ public class ReferenceAttachedToParam {
         final List<String> list_2 = new ArrayList<String>();
         com.oracle.tck.lib.autd2.TestResult status = TU.runTestGroup(new BaseTestGroup() {
             Values strings_ = DataFactory.createColumn("a", "b", "c");
-            Class[] classes = {String.class, Throwable.class};
+            Class<?>[] classes = {String.class, Throwable.class};
 
             @TestCase
             @Operation(Operation.TYPE.PSEUDOMULTYPLY)
@@ -179,7 +176,7 @@ public class ReferenceAttachedToParam {
         final List<String> list_2 = new ArrayList<String>();
         com.oracle.tck.lib.autd2.TestResult status = TU.runTestGroup(new BaseTestGroup() {
             Values strings_ = DataFactory.createColumn("a", "b", "c");
-            Class[] classes = {String.class, Throwable.class};
+            Class<?>[] classes = {String.class, Throwable.class};
 
             @TestCase
             @Operation(Operation.TYPE.MULTIPLY)
