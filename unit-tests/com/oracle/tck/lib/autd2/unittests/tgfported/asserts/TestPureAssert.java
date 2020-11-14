@@ -396,7 +396,7 @@ public class TestPureAssert {
 
     @Test
     public void testAssertEquals_Positive_primitive_int() {
-        com.sun.tck.lib.Assert.assertEquals((int) 890890, (int) 890890);
+        com.sun.tck.lib.Assert.assertEquals(890890, 890890);
         com.sun.tck.lib.Assert.assertEquals(Integer.MAX_VALUE, Integer.MAX_VALUE);
         com.sun.tck.lib.Assert.assertEquals(Integer.MIN_VALUE, Integer.MIN_VALUE);
     }
@@ -1540,7 +1540,7 @@ public class TestPureAssert {
 
     @Test(expected = AssertionFailedException.class)
     public void testAssertEquals_Negative_primitive_longInt() {
-        com.sun.tck.lib.Assert.assertEquals(89345634563453L, (int) 643576537);
+        com.sun.tck.lib.Assert.assertEquals(89345634563453L, 643576537);
     }
 
     @Test(expected = AssertionFailedException.class)
@@ -1565,7 +1565,7 @@ public class TestPureAssert {
 
     @Test(expected = AssertionFailedException.class)
     public void testAssertEquals_Negative_primitive_int() {
-        com.sun.tck.lib.Assert.assertEquals((int) 43, (int) 85);
+        com.sun.tck.lib.Assert.assertEquals(43, 85);
     }
 
     @Test(expected = AssertionFailedException.class)

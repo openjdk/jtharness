@@ -37,9 +37,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
 public class TestUtilTest {
 
     @Test
@@ -341,7 +338,7 @@ public class TestUtilTest {
         String s1 = TU.generateRandomString();
         final String s2 = TU.generateRandomString();
 
-        arrayList.add(new Object[]{"rtyua", new AbstractValue(){
+        arrayList.add(new Object[]{"rtyua", new AbstractValue<Object>(){
             public Object create() {
                 return s2;
             }

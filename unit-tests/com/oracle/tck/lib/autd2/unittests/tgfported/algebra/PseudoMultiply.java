@@ -35,9 +35,6 @@ import java.util.List;
 
 import static com.sun.tck.lib.tgf.DataFactory.*;
 
-/**
- *
- */
 public class PseudoMultiply {
 
     @Test
@@ -814,14 +811,14 @@ public class PseudoMultiply {
 
     @Test
     public void test_empty_1_5() {
-        Values values = createRow(new Object[0][0]).pseudoMultiply();
+        Values values = createRow((Object[])new Object[0][0]).pseudoMultiply();
         List<Object[]> expected = new ArrayList<Object[]>();
         ValuesComparison.compare(values, expected);
     }
 
     @Test
     public void test_empty_1_6() {
-        Values values = createRow(new Object[0][0]).pseudoMultiply().multiply(1, 2);
+        Values values = createRow((Object[])new Object[0][0]).pseudoMultiply().multiply(1, 2);
         List<Object[]> expected = new ArrayList<Object[]>();
         ValuesComparison.compare(values, expected);
     }

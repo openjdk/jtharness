@@ -38,9 +38,6 @@ import java.util.List;
 import static com.sun.tck.lib.tgf.DataFactory.*;
 import static com.sun.tck.lib.tgf.DataFactory.createColumn;
 
-/**
- *
- */
 public class Unite {
 
     @Test
@@ -867,7 +864,7 @@ public class Unite {
 
     @Test
     public void testUnite_with_empty_Array_4_4() {
-        Values result = createColumn(55 ).unite(createColumn(new Object[0][0])).unite(88);
+        Values result = createColumn(55 ).unite(createColumn((Object[])new Object[0][0])).unite(88);
         List<Object[]> expected = new ArrayList<Object[]>();
         expected.add(new Object[]{55});
         expected.add(new Object[]{88});
