@@ -47,9 +47,6 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- *
- */
 public class Filtering {
 
 
@@ -464,8 +461,8 @@ public class Filtering {
     }
 
 
-    public static AbstractValue[] createBaselineGroups(final GroupLayout layout) {
-        return new AbstractValue[]{
+    public static AbstractValue<?>[] createBaselineGroups(final GroupLayout layout) {
+        return new AbstractValue<?>[]{
                 new AbstractValue<GroupLayout.Group>() {
                     public GroupLayout.Group create() {
                         return layout.createBaselineGroup(true, true);
@@ -579,7 +576,7 @@ public class Filtering {
                 Values values = createColumn(0, 1, 2).filter(
                         new Object() {
                             @Transform
-                            java.util.List create(int i) {
+                            java.util.List<Integer> create(int i) {
                                 return Arrays.asList(i, i + 1, i + 2);
                             }
                         });
@@ -887,7 +884,7 @@ public class Filtering {
         final ArrayList<String> arrayList = new ArrayList<String>();
         com.oracle.tck.lib.autd2.TestResult status = com.oracle.tck.lib.autd2.unittests.TU.runTestGroup(new BaseTestGroup() {
             Values values =
-                    createColumn(String.class, Object.class).filter((Class c) -> c.newInstance());
+                    createColumn(String.class, Object.class).filter((Class<?>c) -> c.getConstructor().newInstance());
 
             @TestCase
             @TestData("values")
@@ -907,7 +904,7 @@ public class Filtering {
         try {
         final TestResult run = com.oracle.tck.lib.autd2.unittests.TU.runTestGroup(new BaseTestGroup() {
             Values values =
-                    createColumn(Double.class, Class.class).filter((Values.Transformer1<Class>) Class::newInstance);
+                    createColumn(Double.class, Class.class).filter((Values.Transformer1<Class<?>>) c -> c.getConstructor().newInstance());
 
             @TestCase
             @TestData("values")
@@ -927,7 +924,7 @@ public class Filtering {
     public void absorbingExceptions_exceptionThrownOut_iteratingFilter() {
         try {
                 Values values =
-                        createColumn(Double.class, Class.class).filter((Values.Transformer1<Class>) Class::newInstance);
+                        createColumn(Double.class, Class.class).filter((Values.Transformer1<Class<?>>) c -> c.getConstructor().newInstance());
             for (Object[] value : values) {
             }
             Assert.fail("Exception expected");
@@ -941,13 +938,13 @@ public class Filtering {
     @Test
     public void noExceptionIfNotIterating() {
         Values values =
-                createColumn(Double.class, Class.class).filter((Values.Transformer1<Class>)Class::newInstance);
+                createColumn(Double.class, Class.class).filter((Values.Transformer1<Class<?>>)c -> c.getConstructor().newInstance());
     }
 
     @Test
     public void noExceptionIfNotIterating_1() {
         Values values =
-                createColumn(Double.class, Class.class).filter((Class c) -> {throw new Error("Delayed!");});
+                createColumn(Double.class, Class.class).filter((Class<?>c) -> {throw new Error("Delayed!");});
     }
 
     @Test

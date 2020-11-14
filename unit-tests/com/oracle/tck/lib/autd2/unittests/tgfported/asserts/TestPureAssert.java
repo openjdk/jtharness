@@ -3701,12 +3701,16 @@ public class TestPureAssert {
     @Test
     public void test_assertThrows_OK_subtype_02_1_multiple_02() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3717,12 +3721,16 @@ public class TestPureAssert {
     @Test
     public void test_assertThrows_OK_subtype_02_1_multiple_03() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3734,14 +3742,19 @@ public class TestPureAssert {
     @Test
     public void test_assertThrows_OK_subtype_02_1_multiple_03_1() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3_1 extends Ex3 {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3752,14 +3765,19 @@ public class TestPureAssert {
     @Test
     public void test_assertThrows_OK_subtype_02_1_multiple_03_3() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3_1 extends Ex3 {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3771,14 +3789,19 @@ public class TestPureAssert {
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_OK_subtype_02_1_multiple_03_4() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3_1 extends Ex3 {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3790,14 +3813,19 @@ public class TestPureAssert {
     @Test
     public void test_assertThrows_OK_subtype_02_1_multiple_03_2() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3_1 extends Ex3 {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3808,12 +3836,16 @@ public class TestPureAssert {
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_OK_subtype_02_1_multiple_04() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3824,12 +3856,16 @@ public class TestPureAssert {
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_OK_subtype_02_1_multiple_05() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3840,14 +3876,19 @@ public class TestPureAssert {
     @Test
     public void test_assertThrows_OK_subtype_02_1_multiple_06() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3_1 extends Ex3 {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3858,12 +3899,16 @@ public class TestPureAssert {
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_OK_wrongType_02_1_multiple_04() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3874,12 +3919,16 @@ public class TestPureAssert {
     @Test
     public void test_assertThrows_OK_subType_02_1_multiple_04() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3890,12 +3939,16 @@ public class TestPureAssert {
     @Test
     public void test_assertThrows_OK_subType_02_1_multiple_05() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3914,12 +3967,16 @@ public class TestPureAssert {
     @Test
     public void test_assertThrows_OK_subType_02_1_multiple_06() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends Ex1 {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends Ex2 {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends Ex3 {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3960,12 +4017,16 @@ public class TestPureAssert {
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_OK_subType_02_1_multiple_07() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends Ex1 {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends Ex2 {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends Ex3 {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3977,12 +4038,16 @@ public class TestPureAssert {
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_OK_subType_02_1_multiple_08() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends Ex1 {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends Ex2 {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends Ex3 {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -3993,12 +4058,16 @@ public class TestPureAssert {
     @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_OK_subType_02_1_multiple_10() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends Ex1 {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends Ex2 {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends Ex3 {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -4009,12 +4078,16 @@ public class TestPureAssert {
     @Test
     public void test_assertThrows_OK_subType_02_1_multiple_09() {
         class Ex1 extends RuntimeException {
+            static final long serialVersionUID = 0L;
         }
         class Ex2 extends Ex1 {
+            static final long serialVersionUID = 0L;
         }
         class Ex3 extends Ex2 {
+            static final long serialVersionUID = 0L;
         }
         class Ex4 extends Ex3 {
+            static final long serialVersionUID = 0L;
         }
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
