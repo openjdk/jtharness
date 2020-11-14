@@ -149,8 +149,8 @@ public class TestInlinedDataCollector {
     @Test
     public void classes_1() {
         class MyClass {
-            void test(@Classes({NullPointerException.class, Number.class, Array.class}) Class c1,
-                      @Classes({Integer.class, Double.class, JPanel.class}) Class c2) {}
+            void test(@Classes({NullPointerException.class, Number.class, Array.class}) Class<?> c1,
+                      @Classes({Integer.class, Double.class, JPanel.class}) Class<?> c2) {}
         }
         Values values = TestDataCollector.collectInlinedData(getTestMethod(MyClass.class), null, null, null);
         List<Object[]> expected = new ArrayList<Object[]>();
@@ -169,7 +169,7 @@ public class TestInlinedDataCollector {
         Values values = TestDataCollector.collectInlinedData(getTestMethod(MyClass.class), null, null, null);
         List<Object[]> expected = new ArrayList<Object[]>();
         expected.add(new Object[]{(double)1, (double)7});
-        expected.add(new Object[]{(double)67.5,  (double)90});
+        expected.add(new Object[]{67.5,  (double)90});
         ValuesComparison.compare(values, expected);
     }
 
@@ -260,7 +260,7 @@ public class TestInlinedDataCollector {
             void test(@Booleans({true,        false}) boolean b1,
                       @Bytes({1,              2}) byte b2,
                       @Chars({'a',            'v', 't'}) char c,
-                      @Classes({String.class, Number.class}) Class ccc,
+                      @Classes({String.class, Number.class}) Class<?> ccc,
                       @Doubles({1d,           4d}) double d,
                       @Floats ({4f,           7f, 8f}) float f,
                       @Ints({89,              90}) int i,
@@ -270,9 +270,9 @@ public class TestInlinedDataCollector {
         }
         Values values = TestDataCollector.collectInlinedData(getTestMethod(MyClass.class), null, null, null);
         List<Object[]> expected = new ArrayList<Object[]>();
-        expected.add(new Object[] {true,  (byte)1, 'a', String.class, (double)1, (float)4, (int)89, (long)89, (short)23, "45"});
-        expected.add(new Object[] {false, (byte)2, 'v', Number.class, (double)4, (float)7, (int)90, (long)78, (short)45, "abc"});
-        expected.add(new Object[] {true,  (byte)1, 't', String.class, (double)1, (float)8, (int)89, (long)89l, (short)67, "cdd"});
+        expected.add(new Object[] {true,  (byte)1, 'a', String.class, (double)1, 4f, 89, 89L, (short)23, "45"});
+        expected.add(new Object[] {false, (byte)2, 'v', Number.class, (double)4, 7f, 90, 78L, (short)45, "abc"});
+        expected.add(new Object[] {true,  (byte)1, 't', String.class, (double)1, 8f, 89, 89L, (short)67, "cdd"});
         ValuesComparison.compare(values, expected);
     }
 
@@ -283,7 +283,7 @@ public class TestInlinedDataCollector {
             void test(@Booleans({true,        false}) boolean b1,
                       @Bytes({1,              2}) byte b2,
                       @Chars({'a',            'v', 't'}) char c,
-                      @Classes({String.class, Number.class}) Class ccc,
+                      @Classes({String.class, Number.class}) Class<?> ccc,
                       @Doubles({1d,           4d}) double d,
                       @Floats ({4f,           7f, 8f}) float f,
                       @Ints({89,              90}) int i,
@@ -293,9 +293,9 @@ public class TestInlinedDataCollector {
         }
         Values values = TestDataCollector.collectInlinedData(getTestMethod(MyClass.class), null, null, null);
         List<Object[]> expected = new ArrayList<Object[]>();
-        expected.add(new Object[] {true,  (byte)1, 'a', String.class, (double)1, (float)4, (int)89, (long)89, (short)23, "45"});
-        expected.add(new Object[] {false, (byte)2, 'v', Number.class, (double)4, (float)7, (int)90, (long)78, (short)45, "abc"});
-        expected.add(new Object[] {true,  (byte)1, 't', String.class, (double)1, (float)8, (int)89, (long)89l, (short)67, "cdd"});
+        expected.add(new Object[] {true,  (byte)1, 'a', String.class, (double)1, (float)4, 89, 89L, (short)23, "45"});
+        expected.add(new Object[] {false, (byte)2, 'v', Number.class, (double)4, (float)7, 90, 78L, (short)45, "abc"});
+        expected.add(new Object[] {true,  (byte)1, 't', String.class, (double)1, (float)8, 89, 89L, (short)67, "cdd"});
         ValuesComparison.compare(values, expected);
     }
 
@@ -411,8 +411,8 @@ public class TestInlinedDataCollector {
         List<Object[]> expected = new ArrayList<Object[]>();
         expected.add(new Object[]{(double)1, (double)3});
         expected.add(new Object[]{(double)1, (double)8});
-        expected.add(new Object[]{(double)2.5, (double)3});
-        expected.add(new Object[]{(double)2.5, (double)8});
+        expected.add(new Object[]{2.5, (double)3});
+        expected.add(new Object[]{2.5, (double)8});
         ValuesComparison.compare(values, expected);
     }
 
