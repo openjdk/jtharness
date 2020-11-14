@@ -313,7 +313,7 @@ public class AUTD2Utils {
     public static Map<TestCaseContext.TestCaseLifePhase, List<Processor.TestCaseProcessor>>
                                  getProc2LifePhaseForTheTestCaseMethod(Method method, Set<Processor<?,?>> usedProcessors) {
         Map<TestCaseContext.TestCaseLifePhase, List<Processor.TestCaseProcessor>> result =
-                new HashMap<>();
+                new EnumMap<>(TestCaseContext.TestCaseLifePhase.class);
         usedProcessors.forEach(p -> {
             if (p instanceof Processor.TestCaseProcessor && appliesToThisTestCase(method, p)) {
                 Processor.TestCaseProcessor newTCProc = (Processor.TestCaseProcessor) p;

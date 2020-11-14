@@ -117,7 +117,7 @@ public final class TestRunner {
             }
         }
 
-        HashMap<TestGroupContext.TestGroupLifePhase, List<Processor.TestGroupProcessor>> phase2TGProc = new HashMap<>();
+        Map<TestGroupContext.TestGroupLifePhase, List<Processor.TestGroupProcessor>> phase2TGProc = new EnumMap<>(TestGroupContext.TestGroupLifePhase.class);
 
         applicableProcessors.values().forEach(p -> {
             if (p instanceof Processor.TestGroupProcessor) {
