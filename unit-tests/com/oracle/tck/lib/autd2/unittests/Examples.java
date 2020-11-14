@@ -55,9 +55,6 @@ import static com.sun.tck.lib.tgf.data.Operation.TYPE.MULTIPLY;
 import static java.awt.Color.*;
 import static java.util.stream.Collectors.toList;
 
-/**
- *
- */
 public class Examples {
 
 
@@ -386,14 +383,14 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1, 2}, {3, 4}})
-                    .multiply(DataFactory.createValues(new Comparable[][]{{5, 6}, {7, 8}}))
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1, 2}, {3, 4}})
+                    .multiply(DataFactory.createValues(new Comparable<?>[][]{{5, 6}, {7, 8}}))
                     .filter((Object[] i) -> DataFactory.createRow(i));
 
 
             @TestCase
             @TestData("multiplyValues")
-            public void testToString(Comparable a, Comparable b, Comparable c, Comparable d) {
+            public void testToString(Comparable<?> a, Comparable<?> b, Comparable<?> c, Comparable<?> d) {
 
                 //Control won't come here, it fails at TransformingIterator.
             }
@@ -408,14 +405,14 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1, 2}, {3, 4}})
-                    .multiply(DataFactory.createValues(new Comparable[][]{{5, 6}, {7, 8}}))
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1, 2}, {3, 4}})
+                    .multiply(DataFactory.createValues(new Comparable<?>[][]{{5, 6}, {7, 8}}))
                     .filter((Object[] i) -> DataFactory.createRow(i));
 
 
             @TestCase
             @TestData("multiplyValues")
-            public void testToString(Comparable a, Comparable b, Comparable c, Comparable d) {
+            public void testToString(Comparable<?> a, Comparable<?> b, Comparable<?> c, Comparable<?> d) {
                 System.out.println("TestTransformingIterator.testToString");
             }
         }
@@ -429,7 +426,7 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1}, {3}})
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1}, {3}})
                     .filter((Object[] i) -> DataFactory.createRow(i.length));
 
 
@@ -448,8 +445,8 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1}, {3}})
-                    .filter((Object[] i) -> DataFactory.createRow(i));
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1}, {3}})
+                    .filter((Values.Transformer1<Object[]>) DataFactory::createRow);
 
 
             @TestCase
@@ -467,7 +464,7 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1}, {3, 4}})
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1}, {3, 4}})
                     .filter((Object[] i) -> DataFactory.createRow(i.length));
 
 
@@ -486,7 +483,7 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1, 5}, {3, 4}})
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1, 5}, {3, 4}})
                     .filter((Object[] i) -> DataFactory.createRow(i));
 
 
@@ -505,10 +502,8 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{3}, {3, 4}})
-                    .filter((Object i) -> {
-                        return DataFactory.createRow(i.toString().length());
-                    });
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{3}, {3, 4}})
+                    .filter((Object i) -> DataFactory.createRow(i.toString().length()));
 
 
             @TestCase
@@ -526,8 +521,8 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1}, {3}})
-                    .filter((Comparable i) -> DataFactory.createRow(i));
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1}, {3}})
+                    .filter((Comparable<?> i) -> DataFactory.createRow(i));
 
 
             @TestCase
@@ -546,14 +541,14 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1, 2}, {3, 4}})
-                    .multiply(DataFactory.createValues(new Comparable[][]{{5, 6}, {7, 8}}))
-                    .filter((Comparable... i) -> DataFactory.createRow(i));
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1, 2}, {3, 4}})
+                    .multiply(DataFactory.createValues(new Comparable<?>[][]{{5, 6}, {7, 8}}))
+                    .filter((Comparable<?>... i) -> DataFactory.createRow((Object)i));
 
 
             @TestCase
             @TestData("multiplyValues")
-            public void testToString(Comparable a) {
+            public void testToString(Comparable<?> a) {
 
                 //Control won't come here, it fails at TransformingIterator.
             }
@@ -569,9 +564,9 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1, 2}, {3, 4}})
-                    .multiply(DataFactory.createValues(new Comparable[][]{{5, 6}, {7, 8}}))
-                    .filter((Comparable c1, Comparable c2, Comparable c3, Comparable c4) -> DataFactory.createRow(c1));
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1, 2}, {3, 4}})
+                    .multiply(DataFactory.createValues(new Comparable<?>[][]{{5, 6}, {7, 8}}))
+                    .filter((Comparable<?> c1, Comparable<?> c2, Comparable<?> c3, Comparable<?> c4) -> DataFactory.createRow(c1));
 
 
             @TestCase
@@ -590,12 +585,12 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1, 2}, {3, 4}})
-                    .filter((Object[] objectsToUse) -> DataFactory.createRow(objectsToUse));
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1, 2}, {3, 4}})
+                    .filter((Values.Transformer1<Object[]>) DataFactory::createRow);
 
             @TestCase
             @TestData("multiplyValues")
-            public void testToString(Comparable a, Comparable b) {
+            public void testToString(Comparable<?> a, Comparable<?> b) {
             }
         }
         com.oracle.tck.lib.autd2.TestResult s = TU.runTestGroup(new TestTransformingIterator());
@@ -608,12 +603,12 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
 
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{1, 2}, {3, 4}})
-                    .filter((Comparable[] objectsToUse) -> DataFactory.createRow(objectsToUse));
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{1, 2}, {3, 4}})
+                    .filter((Comparable<?>[] objectsToUse) -> DataFactory.createRow((Object[])objectsToUse));
 
             @TestCase
             @TestData("multiplyValues")
-            public void testToString(Comparable a, Comparable b) {
+            public void testToString(Comparable<?> a, Comparable<?> b) {
             }
         }
         com.oracle.tck.lib.autd2.TestResult s = TU.runTestGroup(new TestTransformingIterator());
@@ -627,15 +622,15 @@ public class Examples {
         class TestTransformingIterator {
 
             int calls;
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{}, {3, 4}})
-                    .filter((Comparable[] objectsToUse) -> {
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{}, {3, 4}})
+                    .filter((Comparable<?>[] objectsToUse) -> {
                         calls++;
                         return DataFactory.createRow((Object[]) objectsToUse);
                     });
 
             @TestCase
             @TestData("multiplyValues")
-            public void testToString(Comparable a, Comparable b) {
+            public void testToString(Comparable<?> a, Comparable<?> b) {
                 System.out.println("TestTransformingIterator.testToString");
             }
         }
@@ -652,15 +647,15 @@ public class Examples {
         class TestTransformingIterator {
 
             int calls;
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{}, {3, 4}})
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{}, {3, 4}})
                     .filter((Object[] objectsToUse) -> {
                         calls++;
-                        return DataFactory.createRow((Object[]) objectsToUse);
+                        return DataFactory.createRow(objectsToUse);
                     });
 
             @TestCase
             @TestData("multiplyValues")
-            public void testToString(Comparable a, Comparable b) {
+            public void testToString(Comparable<?> a, Comparable<?> b) {
                 System.out.println("TestTransformingIterator.testToString");
             }
         }
@@ -676,7 +671,7 @@ public class Examples {
         @TestGroup
         class TestTransformingIterator {
             int calls;
-            Values multiplyValues = DataFactory.createValues(new Comparable[][]{{}, {3, 4}})
+            Values multiplyValues = DataFactory.createValues(new Comparable<?>[][]{{}, {3, 4}})
                     .filter((Object objectsToUse) -> {
                         calls++;
                         return DataFactory.createRow(objectsToUse);
@@ -712,9 +707,7 @@ public class Examples {
                                 return DataFactory.createRow((Object) copiedArray);
                             }
                         })
-                        .filter((String[] stackState) -> {
-                            return new Object();
-                        });
+                        .filter((String[] stackState) -> new Object());
                 return frames;
             }
 
