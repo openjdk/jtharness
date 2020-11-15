@@ -130,6 +130,7 @@ public class ExpandTestFinderTest extends TestBase {
     }
 
     public static class Fault extends Exception {
+        static final long serialVersionUID = 0L;
         public Fault(String msg) {
             super(msg);
         }

@@ -108,7 +108,8 @@ public class TraceTest implements Harness.Observer {
             log.println("work dir: " + testWorkDir.getPath());
 
             Date beforeDate = now();
-            Harness h = new Harness(harnessClassDir);
+            Harness h = new Harness();
+            Harness.setClassDir(harnessClassDir);
             h.addObserver(this);
             System.err.println("start batch");
             h.batch(params);

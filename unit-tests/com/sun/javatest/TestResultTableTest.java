@@ -40,7 +40,7 @@ import com.sun.javatest.finder.HTMLTestFinder;
 import org.junit.Assert;
 import org.junit.Test;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "unchecked"})
 public class TestResultTableTest {
 
     @Test
@@ -110,7 +110,7 @@ public class TestResultTableTest {
         TestResultTable tab = new TestResultTable();
         TestFinderQueue tfq = new TestFinderQueue();
         tfq.setTestFinder(tf);
-        tfq.setTests(null);
+        tfq.setTests((String[])null);
         //tfq.addObserver(new TFQObserver());
 
         TestDescription td;

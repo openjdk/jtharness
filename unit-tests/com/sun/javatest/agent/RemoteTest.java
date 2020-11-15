@@ -296,6 +296,9 @@ public class RemoteTest {
     }
 
     private static class Random extends java.util.Random {
+
+        static final long serialVersionUID = 0L;
+
         Random(int seed) {
             super(seed);
         }

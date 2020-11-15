@@ -72,8 +72,8 @@ public class SysEnvTest {
 
 
     private static void showMap(Map<String, String> m) {
-        for (Object o : m.entrySet()) {
-            Map.Entry<String, String> e = (Map.Entry<String, String>) o;
+        for (Map.Entry<String, String> o : m.entrySet()) {
+            Map.Entry<String, String> e = o;
             System.err.println(e.getKey() + " = " + e.getValue());
         }
     }

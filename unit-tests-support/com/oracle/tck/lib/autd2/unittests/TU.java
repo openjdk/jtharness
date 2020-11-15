@@ -64,31 +64,40 @@ public class TU {
     /**
      * Processors which are bound to @TestGroup annotation
      */
-    public static final Set<Class<? extends Processor.TestGroupProcessor>> TG_PROC = new HashSet() {{addAll(Arrays.asList(
-            TestCaseSelecting.class,
-            TestCaseExcluding.class,
-            RunningTestCases.class,
-            PublicNonTestCaseMethodsReporter.class,
-            NonPublicTestCasesReporter.class));}};
+    public static final Set<Class<? extends Processor.TestGroupProcessor>> TG_PROC =
+            new HashSet<Class<? extends Processor.TestGroupProcessor>>() {{
+                addAll(Arrays.asList(
+                        TestCaseSelecting.class,
+                        TestCaseExcluding.class,
+                        RunningTestCases.class,
+                        PublicNonTestCaseMethodsReporter.class,
+                        NonPublicTestCasesReporter.class));
+            }};
 
 
     /**
      * Processors which are bound to @TestCase annotation
      */
-    public static final Set<Class<? extends Processor.TestCaseProcessor>> TC_PROC_STATUS_RECOGNIZED = new HashSet() {{addAll(Arrays.asList(
-            DefaultThreadRunning.class,
-            DefaultExecutionResult.class,
-            DefaultNoArgTestCaseMethodSetting.class,
-            TestCaseResultCanBeStatus.class
-    ));}};
+    public static final Set<Class<? extends Processor.TestCaseProcessor>> TC_PROC_STATUS_RECOGNIZED =
+            new HashSet<Class<? extends Processor.TestCaseProcessor>>() {{
+                addAll(Arrays.asList(
+                        DefaultThreadRunning.class,
+                        DefaultExecutionResult.class,
+                        DefaultNoArgTestCaseMethodSetting.class,
+                        TestCaseResultCanBeStatus.class
+                ));
+            }};
     /**
      * Processors which are bound to @TestCase annotation
      */
-    public static final Set<Class<? extends Processor.TestCaseProcessor>> TC_PROC_STATUS_NOT_EXPECTED = new HashSet() {{addAll(Arrays.asList(
-            DefaultThreadRunning.class,
-            DefaultExecutionResult.class,
-            DefaultNoArgTestCaseMethodSetting.class
-    ));}};
+    public static final Set<Class<? extends Processor.TestCaseProcessor>> TC_PROC_STATUS_NOT_EXPECTED =
+            new HashSet<Class<? extends Processor.TestCaseProcessor>>() {{
+                addAll(Arrays.asList(
+                        DefaultThreadRunning.class,
+                        DefaultExecutionResult.class,
+                        DefaultNoArgTestCaseMethodSetting.class
+                ));
+            }};
 
 
     public static TestResult runTestGroup(Object tg, String... args) {
@@ -106,7 +115,7 @@ public class TU {
     public static TestResult runTestGroup(Object tg,
                                           PrintWriter log, PrintWriter ref,
                                           Set<Class<? extends Processor.TestGroupProcessor>> additionalUserTGProcessors,
-                                          Set<Class<? extends Processor.TestCaseProcessor>>  additionalUserTCProcessors,
+                                          Set<Class<? extends Processor.TestCaseProcessor>> additionalUserTCProcessors,
                                           String... args) {
         Set<Class<? extends Processor.TestGroupProcessor>> finalTGProc = new HashSet<>(TG_PROC);
         Set<Class<? extends Processor.TestCaseProcessor>> finalTCProc = new HashSet<>(TC_PROC_STATUS_RECOGNIZED);

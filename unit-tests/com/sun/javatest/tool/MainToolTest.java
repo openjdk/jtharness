@@ -139,7 +139,7 @@ public class MainToolTest {
 
     public boolean test(Method m) throws InterruptedException, InvocationTargetException {
         try {
-            m.invoke(this, null);
+            m.invoke(this, (Object[]) null);
             checkCurrDirEmpty();
             return true;
         } catch (InvocationTargetException e) {
@@ -692,7 +692,7 @@ public class MainToolTest {
         // System.exit unless we ask it nicely, pretty please, thank you.
         SecurityManager sc = System.getSecurityManager();
         if (sc instanceof JavaTestSecurityManager) {
-            ((JavaTestSecurityManager) sc).setAllowExit(true);
+            JavaTestSecurityManager.setAllowExit(true);
         }
         System.exit(n);
     }

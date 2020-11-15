@@ -46,9 +46,9 @@ import java.util.Set;
 class DemoTestRunner extends TestRunner {
 
     // constants used by classifyThrowable and i18n key unexpectedThrowable
-    private static final Integer EXCEPTION = new Integer(0);
-    private static final Integer ERROR = new Integer(1);
-    private static final Integer THROWABLE = new Integer(2);
+    private static final Integer EXCEPTION = 0;
+    private static final Integer ERROR = 1;
+    private static final Integer THROWABLE = 2;
     private static final I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(DemoTestRunner.class);
     private Iterator<TestDescription> testIter;
     private Set<Thread> activeThreads;
@@ -134,7 +134,7 @@ class DemoTestRunner extends TestRunner {
             // ensure all child threads killed
             for (Thread thread : threads) {
                 if (thread != null) {
-                    thread.stop();
+                    thread.interrupt();
                 }
             }
         }

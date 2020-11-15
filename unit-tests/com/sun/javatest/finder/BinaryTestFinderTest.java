@@ -47,6 +47,7 @@ import org.junit.Test;
 public class BinaryTestFinderTest {
 
     public class Fault extends Exception {
+        static final long serialVersionUID = 0L;
         Fault(String msg) {
             super(msg);
         }

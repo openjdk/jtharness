@@ -40,6 +40,7 @@ public class ValuesImplSlow implements Values {
 
     private LinkedList<Object[]> data;
 
+    @SuppressWarnings("unchecked")
     private Values createCopy() {
         ValuesImplSlow values = new ValuesImplSlow();
         values.data = (LinkedList<Object[]>) this.data.clone();

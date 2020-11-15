@@ -162,7 +162,7 @@ public class CustomTestSuite implements Test {
 
         protected ValuesIterator createCopy() {
             try {
-                NodeIterator iterator = getClass().newInstance();
+                NodeIterator iterator = getClass().getDeclaredConstructor().newInstance();
                 iterator.setLeft(left.createCopy());
                 iterator.setRight(right.createCopy());
                 return iterator;

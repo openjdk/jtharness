@@ -45,7 +45,7 @@ public class TestObserver implements Harness.Observer {
     private static int skipped = -1;
 
     @Override
-    public void notifyOfTheFinalStats(Map<TestFilter, List<TestDescription>> filterStats, int[] stats) {
+    public void notifyOfTheFinalStats(Map<TestFilter, List<TestDescription>> filterStats, int... stats) {
         TestObserver.skipped = 0;
         for (List<TestDescription> testDescriptions : filterStats.values()) {
             TestObserver.skipped += testDescriptions.size();
