@@ -166,7 +166,7 @@ public class SelectionTest extends TestBase implements Harness.Observer {
         params.setTests((String[]) null);
         params.setExcludeFiles((File[]) null);
         params.setKeywords(FileParameters.EXPR, null);
-        params.setPriorStatusValues(null);
+        params.setPriorStatusValues((boolean[])null);
         params.setEnvFiles(new File[]{envFile});
         params.setEnvName("basic");
         params.setReportDir(testWorkDir.getRoot());
