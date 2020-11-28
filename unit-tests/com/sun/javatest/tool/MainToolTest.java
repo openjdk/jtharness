@@ -321,23 +321,21 @@ public class MainToolTest {
             sysProps.put("javatest.preferences.file", "NONE");
             sysProps.put("javatest.desktop.file", "NONE");
             final Desktop d = startJavaTest(new String[]{toyWork.getPath()});
-            EventQueue.invokeAndWait(new Runnable() {
-                public void run() {
-                    JDialog init = (JDialog) getOwnedWindow(d, "qsw");
-                    if (init != null) {
-                        throw new Error("exec.init displayed and shouldn't be");
-                    }
-
-                    ExecTool t = (ExecTool) getTool(d, "exec");
-                    if (t == null) {
-                        throw new Error("exec tool missing");
-                    }
-                    TestSuite ts = t.getTestSuite();
-                    checkTestSuite(ts, basicTestSuite);
-                    WorkDirectory wd = t.getWorkDirectory();
-                    checkWorkDir(wd, toyWork);
-                    d.dispose();
+            EventQueue.invokeAndWait(() -> {
+                JDialog init = (JDialog) getOwnedWindow(d, "qsw");
+                if (init != null) {
+                    throw new Error("exec.init displayed and shouldn't be");
                 }
+
+                ExecTool t = (ExecTool) getTool(d, "exec");
+                if (t == null) {
+                    throw new Error("exec tool missing");
+                }
+                TestSuite ts = t.getTestSuite();
+                checkTestSuite(ts, basicTestSuite);
+                WorkDirectory wd = t.getWorkDirectory();
+                checkWorkDir(wd, toyWork);
+                d.dispose();
             });
         } finally {
             clearCurrDir();
@@ -603,8 +601,7 @@ public class MainToolTest {
      * Copy a file.
      */
     private void copyFile(File from, File to) throws IOException {
-        InputStream in = new BufferedInputStream(new FileInputStream(from));
-        try {
+        try (InputStream in = new BufferedInputStream(new FileInputStream(from))) {
             int size = (int) from.length();
             byte data[] = new byte[size];
             for (int total = 0; total < data.length; ) {
@@ -616,8 +613,6 @@ public class MainToolTest {
             } finally {
                 out.close();
             }
-        } finally {
-            in.close();
         }
     }
 
