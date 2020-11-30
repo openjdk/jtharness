@@ -121,7 +121,12 @@ class RunTestsCommand extends Command {
 
             int[] boStats = bo.getStats();
 
-            boStats[Status.NOT_RUN] = harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
+            int remainingFromFound = harness.getTestsFoundCount() - boStats[Status.PASSED] - boStats[Status.FAILED] - boStats[Status.ERROR];
+            // Remaining number could be technically calculated as negative
+            // if for example tests were added dynamically during the run.
+            // In this case setting it to zero - basically ignoring.
+            boStats[Status.NOT_RUN] = remainingFromFound >= 0 ? remainingFromFound : 0;
+
             // tests that were rejected by filters so skipped from the run
             int skipped = harness.getTestIterator().getRejectCount();
 
