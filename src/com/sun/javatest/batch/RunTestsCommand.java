@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2020, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -211,25 +211,7 @@ class RunTestsCommand extends Command {
         if (passed + failed + errors + notRun + skipped == 0) {
             ctx.printMessage(i18n, "runTests.noTests");
         } else {
-            // runTests.tests=Test results:
-            // {0,choice,0#|0<passed: {0,number}}
-            // {1,choice,0#|1#; }
-            // {2,choice,0#|0<failed: {2,number}}
-            // {3,choice,0#|1#; }
-            // {4,choice,0#|0<error: {4,number}}
-            // {5,choice,0#|1#; }
-            // {6,choice,0#|0<not run:
-            // {6,number}}
-            ctx.printMessage(i18n, "runTests.tests",
-                    Integer.valueOf(passed),
-                    Integer.valueOf((passed > 0) && (failed + errors + notRun + skipped > 0) ? 1 : 0),
-                    Integer.valueOf(failed),
-                    Integer.valueOf((failed > 0) && (errors + notRun + skipped > 0) ? 1 : 0),
-                    Integer.valueOf(errors),
-                    Integer.valueOf((errors > 0) && (notRun + skipped > 0) ? 1 : 0),
-                    Integer.valueOf(notRun),
-                    Integer.valueOf((notRun > 0) && (skipped > 0) ? 1 : 0),
-                    Integer.valueOf(skipped));
+            ctx.printMessage(i18n, "runTests.tests", getTestSummaryStatsArgs(passed, failed, errors, notRun, skipped));
         }
         ctx.getLogWriter().println();
         for (Map.Entry<TestFilter, ArrayList<TestDescription>> entry : harness.getTestIterator().getFilterStats().entrySet()) {
@@ -238,6 +220,33 @@ class RunTestsCommand extends Command {
             ctx.getLogWriter().println(number + " " + (number == 1 ? "test" : "tests") +
                     " skipped by filter \"" + filter.getName() + "\"");
         }
+    }
+
+    /**
+     *  Returning array of integers to match the following template
+     *
+     * runTests.tests=Test results:
+     * {0,choice,0#|0<passed: {0,number}}
+     * {1,choice,0#|1#; }
+     * {2,choice,0#|0<failed: {2,number}}
+     * {3,choice,0#|1#; }
+     * {4,choice,0#|0<error: {4,number}}
+     * {5,choice,0#|1#; }
+     * {6,choice,0#|0<not run: {6,number}}
+     * {7,choice,0#|1#; }
+     * {8,choice,0#|0<skipped: {8,number}}
+     */
+    public static Integer[] getTestSummaryStatsArgs(int passed, int failed, int errors, int notRun, int skipped) {
+        return new Integer[] {
+                passed,
+                (passed > 0) && (failed + errors + notRun + skipped > 0) ? 1 : 0,
+                failed,
+                (failed > 0) && (errors + notRun + skipped > 0) ? 1 : 0,
+                errors,
+                (errors > 0) && (notRun + skipped > 0) ? 1 : 0,
+                notRun,
+                (notRun > 0) && (skipped > 0) ? 1 : 0,
+                skipped};
     }
 
     //-------------------------------------------------------------------------
