@@ -236,7 +236,7 @@ class RunTestsCommand extends Command {
      * {7,choice,0#|1#; }
      * {8,choice,0#|0<skipped: {8,number}}
      */
-    public static Integer[] getTestSummaryStatsArgs(int passed, int failed, int errors, int notRun, int skipped) {
+    public static Object[] getTestSummaryStatsArgs(int passed, int failed, int errors, int notRun, int skipped) {
         return new Integer[] {
                 passed,
                 (passed > 0) && (failed + errors + notRun + skipped > 0) ? 1 : 0,
