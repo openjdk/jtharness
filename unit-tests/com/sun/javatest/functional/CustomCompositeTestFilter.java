@@ -37,7 +37,7 @@ public class CustomCompositeTestFilter extends TestSuiteRunningTestBase {
     @Test
     public void test() {
         runJavaTest();
-        checkSystemErrLineIs(6, "Test results: skipped: 3 ");
+        checkSystemErrLineIs(6, "Test results: skipped: 3");
         // todo order might change, need to look into this
 //        checkSystemErrLineIs(7, "1 test skipped by filter \"Name: doesn't like 2s\", reason: rejecting tests with names ending with 2");
 //        checkSystemErrLineIs(8, "2 tests skipped by filter \"Name: doesn't like 1s\", reason: rejecting tests with names ending with 1");

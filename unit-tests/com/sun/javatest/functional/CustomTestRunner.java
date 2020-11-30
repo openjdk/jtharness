@@ -41,7 +41,7 @@ public class CustomTestRunner extends TestSuiteRunningTestBase {
     public void test() {
         runJavaTest();
         checkSystemErrLineIs(1, "DemoTestRunner.runTests method called");
-        checkSystemErrLineIs(7, "Test results: passed: 2; failed: 1 ");
+        checkSystemErrLineIs(7, "Test results: passed: 2; failed: 1");
     }
 
     @Override
