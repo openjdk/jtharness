@@ -85,15 +85,17 @@ The following table provides descriptions and examples of keyword expressions
   that can be constructed.</p>
 
 <table width="100%" border="0" cellpadding="5"  class="gray.wide" summary="The contents and description of the keyword expressions that can be constructed." title="Keyword Expressions">
+<thead>
 <tr valign="top">
 <th width="10%" scope="col" class="left">Expression</th>
 <th scope="col" class="left">
 Description
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td>Any Of</td>
+<td scope="row">Any Of</td>
 <td>
 Runs all tests in the test suite having any of the keywords entered in the text field.
 
@@ -113,7 +115,7 @@ To execute only the tests containing the <code>interactive</code> keyword, choos
 </tr>
 
 <tr valign="top">
-<td>All Of</td>
+<td scope="row">All Of</td>
 <td>
 Runs all tests in the test suite having all of the keywords entered in the text field.
 <p>
@@ -127,7 +129,7 @@ choose All Of and then use the Insert Keyword button to choose the <code>interac
 </tr>
 
 <tr valign="top">
-<td>Expression</td>
+<td scope="row">Expression</td>
 <td>
 Runs all tests in the test suite having the expression entered in the text field.
 
@@ -155,6 +157,7 @@ contain the
 
 </td>
 </tr>
+</tbody>
 </table>
 
 <a name="ListofOperators"> </a>
@@ -162,15 +165,16 @@ contain the
 <p>Logical operators are only available when Expression is selected in the list of expressions. The following table provides descriptions and examples of logical operators that can be used to build keyword expressions. The precedence column indicates the order in which the expression is resolved. Expressions in parentheses are evaluated first, with  nested parentheses being evaluated from the innermost parentheses outward. </p>
 		
 <table width="100%" border="0" cellpadding="5"  class="gray.wide" summary="The contents and description of the keyword operators." title="Keyword Operators">
+<thead>
 <tr valign="top">
 <th width="20%" scope="col" class="left">Logical Operator</th>
 <th width="15%" scope="col" class="left">Precedence</th>
-<th scope="col" class="left">
-Description</th>
+<th scope="col" class="left">Description</th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td >( ) group </td><td>1</td>
+<td scope="row">( ) group </td><td>1</td>
 <td><p>Used to create groups of expressions.</p>
   <p><b>Example:</b><br>A test suite uses the keyword <code>interactive</code> to identify tests that
 require human interaction and <code>color</code> to identify tests that require
@@ -180,7 +184,7 @@ a color display.</p>
 </tr>
 
 <tr valign="top">
-  <td>! not </td><td>2</td>
+  <td scope="row">! not </td><td>2</td>
   <td><p>Logical not. Used to exclude tests containing the expression.</p>
   <p>Example:<br>A test suite uses the keyword <code>interactive</code> to identify tests
       that require human interaction and <code>color</code> to identify tests
@@ -191,7 +195,7 @@ a color display.</p>
 </tr>
 
 <tr valign="top">
-<td>&amp; and </td><td>3</td>
+<td scope="row">&amp; and </td><td>3</td>
 <td><p>Logical and. Used to combine expressions.</p>
 <p><b>Example:</b><br>
 A test suite uses the keyword <code>interactive</code> to identify tests that
@@ -202,7 +206,7 @@ a color display. </p>
 </tr>
 
 <tr valign="top">
-<td>| or </td><td>4</td>
+<td scope="row">| or </td><td>4</td>
 <td><p>Logical or. Used to specify either of two expressions.
 Example:<br>A test suite uses the keyword <code>interactive</code> to identify tests that
   require human interaction and <code>color</code> to identify tests that require
@@ -210,10 +214,7 @@ Example:<br>A test suite uses the keyword <code>interactive</code> to identify t
   <p><code>interactive|</code>color  
   <p>The harness will only choose tests that include either keyword.</p></td>
 </tr>
-
-
-
-
+</tbody>
 </table>
 
 
@@ -223,4 +224,3 @@ Example:<br>A test suite uses the keyword <code>interactive</code> to identify t
 <p><a href="../copyright.html">Copyright</a> &copy; 2006, 2011, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
-

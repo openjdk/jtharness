@@ -100,14 +100,16 @@ The following table provides descriptions and examples of keyword expressions
   that can be constructed.</p>
 
 <table width="100%" border="0" cellpadding="5"  class="gray" summary="The contents and description of the keyword expressions that can be constructed." title="Keyword Expressions">
+<thead>
 <tr valign="top">
 <th width="25%" scope="col" class="left">Expression</th>
 <th scope="col" class="left">
 Description</th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td width="25%">Any Of</td>
+<td width="25%" scope="row">Any Of</td>
 <td>
 Runs all tests in the test suite having any of the keywords entered in the text field.
 
@@ -118,11 +120,12 @@ A test suite uses the keyword <code>interactive</code> to identify tests that
 require human interaction, and <code>color</code> to identify tests that require a color display.</p>
 
 <p>
-To execute only the tests containing the <code>interactive</code> keyword, choose Any Of and then use the Insert Keyword button to choose the <code>interactive</code> keyword.</p></td>
+To execute only the tests containing the <code>interactive</code> keyword, choose Any Of and then use the Insert Keyword button to choose the <code>interactive</code> keyword.</p>
+</td>
 </tr>
 
 <tr valign="top">
-<td width="25%">All Of</td>
+<td width="25%" scope="row">All Of</td>
 <td>
 Runs all tests in the test suite having all of the keywords entered in the text field.
 <p>
@@ -133,7 +136,7 @@ choose All Of and then use the Insert Keyword button to choose the <code>interac
 </tr>
 
 <tr valign="top">
-<td width="25%">Expression</td>
+<td width="25%" scope="row">Expression</td>
 <td>
 Runs all tests in the test suite having the expression entered in the text field.
 
@@ -156,7 +159,8 @@ contain the
   Keyword button to choose the <code>color</code> keyword, the  Insert Operator
   button to choose the ! operator, and the Insert Keyword button to
   choose the <code>interactive</code> keyword.</p></td>
-</tr>
+  </tr>
+  </tbody>
 </table>
 
 
@@ -165,15 +169,17 @@ contain the
 <p>Logical operators are only available when Expression is selected in the list of expressions. The following table provides descriptions and examples of logical operators that can be used to build keyword expressions. The precedence column indicates the order in which the expression is resolved. Expressions in parentheses are evaluated first, with  nested parentheses being evaluated from the innermost parentheses outward. </p>
 		
 <table width="100%" border="0" cellpadding="5"  class="gray" summary="The contents and description of the keyword operators." title="Keyword Operators">
+<thead>
 <tr valign="top">
 <th width="15%" scope="col" class="left">Logical Operator</th>
 <th width="10%" scope="col" class="left">Precedence</th>
 <th scope="col" class="left">
 Description</th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td >( ) group </td><td>1</td>
+<td scope="row">( ) group </td><td>1</td>
 <td><p>Used to create groups of expressions.</p>
   <p>Example:<br>
 A test suite uses the keyword <code>interactive</code> to identify tests that
@@ -184,18 +190,18 @@ a color display. </p>
 </tr>
 
 <tr valign="top">
-  <td>! not </td><td>2</td>
+  <td scope="row">! not </td><td>2</td>
   <td>Logical not. Used to exclude tests containing the expression.    <p> Example:<br>
       A test suite uses the keyword <code>interactive</code> to identify tests
       that require human interaction and <code>color</code> to identify tests
-      that require a color display.     
-    <p><code>!interactive&amp;!color</code>    
+      that require a color display.
+    <p><code>!interactive&amp;!color</code>
     <p>The harness will exclude tests that include
     either keyword.  </td>
 </tr>
 
 <tr valign="top">
-<td >&amp; and </td><td>3</td>
+<td scope="row">&amp; and </td><td>3</td>
 <td>Logical and. Used to combine expressions.  <p>
 Example:<br>
 
@@ -207,18 +213,16 @@ a color display. </p>
 </tr>
 
 <tr valign="top">
-<td>| or </td><td>4</td>
+<td scope="row">| or </td><td>4</td>
 <td>Logical or. Used to specify either of two expressions.  <p>
 Example:<br>
 A test suite uses the keyword <code>interactive</code> to identify tests that
   require human interaction and <code>color</code> to identify tests that require
-  a color display.   
-  <p><code>interactive|</code>color  
-  <p>The harness will only choose tests that include either keyword.</td>
+  a color display.
+  <p><code>interactive|</code>color  </p>
+  <p>The harness will only choose tests that include either keyword.</p></td>
 </tr>
-
-
-
+</tbody>
 
 </table>
 
@@ -227,4 +231,3 @@ A test suite uses the keyword <code>interactive</code> to identify tests that
 <p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
-
