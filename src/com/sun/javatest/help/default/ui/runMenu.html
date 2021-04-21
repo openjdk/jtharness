@@ -42,7 +42,7 @@ Run Tests Menu
 <p>The Run Tests menu is used to start, stop, and monitor a test run. This menu can be customized to include  additional actions, so you may see additional options. A custom menu is developed as part of a test suite, so it is visible only when the test suite is in use.</p>
 		<p>The following table describes the default items in the Run Tests menu.</p>
 		<table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Run Tests menu." title="Run Tests Menu">
-
+            <thead>
 <tr valign="top">
 <th scope="col" class="left" width="15%">
 Menu Item
@@ -51,9 +51,11 @@ Menu Item
 Description
 </th>
 </tr>
+            </thead>
+            <tbody>
 
 <tr valign="top">
-<td><IMG SRC="../../images/runTests_button.gif"  ALT="Start Test Run button displayed on the tool bar" longdesc="window.html">&nbsp; Start</td>
+    <td scope="row"><IMG SRC="../../images/runTests_button.gif"  ALT="Start Test Run button displayed on the tool bar" longdesc="window.html">&nbsp; Start</td>
 <td>
 The  harness enables the Start menu item when it is not running tests. Choose
   the Start menu item to start a test run.
@@ -64,7 +66,7 @@ Only one test run at a time can be active in the Test Manager. See <a href="../r
 </td></tr>
 
 <tr valign="top">
-<td><IMG SRC="../../images/stopTests_button.gif"  ALT="Stop Test Run button displayed on the tool bar" longdesc="window.html">&nbsp; Stop</td>
+    <td scope="row"><IMG SRC="../../images/stopTests_button.gif"  ALT="Stop Test Run button displayed on the tool bar" longdesc="window.html">&nbsp; Stop</td>
 <td>
 The  harness enables the Stop menu item when it is running tests. Choose the
   Stop menu item to end a test run after the current test is completed. 
@@ -75,7 +77,7 @@ See <a href="../run/stopping.html">Stopping a Test Run</a> for detailed informat
 </tr>
 
 <tr valign="top">
-<td>Monitor Progress</td>
+    <td scope="row">Monitor Progress</td>
 <td>
 When the  harness is running tests, you can use the Progress Monitor
   to display the progress of the test run and current resource information about
@@ -86,7 +88,7 @@ See <a href="../run/progressMonitor.html">Using the Progress Monitor</a> for det
 </p>
 </td>
 </tr>
-
+            </tbody>
 <!--insert:launchemul-->
 
 </table>
@@ -99,4 +101,3 @@ See <a href="../run/progressMonitor.html">Using the Progress Monitor</a> for det
 <p><a href="../copyright.html">Copyright</a> &copy; 2003, 2010, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
-

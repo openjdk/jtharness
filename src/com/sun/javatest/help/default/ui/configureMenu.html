@@ -45,12 +45,15 @@ be customized you might see additional options defined in the current test suite
 options listed in the following table are only available when template usage is enabled.</p>
 
 <table width="100%" border="0" cellpadding="5" class="gray.wide" summary="The contents and description of the Configure menu." title="Configure Menu">
+    <thead>
   <tr valign="top">
     <th  width="20%" scope="col" class="left"> Menu Item</th>
     <th scope="col" class="left"> Description</th>
   </tr>
+    </thead>
+    <tbody>
   <tr valign="top">
-    <td> Edit Configuration</td>
+      <td scope="row"> Edit Configuration</td>
     <td> Opens the Configuration Editor and loads the current configuration.
       The harness uses the Configuration Editor to change configuration values
       required to run a test suite. 
@@ -58,7 +61,7 @@ options listed in the following table are only available when template usage is 
      </td>
   </tr>
   <tr valign="top">
-    <td> Edit Template</td>
+      <td scope="row"> Edit Template</td>
     <td> Opens the Template Editor and loads the template on which the current configuration is based.
       If the test suite disables the template feature, this and all other template menu items are not displayed. 
       This menu item is also disabled when the test suite only enables users to load but not edit templates. Use the Template Editor to change configuration values in the template and to propagate the changes to the current configuration.
@@ -69,7 +72,7 @@ options listed in the following table are only available when template usage is 
 
 
   <tr valign="top">
-    <td> Edit Quick Set</td>
+      <td scope="row"> Edit Quick Set</td>
     <td> Opens an additional menu containing Tests to Run, Exclude
       List (optional), Keywords (optional), Environment (optional), Prior Status,
       Concurrency, and Timeout Factor menu items that you can use to change specific
@@ -78,7 +81,7 @@ options listed in the following table are only available when template usage is 
           Values</a> for detailed information.</p></td>
   </tr>
   <tr valign="top">
-    <td> New Configuration</td>
+      <td scope="row"> New Configuration</td>
     <td> Opens the Configuration Editor and loads an empty configuration.
       The harness uses the Configuration Editor to create configuration data
       containing the test environment and standard values required to run a test
@@ -87,7 +90,7 @@ options listed in the following table are only available when template usage is 
         detailed information.</p></td>
   </tr>
   <tr valign="top">
-    <td> Load Configuration</td>
+      <td scope="row"> Load Configuration</td>
     <td><p>Opens a Load Configuration File dialog box that you use
         to load an existing configuration into the Test Manager.</p>
         <p>The harness does not open the Configuration Editor when you load an
@@ -95,12 +98,12 @@ options listed in the following table are only available when template usage is 
       <p> See <a href="../confEdit/loadConfiguration.html">Loading a Configuration</a> for detailed information.</p></td>
   </tr>
   <tr valign="top">
-    <td>Load Recent Configuration </td>
+      <td scope="row">Load Recent Configuration </td>
     <td>Displays a list of recently opened configuration.
       You can choose a configuration from the list to use as the current configuration.</td>
   </tr>
   <tr valign="top">
-    <td>New Template </td>
+      <td scope="row">New Template </td>
     <td>Opens the Template Editor and loads an empty template. The
       harness uses the Template Editor to create a template containing known
       test environment and standard values required to run a test suite.
@@ -108,24 +111,25 @@ options listed in the following table are only available when template usage is 
         detailed information about templates.</p></td>
   </tr>
   <tr valign="top">
-    <td>Load Template </td>
+      <td scope="row">Load Template </td>
     <td><p>Opens a Load Template dialog box that you use to load
         an existing template into the Test Manager.</p>
         <p>See <a href="../templates/loadTemplate.html">Loading a Template </a> for
           detailed information.</p></td>
   </tr>
   <tr valign="top">
-    <td>Load Recent Template </td>
+      <td scope="row">Load Recent Template </td>
     <td>Displays a list of templates that have been opened. You can
       choose a template from the list to use as the template for creating a configuration.</td>
   </tr>
   <tr valign="top">
-      <td>Update Template</td>
+      <td scope="row">Update Template</td>
    <td>Enabled only when template propagation is enabled and the
      template on which current configuration is based has changed. Displays a
      dialog box that enables you to import  changes from the template into your
      configuration.</td>
   </tr>
+    </tbody>
 <!-- insert:AdminConfigMenuItems -->
 </table>
 

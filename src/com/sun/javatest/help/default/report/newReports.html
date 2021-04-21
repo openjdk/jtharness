@@ -331,61 +331,70 @@ This feature does not validate the URL or perform any processing.</p>
 <p>In the <code>html</code> directory, the KFL report file names correspond to the KFL reports as follows:</p>
 
 <table border="0" cellpadding="5" class="gray" summary="writeReport types" title="Known Failure List Reports">
+<thead>
 <tr valign="top">
-<th scope="col" class="left">HTML Report</th><th scope="col" class="left">File Names</th></tr>
-<tr><td>New Passed</td><td><code>kfl_fail2pass.html</code>, <code>kfl_tc_fail2pass.html</code></td></tr>
-<tr><td>Unexpected Error</td><td><code>kfl_fail2error.html</code>, <code>kfl_tc_fail2error.html</code></td></tr>
-<tr><td>Unrelated Error</td><td><code>kfl_fail2error.html</code>, <code>kfl_otherErrors.html</code></td></tr>
+<th scope="col" class="left">HTML Report</th>
+<th scope="col" class="left">File Names</th>
+</tr>
+</thead>
+<tbody>
+<tr><td scope="row">New Passed</td><td><code>kfl_fail2pass.html</code>, <code>kfl_tc_fail2pass.html</code></td></tr>
+<tr><td scope="row">Unexpected Error</td><td><code>kfl_fail2error.html</code>, <code>kfl_tc_fail2error.html</code></td></tr>
+<tr><td scope="row">Unrelated Error</td><td><code>kfl_fail2error.html</code>, <code>kfl_otherErrors.html</code></td></tr>
 
-<tr><td>Missing (not run)</td>
+<tr><td scope="row">Missing (not run)</td>
 <td><code>kfl_fail2notrun.html</code>, <code>kfl_tc_fail2notrun.html</code></td></tr>
 
-<tr><td>Missing (test not found)</td>
+<tr><td scope="row">Missing (test not found)</td>
 <td><code>kfl_fail2missing.html</code>, <code>kfl_tc_fail2missing.html</code></td></tr>
 
-<tr><td>New Failure</td><td><code>kfl_newfailures.html</code>, <code>kfl_tc_newfailures.html</code></td></tr>
+<tr><td scope="row">New Failure</td><td><code>kfl_newfailures.html</code>, <code>kfl_tc_newfailures.html</code></td></tr>
 
-<tr><td>Old Failure</td><td><code>kfl_fail2fail.html</code>, <code>kfl_tc_fail2fail.html</code></td></tr>
-
+<tr><td scope="row">Old Failure</td><td><code>kfl_fail2fail.html</code>, <code>kfl_tc_fail2fail.html</code></td></tr>
+</tbody>
 </table>
 
 <p><a name="textreportfiles"></a></p>
-<h3>Plain Text Report Files</h3>
+<h4>Plain Text Report Files</h4>
 <p>A plain text report directory contains a <code>text/</code> directory which contains the main text report, <code>summary.txt</code>. </p>
 <p>If the configuration associated with the work directory names at least one <a href="#usingKFL">known failures list</a> (KFL) file, the <code>text/</code> directory contains  the additional known failure analysis files listed  here: </p>
 <table border="0" cellpadding="5" class="gray" summary="writeReport types" title="Known Failure List Reports">
-  <tr valign="top">
+ <thead>
+ <tr valign="top">
     <th scope="col" class="left">Text Report</th>
     <th scope="col" class="left">File Names</th>
   </tr>
+  </thead>
+  <tbody>
   <tr>
-    <td>New Passed</td>
+    <td scope="row">New Passed</td>
     <td><code>kfl_fail2pass.txt</code>, <code>kfl_tc_fail2pass.txt</code></td>
   </tr>
   <tr>
-    <td>Unexpected Error</td>
+    <td scope="row">Unexpected Error</td>
     <td><code>kfl_fail2error.txt</code>, <code>kfl_tc_fail2error.txt</code></td>
   </tr>
     <tr>
-    <td>Unrelated Error</td>
-    <td><code>other_errors.txt</code>></td>
+    <td scope="row">Unrelated Error</td>
+    <td><code>other_errors.txt</code></td>
   </tr>
   <tr>
-    <td>Missing (not run)</td>
+    <td scope="row">Missing (not run)</td>
     <td><code>kfl_fail2notrun.txt</code>, <code>kfl_tc_fail2notrun.txt</code></td>
   </tr>
   <tr>
-    <td>Missing (test not found)</td>
+    <td scope="row">Missing (test not found)</td>
     <td><code>kfl_fail2missing.txt</code>, <code>kfl_tc_fail2missing.txt</code></td>
   </tr>
   <tr>
-    <td>New Failure</td>
+    <td scope="row">New Failure</td>
     <td><code>kfl_newfailures.txt</code>, <code>kfl_tc_newfailures.txt</code></td>
   </tr>
   <tr>
-    <td>Old Failure</td>
+    <td scope="row">Old Failure</td>
     <td><code>kfl_fail2fail.txt</code>, <code>kfl_tc_fail2fail.txt</code></td>
   </tr>
+  </tbody>
 </table>
 <p>The files whose names begin with <code>tc_</code> are present only if the test suite supports test case identification. </p>
 <hr>
@@ -393,4 +402,3 @@ This feature does not validate the URL or perform any processing.</p>
 <p><a href="../copyright.html">Copyright</a> &copy; 2002, 2015, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
-

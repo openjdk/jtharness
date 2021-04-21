@@ -68,6 +68,7 @@ Keyboard shortcuts perform both navigation and activation in the same action.
   help.</p>
 
 <table width="100%" border="0" class="gray" summary="Keyboard shortcuts." title="Keyboard Shortcuts for Navigation and Activation">
+<thead>
 <tr valign="top">
 <th  width="20%" valign="top" align="left" scope="col">
 Activation Keys
@@ -76,9 +77,10 @@ Activation Keys
 GUI Action
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td>
+<td scope="row">
 F1
 </td>
 <td>
@@ -86,7 +88,7 @@ Activates the online help.</td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row">
 F10
 </td>
 <td>
@@ -95,14 +97,14 @@ Activates the File menu.
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row">
 Shift F10
 </td>
 <td>
 Activates the pop-up menu if focus is on a folder or test in the test tree.
 </td>
 </tr>
-
+</tbody>
 </table>
 
 
@@ -138,6 +140,7 @@ Keyboard navigation enables you to move keyboard focus from one GUI component
   table lists the keys used for keyboard navigation.</p>
 
 <table width="100%" border="0" class="gray.wide" summary="Keyboard navigation keys." title="Keyboard Navigation Keys">
+<thead>
 <tr>
 <th width="15%" valign="top" align="left" scope="col">
 Navigation Key
@@ -146,9 +149,10 @@ Navigation Key
 GUI Action
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td>
+<td scope="row">
 Tab</td>
 <td>
 Navigates to the next focusable component in the GUI. The tab traversal order is generally left to right and top to bottom.
@@ -156,7 +160,7 @@ Navigates to the next focusable component in the GUI. The tab traversal order is
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Shift-Tab</td>
 <td>
 Navigates back to the next focusable component.
@@ -164,7 +168,7 @@ Navigates back to the next focusable component.
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Control-Tab</td>
 <td>
 Navigates to the next focusable component even if the current component accepts the Tab key as input (such as a text area).
@@ -172,7 +176,7 @@ Navigates to the next focusable component even if the current component accepts 
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Control-Shift Tab</td>
 <td>
 Navigates back to the next focusable component even if the current component accepts the Tab key as input (such as a text area).
@@ -180,14 +184,14 @@ Navigates back to the next focusable component even if the current component acc
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Left arrow</td>
 <td>
 Moves keyboard focus left one character or component. <br>If focus is in the test tree, focus moves up the tree and closes the node. <br>If focus is on the splitter bar (F8 moves focus to the splitter bar), it moves the splitter bar left.
 </td>
 </tr>
 <tr valign="top">
-<td>
+  <td scope="row">
 Right arrow</td>
 <td>
 Moves keyboard focus right one character or component. <br>If focus is in the test tree, focus moves sequentially down the tree, opening the node and traversing all tests in a folder. <br>If focus is on the splitter bar (F8 moves focus to the splitter bar), it moves the splitter bar right. 
@@ -195,7 +199,7 @@ Moves keyboard focus right one character or component. <br>If focus is in the te
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Up arrow</td>
 <td>
 Moves keyboard focus up one line or component. <br>If focus is in the test tree, focus moves sequentially up the tree but does not open any closed folders. <br>If focus is on the splitter bar (F8 moves focus to the splitter bar), it moves the splitter bar left.
@@ -203,7 +207,7 @@ Moves keyboard focus up one line or component. <br>If focus is in the test tree,
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Down arrow</td>
 <td>
 Moves keyboard focus down one line or component. <br>If focus is in the test tree,  focus moves sequentially down the tree but does not open any closed folders. <br>If focus is on the splitter bar (F8 moves focus to the splitter bar), it moves the splitter bar right.
@@ -211,7 +215,7 @@ Moves keyboard focus down one line or component. <br>If focus is in the test tre
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Page Up</td>
 <td>
 Navigates up one pane of information within a scroll pane.
@@ -219,7 +223,7 @@ Navigates up one pane of information within a scroll pane.
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Page Down</td>
 <td>
 Navigates down one pane of information within a scroll pane.
@@ -227,7 +231,7 @@ Navigates down one pane of information within a scroll pane.
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Home</td>
 <td>
 Moves to the beginning of the data. In a table, moves to the beginning of a row. If focus is in the test tree, moves to the top of the tree.
@@ -235,7 +239,7 @@ Moves to the beginning of the data. In a table, moves to the beginning of a row.
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 End</td>
 <td>
 Moves to the end of the data. In a table, moves to the last cell in a row. If focus is in the test tree, moves to the bottom of the tree.
@@ -243,7 +247,7 @@ Moves to the end of the data. In a table, moves to the last cell in a row. If fo
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Control-F1</td>
 <td>
 Displays the tool tip information for the GUI object that has focus. Can be used to determine which GUI object has focus.
@@ -251,7 +255,7 @@ Displays the tool tip information for the GUI object that has focus. Can be used
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 F6</td>
 <td>
 Shifts focus between left and right panes.
@@ -259,7 +263,7 @@ Shifts focus between left and right panes.
 </tr>
           
 <tr valign="top">
-<td>
+  <td scope="row">
 F8</td>
 <td>
 Shifts focus to the splitter bar if focus is in the left or right pane.
@@ -267,7 +271,7 @@ Shifts focus to the splitter bar if focus is in the left or right pane.
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Control-T</td>
 <td>
 Shifts focus to the next link in a topic or in a report.
@@ -275,12 +279,13 @@ Shifts focus to the next link in a topic or in a report.
 </tr>
            
 <tr valign="top">
-<td>
+  <td scope="row">
 Control-Shift-T</td>
 <td>
 Shifts focus to the previous link in a topic or in a report. 
 </td>
 </tr>
+</tbody>
 </table>
 
 <h3>Navigation in Hyperlinked Text</h3>
@@ -337,7 +342,8 @@ After navigating to a component, you can then use the keyboard to activate the
   components.</p>
 
 <table width="100%" border="0" class="gray" summary="Keyboard activation." title="Keyboard Activation">
-<tr valign="top">
+  <thead>
+  <tr valign="top">
 <th valign="top" align="left" scope="col" width="15%">
 Activation Keys
 </th>
@@ -345,9 +351,10 @@ Activation Keys
 GUI Action
 </th>
 </tr>
-
+  </thead>
+  <tbody>
 <tr valign="top">
-<td>
+  <td scope="row">
 Enter or Return
 </td>
 <td>
@@ -356,7 +363,7 @@ Activates the default command button.
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Escape
 </td>
 <td>
@@ -375,7 +382,7 @@ Activates the tool bar button that has keyboard focus.
 
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Shift-Space Bar
 </td>
 <td>
@@ -384,14 +391,14 @@ Extends the selection of items in a list.
 </tr>
 
 <tr valign="top">
-<td>
+  <td scope="row">
 Control-Space Bar
 </td>
 <td>
 If the item with focus is in a list, it toggles the selection state of the item without affecting any other list selections. <br>If the item is a link, it follows the link.
 </td>
 </tr>
- 
+  </tbody>
 </table>
 
 <hr>
@@ -399,4 +406,3 @@ If the item with focus is in a list, it toggles the selection state of the item 
 <p><a href="../copyright.html">Copyright</a> &copy; 2003, 2010, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
-

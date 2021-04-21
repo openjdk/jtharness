@@ -51,7 +51,7 @@ The following table describes the filtered work directory information that the
   Summary table and pie chart can display.</p>
 
 <table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Summary tabbed pane." title="Summary Pane Contents">
-
+<thead>
 <tr valign="top">
 <th  width="15%" scope="col" class="left">
 Field
@@ -60,8 +60,10 @@ Field
 Description
 </th>
 </tr>
+</thead>
+<tbody>
 <tr valign="top">
-<td>
+<td scope="row">
 <a name="summaryTab.passed"><!-- index:Summary information: number of tests: passed -->
   <!-- index:number of: passed tests --><!-- index:Test Manager: Summary information: number of passed tests --></a>
 Passed
@@ -73,7 +75,7 @@ The number of tests in a folder (including all of its subordinate folders) displ
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row">
 <a name="summaryTab.failed"><!-- index:Summary information: number of tests: failed -->
   <!-- index:number of: failed tests--><!-- index:Test Manager: Summary information: number of failed tests --></a>
 Failed
@@ -84,7 +86,7 @@ The number of tests in a folder (including all of its subordinate folders) displ
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row">
 <a name="summaryTab.error"><!-- index:Summary information: number of tests: errors -->
   <!-- index:number of: tests with errors --><!-- index:Test Manager: Summary information: number of tests with errors --></a>
 Error
@@ -95,7 +97,7 @@ The number of tests in a folder (including all of its subordinate folders) displ
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row">
 <a name="summaryTab.notRun"><!-- index:Summary information: number of test: not run -->
   <!-- index:number of: tests not run--><!-- index:Test Manager: Summary information: number of tests not run --></a>
 Not Run
@@ -106,7 +108,7 @@ The number of tests in a folder (including all of its subordinate folders) in
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row">
 <a name="summaryTab.subtotal"><!--index:Summary information: number of test: selected to run -->
   <!-- index:number of: tests selected to run --><!-- index:Test Manager: Summary information: subtotal --></a>
 Sub-Total
@@ -116,7 +118,7 @@ The total number of tests that were selected to run.</td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row">
 <a name="summaryTab.filteredOut"><!--index:Summary information: number of test: filtered out -->
   <!-- index: number of: tests filtered out--><!-- index:Test Manager: Summary information: test filtered out --></a>
 Filtered Out
@@ -129,7 +131,7 @@ The total number of tests in a folder (including all of its subordinate folders)
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row">
 <a name="summaryTab.total"><!--index:Summary information: number of test: total -->
   <!-- index:number of tests: total--><!-- index:Test Manager: Summary information: total  --></a>
 Total
@@ -137,6 +139,7 @@ Total
 <td>
 Total number of tests in a folder and its subordinate folders.</td>
 </tr>
+</tbody>
 </table>
 
 <p class="note">
@@ -178,5 +181,3 @@ Click the appropriate status information tab to identify the individual tests in
 <p><a href="../copyright.html">Copyright</a> &copy; 2001, 2010, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
-
-

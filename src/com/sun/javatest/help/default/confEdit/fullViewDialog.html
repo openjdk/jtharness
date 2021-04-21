@@ -81,16 +81,17 @@
         The File menu contains items to open, save, and restore configuration files.
         The following table describes the items in the Configuration Editor File menu. </p>
         <table width="100%" border="0" cellpadding="5" class="gray.wide" summary="The contents and description of the File Menu." title="Configuration Editor File Menu">
-
+            <thead>
             <tr valign="top">
                 <th width="15%" scope="col" class="left">Menu Item</th>
                 <th scope="col" class="left">
                 Description</th>
             </tr>
-
+            </thead>
+            <tbody>
 
             <tr valign="top">
-                <td>Save</td>
+                <td scope="row">Save</td>
                 <td>
                 Saves the current configuration.
                 <p>
@@ -102,38 +103,38 @@
             </tr>
 
             <tr valign="top">
-                <td>Save As</td>
+                <td scope="row">Save As</td>
                 <td>
                 Opens a dialog box that you can use to save a configuration with a new name. The Configuration Editor makes the saved configuration the current configuration. If you do not provide the <code>.jti</code> extension when you name the configuration file, the editor adds the extension when it saves the file.</td>
             </tr>
 
             <tr valign="top">
-                <td>Revert</td>
+                <td scope="row">Revert</td>
                 <td>
                 Discards any changes to the current configuration and restores the last saved version of configuration file.</td>
             </tr>
 
             <tr valign="top">
-                <td>New Configuration</td>
+                <td scope="row">New Configuration</td>
                 <td>Clears the current configuration and starts a new configuration. See <a href="createConfiguration.html">Creating a Configuration</a> for a detailed description.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Load Configuration </td>
+                <td scope="row">Load Configuration </td>
                 <td>
                 Opens an existing configuration file and makes it the current configuration. See <a href="loadConfiguration.html">Loading a Configuration</a> for a detailed description.</td>
             </tr>
 
             <tr valign="top">
-                <td><a name="fullViewDialog.history"><!-- index:Configuration Editor: Question Mode: Recent Configuration --></a>Load Recent Configuration </td>
+                <td scope="row"><a name="fullViewDialog.history"><!-- index:Configuration Editor: Question Mode: Recent Configuration --></a>Load Recent Configuration </td>
                 <td> Displays a list of configuration files that have been opened in the Configuration
                 Editor window. Choose a configuration file from the list to open it in the
                 Configuration Editor window. </td>
             </tr>
 
             <tr valign="top">
-                <td>New Template </td>
+                <td scope="row">New Template </td>
                 <td>
                 Provides the option to save or clear the current template before starting
                 a new template. See <a href="../admin/createTemplate.html">Creating
@@ -141,7 +142,7 @@
             </tr>
 
             <tr valign="top">
-                <td>Load Template </td>
+                <td scope="row">Load Template </td>
                 <td>
                 Opens an existing template.
                 See <a href="../templates/loadTemplate.html">Loading a Template</a> for a detailed
@@ -149,17 +150,18 @@
             </tr>
 
             <tr valign="top">
-                <td><a name="questionModeTE.history"><!-- index:Template Editor: Question Mode: Recent Configuration --></a> Load Recent Template </td>
+                <td scope="row"><a name="questionModeTE.history"><!-- index:Template Editor: Question Mode: Recent Configuration --></a> Load Recent Template </td>
                 <td>Displays a list of templates that have been opened in the Template
                 Editor. Choose a template from the list to open it in the
                 Template Editor. </td>
             </tr>
 
             <tr valign="top">
-                <td>Close</td>
+                <td scope="row">Close</td>
                 <td>
                 Closes the Configuration Editor window.</td>
             </tr>
+            </tbody>
         </table>
 
         <a name="fullViewDialog.markermenu"><!-- index:Configuration Editor window: Question Mode: Bookmarks menu --></a>
@@ -168,69 +170,71 @@
         The Bookmarks menu contains items to use bookmarks in the configuration. The
         following table describes the items in the Bookmarks menu. </p>
         <table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Bookmarks Menu." title="Configuration Editor Bookmarks Menu">
-
+            <thead>
             <tr valign="top">
                 <th width="30%" scope="col" class="left">Menu Item</th>
                 <th scope="col" class="left">
                     Description
                 </th>
             </tr>
-
+            </thead>
+            <tbody>
             <tr valign="top">
-                <td>Enable Bookmarks</td>
+                <td scope="row">Enable Bookmarks</td>
                 <td>
                     Enables and disables bookmarking in the configuration.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Show Only Bookmarked Questions</td>
+                <td scope="row">Show Only Bookmarked Questions</td>
                 <td>
                     Display only the marked questions or all questions.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Mark Current Question</td>
+                <td scope="row">Mark Current Question</td>
                 <td>
                     Clears the bookmark from a selected question in the Configuration Editor window.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Unmark Current Question</td>
+                <td scope="row">Unmark Current Question</td>
                 <td>
                     Bookmarks the selected question in the Configuration Editor window. Enabled only if the selected question is not bookmarked.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Clear Answer For Current Question</td>
+                <td scope="row">Clear Answer For Current Question</td>
                 <td>
                     Clears the answer for a selected question in the Configuration Editor window. Enabled only if the selected question is bookmarked.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Open Group</td>
+                <td scope="row">Open Group</td>
                 <td>
                     Expands a selected set of questions in the Configuration Editor window.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Clear Answers to Bookmarked Questions</td>
+                <td scope="row">Clear Answers to Bookmarked Questions</td>
                 <td>
                     Clear the values in all marked questions.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Remove Bookmarks</td>
+                <td scope="row">Remove Bookmarks</td>
                 <td>
                     Remove all bookmarks from the configuration.
                 </td>
             </tr>
+            </tbody>
         </table>
 
         <p>
@@ -243,28 +247,29 @@
         Use the Search menu items to find the occurrence in a configuration of a specific character or value string. When troubleshooting a test run, you can use the Search menu to quickly locate an answer that needs to be changed. The following table describes the items in the Search menu. </p>
 
         <table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Search Menu." title="Configuration Editor Search Menu">
-
+            <thead>
             <tr valign="top">
                 <th width="20%" scope="col" class="left">Menu Item</th>
                 <th scope="col" class="left">
                     Description
                 </th>
             </tr>
-
+            </thead>
+            <tbody>
             <tr valign="top">
-                <td>Find</td>
+                <td scope="row">Find</td>
                 <td>
                     Opens a dialog box used to search the configuration for a specific character or value string.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Find Next</td>
+                <td scope="row">Find Next</td>
                 <td>
                     Searches the configuration for the next occurrence of a specific character or
                     value string.
                 </td>
-            </tr>
+            </tr></tbody>
         </table>
 
 
@@ -281,49 +286,51 @@
         table describes the items in the View menu. </p>
 
         <table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the View Menu." title="Contents of the View Menu">
-
+            <thead>
             <tr valign="top">
-                <th width="20%" scope="col" class="left">Menu Item</th>
-                <th scope="col" class="left">
+                <th width="20%" scope="col" class="left" id="h10">Menu Item</th>
+                <th scope="col" class="left" id="h20">
                     Description
                 </th>
             </tr>
-
+            </thead>
+            <tbody>
             <tr valign="top">
-                <td>Question Mode</td>
-                <td>
+                <td scope="row" headers="h10">Question Mode</td>
+                <td headers="h20">
                     Displays the Configuration Editor window in Question Mode.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Quick Set Mode</td>
-                <td>
+                <td scope="row" headers="h10">Quick Set Mode</td>
+                <td headers="h20">
                     Displays the Configuration Editor window in Quick Set Mode.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>More Info</td>
-                <td>
+                <td scope="row" headers="h10">More Info</td>
+                <td headers="h20">
                     Displays and hides the More Info pane in the Configuration Editor window.
                 </td>
             </tr>
 
             <tr valign="top">
-            <td>Question Tag</td>
-            <td>
+                <td scope="row" headers="h10">Question Tag</td>
+                <td headers="h20">
                 Displays and hides the Question Tag field in the Configuration Editor Question
                 Pane.
             </td>
 
 
             <tr valign="top">
-                <td>Refresh</td>
-                <td>
+                <td scope="row" headers="h10">Refresh</td>
+                <td headers="h20">
                     Updates the values and questions displayed in the Configuration Editor window.
                 </td>
             </tr>
+            </tbody>
         </table>
 
 
@@ -334,41 +341,43 @@
 
 
         <table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Help Menu." title="Configuration Editor Help Menu">
-
+            <thead>
             <tr valign="top">
                 <th width="20%" scope="col" class="left">Menu Item</th>
                 <th scope="col" class="left">
                     Description
                 </th>
             </tr>
-
+            </thead>
+            <tbody>
             <tr valign="top">
-                <td>Configuration Editor</td>
+                <td scope="row">Configuration Editor</td>
                 <td>
                     Displays  online help for the Configuration Editor window.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Template Editor</td>
+                <td scope="row">Template Editor</td>
                 <td>
                     Displays  online help for the Template Editor window.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Question Mode</td>
+                <td scope="row">Question Mode</td>
                 <td>
                     Displays online help for the Question Mode.
                 </td>
             </tr>
 
             <tr valign="top">
-                <td>Quick Set Mode</td>
+                <td scope="row">Quick Set Mode</td>
                 <td>
                     Displays online help for the Quick Set Mode.
                 </td>
             </tr>
+            </tbody>
         </table>
 
 
@@ -457,4 +466,3 @@
 <p><a href="../copyright.html">Copyright</a> &copy; 2002, 2014, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
-

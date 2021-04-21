@@ -62,6 +62,7 @@ The following table describes the contents of the test view panes. The status
   is visible in all of the test view panes.</p>
 
 <table border="0" width="100%" cellpadding="5" class="gray" summary="The information pane displays the test view, containing five tabs." title="Information Pane Contents">
+<thead>
 <tr valign="top">
 <th align="left" scope="col" class="left">
 Tab
@@ -70,9 +71,10 @@ Tab
 Description
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td width="30%">
+<td width="30%" scope="row">
 <a href="testDescriptionTab.html">Test Description Pane</a>
 </td>
 <td>
@@ -80,14 +82,14 @@ Displays the name-value pairs contained in the test description. The contents
   are input data and always available.</td>
 </tr>
 <tr valign="top">
-<td width="30%">
+<td width="30%" scope="row">
 <a href="testDescriptionTab.html">Documentation Pane</a>
 </td>
 <td>
 Displays test documentation, if it exists.</td>
 </tr>
 <tr valign="top">
-<td>
+<td scope="row">
 <a href="filesTab.html">Files Pane</a>
 </td>
 <td>
@@ -97,8 +99,8 @@ Contains a drop-down list of source files from the test description. Click a
 </tr>
 
 <tr valign="top">
-<td>
-<a href="configurationTab.html">Configuration Pane</a> 
+<td scope="row">
+<a href="configurationTab.html">Configuration Pane</a>
 </td>
 <td>
 Displays a table of configuration name-value pairs used to run a specific test.
@@ -106,7 +108,7 @@ Displays a table of configuration name-value pairs used to run a specific test.
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row">
 <a href="detailsTab.html">Test Run Details Pane</a>
 </td>
 <td>
@@ -115,7 +117,7 @@ Displays the name-value pairs that were recorded when the test was run. The cont
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row">
 <a href="messagesTab.html">Test Run Messages Pane</a>
 </td>
 <td>
@@ -123,6 +125,7 @@ Contains a tree and message panel of output from sections of the test. Click
   a name to display its contents. The contents are output data and only enabled
   if the test was run.</td>
 </tr>
+</tbody>
 </table>
 
 <p>
@@ -132,4 +135,3 @@ When an information pane is empty, the harness disables it.
 <hr><p><a href="../copyright.html">Copyright</a> &copy; 2001, 2011, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
-
