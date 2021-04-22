@@ -50,14 +50,16 @@
 <P>The following table  describes monitoring options  specified
 in the command line.</P>
 <table width="100%" class="gray.wide" border="0" summary="Monitoring Options" title="Monitoring Options">
-
+<thead>
   <tr>
     <th width="10%" scope="col">Option</th>
     <th scope="col">Description</th>
   </tr>
+  </thead>
+  <tbody>
   <tr>
     <td valign="top"><code>commands</code></td>
-    <td>Traces the individual harness commands as they are executed. If this option is used, it should be set first in the command line.
+    <td width="20%" scope="row">Traces the individual harness commands as they are executed. If this option is used, it should be set first in the command line.
       Traced harness commands include options given on the command line, commands given in command
     strings, and commands given in command files. </td>
   </tr>
@@ -67,18 +69,18 @@ in the command line.</P>
     line of output prints the month, day, hour, minute and second.</td>
   </tr>
   <tr>
-    <td valign="top"><CODE>non-pass</CODE></td>
+    <td valign="top" width="20%" scope="row"><CODE>non-pass</CODE></td>
     <td>Prints non-passing (error, fail) test names and their status string. The
       status string includes the status (error, fail) and the reason for the
     failure or error. </td>
   </tr>
   <tr>
-    <td valign="top"><CODE>max</CODE> </td>
+    <td valign="top" width="20%" scope="row"><CODE>max</CODE> </td>
     <td>Outputs the maximum possible amount of output. This includes all the options
       which are individually available. If this option is present, only the <CODE>no-date</CODE> and <CODE>quiet</CODE> flags have any additional effect.</td>
   </tr>
   <tr>
-    <td valign="top"><CODE>quiet</CODE> </td>
+    <td valign="top" width="20%" scope="row"><CODE>quiet</CODE> </td>
     <td>Suppresses any output from the verbose system. It might be useful to temporarily
       deactivate monitoring while debugging, without removing other levels coded
       into a script. <CODE>-verbose:stop,progress,quiet</CODE> results in no
@@ -87,25 +89,26 @@ in the command line.</P>
       fail, and error statistics printed at the end of the test run. </td>
   </tr>
   <tr>
-    <td valign="top"><CODE>start</CODE> </td>
+    <td valign="top" width="20%" scope="row"><CODE>start</CODE> </td>
     <td>Prints the test name when it goes into the harness' engine for execution.
       Note: On some test suites, this might only indicate that the test has been
     handed to the plug-in framework, not that it is actually executing. </td>
   </tr>
   <tr>
-    <td valign="top"><CODE>stop</CODE>
+    <td valign="top" width="20%" scope="row"><CODE>stop</CODE>
     </td>
     <td>Prints the test name and status string (see <CODE>non-pass</CODE>) when
     a test result is received by the harness. </td>
   </tr>
   <tr>
-    <td valign="top"><CODE>progress</CODE> </td>
+    <td valign="top" width="20%" scope="row"><CODE>progress</CODE> </td>
     <td>Prints a progress summary, which indicates pass, fail, error, and not-run
       numbers. If any of the <CODE>max, non-pass, stop,</CODE> or <CODE>stop</CODE> options
       were specified, each summary migh be printed on its own line. If not, the
       summary will be updated on the current line. The progress information is
     printed/updated each time a test result is reported to the harness. </td>
   </tr>
+  </tbody>
 </table>
 
 
@@ -230,4 +233,3 @@ in the command line.</P>
 <p><a href="../copyright.html">Copyright</a> &copy; 2004, 2011, Oracle and/or its affiliates. All rights reserved.</p>
 </BODY>
 </HTML>
-

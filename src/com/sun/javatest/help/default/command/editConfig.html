@@ -124,20 +124,22 @@ You can save the changes in the original configuration file or save the changes 
 		<DD>The following table describes the return codes generated when a program
 		   exits.
 		  <TABLE width="100%" border="0" cellpadding="2" class="gray" summary="List ofReturn Codes" title="Exit Return Codes">
-			<TR valign="top">
+			<thead><TR valign="top">
 				<TH class="left" scope="col">Code
 				</TH>
 				<TH class="left" scope="col">Description
 				</TH>
 			</TR>
+			</thead>
+			<tbody>
 			<TR valign="top">
-				<TD>0
+				<TD scope="row">0
 				</TD>
 				<TD>The operations were successful. the configuration file is complete and ready to use.
 				</TD>
 			</TR>
 			<TR valign="top">
-				<TD>1
+				<TD scope="row">1
 				</TD>
 				<TD>The operations were successful, but the
 		      configuration file is incomplete and is not yet ready to use
@@ -145,17 +147,18 @@ You can save the changes in the original configuration file or save the changes 
 				</TD>
 			</TR>
 			<TR valign="top">
-				<TD>2
+				<TD scope="row">2
 				</TD>
 				<TD>A problem exists with the command-line arguments.
 				</TD>
 			</TR>
 			<TR valign="top">
-				<TD>3
+				<TD scope="row">3
 				</TD>
 				<TD>An error occurred while trying to perform the copy.
 				</TD>
 			</TR>
+			</tbody>
 		</TABLE>
 	  <DT><B>SYSTEM PROPERTIES</B>
 	  <DD>Two system properties are recognized.

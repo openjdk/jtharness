@@ -39,14 +39,17 @@
   and their arguments. The following table describes the contents of a command
   file.</P>
 	<TABLE width="100%" border="0" cellpadding="3" class="gray" summary="The contents and description of command files." title="Command File Contents">
+		<thead>
 		<TR valign="top">
 			<TH width="20%" scope="col">File Contents
 			</TH>
 			<TH scope="col">Description
 			</TH>
 		</TR>
+		</thead>
+		<tbody>
 		<TR valign="top">
-			<TD width="20%">Comments
+			<TD width="20%" scope="row">Comments
 			</TD>
 			<TD>Comments can begin anywhere on a line, are started by the pound symbol ( #), and stop at the end of the line.
 <P>Example:<BR>
@@ -54,7 +57,7 @@
 			</TD>
 		</TR>
 		<TR valign="top">
-			<TD>Commands
+			<TD width="20%" scope="row">Commands
 			</TD>
 			<TD>Commands are executed in the sequence that they appear in the file (for example, setup commands must precede task commands). Commands used in the file must be separated by a semicolon (;) or a new line symbol (#). The # symbol acts as a new line character and can terminate a command.
 <P>Examples:<BR>
@@ -63,11 +66,12 @@
 			</TD>
 		</TR>
 		<TR valign="top">
-			<TD>Command Arguments
+			<TD width="20%" scope="row">Command Arguments
 			</TD>
 			<TD>Arguments that contain white space must be placed inside quotes. Use a backslash (\) to escape special characters such as quotes (" ") and backslashes (\).
 			</TD>
 		</TR>
+		</tbody>
 	</TABLE>
 
 <P>After writing the commands, use a descriptive name and the extension <CODE>.jtb</CODE> to save the text file. Choose a file name that helps you identify the function of each command file.</P>

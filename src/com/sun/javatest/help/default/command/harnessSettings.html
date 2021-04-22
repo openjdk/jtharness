@@ -48,14 +48,17 @@
 <P>The following table describes the commands  used in the command line
   to specify how the harness starts.</P>
 	<TABLE width="100%" border="0" cellpadding="3" class="gray.wide" summary="The commands that can be used in the command line to specify how the harness starts." title="JT Harness Commands">
+		<thead>
 		<TR valign="top">
 			<TH width="30%" scope="col" class="left">	Command
 			</TH>
 			<TH scope="col" class="left">	Function
 			</TH>
 		</TR>
+		</thead>
+		<tbody>
 		<TR valign="top">
-			<TD><A name="settings.systemProperties"><!--index:setting: system properties -->
+			<TD width="20%" scope="row"><A name="settings.systemProperties"><!--index:setting: system properties -->
   <!-- index:system properties: setting --></A>
 			<CODE>-EsysProps</CODE>
 			</TD>
@@ -63,7 +66,7 @@
 			</TD>
 		</TR>
 		<TR valign="top">
-			<TD><A name="settings.envVariable"><!--index:setting: environment variable -->
+			<TD width="20%" scope="row"><A name="settings.envVariable"><!--index:setting: environment variable -->
   <!-- index:environment variable: setting--></A>
 			<CODE>-E</CODE><I>name=value</I>
 			</TD>
@@ -72,7 +75,7 @@
 			<CODE>-E</CODE><I>name=value</I> command tunnels in values from the external shell. The method used in previous versions of the harness to tunnel in values from the external shell is now deprecated.</P>
 			</TD>
 	  <TR valign="top">
-				<TD><A name="settings.agentPoolPort"><!--index:setting: agent pool port number -->
+				<TD width="20%" scope="row"><A name="settings.agentPoolPort"><!--index:setting: agent pool port number -->
   <!-- index:agent pool: setting port number--></A>
 				<CODE>-agentPoolPort</CODE> <I>port</I>
 				</TD>
@@ -81,7 +84,7 @@
 				</TD>
 	  </TR>
 			<TR valign="top">
-				<TD><A name="settings.agentPoolTimeout"><!--index:setting: agent pool timeout -->
+				<TD width="20%" scope="row"><A name="settings.agentPoolTimeout"><!--index:setting: agent pool timeout -->
   <!-- index:agent pool: setting timeout--></A>
 				<CODE>-agentPoolTimeout</CODE> <I>#seconds</I>
 				</TD>
@@ -90,7 +93,7 @@
 				</TD>
 			</TR>
 			<TR valign="top">
-				<TD><A name="settings.startAgentPool"><!--index:starting agent pool -->
+				<TD width="20%" scope="row"><A name="settings.startAgentPool"><!--index:starting agent pool -->
   <!-- index:agent pool: starting --></A>
 				<CODE>-startAgentPool</CODE>
 				</TD>
@@ -98,6 +101,8 @@
 <P>If you use an active agent and run the harness from the command line, you must add
 				<CODE>-startAgentPool</CODE>to the command string to start the agent pool.</P>
 				</TD>
+				</tr>
+				</tbody>
 	</TABLE>
 
  <hr>
