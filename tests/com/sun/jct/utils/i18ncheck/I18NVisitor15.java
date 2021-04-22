@@ -58,7 +58,7 @@ public class I18NVisitor15 extends TreeScanner {
         super();
         this.filename = filename;
         this.checker = checker;
-        this.rules = new Vector(checker.patterns.values());
+        this.rules = new Vector<>(checker.patterns.values());
         this.newRules = checker.newRules;
     }
 

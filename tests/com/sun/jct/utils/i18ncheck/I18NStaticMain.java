@@ -48,7 +48,7 @@ public class I18NStaticMain {
         String java_v = System.getProperty("java.specification.version");
         java_version = "1.5".equals(java_v) ? JAVA_5 : JAVA_6;
 
-        exludeDirs = new HashSet();
+        exludeDirs = new HashSet<>();
         exludeDirs.add(".svn");
 
         String srcRoot = "";
@@ -120,7 +120,7 @@ public class I18NStaticMain {
         File tmpDir = new File(tmpRoot/* + File.separator + srcDir.getName()*/);
 
         if (propsFile.exists()) {
-            ArrayList<File> javaFiles = new ArrayList<File>();
+            ArrayList<File> javaFiles = new ArrayList<>();
             for (File f : srcDir.listFiles()) {
                 if (f.getName().endsWith(".java"))
                     javaFiles.add(f);
@@ -139,7 +139,7 @@ public class I18NStaticMain {
             checker.setProperties(props);
 
             if (needMerge) {
-                HashSet<String> dynKeys = new HashSet();
+                HashSet<String> dynKeys = new HashSet<>();
                 String dynKeyFile = tmpRoot + File.separator + mergeFileName;
 
                 File dynFile = new File(dynKeyFile);
@@ -198,7 +198,7 @@ public class I18NStaticMain {
 
     private static HashSet<String> readKeySet(File f) {
         try {
-            HashSet<String> set = new HashSet();
+            HashSet<String> set = new HashSet<>();
             BufferedReader r = new BufferedReader(new FileReader(f));
             String str;
             while ( (str = r.readLine()) != null ) {

@@ -76,17 +76,17 @@ public class I18NStaticChecker {
     /**
      *  The list of patterns to search methods which localize strings.
      */
-    protected HashMap<String, Rule> patterns = new HashMap();
+    protected HashMap<String, Rule> patterns = new HashMap<>();
 
-    protected Vector<Static> vstatic = new Vector();
+    protected Vector<Static> vstatic = new Vector<>();
 
-    protected Vector<Rule> newRules = new Vector();
+    protected Vector<Rule> newRules = new Vector<>();
 
 
     /**
      * The list of source files to check.
      */
-    protected ArrayList<File> sources = new ArrayList<File>();
+    protected ArrayList<File> sources = new ArrayList<>();
     /**
      * The localization properties.
      */
@@ -94,7 +94,7 @@ public class I18NStaticChecker {
     /**
      * Property keys, collected during dynamic search
      */
-    protected HashSet<String> dynKeys = new HashSet();
+    protected HashSet<String> dynKeys = new HashSet<>();
 
 
     /**
@@ -128,9 +128,9 @@ public class I18NStaticChecker {
     }
 
     private void resetChecker() {
-        keys = new HashSet();
-        rqnd = new HashSet();
-        dfnr = new HashSet();
+        keys = new HashSet<>();
+        rqnd = new HashSet<>();
+        dfnr = new HashSet<>();
     }
 
     public void checkI18N() {
@@ -200,7 +200,7 @@ public class I18NStaticChecker {
             Context context = new Context();
             JavaCompiler compiler = new JavaCompiler(context);
             Object parsedTree = compiler.parse(source.getAbsolutePath());
-            HashSet<String> keys = new HashSet();
+            HashSet<String> keys = new HashSet<>();
             Class<?> parsedTreeClass = parsedTree.getClass();
             Class<?> visitorClass;
             Class<?> stdVisitorClass;
@@ -258,7 +258,7 @@ public class I18NStaticChecker {
         writeSet(dfnrFile, dfnr);
 
         File defdFile = new File(dir.getPath() + File.separator + "properties.defd");
-        Set<String> props = new HashSet();
+        Set<String> props = new HashSet<>();
         for (Object o : properties.keySet()) {
             props.add((String)o);
         }
@@ -420,7 +420,7 @@ public class I18NStaticChecker {
     }
 
     private boolean resolveCond(Cond cond, PerfEnvironment env) {
-        Vector<Boolean> results = new Vector();
+        Vector<Boolean> results = new Vector<>();
         boolean result = true;
         boolean argLRes = true;
 
@@ -617,7 +617,7 @@ public class I18NStaticChecker {
 
     static String[] split(String text) {
         String[] lines = new String[0];
-        Vector<String> res = new Vector();
+        Vector<String> res = new Vector<>();
 
         lines = text.split(System.getProperty("line.separator"));
         for (String line : lines) {

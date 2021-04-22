@@ -49,7 +49,7 @@ public class I18NDynamicMain
         String[] testArgs = new String[args.length - 3];
         System.arraycopy(args, 3, testArgs, 0, testArgs.length);
 
-        HashMap<String, String> tests = new HashMap();
+        HashMap<String, String> tests = new HashMap<>();
         tests.put("com.sun.jct.utils.i18ncheck.javatest.exec.I18NExecTest", "com.sun.javatest.exec");
         tests.put("com.sun.jct.utils.i18ncheck.interview.wizard.I18NWizTest", "com.sun.interview.wizard");
         tests.put("com.sun.jct.utils.i18ncheck.javatest.agent.I18NAgentTest", "com.sun.javatest.agent");
@@ -69,7 +69,7 @@ public class I18NDynamicMain
                     deleteDir(wd);
                 }
 
-                Vector<String> vcmd = new Vector();
+                Vector<String> vcmd = new Vector<>();
                 vcmd.add(System.getProperty("java.home") + "/bin/java");
 
                 vcmd.add("-classpath");
@@ -92,7 +92,7 @@ public class I18NDynamicMain
                 vcmd.toArray(xargs);
                 Process test = Runtime.getRuntime().exec(xargs);
 
-                HashSet<String> keys = new HashSet();
+                HashSet<String> keys = new HashSet<>();
 //                InputStreamReader isr = new InputStreamReader(test.getErrorStream());//usefull for debug
                 InputStreamReader isr = new InputStreamReader(test.getInputStream());
                 BufferedReader r = new BufferedReader(isr);
@@ -172,4 +172,3 @@ public class I18NDynamicMain
     private HashMap<String, Set<?>> table;
     private File dynamic;
 }
-

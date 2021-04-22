@@ -51,7 +51,7 @@ public class XMLNode {
 
         public Rule(Node rule) throws Exception {
             NodeList childs = rule.getChildNodes();
-            Vector<Case> vcases = new Vector();
+            Vector<Case> vcases = new Vector<>();
             for (int i = 0; i < childs.getLength(); i++) {
                 Node child = childs.item(i);
                 String name = child.getNodeName();
@@ -130,14 +130,14 @@ public class XMLNode {
 
         public Case(Node ccase) throws Exception {
 
-            HashSet<String> tags = new HashSet();
+            HashSet<String> tags = new HashSet<>();
             tags.add("case");
             tags.add("action");
             tags.add("cond");
 
-            final Vector<Case> ca = new Vector();
-            final Vector<Action> a = new Vector();
-            final Vector<Cond> c = new Vector();
+            final Vector<Case> ca = new Vector<>();
+            final Vector<Action> a = new Vector<>();
+            final Vector<Cond> c = new Vector<>();
 
             getChildsByTags(ccase, tags, new Callback() {
                 public void construct(String tag, Node node) throws Exception {
@@ -176,7 +176,7 @@ public class XMLNode {
 
         public Cond(Node cond) throws Exception {
 
-            HashSet<String> tags = new HashSet();
+            HashSet<String> tags = new HashSet<>();
             tags.add("methodName");
             tags.add("argslength");
             tags.add("arg");
@@ -184,12 +184,12 @@ public class XMLNode {
             tags.add("stringarg");
             tags.add("intarg");
 
-            final Vector<MethodName> mn = new Vector();
-            final Vector<ArgsLength> al = new Vector();
-            final Vector<Arg> a = new Vector();
-            final Vector<Cond> c = new Vector();
-            final Vector<StringArg> sa = new Vector();
-            final Vector<IntArg> ia = new Vector();
+            final Vector<MethodName> mn = new Vector<>();
+            final Vector<ArgsLength> al = new Vector<>();
+            final Vector<Arg> a = new Vector<>();
+            final Vector<Cond> c = new Vector<>();
+            final Vector<StringArg> sa = new Vector<>();
+            final Vector<IntArg> ia = new Vector<>();
 
             getChildsByTags(cond, tags, new Callback() {
                 public void construct(String tag, Node node) throws Exception {
@@ -449,7 +449,7 @@ public class XMLNode {
         public Vector<Object> elems;
 
         public GoToArg(Node arg) throws Exception {
-            elems = new Vector();
+            elems = new Vector<>();
             Element elem = (Element)arg;
             String content = retrieveText(elem);
 
