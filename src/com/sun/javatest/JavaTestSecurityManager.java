@@ -56,30 +56,27 @@ public class JavaTestSecurityManager extends SecurityManager {
     }
 
     /**
-     * Try to install a copy of this security manager. If another security manager is
-     * already installed, the install will fail;  a warning message wil, be written to
-     * the console if the previously installed security manager is not a subtype of
+     * Please note that the new default behaviour is NOT installing JavaTestSecurityManager.
+     *
+     * This method would try to install a copy of this security manager only if "javatest.security.noSecurityManager" property
+     * is set to something else than 'true' (ignoring case).
+     * If "javatest.security.noSecurityManager" is not defined, security manager still would not be installed.
+     * The install can be enabled by setting system property "javatest.security.noSecurityManager" to 'false'.
+     * If another security manager is already installed, the install will fail;
+     * a warning message will be written to the console if the previously installed security manager is not a subtype of
      * com.sun.javatest.JavaTestSecurityManager.
-     * The install can be suppressed by setting the system property
-     * "javatest.security.noSecurityManager" to true.
      */
     public static void install() {
         try {
-            // install our own permissive security manager, to prevent anyone else
-            // installing a less permissive one.
             String noSecurityMgr = "javatest.security.noSecurityManager";
-            if (Boolean.getBoolean(noSecurityMgr)) {
-                System.err.println();
-                System.err.println("     ---- WARNING -----");
-                System.err.println();
-                System.err.println("JT Harness did not install its own Security Manager");
-                System.err.println("because the property " + noSecurityMgr + " was set.");
-                System.err.println("This is not a fatal error, but it may affect the");
-                System.err.println("execution of sameJVM tests");
-                System.err.println();
+            if (Boolean.valueOf(System.getProperty(noSecurityMgr, "true"))) {
+                // not installing any custom security manager
+                // if 'javatest.security.noSecurityManager' property was not set
+                // or was set to 'true' (ignoring case)
             } else {
                 try {
-                    // test to see if permission API available:
+                    // Trying to install our own Security Manager.
+                    // First testing to see if permission API available:
                     // if it's not, we'll get an exception and load
                     // an old-style security manager
                     Class.forName("java.security.Permission");
@@ -87,6 +84,10 @@ public class JavaTestSecurityManager extends SecurityManager {
                 } catch (ClassNotFoundException e) {
                     System.setSecurityManager(new JavaTestSecurityManager());
                 }
+                System.err.println("JT Harness installed its own Security Manager");
+                System.err.println("because system property '" + noSecurityMgr + "' was set to '"
+                        + System.getProperty(noSecurityMgr, "undefined") + "'");
+                System.err.println();
             }
         } catch (SecurityException e) {
             SecurityManager sm = System.getSecurityManager();
