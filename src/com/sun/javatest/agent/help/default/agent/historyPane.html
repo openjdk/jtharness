@@ -119,53 +119,54 @@ If a task in the list displays a state from the following table, this indicates
   table describes the states that a task might have.</p>
 
 <table width="100%" border="0" cellpadding="5" class="gray" summary="List of states showing that the JT Harness Agent completed a request for JT Harness." title="JT Harness Agent Completed Request States">
-
+<thead>
 <tr valign="top">
-<th width="25%" scope="col" class="left">
+<th  scope="col" class="left" id="ha07">
 State
 </th>
-<th scope="col" class="left">
+<th scope="col" class="left" id="ha08">
 Description
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td scope="row">
-PASS: 
+<td scope="row" headers="ha07">
+PASS:
 </td>
-<td>
+<td headers="ha08">
 Task completed successfully.
 </td>
 </tr>
 
 <tr valign="top">
-<td scope="row">
-FAIL: 
+<td scope="row" headers="ha07">
+FAIL:
 </td>
-<td>
+<td  headers="ha08">
 Task indicated that it failed.
 </td>
 </tr>
 
 <tr valign="top">
-<td scope="row">
+<td scope="row" headers="ha07">
 ERR:
 </td>
-<td>
+<td headers="ha08">
 Task encountered some error before it could properly be executed.
 </td>
 </tr>
 
 <tr valign="top">
-<td scope="row">
-!RUN: 
+<td scope="row" headers="ha07">
+!RUN:
 </td>
-<td>
+<td headers="ha08">
 Task
   has inappropriately indicated that it has not been run.
 This state must never occur.</td>
 </tr>
-
+</tbody>
 </table>
 
 

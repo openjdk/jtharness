@@ -93,21 +93,22 @@ Setting Parameters in the Applet Tag</a>.
 The following table describes the tags used in the applet.</p>
 
 <table width="100%" border="0" cellpadding="3" class="gray" summary="Tags used in the applet and their descriptions ." title="Applet Tags and Descriptions">
+<thead>
 <tr valign="top">
-
-<th width="15%" scope="col" class="left">
+<th width="15%" scope="col" class="left" id="h10a">
 Tag
 </th>
-<th scope="col">
+<th scope="col" id="h20a">
 Description
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td>
+<td scope="row" headers="h10a">
 <code>code</code>
 </td>
-<td>
+<td headers="h20a">
 The agent applet class installed on your test system.
 <p>
 Example:
@@ -118,11 +119,11 @@ Example:
 </td>
 </tr>
 <tr valign="top">
-<td>
+<td scope="row" headers="h10a">
 <code>archive</code>
 </td>
-<td>
-The URL of the classes required to run the agent applet on your test system. The classes are either located in the <code>javatest.jar</code> file or in a directory containing the minimum set of classes required to run the agent applet. 
+<td headers="h20a">
+The URL of the classes required to run the agent applet on your test system. The classes are either located in the <code>javatest.jar</code> file or in a directory containing the minimum set of classes required to run the agent applet.
 <p>
 In the following example, the classes are contained in the <code>javatest.jar</code> file located in the same directory as the HTML page. Refer to <a href="loadingClasses.html">Installing Agent Classes on a Test System</a> for a description of how the agent applet classes can be installed.
 </p>
@@ -135,10 +136,10 @@ Example:
 </td>
 </tr>
 <tr valign="top">
-<td>
+<td scope="row" headers="h10a">
 <code>width</code>
 </td>
-<td>
+<td headers="h20a">
 <p>Sets the width of the GUI. An initial value of 600 is suggested. However, you
   might need to adjust the value based on your screen size and resolution.
 </p>
@@ -151,10 +152,10 @@ Example:
 </td>
 </tr>
 <tr valign="top">
-<td>
+<td scope="row" headers="h10a">
 <code>height</code>
 </td>
-<td>
+<td headers="h20a">
   <p>Sets the height of the applet. An initial value of 600 is suggested. However,
   you might need to adjust the value based on your screen size and resolution.</p>
   <p>
@@ -165,6 +166,7 @@ Example:
 </p>
 </td>
 </tr>
+</tbody>
 </table>
 
 <a name="startApplets.options"><!-- index:setting parameters in the applet tag --><!-- index:agent applet; applet tag; setting parameters --></a>

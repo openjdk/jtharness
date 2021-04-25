@@ -48,52 +48,53 @@ Refer to <a href="historyPane.html">History Pane</a> for a description of the ta
 </center>
 <p>The following table describes the contents of the selected task tabbed pane.</p>
 <table width="100%" border="0" cellpadding="5" class="gray" summary="The contents and description of the Selected Task Pane." title="Selected Task Pane Contents">
-
+<thead>
 <tr valign="top">
-<th width="25%" scope="col" class="left">
+<th width="25%" scope="col" class="left" id="ha05">
 Field
 </th>
-<th scope="col" class="left">
+<th scope="col" class="left" id="ha06">
 Description
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td><code>client</code></td>
-<td>
+<td scope="row" headers="ha05"><code>client</code></td>
+<td  headers="ha06">
 Displays the network address (host and port) of the source of the task request.
   The host is normally  identified by its host name, but if JT Harness harness
   cannot determine the host name, the IP address of the host is displayed instead.</td>
 </tr>
 
 <tr valign="top">
-<td><code>request</code></td>
-<td>
+<td scope="row" headers="ha05"><code>request</code></td>
+<td headers="ha06">
 Displays the tag that was supplied with the request in order to identify itself.</td>
 </tr>
 
 <tr valign="top">
-<td><code>class</code></td>
-<td>
+<td scope="row" headers="ha05"><code>class</code></td>
+<td  headers="ha06">
 Displays the name of the class that was specified in the request. This is the
   class that is loaded and run in fulfillment of the request.</td>
 </tr>
 
 <tr valign="top">
-<td><code>args</code></td>
-<td>
+<td scope="row" headers="ha05"><code>args</code></td>
+<td headers="ha06">
 Displays the arguments that were specified in the request. These arguments are
   passed to the class that is executed.</td>
 </tr>
 
 <tr valign="top">
-<td><code>result</code></td>
-<td>
+<td scope="row" headers="ha05"><code>result</code></td>
+<td headers="ha06">
 If and when the task is completed, this field  contains the outcome of the task,
   as indicated by a JT Harness harness Status object.
 </td>
 </tr>
-
+</tbody>
 </table>
 
 <!--ins:JDTS-->

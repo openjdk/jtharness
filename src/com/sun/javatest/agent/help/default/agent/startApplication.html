@@ -86,23 +86,25 @@ You must include the path of the <code>javatest.jar</code> file (represented as 
 <p>The following table describes the classpaths  that are required in the command line.</p>
 
 <table width="100%" border="0" cellpadding="3" class="gray" summary="List of class paths required in the command line." title="Required Class Paths">
+<thead>
 <tr valign="top">
-<th scope="col" class="left">
+<th scope="col" id="h10001" class="left">
 Classes
 </th>
-<th scope="col" class="left">
+<th scope="col" id="h20001" class="left">
 Description
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td><a name="startApplication.classPaths.agentPaths"><!-- index:start an agent application; agent classes --><!-- index:agent application; start; agent classes --></a>
+<td scope="row" headers="h10001"><a name="agent/startApplication!startApplication.classPaths.agentPaths"><!-- index:start an agent application; agent classes --><!-- index:agent application; start; agent classes --></a>
 Agent</td>
-<td>
+<td headers="h20001">
 The location of the agent classes installed on your test system.
 <p>
 The agent classes are either located in the <code>javatest.jar</code> file or in the directory containing the minimum set of classes required to run the agent from the GUI.
-</p> 
+</p>
 <p>
 Some test suites include additional .jar files containing classes needed for an agent to run tests. These <code>.jar</code> files must also be included in the command string. Refer to <a href="loadingClasses.html">Installing Agent Classes on a Test System</a> for a description of how agent classes can be installed.
 </p>
@@ -110,12 +112,13 @@ Some test suites include additional .jar files containing classes needed for an 
 </tr>
 
 <tr valign="top">
-<td>
-<a name="startApplication.classPaths.testPaths"><!-- index:start an agent application; test classes --><!-- index:agent application; start; test classes --></a>Test</td>
-<td>
+<td scope="row" headers="h10001">
+<a name="agent/startApplication!startApplication.classPaths.testPaths"><!-- index:start an agent application; test classes --><!-- index:agent application; start; test classes --></a>Test</td>
+<td headers="h20001">
 Test classes are located in the classes directory of the test suite.
 </td>
 </tr>
+</tbody>
 </table>
 
 <p>
@@ -126,27 +129,29 @@ The most common error made when setting up a test platform to use an agent is
 </p>
 
 
-<a name="startApplication.appClass"><!-- index:start an agent application; required class paths --><!-- index:agent application; start; required class paths --></a>
-<h2>Application Classes</h2>
+<a name="agent/startApplication!startApplication.appClass"><!-- index:start an agent application; required class paths --><!-- index:agent application; start; required class paths --></a>
+<h4>Application Classes</h4>
 <p>
 An application class is required in the command line to run the agent. The following
   table describes the two application classes.</p>
 
 <table width="100%" border="0" cellpadding="3" class="gray" summary="List of application class required in the command line to run the agent." title="Required Application Class">
+<thead>
 <tr valign="top">
-<th scope="col" class="left">
+<th scope="col" id="h1001" class="left">
 Mode
 </th>
-<th scope="col" class="left">
+<th scope="col" id="h2001"class="left">
 Application Class
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td>
+<td scope="row" headers="h1001">
 No GUI
 </td>
-<td>
+<td headers="h2001">
 <code>com.sun.javatest.agent.AgentMain</code> <em>options</em>
 <p>
 Used when the agent GUI is not wanted or not available. In this mode, all options
@@ -159,10 +164,10 @@ Used when the agent GUI is not wanted or not available. In this mode, all option
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h1001">
 With GUI
 </td>
-<td>
+<td headers="h2001">
 <code>com.sun.javatest.agent.AgentFrame</code> <em>options</em>
 <p>
 Used to start the agent GUI. In this mode, options might either be given on the
@@ -172,30 +177,33 @@ Used to start the agent GUI. In this mode, options might either be given on the
 </p>
 </td>
 </tr>
+</tbody>
 </table>
 
-<a name="startApplication.appOptions"><!-- index:start an agent application; options --><!-- index:agent application; start; options --></a>
-<h2>Agent Options</h2>
+<a name="agent/startApplication!startApplication.appOptions"><!-- index:start an agent application; options --><!-- index:agent application; start; options --></a>
+<h4>Agent Options</h4>
 
 <p>
 The following table describes the  two types of options used in the command
   line.</p>
 
 <table width="100%" border="0" cellpadding="3" class="gray.wide" summary="List of the types of options that can be used in the command line to run the agent." title="Type of Agent Options">
+<thead>
 <tr valign="top">
-<th scope="col" class="left">
+<th scope="col" id="h1a" class="left">
 <b>Type of Option</b>
 </th>
-<th scope="col" class="left">
+<th scope="col" id="h1b" class="left">
 <b>Description</b>
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td>
+<td scope="row" headers="h1a">
 Agent parameters
 </td>
-<td>
+<td headers="h1b">
 Set the parameters for the type of agent that you are using. See the following
   topics for additional information:
   <ul>
@@ -223,16 +231,17 @@ If you are using the GUI application class (<code>com.sun.javatest.agent.AgentFr
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h1a">
 Additional parameters
 </td>
-<td>
+<td headers="h1b">
 Display help, run the agent, or configure other agent properties.
 <p>
 Refer to <a href="additionalOptions.html">Specifying Additional Agent Options</a> for a description of the additional parameters that can be set.
 </p>
 </td>
 </tr>
+</tbody>
 </table>
 
 

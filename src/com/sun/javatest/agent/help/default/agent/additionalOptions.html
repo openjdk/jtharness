@@ -62,19 +62,19 @@ The following table contains options that are only used on the command line to
 
 <table width="100%" border="0" cellpadding="3" class="gray" summary="List of options used on the command line to display help" title="Command-Line Options to Display Help">
 <tr valign="top">
-<th width="30%" scope="col" class="left">
+<th width="30%" scope="col" class="left" id="h1011">
 Option
 </th>
-<th scope="col" class="left">
+<th scope="col" class="left" id="h2011">
 Function
 </th>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h1011">
 <code>-help</code> or <code>-usage</code>
 </td>
-<td>
+<td  headers="h2011">
 Displays command-line help.
 <p>Example:</p>
 <p>
@@ -125,51 +125,53 @@ To specify a map file, use the appropriate setting or option from the following
   table.</p>
 
 <table width="100%" border="0" cellpadding="3" class="gray" summary="List of ways to specify a map file" title="Map File Options">
-
+<thead>
 <tr valign="top">
-<th width="15%" scope="col" class="left">
+<th width="15%" scope="col" class="left" id="ha0111">
 Interface
 </th>
-<th scope="col" class="left">
+<th scope="col" class="left" id="hb0111">
 Option or Setting
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td>
+<td scope="row" headers="ha0111">
 Default
 </td>
-<td>
+<td headers="hb0111">
 None (empty)
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="ha0111">
 Command line
 </td>
-<td>
+<td headers="hb0111">
 <code>-map</code> <em>map-file</em>
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="ha0111">
 Applet tag
 </td>
-<td>
+<td headers="hb0111">
 <code><b>&lt;</b>param name=map value=<em>map-file-url</em><b>&gt;</b></code>
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="ha0111">
 GUI Parameter pane
 </td>
-<td>
+<td headers="hb0111">
 <IMG SRC="../../images/agentMap.gif" ALT="GUI setting that specifies an agent use a map file to translate host specific values" longdesc="additionalOptions.html" >
 </td>
 </tr>
+</tbody>
 </table>
 <a name="additionalOptions.concurrencyValue"><!-- index:additional options; set concurrency --></a>
 <h3>Set Concurrency</h3>
@@ -181,50 +183,53 @@ To run concurrent tests, use the appropriate setting or option from the followin
   table.</p>
 
 <table width="100%" border="0" cellpadding="3" class="gray" summary="Setting or option to run concurrent tests." title="Run Concurrent Tests Option">
+<thead>
 <tr valign="top">
-<th width="15%" scope="col" class="left">
+<th width="15%" scope="col" class="left" id="h11">
 Interface
 </th>
-<th scope="col" class="left">
+<th scope="col" class="left" id="h22">
 Option or Setting
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td>
+<td scope="row" headers="h11">
 Default
 </td>
-<td>
+<td headers="h22">
 One
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h11">
 Command line
 </td>
-<td>
+<td headers="h22">
 <code>-concurrency</code> <em>number-of-tests</em>
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h11">
 Applet tag
 </td>
-<td>
+<td headers="h22">
 <code><b>&lt;</b>param name=concurrency value=<em>number-of-tests</em><b>&gt;</b></code>
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h11">
 GUI Parameter pane
 </td>
-<td>
+<td  headers="h22">
 <IMG SRC="../../images/agentConcurrency.gif" ALT="GUI setting that sets the maximum number of simultaneous requests handled by the agent" longdesc="additionalOptions.html" >
 </td>
 </tr>
+</tbody>
 </table>
 
 <a name="additionalOptions.taskHistory"><!-- index:additional options; set maximum number; tasks in history pane --></a>
@@ -240,55 +245,58 @@ To set the tasks displayed in the history tabbed pane, use the appropriate setti
   or option from the following table.</p>
 
 <table width="100%" border="0" cellpadding="3" class="gray" summary="Setting or option to set the number of tasks displayed in the history tabbed pane." title="History Tabbed Pane Options">
+<thead>
 <tr valign="top">
-<th width="15%" scope="col" class="left">
+<th width="15%" scope="col" class="left" id="h1a0">
 Interface
 </th>
-<th scope="col" class="left">
+<th scope="col" class="left" id="h1b0">
 Option or Setting
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td>
+<td scope="row" headers="h1a0">
 Default
 </td>
-<td>
+<td headers="h1b0">
 One
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h1a0">
 Command line
 </td>
-<td>
+<td headers="h1b0">
 <code>-history</code> <em>number-of-items</em>
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h1a0">
 Applet tag
 </td>
-<td>
+<td headers="h1b0">
 <code><b>&lt;</b>param name=history value=<em>number-of-items</em><b>&gt;</b></code>
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h1a0">
 GUI
 </td>
-<td>
+<td headers="h1b0">
 Not supported
 </td>
 </tr>
+<tbody>
 </table>
 
 
 <a name="additionalOptions.autostart"><!-- index:additional options; autoStart the agent --></a>
-<h3>AutoStart the Agent</h3>
+<h5>AutoStart the Agent</h5>
 
 <p>
 Th start option is only used with the application GUI class or as a parameter
@@ -304,54 +312,57 @@ To autostart the agent when the GUI is displayed, use the appropriate setting
   or option from the following table.</p>
 
 <table width="100%" border="0" cellpadding="3" class="gray" summary="Setting or option to automatically start the agent after all command line options are validated and the GUI is displayed." title="AutoStart Agent Options">
+<thead>
 <tr valign="top">
-<th width="15%" scope="col" class="left">
+<th width="15%" scope="col" class="left" id="h201">
 Interface
 </th>
-<th scope="col" class="left">
+<th scope="col" class="left"id="h202">
 Option or Setting
 </th>
 </tr>
-
-<tr valign="top">
-<td>
+</thead>
+<tbody>
+<tr valign="top" >
+<td scope="row" headers="h201">
 Default
 </td>
-<td>
+<td headers="h202">
 False
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h201">
 Command line
 </td>
-<td>
+<td headers="h202">
 <code>-start</code>
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h201">
 Applet tag
 </td>
-<td>
+<td headers="h202">
 <code><b>&lt;</b>param name=start value=<em>true</em><b>&gt;</b></code>
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="h201">
 GUI
 </td>
-<td>
+<td headers="h202">
 <IMG SRC="../../images/agentStart.gif" ALT="GUI setting that automatically starts the agent after all command line options are validated" longdesc="additionalOptions.html">
 </td>
 </tr>
+</tbody>
 </table>
 
 <a name="additionalOptions.tracing"><!-- index:additional options; set tracing --></a>
-<h3>Set Tracing</h3>
+<h5>Set Tracing</h5>
 <p>
 The trace option sends detailed information about agent activity to the system
   output stream. 
@@ -361,51 +372,53 @@ To start tracing when the agent is run, use the appropriate setting or option
   from the following table.</p>
 
 <table width="100%" border="0" cellpadding="3" class="gray" summary="Setting or option to send detailed information about agent activity to the system output stream." title="Set Tracing Options">
-
+<thead>
 <tr valign="top">
-<th width="15%" scope="col">
+<th width="15%" scope="col" id="ha0">
 Interface
 </th>
-<th scope="col">
+<th scope="col" id="ha1">
 Option or Setting
 </th>
 </tr>
-
+</thead>
+<tbody>
 <tr valign="top">
-<td>
+<td scope="row" headers="ha0">
 Default
 </td>
-<td>
+<td headers="ha1">
 False
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="ha0">
 Command line
 </td>
-<td>
+<td headers="ha1">
 <code>-trace</code>
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="ha0">
 Applet tag
 </td>
-<td>
+<td headers="ha1">
 <code><b>&lt;</b>param name=trace value=<em>true</em><b>&gt;</b></code>
 </td>
 </tr>
 
 <tr valign="top">
-<td>
+<td scope="row" headers="ha0">
 GUI
 </td>
-<td>
+<td headers="ha1">
 Not Supported
 </td>
 </tr>
+</tbody>
 </table>
 <!--CopyOff--><p><b>Next task:</b></p>
 <p>
