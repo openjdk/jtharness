@@ -65,15 +65,15 @@
 
     <presetdef name="buildinfo">
         <echo file="${build.classes}/META-INF/buildInfo.txt"># Build info
-            date=${build.date}
-            version=${build.version}
-            milestone=${build.milestone}
-            build=${build.number}
-            commit=${BUILT_FROM_COMMIT}
-            java=${jdk.builder.version}
-            bundle-type=Classpath Loader
-            harness-variety=Full Bundle
-        </echo>
+date=${build.date}
+version=${build.version}
+milestone=${build.milestone}
+build=${build.number}
+commit=${BUILT_FROM_COMMIT}
+java=${jdk.builder.version}
+bundle-type=Classpath Loader
+harness-variety=Full Bundle
+</echo>
     </presetdef>
 
     <!-- ********** JT Harness *********************************************** -->
