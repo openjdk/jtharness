@@ -78,12 +78,13 @@ public class ProductInfo {
 
     /**
      * Returns detailed version string of this product.
-     * Format of the returned string is the following: $VNUM-$MLSTN+$BUILDNUM(-$BLDDATE)?
+     * Format of the returned string is the following: $VNUM-$MLSTN+$BUILDNUM(-$BLDDATE)?-$COMMIT
      * where $VNUM value is provided by {@code ProductInfo.getVersion()},
      * $MLSTN value is provided by {@code ProductInfo.getMilestone()},
      * $BLDNUM value is provided by {@code ProductInfo.getBuildNumber()}.
      * $BLDDATE is optional and is provided by {@code ProductInfo.getBuildDate()} in 'yyyy-MM-dd' format
      * if returned date is not null.
+     * $COMMIT value is provided by {@code ProductInfo.getSourceCommitID()}.
      *
      * @return a string identifying detailed version of this product
      * including milestone, build number and (optionally) product build date.
@@ -102,6 +103,7 @@ public class ProductInfo {
             }
             sb.append('-').append(buildDateString);
         }
+        sb.append('-').append(getSourceCommitID());
         return sb.toString();
     }
 
@@ -168,6 +170,15 @@ public class ProductInfo {
      */
     public static String getBuildNumber() {
         return getProperty("build");
+    }
+
+    /**
+     * Source repository commit ID that is used for building this product.
+     *
+     * @return a string identifying source repository commit ID.
+     */
+    public static String getSourceCommitID() {
+        return getProperty("commit");
     }
 
     /**

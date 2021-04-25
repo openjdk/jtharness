@@ -69,6 +69,7 @@
             version=${build.version}
             milestone=${build.milestone}
             build=${build.number}
+            commit=${BUILT_FROM_COMMIT}
             java=${jdk.builder.version}
             bundle-type=Classpath Loader
             harness-variety=Full Bundle
@@ -401,7 +402,7 @@
 
     <target name="compile-javatest.help" depends="compile-javatest.help.main,compile-javatestAgent.help"/>
 
-    <target name="compile.resources" depends="stamp">
+    <target name="compile.resources" depends="stamp, generate.release.file">
         <copy todir="${build.classes}">
             <fileset dir="${src.dir}">
                 <patternset refid="interview.resources"/>
@@ -418,7 +419,7 @@
         <copy file="${build.dir}/com.sun.javatest.report.ReportFormat" tofile="${build.classes}/META-INF/services/com.sun.javatest.report.ReportFormat"/>
     </target>
 
-    <target name="compile.junit.resources" if="jar.junit.dependencies.present" depends="stamp">
+    <target name="compile.junit.resources" if="jar.junit.dependencies.present" depends="stamp, generate.release.file">
         <copy todir="${build.junit.classes}">
             <fileset dir="${src.dir}">
                 <patternset refid="javatest.junit.resources"/>
