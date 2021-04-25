@@ -263,10 +263,10 @@
         </tstamp>
         <available file="git" type="file" filepath="${env.PATH}" property="GIT_FOUND"/>
         <exec if:set="GIT_FOUND" executable="git"
-              failonerror="false"
-              failifexecutionfails="false"
+              failonerror="true"
+              failifexecutionfails="true"
               outputproperty="BUILT_FROM_COMMIT">
-            <arg line="log -1 --format=%h"/>
+            <arg line="--git-dir=${basedir}/.git log -1 --format=%h"/>
         </exec>
         <echo unless:set="GIT_FOUND">'git' command not found on the system path, unable to identify latest commit ID</echo>
         <echo file="${BUILD_DIR}/binaries/release">JTHARNESS_VERSION=${build.version} ${build.number}${line.separator}</echo>
