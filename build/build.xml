@@ -265,7 +265,7 @@
               failonerror="false"
               failifexecutionfails="false"
               outputproperty="BUILT_FROM_COMMIT">
-            <arg line="log -1 --format=%H"/>
+            <arg line="log -1 --format=%h"/>
         </exec>
         <echo unless:set="GIT_FOUND">'git' command not found on the system path, unable to identify latest commit ID</echo>
         <echo file="${BUILD_DIR}/binaries/release">JTHARNESS_VERSION=${build.version} ${build.number}${line.separator}</echo>
