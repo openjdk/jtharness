@@ -61,6 +61,11 @@
 
     <exec executable="${jdk.builder.home}/bin/java" outputproperty="jdk.builder.version">
         <arg value="-version"/>
+        <redirector>
+            <outputfilterchain>
+                <headfilter lines="1"/>
+            </outputfilterchain>
+        </redirector>
     </exec>
 
     <presetdef name="buildinfo">
