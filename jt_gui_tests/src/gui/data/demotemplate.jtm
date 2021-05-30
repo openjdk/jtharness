@@ -1,0 +1,24 @@
+#JT Harness Configuration Interview
+#Fri Jul 10 21:01:23 BST 2009
+DESCRIPTION=demo template
+INTERVIEW=com.sun.demots.DemoTSInterview
+IS_TEMPLATE=true
+LOCALE=ru_RU
+NAME=demotemplate
+QUESTION=demoTS.epilog
+demoTS.cmdType=otherVM
+demoTS.concurrency.concurrency=1
+demoTS.desc=demo template
+demoTS.excludeList.latestAutoCheck=No
+demoTS.excludeList.latestAutoCheckInterval=7
+demoTS.excludeList.latestAutoCheckMode=everyXDays
+demoTS.excludeList.needExcludeList=No
+demoTS.keywords.keywords.mode=expr
+demoTS.keywords.needKeywords=No
+demoTS.name=demotemplate
+demoTS.priorStatus.needStatus=No
+demoTS.priorStatus.status=
+demoTS.tests.needTests=No
+demoTS.tests.tests=
+demoTS.tests.treeOrFile=tree
+demoTS.timeout.timeout=1

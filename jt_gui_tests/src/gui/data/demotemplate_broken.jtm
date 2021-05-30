@@ -1,0 +1,23 @@
+#JT Harness Configuration Interview
+#Fri Jul 17 15:24:52 BST 2009
+DSCRIPTION=some broken template
+INTERVIEW=com.sun.demots.DemoTSInterview
+IS_TEMPLATE=true
+LOCALE=ru_RU
+NAME=broken_demotemplate
+QUESTION=demoTS.cmdType
+demoTS.concurrency.concurrency=1
+demoTS.desc=some broken template
+demoTS.excludeList.latestAutoCheck=No
+emoTS.excludeList.latestAutoCheckInterval=7
+demoTS.excludeList.latestAutoCheckMode=everyXDays
+demoTS.excludeList.needExcludeList=No
+demoTS.keywords.keywords.mode=expr
+demoTS.keywords.needKeywords=No
+demoTS.name=broken_demotemplate
+demoTS.priorStatus.needStatus=No
+demoTS.priorStatus.status=
+demoTS.tests.needTests=No
+demoTS.tests.tests=
+demoTS.tests.treeOrFile=tree
+demoTS.timeout.timeout=1

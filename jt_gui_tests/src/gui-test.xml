@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+  $Id$
+
+  Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+  This code is free software; you can redistribute it and/or modify it
+  under the terms of the GNU General Public License version 2 only, as
+  published by the Free Software Foundation.  Oracle designates this
+  particular file as subject to the "Classpath" exception as provided
+  by Oracle in the LICENSE file that accompanied this code.
+
+  This code is distributed in the hope that it will be useful, but WITHOUT
+  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+  version 2 for more details (a copy is included in the LICENSE file that
+  accompanied this code).
+
+  You should have received a copy of the GNU General Public License version
+  2 along with this work; if not, write to the Free Software Foundation,
+  Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+  Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+  or visit www.oracle.com if you need additional information or have any
+  questions.
+-->
+
+<project name="jt_gui_test" default="init" xmlns:ivy="antlib:org.apache.ivy.ant">
+<!--	<property name="jemmylib" value="./lib/jemmy.jar" used from  local.props />
+	<property name="junitlib" value="./lib/junit-4.4.jar" used from  local.props />
+	<property name="jhjar" value="./lib/jh.jar"/> used from  local.props -->
+
+	<property name="TESTS_BUILD_DIR" value="./build/"/>
+	<property name="tests.gui.path" value="./tests/gui"/>
+	<property name="example_ts_path" value="./data/demots"/>
+<!--	<property name="javatestjar_path" value="./lib/javatest.jar"/> moved to local.props -->
+	<property name="tests.gui.srcpath" value="./src"/>
+	<property name="tests.tempdir" value="${TESTS_BUILD_DIR}/tests/gui"/>
+
+	<property name="datapath" value="./data"/>
+	<property name="tests.classesdir" value="${tests.tempdir}/classes"/>
+	<property name="report.dir" value="${tests.tempdir}/report" />
+	<property name="htmlreport.dir" value="${tests.tempdir}/htmlreport" />
+
+<!--	<property name="product.name" value="JavaTest" /> moved to local.props -->
+	<property name="inittimeout" value="300000"/> 
+
+	<path id="classpath">
+		<fileset dir="${tests.tempdir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>    
+
+	<target name="build_demoapi_simpleTags">
+                <mkdir dir="${tests.tempdir}/temp/demoapi"/>
+
+                <javac encoding="iso-8859-1" debug="true" source="7"
+                        srcdir="./src/gui/testsuite_src/demoapi" 
+                        destdir="${tests.tempdir}/temp/demoapi">
+                </javac>
+		<jar destfile="${tests.tempdir}/temp/demoapi.jar" 
+			basedir="${tests.tempdir}/temp/demoapi" index="false">
+		</jar>
+
+		<mkdir dir="${tests.tempdir}/temp/simpleTags"/>
+		<mkdir dir="${tests.tempdir}/temp/simpleTags_tc"/>
+
+		<javac encoding="iso-8859-1" debug="true" source="7"
+			srcdir="./src/gui/testsuite_src_clean" 
+			destdir="${tests.tempdir}/temp/simpleTags"
+			classpath="${javatestjar_path}:${tests.tempdir}/temp/demoapi.jar:${jhalljar}">
+		</javac>
+
+		<javac encoding="iso-8859-1" debug="true" source="7"
+			srcdir="./src/gui/testsuite_src" 
+			destdir="${tests.tempdir}/temp/simpleTags_tc"
+			classpath="${javatestjar_path}:${tests.tempdir}/temp/demoapi.jar:${jhalljar}">
+		</javac>
+
+		<copy todir="${tests.tempdir}/temp/simpleTags_tc">
+			<fileset dir="./src/gui/testsuite_src/src">
+				<include name="**/moreInfo/**"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${tests.tempdir}/temp/simpleTags">
+			<fileset dir="./src/gui/testsuite_src/src">
+				<include name="**/moreInfo/**"/>
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="build_testsuite" depends="build_demoapi_simpleTags">
+		<mkdir dir="${tests.tempdir}/demots"/>
+		<mkdir dir="${tests.tempdir}/demots/lib"/>
+
+		<copy file="${tests.tempdir}/temp/demoapi.jar" todir="${tests.tempdir}/demots/lib/"/>
+
+		<jar destfile="${tests.tempdir}/demots/lib/jtdemots.jar" 
+			basedir="${tests.tempdir}/temp/simpleTags" index="false">
+		</jar>
+
+		<copy todir="${tests.tempdir}/demots/lib">
+			<fileset file="${javatestjar_path}"/>
+			<fileset file="${jhjar}"/>
+		</copy>
+
+		<copy todir="${tests.tempdir}/demots">
+			<fileset dir="./src/gui/testsuite_src_clean/demots"/>
+		</copy>
+	</target>
+
+	<target name="build_testsuite_tc" depends="build_demoapi_simpleTags">
+		<mkdir dir="${tests.tempdir}/demots_withtestcases"/>
+		<mkdir dir="${tests.tempdir}/demots_withtestcases/lib"/>
+
+		<copy file="${tests.tempdir}/temp/demoapi.jar" todir="${tests.tempdir}/demots_withtestcases/lib/"/>
+
+		<jar destfile="${tests.tempdir}/demots_withtestcases/lib/jtdemots.jar" 
+			basedir="${tests.tempdir}/temp/simpleTags_tc" index="false">
+		</jar>
+
+		<copy todir="${tests.tempdir}/demots_withtestcases/lib">
+			<fileset file="${javatestjar_path}"/>
+			<fileset file="${jhjar}"/>
+		</copy>
+
+		<copy todir="${tests.tempdir}/demots_withtestcases">
+			<fileset dir="./src/gui/testsuite_src/demots"/>
+		</copy>
+	</target>
+	
+	<target name="create" unless="jt_gui_test.ignore_init">
+		<delete dir="${TESTS_BUILD_DIR}"/>
+		<mkdir dir="${tests.tempdir}"/>
+		<mkdir dir="${tests.tempdir}/report"/>
+		<mkdir dir="${tests.tempdir}/htmlreport"/>
+		<mkdir dir="${tests.tempdir}/demots"/>
+		<mkdir dir="${tests.classesdir}"/>
+
+		<copy todir="${tests.tempdir}" file="${javatestjar_path}"/>
+		<copy todir="${tests.tempdir}" file="${jemmylib}"/>
+		<copy todir="${tests.tempdir}" file="${junitlib}"/>
+		<copy todir="${tests.tempdir}" file="${hamcrestlib}"/>
+		<copy todir="${tests.tempdir}" file="${jhjar}"/>
+		<copy todir="${tests.tempdir}">
+			<fileset dir="${datapath}"/>
+		</copy>
+	</target>
+
+	<target name="compile" depends="create,build_testsuite,build_testsuite_tc">
+		<javac srcdir="${tests.gui.srcpath}" destdir="${tests.classesdir}" debug="true">
+                        <classpath refid="classpath"/>
+		</javac>
+	</target>
+
+	<target name="init" depends="compile" unless="jt_gui_test.ignore_init">
+ 		<java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true" classname="jthtest.Init">
+ 			<classpath refid="classpath"/>
+                        <classpath>
+				<pathelement path="${tests.classesdir}"/>
+			</classpath>
+			<sysproperty key="jt_gui_test.name" value="${product.name}" />
+			<sysproperty key="javatest.security.noSecurityManager" value="true" />
+                        <sysproperty key="javatest.desktop.file" value="${javatest.desktop.file}"/>
+                        <sysproperty key="javatest.preferences.file" value="${javatest.preferences.file}"/>
+
+			<arg value="democonfig.jti"/>
+			<arg value="demotemplate.jtm"/>
+		</java>
+	</target>
+	
+	<target name="jar" depends="init">
+		<jar destfile="${tests.tempdir}/${ant.project.name}.jar" basedir="${tests.classesdir}" />
+	</target>
+
+	<target name="run" depends="jar">
+		<junit printsummary="yes" showoutput="true" dir="${tests.tempdir}">
+			
+			<sysproperty key="jt_gui_test.QSdefault" value="true" />
+			<sysproperty key="jt_gui_test.name" value="${product.name}" />
+			<sysproperty key="jt_gui_test.showWarnings" value="${jt_gui_test.showWarnings}" />
+			<sysproperty key="jt_gui_test.ignoreDepricated" value="${jt_gui_test.ignoreDepricated}" />
+			<sysproperty key="jt_gui_test.not_run_knownfail" value="${jt_gui_test.not_run_knownfail}" />
+			<sysproperty key="jt_gui_test.override_knownfail" value="${jt_gui_test.override_knownfail}" /><!-- -->
+			<sysproperty key="javatest.security.noSecurityManager" value="true" />
+			<sysproperty key="javatest.desktop.file" value="${javatest.directory.file}"/>
+			<sysproperty key="javatest.preferences.file" value="${javatest.preferences.file}"/>
+
+			<classpath refid="classpath" />
+
+			<formatter type="xml" />
+			<formatter type="plain" />
+
+			<batchtest fork="true" todir="${report.dir}" unless="testfile">
+				<fileset dir="${tests.gui.srcpath}" >
+					<include name="**/*0.java" />
+					<include name="**/*1.java" />
+					<include name="**/*2.java" />
+					<include name="**/*3.java" />
+					<include name="**/*4.java" />
+					<include name="**/*5.java" />
+					<include name="**/*6.java" />
+					<include name="**/*7.java" />
+					<include name="**/*8.java" />
+					<include name="**/*9.java" />
+				</fileset>
+			</batchtest>
+			<batchtest fork="true" todir="${report.dir}" if="testfile">
+				<fileset dir="${tests.gui.srcpath}">
+					<include name="**/${testfile}"/>
+				</fileset>
+			</batchtest>
+		</junit>
+
+		<antcall target="genHtmlReport"/>
+	</target>
+
+	<target name="genHtmlReport">
+		<delete dir="${htmlreport.dir}"/>
+		<mkdir dir="${htmlreport.dir}"/>
+		
+                <junitreport todir="${htmlreport.dir}">
+                        <fileset dir="${report.dir}">
+                                <include name="*.xml"/>
+                        </fileset>
+                        <report todir="${htmlreport.dir}"/>
+                </junitreport>
+        </target>
+
+	<target name="report" depends="run">
+		<exec executable="cp" >
+			<arg value="${datapath}/failed.sh" />
+			<arg value="${datapath}/summary.sh" />
+			<arg value="${report.dir}" />
+		</exec>
+		<exec executable="./summary.sh" dir="${report.dir}" />
+		<exec executable="./failed.sh" dir="${report.dir}" />
+
+		<junitreport todir="${report.dir}">
+			<fileset dir="${report.dir}">
+				<include name="*.xml"/>
+			</fileset>
+			<report todir="${report.dir}"/>
+		</junitreport>
+	</target>
+
+	<target name="genreport">
+                <junitreport todir="${report.dir}">
+                        <fileset dir="${report.dir}">
+                                <include name="*.xml"/>
+                        </fileset>
+                        <report todir="${report.dir}"/>
+                </junitreport>
+	</target>
+
+	<target name="clean">
+		<delete dir="${TESTS_BUILD_DIR}" />
+	</target>
+</project>
