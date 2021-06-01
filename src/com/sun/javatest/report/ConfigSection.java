@@ -375,6 +375,7 @@ class ConfigSection extends HTMLSection {
     private void writeConfigInterview() throws IOException {
         WizPrint wp = new WizPrint(settings.getInterview());
         wp.setShowResponses(true);
+        wp.setShowTags(true);
         wp.write(openWriter(HTMLReport.CONFIG_HTML));
     }
 
