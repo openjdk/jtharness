@@ -26,7 +26,7 @@
   questions.
 -->
 
-<project name="jt_gui_test" default="init" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="jt_gui_test" default="init">
 <!--	<property name="jemmylib" value="./lib/jemmy.jar" used from  local.props />
 	<property name="junitlib" value="./lib/junit-4.4.jar" used from  local.props />
 	<property name="jhjar" value="./lib/jh.jar"/> used from  local.props -->
@@ -133,14 +133,14 @@
 		</copy>
 	</target>
 	
-	<target name="create" unless="jt_gui_test.ignore_init">
+	<target name="create" depends="replace" unless="jt_gui_test.ignore_init">
 		<delete dir="${TESTS_BUILD_DIR}"/>
 		<mkdir dir="${tests.tempdir}"/>
 		<mkdir dir="${tests.tempdir}/report"/>
 		<mkdir dir="${tests.tempdir}/htmlreport"/>
 		<mkdir dir="${tests.tempdir}/demots"/>
 		<mkdir dir="${tests.classesdir}"/>
-
+		<loadfile property="message" srcFile="src/local.properties" />
 		<copy todir="${tests.tempdir}" file="${javatestjar_path}"/>
 		<copy todir="${tests.tempdir}" file="${jemmylib}"/>
 		<copy todir="${tests.tempdir}" file="${junitlib}"/>
@@ -149,6 +149,14 @@
 		<copy todir="${tests.tempdir}">
 			<fileset dir="${datapath}"/>
 		</copy>
+	</target>
+
+	<target name="replace">
+		<replace file="src/local.properties" token="javatest_jar" value="javatest.jar"/>
+		<replace file="src/local.properties" token="jemmy_jar" value="jemmy.jar"/>
+		<replace file="src/local.properties" token="junit_jar" value="junit.jar"/>
+		<replace file="src/local.properties" token="hamcrest_jar" value="hamcrest.jar"/>
+		<replace file="src/local.properties" token="jh_jar" value="jh.jar"/>
 	</target>
 
 	<target name="compile" depends="create,build_testsuite,build_testsuite_tc">
