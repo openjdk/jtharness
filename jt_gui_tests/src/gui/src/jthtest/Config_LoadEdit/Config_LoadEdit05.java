@@ -44,54 +44,54 @@ import org.netbeans.jemmy.util.NameComponentChooser;
 public class Config_LoadEdit05 extends Test {
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = new JTFrame(true);
+    JTFrame mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(Tools.CONFIG_NAME, true);
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(Tools.CONFIG_NAME, true);
 
-	ConfigDialog configDialog = configuration.openByKey();
-	new JTextFieldOperator(configDialog.getConfigDialog(), new NameComponentChooser("str.txt")).typeText("some_change");
+    ConfigDialog configDialog = configuration.openByKey();
+    new JTextFieldOperator(configDialog.getConfigDialog(), new NameComponentChooser("str.txt")).typeText("some_change");
 
-	configDialog.load(ConfigTools.SECOND_CONFIG_NAME, true);
-	JDialogOperator warning = new JDialogOperator(Tools.getExecResource("ce.load.warn.title"));
-	new JButtonOperator(warning, "Cancel").push();
+    configDialog.load(ConfigTools.SECOND_CONFIG_NAME, true);
+    JDialogOperator warning = new JDialogOperator(Tools.getExecResource("ce.load.warn.title"));
+    new JButtonOperator(warning, "Cancel").push();
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	closeQS(mainFrame);
+//    closeQS(mainFrame);
 //
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
 //
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
-//	new JTextFieldOperator(config, new NameComponentChooser("str.txt")).typeText("some_change");
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//    new JTextFieldOperator(config, new NameComponentChooser("str.txt")).typeText("some_change");
 //
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), SECOND_JTI);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, SECOND_JTI);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), SECOND_JTI);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, SECOND_JTI);
 //
-//	JDialogOperator warning = new JDialogOperator(getExecResource("ch.edited.warn.title"));
-//	new JButtonOperator(warning, "Cancel").push();
+//    JDialogOperator warning = new JDialogOperator(getExecResource("ch.edited.warn.title"));
+//    new JButtonOperator(warning, "Cancel").push();
     }
 
     @Override
     public String getDescription() {
-	/*
-	 * Start JavaTest with the -NewDesktop option. Create a new workdirectory.
-	 * Bring up Load configuration under Configure menu. Select an existing jti
-	 * file. Click on Load File. Bring up Edit configuration by doing Ctrl-E to
-	 * verify that the jti is loaded. Make one change to the config file. Bring
-	 * up Load configuration under file menu. A warning should be displayed to
-	 * ask if the changes need to be saved. Click on NO button. The new change
-	 * will be saved.
-	 */
-	return "Start JavaTest with the -NewDesktop option. Create a new workdirectory. Bring up Load configuration under Configure menu. Select an existing jti file. Click on Load File. Bring up Edit configuration by doing Ctrl-E to verify that the jti is loaded. Make one change to the config file. Bring up Load configuration under file menu. A warning should be displayed to ask if the changes need to be saved. Click on NO button. The new change will be saved.";
+    /*
+     * Start JavaTest with the -NewDesktop option. Create a new workdirectory.
+     * Bring up Load configuration under Configure menu. Select an existing jti
+     * file. Click on Load File. Bring up Edit configuration by doing Ctrl-E to
+     * verify that the jti is loaded. Make one change to the config file. Bring
+     * up Load configuration under file menu. A warning should be displayed to
+     * ask if the changes need to be saved. Click on NO button. The new change
+     * will be saved.
+     */
+    return "Start JavaTest with the -NewDesktop option. Create a new workdirectory. Bring up Load configuration under Configure menu. Select an existing jti file. Click on Load File. Bring up Edit configuration by doing Ctrl-E to verify that the jti is loaded. Make one change to the config file. Bring up Load configuration under file menu. A warning should be displayed to ask if the changes need to be saved. Click on NO button. The new change will be saved.";
     }
 }

@@ -792,7 +792,7 @@ public class JTFrame {
                     getRunTests_StartMenu().push();
                 } else {
                     getTestTree().clickPopup(row);
-                    
+
                     new JPopupMenuOperator(mainFrame).pushMenuNoBlock("Execute These Tests");
                     new JButtonOperator(new JDialogOperator("Run Tests"), "Yes").push();
                 }
@@ -810,12 +810,12 @@ public class JTFrame {
     }
 
     /**
-     * Waits for tests execution done. 
-     * Attention! This method should be used only when tests are runned without JTFrame.TestRunner. 
-     * Do not use this method along with runTests()! Use Task.waitForDone() instead. 
-     * @see #runTests() 
-     * @see #runTests(boolean) 
-     * @see Task#waitForDone() 
+     * Waits for tests execution done.
+     * Attention! This method should be used only when tests are runned without JTFrame.TestRunner.
+     * Do not use this method along with runTests()! Use Task.waitForDone() instead.
+     * @see #runTests()
+     * @see #runTests(boolean)
+     * @see Task#waitForDone()
      */
     public void waitForExecutionDone() {
         try {

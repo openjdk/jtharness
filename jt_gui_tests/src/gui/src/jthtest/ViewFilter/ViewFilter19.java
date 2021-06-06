@@ -40,31 +40,31 @@ import org.netbeans.jemmy.operators.JRadioButtonOperator;
  * @author naryl
  */
 public class ViewFilter19 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter19");
-	}
-	
-	@Test
-	public void testViewFilter19() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter19");
+    }
+
+    @Test
+    public void testViewFilter19() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 //
-//		startWithDefaultWorkdir();
+//        startWithDefaultWorkdir();
 //
-//		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+//        JDialogOperator filterEditor = openFilterEditor(mainFrame);
 //
-//		selectFilter(filterEditor, 4);
+//        selectFilter(filterEditor, 4);
 //
-//		chooseTab(filterEditor, "Prior Status");
+//        chooseTab(filterEditor, "Prior Status");
 //
-//		new JRadioButtonOperator(filterEditor, "Any Of").setSelected(true);
+//        new JRadioButtonOperator(filterEditor, "Any Of").setSelected(true);
 //
-//		new JCheckBoxOperator(filterEditor, "Not Run").push();
+//        new JCheckBoxOperator(filterEditor, "Not Run").push();
 //
-//		new JButtonOperator(filterEditor, "Reset");
+//        new JButtonOperator(filterEditor, "Reset");
 //
-//		checkTestList(mainFrame, TestList.NOT_RUN, allTests);
+//        checkTestList(mainFrame, TestList.NOT_RUN, allTests);
 //
-	}
-	
+    }
+
 }
 

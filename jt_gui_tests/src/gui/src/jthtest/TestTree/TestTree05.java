@@ -38,62 +38,62 @@ import jthtest.tools.TestTree;
  */
 public class TestTree05 extends Test {
 
-	@Override
-	public void testImpl() throws Exception {
-		mainFrame = new JTFrame(true);
+    @Override
+    public void testImpl() throws Exception {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		mainFrame.getConfiguration().load(Tools.CONFIG_NAME, true);
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        mainFrame.getConfiguration().load(Tools.CONFIG_NAME, true);
 
-		TestTree tree = mainFrame.getTestTree();
+        TestTree tree = mainFrame.getTestTree();
 
-		tree.click(2);
-		tree.click(1);
+        tree.click(2);
+        tree.click(1);
 
-		tree.selectRows(1, 2);
-		TreePath[] selectedPaths = tree.getSelectedRows();
-		
-		TreePath root = tree.getRoot();
-		tree.clickPopup(root);
-		TreePath[] selectedPaths1 = tree.getSelectedRows();
-		if (selectedPaths.length != selectedPaths1.length) {
-			errors.add("Selection changed when performing right click");
-		} else {
-			for (int i = 0; i < selectedPaths.length; i++) {
-				if (!selectedPaths[i].equals(selectedPaths1[i])) {
-					errors.add("Selection changed when performing right click");
-					break;
-				}
-			}
-		}
+        tree.selectRows(1, 2);
+        TreePath[] selectedPaths = tree.getSelectedRows();
 
-                mainFrame.click();
-		tree.selectRows(1);
-		tree.clickPopup(root);
-		selectedPaths = tree.getSelectedRows();
-		if (selectedPaths.length != 1) {
-			errors.add("Selection has " + selectedPaths.length + " elements while expected 1");
-		}
-		if (!selectedPaths[0].equals(root)) {
-			errors.add("Root element " + root + " was expected to be selected, found " + selectedPaths[0]);
-		}
+        TreePath root = tree.getRoot();
+        tree.clickPopup(root);
+        TreePath[] selectedPaths1 = tree.getSelectedRows();
+        if (selectedPaths.length != selectedPaths1.length) {
+            errors.add("Selection changed when performing right click");
+        } else {
+            for (int i = 0; i < selectedPaths.length; i++) {
+                if (!selectedPaths[i].equals(selectedPaths1[i])) {
+                    errors.add("Selection changed when performing right click");
+                    break;
+                }
+            }
+        }
 
                 mainFrame.click();
-		tree.selectRows(1, 2, 3, 4);
-		TreePath path = tree.getPathForRow(5);
-		tree.click(path);
-		selectedPaths = tree.getSelectedRows();
-		if (selectedPaths.length != 1) {
-			errors.add("Selection has " + selectedPaths.length + " elements while expected 1");
-		}
-		if (!selectedPaths[0].equals(path)) {
-			errors.add("Element " + path + " was expected to be selected, found " + selectedPaths[0]);
-		}
-	}
+        tree.selectRows(1);
+        tree.clickPopup(root);
+        selectedPaths = tree.getSelectedRows();
+        if (selectedPaths.length != 1) {
+            errors.add("Selection has " + selectedPaths.length + " elements while expected 1");
+        }
+        if (!selectedPaths[0].equals(root)) {
+            errors.add("Root element " + root + " was expected to be selected, found " + selectedPaths[0]);
+        }
 
-	@Override
-	public String getDescription() {
-		return "This test checks that performing right-click when only 1 test is selected will replace selection and in case when many tests are selecter will not replace selection.";
-	}
+                mainFrame.click();
+        tree.selectRows(1, 2, 3, 4);
+        TreePath path = tree.getPathForRow(5);
+        tree.click(path);
+        selectedPaths = tree.getSelectedRows();
+        if (selectedPaths.length != 1) {
+            errors.add("Selection has " + selectedPaths.length + " elements while expected 1");
+        }
+        if (!selectedPaths[0].equals(path)) {
+            errors.add("Element " + path + " was expected to be selected, found " + selectedPaths[0]);
+        }
+    }
+
+    @Override
+    public String getDescription() {
+        return "This test checks that performing right-click when only 1 test is selected will replace selection and in case when many tests are selecter will not replace selection.";
+    }
 }

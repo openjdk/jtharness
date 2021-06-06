@@ -41,42 +41,42 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate10 extends ReportCreate {
 
-	JFrameOperator mainFrame;
+    JFrameOperator mainFrame;
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ReportCreate.ReportCreate10");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ReportCreate.ReportCreate10");
+    }
 
-	@Test
-	public void testReportCreate10() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-//	deleteUserData();
-//	startJavaTestWithDefaultWorkDirectory();
+    @Test
+    public void testReportCreate10() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+//    deleteUserData();
+//    startJavaTestWithDefaultWorkDirectory();
 //
-//	mainFrame = findMainFrame();
+//    mainFrame = findMainFrame();
 //
-//	selectEnableTSFilter();
+//    selectEnableTSFilter();
 //
-//	JDialogOperator rep = openReportCreation(mainFrame);
+//    JDialogOperator rep = openReportCreation(mainFrame);
 //
-//	final String path = TEMP_PATH + REPORT_NAME + "_customfilter" + File.separator;
-//	setPath(rep, path);
+//    final String path = TEMP_PATH + REPORT_NAME + "_customfilter" + File.separator;
+//    setPath(rep, path);
 //
-//	chooseFilter(rep, FiltersType.CUSTOM);
+//    chooseFilter(rep, FiltersType.CUSTOM);
 //
-//	pressCreate(rep);
+//    pressCreate(rep);
 //
-//	pressYes(findShowReportDialog());
-	}
+//    pressYes(findShowReportDialog());
+    }
 
-	public void selectEnableTSFilter() {
-		JDialogOperator filterEditor = ViewFilter.openFilterEditor(mainFrame);
+    public void selectEnableTSFilter() {
+        JDialogOperator filterEditor = ViewFilter.openFilterEditor(mainFrame);
 
-		ViewFilter.selectFilter(filterEditor, 4);
+        ViewFilter.selectFilter(filterEditor, 4);
 
-		ViewFilter.chooseTab(filterEditor, "Special");
+        ViewFilter.chooseTab(filterEditor, "Special");
 
-		new JCheckBoxOperator(filterEditor, "Enable test suite filter.").setSelected(true);
+        new JCheckBoxOperator(filterEditor, "Enable test suite filter.").setSelected(true);
 
-		ViewFilter.ok(filterEditor);
-	}
+        ViewFilter.ok(filterEditor);
+    }
 }

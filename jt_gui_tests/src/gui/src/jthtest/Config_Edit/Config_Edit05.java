@@ -40,47 +40,47 @@ import org.netbeans.jemmy.operators.JListOperator;
 public class Config_Edit05 extends Test {
 
     public void testImpl() throws Exception {
-	mainFrame = new JTFrame(true);
+    mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(Tools.CONFIG_NAME, true);
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(Tools.CONFIG_NAME, true);
 
-	ConfigDialog dialog = configuration.openByKey();
-	dialog.pushLastConfigEditor();
-	JListOperator list = new JListOperator(dialog.getConfigDialog());
-	if (list.getSelectedIndex() != list.getModel().getSize() - 1) {
-	    errors.add("Selected element (" + list.getSelectedIndex() + ") is not the last (" + (list.getModel().getSize() - 1) + ") after last button pushing");
-	}
+    ConfigDialog dialog = configuration.openByKey();
+    dialog.pushLastConfigEditor();
+    JListOperator list = new JListOperator(dialog.getConfigDialog());
+    if (list.getSelectedIndex() != list.getModel().getSize() - 1) {
+        errors.add("Selected element (" + list.getSelectedIndex() + ") is not the last (" + (list.getModel().getSize() - 1) + ") after last button pushing");
+    }
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
-//	waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
-//	openConfigDialogByKey(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//    waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
+//    openConfigDialogByKey(mainFrame);
 //
-//	JDialogOperator config = findConfigEditor(mainFrame);
-//	pushLastConfigEditor(config);
-//	JListOperator list = new JListOperator(config);
-//	if(list.getSelectedIndex() != list.getModel().getSize()-1)
-//	    throw new JemmyException("Selected element (" + list.getSelectedIndex() + ") is not the last (" + (list.getModel().getSize()-1) + ") after last button pushing");
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//    pushLastConfigEditor(config);
+//    JListOperator list = new JListOperator(config);
+//    if(list.getSelectedIndex() != list.getModel().getSize()-1)
+//        throw new JemmyException("Selected element (" + list.getSelectedIndex() + ") is not the last (" + (list.getModel().getSize()-1) + ") after last button pushing");
     }
 
     @Override
     public String getDescription() {
-	/*
-	 * Start JavaTest with the -NewDesktop option. Create a new workdirectory.
-	 * Bring up Load confiugration under Configure menu. Bring up
-	 * configuration editor by doing Ctrl-E. Click on Last button. It will navigate
-	 * to the last question. The Last button should navigates to the last question
-	 * where it says Completed.
-	 */
-	return "Start JavaTest with the -NewDesktop option. Create a new workdirectory. Bring up Load confiugration under Configure menu. Bring up configuration editor by doing Ctrl-E. Click on Last button. It will navigate to the last question. The Last button should navigates to the last question where it says Completed.";
+    /*
+     * Start JavaTest with the -NewDesktop option. Create a new workdirectory.
+     * Bring up Load confiugration under Configure menu. Bring up
+     * configuration editor by doing Ctrl-E. Click on Last button. It will navigate
+     * to the last question. The Last button should navigates to the last question
+     * where it says Completed.
+     */
+    return "Start JavaTest with the -NewDesktop option. Create a new workdirectory. Bring up Load confiugration under Configure menu. Bring up configuration editor by doing Ctrl-E. Click on Last button. It will navigate to the last question. The Last button should navigates to the last question where it says Completed.";
     }
 }

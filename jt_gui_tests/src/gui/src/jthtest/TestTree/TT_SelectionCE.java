@@ -86,7 +86,7 @@ public abstract class TT_SelectionCE extends Test {
                 return String.format("Error occured - selection lost. Initialy selected rows: %s. After %s selected rows: %s", Arrays.toString(rows), testDescription, Arrays.toString(res));
             }
         };
-        
+
         waiter.getResult();
     }
     protected TestTree tree;

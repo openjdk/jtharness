@@ -47,12 +47,12 @@ public class TT_SelectionCE06 extends TT_SelectionCE {
         Configuration c = mainFrame.getConfiguration();
         c.load(CONFIG_NAME, true);
         ConfigDialog cd = c.openByMenu(true);
-        
+
         cd.selectQuestion(2);
         JTextFieldOperator tf = new JTextFieldOperator(cd.getConfigDialog(), new NameComponentChooser("str.txt"));
         tf.clearText();
         tf.typeText("some_new_text");
-        
+
         cd.pushLastConfigEditor();
         cd.pushDoneConfigEditor();
     }

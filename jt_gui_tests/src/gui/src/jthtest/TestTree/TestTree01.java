@@ -38,37 +38,37 @@ import org.netbeans.jemmy.TimeoutExpiredException;
  */
 public class TestTree01 extends Test {
 
-	@Override
-	public void testImpl() throws Exception {
-		mainFrame = new JTFrame(true);
+    @Override
+    public void testImpl() throws Exception {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
+        mainFrame.openDefaultTestSuite();
 
-		TestTree tree = mainFrame.getTestTree();
-		TreePath root = tree.getRoot();
-		if (!tree.isExpanded(root)) {
-			tree.click(root);
-		}
-		tree.click(root);
-		try {
-			tree.waitForCollapse(root);
-		} catch (TimeoutExpiredException e) {
-			if (!tree.isExpanded(root)) {
-				errors.add("Tree root is not collapsed after mouse click");
-			}
-		}
-		tree.click(root);
-		try {
-			tree.waitForExpand(root);
-		} catch (TimeoutExpiredException e) {
-			if (!tree.isExpanded(root)) {
-				errors.add("Tree root is not expanded after mouse click");
-			}
-		}
-	}
+        TestTree tree = mainFrame.getTestTree();
+        TreePath root = tree.getRoot();
+        if (!tree.isExpanded(root)) {
+            tree.click(root);
+        }
+        tree.click(root);
+        try {
+            tree.waitForCollapse(root);
+        } catch (TimeoutExpiredException e) {
+            if (!tree.isExpanded(root)) {
+                errors.add("Tree root is not collapsed after mouse click");
+            }
+        }
+        tree.click(root);
+        try {
+            tree.waitForExpand(root);
+        } catch (TimeoutExpiredException e) {
+            if (!tree.isExpanded(root)) {
+                errors.add("Tree root is not expanded after mouse click");
+            }
+        }
+    }
 
-	@Override
-	public String getDescription() {
-		return "This test checks that root element would be collapsed and expanded after double click on it";
-	}
+    @Override
+    public String getDescription() {
+        return "This test checks that root element would be collapsed and expanded after double click on it";
+    }
 }

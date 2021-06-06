@@ -41,21 +41,21 @@ public class TestSuite {
     public static String OPEN_TEST_SUITE_DIALOG_NAME_TI18N = "tsc.title";
 
     TestSuite(JTFrame mainFrame) {
-	this.mainFrame = mainFrame;
+    this.mainFrame = mainFrame;
     }
 
     public void openTestSuite(String path) {
-	mainFrame.getFile_Open_TestSuiteMenu().pushNoBlock();
-	JDialogOperator openDialog = new JDialogOperator(getOpenTestSuiteDialogName());
-	new JTextFieldOperator(openDialog, "").enterText(path);
-	name = path;
+    mainFrame.getFile_Open_TestSuiteMenu().pushNoBlock();
+    JDialogOperator openDialog = new JDialogOperator(getOpenTestSuiteDialogName());
+    new JTextFieldOperator(openDialog, "").enterText(path);
+    name = path;
     }
 
     public String getName() {
-	return name;
+    return name;
     }
 
     public static String getOpenTestSuiteDialogName() {
-	return Tools.getToolResource(OPEN_TEST_SUITE_DIALOG_NAME_TI18N);
+    return Tools.getToolResource(OPEN_TEST_SUITE_DIALOG_NAME_TI18N);
     }
 }

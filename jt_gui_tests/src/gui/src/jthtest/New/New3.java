@@ -36,31 +36,31 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class New3 extends New {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.New.New3");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.New.New3");
+    }
 
-	@Test
-	public void testNew3() {
-			startTestRun(quickStartDialog);
+    @Test
+    public void testNew3() {
+            startTestRun(quickStartDialog);
 
-			next(quickStartDialog);
+            next(quickStartDialog);
 
-			pickDefaultTestsuite(quickStartDialog);
+            pickDefaultTestsuite(quickStartDialog);
 
-			next(quickStartDialog);
+            next(quickStartDialog);
 
-			createConfiguration(quickStartDialog);
+            createConfiguration(quickStartDialog);
 
-			next(quickStartDialog);
+            next(quickStartDialog);
 
-			pickTempWorkDir(quickStartDialog);
+            pickTempWorkDir(quickStartDialog);
 
-			next(quickStartDialog);
+            next(quickStartDialog);
 
-			finish(quickStartDialog, false, false);
+            finish(quickStartDialog, false, false);
 
-			mainFrame = new JFrameOperator(WINDOWNAME);
-	}
+            mainFrame = new JFrameOperator(WINDOWNAME);
+    }
 
 }

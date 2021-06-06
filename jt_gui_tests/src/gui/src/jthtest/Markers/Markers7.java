@@ -25,15 +25,15 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select the first question from the 
- * history list. Mark the question by selecting Mark Current Question from the 
- * Marker menu. Select the second question from the history list. Mark the 
- * question by selecting Mark Current Question from the Marker menu. Select 
- * Show Only Marked Question from the Bookmarks menu. Only the marked questions 
- * will be displayed. Unselect Show Only Marked Question from the Bookmarks 
- * menu. Verify that the whole list of questions will be displayed. 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
+ * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+ * Enable Bookmarks from the Bookmarks menu. Select the first question from the
+ * history list. Mark the question by selecting Mark Current Question from the
+ * Marker menu. Select the second question from the history list. Mark the
+ * question by selecting Mark Current Question from the Marker menu. Select
+ * Show Only Marked Question from the Bookmarks menu. Only the marked questions
+ * will be displayed. Unselect Show Only Marked Question from the Bookmarks
+ * menu. Verify that the whole list of questions will be displayed.
  */
 package jthtest.Markers;
 
@@ -51,26 +51,26 @@ public class Markers7 extends Test {
 
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         mainFrame = new JTFrame(true);
-        
+
         mainFrame.openDefaultTestSuite();
         addUsedFile(mainFrame.createWorkDirectoryInTemp());
         Configuration configuration = mainFrame.getConfiguration();
         configuration.load(CONFIG_NAME, true);
         ConfigDialog cd = configuration.openByKey();
-        
+
         // test body
         cd.getBookmarks_EnableBookmarks().push();
         int[] indexes = new int[] {1, 2};
         String allNames[] = cd.getElementsNames();
         String bookmarkedNames[] = cd.getElementsNames(indexes);
-        
+
         cd.setBookmarkedByMenu(indexes);
         cd.getBookmarks_ShowOnlyBookmarkedMenu().push(); // turn on
         cd.checkVisibility(bookmarkedNames);
-        
+
         cd.getBookmarks_ShowOnlyBookmarkedMenu().push(); // turn off
         cd.checkVisibilityAll(allNames);
-        
+
 //        startJavatestNewDesktop();
 //
 //        JFrameOperator mainFrame = findMainFrame();
@@ -90,10 +90,10 @@ public class Markers7 extends Test {
 //        String bookmarkedNames[] = getElementsNames(config, indexes);
 //
 //        setBookmarkedByMenu(config, indexes);
-//        pushShowOnlyBookmarked(config);	// turn on
+//        pushShowOnlyBookmarked(config);    // turn on
 //        checkVisibility(config, bookmarkedNames);
 //
-//        pushShowOnlyBookmarked(config);	// turn off
+//        pushShowOnlyBookmarked(config);    // turn off
 //        checkVisibilityAll(config, allNames);
     }
 

@@ -43,19 +43,19 @@ import org.netbeans.jemmy.operators.JListOperator;
  */
 public class CustomReport9 extends CustomReport {
     public static void main(String[] args) {
-	JUnitCore.main("jthtest.gui.CustomReport.CustomReport9");
+    JUnitCore.main("jthtest.gui.CustomReport.CustomReport9");
     }
-    
+
     @Test
     public void testCustomReport9() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, Exception {
-	startJavaTestWithDefaultWorkDirectory();
-	
-	JFrameOperator mainFrame = findMainFrame();
+    startJavaTestWithDefaultWorkDirectory();
 
-	JDialogOperator rep = openReportCreation(mainFrame);
-	JListOperator a = getList(rep);
-	if(!(a.getParent() instanceof JScrollPane || a.getParent() instanceof JViewport)) {
-	    throw new JemmyException("The list is not scrollable, list parent is " + a.getParent().getClass().getName());
-	}
+    JFrameOperator mainFrame = findMainFrame();
+
+    JDialogOperator rep = openReportCreation(mainFrame);
+    JListOperator a = getList(rep);
+    if(!(a.getParent() instanceof JScrollPane || a.getParent() instanceof JViewport)) {
+        throw new JemmyException("The list is not scrollable, list parent is " + a.getParent().getClass().getName());
+    }
     }
 }

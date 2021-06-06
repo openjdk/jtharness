@@ -34,19 +34,19 @@ import org.junit.runner.JUnitCore;
  * @author naryl
  */
 public class Browse3 extends Browse {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.Browse.Browse3");
-	}
-	
-	@Test
-	public void testBrowse3() {
-		browseTestsuite(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-		getTextField(quickStartDialog, "Test Suite");
-		
-	}
-	
+
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.Browse.Browse3");
+    }
+
+    @Test
+    public void testBrowse3() {
+        browseTestsuite(quickStartDialog);
+
+        next(quickStartDialog);
+
+        getTextField(quickStartDialog, "Test Suite");
+
+    }
+
 }

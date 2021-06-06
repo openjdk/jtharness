@@ -40,20 +40,20 @@ import org.netbeans.jemmy.operators.JMenuOperator;
  * @author linfar
  */
 public class View1 extends View {
-	
-	public static void main(String[] args) {
+
+    public static void main(String[] args) {
             JUnitCore.main("jthtest.gui.StandardConfig_View.View1");
-	}
-        
+    }
+
         @Test
         public void testView1() {
             openTestSuite(mainFrame);
             createWorkDirInTemp(mainFrame);
             JDialogOperator editor = callNewConfigurationEditor();
-	    JMenuItem findJMenu = null;
+        JMenuItem findJMenu = null;
             if(!((JRadioButtonMenuItem)new JMenuOperator(editor, "View").getMenuComponent(0)).isSelected()) { // TODO findJComponent
-		throw new JemmyException("Radio button is not selected");
-	    }
+        throw new JemmyException("Radio button is not selected");
+        }
 //            new JRadioButtonOperator(editor).isSelected();
         }
 }

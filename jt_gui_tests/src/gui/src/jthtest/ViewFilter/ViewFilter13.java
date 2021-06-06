@@ -36,23 +36,23 @@ import org.junit.runner.JUnitCore;
  * @author naryl
  */
 public class ViewFilter13 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter13");
-	}
-	
-	@Test
-	public void testViewFilter13() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-// this test doesn't work with current testsuite
-		
-//		startWithDefaultWorkdir();
-//
-//		selectFilter(mainFrame, "Custom");
-//
-//		setKeywordFilter(mainFrame, 2, "k1");
-//
-//		checkAllTestLists(mainFrame, null, null, null, null, allTests);
 
-	}
-	
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter13");
+    }
+
+    @Test
+    public void testViewFilter13() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+// this test doesn't work with current testsuite
+
+//        startWithDefaultWorkdir();
+//
+//        selectFilter(mainFrame, "Custom");
+//
+//        setKeywordFilter(mainFrame, 2, "k1");
+//
+//        checkAllTestLists(mainFrame, null, null, null, null, allTests);
+
+    }
+
 }

@@ -38,12 +38,12 @@ import org.netbeans.jemmy.operators.JTextAreaOperator;
  */
 public class Audit4 extends Test {
 
-	public void testImpl() throws Exception {
-		mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
 
-		new Audit.AuditTool(mainFrame.getJFrameOperator(), "", "this_work_directory_must_not_exist_here", "");
-		if (!(new JTextAreaOperator(new JDialogOperator(Tools.WINDOWNAME + " Harness: Error")).getText().equals("Error in options: Cannot find work directory this_work_directory_must_not_exist_here"))) {
-			errors.add("Error message is unexpected");
-		}
-	}
+        new Audit.AuditTool(mainFrame.getJFrameOperator(), "", "this_work_directory_must_not_exist_here", "");
+        if (!(new JTextAreaOperator(new JDialogOperator(Tools.WINDOWNAME + " Harness: Error")).getText().equals("Error in options: Cannot find work directory this_work_directory_must_not_exist_here"))) {
+            errors.add("Error message is unexpected");
+        }
+    }
 }

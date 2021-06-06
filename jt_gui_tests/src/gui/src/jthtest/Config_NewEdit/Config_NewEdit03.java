@@ -40,53 +40,53 @@ import org.netbeans.jemmy.operators.JDialogOperator;
 public class Config_NewEdit03 extends Test {
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = new JTFrame(true);
+    JTFrame mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(Tools.CONFIG_NAME, true);
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(Tools.CONFIG_NAME, true);
 
-	ConfigDialog config = configuration.openByKey();
-	if (!config.isFullConfiguration()) {
-	    errors.add("Warning! Configuration in trunk directory isn't full for default WD. This can make tests unstable.");
-	}
+    ConfigDialog config = configuration.openByKey();
+    if (!config.isFullConfiguration()) {
+        errors.add("Warning! Configuration in trunk directory isn't full for default WD. This can make tests unstable.");
+    }
 
-	config.getFile_NewConfigurationMenu().push();
-	if (config.isFullConfiguration()) {
-	    errors.add("Configuration was not reset after creation");
-	}
-	config.pushDoneConfigEditor();
-	new JDialogOperator(ConfigDialog.getConfirmCloseIncomleteConfigurationDialogName());
+    config.getFile_NewConfigurationMenu().push();
+    if (config.isFullConfiguration()) {
+        errors.add("Configuration was not reset after creation");
+    }
+    config.pushDoneConfigEditor();
+    new JDialogOperator(ConfigDialog.getConfirmCloseIncomleteConfigurationDialogName());
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
-//	closeQS(mainFrame);
+//    JFrameOperator mainFrame = findMainFrame();
+//    closeQS(mainFrame);
 //
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
-//	waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//    waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
 //
-//	String warning = "";
-//	if(!isFullConfiguration(config))
-//	    warning = "Warning! Configuration in trunk directory isn't full for default WD. This can make tests unstable.\n";
+//    String warning = "";
+//    if(!isFullConfiguration(config))
+//        warning = "Warning! Configuration in trunk directory isn't full for default WD. This can make tests unstable.\n";
 //
-//	openConfigCreationBlock(mainFrame);
-//	if(isFullConfiguration(config))
-//	    throw new JemmyException(warning + "Configuration was not reset after creation");
+//    openConfigCreationBlock(mainFrame);
+//    if(isFullConfiguration(config))
+//        throw new JemmyException(warning + "Configuration was not reset after creation");
 //
-//	pushDoneConfigEditor(config);
-//	new JDialogOperator("Configuration Editor: Confirm Close");
+//    pushDoneConfigEditor(config);
+//    new JDialogOperator("Configuration Editor: Confirm Close");
     }
 
     @Override
     public String getDescription() {
-	return "This test checks that warning message is shown if user tryes to close Configuration Editor with unsaved configuration.";
+    return "This test checks that warning message is shown if user tryes to close Configuration Editor with unsaved configuration.";
     }
 }

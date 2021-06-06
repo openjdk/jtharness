@@ -43,32 +43,32 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate30 extends Test {
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
-		deleteDirectory(path);
-		createFakeRepDir(path);
-		addUsedFile(path);
+    public void testImpl() throws Exception {
+        deleteUserData();
+        final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
+        deleteDirectory(path);
+        createFakeRepDir(path);
+        addUsedFile(path);
 
-		startJavaTestWithDefaultWorkDirectory();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		setXmlChecked(rep, false);
-		setPlainChecked(rep, false);
-		HtmlReport htmlReport = new HtmlReport(rep);
-		htmlReport.setOptionsAll(false);
-		htmlReport.setOptionsResults(true);
-		htmlReport.setFilesAll(false);
-		htmlReport.setFilesPutInReport(true);
+        setXmlChecked(rep, false);
+        setPlainChecked(rep, false);
+        HtmlReport htmlReport = new HtmlReport(rep);
+        htmlReport.setOptionsAll(false);
+        htmlReport.setOptionsResults(true);
+        htmlReport.setFilesAll(false);
+        htmlReport.setFilesPutInReport(true);
 
-		setPath(rep, path);
-		new JButtonOperator(rep, "Cancel").push();
+        setPath(rep, path);
+        new JButtonOperator(rep, "Cancel").push();
 
-		if (new File(path + "html~1~").exists()) {
-			throw new JemmyException("backup directory was created");
-		}
-	}
+        if (new File(path + "html~1~").exists()) {
+            throw new JemmyException("backup directory was created");
+        }
+    }
 }

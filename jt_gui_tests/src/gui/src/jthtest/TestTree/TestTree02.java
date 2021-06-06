@@ -37,38 +37,38 @@ import jthtest.tools.TestTree;
  */
 public class TestTree02 extends Test {
 
-	@Override
-	public void testImpl() throws Exception {
-		mainFrame = new JTFrame(false);
+    @Override
+    public void testImpl() throws Exception {
+        mainFrame = new JTFrame(false);
 
-		mainFrame.openDefaultTestSuite();
+        mainFrame.openDefaultTestSuite();
 
-		TestTree testTree = mainFrame.getTestTree();
-		TreePath[] visibleRows = testTree.getVisibleRows();
-		testTree.click(visibleRows[1]);
-		if(testTree.getVisibleRowCount() != 9) {
-			errors.add("There are " + testTree.getVisibleRowCount() + " visible rows in the tree while 9 expected (1st click)");
-		}
-		testTree.click(visibleRows[1]);
-		if(testTree.getVisibleRowCount() != 3) {
-			errors.add("There are " + testTree.getVisibleRowCount() + " visible rows in the tree while 3 expected (2nd click)");
-		}
-		TreePath[] click = testTree.click(visibleRows[2]);
-		if(testTree.getVisibleRowCount() != 6) {
-			errors.add("There are " + testTree.getVisibleRowCount() + " visible rows in the tree while 6 expected (3rd click)");
-		}
-		testTree.click(click[2]);
-		if(testTree.getVisibleRowCount() != 9) {
-			errors.add("There are " + testTree.getVisibleRowCount() + " visible rows in the tree while 9 expected (4th click)");
-		}
-		testTree.click(visibleRows[2]);
-		if(testTree.getVisibleRowCount() != 3) {
-			errors.add("There are " + testTree.getVisibleRowCount() + " visible rows in the tree while 3 expected (5th click)");
-		}
-	}
+        TestTree testTree = mainFrame.getTestTree();
+        TreePath[] visibleRows = testTree.getVisibleRows();
+        testTree.click(visibleRows[1]);
+        if(testTree.getVisibleRowCount() != 9) {
+            errors.add("There are " + testTree.getVisibleRowCount() + " visible rows in the tree while 9 expected (1st click)");
+        }
+        testTree.click(visibleRows[1]);
+        if(testTree.getVisibleRowCount() != 3) {
+            errors.add("There are " + testTree.getVisibleRowCount() + " visible rows in the tree while 3 expected (2nd click)");
+        }
+        TreePath[] click = testTree.click(visibleRows[2]);
+        if(testTree.getVisibleRowCount() != 6) {
+            errors.add("There are " + testTree.getVisibleRowCount() + " visible rows in the tree while 6 expected (3rd click)");
+        }
+        testTree.click(click[2]);
+        if(testTree.getVisibleRowCount() != 9) {
+            errors.add("There are " + testTree.getVisibleRowCount() + " visible rows in the tree while 9 expected (4th click)");
+        }
+        testTree.click(visibleRows[2]);
+        if(testTree.getVisibleRowCount() != 3) {
+            errors.add("There are " + testTree.getVisibleRowCount() + " visible rows in the tree while 3 expected (5th click)");
+        }
+    }
 
-	@Override
-	public String getDescription() {
-		return "This test checks that rows are expanded/collapsed normaly.";
-	}
+    @Override
+    public String getDescription() {
+        return "This test checks that rows are expanded/collapsed normaly.";
+    }
 }

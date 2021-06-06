@@ -45,41 +45,41 @@ public class ConfigurationBrowser {
     private boolean closed;
 
     public ConfigurationBrowser() {
-	browser = new JDialogOperator(getLoadConfigurationDialogName());
-	closed = false;
+    browser = new JDialogOperator(getLoadConfigurationDialogName());
+    closed = false;
     }
 
     public static ConfigurationBrowser open() {
-	return new ConfigurationBrowser();
+    return new ConfigurationBrowser();
     }
 
     public void setPath(String path) {
-	new JButtonOperator(browser, CONFIG_LOADER_BROWSE_BUTTON).push();
+    new JButtonOperator(browser, CONFIG_LOADER_BROWSE_BUTTON).push();
 
-	JDialogOperator fc = new JDialogOperator(getConfigLocationDialogName());
-	JTextFieldOperator tf = new JTextFieldOperator(fc);
+    JDialogOperator fc = new JDialogOperator(getConfigLocationDialogName());
+    JTextFieldOperator tf = new JTextFieldOperator(fc);
         tf.clearText();
-	tf.enterText(path);
+    tf.enterText(path);
     }
 
     public void commit() {
-	new JButtonOperator(browser, getConfigLoaderLoadButtonName()).push();
-	closed = true;
+    new JButtonOperator(browser, getConfigLoaderLoadButtonName()).push();
+    closed = true;
     }
 
     public void cancel() {
-	closed = true;
+    closed = true;
     }
 
     public static String getLoadConfigurationDialogName() {
-	return Tools.getExecResource(CONFIG_LOADER_DIALOG_NAME_EI18N);
+    return Tools.getExecResource(CONFIG_LOADER_DIALOG_NAME_EI18N);
     }
 
     public static String getConfigLocationDialogName() {
-	return Tools.getExecResource(CONFIG_LOADER_CONFIG_LOCATION_DIALOG_EI18N);
+    return Tools.getExecResource(CONFIG_LOADER_CONFIG_LOCATION_DIALOG_EI18N);
     }
 
     public static String getConfigLoaderLoadButtonName() {
-	return Tools.getExecResource(CONFIG_LOADER_LOAD_BUTTON_NAME_EI18N);
+    return Tools.getExecResource(CONFIG_LOADER_LOAD_BUTTON_NAME_EI18N);
     }
 }

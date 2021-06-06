@@ -38,15 +38,15 @@ import org.netbeans.jemmy.operators.JTextAreaOperator;
  */
 public class Audit2 extends Test {
 
-	public void testImpl() throws Exception {
-		mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
 
-		String testsuitePath = Tools.LOCAL_PATH + "this_test_suite_must_not_exist_here";
+        String testsuitePath = Tools.LOCAL_PATH + "this_test_suite_must_not_exist_here";
 
-		new Audit.AuditTool(mainFrame.getJFrameOperator(), testsuitePath, Tools.LOCAL_PATH + Tools.DEFAULT_WD_NAME, "");
+        new Audit.AuditTool(mainFrame.getJFrameOperator(), testsuitePath, Tools.LOCAL_PATH + Tools.DEFAULT_WD_NAME, "");
 
-		if (!(new JTextAreaOperator(new JDialogOperator(Audit.WINDOWNAME + " Harness: Error")).getText().equals("Error in options: Cannot find test suite " + testsuitePath))) {
-			errors.add("Error message text is unexpected");
-		}
-	}
+        if (!(new JTextAreaOperator(new JDialogOperator(Audit.WINDOWNAME + " Harness: Error")).getText().equals("Error in options: Cannot find test suite " + testsuitePath))) {
+            errors.add("Error message text is unexpected");
+        }
+    }
 }

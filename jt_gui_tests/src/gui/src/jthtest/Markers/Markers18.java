@@ -56,20 +56,20 @@ public class Markers18 extends Test {
             errors.add("Icon wasn't found");
         }
 
-//	startJavatestNewDesktop();
-//	
-//	JFrameOperator mainFrame = findMainFrame();
-//	
-//	closeQS(mainFrame);
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-//	
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
-//	
-//	setBookmarkedByMouse(config, 1);
+//    startJavatestNewDesktop();
+//
+//    JFrameOperator mainFrame = findMainFrame();
+//
+//    closeQS(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+//
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//
+//    setBookmarkedByMouse(config, 1);
     }
 
     @Override

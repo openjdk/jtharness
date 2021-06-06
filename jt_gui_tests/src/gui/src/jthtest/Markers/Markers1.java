@@ -42,27 +42,27 @@ import org.netbeans.jemmy.operators.JMenuOperator;
  */
 public class Markers1 extends Markers {
     public static void main(String args[]) {
-	JUnitCore.main("jthtest.gui.Markers.Markers1");
+    JUnitCore.main("jthtest.gui.Markers.Markers1");
     }
-    
+
     @Test
     public void testMarkers1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-	startJavatestNewDesktop();
-	
-	JFrameOperator mainFrame = findMainFrame();
-	
-	closeQS(mainFrame);
-	openTestSuite(mainFrame);
-	createWorkDirInTemp(mainFrame);
-	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-	
-	openConfigDialogByKey(mainFrame);
-	JDialogOperator config = findConfigEditor(mainFrame);
-	
-	JMenuOperator bmMenu = new JMenuOperator(config, "Bookmarks"); 
-	for(int i = 1; i < bmMenu.getComponentCount(); i++)
-	    if(bmMenu.getMenuComponent(i).isEnabled())
-		throw new JemmyException("Menu subelement " + i + " is enabled while unexpected"); 
+    startJavatestNewDesktop();
+
+    JFrameOperator mainFrame = findMainFrame();
+
+    closeQS(mainFrame);
+    openTestSuite(mainFrame);
+    createWorkDirInTemp(mainFrame);
+    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+
+    openConfigDialogByKey(mainFrame);
+    JDialogOperator config = findConfigEditor(mainFrame);
+
+    JMenuOperator bmMenu = new JMenuOperator(config, "Bookmarks");
+    for(int i = 1; i < bmMenu.getComponentCount(); i++)
+        if(bmMenu.getMenuComponent(i).isEnabled())
+        throw new JemmyException("Menu subelement " + i + " is enabled while unexpected");
     }
 }

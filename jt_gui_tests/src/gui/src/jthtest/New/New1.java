@@ -40,20 +40,20 @@ import org.netbeans.jemmy.operators.JLabelOperator;
  */
 public class New1 extends New {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.New.New1");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.New.New1");
+    }
 
-	@Test
-	public void testNew1() {
+    @Test
+    public void testNew1() {
 
             startTestRun(quickStartDialog);
-            
-			next(quickStartDialog);
+
+            next(quickStartDialog);
 
             //Check that label "Test suite" exists in the dialog
             new JLabelOperator(quickStartDialog, "Test suite");
 
-	}
-	
+    }
+
 }

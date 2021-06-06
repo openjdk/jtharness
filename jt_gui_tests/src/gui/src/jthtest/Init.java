@@ -43,125 +43,125 @@ import org.netbeans.jemmy.operators.JCheckBoxOperator;
  */
 public class Init extends ConfigTools {
 
-	private static JTFrame mainFrame;
-	private static String targetDir;
+    private static JTFrame mainFrame;
+    private static String targetDir;
 
-	private static abstract class RunManager {
+    private static abstract class RunManager {
 
-		public abstract void runTests(JFrameOperator mainFrame);
-	}
+        public abstract void runTests(JFrameOperator mainFrame);
+    }
 
-	public static void main(String args[]) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InterruptedException {
-		if (args.length < 2) {
-			System.out.println("please provide paths for config and template files: config_path template_path [javahome_path]");
-			System.exit(1);
-		}
-		String javaPath;
-		if (args.length > 2) {
-			javaPath = args[2];
-		} else {
-			javaPath = System.getProperty("java.home");
-			if (javaPath == null) {
-				System.out.println("please provide javahome path in arguments or in system properties: config_path template_path [javahome_path]");
-				System.exit(1);
-			} else {
-				if (File.separatorChar == '/') {
-					javaPath += "/bin/java";
-				} else {
-					javaPath += "\\bin\\java.exe";
-				}
-			}
-		}
-		System.setProperty("com.sun.javatest.exec.templateMode", "true");
+    public static void main(String args[]) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InterruptedException {
+        if (args.length < 2) {
+            System.out.println("please provide paths for config and template files: config_path template_path [javahome_path]");
+            System.exit(1);
+        }
+        String javaPath;
+        if (args.length > 2) {
+            javaPath = args[2];
+        } else {
+            javaPath = System.getProperty("java.home");
+            if (javaPath == null) {
+                System.out.println("please provide javahome path in arguments or in system properties: config_path template_path [javahome_path]");
+                System.exit(1);
+            } else {
+                if (File.separatorChar == '/') {
+                    javaPath += "/bin/java";
+                } else {
+                    javaPath += "\\bin\\java.exe";
+                }
+            }
+        }
+        System.setProperty("com.sun.javatest.exec.templateMode", "true");
                 JTFrame.closeQSOnOpen = false;
-		mainFrame = JTFrame.startJTWithDefaultTestSuite();
-//		Tools.pause(500);
+        mainFrame = JTFrame.startJTWithDefaultTestSuite();
+//        Tools.pause(500);
 
-		mainFrame.getFile_PreferencesMenu().pushNoBlock();
-		JDialogOperator prefs = new JDialogOperator(WINDOWNAME + " Harness Preferences");
-		new JTreeOperator(prefs).selectRow(2);
-		new JCheckBoxOperator(prefs, "Warn if All Tests filter is selected when test runs starts").setSelected(true);
-		new JButtonOperator(prefs, "OK").push();
+        mainFrame.getFile_PreferencesMenu().pushNoBlock();
+        JDialogOperator prefs = new JDialogOperator(WINDOWNAME + " Harness Preferences");
+        new JTreeOperator(prefs).selectRow(2);
+        new JCheckBoxOperator(prefs, "Warn if All Tests filter is selected when test runs starts").setSelected(true);
+        new JButtonOperator(prefs, "OK").push();
 
-		targetDir = new File("").getAbsolutePath();
-		File toDelete = mainFrame.createWorkDirectoryInTemp();
-		repairConfig("democonfig.jti", javaPath);
-		repairConfig("democonfig_second.jti", javaPath);
-		repairConfig("democonfig with spaces.jti", javaPath);
+        targetDir = new File("").getAbsolutePath();
+        File toDelete = mainFrame.createWorkDirectoryInTemp();
+        repairConfig("democonfig.jti", javaPath);
+        repairConfig("democonfig_second.jti", javaPath);
+        repairConfig("democonfig with spaces.jti", javaPath);
 
-		mainFrame.getMenuBar().showMenuItem(new String[]{"Configure", "Load Template..."}).push();
-		JDialogOperator dop = new JDialogOperator("Load Template");
-		new JButtonOperator(dop, "Browse...").push();
-		JDialogOperator locd = new JDialogOperator("Template Location");
-		new JTextFieldOperator(locd).enterText(Tools.LOCAL_PATH + File.separator + "demotemplate.jtm");
-		new JCheckBoxOperator(dop, "Launch Template Editor").push();
-		new JButtonOperator(dop, "Load").push();
+        mainFrame.getMenuBar().showMenuItem(new String[]{"Configure", "Load Template..."}).push();
+        JDialogOperator dop = new JDialogOperator("Load Template");
+        new JButtonOperator(dop, "Browse...").push();
+        JDialogOperator locd = new JDialogOperator("Template Location");
+        new JTextFieldOperator(locd).enterText(Tools.LOCAL_PATH + File.separator + "demotemplate.jtm");
+        new JCheckBoxOperator(dop, "Launch Template Editor").push();
+        new JButtonOperator(dop, "Load").push();
 
-		JDialogOperator edit = new JDialogOperator("Template Editor");
-		new JButtonOperator(edit, "Last").push();
-		new JTextFieldOperator(edit, new NameComponentChooser("file.txt")).enterText(javaPath);
-		new JButtonOperator(edit, "Last").push();
-		new JButtonOperator(edit, "Done").push();
+        JDialogOperator edit = new JDialogOperator("Template Editor");
+        new JButtonOperator(edit, "Last").push();
+        new JTextFieldOperator(edit, new NameComponentChooser("file.txt")).enterText(javaPath);
+        new JButtonOperator(edit, "Last").push();
+        new JButtonOperator(edit, "Done").push();
 
-		Thread.sleep(500);
+        Thread.sleep(500);
                 mainFrame.closeAllTools();
-		Thread.sleep(500);
-		openTestSuite(mainFrame.getJFrameOperator());
-		createWD("demowd", null, null);
-		Thread.sleep(500);
+        Thread.sleep(500);
+        openTestSuite(mainFrame.getJFrameOperator());
+        createWD("demowd", null, null);
+        Thread.sleep(500);
                 mainFrame.closeAllTools();
-		Thread.sleep(500);
-		openTestSuite(mainFrame.getJFrameOperator());
-		createWD("demowd_config", args[0], null);
-		Thread.sleep(500);
+        Thread.sleep(500);
+        openTestSuite(mainFrame.getJFrameOperator());
+        createWD("demowd_config", args[0], null);
+        Thread.sleep(500);
                 mainFrame.closeAllTools();
-		Thread.sleep(500);
-		openTestSuite(mainFrame.getJFrameOperator());
-		createWD("demowd_run", args[0], new RunManager() {
+        Thread.sleep(500);
+        openTestSuite(mainFrame.getJFrameOperator());
+        createWD("demowd_run", args[0], new RunManager() {
 
-			public void runTests(JFrameOperator mainFrame) {
-				final JTreeOperator tree = findTree(mainFrame);
-				tree.selectRow(2);
+            public void runTests(JFrameOperator mainFrame) {
+                final JTreeOperator tree = findTree(mainFrame);
+                tree.selectRow(2);
                                 Init.mainFrame.runTests(2).startAndWaitForDone();
-			}
-		});
-		Thread.sleep(500);
+            }
+        });
+        Thread.sleep(500);
                 mainFrame.closeAllTools();
-		Thread.sleep(500);
-		openTestSuite(mainFrame.getJFrameOperator());
-		createWD("demowd_template", args[0], null);
-		Thread.sleep(500);
+        Thread.sleep(500);
+        openTestSuite(mainFrame.getJFrameOperator());
+        createWD("demowd_template", args[0], null);
+        Thread.sleep(500);
 
-		Tools.deleteDirectory(toDelete);
-		closeJT(mainFrame.getJFrameOperator());
-	}
+        Tools.deleteDirectory(toDelete);
+        closeJT(mainFrame.getJFrameOperator());
+    }
 
-	static void createWD(String name, String config, RunManager run) {
+    static void createWD(String name, String config, RunManager run) {
 //        CreateWorkdir.createWorkDir(CreateWorkdir.openWorkDirectoryCreation(mainFrame), targetDir, name, true);
-		mainFrame.getWorkDirectory().createWorkDirectory(targetDir, name, true);
-		if (config != null) {
-			mainFrame.getConfiguration().load(targetDir, config, true);
-//	    openConfigFile(openLoadConfigDialogByMenu(mainFrame), targetDir, config);
-		}
-		if (run != null && config != null) {
-			run.runTests(mainFrame.getJFrameOperator());
-		}
-	}
+        mainFrame.getWorkDirectory().createWorkDirectory(targetDir, name, true);
+        if (config != null) {
+            mainFrame.getConfiguration().load(targetDir, config, true);
+//        openConfigFile(openLoadConfigDialogByMenu(mainFrame), targetDir, config);
+        }
+        if (run != null && config != null) {
+            run.runTests(mainFrame.getJFrameOperator());
+        }
+    }
 
-	public static void repairConfig(String name, String javaPath) {
+    public static void repairConfig(String name, String javaPath) {
 //        openConfigFile(openLoadConfigDialogByMenu(mainFrame), name);
-		mainFrame.getConfiguration().load(name, true);
+        mainFrame.getConfiguration().load(name, true);
 
-		jthtest.tools.ConfigDialog configDialog = mainFrame.getConfiguration().openByMenu(true);
+        jthtest.tools.ConfigDialog configDialog = mainFrame.getConfiguration().openByMenu(true);
 //        openConfigDialogByMenu(mainFrame);
 //        JDialogOperator config = findConfigEditor(mainFrame);
-		configDialog.selectQuestion(4);
-		JTextFieldOperator file = new JTextFieldOperator(configDialog.getConfigDialog(), new NameComponentChooser("file.txt"));
-		file.setText("");
-		file.typeText(javaPath);
+        configDialog.selectQuestion(4);
+        JTextFieldOperator file = new JTextFieldOperator(configDialog.getConfigDialog(), new NameComponentChooser("file.txt"));
+        file.setText("");
+        file.typeText(javaPath);
 
-		configDialog.pushLastConfigEditor();
-		configDialog.selectQuestion(1);
-		configDialog.pushDoneConfigEditor();
-	}
+        configDialog.pushLastConfigEditor();
+        configDialog.selectQuestion(1);
+        configDialog.pushDoneConfigEditor();
+    }
 }

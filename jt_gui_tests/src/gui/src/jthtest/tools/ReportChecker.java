@@ -144,10 +144,10 @@ public class ReportChecker {
             if (!browser.getText().contains("name=\"Configuration and Other Settings\"")) {
                 error.append("report doesn't contain configuration block\n");
             }
-//		i = findInStringArray(urls, "#locations");
-//		if (i == -1) {
-//		    error.append("report doesn't contain url to 'Where to put the results' block\n");
-//		}
+//        i = findInStringArray(urls, "#locations");
+//        if (i == -1) {
+//            error.append("report doesn't contain url to 'Where to put the results' block\n");
+//        }
             if (!browser.getText().contains("name=locations") && !browser.getText().contains("name=\"locations\"")) {
                 error.append("report doesn't contain 'Where to put the results' block\n");
             }
@@ -195,10 +195,10 @@ public class ReportChecker {
             }
 
             if (reportDialog.isOConfig_TestEnv()) {
-//		    i = findInStringArray(urls, "#execution");
-//		    if (i == -1) {
-//			error.append("report doesn't contain url to test enviroment ('How to run') block\n");
-//		    }
+//            i = findInStringArray(urls, "#execution");
+//            if (i == -1) {
+//            error.append("report doesn't contain url to test enviroment ('How to run') block\n");
+//            }
                 if (!browser.getText().contains("name=execution") && !browser.getText().contains("name=\"execution\"")) {
                     error.append("report doesn't contain test enviroment ('How to run') block\n");
                 }

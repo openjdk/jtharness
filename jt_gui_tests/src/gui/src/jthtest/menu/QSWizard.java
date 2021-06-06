@@ -38,98 +38,98 @@ import org.netbeans.jemmy.operators.JTextFieldOperator;
  */
 public class QSWizard {
 
-	public static String QUICK_START_WIZARD_TITLE = Tools.WINDOWNAME + " Harness Quick Start";
-	private JDialogOperator dialog;
-	private Panel panel;
+    public static String QUICK_START_WIZARD_TITLE = Tools.WINDOWNAME + " Harness Quick Start";
+    private JDialogOperator dialog;
+    private Panel panel;
 
-	public QSWizard() {
-		dialog = new JDialogOperator(QUICK_START_WIZARD_TITLE);
-		panel = new GreetingsPanel();
-	}
+    public QSWizard() {
+        dialog = new JDialogOperator(QUICK_START_WIZARD_TITLE);
+        panel = new GreetingsPanel();
+    }
 
-	public Panel getPanel() {
-		return panel;
-	}
+    public Panel getPanel() {
+        return panel;
+    }
 
-	public abstract class Panel {
-		
-		public JDialogOperator getDialog() {
-			return dialog;
-		}
+    public abstract class Panel {
 
-		public JButtonOperator next() {
-			return new JButtonOperator(dialog, "Next");
-		}
+        public JDialogOperator getDialog() {
+            return dialog;
+        }
 
-		public JButtonOperator cancel() {
-			return new JButtonOperator(dialog, "Cancel");
-		}
+        public JButtonOperator next() {
+            return new JButtonOperator(dialog, "Next");
+        }
 
-		public JButtonOperator finish() {
-			return new JButtonOperator(dialog, "Finish");
-		}
+        public JButtonOperator cancel() {
+            return new JButtonOperator(dialog, "Cancel");
+        }
 
-		public JButtonOperator back() {
-			return new JButtonOperator(dialog, "Back");
-		}
+        public JButtonOperator finish() {
+            return new JButtonOperator(dialog, "Finish");
+        }
 
-		public abstract Panel pushNext();
-	}
+        public JButtonOperator back() {
+            return new JButtonOperator(dialog, "Back");
+        }
 
-	public class GreetingsPanel extends Panel {
+        public abstract Panel pushNext();
+    }
 
-		private boolean startNew = false;
-		private boolean resume = false;
-		private boolean browse = false;
+    public class GreetingsPanel extends Panel {
 
-		public void setStartNewTestRun() {
-			browse = resume = false;
-			startNew = true;
-		}
+        private boolean startNew = false;
+        private boolean resume = false;
+        private boolean browse = false;
 
-		public void setResumeTestRun() {
-			browse = startNew = false;
-			resume = true;
-		}
+        public void setStartNewTestRun() {
+            browse = resume = false;
+            startNew = true;
+        }
 
-		public void setBrowseTestSuite() {
-			new JRadioButtonOperator(dialog, "Browse the test suite").push();
-			startNew = resume = false;
-			browse = true;
-		}
+        public void setResumeTestRun() {
+            browse = startNew = false;
+            resume = true;
+        }
 
-		@Override
-		public Panel pushNext() {
-			next().push();
-			return new ChooseTestSuitePanel();
-		}
-	}
+        public void setBrowseTestSuite() {
+            new JRadioButtonOperator(dialog, "Browse the test suite").push();
+            startNew = resume = false;
+            browse = true;
+        }
 
-	public class ChooseTestSuitePanel extends Panel {
-		private String testsuite = null;
+        @Override
+        public Panel pushNext() {
+            next().push();
+            return new ChooseTestSuitePanel();
+        }
+    }
 
-		public void setTestsuite(String testsuite) {
-			JTextFieldOperator op = Tools.getTextField(dialog, Tools.getExecResource("qsw.ts.hd"));
-			op.clearText();
-			op.enterText(testsuite);
-			this.testsuite = testsuite;
-		}
+    public class ChooseTestSuitePanel extends Panel {
+        private String testsuite = null;
 
-		@Override
-		public ChooseConfigurationPanel pushNext() {
-			if (testsuite == null || "".equals(testsuite))
-				return null;
+        public void setTestsuite(String testsuite) {
+            JTextFieldOperator op = Tools.getTextField(dialog, Tools.getExecResource("qsw.ts.hd"));
+            op.clearText();
+            op.enterText(testsuite);
+            this.testsuite = testsuite;
+        }
 
-			next().push();
-			return new ChooseConfigurationPanel();
-		}
-	}
+        @Override
+        public ChooseConfigurationPanel pushNext() {
+            if (testsuite == null || "".equals(testsuite))
+                return null;
 
-	public class ChooseConfigurationPanel extends Panel {
+            next().push();
+            return new ChooseConfigurationPanel();
+        }
+    }
 
-		@Override
-		public Panel pushNext() {
-			throw new UnsupportedOperationException("Not supported yet.");
-		}
-	}
+    public class ChooseConfigurationPanel extends Panel {
+
+        @Override
+        public Panel pushNext() {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
 }

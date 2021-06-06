@@ -45,10 +45,10 @@ public class Config_TestTree2 extends Test {
         addUsedFile(mainFrame.createWorkDirectoryInTemp());
         Configuration conf = mainFrame.getConfiguration();
         conf.load(CONFIG_NAME, true);
-        
+
         ConfigDialog cd = conf.openByMenu(true);
         ConfigDialog.QuestionTree tree = cd.getQuestionTree();
-        
+
         int initRowCount = tree.getRowCount();
         SelectionTree stree = tree.getTree();
         int initSelected = stree.getSelection().length;
@@ -58,12 +58,12 @@ public class Config_TestTree2 extends Test {
         if (initSelected != 1) {
             errors.add("Initially there are " + initSelected + " selected rows in the tree while 1 (root) expected");
         }
-        
+
         tree.openContextMenu(-1).pushCollapseAll();
         if (tree.getRowCount() != initRowCount) {
             errors.add("There are " + tree.getRowCount() + " visible rows while expected 3");
         }
-        
+
         tree.openContextMenu(-1).pushExpandAll();
         if (tree.getRowCount() != 23) {
             errors.add("There are " + tree.getRowCount() + " visible rows while expected 23");
@@ -73,12 +73,12 @@ public class Config_TestTree2 extends Test {
         if (tree.getRowCount() != initRowCount) {
             errors.add("There are " + tree.getRowCount() + " visible rows while expected 3 (after collapsing)");
         }
-        
+
         tree.openContextMenu(-1).pushDeselectAll();
         if (stree.getSelection().length != 0) {
             errors.add("There are " + stree.getSelection().length + " selected rows while expected 0");
         }
-        
+
         tree.openContextMenu(-1).pushSelectAll();
         if (stree.getSelection().length != 1) {
             errors.add("There are " + stree.getSelection().length + " selected rows while expected 1");

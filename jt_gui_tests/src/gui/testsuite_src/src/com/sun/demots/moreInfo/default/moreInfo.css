@@ -27,7 +27,7 @@
 body {background-color: #FFFFFF;
       font-size: 12pt;
       font-family: SansSerif;}
-       
+
 p   {font-size: 12pt;
      font-family: SansSerif;
      font-weight: normal;
@@ -44,10 +44,10 @@ dl.menupath {margin-bottom: 0}
 dd.menupath {margin-left: 5}
 
 dd.hang {margin-left:15;
-	 margin-bottom:10}
+     margin-bottom:10}
 
 dd.hang_last {margin-left:15;
-	 margin-bottom:0}
+     margin-bottom:0}
 
 dd p {margin-left: 20;
     margin-top: 0;
@@ -64,20 +64,20 @@ ul li {margin-bottom: 10}
 ul li.tight {margin-bottom: 2}
 
 table {
-	border-color: Gray;
-	border-style: outset;
-	margin-top: 10;
-       	margin-bottom: 5;
-       	margin-left: 5;
-	margin-right: 5}
+    border-color: Gray;
+    border-style: outset;
+    margin-top: 10;
+           margin-bottom: 5;
+           margin-left: 5;
+    margin-right: 5}
 
 table.bullet {
-	border-color: Gray;
-	border-style: outset;
-	margin-top: 0;
-       	margin-bottom: 5;
-       	margin-left: 5;
-	margin-right: 5}
+    border-color: Gray;
+    border-style: outset;
+    margin-top: 0;
+           margin-bottom: 5;
+           margin-left: 5;
+    margin-right: 5}
 
 
 p.table {margin-bottom: 0}

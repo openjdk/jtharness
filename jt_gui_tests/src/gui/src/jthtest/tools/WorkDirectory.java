@@ -39,118 +39,118 @@ import org.netbeans.jemmy.operators.JTextFieldOperator;
  */
 public class WorkDirectory {
 
-	private String fullPath;
-	private final JTFrame mainFrame;
-	public static String TO_DELETE_TEMP_WD_NAME = "some_temp_wd_that_will_be_deleted";
+    private String fullPath;
+    private final JTFrame mainFrame;
+    public static String TO_DELETE_TEMP_WD_NAME = "some_temp_wd_that_will_be_deleted";
 
-	public enum WDStatus {
+    public enum WDStatus {
 
-		ALL_PASSED, SOME_FAILED, SOME_ERRORS, SOME_NOTRUN
-	}
+        ALL_PASSED, SOME_FAILED, SOME_ERRORS, SOME_NOTRUN
+    }
 
-	WorkDirectory(JTFrame mainFrame) {
-		this.mainFrame = mainFrame;
-	}
+    WorkDirectory(JTFrame mainFrame) {
+        this.mainFrame = mainFrame;
+    }
 
-	public WorkDirectoryBrowser openWorkDirectoryCreation() {
-		mainFrame.getFile_CreateWorkDirectoryMenu().pushNoBlock();
-		return WorkDirectoryBrowser.create();
-	}
+    public WorkDirectoryBrowser openWorkDirectoryCreation() {
+        mainFrame.getFile_CreateWorkDirectoryMenu().pushNoBlock();
+        return WorkDirectoryBrowser.create();
+    }
 
-	public WorkDirectoryBrowser openWorkDirectoryOpening() {
-		mainFrame.getFile_Open_WorkDirectoryMenu().pushNoBlock();
-		return WorkDirectoryBrowser.open();
-	}
+    public WorkDirectoryBrowser openWorkDirectoryOpening() {
+        mainFrame.getFile_Open_WorkDirectoryMenu().pushNoBlock();
+        return WorkDirectoryBrowser.open();
+    }
 
-	public File createWorkDirectory(String path, String name, boolean delete) {
-		fullPath = path + File.separator + name;
-		File file = new File(fullPath);
-		if (delete) {
-			Tools.deleteDirectory(file);
-		}
+    public File createWorkDirectory(String path, String name, boolean delete) {
+        fullPath = path + File.separator + name;
+        File file = new File(fullPath);
+        if (delete) {
+            Tools.deleteDirectory(file);
+        }
 
-		WorkDirectoryBrowser browser = openWorkDirectoryCreation();
-		browser.setPath(path);
-		browser.setName(name);
-		browser.commit();
+        WorkDirectoryBrowser browser = openWorkDirectoryCreation();
+        browser.setPath(path);
+        browser.setName(name);
+        browser.commit();
 
-		return file;
-	}
+        return file;
+    }
 
-	public File createWorkDirectory(String name, boolean delete) {
-		fullPath = Tools.LOCAL_PATH + File.separator + name;
-		File file = new File(fullPath);
-		if (delete) {
-			Tools.deleteDirectory(file);
-		}
+    public File createWorkDirectory(String name, boolean delete) {
+        fullPath = Tools.LOCAL_PATH + File.separator + name;
+        File file = new File(fullPath);
+        if (delete) {
+            Tools.deleteDirectory(file);
+        }
 
-		WorkDirectoryBrowser browser = openWorkDirectoryCreation();
-		browser.setFullPath(name);
-		browser.commit();
+        WorkDirectoryBrowser browser = openWorkDirectoryCreation();
+        browser.setFullPath(name);
+        browser.commit();
 
-		return file;
-	}
+        return file;
+    }
 
-	public File createWorkDirectoryInTemp() {
-		int attempts = 0;
-		File temp = new File(Tools.TEMP_PATH);
-		if (!temp.exists()) {
-			temp.mkdirs();
-		}
+    public File createWorkDirectoryInTemp() {
+        int attempts = 0;
+        File temp = new File(Tools.TEMP_PATH);
+        if (!temp.exists()) {
+            temp.mkdirs();
+        }
 
-		WorkDirectoryBrowser browser = openWorkDirectoryCreation();
+        WorkDirectoryBrowser browser = openWorkDirectoryCreation();
 
-		String wdName = Tools.TEMP_WD_NAME;
-		File file = null;
-		while (attempts < 10) {
-			String path = Tools.TEMP_PATH + wdName;
-			file = new File(path);
-			if (!file.exists()) {
-				break;
-			}
-			Tools.deleteDirectory(file);
-			file = new File(path);
-			if (!file.exists()) {
-				break;
-			}
-			wdName = Tools.TEMP_WD_NAME + (int) (Math.random() * 10000);
-			attempts++;
-		}
-		if (attempts >= 10) {
-			throw new JemmyException("error");
-		}
+        String wdName = Tools.TEMP_WD_NAME;
+        File file = null;
+        while (attempts < 10) {
+            String path = Tools.TEMP_PATH + wdName;
+            file = new File(path);
+            if (!file.exists()) {
+                break;
+            }
+            Tools.deleteDirectory(file);
+            file = new File(path);
+            if (!file.exists()) {
+                break;
+            }
+            wdName = Tools.TEMP_WD_NAME + (int) (Math.random() * 10000);
+            attempts++;
+        }
+        if (attempts >= 10) {
+            throw new JemmyException("error");
+        }
 
-		browser.setPath(Tools.TEMP_PATH, wdName);
-//		browser.setName(wdName);
-		browser.commit();
+        browser.setPath(Tools.TEMP_PATH, wdName);
+//        browser.setName(wdName);
+        browser.commit();
 
-		return file;
-	}
+        return file;
+    }
 
-	public File openWorkDirectory(String path, String name) {
-		fullPath = path + File.separator + name;
-		File file = new File(fullPath);
+    public File openWorkDirectory(String path, String name) {
+        fullPath = path + File.separator + name;
+        File file = new File(fullPath);
 
-		WorkDirectoryBrowser browser = openWorkDirectoryOpening();
-		browser.setPath(path);
-		browser.setName(name);
-		browser.commit();
+        WorkDirectoryBrowser browser = openWorkDirectoryOpening();
+        browser.setPath(path);
+        browser.setName(name);
+        browser.commit();
 
-		return file;
-	}
+        return file;
+    }
 
-	public File openWorkDirectory(File wd) {
-		fullPath = wd.getAbsolutePath();
-		File file = new File(fullPath);
+    public File openWorkDirectory(File wd) {
+        fullPath = wd.getAbsolutePath();
+        File file = new File(fullPath);
 
-		WorkDirectoryBrowser browser = openWorkDirectoryOpening();
-		browser.setFullPath(fullPath);
-		browser.commit();
+        WorkDirectoryBrowser browser = openWorkDirectoryOpening();
+        browser.setFullPath(fullPath);
+        browser.commit();
 
-		return file;
-	}
+        return file;
+    }
 
-	public void waitForStatus(WDStatus status) {
-		new JTextFieldOperator(mainFrame.getJFrameOperator(), Tools.getExecResource("br.worst." + status.ordinal()));
-	}
+    public void waitForStatus(WDStatus status) {
+        new JTextFieldOperator(mainFrame.getJFrameOperator(), Tools.getExecResource("br.worst." + status.ordinal()));
+    }
 }

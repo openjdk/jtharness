@@ -39,44 +39,44 @@ import jthtest.tools.JTFrame;
 public class Config_LoadEdit01 extends Test {
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = new JTFrame(true);
+    JTFrame mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(Tools.CONFIG_NAME, true);
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(Tools.CONFIG_NAME, true);
 
-	ConfigDialog configDialog = configuration.openByKey();
-	configDialog.openBrowser(true);
+    ConfigDialog configDialog = configuration.openByKey();
+    configDialog.openBrowser(true);
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	closeQS(mainFrame);
+//    closeQS(mainFrame);
 //
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
 //
-//	Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
-//	openConfigDialogByKey(mainFrame);
-//	findConfigEditor(mainFrame);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
+//    openConfigDialogByKey(mainFrame);
+//    findConfigEditor(mainFrame);
 //
-//	openLoadConfigDialogByMenu(mainFrame);
+//    openLoadConfigDialogByMenu(mainFrame);
     }
 
     @Override
     public String getDescription() {
-	/*
-	 * Start JavaTest with the -NewDesktop option. Create an new workdirectory.
-	 * Bring up Load configuration under Configure menu. Bring up Edit
-	 * configuration by doing Ctrl-E. Bring Load under file menu. A file chooser
-	 * will be displayed to select a jti file to be used. Click on Cancel button
-	 * to dismiss the dialog box. A file chooser should be displayed for loading
-	 * an existing jti file.
-	 */
-	return "Start JavaTest with the -NewDesktop option. Create an new workdirectory. Bring up Load configuration under Configure menu. Bring up Edit configuration by doing Ctrl-E. Bring Load under file menu. A file chooser will be displayed to select a jti file to be used. Click on Cancel button to dismiss the dialog box. A file chooser should be displayed for loading an existing jti file.";
+    /*
+     * Start JavaTest with the -NewDesktop option. Create an new workdirectory.
+     * Bring up Load configuration under Configure menu. Bring up Edit
+     * configuration by doing Ctrl-E. Bring Load under file menu. A file chooser
+     * will be displayed to select a jti file to be used. Click on Cancel button
+     * to dismiss the dialog box. A file chooser should be displayed for loading
+     * an existing jti file.
+     */
+    return "Start JavaTest with the -NewDesktop option. Create an new workdirectory. Bring up Load configuration under Configure menu. Bring up Edit configuration by doing Ctrl-E. Bring Load under file menu. A file chooser will be displayed to select a jti file to be used. Click on Cancel button to dismiss the dialog box. A file chooser should be displayed for loading an existing jti file.";
     }
 }

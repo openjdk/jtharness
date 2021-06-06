@@ -24,10 +24,10 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-/* Start JavaTest with an existing workdirectory. Bring up Create Report from 
- * the Report menu. Enter a /foo/bar/report path for report directory name. 
- * Click on Create Reports button. An error message should be displayed. Verify 
- * that an error message is displayed indicating cannot write reports: 
+/* Start JavaTest with an existing workdirectory. Bring up Create Report from
+ * the Report menu. Enter a /foo/bar/report path for report directory name.
+ * Click on Create Reports button. An error message should be displayed. Verify
+ * that an error message is displayed indicating cannot write reports:
  * /foo/bar/report/report.html(No such file or directory)
  */
 package jthtest.ReportCreate;
@@ -43,29 +43,29 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate5 extends Test {
 
-	public ReportCreate5() {
-		knownFail = true; // fails on Windows platform
-	}
+    public ReportCreate5() {
+        knownFail = true; // fails on Windows platform
+    }
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        deleteUserData();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		String path = "/broken/path!@#$%^&";
+        String path = "/broken/path!@#$%^&";
 
-		setPath(rep, path);
+        setPath(rep, path);
 
-		pressCreate(rep);
+        pressCreate(rep);
 
-		new JDialogOperator(WINDOWNAME + " Harness: Error");
-	}
+        new JDialogOperator(WINDOWNAME + " Harness: Error");
+    }
 
-	@Override
-	public String getDescription() {
-		return "This test case verifies that Create Report button under Report menu will produce an error message for if a non-existing path is specified for a report directory name. This test fails on Windows platfom.";
-	}
+    @Override
+    public String getDescription() {
+        return "This test case verifies that Create Report button under Report menu will produce an error message for if a non-existing path is specified for a report directory name. This test fails on Windows platfom.";
+    }
 }

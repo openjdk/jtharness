@@ -40,52 +40,52 @@ import com.sun.demoapi.BigNum;
  * @sources FailingTest2.java
  * @executeClass com.sun.demots.tests.TestCasesTests.FailingTest2
  */
-public class FailingTest2 extends MultiTest 
+public class FailingTest2 extends MultiTest
 {
     /**
      * Standard command-line entry point.
      * @param args command line args (ignored)
      */
     public static void main(String[] args) {
-	PrintWriter err = new PrintWriter(System.err, true);
-	FailingTest2 t = new FailingTest2();
-	Status s = t.run(args, null, err);
-	s.exit();
+    PrintWriter err = new PrintWriter(System.err, true);
+    FailingTest2 t = new FailingTest2();
+    Status s = t.run(args, null, err);
+    s.exit();
     }
 
     public Status PassingTest01() {
         System.err.println("PassingTest01: Passed.");
-	return Status.passed("passed");
+    return Status.passed("passed");
     }
 
     public Status PassingTest02() {
         System.err.println("PassingTest02: Passed.");
-	return Status.passed("passed");
+    return Status.passed("passed");
     }
 
     public Status FailingTest01() {
         System.err.println("FailingTest01: Failed.");
-	return Status.failed("this testcase is always failing");
+    return Status.failed("this testcase is always failing");
     }
 
     public Status FailingTest02() {
         System.err.println("FailingTest02: Failed.");
-	return Status.failed("this testcase is always failing");
+    return Status.failed("this testcase is always failing");
     }
 
     boolean test(String s1, String s2, String expectedResult) {
-	BigNum bn1 = new BigNum(s1);
-	BigNum bn2 = new BigNum(s2);
-	BigNum sum = bn1.add(bn2);
-	if (sum.toString().equals(expectedResult))
-	    return true;
-	else {
-	    err.println("s1: " + s1 
-			+ " s2: " + s2 
-			+ " expected result: " + expectedResult
-			+ " actual result: " + sum);
-	    return false;
-	}
+    BigNum bn1 = new BigNum(s1);
+    BigNum bn2 = new BigNum(s2);
+    BigNum sum = bn1.add(bn2);
+    if (sum.toString().equals(expectedResult))
+        return true;
+    else {
+        err.println("s1: " + s1
+            + " s2: " + s2
+            + " expected result: " + expectedResult
+            + " actual result: " + sum);
+        return false;
+    }
     }
 
     /**

@@ -34,5 +34,5 @@ import jthtest.ConfigTools;
  * @author linfar
  */
 public class Config_Load extends ConfigTools {
-    
+
 }

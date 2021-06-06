@@ -37,41 +37,41 @@ import jthtest.tools.TestTree;
  */
 public class TestTree06 extends Test {
 
-	@Override
-	public void testImpl() throws Exception {
-		mainFrame = new JTFrame(true);
+    @Override
+    public void testImpl() throws Exception {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		mainFrame.getConfiguration().load(Tools.CONFIG_NAME, true);
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        mainFrame.getConfiguration().load(Tools.CONFIG_NAME, true);
 
-		TestTree tree = mainFrame.getTestTree();
+        TestTree tree = mainFrame.getTestTree();
 
-		tree.click(2);
-		tree.click(5);
-		tree.click(4);
-		tree.click(3);
-		tree.click(1);
+        tree.click(2);
+        tree.click(5);
+        tree.click(4);
+        tree.click(3);
+        tree.click(1);
 
-		if (tree.getVisibleRowCount() != 23) {
-			errors.add("Tree contains " + tree.getVisibleRowCount() + " rows when 23 expected (all paths are expanded)");
-		}
+        if (tree.getVisibleRowCount() != 23) {
+            errors.add("Tree contains " + tree.getVisibleRowCount() + " rows when 23 expected (all paths are expanded)");
+        }
 
-		tree.click(8);
+        tree.click(8);
 
-		if (tree.getVisibleRowCount() != 9) {
-			errors.add("Tree contains " + tree.getVisibleRowCount() + " rows when 9 expected");
-		}
+        if (tree.getVisibleRowCount() != 9) {
+            errors.add("Tree contains " + tree.getVisibleRowCount() + " rows when 9 expected");
+        }
 
-		tree.click(8);
+        tree.click(8);
 
-		if (tree.getVisibleRowCount() != 23) {
-			errors.add("Tree contains " + tree.getVisibleRowCount() + " rows when 23 expected (all paths are expanded)");
-		}
-	}
+        if (tree.getVisibleRowCount() != 23) {
+            errors.add("Tree contains " + tree.getVisibleRowCount() + " rows when 23 expected (all paths are expanded)");
+        }
+    }
 
-	@Override
-	public String getDescription() {
-		return "This test checks that collapsing and expanding again nesting test folder will not collapse nested test folders";
-	}
+    @Override
+    public String getDescription() {
+        return "This test checks that collapsing and expanding again nesting test folder will not collapse nested test folders";
+    }
 }

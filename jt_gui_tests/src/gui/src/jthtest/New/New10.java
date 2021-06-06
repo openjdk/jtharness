@@ -25,12 +25,12 @@
  * questions.
  */
 /*
- * Start JavaTest with -newdesktop. The JavaTest Quick Start wizard will be displayed. 
- * Click on Start a new test run. Click on Next button. Specify an existing testsuite. 
- * Click on Next button. Click on Use an configuration Template. Specify an exiting 
- * template file and click on Next button. Click on Next button. Specify a new 
- * workdirectory and click on Next button. Uncheck the Start the Configuration editor, 
- * check the Start test run and click on Finish button. The tests will be run in 
+ * Start JavaTest with -newdesktop. The JavaTest Quick Start wizard will be displayed.
+ * Click on Start a new test run. Click on Next button. Specify an existing testsuite.
+ * Click on Next button. Click on Use an configuration Template. Specify an exiting
+ * template file and click on Next button. Click on Next button. Specify a new
+ * workdirectory and click on Next button. Uncheck the Start the Configuration editor,
+ * check the Start test run and click on Finish button. The tests will be run in
  * JavaTest. Verify the correct numbers of pass/fail/not run in the right panel
  */
 package jthtest.New;
@@ -108,50 +108,50 @@ public class New10 extends Test {
 
 //        startTestRun(quickStartDialog);
 //
-//	next(quickStartDialog);
+//    next(quickStartDialog);
 //
-//	pickDefaultTestsuite(quickStartDialog);
+//    pickDefaultTestsuite(quickStartDialog);
 //
-//	next(quickStartDialog);
+//    next(quickStartDialog);
 //
-//	useConfigTemplate(quickStartDialog);
+//    useConfigTemplate(quickStartDialog);
 //
-//	next(quickStartDialog);
+//    next(quickStartDialog);
 //
-//	pickTempWorkDir(quickStartDialog);
+//    pickTempWorkDir(quickStartDialog);
 //
-//	next(quickStartDialog);
+//    next(quickStartDialog);
 //
-//	finish(quickStartDialog, false, true);
+//    finish(quickStartDialog, false, true);
 //
-//	JDialogOperator create = new JDialogOperator("Configuration Required");
-//	new JButtonOperator(create, "OK").push();
+//    JDialogOperator create = new JDialogOperator("Configuration Required");
+//    new JButtonOperator(create, "OK").push();
 //
-//	JDialogOperator config = ConfigTools.findConfigEditor(mainFrame);
-//	ConfigTools.pushLastConfigEditor(config);
-//	ConfigTools.pushDoneConfigEditor(config);
-//	JDialogOperator save = new JDialogOperator("Save Configuration File");
-//	JTextFieldOperator path =
-//		new JTextFieldOperator(Tools.<JTextField>getComponentPar(save, new String[]{"File Name:", "Folder Name:", "File name:", "Folder name:"}));
-//	File f = new File(Tools.LOCAL_PATH + File.separator + "temp_configuration_file_that_will_be_deleted.jti");
-//	if (f.exists()) {
-//	    if (f.isDirectory()) {
-//		deleteDirectory(f);
-//	    } else {
-//		f.delete();
-//	    }
-//	}
+//    JDialogOperator config = ConfigTools.findConfigEditor(mainFrame);
+//    ConfigTools.pushLastConfigEditor(config);
+//    ConfigTools.pushDoneConfigEditor(config);
+//    JDialogOperator save = new JDialogOperator("Save Configuration File");
+//    JTextFieldOperator path =
+//        new JTextFieldOperator(Tools.<JTextField>getComponentPar(save, new String[]{"File Name:", "Folder Name:", "File name:", "Folder name:"}));
+//    File f = new File(Tools.LOCAL_PATH + File.separator + "temp_configuration_file_that_will_be_deleted.jti");
+//    if (f.exists()) {
+//        if (f.isDirectory()) {
+//        deleteDirectory(f);
+//        } else {
+//        f.delete();
+//        }
+//    }
 //
-//	path.enterText(f.getAbsolutePath());
+//    path.enterText(f.getAbsolutePath());
 //
-//	try {
-//	    new JTextFieldOperator(mainFrame, "Finished test run.");
-//	    pause(2);
+//    try {
+//        new JTextFieldOperator(mainFrame, "Finished test run.");
+//        pause(2);
 //
-//	    checkCounters(mainFrame, new int[]{16, 1, 0, 0, 17, 0, 17});
-//	} finally {
-//	    f.deleteOnExit();
-//	}
+//        checkCounters(mainFrame, new int[]{16, 1, 0, 0, 17, 0, 17});
+//    } finally {
+//        f.deleteOnExit();
+//    }
     }
 
     @Override

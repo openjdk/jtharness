@@ -32,8 +32,8 @@ FILE=ERRORS.txt
 
 rm $FILE 2> /dev/null
 for i in $(grep -l ERROR TEST-*.txt); do
-	echo $i | sed 's/TEST-//; s/\.txt$//' >> $FILE
-	echo $LINE >> $FILE
-	sed -n '/ERROR/,$p' < $i >> $FILE
-	echo $LINE >> $FILE
+    echo $i | sed 's/TEST-//; s/\.txt$//' >> $FILE
+    echo $LINE >> $FILE
+    sed -n '/ERROR/,$p' < $i >> $FILE
+    echo $LINE >> $FILE
 done

@@ -25,14 +25,14 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. 
- * Load an existing JTI file. Bring up configuration editor by doing Ctrl-E. 
- * Select the Enable Bookmarks from the Bookmarks menu. Select the first 
- * question from the history list. Mark the question by selecting Mark Current 
- * Question from the Marker menu. Select the second question from the history 
- * list. Mark the question by selecting Mark Current Question from the Marker 
- * menu. Select Show Only Marked Question from the Bookmarks menu. Verify that 
- * all the selected question will displayed. 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory.
+ * Load an existing JTI file. Bring up configuration editor by doing Ctrl-E.
+ * Select the Enable Bookmarks from the Bookmarks menu. Select the first
+ * question from the history list. Mark the question by selecting Mark Current
+ * Question from the Marker menu. Select the second question from the history
+ * list. Mark the question by selecting Mark Current Question from the Marker
+ * menu. Select Show Only Marked Question from the Bookmarks menu. Verify that
+ * all the selected question will displayed.
  */
 
 package jthtest.Markers;
@@ -53,42 +53,42 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 public class Markers6 extends Test {
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         mainFrame = new JTFrame(true);
-        
+
         mainFrame.openDefaultTestSuite();
         addUsedFile(mainFrame.createWorkDirectoryInTemp());
         Configuration configuration = mainFrame.getConfiguration();
         configuration.load(CONFIG_NAME, true);
         ConfigDialog cd = configuration.openByKey();
-        
+
         // test body
         cd.getBookmarks_EnableBookmarks().push();
         int[] indexes = new int[] {1, 2};
         cd.setBookmarkedByMenu(indexes);
         String names[] = cd.getElementsNames(indexes);
         cd.getBookmarks_ShowOnlyBookmarkedMenu().push();
-        
+
         cd.checkVisibility(names);
-        
-        //	startJavatestNewDesktop();
+
+        //    startJavatestNewDesktop();
         //
-        //	JFrameOperator mainFrame = findMainFrame();
+        //    JFrameOperator mainFrame = findMainFrame();
         //
-        //	closeQS(mainFrame);
-        //	openTestSuite(mainFrame);
-        //	createWorkDirInTemp(mainFrame);
-        //	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-        //	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+        //    closeQS(mainFrame);
+        //    openTestSuite(mainFrame);
+        //    createWorkDirInTemp(mainFrame);
+        //    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+        //    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
         //
-        //	openConfigDialogByKey(mainFrame);
-        //	JDialogOperator config = findConfigEditor(mainFrame);
+        //    openConfigDialogByKey(mainFrame);
+        //    JDialogOperator config = findConfigEditor(mainFrame);
         //
-        //	pushEnableBookmarks(config);
-        //	int[] indexes = new int[] {1, 2};
-        //	setBookmarkedByMenu(config,indexes);
-        //	String names[] = getElementsNames(config, indexes);
-        //	pushShowOnlyBookmarked(config);
+        //    pushEnableBookmarks(config);
+        //    int[] indexes = new int[] {1, 2};
+        //    setBookmarkedByMenu(config,indexes);
+        //    String names[] = getElementsNames(config, indexes);
+        //    pushShowOnlyBookmarked(config);
         //
-        //	checkVisibility(config, names);
+        //    checkVisibility(config, names);
     }
 
     @Override

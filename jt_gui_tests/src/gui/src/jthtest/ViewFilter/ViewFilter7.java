@@ -40,19 +40,19 @@ import org.netbeans.jemmy.operators.JTreeOperator;
  * @author naryl
  */
 public class ViewFilter7 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter7");
-	}
-	
-	@Test
-	public void testViewFilter7() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		startWithDefaultWorkdir();
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter7");
+    }
 
-		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+    @Test
+    public void testViewFilter7() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		selectFilter(filterEditor, 3);
+        startWithDefaultWorkdir();
+
+        JDialogOperator filterEditor = openFilterEditor(mainFrame);
+
+        selectFilter(filterEditor, 3);
 
                 JTreeOperator tree = new JTreeOperator(filterEditor);
                 TreePath path = tree.getPathForRow(0);
@@ -63,12 +63,12 @@ public class ViewFilter7 extends ViewFilter {
                 r = tree.getRowBounds(1);
                 tree.clickMouse(r.x+9, r.y+9, 1);
 
-		ok(filterEditor);
+        ok(filterEditor);
 
-		selectFilter(mainFrame, "Custom");
+        selectFilter(mainFrame, "Custom");
 
-		checkAllTestLists(mainFrame, null, null, null, bignumTests, listsTests);
-		
-	}
+        checkAllTestLists(mainFrame, null, null, null, bignumTests, listsTests);
+
+    }
 
 }

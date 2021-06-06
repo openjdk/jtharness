@@ -47,10 +47,10 @@ public class LongConstrTest implements Test
      * @param args command line args (ignored)
      */
     public static void main(String[] args) {
-	PrintWriter err = new PrintWriter(System.err, true);
-	Test t = new LongConstrTest();
-	Status s = t.run(args, null, err);
-	s.exit();
+    PrintWriter err = new PrintWriter(System.err, true);
+    Test t = new LongConstrTest();
+    Status s = t.run(args, null, err);
+    s.exit();
     }
 
     /**
@@ -62,24 +62,24 @@ public class LongConstrTest implements Test
      * @return a Status object indicating if the test passed or failed
      */
     public Status run(String[] args, PrintWriter out, PrintWriter err) {
-	// save error stream to which to write error messages
-	this.err = err;
+    // save error stream to which to write error messages
+    this.err = err;
 
-	boolean ok = true;
+    boolean ok = true;
 
-	// create some BigNums, convert them to strings and verify the results
-	ok = ok & test(0);
-	ok = ok & test(123);
-	ok = ok & test(123456);
-	ok = ok & test(123456789);
-	ok = ok & test(123456789123456789L);
+    // create some BigNums, convert them to strings and verify the results
+    ok = ok & test(0);
+    ok = ok & test(123);
+    ok = ok & test(123456);
+    ok = ok & test(123456789);
+    ok = ok & test(123456789123456789L);
 
-	ok = ok & test(-123);
-	ok = ok & test(-123456);
-	ok = ok & test(-123456789);
-	ok = ok & test(-123456789123456789L);
+    ok = ok & test(-123);
+    ok = ok & test(-123456);
+    ok = ok & test(-123456789);
+    ok = ok & test(-123456789123456789L);
 
-	return (ok ? Status.passed("OK") : Status.failed("some test cases failed"));
+    return (ok ? Status.passed("OK") : Status.failed("some test cases failed"));
     }
 
     /**
@@ -92,14 +92,14 @@ public class LongConstrTest implements Test
      * @return true if the test succeeded, and false otherwise.
      */
     private boolean test(long n) {
-	BigNum bn = new BigNum(n);
-	String bs = bn.toString();
-	if (bs.equals(String.valueOf(n)))
-	    return true; 
-	else {
-	    err.println("test failed: expected: " + n + "; found: " + bs);
-	    return false;
-	}
+    BigNum bn = new BigNum(n);
+    String bs = bn.toString();
+    if (bs.equals(String.valueOf(n)))
+        return true;
+    else {
+        err.println("test failed: expected: " + n + "; found: " + bs);
+        return false;
+    }
     }
 
     /**

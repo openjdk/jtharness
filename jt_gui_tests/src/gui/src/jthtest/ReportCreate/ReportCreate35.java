@@ -42,36 +42,36 @@ import org.netbeans.jemmy.util.NameComponentChooser;
  */
 public class ReportCreate35 extends Test {
 
-	public void testImpl() throws Exception {
+    public void testImpl() throws Exception {
                 Tools.deleteUserData();
                 mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
 
-//		deleteUserData();
-//		startJavaTestWithDefaultWorkDirectory();
+//        deleteUserData();
+//        startJavaTestWithDefaultWorkDirectory();
 //
-//		JFrameOperator mainFrame = findMainFrame();
+//        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame.getJFrameOperator());
+        JDialogOperator rep = openReportCreation(mainFrame.getJFrameOperator());
 
-		setXmlChecked(rep, false);
-		setPlainChecked(rep, false);
-		HtmlReport htmlReport = new HtmlReport(rep);
-		htmlReport.setFilesAll(false);
-		htmlReport.setFilesPutInIndex(true);
-		htmlReport.setOptionsAll(true);
+        setXmlChecked(rep, false);
+        setPlainChecked(rep, false);
+        HtmlReport htmlReport = new HtmlReport(rep);
+        htmlReport.setFilesAll(false);
+        htmlReport.setFilesPutInIndex(true);
+        htmlReport.setOptionsAll(true);
 
-		chooseFilter(rep, FiltersType.CUSTOM);
-		new JButtonOperator(rep, new NameComponentChooser("fconfig.config")).push();
-		JDialogOperator filter = new JDialogOperator(mainFrame.getJFrameOperator(), "Filter Editor");
-		new JButtonOperator(filter, "Cancel").push();
+        chooseFilter(rep, FiltersType.CUSTOM);
+        new JButtonOperator(rep, new NameComponentChooser("fconfig.config")).push();
+        JDialogOperator filter = new JDialogOperator(mainFrame.getJFrameOperator(), "Filter Editor");
+        new JButtonOperator(filter, "Cancel").push();
 
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_PLAIN + File.separator;
-		deleteDirectory(path);
-		setPath(rep, path);
-		pressCreate(rep);
-		addUsedFile(path);
-		pressYes(findShowReportDialog());
+        final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_PLAIN + File.separator;
+        deleteDirectory(path);
+        setPath(rep, path);
+        pressCreate(rep);
+        addUsedFile(path);
+        pressYes(findShowReportDialog());
 
-		new HtmlReportChecker(path, htmlReport).commitMainCheck();
-	}
+        new HtmlReportChecker(path, htmlReport).commitMainCheck();
+    }
 }

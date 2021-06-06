@@ -43,41 +43,41 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate31 extends Test {
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
-		deleteDirectory(path);
-		createFakeRepDir(path);
-		addUsedFile(path);
+    public void testImpl() throws Exception {
+        deleteUserData();
+        final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
+        deleteDirectory(path);
+        createFakeRepDir(path);
+        addUsedFile(path);
 
-		startJavaTestWithDefaultWorkDirectory();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		setXmlChecked(rep, false);
-		setPlainChecked(rep, false);
-		HtmlReport htmlReport = new HtmlReport(rep, false);
+        setXmlChecked(rep, false);
+        setPlainChecked(rep, false);
+        HtmlReport htmlReport = new HtmlReport(rep, false);
 
-		setPath(rep, path);
-		pressCreate(rep);
-		new JButtonOperator(findShowReportDialog(), "No").push();
+        setPath(rep, path);
+        pressCreate(rep);
+        new JButtonOperator(findShowReportDialog(), "No").push();
 
-		rep = openReportCreation(mainFrame);
+        rep = openReportCreation(mainFrame);
 
-		setXmlChecked(rep, false);
-		setPlainChecked(rep, false);
-		htmlReport = new HtmlReport(rep);
-		htmlReport.setExtraBackUp(false);
+        setXmlChecked(rep, false);
+        setPlainChecked(rep, false);
+        htmlReport = new HtmlReport(rep);
+        htmlReport.setExtraBackUp(false);
 
-		new JButtonOperator(rep, "Cancel").push();
+        new JButtonOperator(rep, "Cancel").push();
 
-		rep = openReportCreation(mainFrame);
-		htmlReport = new HtmlReport(rep, true);
+        rep = openReportCreation(mainFrame);
+        htmlReport = new HtmlReport(rep, true);
 
-		if (!htmlReport.isEBackUp()) {
-			throw new JemmyException("configuration was saved");
-		}
-	}
+        if (!htmlReport.isEBackUp()) {
+            throw new JemmyException("configuration was saved");
+        }
+    }
 }

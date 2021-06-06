@@ -45,26 +45,26 @@ import static jthtest.workdir.Workdir.*;
 public class CreateWorkdir15 extends Test {
 
     public CreateWorkdir15() {
-	depricated = true;
+    depricated = true;
     }
 
     public void testImpl() throws Exception {
-	startJavatestNewDesktop();
+    startJavatestNewDesktop();
 
-	JFrameOperator mainFrame = findMainFrame();
-	openTestSuite(mainFrame);
+    JFrameOperator mainFrame = findMainFrame();
+    openTestSuite(mainFrame);
 
-	JDialogOperator wdCreate = openOpenWorkDirectoryDialog(mainFrame);
+    JDialogOperator wdCreate = openOpenWorkDirectoryDialog(mainFrame);
 
-	JComboBoxOperator cbOperator = new JComboBoxOperator(wdCreate);
+    JComboBoxOperator cbOperator = new JComboBoxOperator(wdCreate);
 
-	if (!((new JComboBoxOperator(wdCreate).getSelectedItem() + File.separator).equals(LOCAL_PATH))) {
-	    throw new JemmyException("Default work directory doesn't match directory from which JavaTest was opened");
-	}
+    if (!((new JComboBoxOperator(wdCreate).getSelectedItem() + File.separator).equals(LOCAL_PATH))) {
+        throw new JemmyException("Default work directory doesn't match directory from which JavaTest was opened");
+    }
     }
 
     @Override
     public String getDescription() {
-	return "Test is depricated - default work directory should not match directory from which JavaTest was opened";
+    return "Test is depricated - default work directory should not match directory from which JavaTest was opened";
     }
 }

@@ -25,12 +25,12 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select couple of questions from 
- * the history list. Bring up the popup menu and mark the all the questions. 
- * Bring up the Clear Answers to Marked Questions from the Bookmarks menu. 
- * Verify that all the selected questions should be have empty answers. 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
+ * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+ * Enable Bookmarks from the Bookmarks menu. Select couple of questions from
+ * the history list. Bring up the popup menu and mark the all the questions.
+ * Bring up the Clear Answers to Marked Questions from the Bookmarks menu.
+ * Verify that all the selected questions should be have empty answers.
  */
 package jthtest.Markers;
 
@@ -82,26 +82,26 @@ public class Markers21 extends Test {
         checkValues(config.getConfigDialog(), indexes);
 
 
-//	startJavatestNewDesktop();
-//	
-//	JFrameOperator mainFrame = findMainFrame();
-//	
-//	closeQS(mainFrame);
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-//	
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
-//	int[] indexes = new int[] {11, 12};
-//	
-//	pushEnableBookmarks(config);
-//	
-//	setSomeValues(config, indexes);
-//	setBookmarkedByPopup(config, indexes);
-//	pushClearAllBookmarkedAnswers(config);
-//	checkValues(config, indexes);
+//    startJavatestNewDesktop();
+//
+//    JFrameOperator mainFrame = findMainFrame();
+//
+//    closeQS(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+//
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//    int[] indexes = new int[] {11, 12};
+//
+//    pushEnableBookmarks(config);
+//
+//    setSomeValues(config, indexes);
+//    setBookmarkedByPopup(config, indexes);
+//    pushClearAllBookmarkedAnswers(config);
+//    checkValues(config, indexes);
     }
 
     private void checkValues(JDialogOperator config, int[] indexes) {

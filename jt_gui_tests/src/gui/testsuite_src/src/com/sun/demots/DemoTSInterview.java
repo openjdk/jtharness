@@ -45,50 +45,50 @@ import com.sun.javatest.TestEnvironment;
 import com.sun.javatest.interview.BasicInterviewParameters;
 
 public class DemoTSInterview
-    extends BasicInterviewParameters 
+    extends BasicInterviewParameters
     implements EnvParameters
 {
     public DemoTSInterview() throws Fault {
-	super("demoTS");
-	setHelpSet("moreInfo/demots");
-	setResourceBundle("i18n");
+    super("demoTS");
+    setHelpSet("moreInfo/demots");
+    setResourceBundle("i18n");
 
-	String m = System.getProperty("interview.mode", "certify");
-	if (m.equals("certify"))
-	    mode = CERTIFY;
-	else if (m.equals("developer"))
-	    mode = DEVELOPER;
-	else if (m.equals("precompile"))
-	    mode = PRECOMPILE;
+    String m = System.getProperty("interview.mode", "certify");
+    if (m.equals("certify"))
+        mode = CERTIFY;
+    else if (m.equals("developer"))
+        mode = DEVELOPER;
+    else if (m.equals("precompile"))
+        mode = PRECOMPILE;
     }
 
     public TestEnvironment getEnv() {
-	HashMap envProps = new HashMap();
-	export(envProps);
-	try {
-	    String name = qName.getValue();
-	    if (name == null || name.length() == 0)
-		name = "unknown";
-	    return new TestEnvironment(name, envProps, "configuration interview");
-	}
-	catch (TestEnvironment.Fault e) {
-	    throw new Error("should not happen");
-	}
+    HashMap envProps = new HashMap();
+    export(envProps);
+    try {
+        String name = qName.getValue();
+        if (name == null || name.length() == 0)
+        name = "unknown";
+        return new TestEnvironment(name, envProps, "configuration interview");
+    }
+    catch (TestEnvironment.Fault e) {
+        throw new Error("should not happen");
+    }
     }
 
     public EnvParameters getEnvParameters() {
-	return this;
+    return this;
     }
 
     public Question getEnvFirstQuestion() {
-	switch (mode) {
-	case PRECOMPILE:
-	    return qPrecompile;
-	case DEVELOPER:
-	    return qDeveloper;
-	default:
-	    return qName;
-	}
+    switch (mode) {
+    case PRECOMPILE:
+        return qPrecompile;
+    case DEVELOPER:
+        return qDeveloper;
+    default:
+        return qName;
+    }
     }
 
     //----------------------------------------------------------------------
@@ -96,60 +96,60 @@ public class DemoTSInterview
     // Precompile mode
 
     private Question qPrecompile = new NullQuestion(this, "precompile") {
-	    public Question getNext() {
-		return qEnvEnd;
-	    }
+        public Question getNext() {
+        return qEnvEnd;
+        }
 
-	    public void export(Map data) {
-		data.put("script.mode", "precompile");
-		data.put("command.compile.java", System.getProperty("command.compile.java"));
-	    }
-	};
+        public void export(Map data) {
+        data.put("script.mode", "precompile");
+        data.put("command.compile.java", System.getProperty("command.compile.java"));
+        }
+    };
 
     //----------------------------------------------------------------------
     //
     // Developer mode
 
     private Question qDeveloper = new NullQuestion(this, "developer") {
-	    public Question getNext() {
-		return qName;
-	    }
+        public Question getNext() {
+        return qName;
+        }
 
-	    public void export(Map data) {
-		data.put("script.mode", "developer");
-		data.put("command.compile.java", System.getProperty("command.compile.java"));
-	    }
-	};
+        public void export(Map data) {
+        data.put("script.mode", "developer");
+        data.put("command.compile.java", System.getProperty("command.compile.java"));
+        }
+    };
 
     //----------------------------------------------------------------------
     //
     // Give a name for this configuration
 
     private StringQuestion qName = new StringQuestion(this, "name") {
-	    public Question getNext() {
-		if (value == null || value.length() == 0)
-		    return null;
-		else
-		    return qDesc;
-	    }
-	};
+        public Question getNext() {
+        if (value == null || value.length() == 0)
+            return null;
+        else
+            return qDesc;
+        }
+    };
 
     //----------------------------------------------------------------------
     //
     // Give a description for this configuration
 
     private Question qDesc = new StringQuestion(this, "desc") {
-	    public Question getNext() {
-		if (value == null || value.length() == 0)
-		    return null;
-		else
-		    return qCmdType;
-	    }
+        public Question getNext() {
+        if (value == null || value.length() == 0)
+            return null;
+        else
+            return qCmdType;
+        }
 
-	    public void export(Map data) {
-		data.put("description", String.valueOf(value));
-	    }
-	};
+        public void export(Map data) {
+        data.put("description", String.valueOf(value));
+        }
+    };
 
     //----------------------------------------------------------------------
     //
@@ -161,74 +161,74 @@ public class DemoTSInterview
     private static final String OTHER_VM = "otherVM";
 
     private Question qCmdType = new ChoiceQuestion(this, "cmdType") {
-	    {
-		setChoices(new String[] { null, OTHER_VM, AGENT }, true);
-	    }
+        {
+        setChoices(new String[] { null, OTHER_VM, AGENT }, true);
+        }
 
-	    public Question getNext() {
-		if (value == null || value.length() == 0)
-		    return null;
-		else if (value.equals(OTHER_VM))
-		    return qJVM;
-		else
-		    return qTestVerboseLevel;
-	    }
+        public Question getNext() {
+        if (value == null || value.length() == 0)
+            return null;
+        else if (value.equals(OTHER_VM))
+            return qJVM;
+        else
+            return qTestVerboseLevel;
+        }
 
-	    public Checklist.Item[] getChecklistItems() {
-		if (value != AGENT) 
-		    return null;
+        public Checklist.Item[] getChecklistItems() {
+        if (value != AGENT)
+            return null;
 
-		return new Checklist.Item[] {
-		    createChecklistItem("agent", "agent.needToStart"),
-		};
-	    }
+        return new Checklist.Item[] {
+            createChecklistItem("agent", "agent.needToStart"),
+        };
+        }
 
-	    public void export(Map data) {
-		String cmd;
-		if (value != null && value.equals(OTHER_VM))
-		    cmd = getOtherVMExecuteCommand();
-		else
-		    cmd = "com.sun.javatest.agent.ActiveAgentCommand " +
-			"com.sun.javatest.lib.ExecStdTestSameJVMCmd " +
-			"$testExecuteClass $testExecuteArgs";
-		data.put("command.execute", cmd);
-	    }
-	};
+        public void export(Map data) {
+        String cmd;
+        if (value != null && value.equals(OTHER_VM))
+            cmd = getOtherVMExecuteCommand();
+        else
+            cmd = "com.sun.javatest.agent.ActiveAgentCommand " +
+            "com.sun.javatest.lib.ExecStdTestSameJVMCmd " +
+            "$testExecuteClass $testExecuteArgs";
+        data.put("command.execute", cmd);
+        }
+    };
 
     //----------------------------------------------------------------------
     //
     // What is the path for the JVM you wish to use to execute the tests?
 
     private FileQuestion qJVM = new FileQuestion(this, "jvm") {
-	    public Question getNext() {
-		if (value == null || value.getPath().length() == 0) 
-		    return null;
-		else if (! (value.exists() && value.isFile() && value.canRead())) 
-		    return qBadJVM;
-		else 
-		    return qTestVerboseLevel;
-	    }
-	};
+        public Question getNext() {
+        if (value == null || value.getPath().length() == 0)
+            return null;
+        else if (! (value.exists() && value.isFile() && value.canRead()))
+            return qBadJVM;
+        else
+            return qTestVerboseLevel;
+        }
+    };
 
     private Question qBadJVM = new ErrorQuestion(this, "badJVM") {
-	    public Object[] getTextArgs() {
-		return new Object[] { qJVM.getValue().getPath() };
-	    }
-	};
+        public Object[] getTextArgs() {
+        return new Object[] { qJVM.getValue().getPath() };
+        }
+    };
 
     private String getOtherVMExecuteCommand() {
-	char fs = File.separatorChar;
-	char ps = File.pathSeparatorChar;
+    char fs = File.separatorChar;
+    char ps = File.pathSeparatorChar;
 
-	StringBuffer sb = new StringBuffer();
-	sb.append("com.sun.javatest.lib.ExecStdTestOtherJVMCmd ");
-	File jvm = qJVM.getValue();
-	sb.append(jvm == null ? "unknown_jvm" : jvm.getPath());
-	sb.append(" -classpath $testSuiteRootDir" + fs + "lib" + fs + "jtdemots.jar" + ps 
-		+ "$testSuiteRootDir" + fs + "lib" + fs + "demoapi.jar" + ps 
-		+ "$testSuiteRootDir" + fs + "lib" + fs + "javatest.jar ");
-	sb.append("$testExecuteClass $testExecuteArgs");
-	return sb.toString();
+    StringBuffer sb = new StringBuffer();
+    sb.append("com.sun.javatest.lib.ExecStdTestOtherJVMCmd ");
+    File jvm = qJVM.getValue();
+    sb.append(jvm == null ? "unknown_jvm" : jvm.getPath());
+    sb.append(" -classpath $testSuiteRootDir" + fs + "lib" + fs + "jtdemots.jar" + ps
+        + "$testSuiteRootDir" + fs + "lib" + fs + "demoapi.jar" + ps
+        + "$testSuiteRootDir" + fs + "lib" + fs + "javatest.jar ");
+    sb.append("$testExecuteClass $testExecuteArgs");
+    return sb.toString();
     }
 
     //----------------------------------------------------------------------
@@ -240,26 +240,26 @@ public class DemoTSInterview
     private static final String HIGH = "high";
 
     private Question qTestVerboseLevel = new ChoiceQuestion(this, "testVerboseLevel") {
-	    {
-		setChoices(new String[] { null, LOW, MEDIUM, HIGH }, true);
-	    }
+        {
+        setChoices(new String[] { null, LOW, MEDIUM, HIGH }, true);
+        }
 
-	    public Question getNext() {
-		return qEnvEnd;
-	    }
+        public Question getNext() {
+        return qEnvEnd;
+        }
 
-	    public void export(Map data) {
-		data.put("testVerboseLevel", String.valueOf(value));
-	    }
-	};
+        public void export(Map data) {
+        data.put("testVerboseLevel", String.valueOf(value));
+        }
+    };
 
     //----------------------------------------------------------------------
 
     private Question qEnvEnd = new NullQuestion(this, "envEnd") {
-	    public Question getNext() {
-		return getEnvSuccessorQuestion();
-	    }
-	};
+        public Question getNext() {
+        return getEnvSuccessorQuestion();
+        }
+    };
 
     //----------------------------------------------------------------------
 

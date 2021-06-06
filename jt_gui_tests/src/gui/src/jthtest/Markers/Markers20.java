@@ -25,15 +25,15 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select the couple of questions 
- * from the history list. Mark the questions by selecting Mark Current Question 
- * from the Bookmarks menu. Click on Show Only Marked Questions. All the marked 
- * questions will be displayed as "...". Select one of the "...". Double click 
- * on "..." in the list. The open group of questions will be displayed. Double 
- * click again and the list will be disappear. Verify that all double click on 
- * the group of questions that were open will close the group. 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
+ * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+ * Enable Bookmarks from the Bookmarks menu. Select the couple of questions
+ * from the history list. Mark the questions by selecting Mark Current Question
+ * from the Bookmarks menu. Click on Show Only Marked Questions. All the marked
+ * questions will be displayed as "...". Select one of the "...". Double click
+ * on "..." in the list. The open group of questions will be displayed. Double
+ * click again and the list will be disappear. Verify that all double click on
+ * the group of questions that were open will close the group.
  */
 
 package jthtest.Markers;
@@ -51,33 +51,33 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class Markers20 extends Markers {
     public static void main(String args[]) {
-	JUnitCore.main("jthtest.gui.Markers.Markers20");
+    JUnitCore.main("jthtest.gui.Markers.Markers20");
     }
-    
+
     @Test
     public void testMarkers20() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-	startJavatestNewDesktop();
-	
-	JFrameOperator mainFrame = findMainFrame();
-	
-	closeQS(mainFrame);
-	openTestSuite(mainFrame);
-	createWorkDirInTemp(mainFrame);
-	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-	
-	openConfigDialogByKey(mainFrame);
-	JDialogOperator config = findConfigEditor(mainFrame);
-	
-	int[] indexes = new int[]{4, 5, 6, 8, 9};
+    startJavatestNewDesktop();
 
-	pushEnableBookmarks(config);
-	setBookmarkedByMenu(config, indexes);
-	String[] namesAll = getElementsNames(config);
-	pushShowOnlyBookmarked(config);
-	String[] namesHidden = getElementsNames(config);
+    JFrameOperator mainFrame = findMainFrame();
 
-	openGroupByMouse(config, namesAll, namesHidden);
-	closeGroupByMouse(config, namesAll, namesHidden);
+    closeQS(mainFrame);
+    openTestSuite(mainFrame);
+    createWorkDirInTemp(mainFrame);
+    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+
+    openConfigDialogByKey(mainFrame);
+    JDialogOperator config = findConfigEditor(mainFrame);
+
+    int[] indexes = new int[]{4, 5, 6, 8, 9};
+
+    pushEnableBookmarks(config);
+    setBookmarkedByMenu(config, indexes);
+    String[] namesAll = getElementsNames(config);
+    pushShowOnlyBookmarked(config);
+    String[] namesHidden = getElementsNames(config);
+
+    openGroupByMouse(config, namesAll, namesHidden);
+    closeGroupByMouse(config, namesAll, namesHidden);
     }
 }

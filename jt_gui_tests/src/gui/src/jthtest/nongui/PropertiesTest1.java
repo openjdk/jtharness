@@ -16,7 +16,7 @@ import jthtest.NonguiTest;
 public class PropertiesTest1 extends NonguiTest {
     // should always give a : 1; b : 2; c : 3
     String tests1[] = {"a=1\nb:2\nc 3\n", "a=1\r\nb:2\r\nc 3\r\n", "a=1\r\nb:2\nc 3\r\n", "a =1\nb :2\nc  3\n", "a= 1\nb: 2\nc  3\n", "a = 1\nb : 2\nc   3\n", "a \t =\f1\nb\t\t :\f2\nc\t\t3\n"};
-    // should give a\b : 1; a=b : 2; c : =3; ac : 4; 
+    // should give a\b : 1; a=b : 2; c : =3; ac : 4;
     // a\c should be null
     String test2 = "a\\\\b=1\na\\=b=2\nc==3\na\\c=4";
 
@@ -24,7 +24,7 @@ public class PropertiesTest1 extends NonguiTest {
         test1();
         test2();
     }
-    
+
     private void test2() throws Exception {
         Properties p = new Properties();
         p.load(new StringReader(test2));
@@ -94,5 +94,5 @@ public class PropertiesTest1 extends NonguiTest {
             }
         }
     }
-    
+
 }

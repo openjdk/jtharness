@@ -38,31 +38,31 @@ import org.netbeans.jemmy.operators.JDialogOperator;
  * @author naryl
  */
 public class ViewFilter20 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter20");
-	}
-	
-	@Test
-	public void testViewFilter20() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		startWithDefaultWorkdir();
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter20");
+    }
 
-		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+    @Test
+    public void testViewFilter20() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		selectFilter(filterEditor, 3);
+        startWithDefaultWorkdir();
 
-		cancel(filterEditor);
+        JDialogOperator filterEditor = openFilterEditor(mainFrame);
 
-		long time = System.currentTimeMillis();
+        selectFilter(filterEditor, 3);
 
-		while (JDialogOperator.findJDialog("Filter Editor", false, false) != null) {
-			if (System.currentTimeMillis() - time > 60000)
-				throw new JemmyException("Cancel does not dismisses the dialog box");
-		}
+        cancel(filterEditor);
 
-		
-	}
-	
+        long time = System.currentTimeMillis();
+
+        while (JDialogOperator.findJDialog("Filter Editor", false, false) != null) {
+            if (System.currentTimeMillis() - time > 60000)
+                throw new JemmyException("Cancel does not dismisses the dialog box");
+        }
+
+
+    }
+
 }
 

@@ -39,33 +39,33 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  * @author linfar
  */
 public class ReportCreate2 extends Test {
-//	private JFrameOperator mainFrame;
+//    private JFrameOperator mainFrame;
 
-	public void testImpl() throws Exception {
-		deleteUserData();
+    public void testImpl() throws Exception {
+        deleteUserData();
 
-		mainFrame = JTFrame.startJTWithRunWD();
+        mainFrame = JTFrame.startJTWithRunWD();
 
-//		startJavaTestWithDefaultWorkDirectory();
+//        startJavaTestWithDefaultWorkDirectory();
 //
-//		mainFrame = findMainFrame();
+//        mainFrame = findMainFrame();
 //
-		JDialogOperator rep = openReportCreation(mainFrame.getJFrameOperator());
-		String path = TEMP_PATH + REPORT_NAME + "_new" + File.separator;
-		deleteDirectory(path);
-		setPath(rep, path);
+        JDialogOperator rep = openReportCreation(mainFrame.getJFrameOperator());
+        String path = TEMP_PATH + REPORT_NAME + "_new" + File.separator;
+        deleteDirectory(path);
+        setPath(rep, path);
 
-		pressCreate(rep);
-		addUsedFile(path);
+        pressCreate(rep);
+        addUsedFile(path);
 
-		if (!new File(path).exists()) {
-			throw new JemmyException("Directory was not created");
-		}
-	}
+        if (!new File(path).exists()) {
+            throw new JemmyException("Directory was not created");
+        }
+    }
 
-//	@Override
-//	public void releaseImpl() throws Exception {
-//		if (mainFrame != null)
-//			closeAll(mainFrame);
-//	}
+//    @Override
+//    public void releaseImpl() throws Exception {
+//        if (mainFrame != null)
+//            closeAll(mainFrame);
+//    }
 }

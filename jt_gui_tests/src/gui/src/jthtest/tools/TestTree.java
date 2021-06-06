@@ -47,171 +47,171 @@ import org.netbeans.jemmy.operators.JTreeOperator;
  */
 public class TestTree {
 
-	private JTreeOperator tree;
-	private JTFrame frame;
+    private JTreeOperator tree;
+    private JTFrame frame;
 
-	public TestTree(JTFrame mainFrame) {
-		tree = new JTreeOperator(mainFrame.getJFrameOperator());
-		frame = mainFrame;
-	}
+    public TestTree(JTFrame mainFrame) {
+        tree = new JTreeOperator(mainFrame.getJFrameOperator());
+        frame = mainFrame;
+    }
 
-	public boolean[] getRowsVisibility() {
-		int rows = tree.getVisibleRowCount();
-		boolean[] visibleRows = new boolean[rows];
-		for (int i = 0; i < rows; i++) {
-			visibleRows[i] = tree.isVisible(tree.getPathForRow(i));
-		}
-		return visibleRows;
-	}
+    public boolean[] getRowsVisibility() {
+        int rows = tree.getVisibleRowCount();
+        boolean[] visibleRows = new boolean[rows];
+        for (int i = 0; i < rows; i++) {
+            visibleRows[i] = tree.isVisible(tree.getPathForRow(i));
+        }
+        return visibleRows;
+    }
 
-	public TreePath[] getVisibleRows() {
-		int rows = tree.getVisibleRowCount();
-		LinkedList<TreePath> paths = new LinkedList<TreePath>();
-		for (int i = 0; i < rows; i++) {
-			TreePath path = tree.getPathForRow(i);
-			if (tree.isVisible(path)) {
-				paths.add(path);
-			}
-		}
-		return paths.toArray(new TreePath[0]);
-	}
+    public TreePath[] getVisibleRows() {
+        int rows = tree.getVisibleRowCount();
+        LinkedList<TreePath> paths = new LinkedList<TreePath>();
+        for (int i = 0; i < rows; i++) {
+            TreePath path = tree.getPathForRow(i);
+            if (tree.isVisible(path)) {
+                paths.add(path);
+            }
+        }
+        return paths.toArray(new TreePath[0]);
+    }
 
-	public int getVisibleRowCount() {
-		int rows = tree.getRowCount();
-		int count = 0;
-		for (int i = 0; i < rows; i++) {
-			if (tree.isVisible(tree.getPathForRow(i))) {
-				count++;
-			}
-		}
-		return count;
-	}
+    public int getVisibleRowCount() {
+        int rows = tree.getRowCount();
+        int count = 0;
+        for (int i = 0; i < rows; i++) {
+            if (tree.isVisible(tree.getPathForRow(i))) {
+                count++;
+            }
+        }
+        return count;
+    }
 
-	public Icon getIcon(int row) {
-		return (((JLabel) tree.getRenderedComponent(tree.getPathForRow(row))).getIcon());
-	}
+    public Icon getIcon(int row) {
+        return (((JLabel) tree.getRenderedComponent(tree.getPathForRow(row))).getIcon());
+    }
 
-	public Icon getIcon(TreePath path) {
-		return (((JLabel) tree.getRenderedComponent(path)).getIcon());
-	}
+    public Icon getIcon(TreePath path) {
+        return (((JLabel) tree.getRenderedComponent(path)).getIcon());
+    }
 
-	public TreePath[] click(TreePath path) {
-		tree.clickOnPath(path, 2);
-		return tree.getChildPaths(path);
-	}
+    public TreePath[] click(TreePath path) {
+        tree.clickOnPath(path, 2);
+        return tree.getChildPaths(path);
+    }
 
-	public TreePath[] click(int row) {
-		TreePath path = tree.getPathForRow(row);
-		tree.clickOnPath(path, 2);
-		return tree.getChildPaths(path);
-	}
+    public TreePath[] click(int row) {
+        TreePath path = tree.getPathForRow(row);
+        tree.clickOnPath(path, 2);
+        return tree.getChildPaths(path);
+    }
 
-	public void clickPopup(TreePath path) {
-		tree.clickOnPath(path, 1, MouseEvent.BUTTON3_MASK);
-	}
+    public void clickPopup(TreePath path) {
+        tree.clickOnPath(path, 1, MouseEvent.BUTTON3_MASK);
+    }
 
-	public void clickPopup(int row) {
-		TreePath path = tree.getPathForRow(row);
-		tree.clickOnPath(path, 1, MouseEvent.BUTTON3_MASK);
-	}
+    public void clickPopup(int row) {
+        TreePath path = tree.getPathForRow(row);
+        tree.clickOnPath(path, 1, MouseEvent.BUTTON3_MASK);
+    }
 
-	public TreePath getRoot() {
-		return tree.getPathForRow(0);
-	}
+    public TreePath getRoot() {
+        return tree.getPathForRow(0);
+    }
 
-	public boolean isVisible(TreePath path) {
-		return tree.isVisible(path);
-	}
+    public boolean isVisible(TreePath path) {
+        return tree.isVisible(path);
+    }
 
-	public boolean isExpanded(TreePath path) {
-		return tree.isExpanded(path);
-	}
+    public boolean isExpanded(TreePath path) {
+        return tree.isExpanded(path);
+    }
 
-	public void waitForExpand(TreePath path) {
-		int time = 0;
-		try {
-			while (time < Tools.MAX_WAIT_TIME) {
-				Thread.sleep(50);
-				time += 50;
-				if (isExpanded(path)) {
-					return;
-				}
-			}
-			throw new TimeoutExpiredException("Waiting for expanding path " + path);
-		} catch (InterruptedException ex) {
-			Logger.getLogger(TestTree.class.getName()).log(Level.SEVERE, null, ex);
-			throw new JemmyException("Exception occured", ex);
-		}
-	}
+    public void waitForExpand(TreePath path) {
+        int time = 0;
+        try {
+            while (time < Tools.MAX_WAIT_TIME) {
+                Thread.sleep(50);
+                time += 50;
+                if (isExpanded(path)) {
+                    return;
+                }
+            }
+            throw new TimeoutExpiredException("Waiting for expanding path " + path);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TestTree.class.getName()).log(Level.SEVERE, null, ex);
+            throw new JemmyException("Exception occured", ex);
+        }
+    }
 
-	public void waitForCollapse(TreePath path) {
-		int time = 0;
-		try {
-			while (time < Tools.MAX_WAIT_TIME) {
-				Thread.sleep(50);
-				time += 50;
-				if (tree.isCollapsed(path)) {
-					return;
-				}
-			}
-			throw new TimeoutExpiredException("Waiting for collapsing path " + path);
-		} catch (InterruptedException ex) {
-			Logger.getLogger(TestTree.class.getName()).log(Level.SEVERE, null, ex);
-			throw new JemmyException("Exception occured", ex);
-		}
-	}
+    public void waitForCollapse(TreePath path) {
+        int time = 0;
+        try {
+            while (time < Tools.MAX_WAIT_TIME) {
+                Thread.sleep(50);
+                time += 50;
+                if (tree.isCollapsed(path)) {
+                    return;
+                }
+            }
+            throw new TimeoutExpiredException("Waiting for collapsing path " + path);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TestTree.class.getName()).log(Level.SEVERE, null, ex);
+            throw new JemmyException("Exception occured", ex);
+        }
+    }
 
-	public void selectRows(int... rows) {
-		tree.setSelectionRows(rows);
-	}
+    public void selectRows(int... rows) {
+        tree.setSelectionRows(rows);
+    }
 
-	public TreePath[] getSelectedRows() {
-		return tree.getSelectionPaths();
-	}
+    public TreePath[] getSelectedRows() {
+        return tree.getSelectionPaths();
+    }
 
-	public int[] getSelectedRowsIndexes() {
-		return tree.getSelectionRows();
-	}
+    public int[] getSelectedRowsIndexes() {
+        return tree.getSelectionRows();
+    }
 
-	public boolean isTest(TreePath path) {
-		return tree.getModel().isLeaf(path.getLastPathComponent());
-	}
+    public boolean isTest(TreePath path) {
+        return tree.getModel().isLeaf(path.getLastPathComponent());
+    }
 
-	public boolean isDirectory(TreePath path) {
-		return !isTest(path);
-	}
+    public boolean isDirectory(TreePath path) {
+        return !isTest(path);
+    }
 
-	public TreePath getPathForRow(int i) {
-		return tree.getPathForRow(i);
-	}
+    public TreePath getPathForRow(int i) {
+        return tree.getPathForRow(i);
+    }
 
-	public void clearResults() {
-		clickPopup(getRoot());
-		new JPopupMenuOperator(frame.getJFrameOperator()).pushMenuNoBlock("Clear Results");
-		new JButtonOperator(new JDialogOperator("Confirm Clear Operation"), "Yes").push();
-		new Task.Waiter() {
+    public void clearResults() {
+        clickPopup(getRoot());
+        new JPopupMenuOperator(frame.getJFrameOperator()).pushMenuNoBlock("Clear Results");
+        new JButtonOperator(new JDialogOperator("Confirm Clear Operation"), "Yes").push();
+        new Task.Waiter() {
 
-			@Override
-			protected boolean check() {
-				return frame.getPassedCounter() == 0 && frame.getNotRunCounter() == frame.getAllTestsCounter();
-			}
+            @Override
+            protected boolean check() {
+                return frame.getPassedCounter() == 0 && frame.getNotRunCounter() == frame.getAllTestsCounter();
+            }
 
-			@Override
-			protected String getTimeoutExceptionDescription() {
-				return "Timeout expired while waiting for clearing tests";
-			}
-		}.waitForDone();
-	}
+            @Override
+            protected String getTimeoutExceptionDescription() {
+                return "Timeout expired while waiting for clearing tests";
+            }
+        }.waitForDone();
+    }
 
-	public Task<Boolean> runTests() {
-		if (tree.getSelectionCount() < 1) {
-			return frame.runTests(0);
-		}
-                
+    public Task<Boolean> runTests() {
+        if (tree.getSelectionCount() < 1) {
+            return frame.runTests(0);
+        }
+
                 return frame.runTests(tree.getSelectionRows()[0]);
-	}
+    }
 
-	public Task<Boolean> runAllTests() {
-		return frame.runTests(0);
-	}
+    public Task<Boolean> runAllTests() {
+        return frame.runTests(0);
+    }
 }

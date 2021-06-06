@@ -40,46 +40,46 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate11 extends Test {
 
-	JFrameOperator mainFrame;
+    JFrameOperator mainFrame;
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        deleteUserData();
+        startJavaTestWithDefaultWorkDirectory();
 
-		mainFrame = findMainFrame();
+        mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
-		File f = new File(path);
-		deleteDirectory(f);
-		setPath(rep, path);
+        final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
+        File f = new File(path);
+        deleteDirectory(f);
+        setPath(rep, path);
 
-		setPlainChecked(rep, false);
-		setXmlChecked(rep, false);
-		HtmlReport html = new HtmlReport(rep);
-		html.setOptionsAll(false);
-		html.setOptionsConfiguration(true, false, true, false);
-		html.setFilesAll(false);
-		html.setFilesPutInReport(true);
+        setPlainChecked(rep, false);
+        setXmlChecked(rep, false);
+        HtmlReport html = new HtmlReport(rep);
+        html.setOptionsAll(false);
+        html.setOptionsConfiguration(true, false, true, false);
+        html.setFilesAll(false);
+        html.setFilesPutInReport(true);
 
-		pressCreate(rep);
-		addUsedFile(f);
+        pressCreate(rep);
+        addUsedFile(f);
 
-		pressYes(findShowReportDialog());
+        pressYes(findShowReportDialog());
 
-		new HtmlReportChecker(path, html).commitMainCheck();
-	}
+        new HtmlReportChecker(path, html).commitMainCheck();
+    }
 
-	public void selectEnableTSFilter() {
-		JDialogOperator filterEditor = ViewFilter.openFilterEditor(mainFrame);
+    public void selectEnableTSFilter() {
+        JDialogOperator filterEditor = ViewFilter.openFilterEditor(mainFrame);
 
-		ViewFilter.selectFilter(filterEditor, 4);
+        ViewFilter.selectFilter(filterEditor, 4);
 
-		ViewFilter.chooseTab(filterEditor, "Special");
+        ViewFilter.chooseTab(filterEditor, "Special");
 
-		new JCheckBoxOperator(filterEditor, "Enable test suite filter.").setSelected(true);
+        new JCheckBoxOperator(filterEditor, "Enable test suite filter.").setSelected(true);
 
-		ViewFilter.ok(filterEditor);
-	}
+        ViewFilter.ok(filterEditor);
+    }
 }

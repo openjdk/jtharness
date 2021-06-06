@@ -34,21 +34,21 @@ import org.junit.runner.JUnitCore;
  * @author naryl
  */
 public class Browse5 extends Browse {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.Browse.Browse5");
-	}
-	
-	@Test
-	public void testBrowse5() {
-		browseTestsuite(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-		pickDefaultTestsuite(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-	}
-	
+
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.Browse.Browse5");
+    }
+
+    @Test
+    public void testBrowse5() {
+        browseTestsuite(quickStartDialog);
+
+        next(quickStartDialog);
+
+        pickDefaultTestsuite(quickStartDialog);
+
+        next(quickStartDialog);
+
+    }
+
 }

@@ -38,32 +38,32 @@ import org.netbeans.jemmy.operators.JDialogOperator;
  * @author naryl
  */
 public class ViewFilter6 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter6");
-	}
-	
-	@Test
-	public void testViewFilter6() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter6");
+    }
+
+    @Test
+    public void testViewFilter6() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 // this test doesn't work with current testsuite - interview doesn't contain needed filter
 
-//		startWithDefaultWorkdir();
+//        startWithDefaultWorkdir();
 //
-//		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+//        JDialogOperator filterEditor = openFilterEditor(mainFrame);
 //
-//		selectFilter(filterEditor, 3);
+//        selectFilter(filterEditor, 3);
 //
-//		chooseTab(filterEditor, "Exclude Lists");
+//        chooseTab(filterEditor, "Exclude Lists");
 //
-//		new JCheckBoxOperator(filterEditor, "Use settings in interview").setSelected(true);
+//        new JCheckBoxOperator(filterEditor, "Use settings in interview").setSelected(true);
 //
-//		ok(filterEditor);
+//        ok(filterEditor);
 //
-//		selectFilter(mainFrame, "Custom");
-//		pause(10);
+//        selectFilter(mainFrame, "Custom");
+//        pause(10);
 //
-//		checkAllTestLists(mainFrame, null, null, null, concat(passedListsTests, bignumTests), failedListsTests);
-	}
+//        checkAllTestLists(mainFrame, null, null, null, concat(passedListsTests, bignumTests), failedListsTests);
+    }
 
 }
 

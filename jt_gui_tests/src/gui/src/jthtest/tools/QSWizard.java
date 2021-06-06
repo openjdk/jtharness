@@ -189,7 +189,7 @@ public class QSWizard {
         public JTextFieldOperator getTextField() {
             return Tools.getTextField(dialog, Tools.getExecResource("qsw.nwd.file.lbl"));
         }
-        
+
         public void setWorkDirectory(String path) {
             JTextFieldOperator tf = getTextField();
             tf.clearText();

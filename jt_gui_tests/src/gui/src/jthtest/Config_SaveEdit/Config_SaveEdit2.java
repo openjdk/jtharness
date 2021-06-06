@@ -41,35 +41,35 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class Config_SaveEdit2 extends Config_SaveEdit {
     public static void main(String args[]) {
-	JUnitCore.main("jthtest.gui.Config_SaveEdit.Config_SaveEdit2");
+    JUnitCore.main("jthtest.gui.Config_SaveEdit.Config_SaveEdit2");
     }
-    
+
     @Test
     public void testConfig_SaveEdit2() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InterruptedException {
-	File f = new File(LOCAL_PATH + "jt_gui_test_Config_SaveEdit2_test_this_file_will_be_deleted.jti");
+    File f = new File(LOCAL_PATH + "jt_gui_test_Config_SaveEdit2_test_this_file_will_be_deleted.jti");
     if(f.exists())
         f.delete();
     f = null;
-	startJavatestNewDesktop();
-	JFrameOperator mainFrame = findMainFrame();
-	closeQS(mainFrame);
-	
-	openTestSuite(mainFrame);
-	createWorkDirInTemp(mainFrame);
-	openConfigCreation(mainFrame);
-	JDialogOperator config = findConfigEditor(mainFrame);
-	
-	saveConfig(config, "jt_gui_test_Config_SaveEdit2_test_this_file_will_be_deleted");
-	
-	f = new File(LOCAL_PATH + "jt_gui_test_Config_SaveEdit2_test_this_file_will_be_deleted.jti");
-	int t = 0; 
-	while(t < 1000 && !f.exists()) {
-	    f = new File(LOCAL_PATH + "jt_gui_test_Config_SaveEdit2_test_this_file_will_be_deleted.jti");
-	    t += 100; 
-	    Thread.sleep(100);
-	}
-	if(!f.exists())
-	    throw new JemmyException("File was not created");
-	f.delete();
+    startJavatestNewDesktop();
+    JFrameOperator mainFrame = findMainFrame();
+    closeQS(mainFrame);
+
+    openTestSuite(mainFrame);
+    createWorkDirInTemp(mainFrame);
+    openConfigCreation(mainFrame);
+    JDialogOperator config = findConfigEditor(mainFrame);
+
+    saveConfig(config, "jt_gui_test_Config_SaveEdit2_test_this_file_will_be_deleted");
+
+    f = new File(LOCAL_PATH + "jt_gui_test_Config_SaveEdit2_test_this_file_will_be_deleted.jti");
+    int t = 0;
+    while(t < 1000 && !f.exists()) {
+        f = new File(LOCAL_PATH + "jt_gui_test_Config_SaveEdit2_test_this_file_will_be_deleted.jti");
+        t += 100;
+        Thread.sleep(100);
+    }
+    if(!f.exists())
+        throw new JemmyException("File was not created");
+    f.delete();
     }
 }

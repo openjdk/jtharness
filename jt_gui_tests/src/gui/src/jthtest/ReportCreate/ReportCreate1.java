@@ -39,45 +39,45 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate1 extends Test {
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        deleteUserData();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
-		String path = TEMP_PATH + REPORT_NAME + "_default" + File.separator;
-		deleteDirectory(path);
-		setPath(rep, path);
+        JDialogOperator rep = openReportCreation(mainFrame);
+        String path = TEMP_PATH + REPORT_NAME + "_default" + File.separator;
+        deleteDirectory(path);
+        setPath(rep, path);
 
-		pressCreate(rep);
-		addUsedFile(path);
+        pressCreate(rep);
+        addUsedFile(path);
 
-		findShowReportDialog();
+        findShowReportDialog();
 
-		if (!new File(path + "html" + File.separator + "report.html").exists()) {
-			throw new JemmyException("report.html was not found in");
-		}
-		if (!new File(path + "html" + File.separator + "error.html").exists()) {
-			throw new JemmyException("error.html was not found");
-		}
-		if (!new File(path + "html" + File.separator + "notRun.html").exists()) {
-			throw new JemmyException("notRun.html was not found");
-		}
-		if (!new File(path + "html" + File.separator + "failed.html").exists()) {
-			throw new JemmyException("failed.html was not found");
-		}
-		if (!new File(path + "html" + File.separator + "passed.html").exists()) {
-			throw new JemmyException("passed.html was not found");
-		}
-		if (!new File(path + "html" + File.separator + "report.css").exists()) {
-			throw new JemmyException("report.css was not found");
-		}
-		if (!new File(path + "text" + File.separator + "summary.txt").exists()) {
-			throw new JemmyException("summary.txt was not found");
-		}
-		if (!new File(path + "html" + File.separator + "excluded.html").exists()) {
-			throw new JemmyException("excluded.html was not found");
-		}
-	}
+        if (!new File(path + "html" + File.separator + "report.html").exists()) {
+            throw new JemmyException("report.html was not found in");
+        }
+        if (!new File(path + "html" + File.separator + "error.html").exists()) {
+            throw new JemmyException("error.html was not found");
+        }
+        if (!new File(path + "html" + File.separator + "notRun.html").exists()) {
+            throw new JemmyException("notRun.html was not found");
+        }
+        if (!new File(path + "html" + File.separator + "failed.html").exists()) {
+            throw new JemmyException("failed.html was not found");
+        }
+        if (!new File(path + "html" + File.separator + "passed.html").exists()) {
+            throw new JemmyException("passed.html was not found");
+        }
+        if (!new File(path + "html" + File.separator + "report.css").exists()) {
+            throw new JemmyException("report.css was not found");
+        }
+        if (!new File(path + "text" + File.separator + "summary.txt").exists()) {
+            throw new JemmyException("summary.txt was not found");
+        }
+        if (!new File(path + "html" + File.separator + "excluded.html").exists()) {
+            throw new JemmyException("excluded.html was not found");
+        }
+    }
 }

@@ -25,14 +25,14 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select the first question from the 
- * history list. Mark the question by selecting Mark Current Question from the 
- * Bookmarks menu. Select Clear the Answer for the Current Question from the 
- * Bookmarks menu. The answer will be clear. Click on Next button. Verify that 
- * the an invalid answer will be displayed if the question has not been 
- * answered. 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
+ * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+ * Enable Bookmarks from the Bookmarks menu. Select the first question from the
+ * history list. Mark the question by selecting Mark Current Question from the
+ * Bookmarks menu. Select Clear the Answer for the Current Question from the
+ * Bookmarks menu. The answer will be clear. Click on Next button. Verify that
+ * the an invalid answer will be displayed if the question has not been
+ * answered.
  */
 package jthtest.Markers;
 
@@ -73,30 +73,30 @@ public class Markers12 extends Test {
 
         warnings.add("Pre-defined warning: Some questions can be optional and some can have default value");
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	closeQS(mainFrame);
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+//    closeQS(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
 //
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
 //
-//	pushEnableBookmarks(config);
+//    pushEnableBookmarks(config);
 //
-//	selectQuestion(config, 4);
-//	setBookmarkedByMenu(config, 4);
-//	clearByMenu(config, 4);
+//    selectQuestion(config, 4);
+//    setBookmarkedByMenu(config, 4);
+//    clearByMenu(config, 4);
 //
-//	pushNextConfigEditor(config);
-//	if(!new JTextFieldOperator(config, new NameComponentChooser("qu.vmsg")).getText().equals("Invalid response"))
-//	    throw new JemmyException("Error message wasn't found: '" + new JTextFieldOperator(config, new NameComponentChooser("qu.vmsg")).getText() + "' while expected 'Invalud response'");
+//    pushNextConfigEditor(config);
+//    if(!new JTextFieldOperator(config, new NameComponentChooser("qu.vmsg")).getText().equals("Invalid response"))
+//        throw new JemmyException("Error message wasn't found: '" + new JTextFieldOperator(config, new NameComponentChooser("qu.vmsg")).getText() + "' while expected 'Invalud response'");
 //
-//	System.out.println("Pre-defined warning: Some questions can be optional and some can have default value");
+//    System.out.println("Pre-defined warning: Some questions can be optional and some can have default value");
     }
 
     @Override

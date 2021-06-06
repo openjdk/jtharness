@@ -36,29 +36,29 @@ import org.netbeans.jemmy.operators.JDialogOperator;
  */
 public class New9 extends New {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.New.New9");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.New.New9");
+    }
 
-	@Test
-	public void testNew9() {
-			startTestRun(quickStartDialog);
+    @Test
+    public void testNew9() {
+            startTestRun(quickStartDialog);
 
-			next(quickStartDialog);
+            next(quickStartDialog);
 
-			pickDefaultTestsuite(quickStartDialog);
-			
-			next(quickStartDialog);
+            pickDefaultTestsuite(quickStartDialog);
 
-			createConfiguration(quickStartDialog);
+            next(quickStartDialog);
 
-			next(quickStartDialog);
+            createConfiguration(quickStartDialog);
 
-			pickExistingWorkDir(quickStartDialog);
+            next(quickStartDialog);
 
-			next(quickStartDialog);
+            pickExistingWorkDir(quickStartDialog);
 
-			new JDialogOperator(mainFrame, "Error");
-	}
-	
+            next(quickStartDialog);
+
+            new JDialogOperator(mainFrame, "Error");
+    }
+
 }

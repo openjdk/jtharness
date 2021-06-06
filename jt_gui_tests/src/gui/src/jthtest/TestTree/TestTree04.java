@@ -39,51 +39,51 @@ import jthtest.tools.TestTree;
  */
 public class TestTree04 extends Test {
 
-	@Override
-	public void testImpl() throws Exception {
-		mainFrame = new JTFrame(true);
+    @Override
+    public void testImpl() throws Exception {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		mainFrame.getConfiguration().load(Tools.CONFIG_NAME, true);
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        mainFrame.getConfiguration().load(Tools.CONFIG_NAME, true);
 
-		TestTree tree = mainFrame.getTestTree();
+        TestTree tree = mainFrame.getTestTree();
 
-		tree.click(1);
-		tree.selectRows(3);
+        tree.click(1);
+        tree.selectRows(3);
 
-		Icon passedTestIcon = IconFactory.getTestIcon(IconFactory.PASSED, false, true);
-		Icon passedTestFolderIcon = IconFactory.getTestFolderIcon(IconFactory.PASSED, false, true);
-		Icon notrunTestFolderIcon = IconFactory.getTestFolderIcon(IconFactory.NOT_RUN, false, true);
-		Icon notrunTestIcon = IconFactory.getTestIcon(IconFactory.NOT_RUN, false, true);
+        Icon passedTestIcon = IconFactory.getTestIcon(IconFactory.PASSED, false, true);
+        Icon passedTestFolderIcon = IconFactory.getTestFolderIcon(IconFactory.PASSED, false, true);
+        Icon notrunTestFolderIcon = IconFactory.getTestFolderIcon(IconFactory.NOT_RUN, false, true);
+        Icon notrunTestIcon = IconFactory.getTestIcon(IconFactory.NOT_RUN, false, true);
 
-		tree.runTests().waitForDone();
+        tree.runTests().waitForDone();
 
-		if (tree.getIcon(3) != passedTestIcon) {
-			errors.add("Incorrect icon for path " + tree.getPathForRow(3) + ", passed icon expected");
-		}
-		if (tree.getIcon(2) != notrunTestIcon) {
-			errors.add("Incorrect icon for path " + tree.getPathForRow(2) + ", not run icon expected");
-		}
-		if (tree.getIcon(4) != notrunTestIcon) {
-			errors.add("Incorrect icon for path " + tree.getPathForRow(4) + ", not run icon expected");
-		}
+        if (tree.getIcon(3) != passedTestIcon) {
+            errors.add("Incorrect icon for path " + tree.getPathForRow(3) + ", passed icon expected");
+        }
+        if (tree.getIcon(2) != notrunTestIcon) {
+            errors.add("Incorrect icon for path " + tree.getPathForRow(2) + ", not run icon expected");
+        }
+        if (tree.getIcon(4) != notrunTestIcon) {
+            errors.add("Incorrect icon for path " + tree.getPathForRow(4) + ", not run icon expected");
+        }
 
-		if (tree.getIcon(1) != notrunTestFolderIcon) {
-			errors.add("Incorrect icon for path " + tree.getPathForRow(1) + ", not run icon expected");
-		}
+        if (tree.getIcon(1) != notrunTestFolderIcon) {
+            errors.add("Incorrect icon for path " + tree.getPathForRow(1) + ", not run icon expected");
+        }
 
-		tree.selectRows(2, 4, 5, 6, 7);
+        tree.selectRows(2, 4, 5, 6, 7);
 
-		tree.runTests().waitForDone();
+        tree.runTests().waitForDone();
 
-		if (tree.getIcon(1) != passedTestFolderIcon) {
-			errors.add("Incorrect icon for path " + tree.getPathForRow(1) + ", passed icon expected");
-		}
-	}
+        if (tree.getIcon(1) != passedTestFolderIcon) {
+            errors.add("Incorrect icon for path " + tree.getPathForRow(1) + ", passed icon expected");
+        }
+    }
 
-	@Override
-	public String getDescription() {
-		return "This test checks that is case when one of many test is runned in test folder, folder will have 'not run' icon. When all others tests are runned - it should obtain new status.";
-	}
+    @Override
+    public String getDescription() {
+        return "This test checks that is case when one of many test is runned in test folder, folder will have 'not run' icon. When all others tests are runned - it should obtain new status.";
+    }
 }

@@ -39,25 +39,25 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  * @author naryl
  */
 public class ViewFilter21 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter21");
-	}
-	
-	@Test
-	public void testViewFilter21() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		startWithDefaultWorkdir();
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter21");
+    }
 
-		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+    @Test
+    public void testViewFilter21() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		selectFilter(filterEditor, 3);
+        startWithDefaultWorkdir();
 
-		new JButtonOperator(filterEditor, "Help").push();
+        JDialogOperator filterEditor = openFilterEditor(mainFrame);
 
-		new JFrameOperator("User's Guide").close();
+        selectFilter(filterEditor, 3);
 
-	}
-	
+        new JButtonOperator(filterEditor, "Help").push();
+
+        new JFrameOperator("User's Guide").close();
+
+    }
+
 }
 

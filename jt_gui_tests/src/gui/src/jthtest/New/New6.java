@@ -37,25 +37,25 @@ import org.junit.runner.JUnitCore;
  */
 public class New6 extends New {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.New.New6");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.New.New6");
+    }
 
-	@Test
-	public void testNew6() {
-			startTestRun(quickStartDialog);
+    @Test
+    public void testNew6() {
+            startTestRun(quickStartDialog);
 
-			next(quickStartDialog);
+            next(quickStartDialog);
 
-			pickDefaultTestsuite(quickStartDialog);
-			
-			next(quickStartDialog);
+            pickDefaultTestsuite(quickStartDialog);
 
-			useMissingConfigTemplate(quickStartDialog);
+            next(quickStartDialog);
 
-			if (isNextEnabled(quickStartDialog))
-				fail("Button 'Next' must be enabled");
+            useMissingConfigTemplate(quickStartDialog);
 
-	}
+            if (isNextEnabled(quickStartDialog))
+                fail("Button 'Next' must be enabled");
+
+    }
 
 }

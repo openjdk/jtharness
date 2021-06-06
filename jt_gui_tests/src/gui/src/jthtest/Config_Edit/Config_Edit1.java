@@ -62,21 +62,21 @@ public class Config_Edit1 extends Test {
         cd = conf.openByKey();
         checkAnswers(cd.getConfigDialog());
 
-        //	startJavatestNewDesktop();
+        //    startJavatestNewDesktop();
         //
-        //	JFrameOperator mainFrame = findMainFrame();
+        //    JFrameOperator mainFrame = findMainFrame();
         //
-        //	openTestSuite(mainFrame);
+        //    openTestSuite(mainFrame);
         //
-        //	createWorkDirInTemp(mainFrame);
+        //    createWorkDirInTemp(mainFrame);
         //
-        //	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-        //	waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+        //    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+        //    waitForConfigurationLoading(mainFrame, CONFIG_NAME);
         //
-        //	openConfigDialogByKey(mainFrame);
-        //	checkAnswers(findConfigEditor(mainFrame));
-        //	openConfigDialogByKey(mainFrame);
-        //	checkAnswers(findConfigEditor(mainFrame));
+        //    openConfigDialogByKey(mainFrame);
+        //    checkAnswers(findConfigEditor(mainFrame));
+        //    openConfigDialogByKey(mainFrame);
+        //    checkAnswers(findConfigEditor(mainFrame));
     }
 
     private void checkAnswers(JDialogOperator config) {

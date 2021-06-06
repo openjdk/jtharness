@@ -44,14 +44,14 @@ import static jthtest.workdir.Workdir.*;
 public class CreateWorkdir14 extends Test {
 
     public void testImpl() throws Exception {
-	startJavaTestWithDefaultTestSuite();
-	
-	JFrameOperator mainFrame = findMainFrame();
-	JDialogOperator wdCreate = openOpenWorkDirectoryDialog(mainFrame);
+    startJavaTestWithDefaultTestSuite();
 
-	new JButtonOperator(wdCreate, "Cancel").push();
+    JFrameOperator mainFrame = findMainFrame();
+    JDialogOperator wdCreate = openOpenWorkDirectoryDialog(mainFrame);
 
-	if(wdCreate.isVisible())
-	    throw new JemmyException("Dialog box is visible after pressing Cancel button");
+    new JButtonOperator(wdCreate, "Cancel").push();
+
+    if(wdCreate.isVisible())
+        throw new JemmyException("Dialog box is visible after pressing Cancel button");
     }
 }

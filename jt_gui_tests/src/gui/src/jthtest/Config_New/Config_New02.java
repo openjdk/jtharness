@@ -36,33 +36,33 @@ import jthtest.tools.JTFrame;
 public class Config_New02 extends Test {
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = new JTFrame(true);
+    JTFrame mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	// This one works veeeery slow. I don't know why. Something with menus. 
-	if (mainFrame.getConfiguration().create(false).isFullConfiguration()) {
-	    errors.add("Newly created configuration is full while unexpected");
-	}
+    // This one works veeeery slow. I don't know why. Something with menus.
+    if (mainFrame.getConfiguration().create(false).isFullConfiguration()) {
+        errors.add("Newly created configuration is full while unexpected");
+    }
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
-//	closeQS(mainFrame);
+//    JFrameOperator mainFrame = findMainFrame();
+//    closeQS(mainFrame);
 //
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
 //
-//	openConfigCreationBlock(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
-//	if (isFullConfiguration(config)) {
-//	    throw new JemmyException("Configuration is full after creation");
-//	}
+//    openConfigCreationBlock(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//    if (isFullConfiguration(config)) {
+//        throw new JemmyException("Configuration is full after creation");
+//    }
     }
 
     @Override
     public String getDescription() {
-	return "This test checks that a newly created configuration is not full.";
+    return "This test checks that a newly created configuration is not full.";
     }
 }

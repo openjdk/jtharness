@@ -43,36 +43,36 @@ import static jthtest.workdir.Workdir.*;
 public class CreateWorkdir02 extends Test {
 
     public CreateWorkdir02() {
-	depricated = true;
+    depricated = true;
     }
 
     public void testImpl() throws Exception {
-	deleteDirectory(DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
+    deleteDirectory(DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
 
-	JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
+    JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
 
-	File created = mainFrame.getWorkDirectory().createWorkDirectory(TO_DELETE_TEMP_WD_NAME, true);
-	addUsedFile(created);
+    File created = mainFrame.getWorkDirectory().createWorkDirectory(TO_DELETE_TEMP_WD_NAME, true);
+    addUsedFile(created);
 
-	if (!created.exists()) {
-	    errors.add("Work directory wasn't created propertly with path " + DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
-	}
+    if (!created.exists()) {
+        errors.add("Work directory wasn't created propertly with path " + DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
+    }
 
-//	startJavaTestWithDefaultTestSuite();
+//    startJavaTestWithDefaultTestSuite();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	Workdir.createWorkDirectory(TO_DELETE_TEMP_WD_NAME, true, mainFrame);
-//	addUsedFile(DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
+//    Workdir.createWorkDirectory(TO_DELETE_TEMP_WD_NAME, true, mainFrame);
+//    addUsedFile(DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
 //
-//	if (!verifyWorkdirCreation(DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME)) {
-//	    errors.add("Work directory wasn't created propertly with path " + DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
-//	}
+//    if (!verifyWorkdirCreation(DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME)) {
+//        errors.add("Work directory wasn't created propertly with path " + DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
+//    }
     }
 
     @Override
     public String getDescription() {
-//	return "This test tryes to create work directory in the directory where Work Directory Creation dialog is initialised. It should be user.dir";
-	return "This test is depricated - initial directory in 'Create Work Directory' dialog is not 'user.dir' now";
+//    return "This test tryes to create work directory in the directory where Work Directory Creation dialog is initialised. It should be user.dir";
+    return "This test is depricated - initial directory in 'Create Work Directory' dialog is not 'user.dir' now";
     }
 }

@@ -44,42 +44,42 @@ import org.netbeans.jemmy.util.NameComponentChooser;
  */
 public class Config_Load4 extends Config_Load {
     private JFrameOperator mainFrame;
-    
+
     public static void main(String[] args) {
-	JUnitCore.main("jthtest.gui.Config_Load.Config_Load4");
+    JUnitCore.main("jthtest.gui.Config_Load.Config_Load4");
     }
-    
+
     @Test
     public void testConfig_Load4() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-	startJavatestNewDesktop();
-	
-	mainFrame = findMainFrame();
-	
-	openTestSuite(mainFrame);
-	
-	createWorkDirInTemp(mainFrame);
-	
-	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-	
-	openConfigDialogByKey(mainFrame);
-	
-	pushDoneConfigEditor(findConfigEditor(mainFrame));
-	
-	openConfigFile(openLoadConfigDialogByMenu(mainFrame), SECOND_CONFIG_NAME);
-	Config_Edit.waitForConfigurationLoading(mainFrame, SECOND_CONFIG_NAME);
+    startJavatestNewDesktop();
 
-	openConfigDialogByKey(mainFrame);
-	
-	if(!verifyOpeningNewConfigFile()) {
-	    throw new JemmyException("Old config is shown in config editor");
-	}
+    mainFrame = findMainFrame();
+
+    openTestSuite(mainFrame);
+
+    createWorkDirInTemp(mainFrame);
+
+    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+
+    openConfigDialogByKey(mainFrame);
+
+    pushDoneConfigEditor(findConfigEditor(mainFrame));
+
+    openConfigFile(openLoadConfigDialogByMenu(mainFrame), SECOND_CONFIG_NAME);
+    Config_Edit.waitForConfigurationLoading(mainFrame, SECOND_CONFIG_NAME);
+
+    openConfigDialogByKey(mainFrame);
+
+    if(!verifyOpeningNewConfigFile()) {
+        throw new JemmyException("Old config is shown in config editor");
     }
-    
+    }
+
     private boolean verifyOpeningNewConfigFile() {
-	JDialogOperator config = findConfigEditor(mainFrame);
-	JListOperator list = new JListOperator(config);
-	list.selectItem(1);
-	return new JTextFieldOperator(config, new NameComponentChooser("str.txt")).getText().equals(SECOND_CONFIG_NAME);
+    JDialogOperator config = findConfigEditor(mainFrame);
+    JListOperator list = new JListOperator(config);
+    list.selectItem(1);
+    return new JTextFieldOperator(config, new NameComponentChooser("str.txt")).getText().equals(SECOND_CONFIG_NAME);
     }
 }

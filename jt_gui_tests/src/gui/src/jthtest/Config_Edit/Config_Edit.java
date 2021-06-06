@@ -41,17 +41,17 @@ import org.netbeans.jemmy.util.NameComponentChooser;
  */
 public class Config_Edit extends ConfigTools {
     public static void waitForConfigurationLoading(JFrameOperator mainFrame, String name) {
-	JTextFieldOperator label = new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.Configuration"));
-	int time = 0;
-	while(!label.getText().equals(name)) {
-	    try {
-		Thread.sleep(100);
-		time += 100;
-		if(time > MAX_WAIT_TIME)
-		    throw new JemmyException("Configuration loading error");
-	    } catch (InterruptedException ex) {
-		Logger.getLogger(Config_Edit.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-	}
+    JTextFieldOperator label = new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.Configuration"));
+    int time = 0;
+    while(!label.getText().equals(name)) {
+        try {
+        Thread.sleep(100);
+        time += 100;
+        if(time > MAX_WAIT_TIME)
+            throw new JemmyException("Configuration loading error");
+        } catch (InterruptedException ex) {
+        Logger.getLogger(Config_Edit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     }
 }

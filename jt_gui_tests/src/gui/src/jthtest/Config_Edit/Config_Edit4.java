@@ -25,10 +25,10 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a new workdirectory. 
- * Bring up Load confiugration under Configure menu. Bring up Bring up 
- * configuration editor by doing Ctrl-E. Click on Next button. It will 
- * navigate to the next question. The Next button navigates to the next question. 
+ * Start JavaTest with the -NewDesktop option. Create a new workdirectory.
+ * Bring up Load confiugration under Configure menu. Bring up Bring up
+ * configuration editor by doing Ctrl-E. Click on Next button. It will
+ * navigate to the next question. The Next button navigates to the next question.
  */
 
 package jthtest.Config_Edit;
@@ -47,25 +47,25 @@ import org.netbeans.jemmy.operators.JListOperator;
  */
 public class Config_Edit4 extends Config_Edit {
     public static void main(String args[])  {
-	JUnitCore.main("jthtest.gui.Config_Edit.Config_Edit4");
+    JUnitCore.main("jthtest.gui.Config_Edit.Config_Edit4");
     }
-    
+
     @Test
     public void testConfig_Edit4() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-	startJavatestNewDesktop();
-	
-	JFrameOperator mainFrame = findMainFrame();
-	
-	openTestSuite(mainFrame);
-	createWorkDirInTemp(mainFrame);
-	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-	waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-	
-	openConfigDialogByKey(mainFrame);
-	JDialogOperator config = findConfigEditor(mainFrame);
-	
-	pushNextConfigEditor(config);
-	if(!new JListOperator(config).isSelectedIndex(2))
-	    throw new JemmyException("After next button pushing list selection is not on third page");
+    startJavatestNewDesktop();
+
+    JFrameOperator mainFrame = findMainFrame();
+
+    openTestSuite(mainFrame);
+    createWorkDirInTemp(mainFrame);
+    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+    waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+
+    openConfigDialogByKey(mainFrame);
+    JDialogOperator config = findConfigEditor(mainFrame);
+
+    pushNextConfigEditor(config);
+    if(!new JListOperator(config).isSelectedIndex(2))
+        throw new JemmyException("After next button pushing list selection is not on third page");
     }
 }

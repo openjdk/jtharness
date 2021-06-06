@@ -37,26 +37,26 @@ import jthtest.tools.JTFrame;
  */
 public class Config_NewEdit01 extends Test {
 
-	public void testImpl() throws Exception {
-		mainFrame = new JTFrame(true);
+    public void testImpl() throws Exception {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		mainFrame.getWorkDirectory().openWorkDirectory(Tools.LOCAL_PATH, Tools.DEFAULT_WD_NAME);
+        mainFrame.openDefaultTestSuite();
+        mainFrame.getWorkDirectory().openWorkDirectory(Tools.LOCAL_PATH, Tools.DEFAULT_WD_NAME);
 
-		ConfigDialog config = mainFrame.getConfiguration().openByKey();
-		if (!config.isFullConfiguration()) {
-			errors.add("Warning! Configuration in trunk directory isn't full for default WD. This can make tests unstable.");
-		}
+        ConfigDialog config = mainFrame.getConfiguration().openByKey();
+        if (!config.isFullConfiguration()) {
+            errors.add("Warning! Configuration in trunk directory isn't full for default WD. This can make tests unstable.");
+        }
 
-		config.getFile_NewConfigurationMenu().push();
+        config.getFile_NewConfigurationMenu().push();
 
-		if (config.isFullConfiguration()) {
-			errors.add("Configuration was not reset after creation");
-		}
-	}
+        if (config.isFullConfiguration()) {
+            errors.add("Configuration was not reset after creation");
+        }
+    }
 
-	@Override
-	public String getDescription() {
-		return "This test checks that after new configuration creation the Config Editor's contains would be refreshed. Open Work Directory with configuration, open Configuration Editor, create new configuration. Configuration Editor should be repainted.";
-	}
+    @Override
+    public String getDescription() {
+        return "This test checks that after new configuration creation the Config Editor's contains would be refreshed. Open Work Directory with configuration, open Configuration Editor, create new configuration. Configuration Editor should be repainted.";
+    }
 }

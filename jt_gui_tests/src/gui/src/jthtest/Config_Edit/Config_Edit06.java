@@ -39,44 +39,44 @@ import jthtest.tools.JTFrame;
 public class Config_Edit06 extends Test {
 
     public void testImpl() throws Exception {
-	mainFrame = new JTFrame(true);
+    mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(Tools.CONFIG_NAME, false);
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(Tools.CONFIG_NAME, false);
 
-	ConfigDialog config = configuration.openByKey();
-	config.pushDoneConfigEditor();
-	if (config.getConfigDialog().isVisible()) {
-	    errors.add("Config editor is not closed");
-	}
+    ConfigDialog config = configuration.openByKey();
+    config.pushDoneConfigEditor();
+    if (config.getConfigDialog().isVisible()) {
+        errors.add("Config editor is not closed");
+    }
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
-//	waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//    waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
 //
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
-//	pushDoneConfigEditor(config);
-//	if(config.isVisible())
-//	    throw new JemmyException("Config editor is not closed");
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//    pushDoneConfigEditor(config);
+//    if(config.isVisible())
+//        throw new JemmyException("Config editor is not closed");
     }
 
     @Override
     public String getDescription() {
-	/*
-	 * Start JavaTest with the -NewDesktop option. Create a new workdirectory.
-	 * Bring up Load confiugration under Configure menu. Bring up Bring up
-	 * configuration editor by doing Ctrl-E. Click on Done button. It will dismiss
-	 * the editor dialog box. The Done button should dismiss the editor dialog box.
-	 */
-	return "Start JavaTest with the -NewDesktop option. Create a new workdirectory. Bring up Load confiugration under Configure menu. Bring up Bring up configuration editor by doing Ctrl-E. Click on Done button. It will dismiss the editor dialog box. The Done button should dismiss the editor dialog box. ";
+    /*
+     * Start JavaTest with the -NewDesktop option. Create a new workdirectory.
+     * Bring up Load confiugration under Configure menu. Bring up Bring up
+     * configuration editor by doing Ctrl-E. Click on Done button. It will dismiss
+     * the editor dialog box. The Done button should dismiss the editor dialog box.
+     */
+    return "Start JavaTest with the -NewDesktop option. Create a new workdirectory. Bring up Load confiugration under Configure menu. Bring up Bring up configuration editor by doing Ctrl-E. Click on Done button. It will dismiss the editor dialog box. The Done button should dismiss the editor dialog box. ";
     }
 }

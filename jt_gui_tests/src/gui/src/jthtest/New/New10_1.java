@@ -47,60 +47,60 @@ import org.netbeans.jemmy.operators.JTextFieldOperator;
  */
 public class New10_1 extends New {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.New.New10");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.New.New10");
+    }
 
-	@Test
-	public void testNew10() throws InterruptedException {
-		// known problem - cr6957366
+    @Test
+    public void testNew10() throws InterruptedException {
+        // known problem - cr6957366
 
-		if (true)
-			return;
+        if (true)
+            return;
 
-		startTestRun(quickStartDialog);
+        startTestRun(quickStartDialog);
 
-		next(quickStartDialog);
+        next(quickStartDialog);
 
-		pickDefaultTestsuite(quickStartDialog);
+        pickDefaultTestsuite(quickStartDialog);
 
-		next(quickStartDialog);
+        next(quickStartDialog);
 
-		useConfigTemplate(quickStartDialog);
+        useConfigTemplate(quickStartDialog);
 
-		next(quickStartDialog);
+        next(quickStartDialog);
 
-		pickTempWorkDir(quickStartDialog);
+        pickTempWorkDir(quickStartDialog);
 
-		next(quickStartDialog);
+        next(quickStartDialog);
 
-		finish(quickStartDialog, false, true);
+        finish(quickStartDialog, false, true);
 
-		JDialogOperator create = new JDialogOperator("Configuration Required");
-		new JButtonOperator(create, "OK").push();
+        JDialogOperator create = new JDialogOperator("Configuration Required");
+        new JButtonOperator(create, "OK").push();
 
-		JDialogOperator config = ConfigTools.findConfigEditor(mainFrame);
-		ConfigTools.pushDoneConfigEditor(config);
-		JDialogOperator save = new JDialogOperator("Save Configuration File");
-		JTextFieldOperator path =
-				new JTextFieldOperator(Tools.<JTextField>getComponentPar(save, new String[]{"File Name:", "Folder Name:", "File name:", "Folder name:"}));
-		File f = new File(Tools.LOCAL_PATH + File.separator + "temp_configuration_file_that_will_be_deleted.jti");
-		if (f.exists()) {
-			if (f.isDirectory()) {
-				deleteDirectory(f);
-			} else {
-				f.delete();
-			}
-		}
+        JDialogOperator config = ConfigTools.findConfigEditor(mainFrame);
+        ConfigTools.pushDoneConfigEditor(config);
+        JDialogOperator save = new JDialogOperator("Save Configuration File");
+        JTextFieldOperator path =
+                new JTextFieldOperator(Tools.<JTextField>getComponentPar(save, new String[]{"File Name:", "Folder Name:", "File name:", "Folder name:"}));
+        File f = new File(Tools.LOCAL_PATH + File.separator + "temp_configuration_file_that_will_be_deleted.jti");
+        if (f.exists()) {
+            if (f.isDirectory()) {
+                deleteDirectory(f);
+            } else {
+                f.delete();
+            }
+        }
 
-		path.typeText(f.getAbsolutePath());
-		try {
-			new JTextFieldOperator(mainFrame, "Finished test run.");
+        path.typeText(f.getAbsolutePath());
+        try {
+            new JTextFieldOperator(mainFrame, "Finished test run.");
 
-			checkCounters(mainFrame, new int[]{16, 1, 0, 0, 17, 0, 17});
+            checkCounters(mainFrame, new int[]{16, 1, 0, 0, 17, 0, 17});
 
-		} finally {
-			f.deleteOnExit();
-		}
-	}
+        } finally {
+            f.deleteOnExit();
+        }
+    }
 }

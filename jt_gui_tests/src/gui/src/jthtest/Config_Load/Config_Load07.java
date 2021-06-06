@@ -43,51 +43,51 @@ public class Config_Load07 extends Test {
 //    JFrameOperator mainFrame;
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = new JTFrame(true);
+    JTFrame mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(ConfigTools.CONFIG_NAME, true);
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(ConfigTools.CONFIG_NAME, true);
 
-	ConfigDialog config = configuration.openByKey();
-	config.load(ConfigTools.SECOND_CONFIG_NAME, true);
+    ConfigDialog config = configuration.openByKey();
+    config.load(ConfigTools.SECOND_CONFIG_NAME, true);
 
-	verifyOpeningNewConfigFile(config);
+    verifyOpeningNewConfigFile(config);
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	mainFrame = findMainFrame();
+//    mainFrame = findMainFrame();
 //
-//	closeQS(mainFrame);
+//    closeQS(mainFrame);
 //
-//	openTestSuite(mainFrame);
+//    openTestSuite(mainFrame);
 //
-//	createWorkDirInTemp(mainFrame);
+//    createWorkDirInTemp(mainFrame);
 //
-//	JDialogOperator fileChooser = openLoadConfigDialogByMenu(mainFrame);
-//	openConfigFile(fileChooser, DEFAULT_JTI);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
-//	openConfigDialogByKey(mainFrame);
+//    JDialogOperator fileChooser = openLoadConfigDialogByMenu(mainFrame);
+//    openConfigFile(fileChooser, DEFAULT_JTI);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
+//    openConfigDialogByKey(mainFrame);
 //
-//	fileChooser = openLoadConfigDialogByMenu(mainFrame);
-//	openConfigFile(fileChooser, SECOND_JTI);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, SECOND_JTI);
-//	openConfigDialogByKey(mainFrame);
+//    fileChooser = openLoadConfigDialogByMenu(mainFrame);
+//    openConfigFile(fileChooser, SECOND_JTI);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, SECOND_JTI);
+//    openConfigDialogByKey(mainFrame);
 //
-//	verifyOpeningNewConfigFile();
+//    verifyOpeningNewConfigFile();
     }
 
 //    private boolean verifyOpeningNewConfigFile() {
     private boolean verifyOpeningNewConfigFile(ConfigDialog config) {
-	JListOperator list = new JListOperator(config.getConfigDialog());
-	list.selectItem(1);
-	return new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("str.txt")).getText().equals(ConfigTools.SECOND_CONFIG_NAME);
+    JListOperator list = new JListOperator(config.getConfigDialog());
+    list.selectItem(1);
+    return new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("str.txt")).getText().equals(ConfigTools.SECOND_CONFIG_NAME);
     }
 
     @Override
     public String getDescription() {
-	return "Load a configuration, open Configuration Editor. Load another configuration from it. Configuration Editor internals should be repainted";
+    return "Load a configuration, open Configuration Editor. Load another configuration from it. Configuration Editor internals should be repainted";
     }
 }

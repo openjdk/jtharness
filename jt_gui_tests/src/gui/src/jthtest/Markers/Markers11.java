@@ -25,13 +25,13 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select the first question from the 
- * history list. Mark the question by selecting Mark Current Question from the 
- * Bookmarks menu. Select Clear the Answer for the Current Question from the 
- * popup menu. Verify that the answer for selected question will be set to 
- * empty. 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
+ * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+ * Enable Bookmarks from the Bookmarks menu. Select the first question from the
+ * history list. Mark the question by selecting Mark Current Question from the
+ * Bookmarks menu. Select Clear the Answer for the Current Question from the
+ * popup menu. Verify that the answer for selected question will be set to
+ * empty.
  */
 
 package jthtest.Markers;
@@ -52,33 +52,33 @@ import org.netbeans.jemmy.util.NameComponentChooser;
  */
 public class Markers11 extends Markers {
     public static void main(String args[]) {
-	JUnitCore.main("jthtest.gui.Markers.Markers11");
+    JUnitCore.main("jthtest.gui.Markers.Markers11");
     }
-    
+
     @Test
     public void testMarkers11() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-	startJavatestNewDesktop();
-	
-	JFrameOperator mainFrame = findMainFrame();
-	
-	closeQS(mainFrame);
-	openTestSuite(mainFrame);
-	createWorkDirInTemp(mainFrame);
-	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-	
-	openConfigDialogByKey(mainFrame);
-	JDialogOperator config = findConfigEditor(mainFrame);
+    startJavatestNewDesktop();
 
-	pushEnableBookmarks(config);
-	
-	selectQuestion(config, 2);
-	new JTextFieldOperator(config, new NameComponentChooser("str.txt")).typeText("some description that must be cleared");
-	setBookmarkedByMenu(config, 2);
-	clearByPopup(config, 2);
-	
-	if(!new JTextFieldOperator(config, new NameComponentChooser("str.txt")).getText().equals(""))
-	    throw new JemmyException("Text wasn't cleared up: '" + new JTextFieldOperator(config, new NameComponentChooser("str.txt")).getText() + "' while expected ''");
-	System.out.println("Pre-defined warning: Mark sometimes desapperas while clearing by menu - bookmark saves current state of answer; First question is 'Configuratoin name' and it can't be cleared; a new question is generated while clearing up");
+    JFrameOperator mainFrame = findMainFrame();
+
+    closeQS(mainFrame);
+    openTestSuite(mainFrame);
+    createWorkDirInTemp(mainFrame);
+    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+
+    openConfigDialogByKey(mainFrame);
+    JDialogOperator config = findConfigEditor(mainFrame);
+
+    pushEnableBookmarks(config);
+
+    selectQuestion(config, 2);
+    new JTextFieldOperator(config, new NameComponentChooser("str.txt")).typeText("some description that must be cleared");
+    setBookmarkedByMenu(config, 2);
+    clearByPopup(config, 2);
+
+    if(!new JTextFieldOperator(config, new NameComponentChooser("str.txt")).getText().equals(""))
+        throw new JemmyException("Text wasn't cleared up: '" + new JTextFieldOperator(config, new NameComponentChooser("str.txt")).getText() + "' while expected ''");
+    System.out.println("Pre-defined warning: Mark sometimes desapperas while clearing by menu - bookmark saves current state of answer; First question is 'Configuratoin name' and it can't be cleared; a new question is generated while clearing up");
     }
 }

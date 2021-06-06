@@ -43,30 +43,30 @@ import jthtest.Tools;
  * @author naryl
  */
 public class Browse extends Tools {
-	static void browseTestsuite(JDialogOperator quickStartDialog) {
-		//Click on the "Browse" radio button
-		new JRadioButtonOperator(quickStartDialog, "Browse the test suite").push();
-	}
-	
-	public static void pickWorkDir(JFrameOperator mainFrame) {
-		
-//		JDialogOperator wrkDir = new JDialogOperator(mainFrame, "Work Directory Required");
-		
-//		new JButtonOperator(wrkDir, "Create Work Directory").push();
+    static void browseTestsuite(JDialogOperator quickStartDialog) {
+        //Click on the "Browse" radio button
+        new JRadioButtonOperator(quickStartDialog, "Browse the test suite").push();
+    }
 
-	    JDialogOperator wd = CreateWorkdir.findWorkDir(mainFrame);
-	    CreateWorkdir.createWorkDirInTemp(CreateWorkdir.findWorkDirectoryCreation(mainFrame), true);
-	}
+    public static void pickWorkDir(JFrameOperator mainFrame) {
 
-	protected JFrameOperator mainFrame;
-	protected JDialogOperator quickStartDialog;
-	
-	@Before
-	public void setUp() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		startJavatest(NEWDESKTOP_ARG);
-		mainFrame = findMainFrame();
-//		new JMenuOperator(mainFrame).pushMenuNoBlock("File|Open Quick Start Wizard ...", "|");
-		quickStartDialog = findQuickStart(mainFrame);
-	}
-	
+//        JDialogOperator wrkDir = new JDialogOperator(mainFrame, "Work Directory Required");
+
+//        new JButtonOperator(wrkDir, "Create Work Directory").push();
+
+        JDialogOperator wd = CreateWorkdir.findWorkDir(mainFrame);
+        CreateWorkdir.createWorkDirInTemp(CreateWorkdir.findWorkDirectoryCreation(mainFrame), true);
+    }
+
+    protected JFrameOperator mainFrame;
+    protected JDialogOperator quickStartDialog;
+
+    @Before
+    public void setUp() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        startJavatest(NEWDESKTOP_ARG);
+        mainFrame = findMainFrame();
+//        new JMenuOperator(mainFrame).pushMenuNoBlock("File|Open Quick Start Wizard ...", "|");
+        quickStartDialog = findQuickStart(mainFrame);
+    }
+
 }

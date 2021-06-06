@@ -43,61 +43,61 @@ public class Config_Edit2 extends Test {
     private final static Hashtable standartTable;
 
     public Config_Edit2() {
-	depricated = true;
+    depricated = true;
     }
-    
+
     static {
-	standartTable = new Hashtable();
-	standartTable.put("Cell_5_1", "false");
-	standartTable.put("Cell_5_0", "val6");
-	standartTable.put("Cell_7_1", "drinkme");
-	standartTable.put("Cell_7_0", "unclassified");
-	standartTable.put("Cell_0_1", "foo");
-	standartTable.put("Cell_0_0", "value1");
-	standartTable.put("Cell_2_1", "65000");
-	standartTable.put("Cell_2_0", "colors");
-	standartTable.put("Cell_4_1", "/tmp/foo");
-	standartTable.put("Cell_4_0", "value5");
-	standartTable.put("Cell_6_1", "yEs");
-	standartTable.put("Cell_6_0", "val7");
-	standartTable.put("Cell_1_1", "1050");
-	standartTable.put("Cell_1_0", "port");
-	standartTable.put("Cell_3_1", "baz");
-	standartTable.put("Cell_3_0", "val4");
+    standartTable = new Hashtable();
+    standartTable.put("Cell_5_1", "false");
+    standartTable.put("Cell_5_0", "val6");
+    standartTable.put("Cell_7_1", "drinkme");
+    standartTable.put("Cell_7_0", "unclassified");
+    standartTable.put("Cell_0_1", "foo");
+    standartTable.put("Cell_0_0", "value1");
+    standartTable.put("Cell_2_1", "65000");
+    standartTable.put("Cell_2_0", "colors");
+    standartTable.put("Cell_4_1", "/tmp/foo");
+    standartTable.put("Cell_4_0", "value5");
+    standartTable.put("Cell_6_1", "yEs");
+    standartTable.put("Cell_6_0", "val7");
+    standartTable.put("Cell_1_1", "1050");
+    standartTable.put("Cell_1_0", "port");
+    standartTable.put("Cell_3_1", "baz");
+    standartTable.put("Cell_3_0", "val4");
     }
-    
+
     public void testImpl() throws Exception {
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	closeQS(mainFrame);
+//    closeQS(mainFrame);
 //
-//	CreateWorkdir.createWorkDir(CreateWorkdir.openWorkDirectoryOpening(mainFrame), LOCAL_PATH, WD_RUN, false);
+//    CreateWorkdir.createWorkDir(CreateWorkdir.openWorkDirectoryOpening(mainFrame), LOCAL_PATH, WD_RUN, false);
 //
-//	new JTextFieldOperator(mainFrame, getExecResource("br.worst.1"));
-//	openConfigDialogByKey(mainFrame);
-//	checkAnswers(findConfigEditor(mainFrame));
+//    new JTextFieldOperator(mainFrame, getExecResource("br.worst.1"));
+//    openConfigDialogByKey(mainFrame);
+//    checkAnswers(findConfigEditor(mainFrame));
     }
-    
+
     private void checkAnswers(JDialogOperator config) {
-	JListOperator list = new JListOperator(config);
-	list.setSelectedIndex(7);
-	
-	Hashtable table = new JTableOperator(config).getDump();
-	Iterator iter = standartTable.keySet().iterator();
-	while(iter.hasNext()) {
-	    Object key = iter.next();
-	    if(!table.containsKey(key) || !table.containsValue(standartTable.get(key)))
-		throw new JemmyException("Element " + key + "=" + standartTable.get(key) + " was not found in table 'Capability settings'");
-	}
-//	if(!new JTextFieldOperator(config, new NameComponentChooser("qu.title")).getText().equals("Congratulations!")) {
-//	    throw new JemmyException("Configuration is not complete");
-//	}
+    JListOperator list = new JListOperator(config);
+    list.setSelectedIndex(7);
+
+    Hashtable table = new JTableOperator(config).getDump();
+    Iterator iter = standartTable.keySet().iterator();
+    while(iter.hasNext()) {
+        Object key = iter.next();
+        if(!table.containsKey(key) || !table.containsValue(standartTable.get(key)))
+        throw new JemmyException("Element " + key + "=" + standartTable.get(key) + " was not found in table 'Capability settings'");
+    }
+//    if(!new JTextFieldOperator(config, new NameComponentChooser("qu.title")).getText().equals("Congratulations!")) {
+//        throw new JemmyException("Configuration is not complete");
+//    }
     }
 
     @Override
     public String getDescription() {
-	return "Test is depricated. TestSuite's configuration is too small";
+    return "Test is depricated. TestSuite's configuration is too small";
     }
 }

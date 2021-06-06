@@ -57,62 +57,62 @@ public class CreateWorkdir extends Tools {
     public static String NEW_WD_NAME = "some_temp_wd_that_will_be_deleted";
 
     public static class WorkdirOperator extends JDialogOperator {
-	private JDialogOperator dialog;
-	private String commitButtonName;
+    private JDialogOperator dialog;
+    private String commitButtonName;
 
-	private static final String CREATE_DIALOG_NAME = getToolResource("wdc.new.title");
-	private static final String OPEN_DIALOG_NAME = getToolResource("wdc.open.title");
-	private static final String MENU_OPEN_PATH = getExecResource("qlb.file.menu") + "|Open|Work Directory ...";
-	private static final String MENU_CREATE_PATH = getExecResource("qlb.file.menu") + "|" + getExecResource("ch.newWorkDir.act");
+    private static final String CREATE_DIALOG_NAME = getToolResource("wdc.new.title");
+    private static final String OPEN_DIALOG_NAME = getToolResource("wdc.open.title");
+    private static final String MENU_OPEN_PATH = getExecResource("qlb.file.menu") + "|Open|Work Directory ...";
+    private static final String MENU_CREATE_PATH = getExecResource("qlb.file.menu") + "|" + getExecResource("ch.newWorkDir.act");
 
-	private WorkdirOperator() {}
+    private WorkdirOperator() {}
 
-	private WorkdirOperator(JFrameOperator mainFrame, String name) {
-	    super(mainFrame, name);
-	}
+    private WorkdirOperator(JFrameOperator mainFrame, String name) {
+        super(mainFrame, name);
+    }
 
-	private WorkdirOperator(String name) {
-	    super(name);
-	}
+    private WorkdirOperator(String name) {
+        super(name);
+    }
 
-	public String getCommitButtonName() {
-	    return commitButtonName;
-	}
+    public String getCommitButtonName() {
+        return commitButtonName;
+    }
 
-	public void setPath(String path) {
-	}
+    public void setPath(String path) {
+    }
 
-	public void dismiss() {
-	}
+    public void dismiss() {
+    }
 
-	public void accept() {
-	}
+    public void accept() {
+    }
 
-	public static WorkdirOperator openWorkdirByMenu() {
-	    WorkdirOperator workdirOperator = new WorkdirOperator();
-	    workdirOperator.dialog = callOpenByMenu();
-	    
-	    return workdirOperator;
-	}
+    public static WorkdirOperator openWorkdirByMenu() {
+        WorkdirOperator workdirOperator = new WorkdirOperator();
+        workdirOperator.dialog = callOpenByMenu();
 
-	public static WorkdirOperator createWorkdirByMenu() {
-	    WorkdirOperator workdirOperator = new WorkdirOperator();
-	    workdirOperator.dialog = callCreateByMenu();
+        return workdirOperator;
+    }
 
-	    return workdirOperator;
-	}
+    public static WorkdirOperator createWorkdirByMenu() {
+        WorkdirOperator workdirOperator = new WorkdirOperator();
+        workdirOperator.dialog = callCreateByMenu();
 
-	private static JDialogOperator callOpenByMenu() {
-	    JFrameOperator mainFrame = findMainFrame();
-	    new JMenuOperator(mainFrame).pushMenu(MENU_OPEN_PATH, "|");
-	    return new JDialogOperator(mainFrame, OPEN_DIALOG_NAME);
-	}
+        return workdirOperator;
+    }
 
-	private static JDialogOperator callCreateByMenu() {
-	    JFrameOperator mainFrame = findMainFrame();
-	    new JMenuOperator(mainFrame).pushMenu(MENU_CREATE_PATH, "|");
-	    return new JDialogOperator(mainFrame, CREATE_DIALOG_NAME);
-	}
+    private static JDialogOperator callOpenByMenu() {
+        JFrameOperator mainFrame = findMainFrame();
+        new JMenuOperator(mainFrame).pushMenu(MENU_OPEN_PATH, "|");
+        return new JDialogOperator(mainFrame, OPEN_DIALOG_NAME);
+    }
+
+    private static JDialogOperator callCreateByMenu() {
+        JFrameOperator mainFrame = findMainFrame();
+        new JMenuOperator(mainFrame).pushMenu(MENU_CREATE_PATH, "|");
+        return new JDialogOperator(mainFrame, CREATE_DIALOG_NAME);
+    }
     }
 
     public static final String OPEN_WD_MENU_PATH = getExecResource("tmgr.openMenu.menu") + "|" + getExecResource("ch.setWorkDir.act");
@@ -123,140 +123,140 @@ public class CreateWorkdir extends Tools {
     public static final String[] TEXT_FIELD_NAMES = {"Folder name:", "File name:", "Folder Name:", "File Name:"};
 
     public static void startJavaTestWithDefaultTestSuite() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-	new ClassReference("com.sun.javatest.tool.Main").startApplication(new String[]{"-NewDesktop", "-open", TEST_SUITE_NAME});
+    new ClassReference("com.sun.javatest.tool.Main").startApplication(new String[]{"-NewDesktop", "-open", TEST_SUITE_NAME});
     }
 
     public static WorkdirOperator openWorkDirectoryOpening(JFrameOperator mainFrame) {
-	new JMenuOperator(mainFrame, getExecResource("qlb.file.menu")).pushMenuNoBlock(getExecResource("qlb.file.menu") + "|" + OPEN_WD_MENU_PATH, "|", new SimpleStringComparator());
-	WorkdirOperator workdirOperator = new WorkdirOperator(OPEN_DIALOG_NAME);
-	workdirOperator.commitButtonName = "Open";
-	return workdirOperator;
+    new JMenuOperator(mainFrame, getExecResource("qlb.file.menu")).pushMenuNoBlock(getExecResource("qlb.file.menu") + "|" + OPEN_WD_MENU_PATH, "|", new SimpleStringComparator());
+    WorkdirOperator workdirOperator = new WorkdirOperator(OPEN_DIALOG_NAME);
+    workdirOperator.commitButtonName = "Open";
+    return workdirOperator;
     }
 
     public static WorkdirOperator openWorkDirectoryCreation(JFrameOperator mainFrame) {
-	new JMenuOperator(mainFrame, getExecResource("qlb.file.menu")).pushMenuNoBlock(getExecResource("qlb.file.menu") + "|" + CREATE_WD_MENU_PATH, "|");
-	return findWorkDirectoryCreation(mainFrame);
+    new JMenuOperator(mainFrame, getExecResource("qlb.file.menu")).pushMenuNoBlock(getExecResource("qlb.file.menu") + "|" + CREATE_WD_MENU_PATH, "|");
+    return findWorkDirectoryCreation(mainFrame);
     }
 
     public static WorkdirOperator findWorkDirectoryCreation(JFrameOperator mainFrame) {
-	WorkdirOperator workdirOperator = new WorkdirOperator(mainFrame, CREATE_DIALOG_NAME);
-	workdirOperator.commitButtonName = COMMIT_BUTTON_NAME;
-	return workdirOperator;
+    WorkdirOperator workdirOperator = new WorkdirOperator(mainFrame, CREATE_DIALOG_NAME);
+    workdirOperator.commitButtonName = COMMIT_BUTTON_NAME;
+    return workdirOperator;
     }
 
     private static void setPath(WorkdirOperator dialog, String path) {
-	JTextFieldOperator tf = new JTextFieldOperator((JTextField)Tools.getComponent(dialog, TEXT_FIELD_NAMES));
-	tf.setText(path);
+    JTextFieldOperator tf = new JTextFieldOperator((JTextField)Tools.getComponent(dialog, TEXT_FIELD_NAMES));
+    tf.setText(path);
     }
 
     private static void commit(WorkdirOperator dialog) {
-	new JButtonOperator(dialog, dialog.commitButtonName).push();
+    new JButtonOperator(dialog, dialog.commitButtonName).push();
     }
 
     // creates standard work directory using menu, deleting previous optionary
     public static void createWorkDirInTemp(WorkdirOperator mainFrame, boolean delete) {
-	String path = TEMP_PATH + TEMP_WD_NAME;
-	createWorkDir(mainFrame, TEMP_PATH, TEMP_WD_NAME, delete);
+    String path = TEMP_PATH + TEMP_WD_NAME;
+    createWorkDir(mainFrame, TEMP_PATH, TEMP_WD_NAME, delete);
     }
 
     // creates standard work directory using menu
     public static String createWorkDirInCurrent(WorkdirOperator mainFrame) {
-	String path = new File("").getAbsolutePath();
-	createWorkDir(mainFrame, path, TEMP_WD_NAME, true);
-	return path;
+    String path = new File("").getAbsolutePath();
+    createWorkDir(mainFrame, path, TEMP_WD_NAME, true);
+    return path;
     }
 
     public static void createWorkDir_(JFrameOperator mainFrame, String path, String workDir, boolean delete) {
-	createWorkDir(openWorkDirectoryCreation(mainFrame), path, workDir, delete);
+    createWorkDir(openWorkDirectoryCreation(mainFrame), path, workDir, delete);
     }
 
     public static void createWorkDir(WorkdirOperator wrkDir, String path, String workDir, boolean delete) {
-	String fullPath;
-	if(path != null)
-	    fullPath = path + File.separator + workDir;
-	else
-	    fullPath = workDir;
-	
-	if (delete) {
-	    deleteDirectory(new File(fullPath));
-	}
+    String fullPath;
+    if(path != null)
+        fullPath = path + File.separator + workDir;
+    else
+        fullPath = workDir;
 
-	setPath(wrkDir,fullPath);
-
-	commit(wrkDir);
+    if (delete) {
+        deleteDirectory(new File(fullPath));
     }
-    
+
+    setPath(wrkDir,fullPath);
+
+    commit(wrkDir);
+    }
+
     public static boolean verifyWorkdirCreation() {
-	return new File(TEMP_PATH + TEMP_WD_NAME).exists();
+    return new File(TEMP_PATH + TEMP_WD_NAME).exists();
     }
 
     public static boolean verifyWorkdirCreation(String path) {
-	return new File(path).exists();
+    return new File(path).exists();
     }
 
     public static JDialogOperator getOpenErrorDialog(JFrameOperator mainFrame) {
-	return new JDialogOperator(mainFrame, getToolResource("wdc.exists_openIt.title"));
+    return new JDialogOperator(mainFrame, getToolResource("wdc.exists_openIt.title"));
     }
 
     public static String createWorkDirDefWithConfig_() {
-	String path;
-	JFrameOperator mainFrame = findMainFrame();
-	new JMenuOperator(mainFrame).pushMenuNoBlock(OPEN_WD_MENU_PATH, "|");
+    String path;
+    JFrameOperator mainFrame = findMainFrame();
+    new JMenuOperator(mainFrame).pushMenuNoBlock(OPEN_WD_MENU_PATH, "|");
 
-	JDialogOperator wrkDir = new JDialogOperator(mainFrame, CREATE_DIALOG_NAME);
+    JDialogOperator wrkDir = new JDialogOperator(mainFrame, CREATE_DIALOG_NAME);
 
-	new JButtonOperator(wrkDir, getExecResource("wdc.browse.btn")).push();
-	JDialogOperator filer = new JDialogOperator(mainFrame, getExecResource("wdc.filechoosertitle"));
-	JTextFieldOperator tf;
-	tf = new JTextFieldOperator((JTextField)Tools.getComponent(filer, new String[] {"Folder name:", "File name:"}));
-	path = tf.getText() + "/";
-	tf.typeText(path);
-	deleteDirectory(new File(path + TEMP_WD_NAME));
-	new JButtonOperator(filer, "Open").push();
+    new JButtonOperator(wrkDir, getExecResource("wdc.browse.btn")).push();
+    JDialogOperator filer = new JDialogOperator(mainFrame, getExecResource("wdc.filechoosertitle"));
+    JTextFieldOperator tf;
+    tf = new JTextFieldOperator((JTextField)Tools.getComponent(filer, new String[] {"Folder name:", "File name:"}));
+    path = tf.getText() + "/";
+    tf.typeText(path);
+    deleteDirectory(new File(path + TEMP_WD_NAME));
+    new JButtonOperator(filer, "Open").push();
 
-	getTextField(wrkDir, getExecResource("wdc.dir.name.lbl")).typeText(TEMP_WD_NAME);
+    getTextField(wrkDir, getExecResource("wdc.dir.name.lbl")).typeText(TEMP_WD_NAME);
 
-	new JRadioButtonOperator(wrkDir, getExecResource("wdc.template.rb")).push();
+    new JRadioButtonOperator(wrkDir, getExecResource("wdc.template.rb")).push();
 
-	new JButtonOperator(wrkDir, new NameComponentChooser("wdc.template.browse")).push();
+    new JButtonOperator(wrkDir, new NameComponentChooser("wdc.template.browse")).push();
 
-	filer = new JDialogOperator(mainFrame, getExecResource("wdc.templchoosertitle"));
+    filer = new JDialogOperator(mainFrame, getExecResource("wdc.templchoosertitle"));
 
-	tf = new JTextFieldOperator((JTextField)Tools.getComponent(filer, new String[] {"Folder name:", "File name:"}));
-	tf.enterText(TEMPLATE_NAME);
+    tf = new JTextFieldOperator((JTextField)Tools.getComponent(filer, new String[] {"Folder name:", "File name:"}));
+    tf.enterText(TEMPLATE_NAME);
 
-	new JButtonOperator(wrkDir, getExecResource("wdc.create.btn")).push();
+    new JButtonOperator(wrkDir, getExecResource("wdc.create.btn")).push();
 
-	return path;
+    return path;
     }
 
     public static void createWorkDirWithTemplate_(String basePath) {
-	JFrameOperator mainFrame = findMainFrame();
-	new JMenuOperator(mainFrame).pushMenuNoBlock(OPEN_WD_MENU_PATH, "|");
+    JFrameOperator mainFrame = findMainFrame();
+    new JMenuOperator(mainFrame).pushMenuNoBlock(OPEN_WD_MENU_PATH, "|");
 
-	JDialogOperator wrkDir = new JDialogOperator(mainFrame, CREATE_DIALOG_NAME);
+    JDialogOperator wrkDir = new JDialogOperator(mainFrame, CREATE_DIALOG_NAME);
 
-	deleteDirectory(new File(basePath + TEMP_WD_NAME));
-	getTextField(wrkDir, getExecResource("wdc.dir.name.lbl")).typeText(TEMP_WD_NAME);
+    deleteDirectory(new File(basePath + TEMP_WD_NAME));
+    getTextField(wrkDir, getExecResource("wdc.dir.name.lbl")).typeText(TEMP_WD_NAME);
 
-	new JButtonOperator(wrkDir, getExecResource("wdc.browse.btn")).push();
+    new JButtonOperator(wrkDir, getExecResource("wdc.browse.btn")).push();
 
-	JDialogOperator filer = new JDialogOperator(mainFrame, getExecResource("wdc.filechoosertitle"));
+    JDialogOperator filer = new JDialogOperator(mainFrame, getExecResource("wdc.filechoosertitle"));
 
-	JTextFieldOperator tf;
+    JTextFieldOperator tf;
 
-	tf = new JTextFieldOperator((JTextField)Tools.getComponent(filer, new String[] {"Folder name:", "File name:"}));
-	tf.enterText(basePath);
+    tf = new JTextFieldOperator((JTextField)Tools.getComponent(filer, new String[] {"Folder name:", "File name:"}));
+    tf.enterText(basePath);
 
-	new JRadioButtonOperator(wrkDir, getExecResource("wdc.template.rb")).push();
+    new JRadioButtonOperator(wrkDir, getExecResource("wdc.template.rb")).push();
 
-	new JButtonOperator(wrkDir, new NameComponentChooser("wdc.template.browse")).push();
+    new JButtonOperator(wrkDir, new NameComponentChooser("wdc.template.browse")).push();
 
-	filer = new JDialogOperator(mainFrame, getExecResource("wdc.templchoosertitle"));
+    filer = new JDialogOperator(mainFrame, getExecResource("wdc.templchoosertitle"));
 
-	tf = new JTextFieldOperator((JTextField)Tools.getComponent(filer, new String[] {"Folder name:", "File name:"}));
-	tf.enterText(TEMPLATE_NAME);
+    tf = new JTextFieldOperator((JTextField)Tools.getComponent(filer, new String[] {"Folder name:", "File name:"}));
+    tf.enterText(TEMPLATE_NAME);
 
-	new JButtonOperator(wrkDir, getExecResource("wdc.create.btn")).push();
+    new JButtonOperator(wrkDir, getExecResource("wdc.create.btn")).push();
     }
 }

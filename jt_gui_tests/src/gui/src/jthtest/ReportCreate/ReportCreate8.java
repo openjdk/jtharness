@@ -38,33 +38,33 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate8 extends Test {
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        deleteUserData();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		setPlainChecked(rep, false);
-		setXmlChecked(rep, false);
-		String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
-		File f = new File(path);
-		deleteDirectory(f);
+        setPlainChecked(rep, false);
+        setXmlChecked(rep, false);
+        String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
+        File f = new File(path);
+        deleteDirectory(f);
 
-		setPath(rep, path);
+        setPath(rep, path);
 
-		HtmlReport html = new HtmlReport(rep);
-		html.setFilesAll(false);
-		html.setFilesPutInReport(true);
-		html.setOptionsAll(false);
-		html.setOptionsConfiguration(true, true, false, false);
+        HtmlReport html = new HtmlReport(rep);
+        html.setFilesAll(false);
+        html.setFilesPutInReport(true);
+        html.setOptionsAll(false);
+        html.setOptionsConfiguration(true, true, false, false);
 
-		pressCreate(rep);
-		addUsedFile(f);
+        pressCreate(rep);
+        addUsedFile(f);
 
-		pressYes(findShowReportDialog());
+        pressYes(findShowReportDialog());
 
-		new HtmlReportChecker(path, html).commitMainCheck();
-	}
+        new HtmlReportChecker(path, html).commitMainCheck();
+    }
 }

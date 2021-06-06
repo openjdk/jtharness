@@ -37,15 +37,15 @@ public class CustomReport5 extends CReport {
     }
 
 //    public void testImpl() throws Exception {
-        //	startJavaTestWithDefaultWorkDirectory();
+        //    startJavaTestWithDefaultWorkDirectory();
         //
-        //	JFrameOperator mainFrame = findMainFrame();
+        //    JFrameOperator mainFrame = findMainFrame();
         //
-        //	String path = TEMP_PATH+REPORT_NAME+REPORT_POSTFIX_HTML+REPORT_POSTFIX_XML;
-        //	JDialogOperator ask = createReports(mainFrame, path, true, false, true);
-        //	pressYes(ask);
+        //    String path = TEMP_PATH+REPORT_NAME+REPORT_POSTFIX_HTML+REPORT_POSTFIX_XML;
+        //    JDialogOperator ask = createReports(mainFrame, path, true, false, true);
+        //    pressYes(ask);
         //
-        //	JDialogOperator report = new JDialogOperator(getExecResource("rb.title"));
-        //	checkReportBrowser(report, path, true, false, true);
+        //    JDialogOperator report = new JDialogOperator(getExecResource("rb.title"));
+        //    checkReportBrowser(report, path, true, false, true);
 //    }
 }

@@ -38,20 +38,20 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate3 extends ReportCreate {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ReportCreate.ReportCreate3");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ReportCreate.ReportCreate3");
+    }
 
-	@Test
-	public void testReportCreate3() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		startJavaTestWithDefaultWorkDirectory();
+    @Test
+    public void testReportCreate3() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		pressCreate(rep);
+        pressCreate(rep);
 
-		new JDialogOperator(WINDOWNAME + " Harness: Error");
-	}
+        new JDialogOperator(WINDOWNAME + " Harness: Error");
+    }
 }

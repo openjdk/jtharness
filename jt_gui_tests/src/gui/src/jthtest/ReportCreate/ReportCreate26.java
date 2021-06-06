@@ -39,29 +39,29 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate26 extends Test {
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        deleteUserData();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		setXmlChecked(rep, false);
-		setPlainChecked(rep, true);
-		setHtmlChecked(rep, false);
-		chooseFilter(rep, FiltersType.CURRENT_CONFIGURATION);
+        setXmlChecked(rep, false);
+        setPlainChecked(rep, true);
+        setHtmlChecked(rep, false);
+        chooseFilter(rep, FiltersType.CURRENT_CONFIGURATION);
 
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_PLAIN + File.separator;
-		deleteDirectory(path);
-		setPath(rep, path);
-		pressCreate(rep);
-		addUsedFile(path);
-		findShowReportDialog();
+        final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_PLAIN + File.separator;
+        deleteDirectory(path);
+        setPath(rep, path);
+        pressCreate(rep);
+        addUsedFile(path);
+        findShowReportDialog();
 
-		File plainReport = new File(path + "text" + File.separator + "summary.txt");
-		if (!plainReport.canRead()) {
-			throw new JemmyException("can't read text file");
-		}
-	}
+        File plainReport = new File(path + "text" + File.separator + "summary.txt");
+        if (!plainReport.canRead()) {
+            throw new JemmyException("can't read text file");
+        }
+    }
 }

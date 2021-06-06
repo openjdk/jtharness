@@ -25,12 +25,12 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select the couple of questions 
- * from the history list. Mark the questions by selecting Mark Current Question 
- * from the Bookmarks menu. Click on Show Only Marked Questions. Verify that 
- * the abbreviated list, some sequences of questions will be replaces by "...". 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
+ * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+ * Enable Bookmarks from the Bookmarks menu. Select the couple of questions
+ * from the history list. Mark the questions by selecting Mark Current Question
+ * from the Bookmarks menu. Click on Show Only Marked Questions. Verify that
+ * the abbreviated list, some sequences of questions will be replaces by "...".
  */
 package jthtest.Markers;
 
@@ -67,27 +67,27 @@ public class Markers13 extends Test {
         indexes = config.checkVisibility(names);
         config.checkHiddenGroups(indexes, names);
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	closeQS(mainFrame);
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+//    closeQS(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
 //
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
-//	int[] indexes = new int[] {2, 3, 4, 7, 8, 10};
-//	String[] names = getElementsNames(config, indexes);
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//    int[] indexes = new int[] {2, 3, 4, 7, 8, 10};
+//    String[] names = getElementsNames(config, indexes);
 //
-//	pushEnableBookmarks(config);
-//	setBookmarkedByMenu(config, indexes);
-//	pushShowOnlyBookmarked(config);
+//    pushEnableBookmarks(config);
+//    setBookmarkedByMenu(config, indexes);
+//    pushShowOnlyBookmarked(config);
 //
-//	indexes = checkVisibility(config, names);
-//	checkHiddenGroups(config, indexes, names);
+//    indexes = checkVisibility(config, names);
+//    checkHiddenGroups(config, indexes, names);
     }
 
     @Override

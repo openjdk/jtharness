@@ -38,21 +38,21 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class Config_Load1 extends Config_Load {
     public static void main(String[] args) {
-	JUnitCore.main("jthtest.gui.Config_Load.Config_Load1");
+    JUnitCore.main("jthtest.gui.Config_Load.Config_Load1");
     }
-    
+
     @Test
     public void testConfig_Load1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-	startJavatestNewDesktop();
-	
-	JFrameOperator mainFrame = findMainFrame();
-	
-	closeQS(mainFrame); 
-	
-	openTestSuite(mainFrame);
-	
-	createWorkDirInTemp(mainFrame);
-	
-	openLoadConfigDialogByMenu(mainFrame);
+    startJavatestNewDesktop();
+
+    JFrameOperator mainFrame = findMainFrame();
+
+    closeQS(mainFrame);
+
+    openTestSuite(mainFrame);
+
+    createWorkDirInTemp(mainFrame);
+
+    openLoadConfigDialogByMenu(mainFrame);
     }
 }

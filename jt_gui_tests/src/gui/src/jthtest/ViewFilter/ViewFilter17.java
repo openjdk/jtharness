@@ -36,21 +36,21 @@ import org.junit.runner.JUnitCore;
  * @author naryl
  */
 public class ViewFilter17 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter17");
-	}
-	
-	@Test
-	public void testViewFilter17() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		
-		startWithRunWorkdir();
 
-		setPrevStateFilter(mainFrame, "Error");
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter17");
+    }
 
-		checkAllTestLists(mainFrame, null, null, null, null, allTests);
+    @Test
+    public void testViewFilter17() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-	}
-	
+        startWithRunWorkdir();
+
+        setPrevStateFilter(mainFrame, "Error");
+
+        checkAllTestLists(mainFrame, null, null, null, null, allTests);
+
+    }
+
 }
 

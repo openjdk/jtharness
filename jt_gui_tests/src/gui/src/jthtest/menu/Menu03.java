@@ -41,40 +41,40 @@ public class Menu03 extends Test {
 
     @Override
     public void testImpl() throws Exception {
-	startJavatest();
+    startJavatest();
 
-	JFrameOperator mainFrame = findMainFrame();
-	openTestSuite(mainFrame);
+    JFrameOperator mainFrame = findMainFrame();
+    openTestSuite(mainFrame);
 
-	JMenuItemOperator item;
-	getFile_CreateWorkDirectoryMenu(mainFrame);
-	getConfigureMenu(mainFrame);
-	item = getConfigure_EditConfigurationMenu(mainFrame);
-	if(item.isEnabled())
-	    errors.add("Configure->Edit Configuration menu is enabled while expected to be disabled");
-	item = getConfigure_EditQuickSetMenu(mainFrame);
-	if(item.isEnabled())
-	    errors.add("Configure->Edit Quick Set menu is enabled while expected to be disabled");
-	getConfigure_LoadConfigurationMenu(mainFrame);
-	getConfigure_LoadRecentConfigurationMenu(mainFrame);
-	getConfigure_NewConfigurationMenu(mainFrame);
+    JMenuItemOperator item;
+    getFile_CreateWorkDirectoryMenu(mainFrame);
+    getConfigureMenu(mainFrame);
+    item = getConfigure_EditConfigurationMenu(mainFrame);
+    if(item.isEnabled())
+        errors.add("Configure->Edit Configuration menu is enabled while expected to be disabled");
+    item = getConfigure_EditQuickSetMenu(mainFrame);
+    if(item.isEnabled())
+        errors.add("Configure->Edit Quick Set menu is enabled while expected to be disabled");
+    getConfigure_LoadConfigurationMenu(mainFrame);
+    getConfigure_LoadRecentConfigurationMenu(mainFrame);
+    getConfigure_NewConfigurationMenu(mainFrame);
 
-	getRunTestsMenu(mainFrame);
-	getRunTests_MonitorProgressMenu(mainFrame);
-	getRunTests_StartMenu(mainFrame);
-	getRunTests_StopMenu(mainFrame);
+    getRunTestsMenu(mainFrame);
+    getRunTests_MonitorProgressMenu(mainFrame);
+    getRunTests_StartMenu(mainFrame);
+    getRunTests_StopMenu(mainFrame);
 
-	getReportMenu(mainFrame);
-	getReport_CreateReportMenu(mainFrame);
-	getReport_OpenReportMenu(mainFrame);
+    getReportMenu(mainFrame);
+    getReport_CreateReportMenu(mainFrame);
+    getReport_OpenReportMenu(mainFrame);
 
-	getViewMenu(mainFrame);
-	getView_ConfigurationMenu(mainFrame);
-	getView_FilterMenu(mainFrame);
-	getView_LogsMenu(mainFrame);
-	getView_PropertiesMenu(mainFrame);
-	getView_TestSuiteErrorsMenu(mainFrame);
-	
+    getViewMenu(mainFrame);
+    getView_ConfigurationMenu(mainFrame);
+    getView_FilterMenu(mainFrame);
+    getView_LogsMenu(mainFrame);
+    getView_PropertiesMenu(mainFrame);
+    getView_TestSuiteErrorsMenu(mainFrame);
+
     }
 
 }

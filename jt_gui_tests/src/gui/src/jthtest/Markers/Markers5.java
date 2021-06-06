@@ -42,33 +42,33 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class Markers5 extends Markers {
     public static void main(String args[]) {
-	JUnitCore.main("jthtest.gui.Markers.Markers5");
+    JUnitCore.main("jthtest.gui.Markers.Markers5");
     }
-    
+
     @Test
     public void testMarkers5() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-	startJavatestNewDesktop();
-	
-	JFrameOperator mainFrame = findMainFrame();
-	
-	closeQS(mainFrame);
-	openTestSuite(mainFrame);
-	createWorkDirInTemp(mainFrame);
-	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-	
-	openConfigDialogByKey(mainFrame);
-	JDialogOperator config = findConfigEditor(mainFrame);
+    startJavatestNewDesktop();
 
-	pushEnableBookmarks(config);
-	Icon emptyIcon = getIcon(config, 1);
-	setBookmarkedByPopup(config, 1);
-	if(getIcon(config, 1) == emptyIcon)
-	    throw new JemmyException("Icon wasn't found");
-	unsetBookmarkedByPopup(config, 1);
-	if(getIcon(config, 1) != emptyIcon) {
-	    throw new JemmyException("Icon was found after unmarking");
-	}
-	
+    JFrameOperator mainFrame = findMainFrame();
+
+    closeQS(mainFrame);
+    openTestSuite(mainFrame);
+    createWorkDirInTemp(mainFrame);
+    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+
+    openConfigDialogByKey(mainFrame);
+    JDialogOperator config = findConfigEditor(mainFrame);
+
+    pushEnableBookmarks(config);
+    Icon emptyIcon = getIcon(config, 1);
+    setBookmarkedByPopup(config, 1);
+    if(getIcon(config, 1) == emptyIcon)
+        throw new JemmyException("Icon wasn't found");
+    unsetBookmarkedByPopup(config, 1);
+    if(getIcon(config, 1) != emptyIcon) {
+        throw new JemmyException("Icon was found after unmarking");
+    }
+
     }
 }

@@ -36,15 +36,15 @@ public class CustomReport1 extends CReport {
         super(true, false, false);
     }
 //    public void testCustomReport1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-//	startJavaTestWithDefaultWorkDirectory();
-//	
-//	JFrameOperator mainFrame = findMainFrame();
-//	String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML;
-//	
-//	JDialogOperator ask = createReports(mainFrame,path, true, false, false);
-//	pressYes(ask);
-//	
-//	JDialogOperator report = new JDialogOperator(getExecResource("rb.title"));
-//	checkReportBrowser(report, path, true, false, false);
+//    startJavaTestWithDefaultWorkDirectory();
+//
+//    JFrameOperator mainFrame = findMainFrame();
+//    String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML;
+//
+//    JDialogOperator ask = createReports(mainFrame,path, true, false, false);
+//    pressYes(ask);
+//
+//    JDialogOperator report = new JDialogOperator(getExecResource("rb.title"));
+//    checkReportBrowser(report, path, true, false, false);
 //    }
 }

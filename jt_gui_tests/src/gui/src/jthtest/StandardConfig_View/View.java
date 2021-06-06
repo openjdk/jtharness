@@ -40,16 +40,16 @@ import org.netbeans.jemmy.operators.JMenuOperator;
  * The description of the tests has evaluated - it's impossible now to create configs without testsuite and workdirektory - there aren't defaults for them
  */
 public class View extends Tools {
-	protected JFrameOperator mainFrame;
+    protected JFrameOperator mainFrame;
 
         public JDialogOperator callNewConfigurationEditor() {
             new JMenuOperator(mainFrame, "Configure").pushMenuNoBlock("Configure|New Configuration", "|");
-            return findConfigEditor(mainFrame); 
+            return findConfigEditor(mainFrame);
         }/**/
 
         @Before
         public void setUp() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		startJavatest(NEWDESKTOP_ARG);
-		mainFrame = findMainFrame();
-	}
+        startJavatest(NEWDESKTOP_ARG);
+        mainFrame = findMainFrame();
+    }
 }

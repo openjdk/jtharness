@@ -29,16 +29,16 @@
 
     <property file="src/local.properties"/>
     <property file="src/build.properties"/>
-    
+
     <property environment="env"/>
-    
+
     <patternset id="helpset">
-        <include name="**/*.hs"/>        
+        <include name="**/*.hs"/>
         <include name="**/default/**"/>
         <include name="**/images/**"/>
         <exclude name="com/sun/javatest/tool/images/spl_*.gif"/>
     </patternset>
-    
+
     <presetdef name="buildinfo">
         <echo file="${build.classes}/buildInfo.txt"># Build info
             date=${build.date}
@@ -48,7 +48,7 @@
             java=Java(TM) 2 SDK, Version ${java.version}
         </echo>
     </presetdef>
-    
+
     <!-- ********** JT Harness *********************************************** -->
 
     <property name="src.javatest.help" location="${src.dir}/com/sun/javatest/help"/>
@@ -59,12 +59,12 @@
     -->
     <property name="build.javatest.help" location="${build.classes}/com/sun/javatest/help"/>
     <property name="build.javatestAgent.help" location="${build.classes}/com/sun/javatest/agent/help"/>
-    
+
     <patternset id="interview.resources">
         <include name="com/sun/interview/**/*.properties"/>
         <include name="com/sun/interview/wizard/*.gif"/>
     </patternset>
-    
+
     <patternset id="javatest.resources">
         <include name="com/sun/javatest/**/*.properties"/>
         <include name="com/sun/javatest/**/*.xsd"/>
@@ -72,21 +72,21 @@
         <include name="com/sun/javatest/**/*.css"/>
         <exclude name="com/sun/javatest/tool/images/spl_*.gif"/>
     </patternset>
-    
+
     <patternset id="javatest.junit.resources">
         <include name="com/sun/javatest/junit/**/*.properties"/>
     </patternset>
-    
+
     <patternset id="javatest.packages">
         <include name="com/sun/interview/**"/>
         <include name="com/sun/javatest/**"/>
         <exclude name="com/sun/javatest/junit/**"/>
-	</patternset>
+    </patternset>
 
-	<patternset id="test.packages">
-		<include name="com/sun/jct/utils/copyrightcheck/**" />
-	</patternset>
-    
+    <patternset id="test.packages">
+        <include name="com/sun/jct/utils/copyrightcheck/**" />
+    </patternset>
+
     <patternset id="javatest.jdk11.files">
         <include name="com/sun/javatest/Command.java"/>
         <include name="com/sun/javatest/JavaTestSecurityManager.java"/>
@@ -102,60 +102,60 @@
         <include name="com/sun/javatest/util/FileInfoCache.java"/>
         <include name="com/sun/javatest/util/ReadAheadIterator.java"/>
     </patternset>
-    
+
     <patternset id="javatest.junit.packages">
         <include name="com/sun/javatest/junit/**"/>
     </patternset>
-    
+
     <!-- JAR Section -->
     <target name="jar_artifactory">
         <get usetimestamp="true" dest="." ignoreerrors="false">
              <url url="${javatest.binaries}/lib/javatest.jar"/>
         </get>
-	<get usetimestamp="true" dest="src/lib" ignoreerrors="false">
+    <get usetimestamp="true" dest="src/lib" ignoreerrors="false">
              <url url="${hamcrest-core.binaries}/hamcrest-core-1.3.jar"/>
-        </get>		
-	<get usetimestamp="true" dest="src/lib" ignoreerrors="false">
+        </get>
+    <get usetimestamp="true" dest="src/lib" ignoreerrors="false">
              <url url="${junit.binaries}/junit-4.13.2.jar"/>
         </get>
-		 
-	<get usetimestamp="true" dest="src/lib" ignoreerrors="false">
+
+    <get usetimestamp="true" dest="src/lib" ignoreerrors="false">
              <url url="${jemmy.binaries}/jemmy-2.2.7.5.jar"/>
         </get>
-		
-	<get usetimestamp="true" dest="src/lib" ignoreerrors="false">
+
+    <get usetimestamp="true" dest="src/lib" ignoreerrors="false">
              <url url="${jhall.binaries}/jhall-2.0_05.jar"/>
         </get>
-		
-	<rename src="src/lib/junit-4.13.2.jar" dest="src/lib/junit.jar"/>
-	<rename src="src/lib/hamcrest-core-1.3.jar" dest="src/lib/hamcrest.jar"/>
-	<rename src="src/lib/jemmy-2.2.7.5.jar" dest="src/lib/jemmy.jar"/>
-	<rename src="src/lib/jhall-2.0_05.jar" dest="src/lib/jh.jar"/>
-		
+
+    <rename src="src/lib/junit-4.13.2.jar" dest="src/lib/junit.jar"/>
+    <rename src="src/lib/hamcrest-core-1.3.jar" dest="src/lib/hamcrest.jar"/>
+    <rename src="src/lib/jemmy-2.2.7.5.jar" dest="src/lib/jemmy.jar"/>
+    <rename src="src/lib/jhall-2.0_05.jar" dest="src/lib/jh.jar"/>
+
     </target>
-    
+
     <!-- JAR - JUnit Support Section -->
 
     <!-- Compilation Section -->
-    <target name="build">		
+    <target name="build">
     </target>
-    
-	<target name="test-gui" depends="jar_artifactory">
-		
-		<property name="tests.gui.path" value=""/>
 
-		<property name="datapath" value="src/gui/data"/>
-		<property name="example_ts_path" value="${datapath}/demots"/>
-		<property name="javatestjar_path" value="javatest.jar"/>
+    <target name="test-gui" depends="jar_artifactory">
 
-		<property name="tests.gui.srcpath" value="src/gui/src"/>
-		<property name="tests.tempdir" value="build/tests/gui"/>
-		
-		<ant antfile="src/gui-test.xml" target="run"/>
-	</target>
+        <property name="tests.gui.path" value=""/>
 
-	<target name="genreport">
-		<ant antfile="src/gui-test.xml" target="genreport"/>
-	</target>
-	
+        <property name="datapath" value="src/gui/data"/>
+        <property name="example_ts_path" value="${datapath}/demots"/>
+        <property name="javatestjar_path" value="javatest.jar"/>
+
+        <property name="tests.gui.srcpath" value="src/gui/src"/>
+        <property name="tests.tempdir" value="build/tests/gui"/>
+
+        <ant antfile="src/gui-test.xml" target="run"/>
+    </target>
+
+    <target name="genreport">
+        <ant antfile="src/gui-test.xml" target="genreport"/>
+    </target>
+
 </project>

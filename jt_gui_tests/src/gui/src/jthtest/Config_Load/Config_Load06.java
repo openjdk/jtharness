@@ -44,68 +44,68 @@ public class Config_Load06 extends Test {
 //    private JFrameOperator mainFrame;
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = new JTFrame(true);
+    JTFrame mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(Tools.CONFIG_NAME, true);
-	configuration.load(ConfigTools.SECOND_CONFIG_NAME, true);
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(Tools.CONFIG_NAME, true);
+    configuration.load(ConfigTools.SECOND_CONFIG_NAME, true);
 
-	checkMenu(mainFrame);
+    checkMenu(mainFrame);
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	mainFrame = findMainFrame();
+//    mainFrame = findMainFrame();
 //
-//	openTestSuite(mainFrame);
+//    openTestSuite(mainFrame);
 //
-//	createWorkDirInTemp(mainFrame);
+//    createWorkDirInTemp(mainFrame);
 //
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), SECOND_JTI);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), SECOND_JTI);
 //
-//	checkMenu();
+//    checkMenu();
     }
 
 //    private void checkMenu() {
     private void checkMenu(JTFrame mainFrame) {
-	JMenuItemOperator item = mainFrame.getConfigure_LoadRecentConfigurationMenu();
-	if(!item.isEnabled()) {
-	    errors.add("Configuration -> Load Recent Configuration menu is not enabled while expected");
-	    return;
-	}
-	JMenuItemOperator[] elements = mainFrame.getConfigure_LoadRecentConfiguration_subMenu();
-	if (elements.length != 2) {
-	    errors.add("Count of elements is " + elements.length + " while expected 2");
-	}
-	if (elements.length > 0) {
-	    if (!elements[0].getText().endsWith(ConfigTools.SECOND_CONFIG_NAME)) {
-		errors.add("First element in the list is not 'democonfig_second.jti'");
-	    }
-	}
-	if (elements.length > 1) {
-	    if (!elements[1].getText().endsWith(ConfigTools.CONFIG_NAME)) {
-		errors.add("Second element in the list is not 'democonfig.jti'");
-	    }
-	}
+    JMenuItemOperator item = mainFrame.getConfigure_LoadRecentConfigurationMenu();
+    if(!item.isEnabled()) {
+        errors.add("Configuration -> Load Recent Configuration menu is not enabled while expected");
+        return;
+    }
+    JMenuItemOperator[] elements = mainFrame.getConfigure_LoadRecentConfiguration_subMenu();
+    if (elements.length != 2) {
+        errors.add("Count of elements is " + elements.length + " while expected 2");
+    }
+    if (elements.length > 0) {
+        if (!elements[0].getText().endsWith(ConfigTools.SECOND_CONFIG_NAME)) {
+        errors.add("First element in the list is not 'democonfig_second.jti'");
+        }
+    }
+    if (elements.length > 1) {
+        if (!elements[1].getText().endsWith(ConfigTools.CONFIG_NAME)) {
+        errors.add("Second element in the list is not 'democonfig.jti'");
+        }
+    }
 
-//	JMenuItem item = new JMenuOperator(mainFrame, getExecResource("ch.menu")).pushMenu(("ch.menu") + "|" + getExecResource("ce.history.menu"), "|");
-//	MenuElement[] elements = item.getSubElements()[0].getSubElements();
-//	if (elements.length != 2) {
-//	    throw new JemmyException("Count of elements is not 2");
-//	}
-//	if (!((JMenuItem) elements[0]).getText().endsWith(SECOND_JTI)) {
-//	    throw new JemmyException("First element in the list is not 'democonfig_second.jti'");
-//	}
-//	if (!((JMenuItem) elements[1]).getText().endsWith(DEFAULT_JTI)) {
-//	    throw new JemmyException("Second element in the list is not 'democonfig.jti'");
-//	}
+//    JMenuItem item = new JMenuOperator(mainFrame, getExecResource("ch.menu")).pushMenu(("ch.menu") + "|" + getExecResource("ce.history.menu"), "|");
+//    MenuElement[] elements = item.getSubElements()[0].getSubElements();
+//    if (elements.length != 2) {
+//        throw new JemmyException("Count of elements is not 2");
+//    }
+//    if (!((JMenuItem) elements[0]).getText().endsWith(SECOND_JTI)) {
+//        throw new JemmyException("First element in the list is not 'democonfig_second.jti'");
+//    }
+//    if (!((JMenuItem) elements[1]).getText().endsWith(DEFAULT_JTI)) {
+//        throw new JemmyException("Second element in the list is not 'democonfig.jti'");
+//    }
     }
 
     @Override
     public String getDescription() {
-	return "This test loads 2 different configuration files and checks that Recent Configuration menu contains both of them";
+    return "This test loads 2 different configuration files and checks that Recent Configuration menu contains both of them";
     }
 }

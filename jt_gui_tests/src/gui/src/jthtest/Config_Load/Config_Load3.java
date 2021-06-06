@@ -39,24 +39,24 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class Config_Load3 extends Config_Load {
     public static void main(String[] args) {
-	JUnitCore.main("jthtest.gui.Config_Load.Config_Load3");
+    JUnitCore.main("jthtest.gui.Config_Load.Config_Load3");
     }
-    
+
     @Test
     public void testConfig_Load3() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-	startJavatestNewDesktop();
-	
-	JFrameOperator mainFrame = findMainFrame();
-	
-	closeQS(mainFrame); 
-	
-	openTestSuite(mainFrame);
-	
-	createWorkDirInTemp(mainFrame);
-	
-	JDialogOperator fileChooser = openLoadConfigDialogByMenu(mainFrame);
-	openConfigFile(fileChooser, "democonfig_another_suite.jti");
-	
-	new JDialogOperator(WINDOWNAME + " Harness: Error");
+    startJavatestNewDesktop();
+
+    JFrameOperator mainFrame = findMainFrame();
+
+    closeQS(mainFrame);
+
+    openTestSuite(mainFrame);
+
+    createWorkDirInTemp(mainFrame);
+
+    JDialogOperator fileChooser = openLoadConfigDialogByMenu(mainFrame);
+    openConfigFile(fileChooser, "democonfig_another_suite.jti");
+
+    new JDialogOperator(WINDOWNAME + " Harness: Error");
     }
 }

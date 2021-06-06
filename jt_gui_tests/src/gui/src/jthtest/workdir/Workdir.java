@@ -49,91 +49,91 @@ public class Workdir {
     public static final String[] TEXT_FIELD_NAMES = {"Folder name:", "File name:", "Folder Name:", "File Name:"};
 
     public static String getOpenWorkDirectoryDialogName() {
-	return getToolResource(OPEN_DIALOG_TI18N_NAME);
+    return getToolResource(OPEN_DIALOG_TI18N_NAME);
     }
 
     public static String getCreateWorkDirectoryDialogName() {
-	return getToolResource(CREATE_DIALOG_TI18N_NAME);
+    return getToolResource(CREATE_DIALOG_TI18N_NAME);
     }
 
     public static String getCommitButtonName() {
-	return getExecResource("wdc.create.btn");
+    return getExecResource("wdc.create.btn");
     }
 
     public static JDialogOperator openOpenWorkDirectoryDialog(JFrameOperator frame) {
-	Menu.getFile_Open_WorkDirectoryMenu(frame).push();
-	return new JDialogOperator(frame, getOpenWorkDirectoryDialogName());
+    Menu.getFile_Open_WorkDirectoryMenu(frame).push();
+    return new JDialogOperator(frame, getOpenWorkDirectoryDialogName());
     }
 
     public static JDialogOperator openCreateWorkDirectoryDialog(JFrameOperator frame) {
-	Menu.getFile_CreateWorkDirectoryMenu(frame).push();
-	return new JDialogOperator(frame, getCreateWorkDirectoryDialogName());
+    Menu.getFile_CreateWorkDirectoryMenu(frame).push();
+    return new JDialogOperator(frame, getCreateWorkDirectoryDialogName());
     }
 
     public static void chooseWorkDirectoryInDialog(JDialogOperator wdDialog, String wdPath) {
-	JTextFieldOperator fileField = new JTextFieldOperator((JTextField) getComponent(wdDialog, TEXT_FIELD_NAMES));
-	fileField.clearText();
-	fileField.typeText(wdPath);
+    JTextFieldOperator fileField = new JTextFieldOperator((JTextField) getComponent(wdDialog, TEXT_FIELD_NAMES));
+    fileField.clearText();
+    fileField.typeText(wdPath);
     }
 
     public static void commitWorkDirectoryDialog(JDialogOperator wdDialog) {
-	new JButtonOperator(wdDialog, getCommitButtonName()).push();
+    new JButtonOperator(wdDialog, getCommitButtonName()).push();
     }
 
     public static void openWorkDirectory(String wdPath, JFrameOperator frame) {
-	JDialogOperator wdDialog = openOpenWorkDirectoryDialog(frame);
-	JTextFieldOperator fileField = new JTextFieldOperator((JTextField) getComponent(wdDialog, TEXT_FIELD_NAMES));
-	fileField.enterText(wdPath);
+    JDialogOperator wdDialog = openOpenWorkDirectoryDialog(frame);
+    JTextFieldOperator fileField = new JTextFieldOperator((JTextField) getComponent(wdDialog, TEXT_FIELD_NAMES));
+    fileField.enterText(wdPath);
     }
 
     public static void createWorkDirectory(String wdPath, JFrameOperator frame) {
-	JDialogOperator wdDialog = openCreateWorkDirectoryDialog(frame);
-	JTextFieldOperator fileField = new JTextFieldOperator((JTextField) getComponent(wdDialog, TEXT_FIELD_NAMES));
-	fileField.enterText(wdPath);
+    JDialogOperator wdDialog = openCreateWorkDirectoryDialog(frame);
+    JTextFieldOperator fileField = new JTextFieldOperator((JTextField) getComponent(wdDialog, TEXT_FIELD_NAMES));
+    fileField.enterText(wdPath);
     }
     public static void createWorkDirectory(String wdPath, boolean delete, JFrameOperator frame) {
-	if(delete) {
-	    deleteDirectory(wdPath);
-	}
-	JDialogOperator wdDialog = openCreateWorkDirectoryDialog(frame);
-	JTextFieldOperator fileField = new JTextFieldOperator((JTextField) getComponent(wdDialog, TEXT_FIELD_NAMES));
-	fileField.enterText(wdPath);
+    if(delete) {
+        deleteDirectory(wdPath);
+    }
+    JDialogOperator wdDialog = openCreateWorkDirectoryDialog(frame);
+    JTextFieldOperator fileField = new JTextFieldOperator((JTextField) getComponent(wdDialog, TEXT_FIELD_NAMES));
+    fileField.enterText(wdPath);
     }
 
     public static String createWorkDirectoryInTemp(JFrameOperator mainFrame) {
-	int attempts = 0;
+    int attempts = 0;
 
-	JDialogOperator wdDialog = openCreateWorkDirectoryDialog(mainFrame);
+    JDialogOperator wdDialog = openCreateWorkDirectoryDialog(mainFrame);
 
-	String path = TEMP_PATH + TEMP_WD_NAME;
-	while (attempts < 10) {
-	    File file = new File(path);
-	    if (!file.exists()) {
-		break;
-	    }
-	    deleteDirectory(file);
-	    file = new File(path);
-	    if (!file.exists()) {
-		break;
-	    }
-	    path = TEMP_PATH + TEMP_WD_NAME + (int) (Math.random() * 10000);
-	    attempts++;
-	}
-	if (attempts >= 10) {
-	    throw new JemmyException("error");
-	}
-	JTextFieldOperator tf;
-
-	tf = new JTextFieldOperator((JTextField) getComponent(wdDialog, new String[]{"Folder name:", "File name:", "Folder Name:", "File Name:"}));
-	tf.enterText(path);
-	return path;
+    String path = TEMP_PATH + TEMP_WD_NAME;
+    while (attempts < 10) {
+        File file = new File(path);
+        if (!file.exists()) {
+        break;
+        }
+        deleteDirectory(file);
+        file = new File(path);
+        if (!file.exists()) {
+        break;
+        }
+        path = TEMP_PATH + TEMP_WD_NAME + (int) (Math.random() * 10000);
+        attempts++;
     }
-    
+    if (attempts >= 10) {
+        throw new JemmyException("error");
+    }
+    JTextFieldOperator tf;
+
+    tf = new JTextFieldOperator((JTextField) getComponent(wdDialog, new String[]{"Folder name:", "File name:", "Folder Name:", "File Name:"}));
+    tf.enterText(path);
+    return path;
+    }
+
     public static boolean verifyWorkdirCreation() {
-	return new File(TEMP_PATH + TEMP_WD_NAME).exists();
+    return new File(TEMP_PATH + TEMP_WD_NAME).exists();
     }
 
     public static boolean verifyWorkdirCreation(String path) {
-	return new File(path).exists();
+    return new File(path).exists();
     }
 }

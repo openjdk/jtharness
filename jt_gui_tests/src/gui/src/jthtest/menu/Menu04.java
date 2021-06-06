@@ -42,94 +42,94 @@ import static jthtest.menu.Menu.*;
  */
 public class Menu04 extends Test {
 
-	@Override
-	public void testImpl() throws Exception {
-		mainFrame = new JTFrame(true);
+    @Override
+    public void testImpl() throws Exception {
+        mainFrame = new JTFrame(true);
 
-		if (mainFrame.getFile_CloseMenu().isEnabled()) {
-			errors.add("File->Close menu is enabled when unexpected (NewDesktop)");
-		}
+        if (mainFrame.getFile_CloseMenu().isEnabled()) {
+            errors.add("File->Close menu is enabled when unexpected (NewDesktop)");
+        }
 
-		mainFrame.openDefaultTestSuite();
+        mainFrame.openDefaultTestSuite();
 
-		if (!mainFrame.getFile_CloseMenu().isEnabled()) {
-			errors.add("File->Close menu is disabled when unexpected (TS selected, no WD, no config)");
-		}
+        if (!mainFrame.getFile_CloseMenu().isEnabled()) {
+            errors.add("File->Close menu is disabled when unexpected (TS selected, no WD, no config)");
+        }
 
-		if (mainFrame.getConfigure_EditConfigurationMenu().isEnabled()) {
-			errors.add("Configure->Edit Configuration menu is enabled when unexpected (TS selected, no WD, no config)");
-		}
-		if (mainFrame.getConfigure_EditQuickSetMenu().isEnabled()) {
-			errors.add("Configure->Edit Quick Set menu is enabled when unexpected (TS selected, no WD, no config)");
-		}
-		if (mainFrame.getConfigure_LoadRecentConfigurationMenu().isEnabled()) {
-			errors.add("Configure->Load Recent Configuration menu is enabled when unexpected (TS selected, no WD, no config)");
-		}
-		if (!mainFrame.getConfigure_LoadConfigurationMenu().isEnabled()) {
-			errors.add("Configure->Load Configuration menu is disabled when unexpected (TS selected, no WD, no config)");
-		}
-		if (!mainFrame.getConfigure_NewConfigurationMenu().isEnabled()) {
-			errors.add("Configure->New Configuration menu is disabled when unexpected (TS selected, no WD, no config)");
-		}
+        if (mainFrame.getConfigure_EditConfigurationMenu().isEnabled()) {
+            errors.add("Configure->Edit Configuration menu is enabled when unexpected (TS selected, no WD, no config)");
+        }
+        if (mainFrame.getConfigure_EditQuickSetMenu().isEnabled()) {
+            errors.add("Configure->Edit Quick Set menu is enabled when unexpected (TS selected, no WD, no config)");
+        }
+        if (mainFrame.getConfigure_LoadRecentConfigurationMenu().isEnabled()) {
+            errors.add("Configure->Load Recent Configuration menu is enabled when unexpected (TS selected, no WD, no config)");
+        }
+        if (!mainFrame.getConfigure_LoadConfigurationMenu().isEnabled()) {
+            errors.add("Configure->Load Configuration menu is disabled when unexpected (TS selected, no WD, no config)");
+        }
+        if (!mainFrame.getConfigure_NewConfigurationMenu().isEnabled()) {
+            errors.add("Configure->New Configuration menu is disabled when unexpected (TS selected, no WD, no config)");
+        }
 
-		if (mainFrame.getReport_CreateReportMenu().isEnabled()) {
-			errors.add("Report->Create Report menu is enabled when unexpected (TS selected, no WD, no config)");
-		}
-		if (mainFrame.getReport_OpenReportMenu().isEnabled()) {
-			errors.add("Report->Open Report menu is enabled when unexpected (TS selected, no WD, no config)");
-		}
+        if (mainFrame.getReport_CreateReportMenu().isEnabled()) {
+            errors.add("Report->Create Report menu is enabled when unexpected (TS selected, no WD, no config)");
+        }
+        if (mainFrame.getReport_OpenReportMenu().isEnabled()) {
+            errors.add("Report->Open Report menu is enabled when unexpected (TS selected, no WD, no config)");
+        }
 
-		if (!mainFrame.getView_PropertiesMenu().isEnabled()) {
-			errors.add("View->Properties menu is disabled when unexpected (TS selected, no WD, no config)");
-		}
-		if (mainFrame.getView_LogsMenu().isEnabled()) {
-			errors.add("View->Logs menu is enabled when unexpected (TS selected, no WD, no config)");
-		}
-		if (!mainFrame.getView_Configuration_ShowChecklistMenu().isEnabled()) {
-			errors.add("View->Configuration->Show Checklist menu is disabled when unexpected (TS selected, no WD, no config)");
-		}
+        if (!mainFrame.getView_PropertiesMenu().isEnabled()) {
+            errors.add("View->Properties menu is disabled when unexpected (TS selected, no WD, no config)");
+        }
+        if (mainFrame.getView_LogsMenu().isEnabled()) {
+            errors.add("View->Logs menu is enabled when unexpected (TS selected, no WD, no config)");
+        }
+        if (!mainFrame.getView_Configuration_ShowChecklistMenu().isEnabled()) {
+            errors.add("View->Configuration->Show Checklist menu is disabled when unexpected (TS selected, no WD, no config)");
+        }
 
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-		if (mainFrame.getConfigure_LoadRecentConfigurationMenu().isEnabled()) {
-			errors.add("Configure->Load Recent Configuration menu is enabled when unexpected (TS selected, WD created, no config)");
-		}
+        if (mainFrame.getConfigure_LoadRecentConfigurationMenu().isEnabled()) {
+            errors.add("Configure->Load Recent Configuration menu is enabled when unexpected (TS selected, WD created, no config)");
+        }
 
-		if (!mainFrame.getView_PropertiesMenu().isEnabled()) {
-			errors.add("View->Properties menu is disabled when unexpected (TS selected, WD created, no config)");
-		}
-		if (!mainFrame.getView_LogsMenu().isEnabled()) {
-			errors.add("View->Logs menu is disabled when unexpected (TS selected, WD created, no config)");
-		}
-		if (!mainFrame.getReport_CreateReportMenu().isEnabled()) {
-			errors.add("Report->Create Report menu is disabled when unexpected (TS selected, WD created, no config)");
-		}
-		if (!mainFrame.getReport_OpenReportMenu().isEnabled()) {
-			errors.add("Report->Open Report menu is disabled when unexpected (TS selected, WD created, no config)");
-		}
-		if (mainFrame.getView_Configuration_ShowChecklistMenu().isEnabled()) {
-			errors.add("View->Configuration->Show Checklist menu is enabled when unexpected (TS selected, WD created, no config)");
-		}
+        if (!mainFrame.getView_PropertiesMenu().isEnabled()) {
+            errors.add("View->Properties menu is disabled when unexpected (TS selected, WD created, no config)");
+        }
+        if (!mainFrame.getView_LogsMenu().isEnabled()) {
+            errors.add("View->Logs menu is disabled when unexpected (TS selected, WD created, no config)");
+        }
+        if (!mainFrame.getReport_CreateReportMenu().isEnabled()) {
+            errors.add("Report->Create Report menu is disabled when unexpected (TS selected, WD created, no config)");
+        }
+        if (!mainFrame.getReport_OpenReportMenu().isEnabled()) {
+            errors.add("Report->Open Report menu is disabled when unexpected (TS selected, WD created, no config)");
+        }
+        if (mainFrame.getView_Configuration_ShowChecklistMenu().isEnabled()) {
+            errors.add("View->Configuration->Show Checklist menu is enabled when unexpected (TS selected, WD created, no config)");
+        }
 
-		mainFrame.getConfiguration().load(CONFIG_NAME, true);
+        mainFrame.getConfiguration().load(CONFIG_NAME, true);
 
-		if (!mainFrame.getConfigure_LoadConfigurationMenu().isEnabled()) {
-			errors.add("Configure->Load Configuration menu is disabled when unexpected (TS selected, WD created, config loaded)");
-		}
-		if (!mainFrame.getConfigure_NewConfigurationMenu().isEnabled()) {
-			errors.add("Configure->New Configuration menu is disabled when unexpected (TS selected, WD created, config loaded)");
-		}
-		if (!mainFrame.getConfigure_EditConfigurationMenu().isEnabled()) {
-			errors.add("Configure->Edit Configuration menu is disabled when unexpected (TS selected, WD created, config loaded)");
-		}
-		if (!mainFrame.getConfigure_EditQuickSetMenu().isEnabled()) {
-			errors.add("Configure->Edit Quick Set menu is disabled when unexpected (TS selected, WD created, config loaded)");
-		}
+        if (!mainFrame.getConfigure_LoadConfigurationMenu().isEnabled()) {
+            errors.add("Configure->Load Configuration menu is disabled when unexpected (TS selected, WD created, config loaded)");
+        }
+        if (!mainFrame.getConfigure_NewConfigurationMenu().isEnabled()) {
+            errors.add("Configure->New Configuration menu is disabled when unexpected (TS selected, WD created, config loaded)");
+        }
+        if (!mainFrame.getConfigure_EditConfigurationMenu().isEnabled()) {
+            errors.add("Configure->Edit Configuration menu is disabled when unexpected (TS selected, WD created, config loaded)");
+        }
+        if (!mainFrame.getConfigure_EditQuickSetMenu().isEnabled()) {
+            errors.add("Configure->Edit Quick Set menu is disabled when unexpected (TS selected, WD created, config loaded)");
+        }
 
-	}
+    }
 
-	@Override
-	public String getDescription() {
-		return "This test checks that all menu items are enabled/disabled when it is needed. ";
-	}
+    @Override
+    public String getDescription() {
+        return "This test checks that all menu items are enabled/disabled when it is needed. ";
+    }
 }

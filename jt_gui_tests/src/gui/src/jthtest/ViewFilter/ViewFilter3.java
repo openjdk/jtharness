@@ -38,23 +38,23 @@ import org.netbeans.jemmy.operators.JTextFieldOperator;
  * @author naryl
  */
 public class ViewFilter3 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter3");
-	}
-	
-	@Test
-	public void testViewFilter3() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		
-		startWithDefaultWorkdir();
-		
-		JDialogOperator filterEditor = openFilterEditor(mainFrame);
-		
-		selectFilter(filterEditor, 2);
-		
-		new JTextFieldOperator(filterEditor, "Does not apply to this filter.");
-		
-	}
-	
+
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter3");
+    }
+
+    @Test
+    public void testViewFilter3() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+
+        startWithDefaultWorkdir();
+
+        JDialogOperator filterEditor = openFilterEditor(mainFrame);
+
+        selectFilter(filterEditor, 2);
+
+        new JTextFieldOperator(filterEditor, "Does not apply to this filter.");
+
+    }
+
 }
 

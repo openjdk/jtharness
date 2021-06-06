@@ -42,36 +42,36 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate28 extends Test {
 
-	public void testImpl() throws Exception {
+    public void testImpl() throws Exception {
 
-		deleteUserData();
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
-		deleteDirectory(path);
-		createFakeRepDir(path);
-		addUsedFile(path);
+        deleteUserData();
+        final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
+        deleteDirectory(path);
+        createFakeRepDir(path);
+        addUsedFile(path);
 
-		startJavaTestWithDefaultWorkDirectory();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		setXmlChecked(rep, false);
-		setPlainChecked(rep, false);
-		HtmlReport htmlReport = new HtmlReport(rep);
-		htmlReport.setOptionsAll(false);
-		htmlReport.setOptionsResults(true);
-		htmlReport.setFilesAll(false);
-		htmlReport.setExtraBackUp(false);
-		htmlReport.setFilesPutInReport(true);
+        setXmlChecked(rep, false);
+        setPlainChecked(rep, false);
+        HtmlReport htmlReport = new HtmlReport(rep);
+        htmlReport.setOptionsAll(false);
+        htmlReport.setOptionsResults(true);
+        htmlReport.setFilesAll(false);
+        htmlReport.setExtraBackUp(false);
+        htmlReport.setFilesPutInReport(true);
 
-		setPath(rep, path);
-		pressCreate(rep);
-		pressYes(findShowReportDialog());
+        setPath(rep, path);
+        pressCreate(rep);
+        pressYes(findShowReportDialog());
 
-		new HtmlReportChecker(path, htmlReport).commitMainCheck();
-		if (new File(path + "html~1~").exists()) {
-			throw new JemmyException("backup directory was created");
-		}
-	}
+        new HtmlReportChecker(path, htmlReport).commitMainCheck();
+        if (new File(path + "html~1~").exists()) {
+            throw new JemmyException("backup directory was created");
+        }
+    }
 }

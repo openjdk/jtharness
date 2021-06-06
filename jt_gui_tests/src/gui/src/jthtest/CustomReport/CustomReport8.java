@@ -45,31 +45,31 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 public class CustomReport8 extends CustomReport {
     // this test was excluded because current testsuite doesn't provide custom report formats
     public static void main(String[] args) {
-	JUnitCore.main("jthtest.gui.CustomReport.CustomReport8");
+    JUnitCore.main("jthtest.gui.CustomReport.CustomReport8");
     }
-    
+
     @Test
     public void testCustomReport8() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-//	startJavaTestWithDefaultWorkDirectory();
+//    startJavaTestWithDefaultWorkDirectory();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	JDialogOperator report = openReportCreation(mainFrame);
+//    JDialogOperator report = openReportCreation(mainFrame);
 //
-//	DefaultListModel list = (DefaultListModel) getList(report).getModel();
-//	boolean customText = false, customXML = false;
-//	JCheckBox temp;
-//	for(int i = 0; i < list.size(); i++) {
-//	    temp = (JCheckBox) list.get(i);
-//	    String s = temp.getText();
-//	    if(s.equals((i+1) + " " + "Text Custom Report"))
-//		customText = true;
-//	    if(s.equals((i+1) + " " + "XML Custom Report"))
-//		customXML = true;
-//	}
-//	if(!customText)
-//	    throw new JemmyException("Text Custom Report wasn't found in the list");
-//	if(!customXML)
-//	    throw new JemmyException("XML Custom Report wasn't found in the list");
+//    DefaultListModel list = (DefaultListModel) getList(report).getModel();
+//    boolean customText = false, customXML = false;
+//    JCheckBox temp;
+//    for(int i = 0; i < list.size(); i++) {
+//        temp = (JCheckBox) list.get(i);
+//        String s = temp.getText();
+//        if(s.equals((i+1) + " " + "Text Custom Report"))
+//        customText = true;
+//        if(s.equals((i+1) + " " + "XML Custom Report"))
+//        customXML = true;
+//    }
+//    if(!customText)
+//        throw new JemmyException("Text Custom Report wasn't found in the list");
+//    if(!customXML)
+//        throw new JemmyException("XML Custom Report wasn't found in the list");
     }
 }

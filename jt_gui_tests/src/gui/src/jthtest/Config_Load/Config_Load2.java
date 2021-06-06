@@ -42,30 +42,30 @@ import org.netbeans.jemmy.util.NameComponentChooser;
  */
 public class Config_Load2 extends Config_Load {
     public static void main(String[] args) {
-	JUnitCore.main("jthtest.gui.Config_Load.Config_Load2");
+    JUnitCore.main("jthtest.gui.Config_Load.Config_Load2");
     }
-    
+
     @Test
     public void testConfig_Load2() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-	startJavatestNewDesktop();
-	
-	JFrameOperator mainFrame = findMainFrame();
-	
-	closeQS(mainFrame); 
-	
-	openTestSuite(mainFrame);
-	
-	createWorkDirInTemp(mainFrame);
-	
-	JDialogOperator fileChooser = openLoadConfigDialogByMenu(mainFrame);
-	openConfigFile(fileChooser, CONFIG_NAME);
-	
-	if(!new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.Configuration")).getText().equals(CONFIG_NAME)) {
-	    throw new JemmyException("Configuration file wasn't opened"); 
-	}
+    startJavatestNewDesktop();
 
-	openConfigDialogByKey(mainFrame);
-	
-	findConfigEditor(mainFrame);
+    JFrameOperator mainFrame = findMainFrame();
+
+    closeQS(mainFrame);
+
+    openTestSuite(mainFrame);
+
+    createWorkDirInTemp(mainFrame);
+
+    JDialogOperator fileChooser = openLoadConfigDialogByMenu(mainFrame);
+    openConfigFile(fileChooser, CONFIG_NAME);
+
+    if(!new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.Configuration")).getText().equals(CONFIG_NAME)) {
+        throw new JemmyException("Configuration file wasn't opened");
+    }
+
+    openConfigDialogByKey(mainFrame);
+
+    findConfigEditor(mainFrame);
     }
 }

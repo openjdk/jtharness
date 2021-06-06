@@ -39,27 +39,27 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate4 extends Test {
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        deleteUserData();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		String path = TEMP_PATH + "new" + File.separator + "directory";
-		File file = new File(path);
-		deleteDirectory(file);
+        String path = TEMP_PATH + "new" + File.separator + "directory";
+        File file = new File(path);
+        deleteDirectory(file);
 
-		setPath(rep, path);
+        setPath(rep, path);
 
-		pressCreate(rep);
-		addUsedFile(file);
+        pressCreate(rep);
+        addUsedFile(file);
 
-		if (!file.exists()) {
-			throw new JemmyException("directory " + path + " was not created");
-		} else {
-			deleteDirectory(file);
-		}
-	}
+        if (!file.exists()) {
+            throw new JemmyException("directory " + path + " was not created");
+        } else {
+            deleteDirectory(file);
+        }
+    }
 }

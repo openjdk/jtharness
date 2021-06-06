@@ -36,14 +36,14 @@ import jthtest.tools.JTFrame;
  */
 public class Audit5 extends Test {
 
-	public void testImpl() throws Exception {
-		mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
 
-		Audit.AuditTool auditTool = new Audit.AuditTool(mainFrame.getJFrameOperator(), "", "", Tools.LOCAL_PATH + Tools.CONFIG_NAME);
-		try {
-			Audit.AuditTool.waitForLoading(auditTool);
-		} catch (InterruptedException ex) {
-			errors.add("Error occured - summary was not loaded");
-		}
-	}
+        Audit.AuditTool auditTool = new Audit.AuditTool(mainFrame.getJFrameOperator(), "", "", Tools.LOCAL_PATH + Tools.CONFIG_NAME);
+        try {
+            Audit.AuditTool.waitForLoading(auditTool);
+        } catch (InterruptedException ex) {
+            errors.add("Error occured - summary was not loaded");
+        }
+    }
 }

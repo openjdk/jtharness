@@ -58,24 +58,24 @@ public class Markers3 extends Test {
             errors.add("Icon wasn't found");
         }
 
-        //	startJavatestNewDesktop();
+        //    startJavatestNewDesktop();
         //
-        //	JFrameOperator mainFrame = findMainFrame();
+        //    JFrameOperator mainFrame = findMainFrame();
         //
-        //	closeQS(mainFrame);
-        //	openTestSuite(mainFrame);
-        //	createWorkDirInTemp(mainFrame);
-        //	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-        //	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+        //    closeQS(mainFrame);
+        //    openTestSuite(mainFrame);
+        //    createWorkDirInTemp(mainFrame);
+        //    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+        //    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
         //
-        //	openConfigDialogByKey(mainFrame);
-        //	JDialogOperator config = findConfigEditor(mainFrame);
+        //    openConfigDialogByKey(mainFrame);
+        //    JDialogOperator config = findConfigEditor(mainFrame);
         //
-        //	pushEnableBookmarks(config);
-        //	Icon emptyIcon = getIcon(config, 1);
-        //	setBookmarkedByMenu(config, 1);
-        //	if(getIcon(config, 1) == emptyIcon)
-        //	    throw new JemmyException("Icon wasn't found");
+        //    pushEnableBookmarks(config);
+        //    Icon emptyIcon = getIcon(config, 1);
+        //    setBookmarkedByMenu(config, 1);
+        //    if(getIcon(config, 1) == emptyIcon)
+        //        throw new JemmyException("Icon wasn't found");
     }
 
     @Override

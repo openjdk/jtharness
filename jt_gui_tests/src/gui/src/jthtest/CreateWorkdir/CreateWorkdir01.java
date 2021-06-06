@@ -42,29 +42,29 @@ import static jthtest.Tools.*;
 public class CreateWorkdir01 extends Test {
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
+    JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
 
-	File created = mainFrame.createWorkDirectoryInTemp();
-	addUsedFile(created);
+    File created = mainFrame.createWorkDirectoryInTemp();
+    addUsedFile(created);
 
-	if (!created.exists()) {
-	    errors.add("Work directory wasn't created propertly with path " + created.getPath() + " " + created.exists());
-	}
+    if (!created.exists()) {
+        errors.add("Work directory wasn't created propertly with path " + created.getPath() + " " + created.exists());
+    }
 
-//	startJavaTestWithDefaultTestSuite();
+//    startJavaTestWithDefaultTestSuite();
 //
-//	JFrameOperator mainFrame = findMainFrame();
-//	String createdPath = Workdir.createWorkDirectoryInTemp(mainFrame);
-//	addUsedFile(createdPath);
+//    JFrameOperator mainFrame = findMainFrame();
+//    String createdPath = Workdir.createWorkDirectoryInTemp(mainFrame);
+//    addUsedFile(createdPath);
 //
-//	if (!Workdir.verifyWorkdirCreation(createdPath)) {
-//	    errors.add("Work directory wasn't created propertly with path " + createdPath + " " + new File(createdPath).exists());
-//	    Tools.pause(300000);
-//	}
+//    if (!Workdir.verifyWorkdirCreation(createdPath)) {
+//        errors.add("Work directory wasn't created propertly with path " + createdPath + " " + new File(createdPath).exists());
+//        Tools.pause(300000);
+//    }
     }
 
     @Override
     public String getDescription() {
-	return "This test tryes to create a work directory in temp directory using default test suite";
+    return "This test tryes to create a work directory in temp directory using default test suite";
     }
 }

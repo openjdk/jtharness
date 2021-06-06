@@ -44,26 +44,26 @@ import org.netbeans.jemmy.util.NameComponentChooser;
 public class CustomReport10 extends CustomReport {
     // this test was excluded because current testsuite doesn't provide custom report formats
     public static void main(String[] args) {
-	JUnitCore.main("com.sun.javatest.tests.CustomReport.CustomReport10");
+    JUnitCore.main("com.sun.javatest.tests.CustomReport.CustomReport10");
     }
-    
+
     @Test
     public void testCustomReport10() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-//	startJavaTestWithDefaultWorkDirectory();
+//    startJavaTestWithDefaultWorkDirectory();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	JDialogOperator rep = openReportCreation(mainFrame);
+//    JDialogOperator rep = openReportCreation(mainFrame);
 //
-//	JCheckBox t;
-//	t = selectType(rep, ReportType.CUSTOM_TEXT);
-//	t.setSelected(true);
-//	if(!(new JTabbedPaneOperator(rep, new NameComponentChooser("nrd.custom.tabs")).getTabCount() == 2))
-//	    throw new JemmyException("Found another count of tabs in Custom Text Report but 2");
+//    JCheckBox t;
+//    t = selectType(rep, ReportType.CUSTOM_TEXT);
+//    t.setSelected(true);
+//    if(!(new JTabbedPaneOperator(rep, new NameComponentChooser("nrd.custom.tabs")).getTabCount() == 2))
+//        throw new JemmyException("Found another count of tabs in Custom Text Report but 2");
 //
-//	t = selectType(rep, ReportType.CUSTOM_XML);
-//	t.setSelected(true);
-//	if(!(new JTabbedPaneOperator(rep, "Info").getTabCount() == 1))
-//	    throw new JemmyException("Found another count of tabs in Custom XML Report but 1");
+//    t = selectType(rep, ReportType.CUSTOM_XML);
+//    t.setSelected(true);
+//    if(!(new JTabbedPaneOperator(rep, "Info").getTabCount() == 1))
+//        throw new JemmyException("Found another count of tabs in Custom XML Report but 1");
     }
 }

@@ -23,11 +23,11 @@ public class ReportConverter1 extends Test {
     public void testImpl() throws Exception {
         mainFrame = new JTFrame(true);
         mainFrame.getTools_ReportConverterMenu().push();
-        
+
         JEditorPaneOperator op = new JEditorPaneOperator(mainFrame.getJFrameOperator());
         Waiter waiter = new WaiterImpl(op, find1);
         waiter.waitForDone();
-        
+
         JDialogOperator d = new JDialogOperator("Create a Report");
         new JButtonOperator(d, "Cancel").push();
 
@@ -58,5 +58,5 @@ public class ReportConverter1 extends Test {
             return text != null && text.equals(toFind);
         }
     }
-    
+
 }

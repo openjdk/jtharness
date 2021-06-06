@@ -25,12 +25,12 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a new workdirectory. 
- * Bring up Load confiugration under Configure menu. Bring up 
- * configuration editor by doing Ctrl-E. The Back button is grayed out. Click 
- * on Next button. It will navigate to the next question. Click on Back button. 
- * It should navigate to the previous question. The Back button navigates back 
- * an forth between questions. 
+ * Start JavaTest with the -NewDesktop option. Create a new workdirectory.
+ * Bring up Load confiugration under Configure menu. Bring up
+ * configuration editor by doing Ctrl-E. The Back button is grayed out. Click
+ * on Next button. It will navigate to the next question. Click on Back button.
+ * It should navigate to the previous question. The Back button navigates back
+ * an forth between questions.
  */
 package jthtest.Config_Edit;
 
@@ -65,26 +65,26 @@ public class Config_Edit3 extends Test {
             errors.add("After back button pushing list selection is not on first question");
         }
 
-//	startJavatestNewDesktop();
-//	
-//	JFrameOperator mainFrame = findMainFrame();
-//	
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-//	waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-//	
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
+//    startJavatestNewDesktop();
 //
-//	JButtonOperator previous = new JButtonOperator(config, "Back");
-//	previous.push();
-//	if(previous.isEnabled())
-//	    throw new JemmyException("Back button is enabled while unexpected");
-//	pushNextConfigEditor(config);
-//	previous.push();
-//	if(!new JListOperator(config).isSelectedIndex(0))
-//	    throw new JemmyException("After back button pushing list selection is not on first page");
+//    JFrameOperator mainFrame = findMainFrame();
+//
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+//    waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+//
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//
+//    JButtonOperator previous = new JButtonOperator(config, "Back");
+//    previous.push();
+//    if(previous.isEnabled())
+//        throw new JemmyException("Back button is enabled while unexpected");
+//    pushNextConfigEditor(config);
+//    previous.push();
+//    if(!new JListOperator(config).isSelectedIndex(0))
+//        throw new JemmyException("After back button pushing list selection is not on first page");
     }
 
     @Override

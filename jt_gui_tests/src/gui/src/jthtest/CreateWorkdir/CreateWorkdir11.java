@@ -48,53 +48,53 @@ import static jthtest.Tools.*;
 public class CreateWorkdir11 extends Test {
 
     public CreateWorkdir11() {
-	depricated = true;
+    depricated = true;
     }
     private JFrameOperator mainFrame;
 
     public void testImpl() throws Exception {
-	startJavaTestWithDefaultTestSuite();
+    startJavaTestWithDefaultTestSuite();
 
-	mainFrame = findMainFrame();
+    mainFrame = findMainFrame();
 
-	// using especial function as a "Create" button must be inactive
-	createWorkDirWithBadTemplate();
+    // using especial function as a "Create" button must be inactive
+    createWorkDirWithBadTemplate();
     }
 
     private void createWorkDirWithBadTemplate() {
-	new JMenuOperator(mainFrame).pushMenuNoBlock(getExecResource("qlb.file.menu") + "|" + getExecResource("mgr.newWorkDir.act"), "|");
+    new JMenuOperator(mainFrame).pushMenuNoBlock(getExecResource("qlb.file.menu") + "|" + getExecResource("mgr.newWorkDir.act"), "|");
 
-	JDialogOperator wrkDir = new JDialogOperator(mainFrame, getToolResource("wdc.new.title"));
+    JDialogOperator wrkDir = new JDialogOperator(mainFrame, getToolResource("wdc.new.title"));
 
-	deleteDirectory(TEMP_PATH + TEMP_WD_NAME);
+    deleteDirectory(TEMP_PATH + TEMP_WD_NAME);
 
-	getTextField(wrkDir, getExecResource("wdc.dir.name.lbl")).typeText(TEMP_WD_NAME);
+    getTextField(wrkDir, getExecResource("wdc.dir.name.lbl")).typeText(TEMP_WD_NAME);
 
-	new JButtonOperator(wrkDir, getExecResource("wdc.browse.btn")).push();
+    new JButtonOperator(wrkDir, getExecResource("wdc.browse.btn")).push();
 
-	JDialogOperator filer = new JDialogOperator(mainFrame, getExecResource("wdc.filechoosertitle"));
+    JDialogOperator filer = new JDialogOperator(mainFrame, getExecResource("wdc.filechoosertitle"));
 
-	JTextFieldOperator tf;
+    JTextFieldOperator tf;
 
-	tf = new JTextFieldOperator((JTextField) getComponent(filer, new String[]{"Folder name:", "File name:"}));
-	tf.enterText(TEMP_PATH);
+    tf = new JTextFieldOperator((JTextField) getComponent(filer, new String[]{"Folder name:", "File name:"}));
+    tf.enterText(TEMP_PATH);
 
-	new JRadioButtonOperator(wrkDir, getExecResource("wdc.template.rb")).push();
+    new JRadioButtonOperator(wrkDir, getExecResource("wdc.template.rb")).push();
 
-	new JButtonOperator(wrkDir, new NameComponentChooser("wdc.template.browse")).push();
+    new JButtonOperator(wrkDir, new NameComponentChooser("wdc.template.browse")).push();
 
-	filer = new JDialogOperator(mainFrame, getExecResource("wdc.templchoosertitle"));
+    filer = new JDialogOperator(mainFrame, getExecResource("wdc.templchoosertitle"));
 
-	tf = new JTextFieldOperator((JTextField) getComponent(filer, new String[]{"Folder name:", "File name:"}));
-	tf.enterText("/brokenpath/");
+    tf = new JTextFieldOperator((JTextField) getComponent(filer, new String[]{"Folder name:", "File name:"}));
+    tf.enterText("/brokenpath/");
 
-	if (new JButtonOperator(wrkDir, getExecResource("wdc.create.btn")).isEnabled()) {
-	    throw new JemmyException("Create button is available while template path is broken");
-	}
+    if (new JButtonOperator(wrkDir, getExecResource("wdc.create.btn")).isEnabled()) {
+        throw new JemmyException("Create button is available while template path is broken");
+    }
     }
 
     @Override
     public String getDescription() {
-	return "This test is depricated";
+    return "This test is depricated";
     }
 }

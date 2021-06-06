@@ -38,15 +38,15 @@ import org.netbeans.jemmy.operators.JMenuOperator;
  */
 public class View3 extends View {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
             JUnitCore.main("jthtest.gui.StandardConfig_View.View3");
-	}
-        
+    }
+
         @Test
         public void testView3() {
             openTestSuite(mainFrame);
             createWorkDirInTemp(mainFrame);
-            JDialogOperator editor = callNewConfigurationEditor(); 
+            JDialogOperator editor = callNewConfigurationEditor();
             new JMenuOperator(editor, "View").pushMenuNoBlock("View|More Info", "|");
             checkPanel(); // TODO
         }

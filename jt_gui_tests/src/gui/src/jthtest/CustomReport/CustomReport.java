@@ -24,7 +24,7 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-//	JOptionPane.showMessageDialog(null, "element found");
+//    JOptionPane.showMessageDialog(null, "element found");
 
 
 package jthtest.CustomReport;
@@ -44,52 +44,52 @@ import org.netbeans.jemmy.util.NameComponentChooser;
  */
 public class CustomReport extends ReportTools {
     public static JCheckBox selectType(JDialogOperator rep, ReportType sel) {
-	JListOperator types = new JListOperator(rep, new NameComponentChooser("nrd.typel"));
-	int index = 0;
-/*	switch(sel) {
-	    case HTML: index = 0; break; 
-	    case PLAIN_TEXT: index = 1; break;
-	    case XML: index = 2; break;
-	    case CUSTOM_TEXT: index = 3; break;
-	    case CUSTOM_XML: index = 4; break;
-	}/**/
-	index = sel.ordinal();
-	types.setSelectedIndex(index);
-	return (JCheckBox) types.getModel().getElementAt(index);
+    JListOperator types = new JListOperator(rep, new NameComponentChooser("nrd.typel"));
+    int index = 0;
+/*    switch(sel) {
+        case HTML: index = 0; break;
+        case PLAIN_TEXT: index = 1; break;
+        case XML: index = 2; break;
+        case CUSTOM_TEXT: index = 3; break;
+        case CUSTOM_XML: index = 4; break;
+    }/**/
+    index = sel.ordinal();
+    types.setSelectedIndex(index);
+    return (JCheckBox) types.getModel().getElementAt(index);
     }
 
     public static boolean checkReportFile(String path, ReportType type) {
-	String name = ""; 
-	switch(type) {
-	    case HTML: name = File.separator+"html"+File.separator+"report.html"; break; 
-	    case PLAIN_TEXT: name = File.separator+"text"+File.separator+"summary.txt"; break;
-	    case XML: name = File.separator+"xml"+File.separator+"report.xml"; break;
-	}
-	return new File(path+name).exists();
+    String name = "";
+    switch(type) {
+        case HTML: name = File.separator+"html"+File.separator+"report.html"; break;
+        case PLAIN_TEXT: name = File.separator+"text"+File.separator+"summary.txt"; break;
+        case XML: name = File.separator+"xml"+File.separator+"report.xml"; break;
     }
-    
+    return new File(path+name).exists();
+    }
+
     public static void checkReportBrowser(JDialogOperator report, String path,  boolean html, boolean plaintext, boolean xml) {
-	JEditorPaneOperator text = new JEditorPaneOperator(report, new NameComponentChooser("text"));
+    JEditorPaneOperator text = new JEditorPaneOperator(report, new NameComponentChooser("text"));
 
-	if(html) {
-	    if(!text.getText().contains("HTML Report"))
-		throw new JemmyException("'HTML Report' hyperlink was not found in the report");
-	    if(!checkReportFile(path, ReportType.HTML))
-		throw new JemmyException("Html report file was not found");
-	}
+    if(html) {
+        if(!text.getText().contains("HTML Report"))
+        throw new JemmyException("'HTML Report' hyperlink was not found in the report");
+        if(!checkReportFile(path, ReportType.HTML))
+        throw new JemmyException("Html report file was not found");
+    }
 
-	if(plaintext) {
-	    if(!text.getText().contains("Plain Text Report"))
-		throw new JemmyException("'Plain Text Report' hyperlink was not found in the report");
-	    if(!checkReportFile(path, ReportType.PLAIN_TEXT))
-		throw new JemmyException("Plain text report file was not found");
-	}
-	
-	if(xml) {
-	    if(!text.getText().contains("XML Report"))
-		throw new JemmyException("'XML Report' hyperlink was not found in the report");
-	    if(!checkReportFile(path, ReportType.XML))
-		throw new JemmyException("xml report file was not found");
-	}
+    if(plaintext) {
+        if(!text.getText().contains("Plain Text Report"))
+        throw new JemmyException("'Plain Text Report' hyperlink was not found in the report");
+        if(!checkReportFile(path, ReportType.PLAIN_TEXT))
+        throw new JemmyException("Plain text report file was not found");
+    }
+
+    if(xml) {
+        if(!text.getText().contains("XML Report"))
+        throw new JemmyException("'XML Report' hyperlink was not found in the report");
+        if(!checkReportFile(path, ReportType.XML))
+        throw new JemmyException("xml report file was not found");
+    }
     }
 }

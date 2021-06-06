@@ -38,28 +38,28 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate23 extends Test {
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        deleteUserData();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		setXmlChecked(rep, false);
-		setPlainChecked(rep, false);
-		HtmlReport report = new HtmlReport(rep);
-		report.setFilesAll(false);
-		report.setFilesGenerateNotRunTests(true);
-		report.setFilesGeneratePassedTests(true);
+        setXmlChecked(rep, false);
+        setPlainChecked(rep, false);
+        HtmlReport report = new HtmlReport(rep);
+        report.setFilesAll(false);
+        report.setFilesGenerateNotRunTests(true);
+        report.setFilesGeneratePassedTests(true);
 
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
-		deleteDirectory(path);
-		setPath(rep, path);
-		pressCreate(rep);
-		addUsedFile(path);
-		findShowReportDialog();
+        final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
+        deleteDirectory(path);
+        setPath(rep, path);
+        pressCreate(rep);
+        addUsedFile(path);
+        findShowReportDialog();
 
-		checkSpecifiedReportFiles(report, path);
-	}
+        checkSpecifiedReportFiles(report, path);
+    }
 }

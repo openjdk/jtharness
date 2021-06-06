@@ -25,12 +25,12 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select the first question from the 
- * history list. Click on Mark Current Question. The question will be marked. 
- * Select the Remove Bookmarks from the Bookmarks menu. Verify that the marker 
- * for the selected question will be removed. 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
+ * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+ * Enable Bookmarks from the Bookmarks menu. Select the first question from the
+ * history list. Click on Mark Current Question. The question will be marked.
+ * Select the Remove Bookmarks from the Bookmarks menu. Verify that the marker
+ * for the selected question will be removed.
  */
 package jthtest.Markers;
 
@@ -58,29 +58,29 @@ public class Markers22 extends Test {
         config.getBookmarks_EnableBookmarks().push();
         config.setBookmarkedByMenu(1);
         config.getBookmarks_EnableBookmarks().push();
-        
+
         if (config.checkBookmarked(1))
             errors.add("Question is bookmarked after disabling bookmarks while should not");
-        
-//	startJavatestNewDesktop();
-//	
-//	JFrameOperator mainFrame = findMainFrame();
-//	
-//	closeQS(mainFrame);
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-//	
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
-//	
-//	pushEnableBookmarks(config);
-//	setBookmarkedByMenu(config, 1);
-//	pushEnableBookmarks(config);
-//	
-//	if(checkBookmarked(config, 1))
-//	    throw new JemmyException("Question is bookmarked");
+
+//    startJavatestNewDesktop();
+//
+//    JFrameOperator mainFrame = findMainFrame();
+//
+//    closeQS(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+//
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//
+//    pushEnableBookmarks(config);
+//    setBookmarkedByMenu(config, 1);
+//    pushEnableBookmarks(config);
+//
+//    if(checkBookmarked(config, 1))
+//        throw new JemmyException("Question is bookmarked");
     }
 
     @Override

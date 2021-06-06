@@ -34,110 +34,110 @@ package com.sun.demoapi.lists;
  */
 
 // Note: this class is purely provided to be the basis of some
-// examples for writing a testsuite. The code has been written with 
-// simplicity in mind, rather than efficiency, and may contain 
-// deliberate coding errors. For proper support for linked lists, 
+// examples for writing a testsuite. The code has been written with
+// simplicity in mind, rather than efficiency, and may contain
+// deliberate coding errors. For proper support for linked lists,
 // see the classes in java.util.
 
 public class DoublyLinkedList
 {
     /**
-     * An entry in a DoublyLinkedList, containing client data 
+     * An entry in a DoublyLinkedList, containing client data
      * and links to the previous and next entries.
      */
     public class Entry {
-	/**
-	 * Create an entry to be put in a DoublyLinkedList.
-	 * Entries are not created directly by the client: 
-	 * they are created automatically by the methods that
-	 * insert data into the list as a whole.
-	 * @param data Client data to be stored in this entry
-	 * @param next The next entry to appear after this one.
-	 * @see #insert
-	 * @see ##append
-	 * @see #insertAfter
-	 */
-	Entry(Object data, Entry prev, Entry next) {
-	    this.data = data;
-	    this.prev = prev;
-	    this.next = next;
-	}
+    /**
+     * Create an entry to be put in a DoublyLinkedList.
+     * Entries are not created directly by the client:
+     * they are created automatically by the methods that
+     * insert data into the list as a whole.
+     * @param data Client data to be stored in this entry
+     * @param next The next entry to appear after this one.
+     * @see #insert
+     * @see ##append
+     * @see #insertAfter
+     */
+    Entry(Object data, Entry prev, Entry next) {
+        this.data = data;
+        this.prev = prev;
+        this.next = next;
+    }
 
-	/** 
-	 * Get the client data in this entry in the list
-	 * @return the client data in this entry in the list
-	 */
-	public Object getData() {
-	    return data;
-	}
+    /**
+     * Get the client data in this entry in the list
+     * @return the client data in this entry in the list
+     */
+    public Object getData() {
+        return data;
+    }
 
-	/**
-	 * Get the next entry in the list, if any.
-	 * @return the next entry in the list,
-	 * or null if this is the last entry.
-	 */
-	public Entry getNext() {
-	    return next;
-	}
-
-
-	/**
-	 * Get the previous entry in the list, if any.
-	 * @return the previous entry in the list,
-	 * or null if this is the first entry.
-	 */
-	public Entry getPrevious() {
-	    return prev;
-	}
-
-	/**
-	 * Insert a new entry in the list, after this one.
-	 * @param data the client data to be stored in this entry
-	 */
-	public void insertAfter(Object data) {
-	    Entry e = new Entry(data, this, next);
-	    if (next == null)
-		last = e;
-	    else
-		next.prev = e;
-	    next = e;
-	}
+    /**
+     * Get the next entry in the list, if any.
+     * @return the next entry in the list,
+     * or null if this is the last entry.
+     */
+    public Entry getNext() {
+        return next;
+    }
 
 
-	/**
-	 * Insert a new entry in the list, after this one.
-	 * @param data the client data to be stored in this entry
-	 */
-	public void insertBefore(Object data) {
-	    Entry e = new Entry(data, prev, this);
-	    if (prev == null)
-		first = e;
-	    else
-		prev.next = e;
-	    prev = e;
-	}
+    /**
+     * Get the previous entry in the list, if any.
+     * @return the previous entry in the list,
+     * or null if this is the first entry.
+     */
+    public Entry getPrevious() {
+        return prev;
+    }
 
-	/**
-	 * Remove this entry from the list.
-	 * @return the next entry in the list, or null if none
-	 */
-	public Entry remove() {
-	    if (prev == null)
-		first = next;
-	    else
-		prev.next = next;
+    /**
+     * Insert a new entry in the list, after this one.
+     * @param data the client data to be stored in this entry
+     */
+    public void insertAfter(Object data) {
+        Entry e = new Entry(data, this, next);
+        if (next == null)
+        last = e;
+        else
+        next.prev = e;
+        next = e;
+    }
 
-	    if (next == null)
-		last = prev;
-	    else
-		next.prev = prev;
 
-	    return next;
-	}
+    /**
+     * Insert a new entry in the list, after this one.
+     * @param data the client data to be stored in this entry
+     */
+    public void insertBefore(Object data) {
+        Entry e = new Entry(data, prev, this);
+        if (prev == null)
+        first = e;
+        else
+        prev.next = e;
+        prev = e;
+    }
 
-	Object data;
-	Entry prev;
-	Entry next;
+    /**
+     * Remove this entry from the list.
+     * @return the next entry in the list, or null if none
+     */
+    public Entry remove() {
+        if (prev == null)
+        first = next;
+        else
+        prev.next = next;
+
+        if (next == null)
+        last = prev;
+        else
+        next.prev = prev;
+
+        return next;
+    }
+
+    Object data;
+    Entry prev;
+    Entry next;
     }
 
     /**
@@ -151,21 +151,21 @@ public class DoublyLinkedList
      * @return true if the list has no entries, and false otherwise.
      */
     public boolean isEmpty() {
-	return (first == null);
+    return (first == null);
     }
 
     /**
      * Determine if the list contains an entry with a specific item of
      * client data.
-     * @return true if the list contains an entry that matches the 
+     * @return true if the list contains an entry that matches the
      * given client data, and false otherwise.
      */
     public boolean contains(Object data) {
-	for (Entry e = first; e != null; e = e.next) {
-	    if (e.data == data)
-		return true;
-	}
-	return false;
+    for (Entry e = first; e != null; e = e.next) {
+        if (e.data == data)
+        return true;
+    }
+    return false;
     }
 
     /**
@@ -174,7 +174,7 @@ public class DoublyLinkedList
      * @see Entry#getNext
      */
     public Entry getFirst() {
-	return first;
+    return first;
     }
 
     /**
@@ -183,7 +183,7 @@ public class DoublyLinkedList
      * @see Entry#getNext
      */
     public Entry getLast() {
-	return last;
+    return last;
     }
 
     /**
@@ -192,25 +192,25 @@ public class DoublyLinkedList
      * @param data the client data for the new entry
      */
     public void insert(Object data) {
-	Entry e = new Entry(data, null, first);
-	if (first == null) 
-	    last = e;
-	else
-	    first.prev = e;
-	first = e;
+    Entry e = new Entry(data, null, first);
+    if (first == null)
+        last = e;
+    else
+        first.prev = e;
+    first = e;
     }
 
     /**
-     * Append an entry containing the specified client data 
+     * Append an entry containing the specified client data
      * to the end of the list.
      */
     public void append(Object o) {
-	Entry e = new Entry(o, last, null);
-	if (first == null)
-	    first = e;
-	else
-	    last.next = e;
-	last = e;
+    Entry e = new Entry(o, last, null);
+    if (first == null)
+        first = e;
+    else
+        last.next = e;
+    last = e;
     }
 
     /**
@@ -221,15 +221,15 @@ public class DoublyLinkedList
      * the specified client data, and false otherwise.
      */
     public boolean remove(Object data) {
-	for (Entry e = first, prev = null; e != null; prev = e, e = e.next) {
-	    if (e.data == data) {
-		e.remove();
-		return true;
-	    }
-	}
+    for (Entry e = first, prev = null; e != null; prev = e, e = e.next) {
+        if (e.data == data) {
+        e.remove();
+        return true;
+        }
+    }
 
-	// not found
-	return false;
+    // not found
+    return false;
     }
 
     /**
@@ -239,21 +239,21 @@ public class DoublyLinkedList
      * entries in the two lists are either both null, or are equal.
      */
     public boolean equals(Object other) {
-	if (!(other instanceof DoublyLinkedList))
-	    return false;
+    if (!(other instanceof DoublyLinkedList))
+        return false;
 
-	Entry e1 = first;
-	Entry e2 = ((DoublyLinkedList) other).first;
-	while (e1 != null && e2 != null) {
-	    boolean match = (e1.data == null ? e2.data == null : e1.data.equals(e2.data));
-	    if (!match)
-		return false;
+    Entry e1 = first;
+    Entry e2 = ((DoublyLinkedList) other).first;
+    while (e1 != null && e2 != null) {
+        boolean match = (e1.data == null ? e2.data == null : e1.data.equals(e2.data));
+        if (!match)
+        return false;
 
-	     e1 = e1.next;
-	     e2 = e2.next;
-	}
+         e1 = e1.next;
+         e2 = e2.next;
+    }
 
-	return (e1 == null && e2 == null);
+    return (e1 == null && e2 == null);
     }
 
     /**
@@ -261,15 +261,15 @@ public class DoublyLinkedList
      * @return a string representation of the list
      */
     public String toString() {
-	StringBuffer sb = new StringBuffer();
-	sb.append("DoublyLinkedList[");
-	for (Entry p = first; p != null; p = p.next ) {
-	    if (p != first)
-		sb.append(",");
-	    sb.append(String.valueOf(p.data));
-	}
-	sb.append("]");
-	return sb.toString();
+    StringBuffer sb = new StringBuffer();
+    sb.append("DoublyLinkedList[");
+    for (Entry p = first; p != null; p = p.next ) {
+        if (p != first)
+        sb.append(",");
+        sb.append(String.valueOf(p.data));
+    }
+    sb.append("]");
+    return sb.toString();
     }
 
     private Entry first;

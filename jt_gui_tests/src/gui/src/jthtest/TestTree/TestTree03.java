@@ -40,87 +40,87 @@ import jthtest.tools.TestTree;
  */
 public class TestTree03 extends Test {
 
-	@Override
-	public void testImpl() throws Exception {
-		mainFrame = new JTFrame(true);
+    @Override
+    public void testImpl() throws Exception {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		mainFrame.getConfiguration().load(Tools.CONFIG_NAME, true);
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        mainFrame.getConfiguration().load(Tools.CONFIG_NAME, true);
 
-		TestTree tree = mainFrame.getTestTree();
+        TestTree tree = mainFrame.getTestTree();
 
-		tree.click(2);
-		tree.click(4);
-		tree.click(1);
+        tree.click(2);
+        tree.click(4);
+        tree.click(1);
 
-		tree.selectRows(2, 3, 5, 7, 9, 10);
+        tree.selectRows(2, 3, 5, 7, 9, 10);
 
-		Icon testNotRunIcon = IconFactory.getTestIcon(IconFactory.NOT_RUN, false, true);
-		Icon dirNotRunIcon = IconFactory.getTestFolderIcon(IconFactory.NOT_RUN, false, true);
+        Icon testNotRunIcon = IconFactory.getTestIcon(IconFactory.NOT_RUN, false, true);
+        Icon dirNotRunIcon = IconFactory.getTestFolderIcon(IconFactory.NOT_RUN, false, true);
 
-		Icon testPassedIcon = IconFactory.getTestIcon(IconFactory.PASSED, false, true);
-		Icon directoryPassedIcon = IconFactory.getTestFolderIcon(IconFactory.PASSED, false, true);
+        Icon testPassedIcon = IconFactory.getTestIcon(IconFactory.PASSED, false, true);
+        Icon directoryPassedIcon = IconFactory.getTestFolderIcon(IconFactory.PASSED, false, true);
 
-		Icon testFiledIcon = IconFactory.getTestIcon(IconFactory.FAILED, false, true);
-		Icon dirFiledIcon = IconFactory.getTestFolderIcon(IconFactory.FAILED, false, true);
+        Icon testFiledIcon = IconFactory.getTestIcon(IconFactory.FAILED, false, true);
+        Icon dirFiledIcon = IconFactory.getTestFolderIcon(IconFactory.FAILED, false, true);
 
-		tree.runTests().waitForDone();
+        tree.runTests().waitForDone();
 
-		TreePath[] paths = tree.getSelectedRows();
-		for (TreePath path : paths) {
-			Icon icon = tree.getIcon(path);
-			if (tree.isTest(path)) {
-				if (icon != testPassedIcon) {
-					errors.add("Icon on path " + path + " is invalid");
-				}
-			} else {
-				if (path.toString().contains("DoublyLinkedList")) {
-					if (icon != dirFiledIcon) {
-						errors.add("Icon on path " + path + " is invalid");
-					}
-				} else {
-					if (icon != directoryPassedIcon) {
-						errors.add("Icon on path " + path + " is invalid");
-					}
-				}
-			}
-		}
+        TreePath[] paths = tree.getSelectedRows();
+        for (TreePath path : paths) {
+            Icon icon = tree.getIcon(path);
+            if (tree.isTest(path)) {
+                if (icon != testPassedIcon) {
+                    errors.add("Icon on path " + path + " is invalid");
+                }
+            } else {
+                if (path.toString().contains("DoublyLinkedList")) {
+                    if (icon != dirFiledIcon) {
+                        errors.add("Icon on path " + path + " is invalid");
+                    }
+                } else {
+                    if (icon != directoryPassedIcon) {
+                        errors.add("Icon on path " + path + " is invalid");
+                    }
+                }
+            }
+        }
 
-		tree.click(9);
-		if (tree.getIcon(10) != testPassedIcon) {
-			errors.add("Icon on path " + tree.getPathForRow(10) + " is invalid");
-		}
-		if (tree.getIcon(11) != testPassedIcon) {
-			errors.add("Icon on path " + tree.getPathForRow(11) + " is invalid");
-		}
-		if (tree.getIcon(12) != testFiledIcon) {
-			errors.add("Icon on path " + tree.getPathForRow(12) + " is invalid");
-		}
-		if (tree.getIcon(13) != testPassedIcon) {
-			errors.add("Icon on path " + tree.getPathForRow(13) + " is invalid");
-		}
+        tree.click(9);
+        if (tree.getIcon(10) != testPassedIcon) {
+            errors.add("Icon on path " + tree.getPathForRow(10) + " is invalid");
+        }
+        if (tree.getIcon(11) != testPassedIcon) {
+            errors.add("Icon on path " + tree.getPathForRow(11) + " is invalid");
+        }
+        if (tree.getIcon(12) != testFiledIcon) {
+            errors.add("Icon on path " + tree.getPathForRow(12) + " is invalid");
+        }
+        if (tree.getIcon(13) != testPassedIcon) {
+            errors.add("Icon on path " + tree.getPathForRow(13) + " is invalid");
+        }
 
-		tree.clearResults();
+        tree.clearResults();
 
-		tree.click(19);
-		for (int i = 0; i < tree.getVisibleRowCount(); i++) {
-			TreePath path = tree.getPathForRow(i);
-			Icon icon = tree.getIcon(path);
-			if (tree.isTest(path)) {
-				if (icon != testNotRunIcon) {
-					errors.add("Icon on tests path " + path + " is invalid after clearing");
-				}
-			} else {
-				if (icon != dirNotRunIcon) {
-					errors.add("Icon on directories path " + path + " is invalid after clearing");
-				}
-			}
-		}
-	}
+        tree.click(19);
+        for (int i = 0; i < tree.getVisibleRowCount(); i++) {
+            TreePath path = tree.getPathForRow(i);
+            Icon icon = tree.getIcon(path);
+            if (tree.isTest(path)) {
+                if (icon != testNotRunIcon) {
+                    errors.add("Icon on tests path " + path + " is invalid after clearing");
+                }
+            } else {
+                if (icon != dirNotRunIcon) {
+                    errors.add("Icon on directories path " + path + " is invalid after clearing");
+                }
+            }
+        }
+    }
 
-	@Override
-	public String getDescription() {
-		return "This test selects some tests in the test tree, executes them, checks their icons, clears them and checks icons again.";
-	}
+    @Override
+    public String getDescription() {
+        return "This test selects some tests in the test tree, executes them, checks their icons, clears them and checks icons again.";
+    }
 }

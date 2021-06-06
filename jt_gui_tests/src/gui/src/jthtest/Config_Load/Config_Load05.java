@@ -48,75 +48,75 @@ public class Config_Load05 extends Test {
 //    JDialogOperator config;
     public void testImpl() throws Exception {
 
-	mainFrame = new JTFrame(true);
+    mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(Tools.CONFIG_NAME, true);
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(Tools.CONFIG_NAME, true);
 
-	ConfigDialog config = configuration.openByKey();
-	makeChange(config);
+    ConfigDialog config = configuration.openByKey();
+    makeChange(config);
 
-	config.load(Tools.CONFIG_NAME, true);
+    config.load(Tools.CONFIG_NAME, true);
 
-	JDialogOperator warningDialog = new JDialogOperator(mainFrame.getJFrameOperator(), "Warning: Unsaved Changes");
-	if (!warningDialog.isVisible()) {
-	    throw new JemmyException("Dialog is not visible");
-	}
-	new JButtonOperator(warningDialog, "Yes").push();
+    JDialogOperator warningDialog = new JDialogOperator(mainFrame.getJFrameOperator(), "Warning: Unsaved Changes");
+    if (!warningDialog.isVisible()) {
+        throw new JemmyException("Dialog is not visible");
+    }
+    new JButtonOperator(warningDialog, "Yes").push();
 
-	restoreChange(config);
-	config.pushDoneConfigEditor();
+    restoreChange(config);
+    config.pushDoneConfigEditor();
 
-//	try {
-//	    startJavatestNewDesktop();
+//    try {
+//        startJavatestNewDesktop();
 //
-//	    mainFrame = findMainFrame();
+//        mainFrame = findMainFrame();
 //
-//	    openTestSuite(mainFrame);
+//        openTestSuite(mainFrame);
 //
-//	    createWorkDirInTemp(mainFrame);
+//        createWorkDirInTemp(mainFrame);
 //
-//	    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
-//	    Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
+//        openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//        Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
 //
-//	    openConfigDialogByKey(mainFrame);
-//	    config = findConfigEditor(mainFrame);
-//	    makeChange();
+//        openConfigDialogByKey(mainFrame);
+//        config = findConfigEditor(mainFrame);
+//        makeChange();
 //
-//	    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//        openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
 //
-//	    JDialogOperator warningDialog = new JDialogOperator(mainFrame, "Warning: Unsaved Changes");
-//	    if (!warningDialog.isVisible()) {
-//		throw new JemmyException("Dialog is not visible");
-//	    }
-//	    new JButtonOperator(warningDialog, "Yes").push();
+//        JDialogOperator warningDialog = new JDialogOperator(mainFrame, "Warning: Unsaved Changes");
+//        if (!warningDialog.isVisible()) {
+//        throw new JemmyException("Dialog is not visible");
+//        }
+//        new JButtonOperator(warningDialog, "Yes").push();
 //
-//	    openConfigDialogByMenu(mainFrame);
-//	    config = findConfigEditor(mainFrame);
-//	    restoreChange();
-//	    pushDoneConfigEditor(config);
-//	} finally {
-//	}
+//        openConfigDialogByMenu(mainFrame);
+//        config = findConfigEditor(mainFrame);
+//        restoreChange();
+//        pushDoneConfigEditor(config);
+//    } finally {
+//    }
     }
 
 //    private void makeChange() {
     private void makeChange(ConfigDialog config) {
-	JListOperator list = new JListOperator(config.getConfigDialog());
-	list.selectItem(1);
-	new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("str.txt")).setText("changed democonfig");
+    JListOperator list = new JListOperator(config.getConfigDialog());
+    list.selectItem(1);
+    new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("str.txt")).setText("changed democonfig");
     }
 
 //    private void restoreChange() {
     private void restoreChange(ConfigDialog config) {
-	JListOperator list = new JListOperator(config.getConfigDialog());
-	list.selectItem(1);
-	JTextFieldOperator text = new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("str.txt"));
-	if (!text.getText().equals("changed democonfig")) {
-	    throw new JemmyException("Config file wasn't saved");
-	}
-	text.setText("democonfig");
+    JListOperator list = new JListOperator(config.getConfigDialog());
+    list.selectItem(1);
+    JTextFieldOperator text = new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("str.txt"));
+    if (!text.getText().equals("changed democonfig")) {
+        throw new JemmyException("Config file wasn't saved");
+    }
+    text.setText("democonfig");
     }
 }

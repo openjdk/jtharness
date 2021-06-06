@@ -35,9 +35,9 @@ package com.sun.demoapi.lists;
  */
 
 // Note: this class is purely provided to be the basis of some
-// examples for writing a testsuite. The code has been written with 
-// simplicity in mind, rather than efficiency, and may contain 
-// deliberate coding errors. For proper support for linked lists, 
+// examples for writing a testsuite. The code has been written with
+// simplicity in mind, rather than efficiency, and may contain
+// deliberate coding errors. For proper support for linked lists,
 // see the classes in java.util.
 
 public class SortedList
@@ -46,84 +46,84 @@ public class SortedList
      * An entry in a LinkedList, containing client data and a link to the next entry.
      */
     public class Entry {
-	/**
-	 * Create an entry to be put in a LinkedList.
-	 * Entries are not created directly by the client: 
-	 * they are created automatically by the methods that
-	 * insert data into the list as a whole.
-	 * @param data Client data to be stored in this entry
-	 * @param next The next entry to appear after this one.
-	 * @see #insert
-	 * @see ##append
-	 * @see #insertAfter
-	 */
-	Entry(Object data, Entry next) {
-	    this.data = data;
-	    this.next = next;
-	}
+    /**
+     * Create an entry to be put in a LinkedList.
+     * Entries are not created directly by the client:
+     * they are created automatically by the methods that
+     * insert data into the list as a whole.
+     * @param data Client data to be stored in this entry
+     * @param next The next entry to appear after this one.
+     * @see #insert
+     * @see ##append
+     * @see #insertAfter
+     */
+    Entry(Object data, Entry next) {
+        this.data = data;
+        this.next = next;
+    }
 
-	/** 
-	 * Get the client data in this entry in the list
-	 * @return the client data in this entry in the list
-	 */
-	public Object getData() {
-	    return data;
-	}
+    /**
+     * Get the client data in this entry in the list
+     * @return the client data in this entry in the list
+     */
+    public Object getData() {
+        return data;
+    }
 
-	/**
-	 * Get the next entry in the list, if any.
-	 * @return the next entry in the list, 
-	 * or null if this is the last entry.
-	 */
-	public Entry getNext() {
-	    return next;
-	}
+    /**
+     * Get the next entry in the list, if any.
+     * @return the next entry in the list,
+     * or null if this is the last entry.
+     */
+    public Entry getNext() {
+        return next;
+    }
 
-	/**
-	 * Insert a new entry in the list, after this one.
-	 * @param data the client data to be stored in this entry
-	 */
-	public void insertAfter(Object data) {
-	    next = new Entry(data, next);
-	}
+    /**
+     * Insert a new entry in the list, after this one.
+     * @param data the client data to be stored in this entry
+     */
+    public void insertAfter(Object data) {
+        next = new Entry(data, next);
+    }
 
-	/**
-	 * Remove this entry from the list.
-	 * @return the next entry in the list, or null if none
-	 * @throws IllegalStateException if this entry is not in the list
-	 * in which it was created: for example, if it has already been removed.
-	 */
-	public Entry remove() {
-	    for (Entry e = first, prev = null; e != null; prev = e, e = e.next) {
-		if (e == this) {
-		    // update the link to this entry
-		    if (prev == null) 
-			first = e.next;
-		    else 
-			prev.next = e.next;
-		    
-		    return next;
-		}
-	    }
-	    
-	    // not found
-	    throw new IllegalStateException();
-	}
+    /**
+     * Remove this entry from the list.
+     * @return the next entry in the list, or null if none
+     * @throws IllegalStateException if this entry is not in the list
+     * in which it was created: for example, if it has already been removed.
+     */
+    public Entry remove() {
+        for (Entry e = first, prev = null; e != null; prev = e, e = e.next) {
+        if (e == this) {
+            // update the link to this entry
+            if (prev == null)
+            first = e.next;
+            else
+            prev.next = e.next;
 
-	Object data;
-	Entry next;
+            return next;
+        }
+        }
+
+        // not found
+        throw new IllegalStateException();
+    }
+
+    Object data;
+    Entry next;
     };
 
     public static interface Comparator {
-	int compare(Object a, Object b);
+    int compare(Object a, Object b);
     };
 
     /**
      * Create an empty list.
      */
     public SortedList(Comparator comp, boolean ignoreDuplicates) {
-	this.comp = comp;
-	this.ignoreDuplicates = ignoreDuplicates;
+    this.comp = comp;
+    this.ignoreDuplicates = ignoreDuplicates;
     }
 
     /**
@@ -131,21 +131,21 @@ public class SortedList
      * @return true if the list has no entries, and false otherwise.
      */
     public boolean isEmpty() {
-	return (first == null);
+    return (first == null);
     }
 
     /**
      * Determine if the list contains an entry with a specific item of
      * client data.
-     * @return true if the list contains an entry that matches the 
+     * @return true if the list contains an entry that matches the
      * given client data, and false otherwise.
      */
     public boolean contains(Object data) {
-	for (Entry e = first; e != null; e = e.next) {
-	    if (comp.compare(e.data, data) == 0)
-		return true;
-	}
-	return false;
+    for (Entry e = first; e != null; e = e.next) {
+        if (comp.compare(e.data, data) == 0)
+        return true;
+    }
+    return false;
     }
 
     /**
@@ -154,7 +154,7 @@ public class SortedList
      * @see Entry#getNext
      */
     public Entry getFirst() {
-	return first;
+    return first;
     }
 
     /**
@@ -163,29 +163,29 @@ public class SortedList
      * @param data the client data for the new entry
      */
     public boolean insert(Object data) {
-	if (first == null) {
-	    first = new Entry(data, null);
-	    return true;
-	}
+    if (first == null) {
+        first = new Entry(data, null);
+        return true;
+    }
 
-	Entry prev = null;
-	for (Entry e = first; e != null; prev = e, e = e.next) {
-	    int c = comp.compare(data, e.data);
-	    if (c > 0)
-		continue;
-	    else if (c == 0 && ignoreDuplicates)
-		return false;
-	    else 
-		break;
-	}
+    Entry prev = null;
+    for (Entry e = first; e != null; prev = e, e = e.next) {
+        int c = comp.compare(data, e.data);
+        if (c > 0)
+        continue;
+        else if (c == 0 && ignoreDuplicates)
+        return false;
+        else
+        break;
+    }
 
-	// found where to insert
-	if (prev == null)
-	    first = new Entry(data, first);
-	else
-	    prev.next = new Entry(data, prev.next);
+    // found where to insert
+    if (prev == null)
+        first = new Entry(data, first);
+    else
+        prev.next = new Entry(data, prev.next);
 
-	return true;
+    return true;
     }
 
     /**
@@ -196,20 +196,20 @@ public class SortedList
      * the specified client data, and false otherwise.
      */
     public boolean remove(Object data) {
-	for (Entry e = first, prev = null; e != null; prev = e, e = e.next) {
-	    if (comp.compare(e.data, data) == 0) {
-		// update the pointer to this cell
-		if (prev == null) 
-		    first = e.next;
-		else 
-		    prev.next = e.next;
+    for (Entry e = first, prev = null; e != null; prev = e, e = e.next) {
+        if (comp.compare(e.data, data) == 0) {
+        // update the pointer to this cell
+        if (prev == null)
+            first = e.next;
+        else
+            prev.next = e.next;
 
-		return true;
-	    }
-	}
+        return true;
+        }
+    }
 
-	// not found
-	return false;
+    // not found
+    return false;
     }
 
     /**
@@ -219,21 +219,21 @@ public class SortedList
      * entries in the two lists are either both null, or are equal.
      */
     public boolean equals(Object other) {
-	if (!(other instanceof SortedList))
-	    return false;
+    if (!(other instanceof SortedList))
+        return false;
 
-	Entry e1 = first;
-	Entry e2 = ((SortedList) other).first;
-	while (e1 != null && e2 != null) {
-	    boolean match = (e1.data == null ? e2.data == null : e1.data.equals(e2.data));
-	    if (!match)
-		return false;
+    Entry e1 = first;
+    Entry e2 = ((SortedList) other).first;
+    while (e1 != null && e2 != null) {
+        boolean match = (e1.data == null ? e2.data == null : e1.data.equals(e2.data));
+        if (!match)
+        return false;
 
-	     e1 = e1.next;
-	     e2 = e2.next;
-	}
+         e1 = e1.next;
+         e2 = e2.next;
+    }
 
-	return (e1 == null && e2 == null);
+    return (e1 == null && e2 == null);
     }
 
     /**
@@ -241,15 +241,15 @@ public class SortedList
      * @return a string representation of the list
      */
     public String toString() {
-	StringBuffer sb = new StringBuffer();
-	sb.append("SortedList[");
-	for (Entry p = first; p != null; p = p.next ) {
-	    if (p != first)
-		sb.append(",");
-	    sb.append(String.valueOf(p.data));
-	}
-	sb.append("]");
-	return sb.toString();
+    StringBuffer sb = new StringBuffer();
+    sb.append("SortedList[");
+    for (Entry p = first; p != null; p = p.next ) {
+        if (p != first)
+        sb.append(",");
+        sb.append(String.valueOf(p.data));
+    }
+    sb.append("]");
+    return sb.toString();
     }
 
     private Entry first;

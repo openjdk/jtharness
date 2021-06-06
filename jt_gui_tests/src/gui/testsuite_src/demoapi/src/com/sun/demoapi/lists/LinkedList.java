@@ -34,9 +34,9 @@ package com.sun.demoapi.lists;
  */
 
 // Note: this class is purely provided to be the basis of some
-// examples for writing a testsuite. The code has been written with 
-// simplicity in mind, rather than efficiency, and may contain 
-// deliberate coding errors. For proper support for linked lists, 
+// examples for writing a testsuite. The code has been written with
+// simplicity in mind, rather than efficiency, and may contain
+// deliberate coding errors. For proper support for linked lists,
 // see the classes in java.util.
 
 public class LinkedList
@@ -45,78 +45,78 @@ public class LinkedList
      * An entry in a LinkedList, containing client data and a link to the next entry.
      */
     public class Entry {
-	/**
-	 * Create an entry to be put in a LinkedList.
-	 * Entries are not created directly by the client: 
-	 * they are created automatically by the methods that
-	 * insert data into the list as a whole.
-	 * @param data Client data to be stored in this entry
-	 * @param next The next entry to appear after this one.
-	 * @see #insert
-	 * @see ##append
-	 * @see #insertAfter
-	 */
-	Entry(Object data, Entry next) {
-	    this.data = data;
-	    this.next = next;
-	}
+    /**
+     * Create an entry to be put in a LinkedList.
+     * Entries are not created directly by the client:
+     * they are created automatically by the methods that
+     * insert data into the list as a whole.
+     * @param data Client data to be stored in this entry
+     * @param next The next entry to appear after this one.
+     * @see #insert
+     * @see ##append
+     * @see #insertAfter
+     */
+    Entry(Object data, Entry next) {
+        this.data = data;
+        this.next = next;
+    }
 
-	/** 
-	 * Get the client data in this entry in the list
-	 * @return the client data in this entry in the list
-	 */
-	public Object getData() {
-	    return data;
-	}
+    /**
+     * Get the client data in this entry in the list
+     * @return the client data in this entry in the list
+     */
+    public Object getData() {
+        return data;
+    }
 
-	/**
-	 * Get the next entry in the list, if any.
-	 * @return the next entry in the list, 
-	 * or null if this is the last entry.
-	 */
-	public Entry getNext() {
-	    return next;
-	}
+    /**
+     * Get the next entry in the list, if any.
+     * @return the next entry in the list,
+     * or null if this is the last entry.
+     */
+    public Entry getNext() {
+        return next;
+    }
 
-	/**
-	 * Insert a new entry in the list, after this one.
-	 * @param data the client data to be stored in this entry
-	 */
-	public void insertAfter(Object data) {
-	    next = new Entry(data, next);
-	    if (last == this)
-		last = next;
-	}
+    /**
+     * Insert a new entry in the list, after this one.
+     * @param data the client data to be stored in this entry
+     */
+    public void insertAfter(Object data) {
+        next = new Entry(data, next);
+        if (last == this)
+        last = next;
+    }
 
-	/**
-	 * Remove this entry from the list.
-	 * @return the next entry in the list, or null if none
-	 * @throws IllegalStateException if this entry is not in the list
-	 * in which it was created: for example, if it has already been removed.
-	 */
-	public Entry remove() {
-	    for (Entry e = first, prev = null; e != null; prev = e, e = e.next) {
-		if (e == this) {
-		    // update the pointer to this cell
-		    if (prev == null) 
-			first = e.next;
-		    else 
-			prev.next = e.next;
-		    
-		    // update last pointer if necessary
-		    if (e == last)
-			last = prev;
-		    
-		    return next;
-		}
-	    }
-	    
-	    // not found
-	    throw new IllegalStateException();
-	}
+    /**
+     * Remove this entry from the list.
+     * @return the next entry in the list, or null if none
+     * @throws IllegalStateException if this entry is not in the list
+     * in which it was created: for example, if it has already been removed.
+     */
+    public Entry remove() {
+        for (Entry e = first, prev = null; e != null; prev = e, e = e.next) {
+        if (e == this) {
+            // update the pointer to this cell
+            if (prev == null)
+            first = e.next;
+            else
+            prev.next = e.next;
 
-	Object data;
-	Entry next;
+            // update last pointer if necessary
+            if (e == last)
+            last = prev;
+
+            return next;
+        }
+        }
+
+        // not found
+        throw new IllegalStateException();
+    }
+
+    Object data;
+    Entry next;
     }
 
     /**
@@ -130,21 +130,21 @@ public class LinkedList
      * @return true if the list has no entries, and false otherwise.
      */
     public boolean isEmpty() {
-	return (first == null);
+    return (first == null);
     }
 
     /**
      * Determine if the list contains an entry with a specific item of
      * client data.
-     * @return true if the list contains an entry that matches the 
+     * @return true if the list contains an entry that matches the
      * given client data, and false otherwise.
      */
     public boolean contains(Object data) {
-	for (Entry e = first; e != null; e = e.next) {
-	    if (e.data == data)
-		return true;
-	}
-	return false;
+    for (Entry e = first; e != null; e = e.next) {
+        if (e.data == data)
+        return true;
+    }
+    return false;
     }
 
     /**
@@ -153,7 +153,7 @@ public class LinkedList
      * @see Entry#getNext
      */
     public Entry getFirst() {
-	return first;
+    return first;
     }
 
     /**
@@ -162,23 +162,23 @@ public class LinkedList
      * @param data the client data for the new entry
      */
     public void insert(Object data) {
-	Entry e = new Entry(data, first);
-	first = e;
-	if (last == null)
-	    last = first;
+    Entry e = new Entry(data, first);
+    first = e;
+    if (last == null)
+        last = first;
     }
 
     /**
-     * Append an entry containing the specified client data 
+     * Append an entry containing the specified client data
      * to the end of the list.
      */
     public void append(Object o) {
-	Entry e = new Entry(o, null);
-	if (first == null) 
-	    first = e;
-	else
-	    last.next = e;
-	last = e;
+    Entry e = new Entry(o, null);
+    if (first == null)
+        first = e;
+    else
+        last.next = e;
+    last = e;
     }
 
     /**
@@ -189,24 +189,24 @@ public class LinkedList
      * the specified client data, and false otherwise.
      */
     public boolean remove(Object data) {
-	for (Entry e = first, prev = null; e != null; prev = e, e = e.next) {
-	    if (e.data == null ? data == null : e.data.equals(data)) {
-		// update the pointer to this cell
-		if (prev == null) 
-		    first = e.next;
-		else 
-		    prev.next = e.next;
+    for (Entry e = first, prev = null; e != null; prev = e, e = e.next) {
+        if (e.data == null ? data == null : e.data.equals(data)) {
+        // update the pointer to this cell
+        if (prev == null)
+            first = e.next;
+        else
+            prev.next = e.next;
 
-		// update last pointer if necessary
-		if (e == last)
-		    last = prev;
+        // update last pointer if necessary
+        if (e == last)
+            last = prev;
 
-		return true;
-	    }
-	}
+        return true;
+        }
+    }
 
-	// not found
-	return false;
+    // not found
+    return false;
     }
 
     /**
@@ -216,21 +216,21 @@ public class LinkedList
      * entries in the two lists are either both null, or are equal.
      */
     public boolean equals(Object other) {
-	if (!(other instanceof LinkedList))
-	    return false;
+    if (!(other instanceof LinkedList))
+        return false;
 
-	Entry e1 = first;
-	Entry e2 = ((LinkedList) other).first;
-	while (e1 != null && e2 != null) {
-	    boolean match = (e1.data == null ? e2.data == null : e1.data.equals(e2.data));
-	    if (!match)
-		return false;
+    Entry e1 = first;
+    Entry e2 = ((LinkedList) other).first;
+    while (e1 != null && e2 != null) {
+        boolean match = (e1.data == null ? e2.data == null : e1.data.equals(e2.data));
+        if (!match)
+        return false;
 
-	     e1 = e1.next;
-	     e2 = e2.next;
-	}
+         e1 = e1.next;
+         e2 = e2.next;
+    }
 
-	return (e1 == null && e2 == null);
+    return (e1 == null && e2 == null);
     }
 
     /**
@@ -238,15 +238,15 @@ public class LinkedList
      * @return a string representation of the list
      */
     public String toString() {
-	StringBuffer sb = new StringBuffer();
-	sb.append("LinkedList[");
-	for (Entry p = first; p != null; p = p.next ) {
-	    if (p != first)
-		sb.append(",");
-	    sb.append(String.valueOf(p.data));
-	}
-	sb.append("]");
-	return sb.toString();
+    StringBuffer sb = new StringBuffer();
+    sb.append("LinkedList[");
+    for (Entry p = first; p != null; p = p.next ) {
+        if (p != first)
+        sb.append(",");
+        sb.append(String.valueOf(p.data));
+    }
+    sb.append("]");
+    return sb.toString();
     }
 
     private Entry first;

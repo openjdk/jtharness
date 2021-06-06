@@ -41,23 +41,23 @@ import org.netbeans.jemmy.operators.JDialogOperator;
  * @author naryl
  */
 public class ViewFilter11 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter11");
-	}
-	
-	@Test
-	public void testViewFilter11() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter11");
+    }
+
+    @Test
+    public void testViewFilter11() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 //
-//		startWithDefaultWorkdir();
+//        startWithDefaultWorkdir();
 //
-//		selectFilter(mainFrame, "Custom");
+//        selectFilter(mainFrame, "Custom");
 //
-//		setKeywordFilter(mainFrame, 1, "kk6");
+//        setKeywordFilter(mainFrame, 1, "kk6");
 //
-//		new JDialogOperator("Error").close();
+//        new JDialogOperator("Error").close();
 //
-	}
-	
+    }
+
 }
 

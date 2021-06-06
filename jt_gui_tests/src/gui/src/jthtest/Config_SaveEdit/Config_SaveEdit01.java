@@ -25,7 +25,7 @@
  * questions.
  */
 /*
- * Load a configuration file, open Configuration Editor. Change value in description 
+ * Load a configuration file, open Configuration Editor. Change value in description
  * and save configuration. Close WD, reopen it, value should be changed
  */
 package jthtest.Config_SaveEdit;
@@ -45,76 +45,76 @@ import org.netbeans.jemmy.util.NameComponentChooser;
  */
 public class Config_SaveEdit01 extends Test {
 
-	public void testImpl() throws Exception {
-		mainFrame = new JTFrame(true);
+    public void testImpl() throws Exception {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		File createdWD = mainFrame.createWorkDirectoryInTemp();
-		addUsedFile(createdWD);
+        mainFrame.openDefaultTestSuite();
+        File createdWD = mainFrame.createWorkDirectoryInTemp();
+        addUsedFile(createdWD);
 
-		Configuration configuration = mainFrame.getConfiguration();
-		configuration.load(Tools.CONFIG_NAME, true);
+        Configuration configuration = mainFrame.getConfiguration();
+        configuration.load(Tools.CONFIG_NAME, true);
 
-		ConfigDialog config = configuration.openByKey();
-		config.selectQuestion(2);
-		JTextFieldOperator jTextFieldOperator = new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("str.txt"));
-		String save = jTextFieldOperator.getText();
-		jTextFieldOperator.setText("some_description");
-		config.getFile_SaveMenu().push();
-		config.pushDoneConfigEditor();
+        ConfigDialog config = configuration.openByKey();
+        config.selectQuestion(2);
+        JTextFieldOperator jTextFieldOperator = new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("str.txt"));
+        String save = jTextFieldOperator.getText();
+        jTextFieldOperator.setText("some_description");
+        config.getFile_SaveMenu().push();
+        config.pushDoneConfigEditor();
 
-		mainFrame.closeCurrentTool();
+        mainFrame.closeCurrentTool();
 
-		mainFrame.getWorkDirectory().openWorkDirectory(createdWD);
-		Tools.waitForWDLoading(mainFrame.getJFrameOperator(), Tools.WDLoadingResult.SOME_NOTRUN);
+        mainFrame.getWorkDirectory().openWorkDirectory(createdWD);
+        Tools.waitForWDLoading(mainFrame.getJFrameOperator(), Tools.WDLoadingResult.SOME_NOTRUN);
 
-		config = configuration.openByKey();
-		config.selectQuestion(2);
-		jTextFieldOperator = new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("str.txt"));
-		if (!jTextFieldOperator.getText().equals("some_description")) {
-			errors.add("description was not saved");
-		}
-		jTextFieldOperator.setText(save);
-		config.pushDoneConfigEditor();
-		mainFrame.closeAllTools();
+        config = configuration.openByKey();
+        config.selectQuestion(2);
+        jTextFieldOperator = new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("str.txt"));
+        if (!jTextFieldOperator.getText().equals("some_description")) {
+            errors.add("description was not saved");
+        }
+        jTextFieldOperator.setText(save);
+        config.pushDoneConfigEditor();
+        mainFrame.closeAllTools();
 
-//	startJavatestNewDesktop();
-//	JFrameOperator mainFrame = findMainFrame();
-//	closeQS(mainFrame);
+//    startJavatestNewDesktop();
+//    JFrameOperator mainFrame = findMainFrame();
+//    closeQS(mainFrame);
 //
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
 //
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
 //
-//	selectQuestion(config, 2); // description
-//	JTextFieldOperator jTextFieldOperator = new JTextFieldOperator(config, new NameComponentChooser("str.txt"));
-//	String save = jTextFieldOperator.getText();
-//	jTextFieldOperator.setText("some_description");
-//	new JMenuOperator(config, "File").pushMenuNoBlock(new String[] {"File", "Save"});
-//	pushDoneConfigEditor(config);
+//    selectQuestion(config, 2); // description
+//    JTextFieldOperator jTextFieldOperator = new JTextFieldOperator(config, new NameComponentChooser("str.txt"));
+//    String save = jTextFieldOperator.getText();
+//    jTextFieldOperator.setText("some_description");
+//    new JMenuOperator(config, "File").pushMenuNoBlock(new String[] {"File", "Save"});
+//    pushDoneConfigEditor(config);
 //
-//	new JMenuOperator(mainFrame, "File").pushMenu(new String[] {"File", "Close"});
-//	CreateWorkdir.createWorkDir(CreateWorkdir.openWorkDirectoryOpening(mainFrame), TEMP_PATH, TEMP_WD, false);
-////	openWorkDirectory(mainFrame, TEMP_PATH + TEMP_WD);
-//	waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
+//    new JMenuOperator(mainFrame, "File").pushMenu(new String[] {"File", "Close"});
+//    CreateWorkdir.createWorkDir(CreateWorkdir.openWorkDirectoryOpening(mainFrame), TEMP_PATH, TEMP_WD, false);
+////    openWorkDirectory(mainFrame, TEMP_PATH + TEMP_WD);
+//    waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
 //
-//	openConfigDialogByKey(mainFrame);
-//	config = findConfigEditor(mainFrame);
+//    openConfigDialogByKey(mainFrame);
+//    config = findConfigEditor(mainFrame);
 //
-//	selectQuestion(config, 2);
-//	jTextFieldOperator = new JTextFieldOperator(config, new NameComponentChooser("str.txt"));
-//	if(!jTextFieldOperator.getText().equals("some_description"))
-//	    throw new JemmyException("description was not saved");
-//	jTextFieldOperator.setText(save);
-//	pushDoneConfigEditor(config);
-	}
+//    selectQuestion(config, 2);
+//    jTextFieldOperator = new JTextFieldOperator(config, new NameComponentChooser("str.txt"));
+//    if(!jTextFieldOperator.getText().equals("some_description"))
+//        throw new JemmyException("description was not saved");
+//    jTextFieldOperator.setText(save);
+//    pushDoneConfigEditor(config);
+    }
 
-	@Override
-	public String getDescription() {
-		return "Load a configuration file, open Configuration Editor. Change value in description and save configuration. Close WD, reopen it, value should be changed.";
-	}
+    @Override
+    public String getDescription() {
+        return "Load a configuration file, open Configuration Editor. Change value in description and save configuration. Close WD, reopen it, value should be changed.";
+    }
 }

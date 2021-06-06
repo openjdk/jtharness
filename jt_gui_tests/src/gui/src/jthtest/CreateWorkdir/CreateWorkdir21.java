@@ -45,29 +45,29 @@ public class CreateWorkdir21 extends Test {
      */
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
+    JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
 
-	File wd = mainFrame.getWorkDirectory().createWorkDirectory(Tools.TEMP_PATH, "path with spaces", true);
-	addUsedFile(wd);
+    File wd = mainFrame.getWorkDirectory().createWorkDirectory(Tools.TEMP_PATH, "path with spaces", true);
+    addUsedFile(wd);
 
-	if (!wd.exists()) {
-	    errors.add(("Workdir with spaces ('path with spaces') was not created in temp directory. Tried to create " + wd.getAbsolutePath()));
-	}
+    if (!wd.exists()) {
+        errors.add(("Workdir with spaces ('path with spaces') was not created in temp directory. Tried to create " + wd.getAbsolutePath()));
+    }
 
-//	startJavaTestWithDefaultTestSuite();
-//	JFrameOperator mainFrame = findMainFrame();
+//    startJavaTestWithDefaultTestSuite();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	String name = TEMP_PATH + "path with spaces";
-//	createWorkDirectory(name, true, mainFrame);
-//	addUsedFile(name);
+//    String name = TEMP_PATH + "path with spaces";
+//    createWorkDirectory(name, true, mainFrame);
+//    addUsedFile(name);
 //
-//	if (!verifyWorkdirCreation(name)) {
-//	    throw new JemmyException("Workdir with spaces '" + name + "' was not created");
-//	}
+//    if (!verifyWorkdirCreation(name)) {
+//        throw new JemmyException("Workdir with spaces '" + name + "' was not created");
+//    }
     }
 
     @Override
     public String getDescription() {
-	return "Any WD should be opened normaly with any name - even with spaces";
+    return "Any WD should be opened normaly with any name - even with spaces";
     }
 }

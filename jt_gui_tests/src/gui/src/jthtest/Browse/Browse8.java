@@ -34,31 +34,31 @@ import org.junit.runner.JUnitCore;
  * @author naryl
  */
 public class Browse8 extends Browse {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.Browse.Browse8");
-	}
-	
-	@Test
-	public void testBrowse8() {
-		browseTestsuite(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-		pickDefaultTestsuite(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-		useConfigTemplate(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-		startConfigEditor(quickStartDialog);
-		
-		finish(quickStartDialog, false);
-		
-		checkCounters(mainFrame, new int[] {0, 0, 0, 17, 17, 0, 17});
-		
-	}
-	
+
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.Browse.Browse8");
+    }
+
+    @Test
+    public void testBrowse8() {
+        browseTestsuite(quickStartDialog);
+
+        next(quickStartDialog);
+
+        pickDefaultTestsuite(quickStartDialog);
+
+        next(quickStartDialog);
+
+        useConfigTemplate(quickStartDialog);
+
+        next(quickStartDialog);
+
+        startConfigEditor(quickStartDialog);
+
+        finish(quickStartDialog, false);
+
+        checkCounters(mainFrame, new int[] {0, 0, 0, 17, 17, 0, 17});
+
+    }
+
 }

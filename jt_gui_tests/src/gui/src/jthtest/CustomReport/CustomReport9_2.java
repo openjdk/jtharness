@@ -44,30 +44,30 @@ import org.netbeans.jemmy.operators.JTextFieldOperator;
 public class CustomReport9_2 extends CustomReport {
     // this test was excluded because current testsuite doesn't provide custom report formats
     public static void main(String[] args) {
-	JUnitCore.main("jthtest.gui.CustomReport.CustomReport9_2");
+    JUnitCore.main("jthtest.gui.CustomReport.CustomReport9_2");
     }
-    
+
     @Test
     public void testCustomReport9_2() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-//	startJavaTestWithDefaultWorkDirectory();
+//    startJavaTestWithDefaultWorkDirectory();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	JDialogOperator rep = openReportCreation(mainFrame);
+//    JDialogOperator rep = openReportCreation(mainFrame);
 //
-//	setPath(rep, TEMP_PATH + REPORT_NAME + File.separator);
+//    setPath(rep, TEMP_PATH + REPORT_NAME + File.separator);
 //
-//	JCheckBox t = selectType(rep, ReportType.CUSTOM_TEXT);
-//	t.setSelected(true);
-//   	selectType(rep, ReportType.CUSTOM_XML);
-//	selectType(rep, ReportType.CUSTOM_TEXT);
+//    JCheckBox t = selectType(rep, ReportType.CUSTOM_TEXT);
+//    t.setSelected(true);
+//       selectType(rep, ReportType.CUSTOM_XML);
+//    selectType(rep, ReportType.CUSTOM_TEXT);
 //
-//	String repPath = "customText";
-//	new JTextFieldOperator(rep, "", 1).typeText(repPath);
+//    String repPath = "customText";
+//    new JTextFieldOperator(rep, "", 1).typeText(repPath);
 //
-//	pressCreate(rep);
+//    pressCreate(rep);
 //
-//	if(!(new File(TEMP_PATH + REPORT_NAME + File.separator + "customReport1" + File.separator + repPath).exists()))
-//	    throw new JemmyException("Report was not created");
+//    if(!(new File(TEMP_PATH + REPORT_NAME + File.separator + "customReport1" + File.separator + repPath).exists()))
+//        throw new JemmyException("Report was not created");
     }
 }

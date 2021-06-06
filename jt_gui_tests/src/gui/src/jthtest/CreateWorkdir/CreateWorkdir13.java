@@ -42,23 +42,23 @@ import static jthtest.workdir.Workdir.*;
 public class CreateWorkdir13 extends Test {
 
     public CreateWorkdir13() {
-	depricated = true;
+    depricated = true;
     }
 
     public void testImpl() throws Exception {
-	startJavaTestWithDefaultTestSuite();
+    startJavaTestWithDefaultTestSuite();
 
-	JFrameOperator mainFrame = findMainFrame();
+    JFrameOperator mainFrame = findMainFrame();
 
-	createWorkDirectory(TEMP_PATH + TEMP_WD_NAME, true, mainFrame);
-	addUsedFile(TEMP_PATH + TEMP_WD_NAME);
-	ConfigTools.openConfigFile(ConfigTools.openLoadConfigDialogByMenu(mainFrame), TEMPLATE_NAME);
+    createWorkDirectory(TEMP_PATH + TEMP_WD_NAME, true, mainFrame);
+    addUsedFile(TEMP_PATH + TEMP_WD_NAME);
+    ConfigTools.openConfigFile(ConfigTools.openLoadConfigDialogByMenu(mainFrame), TEMPLATE_NAME);
 
-	new JDialogOperator(mainFrame, getExecResource("ep.ce.title"));
+    new JDialogOperator(mainFrame, getExecResource("ep.ce.title"));
     }
 
     @Override
     public String getDescription() {
-	return "This test is depricated ";
+    return "This test is depricated ";
     }
 }

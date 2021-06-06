@@ -42,46 +42,46 @@ import org.netbeans.jemmy.util.NameComponentChooser;
 public class Config_New04 extends Test {
 
     public Config_New04() {
-	depricated = true;
+    depricated = true;
     }
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = new JTFrame(true);
+    JTFrame mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(Tools.LOCAL_PATH, Tools.CONFIG_NAME, true);
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(Tools.LOCAL_PATH, Tools.CONFIG_NAME, true);
 
-	ConfigDialog configDialog = configuration.openByKey();
-	configDialog.selectQuestion(2);
-	new JTextFieldOperator(configDialog.getConfigDialog(), new NameComponentChooser("str.txt")).typeText("some_text");
-	configDialog.closeByMenu();
+    ConfigDialog configDialog = configuration.openByKey();
+    configDialog.selectQuestion(2);
+    new JTextFieldOperator(configDialog.getConfigDialog(), new NameComponentChooser("str.txt")).typeText("some_text");
+    configDialog.closeByMenu();
 
-	new JDialogOperator("Warning: Unsaved Changes");
+    new JDialogOperator("Warning: Unsaved Changes");
 
-//	mainFrame.getConfiguration().
+//    mainFrame.getConfiguration().
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
-//	closeQS(mainFrame);
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
+//    JFrameOperator mainFrame = findMainFrame();
+//    closeQS(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
 //
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
-//	selectQuestion(config, 2);
-//	new JTextFieldOperator(config, new NameComponentChooser("str.txt")).typeText("some_text");
-//	openConfigCreation(mainFrame);
-//	new JDialogOperator("Warning: Unsaved Changes");
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//    selectQuestion(config, 2);
+//    new JTextFieldOperator(config, new NameComponentChooser("str.txt")).typeText("some_text");
+//    openConfigCreation(mainFrame);
+//    new JDialogOperator("Warning: Unsaved Changes");
     }
 
     @Override
     public String getDescription() {
-	return "This test is depricated - Configuration menu items are disabled when editing";
+    return "This test is depricated - Configuration menu items are disabled when editing";
     }
 }

@@ -42,21 +42,21 @@ import com.sun.javatest.AllTestsFilter;
  * @author naryl
  */
 public class ViewFilter1 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter1");
-	}
 
-	@Test
-	public void testViewFilter1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		startWithDefaultWorkdir();
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter1");
+    }
 
-		JComboBoxOperator comboBox = new JComboBoxOperator(mainFrame, new NameComponentChooser("fconfig.box"));
-		Object selectedItem = comboBox.getSelectedItem();
-		
-		if (!(selectedItem instanceof AllTestsFilter)) {
-			fail("Wrong default value in filter selector. Expected: All Tests. Found: " + selectedItem);
-		}
-	}
-	
+    @Test
+    public void testViewFilter1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        startWithDefaultWorkdir();
+
+        JComboBoxOperator comboBox = new JComboBoxOperator(mainFrame, new NameComponentChooser("fconfig.box"));
+        Object selectedItem = comboBox.getSelectedItem();
+
+        if (!(selectedItem instanceof AllTestsFilter)) {
+            fail("Wrong default value in filter selector. Expected: All Tests. Found: " + selectedItem);
+        }
+    }
+
 }

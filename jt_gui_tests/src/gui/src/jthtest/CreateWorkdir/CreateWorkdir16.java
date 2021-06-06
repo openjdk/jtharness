@@ -49,30 +49,30 @@ import static jthtest.workdir.Workdir.*;
 public class CreateWorkdir16 extends Test {
 
     public CreateWorkdir16() {
-	depricated = true;
+    depricated = true;
     }
 
     public void testImpl() throws Exception {
-	startJavaTestWithDefaultTestSuite();
-	
-	JFrameOperator mainFrame = findMainFrame();
-	JDialogOperator wdCreate = openOpenWorkDirectoryDialog(mainFrame);
-	
-	new JButtonOperator(wdCreate, getExecResource("wdc.browse.btn")).push();
-	JDialogOperator filer = new JDialogOperator(mainFrame, getExecResource("wdc.filechoosertitle"));
+    startJavaTestWithDefaultTestSuite();
 
-	JTextFieldOperator tf;
+    JFrameOperator mainFrame = findMainFrame();
+    JDialogOperator wdCreate = openOpenWorkDirectoryDialog(mainFrame);
 
-	tf = new JTextFieldOperator((JTextField)getComponent(filer, new String[] {"Folder name:", "File name:"}));
-	tf.enterText(TEMP_PATH);
-	
-	JTextField browsePath = (JTextField)(new JLabelOperator(wdCreate, getExecResource("wdc.dir.path.lbl")).getLabelFor());
-	if(!(browsePath.getText() + File.separator).equals(TEMP_PATH))
-	    throw new JemmyException("Browsing works not correctly");
+    new JButtonOperator(wdCreate, getExecResource("wdc.browse.btn")).push();
+    JDialogOperator filer = new JDialogOperator(mainFrame, getExecResource("wdc.filechoosertitle"));
+
+    JTextFieldOperator tf;
+
+    tf = new JTextFieldOperator((JTextField)getComponent(filer, new String[] {"Folder name:", "File name:"}));
+    tf.enterText(TEMP_PATH);
+
+    JTextField browsePath = (JTextField)(new JLabelOperator(wdCreate, getExecResource("wdc.dir.path.lbl")).getLabelFor());
+    if(!(browsePath.getText() + File.separator).equals(TEMP_PATH))
+        throw new JemmyException("Browsing works not correctly");
     }
 
     @Override
     public String getDescription() {
-	return "This test is depricated";
+    return "This test is depricated";
     }
 }

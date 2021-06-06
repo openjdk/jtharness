@@ -38,25 +38,25 @@ import org.netbeans.jemmy.operators.JMenuOperator;
  * @author naryl
  */
 public class ViewFilter5 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter5");
-	}
-	
-	@Test
-	public void testViewFilter5() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		
-		startWithDefaultWorkdir();
 
-		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter5");
+    }
 
-		selectFilter(filterEditor, 3);
+    @Test
+    public void testViewFilter5() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		getTextField(filterEditor, "Custom Label:").enterText("NewFilter");
+        startWithDefaultWorkdir();
 
-		new JMenuOperator(mainFrame, "View").pushMenu("View|Filter|NewFilter", "|");
-		
-	}
-	
+        JDialogOperator filterEditor = openFilterEditor(mainFrame);
+
+        selectFilter(filterEditor, 3);
+
+        getTextField(filterEditor, "Custom Label:").enterText("NewFilter");
+
+        new JMenuOperator(mainFrame, "View").pushMenu("View|Filter|NewFilter", "|");
+
+    }
+
 }
 

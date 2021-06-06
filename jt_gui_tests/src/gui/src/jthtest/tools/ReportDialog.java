@@ -357,7 +357,7 @@ public class ReportDialog {
     }
 
     public void setKFLCheckForTestcases(boolean b) {
-        if (kflTC == b) 
+        if (kflTC == b)
             return;
         if (tab != Tabs.KFL_OPTIONS_TAB) {
             selectTab(Tabs.KFL_OPTIONS_TAB);
@@ -367,7 +367,7 @@ public class ReportDialog {
     }
 
     public void setKFLFail2Fail(boolean b) {
-        if (kflf2f == b) 
+        if (kflf2f == b)
             return;
         if (tab != Tabs.KFL_OPTIONS_TAB) {
             selectTab(Tabs.KFL_OPTIONS_TAB);
@@ -377,7 +377,7 @@ public class ReportDialog {
     }
 
     public void setKFLFail2Error(boolean b) {
-        if (kflf2e == b) 
+        if (kflf2e == b)
             return;
         if (tab != Tabs.KFL_OPTIONS_TAB) {
             selectTab(Tabs.KFL_OPTIONS_TAB);
@@ -387,7 +387,7 @@ public class ReportDialog {
     }
 
     public void setKFLFail2Missing(boolean b) {
-        if (kflf2m == b) 
+        if (kflf2m == b)
             return;
         if (tab != Tabs.KFL_OPTIONS_TAB) {
             selectTab(Tabs.KFL_OPTIONS_TAB);

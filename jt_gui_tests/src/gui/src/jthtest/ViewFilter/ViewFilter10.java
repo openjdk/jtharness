@@ -40,24 +40,24 @@ import org.junit.runner.JUnitCore;
  * @author naryl
  */
 public class ViewFilter10 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter10");
-	}
-	
-	@Test
-	public void testViewFilter10() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, Exception {
-// this test doesn't work with current testsuite - keywords are not supported
-		
-//		startWithDefaultWorkdir();
-//
-//		selectFilter(mainFrame, "Custom");
-//
-//		setKeywordFilter(mainFrame, 0, "k1");
-//
-//		checkAllTestLists(mainFrame, null, null, null, null, allTests);
 
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter10");
+    }
+
+    @Test
+    public void testViewFilter10() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, Exception {
+// this test doesn't work with current testsuite - keywords are not supported
+
+//        startWithDefaultWorkdir();
+//
+//        selectFilter(mainFrame, "Custom");
+//
+//        setKeywordFilter(mainFrame, 0, "k1");
+//
+//        checkAllTestLists(mainFrame, null, null, null, null, allTests);
+
+    }
 
 }
 

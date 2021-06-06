@@ -40,17 +40,17 @@ import com.sun.demoapi.BigNum;
  * @sources CompareTest.java
  * @executeClass com.sun.demots.tests.bignum.CompareTest
  */
-public class CompareTest implements Test 
+public class CompareTest implements Test
 {
     /**
      * Standard command-line entry point.
      * @param args command line args (ignored)
      */
     public static void main(String[] args) {
-	PrintWriter err = new PrintWriter(System.err, true);
-	Test t = new CompareTest();
-	Status s = t.run(args, null, err);
-	s.exit();
+    PrintWriter err = new PrintWriter(System.err, true);
+    Test t = new CompareTest();
+    Status s = t.run(args, null, err);
+    s.exit();
     }
 
     /**
@@ -62,100 +62,100 @@ public class CompareTest implements Test
      * @return a Status object indicating if the test passed or failed
      */
     public Status run(String[] args, PrintWriter out, PrintWriter err) {
-	// save error stream to which to write error messages
-	this.err = err;
+    // save error stream to which to write error messages
+    this.err = err;
 
-	boolean ok = true;
+    boolean ok = true;
 
-	ok = ok & test("-12345678901234567890", "-12345678901234567891",  1);
-	ok = ok & test("-12345678901234567890", "-12345678901234567890",  0);
-	ok = ok & test("-12345678901234567890", "-12345678901234567889", -1);
-	ok = ok & test("-12345678901234567890",           "-1234567890", -1);
-	ok = ok & test("-12345678901234567890",                  "-123", -1);
-	ok = ok & test("-12345678901234567890",                     "0", -1);
-	ok = ok & test("-12345678901234567890",                   "123", -1);
-	ok = ok & test("-12345678901234567890",            "1234567890", -1);
-	ok = ok & test("-12345678901234567890",  "12345678901234567890", -1);
+    ok = ok & test("-12345678901234567890", "-12345678901234567891",  1);
+    ok = ok & test("-12345678901234567890", "-12345678901234567890",  0);
+    ok = ok & test("-12345678901234567890", "-12345678901234567889", -1);
+    ok = ok & test("-12345678901234567890",           "-1234567890", -1);
+    ok = ok & test("-12345678901234567890",                  "-123", -1);
+    ok = ok & test("-12345678901234567890",                     "0", -1);
+    ok = ok & test("-12345678901234567890",                   "123", -1);
+    ok = ok & test("-12345678901234567890",            "1234567890", -1);
+    ok = ok & test("-12345678901234567890",  "12345678901234567890", -1);
 
-	ok = ok & test("-1234567890", "-12345678901234567890",  1);
-	ok = ok & test("-1234567890",           "-1234567891",  1);
-	ok = ok & test("-1234567890",           "-1234567890",  0);
-	ok = ok & test("-1234567890",           "-1234567889", -1);
-	ok = ok & test("-1234567890",                  "-123", -1);
-	ok = ok & test("-1234567890",                     "0", -1);
-	ok = ok & test("-1234567890",                   "123", -1);
-	ok = ok & test("-1234567890",            "1234567890", -1);
-	ok = ok & test("-1234567890",  "12345678901234567890", -1);
+    ok = ok & test("-1234567890", "-12345678901234567890",  1);
+    ok = ok & test("-1234567890",           "-1234567891",  1);
+    ok = ok & test("-1234567890",           "-1234567890",  0);
+    ok = ok & test("-1234567890",           "-1234567889", -1);
+    ok = ok & test("-1234567890",                  "-123", -1);
+    ok = ok & test("-1234567890",                     "0", -1);
+    ok = ok & test("-1234567890",                   "123", -1);
+    ok = ok & test("-1234567890",            "1234567890", -1);
+    ok = ok & test("-1234567890",  "12345678901234567890", -1);
 
-	ok = ok & test("-123", "-12345678901234567890",  1);
-	ok = ok & test("-123",           "-1234567890",  1);
-	ok = ok & test("-123",                  "-124",  1);
-	ok = ok & test("-123",                  "-123",  0);
-	ok = ok & test("-123",                  "-122", -1);
-	ok = ok & test("-123",                     "0", -1);
-	ok = ok & test("-123",                   "123", -1);
-	ok = ok & test("-123",            "1234567890", -1);
-	ok = ok & test("-123",  "12345678901234567890", -1);
+    ok = ok & test("-123", "-12345678901234567890",  1);
+    ok = ok & test("-123",           "-1234567890",  1);
+    ok = ok & test("-123",                  "-124",  1);
+    ok = ok & test("-123",                  "-123",  0);
+    ok = ok & test("-123",                  "-122", -1);
+    ok = ok & test("-123",                     "0", -1);
+    ok = ok & test("-123",                   "123", -1);
+    ok = ok & test("-123",            "1234567890", -1);
+    ok = ok & test("-123",  "12345678901234567890", -1);
 
-	ok = ok & test("0", "-12345678901234567890",  1);
-	ok = ok & test("0",           "-1234567890",  1);
-	ok = ok & test("0",                  "-123",  1);
-	ok = ok & test("0",                    "-1",  1);
-	ok = ok & test("0",                     "0",  0);
-	ok = ok & test("0",                     "1", -1);
-	ok = ok & test("0",                   "123", -1);
-	ok = ok & test("0",            "1234567890", -1);
-	ok = ok & test("0",  "12345678901234567890", -1);
+    ok = ok & test("0", "-12345678901234567890",  1);
+    ok = ok & test("0",           "-1234567890",  1);
+    ok = ok & test("0",                  "-123",  1);
+    ok = ok & test("0",                    "-1",  1);
+    ok = ok & test("0",                     "0",  0);
+    ok = ok & test("0",                     "1", -1);
+    ok = ok & test("0",                   "123", -1);
+    ok = ok & test("0",            "1234567890", -1);
+    ok = ok & test("0",  "12345678901234567890", -1);
 
-	ok = ok & test("123", "-12345678901234567890",  1);
-	ok = ok & test("123",           "-1234567890",  1);
-	ok = ok & test("123",                  "-123",  1);
-	ok = ok & test("123",                     "0",  1);
-	ok = ok & test("123",                   "122",  1);
-	ok = ok & test("123",                   "123",  0);
-	ok = ok & test("123",                   "124", -1);
-	ok = ok & test("123",            "1234567890", -1);
-	ok = ok & test("123",  "12345678901234567890", -1);
+    ok = ok & test("123", "-12345678901234567890",  1);
+    ok = ok & test("123",           "-1234567890",  1);
+    ok = ok & test("123",                  "-123",  1);
+    ok = ok & test("123",                     "0",  1);
+    ok = ok & test("123",                   "122",  1);
+    ok = ok & test("123",                   "123",  0);
+    ok = ok & test("123",                   "124", -1);
+    ok = ok & test("123",            "1234567890", -1);
+    ok = ok & test("123",  "12345678901234567890", -1);
 
-	ok = ok & test("1234567890", "-12345678901234567890",  1);
-	ok = ok & test("1234567890",           "-1234567890",  1);
-	ok = ok & test("1234567890",                  "-123",  1);
-	ok = ok & test("1234567890",                     "0",  1);
-	ok = ok & test("1234567890",                   "123",  1);
-	ok = ok & test("1234567890",            "1234567889",  1);
-	ok = ok & test("1234567890",            "1234567890",  0);
-	ok = ok & test("1234567890",            "1234567891", -1);
-	ok = ok & test("1234567890",  "12345678901234567890", -1);
+    ok = ok & test("1234567890", "-12345678901234567890",  1);
+    ok = ok & test("1234567890",           "-1234567890",  1);
+    ok = ok & test("1234567890",                  "-123",  1);
+    ok = ok & test("1234567890",                     "0",  1);
+    ok = ok & test("1234567890",                   "123",  1);
+    ok = ok & test("1234567890",            "1234567889",  1);
+    ok = ok & test("1234567890",            "1234567890",  0);
+    ok = ok & test("1234567890",            "1234567891", -1);
+    ok = ok & test("1234567890",  "12345678901234567890", -1);
 
-	ok = ok & test("12345678901234567890", "-12345678901234567890",  1);
-	ok = ok & test("12345678901234567890",           "-1234567890",  1);
-	ok = ok & test("12345678901234567890",                  "-123",  1);
-	ok = ok & test("12345678901234567890",                     "0",  1);
-	ok = ok & test("12345678901234567890",                   "123",  1);
-	ok = ok & test("12345678901234567890",            "1234567890",  1);
-	ok = ok & test("12345678901234567890",  "12345678901234567889",  1);
-	ok = ok & test("12345678901234567890",  "12345678901234567890",  0);
-	ok = ok & test("12345678901234567890",  "12345678901234567891", -1);
+    ok = ok & test("12345678901234567890", "-12345678901234567890",  1);
+    ok = ok & test("12345678901234567890",           "-1234567890",  1);
+    ok = ok & test("12345678901234567890",                  "-123",  1);
+    ok = ok & test("12345678901234567890",                     "0",  1);
+    ok = ok & test("12345678901234567890",                   "123",  1);
+    ok = ok & test("12345678901234567890",            "1234567890",  1);
+    ok = ok & test("12345678901234567890",  "12345678901234567889",  1);
+    ok = ok & test("12345678901234567890",  "12345678901234567890",  0);
+    ok = ok & test("12345678901234567890",  "12345678901234567891", -1);
 
-	if (ok)
-	    return Status.passed("OK");
-	else
-	    return Status.failed("one or more test cases failed");
+    if (ok)
+        return Status.passed("OK");
+    else
+        return Status.failed("one or more test cases failed");
     }
 
     boolean test(String s1, String s2, int expectedResult) {
-	BigNum bn1 = new BigNum(s1);
-	BigNum bn2 = new BigNum(s2);
-	int actualResult = bn1.compare(bn2);
-	if (actualResult == expectedResult)
-	    return true;
-	else {
-	    err.println("s1: " + s1 
-			+ " s2: " + s2 
-			+ " expected result: " + expectedResult
-			+ " actual result: " + actualResult);
-	    return false;
-	}
+    BigNum bn1 = new BigNum(s1);
+    BigNum bn2 = new BigNum(s2);
+    int actualResult = bn1.compare(bn2);
+    if (actualResult == expectedResult)
+        return true;
+    else {
+        err.println("s1: " + s1
+            + " s2: " + s2
+            + " expected result: " + expectedResult
+            + " actual result: " + actualResult);
+        return false;
+    }
     }
 
     /**

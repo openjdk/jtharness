@@ -38,12 +38,12 @@ import org.netbeans.jemmy.operators.JTextAreaOperator;
  */
 public class Audit8 extends Test {
 
-	public void testImpl() throws Exception {
-		mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
 
-		new Audit.AuditTool(mainFrame.getJFrameOperator(), Tools.LOCAL_PATH + Tools.TEST_SUITE_NAME, "", "");
-		if (!(new JTextAreaOperator(new JDialogOperator(Tools.WINDOWNAME + " Harness: Error")).getText().equals("You must specify a work directory containing the results to be audited."))) {
-			errors.add("Error message is unexpected");
-		}
-	}
+        new Audit.AuditTool(mainFrame.getJFrameOperator(), Tools.LOCAL_PATH + Tools.TEST_SUITE_NAME, "", "");
+        if (!(new JTextAreaOperator(new JDialogOperator(Tools.WINDOWNAME + " Harness: Error")).getText().equals("You must specify a work directory containing the results to be audited."))) {
+            errors.add("Error message is unexpected");
+        }
+    }
 }

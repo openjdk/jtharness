@@ -41,33 +41,33 @@ import org.netbeans.jemmy.util.NameComponentChooser;
  */
 public class ReportCreate34 extends Test {
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        deleteUserData();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		setXmlChecked(rep, false);
-		setPlainChecked(rep, true);
-		setHtmlChecked(rep, false);
-		chooseFilter(rep, FiltersType.CUSTOM);
-		new JButtonOperator(rep, new NameComponentChooser("fconfig.config")).push();
-		JDialogOperator filter = new JDialogOperator(mainFrame, "Filter Editor");
-		new JButtonOperator(filter, "Cancel").push();
+        setXmlChecked(rep, false);
+        setPlainChecked(rep, true);
+        setHtmlChecked(rep, false);
+        chooseFilter(rep, FiltersType.CUSTOM);
+        new JButtonOperator(rep, new NameComponentChooser("fconfig.config")).push();
+        JDialogOperator filter = new JDialogOperator(mainFrame, "Filter Editor");
+        new JButtonOperator(filter, "Cancel").push();
 
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_PLAIN + File.separator;
-		File f = new File(path);
-		deleteDirectory(f);
-		setPath(rep, path);
-		pressCreate(rep);
-		addUsedFile(f);
-		findShowReportDialog();
+        final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_PLAIN + File.separator;
+        File f = new File(path);
+        deleteDirectory(f);
+        setPath(rep, path);
+        pressCreate(rep);
+        addUsedFile(f);
+        findShowReportDialog();
 
-		File plainReport = new File(path + "text" + File.separator + "summary.txt");
-		if (!plainReport.canRead()) {
-			throw new JemmyException("can't read text file");
-		}
-	}
+        File plainReport = new File(path + "text" + File.separator + "summary.txt");
+        if (!plainReport.canRead()) {
+            throw new JemmyException("can't read text file");
+        }
+    }
 }

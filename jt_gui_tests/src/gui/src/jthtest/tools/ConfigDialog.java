@@ -87,20 +87,20 @@ public class ConfigDialog {
     public static final String BOOKMARKS__CLEAR_ANSWER_TO_BOOKMARKED_QUESTIONS_MENU_NAME = "Clear Answers to Bookmarked Questions";
 
     ConfigDialog(JTFrame mainFrame) {
-	this.mainFrame = mainFrame;
-	configDialog = new JDialogOperator(mainFrame.getJFrameOperator(), getConfigEditorDialogName());
+    this.mainFrame = mainFrame;
+    configDialog = new JDialogOperator(mainFrame.getJFrameOperator(), getConfigEditorDialogName());
     }
 
     public static String getConfigEditorDialogName() {
-	return Tools.getExecResource(CONFIG_EDITOR_DIALOG_NAME_EI18N);
+    return Tools.getExecResource(CONFIG_EDITOR_DIALOG_NAME_EI18N);
     }
-    
+
     public static String getSaveConfigurationDialogName() {
-	return Tools.getExecResource(SAVE_CONFIG_FILE_DIALOG_NAME_EI18N);
+    return Tools.getExecResource(SAVE_CONFIG_FILE_DIALOG_NAME_EI18N);
     }
 
     public static String getConfirmCloseIncomleteConfigurationDialogName() {
-	return Tools.getExecResource(CONFIG_CONFIRN_CLOSE_DIALOG_NAME_EI18N);
+    return Tools.getExecResource(CONFIG_CONFIRN_CLOSE_DIALOG_NAME_EI18N);
     }
 
     public JButtonOperator getBackButton() {
@@ -112,75 +112,75 @@ public class ConfigDialog {
             _list = new JListOperator(configDialog);
         return _list;
     }
-    
+
     public void refindList() {
         _list = null;
     }
-    
-    private JListOperator _list = null; 
+
+    private JListOperator _list = null;
 
     public ConfigurationBrowser openBrowser(boolean block) {
-	if (block) {
-	    getFile_LoadConfigurationMenu().push();
-	} else {
-	    getFile_LoadConfigurationMenu().pushNoBlock();
-	}
+    if (block) {
+        getFile_LoadConfigurationMenu().push();
+    } else {
+        getFile_LoadConfigurationMenu().pushNoBlock();
+    }
 
-	return ConfigurationBrowser.open();
+    return ConfigurationBrowser.open();
     }
 
     public void load(String name, boolean block) {
-	load(Tools.DEFAULT_PATH, name, block);
+    load(Tools.DEFAULT_PATH, name, block);
     }
 
     public void load(String path, String name, boolean block) {
-	ConfigurationBrowser browser = openBrowser(block);
-	browser.setPath(path + File.separator + name);
-	browser.commit();
+    ConfigurationBrowser browser = openBrowser(block);
+    browser.setPath(path + File.separator + name);
+    browser.commit();
     }
 
     public void pushDoneConfigEditor() {
-	new JButtonOperator(configDialog, DONE_BUTTON).push();
+    new JButtonOperator(configDialog, DONE_BUTTON).push();
     }
 
     public void pushNextConfigEditor() {
-	new JButtonOperator(configDialog, NEXT_BUTTON).push();
+    new JButtonOperator(configDialog, NEXT_BUTTON).push();
     }
 
     public void pushBackConfigEditor() {
-	getBackButton().push();
+    getBackButton().push();
     }
 
     public void pushLastConfigEditor() {
-	new JButtonOperator(configDialog, LAST_BUTTON).push();
+    new JButtonOperator(configDialog, LAST_BUTTON).push();
     }
 
     public void selectQuestion(int index) {
-	getJListOperator().selectItem(index);
+    getJListOperator().selectItem(index);
     }
 
     public void saveConfig(String name) {
-	getFile_SaveMenu().pushNoBlock();
-	JDialogOperator saving = new JDialogOperator(getSaveConfigurationDialogName());
+    getFile_SaveMenu().pushNoBlock();
+    JDialogOperator saving = new JDialogOperator(getSaveConfigurationDialogName());
 
-	JTextFieldOperator tf;
+    JTextFieldOperator tf;
 
-	tf = new JTextFieldOperator((JTextField) Tools.getComponent(saving, new String[]{"Folder name:", "File name:", "Folder Name:", "File Name:"}));
-	tf.enterText(name);
+    tf = new JTextFieldOperator((JTextField) Tools.getComponent(saving, new String[]{"Folder name:", "File name:", "Folder Name:", "File Name:"}));
+    tf.enterText(name);
     }
 
     public boolean isFullConfiguration() {
-	JListOperator list = getJListOperator();
-	return ((JLabel) list.getRenderedComponent(list.getModel().getSize() - 1)).getText().equals(" Congratulations!");
+    JListOperator list = getJListOperator();
+    return ((JLabel) list.getRenderedComponent(list.getModel().getSize() - 1)).getText().equals(" Congratulations!");
     }
 
     public void closeByMenu() {
         _list = null;
-	getFile_CloseMenu().push();
+    getFile_CloseMenu().push();
     }
 
     public void setBookmarkedByMenu(int index) {
-	getJListOperator().selectItem(index);
+    getJListOperator().selectItem(index);
         getBookmarks_MarkCurrentQuestion_Menu().push();
     }
 
@@ -201,310 +201,310 @@ public class ConfigDialog {
     }
 
     public void unsetBookmarkedByMenu(int index) {
-	getJListOperator().selectItem(index);
+    getJListOperator().selectItem(index);
         getBookmarks_UnmarkCurrentQuestion_Menu().push();
     }
 
     public void setBookmarkedByMenu(int[] indexes) {
-	JMenuItemOperator markQuestionMenu = null;
-	String[] menuPath = new String[]{"Bookmarks", "Mark Current Question"};
-	JListOperator list = getJListOperator();
-	for (int index : indexes) {
-	    list.selectItem(index);
+    JMenuItemOperator markQuestionMenu = null;
+    String[] menuPath = new String[]{"Bookmarks", "Mark Current Question"};
+    JListOperator list = getJListOperator();
+    for (int index : indexes) {
+        list.selectItem(index);
             if (markQuestionMenu == null)
                 markQuestionMenu = getBookmarks_MarkCurrentQuestion_Menu();
-	    markQuestionMenu.push();
-	}
+        markQuestionMenu.push();
+    }
     }
 
     public void setBookmarkedByPopup(int[] indexes) {
-	for (int index : indexes)
-	    setBookmarkedByPopup(index);
+    for (int index : indexes)
+        setBookmarkedByPopup(index);
     }
 
     public void setBookmarkedByMouse(int index) {
-	JListOperatorExt list = new JListOperatorExt(configDialog);
-	list.clickOnItem(index, 1, MouseEvent.BUTTON1_MASK, 6);
+    JListOperatorExt list = new JListOperatorExt(configDialog);
+    list.clickOnItem(index, 1, MouseEvent.BUTTON1_MASK, 6);
     }
 
     public void setBookmarkedByPopup(int index) {
-	JListOperatorExt list = new JListOperatorExt(configDialog);
-	list.clickOnItem(index, 1);
-	if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
-	    throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
-	}
-	new JPopupMenuOperator(configDialog).pushMenu("Mark Current Question");
+    JListOperatorExt list = new JListOperatorExt(configDialog);
+    list.clickOnItem(index, 1);
+    if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
+        throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
+    }
+    new JPopupMenuOperator(configDialog).pushMenu("Mark Current Question");
     }
 
     public void clickBookmarkedByMouse(int index) {
-	JListOperatorExt list = new JListOperatorExt(configDialog);
-	list.clickOnItem(index, 1);
-	if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
-	    throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
-	}
-	new JPopupMenuOperator(configDialog).pushMenu("Mark Current Question");
+    JListOperatorExt list = new JListOperatorExt(configDialog);
+    list.clickOnItem(index, 1);
+    if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
+        throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
+    }
+    new JPopupMenuOperator(configDialog).pushMenu("Mark Current Question");
     }
 
     public void unsetBookmarkedByPopup(int index) {
-	JListOperatorExt list = new JListOperatorExt(configDialog);
-	list.clickOnItem(index, 1);
-	if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
-	    throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
-	}
-	new JPopupMenuOperator(configDialog).pushMenu("Unmark Current Question");
+    JListOperatorExt list = new JListOperatorExt(configDialog);
+    list.clickOnItem(index, 1);
+    if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
+        throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
+    }
+    new JPopupMenuOperator(configDialog).pushMenu("Unmark Current Question");
     }
 
     public void clearByPopup(int index) {
-	JListOperatorExt list = new JListOperatorExt(configDialog);
-	getJListOperator().selectItem(index);
-	if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
-	    throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
-	}
-	new JPopupMenuOperator(configDialog).pushMenu("Clear Answer For Current Question");
+    JListOperatorExt list = new JListOperatorExt(configDialog);
+    getJListOperator().selectItem(index);
+    if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
+        throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
+    }
+    new JPopupMenuOperator(configDialog).pushMenu("Clear Answer For Current Question");
     }
 
     public int[] checkVisibility(String[] names) {
-	JListOperator list = getJListOperator();
+    JListOperator list = getJListOperator();
 
-	int marks[] = new int[names.length];
-	for (int mark : marks) {
-	    mark = -1;
-	}
-	for (int i = 0; i < list.getModel().getSize(); i++) {
-	    String text = ((JLabel) list.getRenderedComponent(i)).getText();
-	    if (text != null) {
-		for (int j = 0; j < names.length; j++) {
-		    if (text.equals(names[j])) {
-			marks[j] = i;
-		    }
-		}
-	    }
-	}
+    int marks[] = new int[names.length];
+    for (int mark : marks) {
+        mark = -1;
+    }
+    for (int i = 0; i < list.getModel().getSize(); i++) {
+        String text = ((JLabel) list.getRenderedComponent(i)).getText();
+        if (text != null) {
+        for (int j = 0; j < names.length; j++) {
+            if (text.equals(names[j])) {
+            marks[j] = i;
+            }
+        }
+        }
+    }
 
-	for (int i = 0; i < marks.length; i++) {
-	    if (marks[i] == -1) {
-		throw new JemmyException("Element with name '" + names[i] + "' wasn't found");
-	    }
-	}
+    for (int i = 0; i < marks.length; i++) {
+        if (marks[i] == -1) {
+        throw new JemmyException("Element with name '" + names[i] + "' wasn't found");
+        }
+    }
 
-	return marks;
+    return marks;
     }
 
     public void checkVisibilityAll(String[] names) {
-	JListOperator list = getJListOperator();
-	for (int i = 0; i < list.getModel().getSize(); i++) {
-	    String text = ((JLabel) list.getRenderedComponent(i)).getText();
-	    if (text == null) {
-		throw new JemmyException("Element N" + i + " hasn't any name while expected '" + names[i] + "'");
-	    }
-	    if (!text.equals(names[i])) {
-		throw new JemmyException("Element N" + i + " has name '" + list.getRenderedComponent(i).getName() + "' while expected '" + names[i] + "'");
-	    }
-	}
+    JListOperator list = getJListOperator();
+    for (int i = 0; i < list.getModel().getSize(); i++) {
+        String text = ((JLabel) list.getRenderedComponent(i)).getText();
+        if (text == null) {
+        throw new JemmyException("Element N" + i + " hasn't any name while expected '" + names[i] + "'");
+        }
+        if (!text.equals(names[i])) {
+        throw new JemmyException("Element N" + i + " has name '" + list.getRenderedComponent(i).getName() + "' while expected '" + names[i] + "'");
+        }
+    }
     }
 
     public void checkHiddenGroups(int[] indexes, String[] names) {
-	JListOperator list = getJListOperator();
+    JListOperator list = getJListOperator();
 
-	if (indexes.length > 0) {
-	    int temp = 0;
+    if (indexes.length > 0) {
+        int temp = 0;
 
-	    for (int i = 0; i < indexes.length; i++) {
-		if (indexes[i] - temp > 1) {
-		    if (((JLabel) list.getRenderedComponent(indexes[i] - 1)).getText() != null) {
-			throw new JemmyException("element " + (indexes[i] - 1) + " isn't '...'");
-		    }
-		}
-		temp = indexes[i];
-	    }
-	}
+        for (int i = 0; i < indexes.length; i++) {
+        if (indexes[i] - temp > 1) {
+            if (((JLabel) list.getRenderedComponent(indexes[i] - 1)).getText() != null) {
+            throw new JemmyException("element " + (indexes[i] - 1) + " isn't '...'");
+            }
+        }
+        temp = indexes[i];
+        }
+    }
     }
 
     public void pushOpenHiddenGroupByMouse(int index) {
-	JListOperatorExt list = new JListOperatorExt(configDialog);
-	list.clickOnItem(index, 1);
-	if (list.clickOnItem(index, 2, MouseEvent.BUTTON1_MASK) == null) {
-	    throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
-	}
+    JListOperatorExt list = new JListOperatorExt(configDialog);
+    list.clickOnItem(index, 1);
+    if (list.clickOnItem(index, 2, MouseEvent.BUTTON1_MASK) == null) {
+        throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
+    }
     }
 
     private void pushOpenHiddenGroupByMenu() {
         getBookmarks_OpenHiddenGroupMenu().push();
     }
-    
+
     public JMenuItemOperator getBookmarks_OpenHiddenGroupMenu() {
         return getMenu().showMenuItem(new String[] {BOOKMARKS_MENU_NAME, BOOKMARKS__OPEN_HIDDEN_GROUP_MENU_NAME});
     }
 
     public void openGroupByMenu(String[] namesAll, String[] namesHidden) {
-	JListOperator list = getJListOperator();
+    JListOperator list = getJListOperator();
 
-	int i;
-	for (i = 0; i < list.getModel().getSize(); i++) {
-	    if (((JLabel) list.getRenderedComponent(i)).getText() == null) {
-		break;
-	    }
-	}
+    int i;
+    for (i = 0; i < list.getModel().getSize(); i++) {
+        if (((JLabel) list.getRenderedComponent(i)).getText() == null) {
+        break;
+        }
+    }
 
-	list.selectItem(i);
-	pushOpenHiddenGroupByMenu();
+    list.selectItem(i);
+    pushOpenHiddenGroupByMenu();
 
-	for (int j = i; j < list.getModel().getSize(); j++) {
-	    String text = ((JLabel) list.getRenderedComponent(j)).getText();
-	    if (!(text.equals(namesAll[j]))) {
-		throw new JemmyException("Element " + j + " is '" + text + "' after opening '...' group while expected '" + namesAll[j] + "'");
-	    }
-	    if (text.equals(namesHidden[i + 1])) {
-		break;
-	    }
-	}
+    for (int j = i; j < list.getModel().getSize(); j++) {
+        String text = ((JLabel) list.getRenderedComponent(j)).getText();
+        if (!(text.equals(namesAll[j]))) {
+        throw new JemmyException("Element " + j + " is '" + text + "' after opening '...' group while expected '" + namesAll[j] + "'");
+        }
+        if (text.equals(namesHidden[i + 1])) {
+        break;
+        }
+    }
     }
 
     public void openGroupByMouse(String[] namesAll, String[] namesHidden) {
-	JListOperator list = getJListOperator();
+    JListOperator list = getJListOperator();
 
-	int i;
-	for (i = 0; i < list.getModel().getSize(); i++) {
-	    if (((JLabel) list.getRenderedComponent(i)).getText() == null) {
-		break;
-	    }
-	}
+    int i;
+    for (i = 0; i < list.getModel().getSize(); i++) {
+        if (((JLabel) list.getRenderedComponent(i)).getText() == null) {
+        break;
+        }
+    }
 
-	pushOpenHiddenGroupByMouse(i);
+    pushOpenHiddenGroupByMouse(i);
 
-	for (int j = i; j < list.getModel().getSize(); j++) {
-	    String text = ((JLabel) list.getRenderedComponent(j)).getText();
-	    if (!(text.equals(namesAll[j]))) {
-		throw new JemmyException("Element " + j + " is '" + text + "' after opening '...' group while expected '" + namesAll[j] + "'");
-	    }
-	    if (text.equals(namesHidden[i + 1])) {
-		break;
-	    }
-	}
+    for (int j = i; j < list.getModel().getSize(); j++) {
+        String text = ((JLabel) list.getRenderedComponent(j)).getText();
+        if (!(text.equals(namesAll[j]))) {
+        throw new JemmyException("Element " + j + " is '" + text + "' after opening '...' group while expected '" + namesAll[j] + "'");
+        }
+        if (text.equals(namesHidden[i + 1])) {
+        break;
+        }
+    }
     }
 
     public void pushOpenHiddenGroupByPopup(int index) {
-	JListOperatorExt list = new JListOperatorExt(configDialog);
-	list.clickOnItem(index, 1);
-	if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
-	    throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
-	}
-	new JPopupMenuOperator(configDialog).pushMenu("Open \". . .\" Group");
+    JListOperatorExt list = new JListOperatorExt(configDialog);
+    list.clickOnItem(index, 1);
+    if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
+        throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
+    }
+    new JPopupMenuOperator(configDialog).pushMenu("Open \". . .\" Group");
     }
 
     public void openGroupByPopup(String[] namesAll, String[] namesHidden) {
-	JListOperator list = getJListOperator();
+    JListOperator list = getJListOperator();
 
-	int i;
-	for (i = 0; i < list.getModel().getSize(); i++) {
-	    if (((JLabel) list.getRenderedComponent(i)).getText() == null) {
-		break;
-	    }
-	}
+    int i;
+    for (i = 0; i < list.getModel().getSize(); i++) {
+        if (((JLabel) list.getRenderedComponent(i)).getText() == null) {
+        break;
+        }
+    }
 
-	pushOpenHiddenGroupByPopup(i);
+    pushOpenHiddenGroupByPopup(i);
 
-	for (int j = i; j < list.getModel().getSize(); j++) {
-	    String text = ((JLabel) list.getRenderedComponent(j)).getText();
-	    if (!(text.equals(namesAll[j]))) {
-		throw new JemmyException("Element " + j + " is '" + text + "' after opening '...' group while expected '" + namesAll[j] + "'");
-	    }
-	    if (text.equals(namesHidden[i + 1])) {
-		break;
-	    }
-	}
+    for (int j = i; j < list.getModel().getSize(); j++) {
+        String text = ((JLabel) list.getRenderedComponent(j)).getText();
+        if (!(text.equals(namesAll[j]))) {
+        throw new JemmyException("Element " + j + " is '" + text + "' after opening '...' group while expected '" + namesAll[j] + "'");
+        }
+        if (text.equals(namesHidden[i + 1])) {
+        break;
+        }
+    }
 
     }
-    
+
     public JMenuItemOperator getBookmarks_CloseHiddenGroupMenu() {
         return getMenu().showMenuItem(new String[] {BOOKMARKS_MENU_NAME, BOOKMARKS__CLOSE_HIDDEN_GROUP});
     }
 
     public void pushCloseGroupByMenu() {
-	getBookmarks_CloseHiddenGroupMenu().push();
+    getBookmarks_CloseHiddenGroupMenu().push();
     }
 
     public void closeGroupByMenu(String[] namesAll, String[] namesHidden) {
-	JListOperator list = getJListOperator();
+    JListOperator list = getJListOperator();
 
-	int i;
-	for (i = 0; i < namesHidden.length; i++) {
-	    if (namesHidden[i] == null) {
-		break;
-	    }
-	}
+    int i;
+    for (i = 0; i < namesHidden.length; i++) {
+        if (namesHidden[i] == null) {
+        break;
+        }
+    }
 
-	list.selectItem(i);
-	pushCloseGroupByMenu();
+    list.selectItem(i);
+    pushCloseGroupByMenu();
 
-	if (((JLabel) list.getRenderedComponent(i)).getText() != null) {
-	    throw new JemmyException("Element " + i + " isn't '...' after closing");
-	}
-	if (!(((JLabel) list.getRenderedComponent(i + 1)).getText().equals(namesHidden[i + 1]))) {
-	    throw new JemmyException("Element " + (i + 1) + " isn't " + namesHidden[i + 1] + " after closing");
-	}
+    if (((JLabel) list.getRenderedComponent(i)).getText() != null) {
+        throw new JemmyException("Element " + i + " isn't '...' after closing");
+    }
+    if (!(((JLabel) list.getRenderedComponent(i + 1)).getText().equals(namesHidden[i + 1]))) {
+        throw new JemmyException("Element " + (i + 1) + " isn't " + namesHidden[i + 1] + " after closing");
+    }
     }
 
     public void pushCloseByPopup(int index) {
-	JListOperatorExt list = new JListOperatorExt(configDialog);
-	list.clickOnItem(index, 1);
-	if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
-	    throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
-	}
-	new JPopupMenuOperator(configDialog).pushMenu("Close \". . .\" Group");
+    JListOperatorExt list = new JListOperatorExt(configDialog);
+    list.clickOnItem(index, 1);
+    if (list.clickOnItem(index, 1, MouseEvent.BUTTON3_MASK) == null) {
+        throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
+    }
+    new JPopupMenuOperator(configDialog).pushMenu("Close \". . .\" Group");
     }
 
     public void closeGroupByPopup(String[] namesAll, String[] namesHidden) {
-	JListOperator list = getJListOperator();
+    JListOperator list = getJListOperator();
 
-	int i;
-	for (i = 0; i < namesHidden.length; i++) {
-	    if (namesHidden[i] == null) {
-		break;
-	    }
-	}
+    int i;
+    for (i = 0; i < namesHidden.length; i++) {
+        if (namesHidden[i] == null) {
+        break;
+        }
+    }
 
-	pushCloseByPopup(i);
+    pushCloseByPopup(i);
 
-	if (((JLabel) list.getRenderedComponent(i)).getText() != null) {
-	    throw new JemmyException("Element " + i + " isn't '...' after closing");
-	}
-	if (!(((JLabel) list.getRenderedComponent(i + 1)).getText().equals(namesHidden[i + 1]))) {
-	    throw new JemmyException("Element " + (i + 1) + " isn't " + namesHidden[i + 1] + " after closing");
-	}
+    if (((JLabel) list.getRenderedComponent(i)).getText() != null) {
+        throw new JemmyException("Element " + i + " isn't '...' after closing");
+    }
+    if (!(((JLabel) list.getRenderedComponent(i + 1)).getText().equals(namesHidden[i + 1]))) {
+        throw new JemmyException("Element " + (i + 1) + " isn't " + namesHidden[i + 1] + " after closing");
+    }
     }
 
     public void pushCloseHiddenGroupByMouse(int index) {
-	JListOperatorExt list = new JListOperatorExt(configDialog);
-	list.clickOnItem(index, 1);
-	if (list.clickOnItem(index, 2, MouseEvent.BUTTON1_MASK) == null) {
-	    throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
-	}
+    JListOperatorExt list = new JListOperatorExt(configDialog);
+    list.clickOnItem(index, 1);
+    if (list.clickOnItem(index, 2, MouseEvent.BUTTON1_MASK) == null) {
+        throw new JemmyException("Error occured while clicking on " + index + " item of list " + list);
+    }
     }
 
     public void closeGroupByMouse(String[] namesAll, String[] namesHidden) {
-	JListOperator list = getJListOperator();
+    JListOperator list = getJListOperator();
 
-	int i;
-	for (i = 0; i < namesHidden.length; i++) {
-	    if (namesHidden[i] == null) {
-		break;
-	    }
-	}
+    int i;
+    for (i = 0; i < namesHidden.length; i++) {
+        if (namesHidden[i] == null) {
+        break;
+        }
+    }
 
-	pushCloseHiddenGroupByMouse(i);
+    pushCloseHiddenGroupByMouse(i);
 
-	if (((JLabel) list.getRenderedComponent(i)).getText() != null) {
-	    throw new JemmyException("Element " + i + " isn't '...' after closing");
-	}
-	if (!(((JLabel) list.getRenderedComponent(i + 1)).getText().equals(namesHidden[i + 1]))) {
-	    throw new JemmyException("Element " + (i + 1) + " isn't " + namesHidden[i + 1] + " after closing");
-	}
+    if (((JLabel) list.getRenderedComponent(i)).getText() != null) {
+        throw new JemmyException("Element " + i + " isn't '...' after closing");
+    }
+    if (!(((JLabel) list.getRenderedComponent(i + 1)).getText().equals(namesHidden[i + 1]))) {
+        throw new JemmyException("Element " + (i + 1) + " isn't " + namesHidden[i + 1] + " after closing");
+    }
     }
 
     public boolean checkBookmarked(int index) {
-	JListOperator list = getJListOperator();
-	return ((JLabel)list.getRenderedComponent(index)).getIcon() != null;
+    JListOperator list = getJListOperator();
+    return ((JLabel)list.getRenderedComponent(index)).getIcon() != null;
     }
 
     public JMenuItemOperator getBookmarks_ClearAnswerForCurrentQuestionMenu() {
@@ -516,13 +516,13 @@ public class ConfigDialog {
     }
 
     public void clearByMenu(int index) {
-	getJListOperator().selectItem(index);
-	getBookmarks_ClearAnswerForCurrentQuestionMenu().push();
+    getJListOperator().selectItem(index);
+    getBookmarks_ClearAnswerForCurrentQuestionMenu().push();
     }
 
     public Icon getIcon(int index) {
-	Icon icon = ((JLabel) getJListOperator().getRenderedComponent(index)).getIcon();
-	return icon;
+    Icon icon = ((JLabel) getJListOperator().getRenderedComponent(index)).getIcon();
+    return icon;
     }
 
     public boolean isSelectedIndex(int i) {
@@ -535,65 +535,65 @@ public class ConfigDialog {
 
     public static class JListOperatorExt extends JListOperator {
 
-	public JListOperatorExt(ContainerOperator c) {
-	    super(c);
-	}
+    public JListOperatorExt(ContainerOperator c) {
+        super(c);
+    }
 
-	public Object clickOnItem(final int itemIndex, final int clickCount, final int mouseButton) {
-	    if (itemIndex > getModel().getSize()) {
-		throw new JemmyException("bad index");
-	    }
-	    scrollToItem(itemIndex);
+    public Object clickOnItem(final int itemIndex, final int clickCount, final int mouseButton) {
+        if (itemIndex > getModel().getSize()) {
+        throw new JemmyException("bad index");
+        }
+        scrollToItem(itemIndex);
 
-	    if (((JList) getSource()).getModel().getSize() <= itemIndex) {
-		return (null);
-	    }
-	    if (((JList) getSource()).getAutoscrolls()) {
-		((JList) getSource()).ensureIndexIsVisible(itemIndex);
-	    }
-	    return (getQueueTool().invokeSmoothly(new QueueTool.QueueAction("Path selecting") {
+        if (((JList) getSource()).getModel().getSize() <= itemIndex) {
+        return (null);
+        }
+        if (((JList) getSource()).getAutoscrolls()) {
+        ((JList) getSource()).ensureIndexIsVisible(itemIndex);
+        }
+        return (getQueueTool().invokeSmoothly(new QueueTool.QueueAction("Path selecting") {
 
-		public Object launch() {
-		    Rectangle rect = getCellBounds(itemIndex, itemIndex);
-		    if (rect == null) {
-			return (null);
-		    }
-		    Point point = new Point((int) (rect.getX() + rect.getWidth() / 2),
-			    (int) (rect.getY() + rect.getHeight() / 2));
-		    Object result = getModel().getElementAt(itemIndex);
-		    clickMouse(point.x, point.y, clickCount, mouseButton);
-		    return (result);
-		}
-	    }));
-	}
+        public Object launch() {
+            Rectangle rect = getCellBounds(itemIndex, itemIndex);
+            if (rect == null) {
+            return (null);
+            }
+            Point point = new Point((int) (rect.getX() + rect.getWidth() / 2),
+                (int) (rect.getY() + rect.getHeight() / 2));
+            Object result = getModel().getElementAt(itemIndex);
+            clickMouse(point.x, point.y, clickCount, mouseButton);
+            return (result);
+        }
+        }));
+    }
 
-	public Object clickOnItem(final int itemIndex, final int clickCount, final int mouseButton, final int x) {
-	    if (itemIndex > getModel().getSize()) {
-		throw new JemmyException("bad index");
-	    }
-	    scrollToItem(itemIndex);
+    public Object clickOnItem(final int itemIndex, final int clickCount, final int mouseButton, final int x) {
+        if (itemIndex > getModel().getSize()) {
+        throw new JemmyException("bad index");
+        }
+        scrollToItem(itemIndex);
 
-	    if (((JList) getSource()).getModel().getSize() <= itemIndex) {
-		return (null);
-	    }
-	    if (((JList) getSource()).getAutoscrolls()) {
-		((JList) getSource()).ensureIndexIsVisible(itemIndex);
-	    }
-	    return (getQueueTool().invokeSmoothly(new QueueTool.QueueAction("Path selecting") {
+        if (((JList) getSource()).getModel().getSize() <= itemIndex) {
+        return (null);
+        }
+        if (((JList) getSource()).getAutoscrolls()) {
+        ((JList) getSource()).ensureIndexIsVisible(itemIndex);
+        }
+        return (getQueueTool().invokeSmoothly(new QueueTool.QueueAction("Path selecting") {
 
-		public Object launch() {
-		    Rectangle rect = getCellBounds(itemIndex, itemIndex);
-		    if (rect == null) {
-			return (null);
-		    }
-		    Point point = new Point((int) (rect.getX() + x == 0 ? rect.getWidth() / 2:x),
-			    (int) (rect.getY() + rect.getHeight() / 2));
-		    Object result = getModel().getElementAt(itemIndex);
-		    clickMouse(point.x, point.y, clickCount, mouseButton);
-		    return (result);
-		}
-	    }));
-	}
+        public Object launch() {
+            Rectangle rect = getCellBounds(itemIndex, itemIndex);
+            if (rect == null) {
+            return (null);
+            }
+            Point point = new Point((int) (rect.getX() + x == 0 ? rect.getWidth() / 2:x),
+                (int) (rect.getY() + rect.getHeight() / 2));
+            Object result = getModel().getElementAt(itemIndex);
+            clickMouse(point.x, point.y, clickCount, mouseButton);
+            return (result);
+        }
+        }));
+    }
     }
 
     public QuestionTree getQuestionTree() {
@@ -614,16 +614,16 @@ public class ConfigDialog {
         rb.push();
         pushNextConfigEditor();
         pushNextConfigEditor();
-        
+
         return new QuestionTree(configDialog);
     }
-    
+
     public class QuestionTree extends JTreeOperator {
 
         QuestionTree(JDialogOperator config) {
             super(config);
         }
-        
+
         public void clickOnCheckbox(int row) {
             Rectangle r = getRowBounds(row);
             prepareToClickOnRow(row);
@@ -639,21 +639,21 @@ public class ConfigDialog {
                 System.out.println("Error, row is not visible after prepairing. Index " + row + ", tree width " + getWidth());
             }
         }
-        
+
         public void clickOnCheckbox(int row, int count) {
             Rectangle r = getRowBounds(row);
             prepareToClickOnRow(row);
             super.clickMouse((int)r.getX() + 6, (int)r.getY() + (int)(r.getHeight() / 2), count, getDefaultMouseButton(), 0, false);
 //            Tools.pause(1);
         }
-        
+
         public void clickOnCheckbox(int row, int x, int y, int count, int mouseButton, int modifier, boolean forPopup) {
             Rectangle r = getRowBounds(row);
             prepareToClickOnRow(row);
             super.clickMouse((int)r.getX() + 6 + x, (int)r.getY() + (int)(r.getHeight() / 2) + y, count, mouseButton, modifier, forPopup);
 //            Tools.pause(1);
         }
-        
+
         public void clickOnRow(int row) {
             Rectangle r = getRowBounds(row);
             prepareToClickOnRow(row);
@@ -674,7 +674,7 @@ public class ConfigDialog {
             super.clickMouse((int)r.getX() + 14 + x, (int)r.getY() + (int)(r.getHeight() / 2) + y, count, mouseButton, modifier, forPopup);
 //            Tools.pause(1);
         }
-        
+
         public void clickOnArrow(int row) {
             boolean isNimbus = UIManager.getLookAndFeel().getClass().getSimpleName().equals("NimbusLookAndFeel");
             if (row > 0 || isNimbus) {
@@ -691,7 +691,7 @@ public class ConfigDialog {
             }
 //            Tools.pause(1);
         }
-        
+
         public void clickOnArrow(int row, int count) {
             boolean isNimbus = UIManager.getLookAndFeel().getClass().getSimpleName().equals("NimbusLookAndFeel");
             if (row > 0 || isNimbus) {
@@ -708,7 +708,7 @@ public class ConfigDialog {
             }
 //            Tools.pause(1);
         }
-        
+
         public void clickOnArrow(int row, int x, int y, int count, int mouseButton, int modifier, boolean forPopup) {
             boolean isNimbus = UIManager.getLookAndFeel().getClass().getSimpleName().equals("NimbusLookAndFeel");
             if (row > 0 || isNimbus) {
@@ -725,11 +725,11 @@ public class ConfigDialog {
             }
 //            Tools.pause(1);
         }
-        
+
         public SelectionTree getTree() {
             return (SelectionTree) super.getSource();
         }
-        
+
         public PopupMenu openContextMenu(int row) {
             if (row < 0) {
                 makeComponentVisible();
@@ -743,7 +743,7 @@ public class ConfigDialog {
                 return new PopupMenu(new JPopupMenuOperator());
             }
         }
-        
+
         public class PopupMenu {
             JPopupMenuOperator menu;
 
@@ -758,69 +758,69 @@ public class ConfigDialog {
             public void pushDeselectAll() {
                 menu.pushMenu("Deselect All");
             }
-            
+
             public void pushExpandAll() {
                 menu.pushMenu("Expand All");
             }
-            
+
             public void pushCollapseAll() {
                 menu.pushMenu("Collapse All");
             }
         }
     }
-    
+
     public JDialogOperator getConfigDialog() {
-	return configDialog;
+    return configDialog;
     }
 
     public JMenuBarOperator getMenu() {
-	return new JMenuBarOperator(configDialog);
+    return new JMenuBarOperator(configDialog);
     }
 
     public JMenuItemOperator getFile_SaveMenu() {
-	return getMenu().showMenuItem(new String[]{getFileMenuName(), getFile_SaveMenuName()});
+    return getMenu().showMenuItem(new String[]{getFileMenuName(), getFile_SaveMenuName()});
     }
 
     public JMenuItemOperator getFile_CloseMenu() {
-	return getMenu().showMenuItem(new String[]{getFileMenuName(), getFile_CloseMenuName()});
+    return getMenu().showMenuItem(new String[]{getFileMenuName(), getFile_CloseMenuName()});
     }
 
     public JMenuItemOperator getFile_NewConfigurationMenu() {
-	return getMenu().showMenuItem(new String[]{getFileMenuName(), getFile_NewMenuName()});
+    return getMenu().showMenuItem(new String[]{getFileMenuName(), getFile_NewMenuName()});
     }
 
     public JMenuItemOperator getFile_LoadConfigurationMenu() {
-	return getMenu().showMenuItem(new String[]{getFileMenuName(), getFile_LoadConfigurationMenuName()});
+    return getMenu().showMenuItem(new String[]{getFileMenuName(), getFile_LoadConfigurationMenuName()});
     }
 
     public JMenuItemOperator getFile_LoadRecentConfigurationMenu() {
-	return getMenu().showMenuItem(new String[]{getFileMenuName(), getFile_LoadRecentConfigurationMenuName()});
+    return getMenu().showMenuItem(new String[]{getFileMenuName(), getFile_LoadRecentConfigurationMenuName()});
     }
 
     public JMenuItemOperator[] getFile_LoadRecentConfiguration_subMenu() {
-	return getMenu().showMenuItems(new String[]{getFileMenuName(), getFile_LoadRecentConfigurationMenuName()});
+    return getMenu().showMenuItems(new String[]{getFileMenuName(), getFile_LoadRecentConfigurationMenuName()});
     }
 
     public JMenuItemOperator getBookmarks_EnableBookmarks() {
-	return getMenu().showMenuItem(new String[]{"Bookmarks", getBookmarks_EnableBookmarksMenuName()});
+    return getMenu().showMenuItem(new String[]{"Bookmarks", getBookmarks_EnableBookmarksMenuName()});
     }
 
     public String[] getElementsNames() {
-	JListOperator list = getJListOperator();
-	String temp[] = new String[list.getModel().getSize()];
-	for (int i = 0; i < list.getModel().getSize(); i++) {
-	    temp[i] = ((JLabel) list.getRenderedComponent(i)).getText();
-	}
-	return temp;
+    JListOperator list = getJListOperator();
+    String temp[] = new String[list.getModel().getSize()];
+    for (int i = 0; i < list.getModel().getSize(); i++) {
+        temp[i] = ((JLabel) list.getRenderedComponent(i)).getText();
+    }
+    return temp;
     }
 
     public String[] getElementsNames(int[] indexes) {
-	JListOperator list = getJListOperator();
-	String temp[] = new String[indexes.length];
-	for (int i = 0; i < indexes.length; i++) {
-	    temp[i] = ((JLabel) list.getRenderedComponent(indexes[i])).getText();
-	}
-	return temp;
+    JListOperator list = getJListOperator();
+    String temp[] = new String[indexes.length];
+    for (int i = 0; i < indexes.length; i++) {
+        temp[i] = ((JLabel) list.getRenderedComponent(indexes[i])).getText();
+    }
+    return temp;
     }
 
     public static String getBookmarks_EnableBookmarksMenuName() {
@@ -828,38 +828,38 @@ public class ConfigDialog {
     }
 
     public static String getLoadConfigurationDialogName() {
-	return Tools.getExecResource(CONFIG_LOADER_DIALOG_NAME_EI18N);
+    return Tools.getExecResource(CONFIG_LOADER_DIALOG_NAME_EI18N);
     }
 
     public static String getConfigLocationDialogName() {
-	return Tools.getExecResource(CONFIG_LOADER_CONFIG_LOCATION_DIALOG_EI18N);
+    return Tools.getExecResource(CONFIG_LOADER_CONFIG_LOCATION_DIALOG_EI18N);
     }
 
     public static String getConfigLoaderLoadButtonName() {
-	return Tools.getExecResource(CONFIG_LOADER_LOAD_BUTTON_NAME_EI18N);
+    return Tools.getExecResource(CONFIG_LOADER_LOAD_BUTTON_NAME_EI18N);
     }
 
     public static String getFileMenuName() {
-	return Tools.getExecResource(MENU_FILE_NAME_EI18N);
+    return Tools.getExecResource(MENU_FILE_NAME_EI18N);
     }
 
     public static String getFile_SaveMenuName() {
-	return Tools.getExecResource(MENU_FILE_SAVE_NAME_EI18N);
+    return Tools.getExecResource(MENU_FILE_SAVE_NAME_EI18N);
     }
 
     public static String getFile_NewMenuName() {
-	return Tools.getExecResource(MENU_FILE_NEW_NAME_EI18N);
+    return Tools.getExecResource(MENU_FILE_NEW_NAME_EI18N);
     }
 
     public static String getFile_CloseMenuName() {
-	return Tools.getExecResource(MENU_FILE_CLOSE_NAME_EI18N);
+    return Tools.getExecResource(MENU_FILE_CLOSE_NAME_EI18N);
     }
 
     public static String getFile_LoadConfigurationMenuName() {
-	return Tools.getExecResource(MENU_FILE_LOAD_NAME_EI18N);
+    return Tools.getExecResource(MENU_FILE_LOAD_NAME_EI18N);
     }
 
     public static String getFile_LoadRecentConfigurationMenuName() {
-	return Tools.getExecResource(MENU_FILE_LOAD_RECENT_NAME_EI18N);
+    return Tools.getExecResource(MENU_FILE_LOAD_RECENT_NAME_EI18N);
     }
 }

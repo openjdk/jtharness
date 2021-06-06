@@ -48,105 +48,105 @@ import jthtest.Tools;
  * @author naryl
  */
 public class ViewFilter extends Tools {
-	
 
-	protected static final String[] failedListsTests = new String[]{"lists/DoublyLinkedList/InsertTest.java"};
-	protected static final String[] passedListsTests = new String[]{"lists/DoublyLinkedList/AppendTest.java", "lists/DoublyLinkedList/EqualsTest.java", "lists/DoublyLinkedList/RemoveTest.java", "lists/LinkedList/AppendTest.java", "lists/LinkedList/EqualsTest.java", "lists/LinkedList/InsertTest.java", "lists/LinkedList/RemoveTest.java", "lists/SortedList/EqualsTest.java", "lists/SortedList/InsertTest.java", "lists/SortedList/RemoveTest.java"};
-	protected static final String[] listsTests = new String[]{"lists/DoublyLinkedList/AppendTest.java", "lists/DoublyLinkedList/EqualsTest.java", "lists/DoublyLinkedList/InsertTest.java", "lists/DoublyLinkedList/RemoveTest.java", "lists/LinkedList/AppendTest.java", "lists/LinkedList/EqualsTest.java", "lists/LinkedList/InsertTest.java", "lists/LinkedList/RemoveTest.java", "lists/SortedList/EqualsTest.java", "lists/SortedList/InsertTest.java", "lists/SortedList/RemoveTest.java"};
-	protected static final String[] bignumTests = new String[]{"BigNum/AddTest.java", "BigNum/CompareTest.java", "BigNum/EqualsTest.java", "BigNum/LongConstrTest.java", "BigNum/StringConstrTest.java", "BigNum/SubtractTest.java"};
-	protected static final String[] allTests = new String[]{"BigNum/AddTest.java", "BigNum/CompareTest.java", "BigNum/EqualsTest.java", "BigNum/LongConstrTest.java", "BigNum/StringConstrTest.java", "BigNum/SubtractTest.java", "lists/DoublyLinkedList/AppendTest.java", "lists/DoublyLinkedList/EqualsTest.java", "lists/DoublyLinkedList/InsertTest.java", "lists/DoublyLinkedList/RemoveTest.java", "lists/LinkedList/AppendTest.java", "lists/LinkedList/EqualsTest.java", "lists/LinkedList/InsertTest.java", "lists/LinkedList/RemoveTest.java", "lists/SortedList/EqualsTest.java", "lists/SortedList/InsertTest.java", "lists/SortedList/RemoveTest.java"};
-	
-	public void startWithDefaultWorkdir() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		startJavatest(TEST_SUITE_NAME, DEFAULT_WD_NAME, CONFIG_NAME);
-		mainFrame = findMainFrame();
-		
-		// wait for "Some tests in this folder have not been run" label
-		new JTextFieldOperator(mainFrame, getExecResource("br.worst.3"));
-	}
-	
-	public void startWithRunWorkdir() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		startJavatest(TEST_SUITE_NAME, WD_RUN_NAME, CONFIG_NAME);
-		mainFrame = findMainFrame();
-		new JTextFieldOperator(mainFrame, "There are some failed tests in this folder");
-	}
 
-	public static JDialogOperator openConfigurationEditor(JFrameOperator mainFrame) {
-		new JMenuOperator(mainFrame, "Configure").pushMenu("Configure|Edit Configuration...", "|");
-		return new JDialogOperator(mainFrame, "Configuration Editor");
-	}
+    protected static final String[] failedListsTests = new String[]{"lists/DoublyLinkedList/InsertTest.java"};
+    protected static final String[] passedListsTests = new String[]{"lists/DoublyLinkedList/AppendTest.java", "lists/DoublyLinkedList/EqualsTest.java", "lists/DoublyLinkedList/RemoveTest.java", "lists/LinkedList/AppendTest.java", "lists/LinkedList/EqualsTest.java", "lists/LinkedList/InsertTest.java", "lists/LinkedList/RemoveTest.java", "lists/SortedList/EqualsTest.java", "lists/SortedList/InsertTest.java", "lists/SortedList/RemoveTest.java"};
+    protected static final String[] listsTests = new String[]{"lists/DoublyLinkedList/AppendTest.java", "lists/DoublyLinkedList/EqualsTest.java", "lists/DoublyLinkedList/InsertTest.java", "lists/DoublyLinkedList/RemoveTest.java", "lists/LinkedList/AppendTest.java", "lists/LinkedList/EqualsTest.java", "lists/LinkedList/InsertTest.java", "lists/LinkedList/RemoveTest.java", "lists/SortedList/EqualsTest.java", "lists/SortedList/InsertTest.java", "lists/SortedList/RemoveTest.java"};
+    protected static final String[] bignumTests = new String[]{"BigNum/AddTest.java", "BigNum/CompareTest.java", "BigNum/EqualsTest.java", "BigNum/LongConstrTest.java", "BigNum/StringConstrTest.java", "BigNum/SubtractTest.java"};
+    protected static final String[] allTests = new String[]{"BigNum/AddTest.java", "BigNum/CompareTest.java", "BigNum/EqualsTest.java", "BigNum/LongConstrTest.java", "BigNum/StringConstrTest.java", "BigNum/SubtractTest.java", "lists/DoublyLinkedList/AppendTest.java", "lists/DoublyLinkedList/EqualsTest.java", "lists/DoublyLinkedList/InsertTest.java", "lists/DoublyLinkedList/RemoveTest.java", "lists/LinkedList/AppendTest.java", "lists/LinkedList/EqualsTest.java", "lists/LinkedList/InsertTest.java", "lists/LinkedList/RemoveTest.java", "lists/SortedList/EqualsTest.java", "lists/SortedList/InsertTest.java", "lists/SortedList/RemoveTest.java"};
 
-	public static JDialogOperator openFilterEditor(JFrameOperator frame) {
-		new JMenuOperator(frame, "View").pushMenu("View|Filter|Configure Filters ...", "|");
-		return new JDialogOperator(frame, "Filter Editor");
-	}
-	
-	public static void selectFilter(JDialogOperator filterEditor, int filter) {
-		new JListOperator(filterEditor, new NameComponentChooser("fconfig.list")).clickOnItem(filter, 1);
-	}
-	
-	public static void selectFilter(JFrameOperator frame, String filter) {
-		new JMenuOperator(frame, "View").pushMenu("View|Filter|" + filter, "|");
-	}
-	
-	public static void chooseTab(ContainerOperator mainFrame, String tab) {
-		new JTabbedPaneOperator(mainFrame).selectPage(tab);
-	}
+    public void startWithDefaultWorkdir() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        startJavatest(TEST_SUITE_NAME, DEFAULT_WD_NAME, CONFIG_NAME);
+        mainFrame = findMainFrame();
 
-	public static void setKeywordFilter(JFrameOperator mainFrame, int type, String value) {
+        // wait for "Some tests in this folder have not been run" label
+        new JTextFieldOperator(mainFrame, getExecResource("br.worst.3"));
+    }
 
-		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+    public void startWithRunWorkdir() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        startJavatest(TEST_SUITE_NAME, WD_RUN_NAME, CONFIG_NAME);
+        mainFrame = findMainFrame();
+        new JTextFieldOperator(mainFrame, "There are some failed tests in this folder");
+    }
 
-		selectFilter(filterEditor, 3);
+    public static JDialogOperator openConfigurationEditor(JFrameOperator mainFrame) {
+        new JMenuOperator(mainFrame, "Configure").pushMenu("Configure|Edit Configuration...", "|");
+        return new JDialogOperator(mainFrame, "Configuration Editor");
+    }
 
-		chooseTab(filterEditor, "Keywords");
+    public static JDialogOperator openFilterEditor(JFrameOperator frame) {
+        new JMenuOperator(frame, "View").pushMenu("View|Filter|Configure Filters ...", "|");
+        return new JDialogOperator(frame, "Filter Editor");
+    }
 
-		new JRadioButtonOperator(filterEditor, "Match").push();
+    public static void selectFilter(JDialogOperator filterEditor, int filter) {
+        new JListOperator(filterEditor, new NameComponentChooser("fconfig.list")).clickOnItem(filter, 1);
+    }
 
-		new JComboBoxOperator(filterEditor).selectItem(type);
+    public static void selectFilter(JFrameOperator frame, String filter) {
+        new JMenuOperator(frame, "View").pushMenu("View|Filter|" + filter, "|");
+    }
 
-		new JTextFieldOperator(filterEditor, new NameComponentChooser("basicTf.keywords.field")).enterText(value);
-		
-	}
+    public static void chooseTab(ContainerOperator mainFrame, String tab) {
+        new JTabbedPaneOperator(mainFrame).selectPage(tab);
+    }
 
-	public static void disableKeywordFilter(JFrameOperator mainFrame) {
+    public static void setKeywordFilter(JFrameOperator mainFrame, int type, String value) {
 
-		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+        JDialogOperator filterEditor = openFilterEditor(mainFrame);
 
-		selectFilter(filterEditor, 4);
+        selectFilter(filterEditor, 3);
 
-		chooseTab(filterEditor, "Keywords");
+        chooseTab(filterEditor, "Keywords");
 
-		new JRadioButtonOperator(filterEditor, "All Tests").push();
+        new JRadioButtonOperator(filterEditor, "Match").push();
 
-	}
+        new JComboBoxOperator(filterEditor).selectItem(type);
 
-	public static void setPrevStateFilter(JFrameOperator mainFrame, String prevState) {
+        new JTextFieldOperator(filterEditor, new NameComponentChooser("basicTf.keywords.field")).enterText(value);
 
-		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+    }
 
-		selectFilter(filterEditor, 3);
+    public static void disableKeywordFilter(JFrameOperator mainFrame) {
 
-		chooseTab(filterEditor, "Prior Status");
+        JDialogOperator filterEditor = openFilterEditor(mainFrame);
 
-		new JRadioButtonOperator(filterEditor, "Any Of"). setSelected(true);
+        selectFilter(filterEditor, 4);
 
-		new JCheckBoxOperator(filterEditor, "Passed").setSelected(false);
+        chooseTab(filterEditor, "Keywords");
 
-		new JCheckBoxOperator(filterEditor, "Failed").setSelected(false);
+        new JRadioButtonOperator(filterEditor, "All Tests").push();
 
-		new JCheckBoxOperator(filterEditor, "Error").setSelected(false);
+    }
 
-		new JCheckBoxOperator(filterEditor, "Not Run").setSelected(false);
+    public static void setPrevStateFilter(JFrameOperator mainFrame, String prevState) {
 
-		new JCheckBoxOperator(filterEditor, prevState).setSelected(true);
+        JDialogOperator filterEditor = openFilterEditor(mainFrame);
 
-		ok(filterEditor);
+        selectFilter(filterEditor, 3);
 
-		selectFilter(mainFrame, "Custom");
-                
+        chooseTab(filterEditor, "Prior Status");
+
+        new JRadioButtonOperator(filterEditor, "Any Of"). setSelected(true);
+
+        new JCheckBoxOperator(filterEditor, "Passed").setSelected(false);
+
+        new JCheckBoxOperator(filterEditor, "Failed").setSelected(false);
+
+        new JCheckBoxOperator(filterEditor, "Error").setSelected(false);
+
+        new JCheckBoxOperator(filterEditor, "Not Run").setSelected(false);
+
+        new JCheckBoxOperator(filterEditor, prevState).setSelected(true);
+
+        ok(filterEditor);
+
+        selectFilter(mainFrame, "Custom");
+
                 pause(5);
-	}
+    }
 
-	protected JFrameOperator mainFrame;
-	
+    protected JFrameOperator mainFrame;
+
 }

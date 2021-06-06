@@ -35,28 +35,28 @@ import org.junit.runner.JUnitCore;
  */
 public class New8 extends New {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.New.New8");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.New.New8");
+    }
 
-	@Test
-	public void testNew8() {
-			startTestRun(quickStartDialog);
+    @Test
+    public void testNew8() {
+            startTestRun(quickStartDialog);
 
-			next(quickStartDialog);
+            next(quickStartDialog);
 
-			pickDefaultTestsuite(quickStartDialog);
-			
-			next(quickStartDialog);
+            pickDefaultTestsuite(quickStartDialog);
 
-			createConfiguration(quickStartDialog);
+            next(quickStartDialog);
 
-			next(quickStartDialog);
+            createConfiguration(quickStartDialog);
 
-			pickTempWorkDir(quickStartDialog);
+            next(quickStartDialog);
 
-			next(quickStartDialog);
+            pickTempWorkDir(quickStartDialog);
 
-	}
+            next(quickStartDialog);
+
+    }
 
 }

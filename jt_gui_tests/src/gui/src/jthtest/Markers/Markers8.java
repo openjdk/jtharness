@@ -25,12 +25,12 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select the first question from the 
- * history list. Mark the question by selecting Mark Current Question from the 
- * Marker menu. Select unmark the Current Question from the Bookmarkers menu. 
- * Verify that the marked question will be unmarked and the icon will disappear. 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
+ * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+ * Enable Bookmarks from the Bookmarks menu. Select the first question from the
+ * history list. Mark the question by selecting Mark Current Question from the
+ * Marker menu. Select unmark the Current Question from the Bookmarkers menu.
+ * Verify that the marked question will be unmarked and the icon will disappear.
  */
 package jthtest.Markers;
 
@@ -49,46 +49,46 @@ public class Markers8 extends Test {
 
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         mainFrame = new JTFrame(true);
-        
+
         mainFrame.openDefaultTestSuite();
         addUsedFile(mainFrame.createWorkDirectoryInTemp());
         Configuration configuration = mainFrame.getConfiguration();
         configuration.load(CONFIG_NAME, true);
         ConfigDialog cd = configuration.openByKey();
-        
+
         // test body
         cd.getBookmarks_EnableBookmarks().push();
         Icon emptyIcon = cd.getIcon(1);
         cd.setBookmarkedByMenu(1);
         if (cd.getIcon(1) == emptyIcon)
             errors.add("Bookmark Icon was not found after marking");
-        
+
         cd.unsetBookmarkedByMenu(1);
         if (cd.getIcon(1) != emptyIcon)
             errors.add("Empty Icon was not found after unmarking");
-        
-//	startJavatestNewDesktop();
-//	
-//	JFrameOperator mainFrame = findMainFrame();
-//	
-//	closeQS(mainFrame);
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
-//	
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
+
+//    startJavatestNewDesktop();
 //
-//	pushEnableBookmarks(config);
-//	Icon emptyIcon = getIcon(config, 1);
-//	setBookmarkedByMenu(config, 1);
-//	if(getIcon(config, 1) == emptyIcon)
-//	    throw new JemmyException("Icon was not found after marking");
-//	
-//	unsetBookmarkedByMenu(config, 1);
-//	if(getIcon(config, 1) != emptyIcon)
-//	    throw new JemmyException("Icon was not found after marking");
+//    JFrameOperator mainFrame = findMainFrame();
+//
+//    closeQS(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+//
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
+//
+//    pushEnableBookmarks(config);
+//    Icon emptyIcon = getIcon(config, 1);
+//    setBookmarkedByMenu(config, 1);
+//    if(getIcon(config, 1) == emptyIcon)
+//        throw new JemmyException("Icon was not found after marking");
+//
+//    unsetBookmarkedByMenu(config, 1);
+//    if(getIcon(config, 1) != emptyIcon)
+//        throw new JemmyException("Icon was not found after marking");
     }
 
     @Override

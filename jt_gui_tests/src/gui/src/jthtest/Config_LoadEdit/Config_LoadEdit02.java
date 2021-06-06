@@ -40,50 +40,50 @@ import jthtest.tools.JTFrame;
 public class Config_LoadEdit02 extends Test {
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = new JTFrame(true);
+    JTFrame mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(Tools.CONFIG_NAME, true);
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(Tools.CONFIG_NAME, true);
 
-	ConfigDialog configDialog = configuration.openByKey();
-	configDialog.load(ConfigTools.SECOND_CONFIG_NAME, true);
+    ConfigDialog configDialog = configuration.openByKey();
+    configDialog.load(ConfigTools.SECOND_CONFIG_NAME, true);
 
-	if (!configDialog.getConfigDialog().getTitle().contains(ConfigTools.SECOND_CONFIG_NAME)) {
-	    errors.add("Configuration editor dialog box has invalid title - " + configDialog.getConfigDialog().getTitle());
-	}
+    if (!configDialog.getConfigDialog().getTitle().contains(ConfigTools.SECOND_CONFIG_NAME)) {
+        errors.add("Configuration editor dialog box has invalid title - " + configDialog.getConfigDialog().getTitle());
+    }
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	closeQS(mainFrame);
+//    closeQS(mainFrame);
 //
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, DEFAULT_JTI);
 //
-//	openConfigDialogByKey(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), SECOND_JTI);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, SECOND_JTI);
-//	if(!findConfigEditor(mainFrame).getTitle().contains(SECOND_JTI)) {
-//	    throw new JemmyException("Configuration editor dialog box has invalid title - " + findConfigEditor(mainFrame).getTitle() + " (exptcted " + SECOND_JTI + ")");
-//	}
+//    openConfigDialogByKey(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), SECOND_JTI);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, SECOND_JTI);
+//    if(!findConfigEditor(mainFrame).getTitle().contains(SECOND_JTI)) {
+//        throw new JemmyException("Configuration editor dialog box has invalid title - " + findConfigEditor(mainFrame).getTitle() + " (exptcted " + SECOND_JTI + ")");
+//    }
     }
 
     @Override
     public String getDescription() {
-	/*
-	 * Start JavaTest with the -NewDesktop option. Create an new workdirectory.
-	 * Bring up Load configuration under Configure menu. Bring up Edit
-	 * configuration by doing Ctrl-E. Bring Load under file menu. A file chooser
-	 * will be displayed to select a jti file to be used. Select a valid and
-	 * existing jti file. Click on Load File. A configuration editor will be
-	 * displayed. The selected jti file should be displayed.
-	 */
-	return "Start JavaTest with the -NewDesktop option. Create an new workdirectory. Bring up Load configuration under Configure menu. Bring up Edit configuration by doing Ctrl-E. Bring Load under file menu. A file chooser will be displayed to select a jti file to be used. Select a valid and existing jti file. Click on Load File. A configuration editor will be displayed. The selected jti file should be displayed.";
+    /*
+     * Start JavaTest with the -NewDesktop option. Create an new workdirectory.
+     * Bring up Load configuration under Configure menu. Bring up Edit
+     * configuration by doing Ctrl-E. Bring Load under file menu. A file chooser
+     * will be displayed to select a jti file to be used. Select a valid and
+     * existing jti file. Click on Load File. A configuration editor will be
+     * displayed. The selected jti file should be displayed.
+     */
+    return "Start JavaTest with the -NewDesktop option. Create an new workdirectory. Bring up Load configuration under Configure menu. Bring up Edit configuration by doing Ctrl-E. Bring Load under file menu. A file chooser will be displayed to select a jti file to be used. Select a valid and existing jti file. Click on Load File. A configuration editor will be displayed. The selected jti file should be displayed.";
     }
 }

@@ -35,20 +35,20 @@ import org.junit.runner.JUnitCore;
  */
 public class New7 extends New {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.New.New7");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.New.New7");
+    }
 
-	@Test
-	public void testNew7() {
-			startTestRun(quickStartDialog);
+    @Test
+    public void testNew7() {
+            startTestRun(quickStartDialog);
 
-			next(quickStartDialog);
+            next(quickStartDialog);
 
-			pickDefaultTestsuite(quickStartDialog);
-			
-			next(quickStartDialog);
+            pickDefaultTestsuite(quickStartDialog);
 
-	}
-	
+            next(quickStartDialog);
+
+    }
+
 }

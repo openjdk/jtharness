@@ -46,31 +46,31 @@ public class CreateWorkdir06 extends Test {
     JFrameOperator mainFrame;
 
     public CreateWorkdir06() {
-	depricated = true;
+    depricated = true;
     }
 
     public void testImpl() throws Exception {
-	startJavaTestWithDefaultTestSuite();
-	mainFrame = findMainFrame();
+    startJavaTestWithDefaultTestSuite();
+    mainFrame = findMainFrame();
 
-	deleteDirectory(DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
-	createWorkDirectory(TEMP_PATH + TO_DELETE_TEMP_WD_NAME, true, mainFrame);
-	addUsedFile(DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
-	ConfigTools.openConfigFile(ConfigTools.openLoadConfigDialogByMenu(mainFrame), TEMPLATE_NAME);
+    deleteDirectory(DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
+    createWorkDirectory(TEMP_PATH + TO_DELETE_TEMP_WD_NAME, true, mainFrame);
+    addUsedFile(DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME);
+    ConfigTools.openConfigFile(ConfigTools.openLoadConfigDialogByMenu(mainFrame), TEMPLATE_NAME);
 
-	if (!(new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.WorkDir")).getText().equals(TO_DELETE_TEMP_WD_NAME))) {
-	    throw new JemmyException("Work Directory is not shown in status bar");
-	}
-	if (!(new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.Configuration")).getText().equals(TEMPLATE_NAME))) {
-	    throw new JemmyException("Template is not shown in status bar");
-	}
-	if (!verifyWorkdirCreation(TEMP_PATH + TO_DELETE_TEMP_WD_NAME)) {
-	    throw new JemmyException("Work directory wasn't created propertly with path " + TEMP_PATH + TO_DELETE_TEMP_WD_NAME);
-	}
+    if (!(new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.WorkDir")).getText().equals(TO_DELETE_TEMP_WD_NAME))) {
+        throw new JemmyException("Work Directory is not shown in status bar");
+    }
+    if (!(new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.Configuration")).getText().equals(TEMPLATE_NAME))) {
+        throw new JemmyException("Template is not shown in status bar");
+    }
+    if (!verifyWorkdirCreation(TEMP_PATH + TO_DELETE_TEMP_WD_NAME)) {
+        throw new JemmyException("Work directory wasn't created propertly with path " + TEMP_PATH + TO_DELETE_TEMP_WD_NAME);
+    }
     }
 
     @Override
     public String getDescription() {
-	return "This test is depricated";
+    return "This test is depricated";
     }
 }

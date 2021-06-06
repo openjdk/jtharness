@@ -227,9 +227,9 @@ public abstract class Test {
                 System.setOut(ST_OUT);
                 System.setErr(ST_ERR);
                 String outString = OUT.getBuffer().toString();
-                
+
                 BufferedReader readOut = new BufferedReader(new java.io.StringReader(outString));
-                String line; 
+                String line;
                 LinkedList<String> exceptions = new LinkedList<String>();
                 boolean outCatch = false;
                 while ((line = readOut.readLine()) != null) {
@@ -240,7 +240,7 @@ public abstract class Test {
                 }
                 readOut.close();
                 String errString = ERR.getBuffer().toString();
-                
+
                 readOut = new BufferedReader(new java.io.StringReader(errString));
                 boolean errCatch = false;
                 while ((line = readOut.readLine()) != null) {
@@ -249,7 +249,7 @@ public abstract class Test {
                         exceptions.add(line);
                     }
                 }
-                
+
                 if (catchAnyExceptions && !exceptions.isEmpty()) {
                     errors.add("JavaTest threw exceptions in system output:\n" + Arrays.toString(exceptions.toArray(new String[exceptions.size()])));
                     if (outCatch) {

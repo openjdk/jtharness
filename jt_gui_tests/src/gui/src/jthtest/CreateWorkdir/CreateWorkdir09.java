@@ -42,22 +42,22 @@ import static jthtest.workdir.Workdir.*;
 public class CreateWorkdir09 extends Test {
 
     public CreateWorkdir09() {
-	depricated = true;
+    depricated = true;
     }
 
     public void testImpl() throws Exception {
-	startJavaTestWithDefaultTestSuite();
-	JFrameOperator mainFrame = findMainFrame();
+    startJavaTestWithDefaultTestSuite();
+    JFrameOperator mainFrame = findMainFrame();
 
-	createWorkDirectory(TO_DELETE_TEMP_WD_NAME, true, mainFrame);
-	addUsedFile(TO_DELETE_TEMP_WD_NAME);
-	ConfigTools.openConfigFile(ConfigTools.openLoadConfigDialogByMenu(mainFrame), "demotemplate_brokenchecksum.jtm");
+    createWorkDirectory(TO_DELETE_TEMP_WD_NAME, true, mainFrame);
+    addUsedFile(TO_DELETE_TEMP_WD_NAME);
+    ConfigTools.openConfigFile(ConfigTools.openLoadConfigDialogByMenu(mainFrame), "demotemplate_brokenchecksum.jtm");
 
-	new JDialogOperator(mainFrame, WINDOWNAME + " Harness: Error");
+    new JDialogOperator(mainFrame, WINDOWNAME + " Harness: Error");
     }
 
     @Override
     public String getDescription() {
-	return "This test is depricated";
+    return "This test is depricated";
     }
 }

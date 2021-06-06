@@ -38,11 +38,11 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class Audit9 extends Test {
 
-	public void testImpl() throws Exception {
-		mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
-	
-		new Audit.AuditTool(mainFrame.getJFrameOperator()).findAuditOptions().pushHelp();
-		new JFrameOperator(Tools.WINDOWNAME + " Harness User's Guide");
+    public void testImpl() throws Exception {
+        mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
+
+        new Audit.AuditTool(mainFrame.getJFrameOperator()).findAuditOptions().pushHelp();
+        new JFrameOperator(Tools.WINDOWNAME + " Harness User's Guide");
     }
 
 }

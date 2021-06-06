@@ -37,41 +37,41 @@ import org.netbeans.jemmy.operators.JMenuItemOperator;
 public class Config_Load06_1 extends Test {
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = new JTFrame(true);
+    JTFrame mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	Configuration configuration = mainFrame.getConfiguration();
-	configuration.load(Tools.CONFIG_NAME, true);
-	configuration.load(ConfigTools.SECOND_CONFIG_NAME, true);
-	checkMenu(configuration.openByKey());
+    Configuration configuration = mainFrame.getConfiguration();
+    configuration.load(Tools.CONFIG_NAME, true);
+    configuration.load(ConfigTools.SECOND_CONFIG_NAME, true);
+    checkMenu(configuration.openByKey());
     }
 
     private void checkMenu(ConfigDialog config) {
-	JMenuItemOperator item = config.getFile_LoadRecentConfigurationMenu();
-	if(!item.isEnabled()) {
-	    errors.add("Configuration Dialog: File -> Load Recent Configuration menu is not enabled while expected");
-	    return;
-	}
-	JMenuItemOperator[] elements = config.getFile_LoadRecentConfiguration_subMenu();
-	if (elements.length != 2) {
-	    errors.add("Count of elements is " + elements.length + " while expected 2");
-	}
-	if (elements.length > 0) {
-	    if (!elements[0].getText().endsWith(ConfigTools.SECOND_CONFIG_NAME)) {
-		errors.add("First element in the list is not 'democonfig_second.jti'");
-	    }
-	}
-	if (elements.length > 1) {
-	    if (!elements[1].getText().endsWith(ConfigTools.CONFIG_NAME)) {
-		errors.add("Second element in the list is not 'democonfig.jti'");
-	    }
-	}
+    JMenuItemOperator item = config.getFile_LoadRecentConfigurationMenu();
+    if(!item.isEnabled()) {
+        errors.add("Configuration Dialog: File -> Load Recent Configuration menu is not enabled while expected");
+        return;
+    }
+    JMenuItemOperator[] elements = config.getFile_LoadRecentConfiguration_subMenu();
+    if (elements.length != 2) {
+        errors.add("Count of elements is " + elements.length + " while expected 2");
+    }
+    if (elements.length > 0) {
+        if (!elements[0].getText().endsWith(ConfigTools.SECOND_CONFIG_NAME)) {
+        errors.add("First element in the list is not 'democonfig_second.jti'");
+        }
+    }
+    if (elements.length > 1) {
+        if (!elements[1].getText().endsWith(ConfigTools.CONFIG_NAME)) {
+        errors.add("Second element in the list is not 'democonfig.jti'");
+        }
+    }
     }
 
     @Override
     public String getDescription() {
-	return "This test loads 2 different configuration files and checks that File -> Recent Configuration menu in Configuration Editor dialog contains both of them";
+    return "This test loads 2 different configuration files and checks that File -> Recent Configuration menu in Configuration Editor dialog contains both of them";
     }
 }

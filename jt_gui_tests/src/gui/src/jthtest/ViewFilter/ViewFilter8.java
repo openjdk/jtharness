@@ -52,28 +52,28 @@ import com.sun.javatest.AllTestsFilter;
  */
 @SuppressWarnings("unused")
 public class ViewFilter8 extends ViewFilter {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter8");
-	}
-	
-	@Test
-	public void testViewFilter8() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		startWithDefaultWorkdir();
 
-		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter8");
+    }
 
-		selectFilter(filterEditor, 3);
+    @Test
+    public void testViewFilter8() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        startWithDefaultWorkdir();
 
-		chooseTab(filterEditor, "Special");
+        JDialogOperator filterEditor = openFilterEditor(mainFrame);
 
-		new JCheckBoxOperator(filterEditor, "Enable test suite filter").setSelected(true);
+        selectFilter(filterEditor, 3);
 
-		ok(filterEditor);
+        chooseTab(filterEditor, "Special");
 
-		checkAllTestLists(mainFrame, null, null, null, allTests, null);
-		
-	}
+        new JCheckBoxOperator(filterEditor, "Enable test suite filter").setSelected(true);
+
+        ok(filterEditor);
+
+        checkAllTestLists(mainFrame, null, null, null, allTests, null);
+
+    }
 
 }
 

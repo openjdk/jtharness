@@ -25,15 +25,15 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select the couple of questions 
- * from the history list. Mark the questions by selecting Mark Current Question 
- * from the Bookmarks menu. Click on Show Only Marked Questions. All the marked 
- * questions will be displayed as "...". Select one of the "...". Double click 
- * on "..." in the list. The open group of questions will be displayed. Verify 
- * that all double click on the "..." in the list will open the the group 
- * questions. 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
+ * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+ * Enable Bookmarks from the Bookmarks menu. Select the couple of questions
+ * from the history list. Mark the questions by selecting Mark Current Question
+ * from the Bookmarks menu. Click on Show Only Marked Questions. All the marked
+ * questions will be displayed as "...". Select one of the "...". Double click
+ * on "..." in the list. The open group of questions will be displayed. Verify
+ * that all double click on the "..." in the list will open the the group
+ * questions.
  */
 package jthtest.Markers;
 
@@ -69,28 +69,28 @@ public class Markers19 extends Test {
 
         config.openGroupByMouse(namesAll, namesHidden);
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	closeQS(mainFrame);
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-//	Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+//    closeQS(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+//    Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
 //
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
 //
-//	int[] indexes = new int[]{4, 5, 6, 8, 9};
+//    int[] indexes = new int[]{4, 5, 6, 8, 9};
 //
-//	pushEnableBookmarks(config);
-//	setBookmarkedByMenu(config, indexes);
-//	String[] namesAll = getElementsNames(config);
-//	pushShowOnlyBookmarked(config);
-//	String[] namesHidden = getElementsNames(config);
+//    pushEnableBookmarks(config);
+//    setBookmarkedByMenu(config, indexes);
+//    String[] namesAll = getElementsNames(config);
+//    pushShowOnlyBookmarked(config);
+//    String[] namesHidden = getElementsNames(config);
 //
-//	openGroupByMouse(config, namesAll, namesHidden);
+//    openGroupByMouse(config, namesAll, namesHidden);
     }
 
     @Override

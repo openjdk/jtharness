@@ -37,48 +37,48 @@ import jthtest.tools.JTFrame;
 public class Config_New01 extends Test {
 
     public void testImpl() throws Exception {
-	JTFrame frame = JTFrame.startJTWithDefaultWorkDirectory();
+    JTFrame frame = JTFrame.startJTWithDefaultWorkDirectory();
 
-	ConfigDialog cd = frame.getConfiguration().openByKey();
-	boolean firstly = cd.isFullConfiguration();
+    ConfigDialog cd = frame.getConfiguration().openByKey();
+    boolean firstly = cd.isFullConfiguration();
 
-	cd.closeByMenu();
+    cd.closeByMenu();
 
-	cd = frame.getConfiguration().create(true);
+    cd = frame.getConfiguration().create(true);
 
-	boolean secondly = cd.isFullConfiguration();
+    boolean secondly = cd.isFullConfiguration();
 
-	if (secondly) {
-	    errors.add("Configuration is full after creation");
-	}
-	if (!firstly) {
-	    errors.add("Warning: configuration was not full before creation");
-	}
+    if (secondly) {
+        errors.add("Configuration is full after creation");
+    }
+    if (!firstly) {
+        errors.add("Warning: configuration was not full before creation");
+    }
 
-//	startJavaTestWithDefaultWorkDirectory();
+//    startJavaTestWithDefaultWorkDirectory();
 
-//	JFrameOperator mainFrame = findMainFrame();
-//	openConfigDialogByKey(mainFrame);
-//	JDialogOperator config = findConfigEditor(mainFrame);
+//    JFrameOperator mainFrame = findMainFrame();
+//    openConfigDialogByKey(mainFrame);
+//    JDialogOperator config = findConfigEditor(mainFrame);
 //
-//	boolean firstly = isFullConfiguration(config);
+//    boolean firstly = isFullConfiguration(config);
 //
-//	openConfigCreationBlock(mainFrame);
-//	config = findConfigEditor(mainFrame);
+//    openConfigCreationBlock(mainFrame);
+//    config = findConfigEditor(mainFrame);
 //
-//	boolean secondly = isFullConfiguration(config);
-//	if(secondly)
-//	    throw new JemmyException("Configuration is full after creation");
+//    boolean secondly = isFullConfiguration(config);
+//    if(secondly)
+//        throw new JemmyException("Configuration is full after creation");
 //
-//	if(!firstly)
-//	    throw new JemmyException("Warning: configuration was not full before creation");
+//    if(!firstly)
+//        throw new JemmyException("Warning: configuration was not full before creation");
     }
 
     @Override
     public String getDescription() {
-	return "This tests checks that configuration is loaded properly whith -open " +
-		"<WD_with_config> option and is nullified when creating new config. " +
-		"Is depricated because configuration can't be changed when Configuration " +
-		"Editor is shown (initially this feature was tested).";
+    return "This tests checks that configuration is loaded properly whith -open " +
+        "<WD_with_config> option and is nullified when creating new config. " +
+        "Is depricated because configuration can't be changed when Configuration " +
+        "Editor is shown (initially this feature was tested).";
     }
 }

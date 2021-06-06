@@ -25,12 +25,12 @@
  * questions.
  */
 /*
- * Start JavaTest with -newdesktop. The JavaTest Quick Start wizard will be displayed. 
- * Click on Browse the testsuite and click on Next button. Specify the testsuite. 
- * Click on Next button. Choose the Use the configuration template , specify a valid 
- * and complete configuration file and click on Next. The text should specify that 
- * the configuration is complete. Check the Start the configuration check and click 
- * on Finish button and then choose workdir. Verify that the configuration editor 
+ * Start JavaTest with -newdesktop. The JavaTest Quick Start wizard will be displayed.
+ * Click on Browse the testsuite and click on Next button. Specify the testsuite.
+ * Click on Next button. Choose the Use the configuration template , specify a valid
+ * and complete configuration file and click on Next. The text should specify that
+ * the configuration is complete. Check the Start the configuration check and click
+ * on Finish button and then choose workdir. Verify that the configuration editor
  * will be displayed to make changes
  */
 package jthtest.Browse;
@@ -44,33 +44,33 @@ import org.netbeans.jemmy.operators.JDialogOperator;
  * @author naryl
  */
 public class Browse7 extends Browse {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("com.sun.javatest.tests.Browse.Browse7");
-	}
-	
-	@Test
-	public void testBrowse7() {
-		browseTestsuite(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-		pickDefaultTestsuite(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-		useConfigTemplate(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-		startConfigEditor(quickStartDialog);
-		
-		finish(quickStartDialog, true);
-		
-		pickWorkDir(mainFrame);
-		
-		new JDialogOperator(mainFrame, "Configuration Editor");
-		
-	}
-	
+
+    public static void main(String[] args) {
+        JUnitCore.main("com.sun.javatest.tests.Browse.Browse7");
+    }
+
+    @Test
+    public void testBrowse7() {
+        browseTestsuite(quickStartDialog);
+
+        next(quickStartDialog);
+
+        pickDefaultTestsuite(quickStartDialog);
+
+        next(quickStartDialog);
+
+        useConfigTemplate(quickStartDialog);
+
+        next(quickStartDialog);
+
+        startConfigEditor(quickStartDialog);
+
+        finish(quickStartDialog, true);
+
+        pickWorkDir(mainFrame);
+
+        new JDialogOperator(mainFrame, "Configuration Editor");
+
+    }
+
 }

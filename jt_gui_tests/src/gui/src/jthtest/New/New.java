@@ -43,42 +43,42 @@ import jthtest.Tools;
  * @author naryl
  */
 public class New extends Tools {
-//	private static final String TEMP_WD = "New_temp_wd";
+//    private static final String TEMP_WD = "New_temp_wd";
 
-	public static void startTestRun(JDialogOperator dialog) {
-		//Click on the "New" radio button
-		new JRadioButtonOperator(dialog, "Start a new test run").push();
-	}
+    public static void startTestRun(JDialogOperator dialog) {
+        //Click on the "New" radio button
+        new JRadioButtonOperator(dialog, "Start a new test run").push();
+    }
 
-	public static void pickTempWorkDir(JDialogOperator dialog) {
+    public static void pickTempWorkDir(JDialogOperator dialog) {
 
-		deleteDirectory(new File(TEMP_WD_NAME));
-		getTextField(dialog, "Work directory").typeText(TEMP_WD_NAME);
+        deleteDirectory(new File(TEMP_WD_NAME));
+        getTextField(dialog, "Work directory").typeText(TEMP_WD_NAME);
 
-	}
+    }
 
-	public static void pickExistingWorkDir(JDialogOperator dialog) {
+    public static void pickExistingWorkDir(JDialogOperator dialog) {
 
-		getTextField(dialog, "Work directory").typeText(TEMP_WD_NAME);
+        getTextField(dialog, "Work directory").typeText(TEMP_WD_NAME);
 
-	}
+    }
 
-	public static void pickWorkDirWithConfiguration(JDialogOperator dialog) {
-		getTextField(dialog, "Work directory").typeText(DEFAULT_WD_NAME);
-	}
+    public static void pickWorkDirWithConfiguration(JDialogOperator dialog) {
+        getTextField(dialog, "Work directory").typeText(DEFAULT_WD_NAME);
+    }
 
-	public static void done(JDialogOperator dialog) {
-		new JButtonOperator(dialog, "Done").push();
-	}
+    public static void done(JDialogOperator dialog) {
+        new JButtonOperator(dialog, "Done").push();
+    }
 
-	protected JFrameOperator mainFrame;
-	protected JDialogOperator quickStartDialog;
-	
-	@Before
-	public void setUp() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		startJavatest(NEWDESKTOP_ARG);
-		mainFrame = findMainFrame();
-		quickStartDialog = openQuickStart(mainFrame);
-	}
-	
+    protected JFrameOperator mainFrame;
+    protected JDialogOperator quickStartDialog;
+
+    @Before
+    public void setUp() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        startJavatest(NEWDESKTOP_ARG);
+        mainFrame = findMainFrame();
+        quickStartDialog = openQuickStart(mainFrame);
+    }
+
 }

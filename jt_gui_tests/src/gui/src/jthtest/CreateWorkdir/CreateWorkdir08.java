@@ -48,31 +48,31 @@ import static jthtest.workdir.Workdir.*;
 public class CreateWorkdir08 extends Test {
 
     public CreateWorkdir08() {
-	depricated = true;
+    depricated = true;
     }
 
     public void testImpl() throws Exception {
-	startJavaTestWithDefaultTestSuite();
+    startJavaTestWithDefaultTestSuite();
 
-	String path;
+    String path;
 
-	JFrameOperator mainFrame = findMainFrame();
+    JFrameOperator mainFrame = findMainFrame();
 
-	deleteDirectory(DEFAULT_PATH+TEMP_WD_NAME);
-	JDialogOperator wrkDir = openCreateWorkDirectoryDialog(mainFrame);
-	chooseWorkDirectoryInDialog(wrkDir, TEMP_WD_NAME);
+    deleteDirectory(DEFAULT_PATH+TEMP_WD_NAME);
+    JDialogOperator wrkDir = openCreateWorkDirectoryDialog(mainFrame);
+    chooseWorkDirectoryInDialog(wrkDir, TEMP_WD_NAME);
 
-	new JRadioButtonOperator(wrkDir, getExecResource("wdc.template.rb")).push();
+    new JRadioButtonOperator(wrkDir, getExecResource("wdc.template.rb")).push();
 
-	JTextField templatePath = (JTextField)(new JLabelOperator(wrkDir, getExecResource("wdc.template.path.lbl")).getLabelFor());
-	if(templatePath.getText().equals(""))
-	    throw new JemmyException("Default template path is empty!");
-	if(!((templatePath.getText() + File.separator).equals(DEFAULT_PATH)))
-	    throw new JemmyException("Default template path doesn't match default path: " + templatePath.getText() + File.separator + " != " + DEFAULT_PATH);
+    JTextField templatePath = (JTextField)(new JLabelOperator(wrkDir, getExecResource("wdc.template.path.lbl")).getLabelFor());
+    if(templatePath.getText().equals(""))
+        throw new JemmyException("Default template path is empty!");
+    if(!((templatePath.getText() + File.separator).equals(DEFAULT_PATH)))
+        throw new JemmyException("Default template path doesn't match default path: " + templatePath.getText() + File.separator + " != " + DEFAULT_PATH);
     }
 
     @Override
     public String getDescription() {
-	return "This test is depricated";
+    return "This test is depricated";
     }
 }

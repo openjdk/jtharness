@@ -42,25 +42,25 @@ import static jthtest.Tools.*;
 public class CreateWorkdir17 extends Test {
 
     public CreateWorkdir17() {
-	depricated = true;
+    depricated = true;
     }
     JFrameOperator mainFrame;
 
     public void testImpl() throws Exception {
-	startJavatest(new String[]{"-workdir", "demowd_template"});
+    startJavatest(new String[]{"-workdir", "demowd_template"});
 
-	mainFrame = findMainFrame();
+    mainFrame = findMainFrame();
 
-	if (!(new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.WorkDir")).getText().equals("demowd_template"))) {
-	    throw new JemmyException("Work Directory is not shown in status bar");
-	}
-	if (!(new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.Configuration")).getText().equals("demotemplate.jtm"))) {
-	    throw new JemmyException("Template is not shown in status bar");
-	}
+    if (!(new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.WorkDir")).getText().equals("demowd_template"))) {
+        throw new JemmyException("Work Directory is not shown in status bar");
+    }
+    if (!(new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.Configuration")).getText().equals("demotemplate.jtm"))) {
+        throw new JemmyException("Template is not shown in status bar");
+    }
     }
 
     @Override
     public String getDescription() {
-	return "This test is depricated";
+    return "This test is depricated";
     }
 }

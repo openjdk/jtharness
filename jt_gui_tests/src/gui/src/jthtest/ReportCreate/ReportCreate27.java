@@ -42,49 +42,49 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  */
 public class ReportCreate27 extends Test {
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+    public void testImpl() throws Exception {
+        deleteUserData();
+        startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+        JDialogOperator rep = openReportCreation(mainFrame);
 
-		setXmlChecked(rep, true);
-		setPlainChecked(rep, false);
-		setHtmlChecked(rep, false);
+        setXmlChecked(rep, true);
+        setPlainChecked(rep, false);
+        setHtmlChecked(rep, false);
 
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_PLAIN + File.separator;
-		deleteDirectory(path);
-		setPath(rep, path);
-		pressCreate(rep);
-		addUsedFile(path);
-		pressYes(findShowReportDialog());
+        final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_PLAIN + File.separator;
+        deleteDirectory(path);
+        setPath(rep, path);
+        pressCreate(rep);
+        addUsedFile(path);
+        pressYes(findShowReportDialog());
 
-		ReportBrowser browser = new ReportBrowser(path);
+        ReportBrowser browser = new ReportBrowser(path);
 
-		String[] urls = browser.getUrls();
-		int i = findInStringArray(urls, "xml/report.xml");
-		if (i == -1) {
-			throw new JemmyException("Expected 'xml/report.xml' url in report browser");
-		}
-		browser.clickUrl(urlFile(path + urls[i]));
-		browser.waitForPageLoading("</Report>\n", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		String text = browser.getText();
-		if (!text.contains("<Interview>")) {
-			throw new JemmyException("Summary wasn't found ('<Interview>' expected)");
-		}
-		if (!text.contains("<Environment name=\"")) {
-			throw new JemmyException("Test enviroment wasn't found ('<Environment name=\"' expected)");
-		}
-		if (!text.contains("<StandardValues>")) {
-			throw new JemmyException("Standart values wasn't found ('<StandardValues>' expected)");
-		}
-		if (!text.contains("<TestResults>")) {
-			throw new JemmyException("Result summary wasn't found ('<TestResults>' expected");
-		}
-//	if(!text.contains("<Keywords>")) {
-//	    throw new JemmyException("Keywords wasn't found (predefined warning: there isn't any similar block)");
-//	}
-	}
+        String[] urls = browser.getUrls();
+        int i = findInStringArray(urls, "xml/report.xml");
+        if (i == -1) {
+            throw new JemmyException("Expected 'xml/report.xml' url in report browser");
+        }
+        browser.clickUrl(urlFile(path + urls[i]));
+        browser.waitForPageLoading("</Report>\n", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        String text = browser.getText();
+        if (!text.contains("<Interview>")) {
+            throw new JemmyException("Summary wasn't found ('<Interview>' expected)");
+        }
+        if (!text.contains("<Environment name=\"")) {
+            throw new JemmyException("Test enviroment wasn't found ('<Environment name=\"' expected)");
+        }
+        if (!text.contains("<StandardValues>")) {
+            throw new JemmyException("Standart values wasn't found ('<StandardValues>' expected)");
+        }
+        if (!text.contains("<TestResults>")) {
+            throw new JemmyException("Result summary wasn't found ('<TestResults>' expected");
+        }
+//    if(!text.contains("<Keywords>")) {
+//        throw new JemmyException("Keywords wasn't found (predefined warning: there isn't any similar block)");
+//    }
+    }
 }

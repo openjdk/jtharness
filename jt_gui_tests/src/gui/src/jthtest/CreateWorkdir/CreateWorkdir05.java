@@ -48,24 +48,24 @@ public class CreateWorkdir05 extends Test {
     JFrameOperator mainFrame;
 
     public void testImpl() throws Exception {
-	startJavaTestWithDefaultTestSuite();
+    startJavaTestWithDefaultTestSuite();
 
-	mainFrame = findMainFrame();
+    mainFrame = findMainFrame();
 
-	deleteDirectory(TEMP_PATH + TEMP_WD_NAME);
-	Workdir.createWorkDirectory(TEMP_PATH + TEMP_WD_NAME, true, mainFrame);
-	addUsedFile(TEMP_PATH + TEMP_WD_NAME);
+    deleteDirectory(TEMP_PATH + TEMP_WD_NAME);
+    Workdir.createWorkDirectory(TEMP_PATH + TEMP_WD_NAME, true, mainFrame);
+    addUsedFile(TEMP_PATH + TEMP_WD_NAME);
 
-	if (new File(TEMP_PATH + TEMP_WD_NAME + File.separator + "jtData" + File.separator + "template.data").exists()) {
-	    throw new JemmyException("Found template config in workdir while not expected");
-	}
+    if (new File(TEMP_PATH + TEMP_WD_NAME + File.separator + "jtData" + File.separator + "template.data").exists()) {
+        throw new JemmyException("Found template config in workdir while not expected");
+    }
 
-	if (new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.Configuration")).getText().equals("demotemplate.jtm")) {
-	    throw new JemmyException("Template is opened while not expected");
-	}
+    if (new JTextFieldOperator(mainFrame, new NameComponentChooser("bcc.Configuration")).getText().equals("demotemplate.jtm")) {
+        throw new JemmyException("Template is opened while not expected");
+    }
 
-	if (new JMenuOperator(mainFrame, getExecResource("ch.menu")).getMenuComponent(1).isEnabled()) {
-	    throw new JemmyException("Template editing found while not expected");
-	}
+    if (new JMenuOperator(mainFrame, getExecResource("ch.menu")).getMenuComponent(1).isEnabled()) {
+        throw new JemmyException("Template editing found while not expected");
+    }
     }
 }

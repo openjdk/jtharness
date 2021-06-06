@@ -38,18 +38,18 @@ import org.netbeans.jemmy.operators.JMenuOperator;
  */
 public class View2 extends View {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
             JUnitCore.main("jthtest.gui.StandardConfig_View.View2");
-	}
-        
+    }
+
         @Test
         public void testView2() {
             openTestSuite(mainFrame);
             createWorkDirInTemp(mainFrame);
-            JDialogOperator editor = callNewConfigurationEditor(); 
+            JDialogOperator editor = callNewConfigurationEditor();
             new JMenuOperator(editor, "View").pushMenuNoBlock("View|Quick Set Mode", "|");
             checkPanel(); // TODO
-            new JMenuOperator(editor, "View").pushMenuNoBlock("View|Question Mode", "|"); 
+            new JMenuOperator(editor, "View").pushMenuNoBlock("View|Question Mode", "|");
             checkPanel(); // TODO
         }
 }

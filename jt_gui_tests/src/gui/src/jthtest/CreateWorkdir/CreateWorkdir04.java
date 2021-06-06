@@ -51,30 +51,30 @@ public class CreateWorkdir04 extends Test {
      */
 
     public void testImpl() throws Exception {
-	startJavaTestWithDefaultTestSuite();
+    startJavaTestWithDefaultTestSuite();
 
-	JFrameOperator mainFrame = findMainFrame();
+    JFrameOperator mainFrame = findMainFrame();
 
-	deleteDirectory(TEMP_PATH + "bad_dir");
-	createWorkDirectory(TEMP_PATH + "bad_dir" + File.separator + TEMP_WD_NAME, false, mainFrame);
-	File f = new File(TEMP_PATH + "bad_dir" + File.separator + TEMP_WD_NAME);
-	addUsedFile(f);
+    deleteDirectory(TEMP_PATH + "bad_dir");
+    createWorkDirectory(TEMP_PATH + "bad_dir" + File.separator + TEMP_WD_NAME, false, mainFrame);
+    File f = new File(TEMP_PATH + "bad_dir" + File.separator + TEMP_WD_NAME);
+    addUsedFile(f);
 
-	try {
-	    new JTextComponentOperator(mainFrame, TEMP_WD_NAME);
-	} catch(TimeoutExpiredException e) {
-	    errors.add("Component with WD name was not found");
-	}
-	if (!f.exists()) {
-	    errors.add("Work Directory was not created properly");
-	}
-	if (!mainFrame.getTitle().endsWith(f.getAbsolutePath())) {
-	    errors.add("Title has not new WD path (" + f.getAbsolutePath() + "), title: " + mainFrame.getTitle());
-	}
+    try {
+        new JTextComponentOperator(mainFrame, TEMP_WD_NAME);
+    } catch(TimeoutExpiredException e) {
+        errors.add("Component with WD name was not found");
+    }
+    if (!f.exists()) {
+        errors.add("Work Directory was not created properly");
+    }
+    if (!mainFrame.getTitle().endsWith(f.getAbsolutePath())) {
+        errors.add("Title has not new WD path (" + f.getAbsolutePath() + "), title: " + mainFrame.getTitle());
+    }
     }
 
     @Override
     public String getDescription() {
-	return "WD directory should be created recursively";
+    return "WD directory should be created recursively";
     }
 }

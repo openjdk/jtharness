@@ -42,23 +42,23 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 public class CustomReport14 extends CustomReport {
     // this test was excluded because current testsuite doesn't provide custom report formats
     public static void main(String[] args) {
-	JUnitCore.main("jthtest.gui.CustomReport.CustomReport14");
+    JUnitCore.main("jthtest.gui.CustomReport.CustomReport14");
     }
-    
+
     @Test
     public void testCustomReport14() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-//	startJavaTestWithDefaultWorkDirectory();
+//    startJavaTestWithDefaultWorkDirectory();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	JDialogOperator rep = openReportCreation(mainFrame);
+//    JDialogOperator rep = openReportCreation(mainFrame);
 //
-//	JCheckBox t;
-//	t = selectType(rep, ReportType.CUSTOM_TEXT);
-//	if(!t.getText().equals("4 Text Custom Report"))
-//	    throw new JemmyException("At the posistion 4 must be '4 Text Custom Report' but there is " + t.getText());
-//	t = selectType(rep, ReportType.CUSTOM_XML);
-//	if(!t.getText().equals("5 XML Custom Report"))
-//	    throw new JemmyException("At the posistion 5 must be '5 XML Custom Report' but there is " + t.getText());
+//    JCheckBox t;
+//    t = selectType(rep, ReportType.CUSTOM_TEXT);
+//    if(!t.getText().equals("4 Text Custom Report"))
+//        throw new JemmyException("At the posistion 4 must be '4 Text Custom Report' but there is " + t.getText());
+//    t = selectType(rep, ReportType.CUSTOM_XML);
+//    if(!t.getText().equals("5 XML Custom Report"))
+//        throw new JemmyException("At the posistion 5 must be '5 XML Custom Report' but there is " + t.getText());
     }
 }

@@ -41,13 +41,13 @@ public class Markers4 extends Test {
 
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         mainFrame = new JTFrame(true);
-        
+
         mainFrame.openDefaultTestSuite();
         addUsedFile(mainFrame.createWorkDirectoryInTemp());
         Configuration config = mainFrame.getConfiguration();
         config.load(CONFIG_NAME, true);
         ConfigDialog cd = config.openByKey();
-        
+
         // test body
         cd.getBookmarks_EnableBookmarks().push();
         Icon emptyIcon = cd.getIcon(1);
@@ -56,7 +56,7 @@ public class Markers4 extends Test {
             errors.add("Icon wasn't found");
         }
         warnings.add("predefined warning: popup menu doesn't open without left clicking");
-        
+
         //        startJavatestNewDesktop();
         //
         //        JFrameOperator mainFrame = findMainFrame();

@@ -25,15 +25,15 @@
  * questions.
  */
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select the couple of questions 
- * from the history list. Mark the questions by selecting Mark Current Question 
- * from the Bookmarks menu. Click on Show Only Marked Questions. All the marked 
+ * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
+ * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+ * Enable Bookmarks from the Bookmarks menu. Select the couple of questions
+ * from the history list. Mark the questions by selecting Mark Current Question
+ * from the Bookmarks menu. Click on Show Only Marked Questions. All the marked
  * questions will be displayed as "...". Select one of the "...". Click on Open
- * "..." Group from the Bookmarks menu. The Close "..." Group will be displayed 
- * under Bookmarks menu. Click on Close "..." Group under the Bookmarks menu." 
- * Verify that the "..." will be displayed in the history list. 
+ * "..." Group from the Bookmarks menu. The Close "..." Group will be displayed
+ * under Bookmarks menu. Click on Close "..." Group under the Bookmarks menu."
+ * Verify that the "..." will be displayed in the history list.
  */
 package jthtest.Markers;
 

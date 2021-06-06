@@ -45,10 +45,10 @@ public class Config_TestTree1 extends Test {
         addUsedFile(mainFrame.createWorkDirectoryInTemp());
         Configuration conf = mainFrame.getConfiguration();
         conf.load(CONFIG_NAME, true);
-        
+
         ConfigDialog cd = conf.openByMenu(true);
         ConfigDialog.QuestionTree tree = cd.getQuestionTree();
-        
+
         int initRowCount = tree.getRowCount();
         SelectionTree stree = tree.getTree();
         int initSelected = stree.getSelection().length;
@@ -71,14 +71,14 @@ public class Config_TestTree1 extends Test {
         if (stree.getSelectionRows()[0] != 2) {
             errors.add(stree.getSelectionRows()[0] + " row is selected while expected 2");
         }
-        
+
         if (tree.getRowCount() != initRowCount) {
             errors.add("Visible row count changes after clicking on row");
         }
         if (initSelected != stree.getSelection().length) {
             errors.add("Selected row count changed: was " + initSelected + " now " + stree.getSelection().length);
         }
-        
+
         tree.clickOnCheckbox(0);
         if (stree.getSelection().length != 0) {
             errors.add("There are " + stree.getSelection().length + " selected row while 0 expected");
@@ -91,33 +91,33 @@ public class Config_TestTree1 extends Test {
         if (stree.getSelection().length != 1) {
             errors.add("There are " + stree.getSelection().length + " selected row while 1 expected (root)");
         }
-        
+
         if (tree.getRowCount() != initRowCount) {
             errors.add("Visible row count changes after clicking on checkbox");
         }
-        
+
         tree.clickOnArrow(0);
         if (tree.getRowCount() != 1) {
             errors.add("Tree is not collapsed after clicking on first row. Rows visible: " + tree.getRowCount());
         }
-        
+
         tree.clickOnArrow(0);
         if (tree.getRowCount() != initRowCount) {
             errors.add("Tree is not expanded after clicking on first row");
         }
-        
+
         tree.clickOnArrow(2);
         if (tree.getRowCount() == initRowCount) {
             errors.add("Tree is not expanded after clicking on 2 row. Rows visible: " + tree.getRowCount());
         }
         initRowCount = tree.getRowCount();
-        
-        
+
+
         tree.clickOnArrow(0);
         if (tree.getRowCount() != 1) {
             errors.add("Tree is not collapsed after clicking on first row. Rows visible: " + tree.getRowCount());
         }
-        
+
         tree.clickOnArrow(0);
         if (tree.getRowCount() != initRowCount) {
             errors.add("Tree is not expanded after clicking on first row");

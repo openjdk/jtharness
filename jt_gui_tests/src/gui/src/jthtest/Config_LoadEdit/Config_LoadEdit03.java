@@ -36,50 +36,50 @@ import org.netbeans.jemmy.operators.JDialogOperator;
 
 public class Config_LoadEdit03 extends Test {
 
-	public Config_LoadEdit03() {
-		super();
-		toCopyFiles.add(new File("democonfig_another_suite.jti"));
-	}
+    public Config_LoadEdit03() {
+        super();
+        toCopyFiles.add(new File("democonfig_another_suite.jti"));
+    }
 
-	public void testImpl() throws Exception {
-		mainFrame = new JTFrame(true);
+    public void testImpl() throws Exception {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-		Configuration configuration = mainFrame.getConfiguration();
-		configuration.load(Tools.CONFIG_NAME, true);
-		configuration.openByKey().load("democonfig_another_suite.jti", true);
+        Configuration configuration = mainFrame.getConfiguration();
+        configuration.load(Tools.CONFIG_NAME, true);
+        configuration.openByKey().load("democonfig_another_suite.jti", true);
 
-		JDialogOperator error = new JDialogOperator(Tools.WINDOWNAME + " Harness: Error");
-		new JButtonOperator(error, "Ok").push();
+        JDialogOperator error = new JDialogOperator(Tools.WINDOWNAME + " Harness: Error");
+        new JButtonOperator(error, "Ok").push();
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
+//    JFrameOperator mainFrame = findMainFrame();
 //
-//	closeQS(mainFrame);
+//    closeQS(mainFrame);
 //
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
-//	openConfigDialogByKey(mainFrame);
-//	openConfigFile(openLoadConfigDialogByMenu(mainFrame), "democonfig_another_suite.jti");
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), DEFAULT_JTI);
+//    openConfigDialogByKey(mainFrame);
+//    openConfigFile(openLoadConfigDialogByMenu(mainFrame), "democonfig_another_suite.jti");
 //
-//	JDialogOperator error = new JDialogOperator(NAME + " Harness: Error");
-//	new JButtonOperator(error, "Ok").push();
-	}
+//    JDialogOperator error = new JDialogOperator(NAME + " Harness: Error");
+//    new JButtonOperator(error, "Ok").push();
+    }
 
-	@Override
-	public String getDescription() {
-		/*
-		 * Start JavaTest with the -NewDesktop option. Create an new workdirectory.
-		 * Bring up Bring up configuration editor by doing Ctrl-E. Select a jti file
-		 * that was created for a different testsuite. Click on Load File. An error
-		 * message should generate indicating that the file data does not apply to
-		 * this interview. Click on Ok button to exit. An error should generated
-		 * indicating that data does not apply to the interview.
-		 */
-		return "Start JavaTest with the -NewDesktop option. Create an new workdirectory. Bring up Bring up configuration editor by doing Ctrl-E. Select a jti file that was created for a different testsuite. Click on Load File. An error message should generate indicating that the file data does not apply to this interview. Click on Ok button to exit. An error should generated indicating that data does not apply to the interview.";
-	}
+    @Override
+    public String getDescription() {
+        /*
+         * Start JavaTest with the -NewDesktop option. Create an new workdirectory.
+         * Bring up Bring up configuration editor by doing Ctrl-E. Select a jti file
+         * that was created for a different testsuite. Click on Load File. An error
+         * message should generate indicating that the file data does not apply to
+         * this interview. Click on Ok button to exit. An error should generated
+         * indicating that data does not apply to the interview.
+         */
+        return "Start JavaTest with the -NewDesktop option. Create an new workdirectory. Bring up Bring up configuration editor by doing Ctrl-E. Select a jti file that was created for a different testsuite. Click on Load File. An error message should generate indicating that the file data does not apply to this interview. Click on Ok button to exit. An error should generated indicating that data does not apply to the interview.";
+    }
 }

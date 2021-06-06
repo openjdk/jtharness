@@ -52,68 +52,68 @@ public class ConfigTools extends Tools {
 
     public static class ConfigDialog {
 
-	private JDialogOperator config;
-	private JTFrame mainFrame;
+    private JDialogOperator config;
+    private JTFrame mainFrame;
 
-	private ConfigDialog(JTFrame mainFrame) {
-	    this.mainFrame = mainFrame;
-	    config = new JDialogOperator(mainFrame.getJFrameOperator(), getExecResource("ce.name"));
-	}
+    private ConfigDialog(JTFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        config = new JDialogOperator(mainFrame.getJFrameOperator(), getExecResource("ce.name"));
+    }
 
-	public static ConfigDialog openConfigCreation(JTFrame mainFrame) {
-	    new JMenuOperator(mainFrame.getJFrameOperator(), getExecResource("ch.menu")).pushMenuNoBlock(new String[]{getExecResource("ch.menu"), getExecResource("ch.new.act")});
-	    return new ConfigDialog(mainFrame);
-	}
+    public static ConfigDialog openConfigCreation(JTFrame mainFrame) {
+        new JMenuOperator(mainFrame.getJFrameOperator(), getExecResource("ch.menu")).pushMenuNoBlock(new String[]{getExecResource("ch.menu"), getExecResource("ch.new.act")});
+        return new ConfigDialog(mainFrame);
+    }
 
-	public static ConfigDialog openConfigCreationBlock(JTFrame mainFrame) {
-	    new JMenuOperator(mainFrame.getJFrameOperator(), getExecResource("ch.menu")).pushMenu(new String[]{getExecResource("ch.menu"), getExecResource("ch.new.act")});
-	    return new ConfigDialog(mainFrame);
-	}
+    public static ConfigDialog openConfigCreationBlock(JTFrame mainFrame) {
+        new JMenuOperator(mainFrame.getJFrameOperator(), getExecResource("ch.menu")).pushMenu(new String[]{getExecResource("ch.menu"), getExecResource("ch.new.act")});
+        return new ConfigDialog(mainFrame);
+    }
 
-	public static ConfigDialog openConfigDialogByKey(JTFrame mainFrame) {
-	    mainFrame.getJFrameOperator().pressKey(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK);
-	    return new ConfigDialog(mainFrame);
-	}
+    public static ConfigDialog openConfigDialogByKey(JTFrame mainFrame) {
+        mainFrame.getJFrameOperator().pressKey(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK);
+        return new ConfigDialog(mainFrame);
+    }
 
-	public static ConfigDialog openConfigDialogByMenu(JTFrame mainFrame) {
-	    Menu.getConfigure_EditConfigurationMenu(mainFrame.getJFrameOperator());
-	    return new ConfigDialog(mainFrame);
-	}
+    public static ConfigDialog openConfigDialogByMenu(JTFrame mainFrame) {
+        Menu.getConfigure_EditConfigurationMenu(mainFrame.getJFrameOperator());
+        return new ConfigDialog(mainFrame);
+    }
 
-	public void pushDoneConfigEditor() {
-	    new JButtonOperator(config, DONE_BUTTON).push();
-	}
+    public void pushDoneConfigEditor() {
+        new JButtonOperator(config, DONE_BUTTON).push();
+    }
 
-	public void pushNextConfigEditor() {
-	    new JButtonOperator(config, NEXT_BUTTON).push();
-	}
+    public void pushNextConfigEditor() {
+        new JButtonOperator(config, NEXT_BUTTON).push();
+    }
 
-	public void pushBackConfigEditor() {
-	    new JButtonOperator(config, PREV_BUTTON).push();
-	}
+    public void pushBackConfigEditor() {
+        new JButtonOperator(config, PREV_BUTTON).push();
+    }
 
-	public void pushLastConfigEditor() {
-	    new JButtonOperator(config, LAST_BUTTON).push();
-	}
+    public void pushLastConfigEditor() {
+        new JButtonOperator(config, LAST_BUTTON).push();
+    }
 
-	public void selectQuestion(int index) {
-	    new JListOperator(config).selectItem(index);
-	}
+    public void selectQuestion(int index) {
+        new JListOperator(config).selectItem(index);
+    }
 
-	public void saveConfig(String name) {
-	    getFile_SaveMenu(config).pushNoBlock();
-	    JDialogOperator saving = new JDialogOperator(getSaveConfigurationDialogName());
+    public void saveConfig(String name) {
+        getFile_SaveMenu(config).pushNoBlock();
+        JDialogOperator saving = new JDialogOperator(getSaveConfigurationDialogName());
 
-	    JTextFieldOperator tf;
+        JTextFieldOperator tf;
 
-	    tf = new JTextFieldOperator((JTextField) Tools.getComponent(saving, new String[]{"Folder name:", "File name:", "Folder Name:", "File Name:"}));
-	    tf.enterText(name);
-	}
+        tf = new JTextFieldOperator((JTextField) Tools.getComponent(saving, new String[]{"Folder name:", "File name:", "Folder Name:", "File Name:"}));
+        tf.enterText(name);
+    }
 
-	public boolean isFullConfiguration() {
-	    JListOperator list = new JListOperator(config);
-	    return ((JLabel) list.getRenderedComponent(list.getModel().getSize() - 1)).getText().equals(" Congratulations!");
-	}
+    public boolean isFullConfiguration() {
+        JListOperator list = new JListOperator(config);
+        return ((JLabel) list.getRenderedComponent(list.getModel().getSize() - 1)).getText().equals(" Congratulations!");
+    }
     }
     public static final String SECOND_CONFIG_NAME = "democonfig_second.jti";
     public static final String DONE_BUTTON = "Done";
@@ -127,118 +127,118 @@ public class ConfigTools extends Tools {
     public static final String SAVE_CONFIG_FILE_DIALOG_NAME_EI18N = "ce.save.title";
 
     public boolean isFullConfiguration(JDialogOperator config) {
-	JListOperator list = new JListOperator(config);
-	return ((JLabel) list.getRenderedComponent(list.getModel().getSize() - 1)).getText().equals(" Congratulations!");
+    JListOperator list = new JListOperator(config);
+    return ((JLabel) list.getRenderedComponent(list.getModel().getSize() - 1)).getText().equals(" Congratulations!");
     }
 
     public static int findRow(JTableOperator table, String searching) {
-	int i;
-	for (i = 0; i < table.getRowCount(); i++) {
-	    if (table.getValueAt(i, 0).toString().equals(searching)) {
-		return i;
-	    }
-	}
-	return -1;
+    int i;
+    for (i = 0; i < table.getRowCount(); i++) {
+        if (table.getValueAt(i, 0).toString().equals(searching)) {
+        return i;
+        }
+    }
+    return -1;
     }
 
     public static JDialogOperator openLoadConfigDialogByMenu(JFrameOperator mainFrame) {
-	Menu.getConfigure_LoadConfigurationMenu(mainFrame).pushNoBlock();
-	return new JDialogOperator(getLoadConfigurationDialogName());
+    Menu.getConfigure_LoadConfigurationMenu(mainFrame).pushNoBlock();
+    return new JDialogOperator(getLoadConfigurationDialogName());
     }
 
     public static void openConfigDialogByKey(JFrameOperator mainFrame) {
-	mainFrame.requestFocus();
-	mainFrame.clickMouse();
+    mainFrame.requestFocus();
+    mainFrame.clickMouse();
         pause(1);
-	mainFrame.requestFocus();
-	mainFrame.pressKey(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK);
+    mainFrame.requestFocus();
+    mainFrame.pressKey(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK);
     }
 
     public static void openConfigDialogByMenu(JFrameOperator mainFrame) {
-	Menu.getConfigure_EditConfigurationMenu(mainFrame);
+    Menu.getConfigure_EditConfigurationMenu(mainFrame);
     }
 
     public static void pushDoneConfigEditor(JDialogOperator config) {
-	new JButtonOperator(config, DONE_BUTTON).push();
+    new JButtonOperator(config, DONE_BUTTON).push();
     }
 
     public static void pushNextConfigEditor(JDialogOperator config) {
-	new JButtonOperator(config, NEXT_BUTTON).push();
+    new JButtonOperator(config, NEXT_BUTTON).push();
     }
 
     public static void pushBackConfigEditor(JDialogOperator config) {
-	new JButtonOperator(config, PREV_BUTTON).push();
+    new JButtonOperator(config, PREV_BUTTON).push();
     }
 
     public static void pushLastConfigEditor(JDialogOperator config) {
-	new JButtonOperator(config, LAST_BUTTON).push();
+    new JButtonOperator(config, LAST_BUTTON).push();
     }
 
     public static void openConfigFile(JDialogOperator fileChooser, String path, String name) {
-	new JButtonOperator(fileChooser, CONFIG_LOADER_BROWSE_BUTTON).push();
+    new JButtonOperator(fileChooser, CONFIG_LOADER_BROWSE_BUTTON).push();
 
-	JDialogOperator fc = new JDialogOperator(getConfigLocationDialogName());
-	JTextFieldOperator tf = new JTextFieldOperator(fc);
-	tf.enterText(path + File.separator + name);
+    JDialogOperator fc = new JDialogOperator(getConfigLocationDialogName());
+    JTextFieldOperator tf = new JTextFieldOperator(fc);
+    tf.enterText(path + File.separator + name);
 
-	new JButtonOperator(fileChooser, getConfigLoaderLoadButtonName()).push();
+    new JButtonOperator(fileChooser, getConfigLoaderLoadButtonName()).push();
     }
 
     public static void openConfigFile(JDialogOperator fileChooser, String name) {
-	openConfigFile(fileChooser, LOCAL_PATH, name);
+    openConfigFile(fileChooser, LOCAL_PATH, name);
     }
 
     public static void openConfigCreation(JFrameOperator mainFrame) {
-	Menu.getConfigure_NewConfigurationMenu(mainFrame).pushNoBlock();
+    Menu.getConfigure_NewConfigurationMenu(mainFrame).pushNoBlock();
     }
 
     public static void openConfigCreationBlock(JFrameOperator mainFrame) {
-	Menu.getConfigure_NewConfigurationMenu(mainFrame).push();
+    Menu.getConfigure_NewConfigurationMenu(mainFrame).push();
     }
 
     public static void selectQuestion(JDialogOperator config, int index) {
-	new JListOperator(config).selectItem(index);
+    new JListOperator(config).selectItem(index);
     }
 
     public static void saveConfig(JDialogOperator config, String name) {
-	getFile_SaveMenu(config).pushNoBlock();
-	JDialogOperator saving = new JDialogOperator(getSaveConfigurationDialogName());
+    getFile_SaveMenu(config).pushNoBlock();
+    JDialogOperator saving = new JDialogOperator(getSaveConfigurationDialogName());
 
-	JTextFieldOperator tf;
+    JTextFieldOperator tf;
 
-	tf = new JTextFieldOperator((JTextField) Tools.getComponent(saving, new String[]{"Folder name:", "File name:", "File Name:", "Folder Name:"}));
-	tf.enterText(name);
+    tf = new JTextFieldOperator((JTextField) Tools.getComponent(saving, new String[]{"Folder name:", "File name:", "File Name:", "Folder Name:"}));
+    tf.enterText(name);
     }
 
     public static JMenuBarOperator getMenu(JDialogOperator configDialog) {
-	return new JMenuBarOperator(configDialog);
+    return new JMenuBarOperator(configDialog);
     }
 
     public static JMenuItemOperator getFile_SaveMenu(JDialogOperator configDialog) {
-	return getMenu(configDialog).showMenuItem(new String[]{getFileMenuName(), getFile_SaveMenuName()});
+    return getMenu(configDialog).showMenuItem(new String[]{getFileMenuName(), getFile_SaveMenuName()});
     }
 
     public static String getLoadConfigurationDialogName() {
-	return getExecResource(CONFIG_LOADER_DIALOG_NAME_EI18N);
+    return getExecResource(CONFIG_LOADER_DIALOG_NAME_EI18N);
     }
 
     public static String getSaveConfigurationDialogName() {
-	return getExecResource(SAVE_CONFIG_FILE_DIALOG_NAME_EI18N);
+    return getExecResource(SAVE_CONFIG_FILE_DIALOG_NAME_EI18N);
     }
 
     public static String getConfigLocationDialogName() {
-	return getExecResource(CONFIG_LOADER_CONFIG_LOCATION_DIALOG_EI18N);
+    return getExecResource(CONFIG_LOADER_CONFIG_LOCATION_DIALOG_EI18N);
     }
 
     public static String getConfigLoaderLoadButtonName() {
-	return getExecResource(CONFIG_LOADER_LOAD_BUTTON_NAME_EI18N);
+    return getExecResource(CONFIG_LOADER_LOAD_BUTTON_NAME_EI18N);
     }
 
     public static String getFileMenuName() {
-	return "File";
+    return "File";
     }
 
     public static String getFile_SaveMenuName() {
-	return "Save";
+    return "Save";
     }
 }

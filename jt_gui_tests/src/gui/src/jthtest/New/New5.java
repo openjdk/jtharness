@@ -35,24 +35,24 @@ import org.junit.runner.JUnitCore;
  */
 public class New5 extends New {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.New.New5");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.New.New5");
+    }
 
-	@Test
-	public void testNew5() {
-			startTestRun(quickStartDialog);
+    @Test
+    public void testNew5() {
+            startTestRun(quickStartDialog);
 
-			next(quickStartDialog);
+            next(quickStartDialog);
 
-			pickDefaultTestsuite(quickStartDialog);
-			
-			next(quickStartDialog);
+            pickDefaultTestsuite(quickStartDialog);
 
-			useConfigTemplate(quickStartDialog);
+            next(quickStartDialog);
 
-			next(quickStartDialog);
+            useConfigTemplate(quickStartDialog);
 
-	}
-	
+            next(quickStartDialog);
+
+    }
+
 }

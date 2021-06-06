@@ -45,64 +45,64 @@ public class Config_New03 extends Test {
     ConfigDialog cd;
 
     public void testImpl() throws Exception {
-	JTFrame mainFrame = new JTFrame(true);
+    JTFrame mainFrame = new JTFrame(true);
 
-	mainFrame.openDefaultTestSuite();
-	addUsedFile(mainFrame.createWorkDirectoryInTemp());
+    mainFrame.openDefaultTestSuite();
+    addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-	cd = mainFrame.getConfiguration().create(true);
+    cd = mainFrame.getConfiguration().create(true);
 
-	fillConfiguration();
+    fillConfiguration();
 
-	if (!cd.isFullConfiguration()) {
-	    errors.add("");
-	}
+    if (!cd.isFullConfiguration()) {
+        errors.add("");
+    }
 
-//	startJavatestNewDesktop();
+//    startJavatestNewDesktop();
 //
-//	JFrameOperator mainFrame = findMainFrame();
-//	closeQS(mainFrame);
+//    JFrameOperator mainFrame = findMainFrame();
+//    closeQS(mainFrame);
 //
-//	openTestSuite(mainFrame);
-//	createWorkDirInTemp(mainFrame);
+//    openTestSuite(mainFrame);
+//    createWorkDirInTemp(mainFrame);
 //
-//	openConfigCreationBlock(mainFrame);
-//	config = findConfigEditor(mainFrame);
+//    openConfigCreationBlock(mainFrame);
+//    config = findConfigEditor(mainFrame);
 //
-//	fillConfiguration();
-//	if(!isFullConfiguration(config))
-//	    throw new JemmyException("Configuration is not full after filling while expected");
+//    fillConfiguration();
+//    if(!isFullConfiguration(config))
+//        throw new JemmyException("Configuration is not full after filling while expected");
     }
 
     private void fillConfiguration() {
-	JDialogOperator config = cd.getConfigDialog();
-	cd.pushLastConfigEditor();
-	new JTextFieldOperator(config, 1).typeText("some config");
-	cd.pushLastConfigEditor();
-	new JTextFieldOperator(config, 1).typeText("some description");
-	cd.pushLastConfigEditor();
-	JTableOperator table = new JTableOperator(config);
-	table.clickOnCell(0, 0);
-	cd.pushLastConfigEditor();
-        String text; 
+    JDialogOperator config = cd.getConfigDialog();
+    cd.pushLastConfigEditor();
+    new JTextFieldOperator(config, 1).typeText("some config");
+    cd.pushLastConfigEditor();
+    new JTextFieldOperator(config, 1).typeText("some description");
+    cd.pushLastConfigEditor();
+    JTableOperator table = new JTableOperator(config);
+    table.clickOnCell(0, 0);
+    cd.pushLastConfigEditor();
+        String text;
         if (File.separatorChar == '/') {
             text = System.getProperty("java.home") + "/bin/java";
         } else {
             text = System.getProperty("java.home") + "\\bin\\java.exe";
         }
-	new JTextFieldOperator(config, new NameComponentChooser("file.txt")).typeText(text);
-	cd.pushLastConfigEditor();
+    new JTextFieldOperator(config, new NameComponentChooser("file.txt")).typeText(text);
+    cd.pushLastConfigEditor();
 
 
 //        pushLastConfigEditor(config);
 //        new JTextFieldOperator(config, 1).typeText("some config");
 //        pushLastConfigEditor(config);
 //        new JTextFieldOperator(config, 1).typeText("some description");
-//	pushLastConfigEditor(config);
-//	JTableOperator table = new JTableOperator(config);
-//	table.clickOnCell(0, 0);
-//	pushLastConfigEditor(config);
-//	new JTextFieldOperator(config, new NameComponentChooser("file.txt")).typeText(System.getProperty("java.home") + File.separator + "bin" + File.separator + "java");
-//	pushLastConfigEditor(config);
+//    pushLastConfigEditor(config);
+//    JTableOperator table = new JTableOperator(config);
+//    table.clickOnCell(0, 0);
+//    pushLastConfigEditor(config);
+//    new JTextFieldOperator(config, new NameComponentChooser("file.txt")).typeText(System.getProperty("java.home") + File.separator + "bin" + File.separator + "java");
+//    pushLastConfigEditor(config);
     }
 }

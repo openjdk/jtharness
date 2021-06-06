@@ -45,7 +45,7 @@ public class TT_SelectionCE07 extends TT_SelectionCE {
         Configuration c = mainFrame.getConfiguration();
         c.load(CONFIG_NAME, true);
         ConfigDialog cd = c.openByMenu(true);
-        
+
         QuestionTree qt = cd.getQuestionTree();
         qt.clickOnArrow(1);
         qt.clickOnArrow(2);
@@ -54,7 +54,7 @@ public class TT_SelectionCE07 extends TT_SelectionCE {
         qt.clickOnCheckbox(6);
         qt.clickOnCheckbox(4);
         qt.clickOnCheckbox(2);
-        
+
         cd.pushLastConfigEditor();
         cd.pushDoneConfigEditor();
     }

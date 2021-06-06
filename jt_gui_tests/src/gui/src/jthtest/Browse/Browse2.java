@@ -25,11 +25,11 @@
  * questions.
  */
 /*
- * Start JavaTest with -newdesktop. The JavaTest Quick Start wizard will be displayed. 
- * Click on Browse the testsuite and click on Next button. Specify an exiting test 
- * suite and click on Next. Choose the Create a new configuration and click on Next. 
- * Check the Start the configuration editor. Click on Finish button. Click on Create 
- * Work directory. Specify a new directory and click on Create. Verify that the 
+ * Start JavaTest with -newdesktop. The JavaTest Quick Start wizard will be displayed.
+ * Click on Browse the testsuite and click on Next button. Specify an exiting test
+ * suite and click on Next. Choose the Create a new configuration and click on Next.
+ * Check the Start the configuration editor. Click on Finish button. Click on Create
+ * Work directory. Specify a new directory and click on Create. Verify that the
  * configuration editor is displayed
  */
 package jthtest.Browse;
@@ -43,37 +43,37 @@ import org.netbeans.jemmy.operators.JDialogOperator;
  * @author naryl
  */
 public class Browse2 extends Browse {
-	
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.Browse.Browse2");
-	}
-	
-	@Test
-	public void testBrowse2() {
-		browseTestsuite(quickStartDialog);
-		
+
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.Browse.Browse2");
+    }
+
+    @Test
+    public void testBrowse2() {
+        browseTestsuite(quickStartDialog);
+
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
         }
 
         next(quickStartDialog);
-		
-		pickDefaultTestsuite(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-		createConfiguration(quickStartDialog);
-		
-		next(quickStartDialog);
-		
-		finish(quickStartDialog, true);
-		
-		pickWorkDir(mainFrame);
-		
-		new JDialogOperator(mainFrame, "Configuration Editor");
-		
-	}
-	
-	
+
+        pickDefaultTestsuite(quickStartDialog);
+
+        next(quickStartDialog);
+
+        createConfiguration(quickStartDialog);
+
+        next(quickStartDialog);
+
+        finish(quickStartDialog, true);
+
+        pickWorkDir(mainFrame);
+
+        new JDialogOperator(mainFrame, "Configuration Editor");
+
+    }
+
+
 }

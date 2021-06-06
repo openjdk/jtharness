@@ -180,7 +180,7 @@ public abstract class Task<resType> extends Thread {
             }
             result = true;
         }
-        
+
         public void stopWaiter() {
             interruptTask();
         }

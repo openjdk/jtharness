@@ -29,7 +29,7 @@
 FILE=summary.txt
 
 (
-	grep -l ERROR TEST-*.txt | sed 's/TEST-//; s/\.txt$/				ERROR/'
-	grep -L ERROR TEST-*.txt | sed 's/TEST-//; s/\.txt$/				PASSED/'
+    grep -l ERROR TEST-*.txt | sed 's/TEST-//; s/\.txt$/                ERROR/'
+    grep -L ERROR TEST-*.txt | sed 's/TEST-//; s/\.txt$/                PASSED/'
 ) > $FILE
 
