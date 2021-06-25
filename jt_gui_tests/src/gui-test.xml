@@ -35,7 +35,7 @@
     <property name="tests.gui.path" value="./tests/gui"/>
     <property name="example_ts_path" value="./data/demots"/>
 <!--    <property name="javatestjar_path" value="./lib/javatest.jar"/> moved to local.props -->
-    <property name="tests.gui.srcpath" value="./src"/>
+    <property name="tests.gui.srcpath" value="./src/"/>
     <property name="tests.tempdir" value="${TESTS_BUILD_DIR}/tests/gui"/>
 
     <property name="datapath" value="./data"/>
@@ -51,6 +51,11 @@
             <include name="*.jar" />
         </fileset>
     </path>
+
+    <path id="classpath1">
+            <fileset dir="../">
+            </fileset>
+        </path>
 
     <target name="build_demoapi_simpleTags">
                 <mkdir dir="${tests.tempdir}/temp/demoapi"/>
@@ -140,7 +145,8 @@
         <mkdir dir="${tests.tempdir}/htmlreport"/>
         <mkdir dir="${tests.tempdir}/demots"/>
         <mkdir dir="${tests.classesdir}"/>
-        <loadfile property="message" srcFile="src/local.properties" />
+        <mkdir dir="./src/lib"/>
+
         <copy todir="${tests.tempdir}" file="${javatestjar_path}"/>
         <copy todir="${tests.tempdir}" file="${jemmylib}"/>
         <copy todir="${tests.tempdir}" file="${junitlib}"/>
@@ -159,6 +165,11 @@
 
     <target name="init" depends="compile" unless="jt_gui_test.ignore_init">
          <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true" classname="jthtest.Init">
+
+             <!-- <jvmarg value="-Xdebug"/>
+             <jvmarg value="-Xnoagent"/>
+             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=5555,server=y,suspend=y"/> -->
+
              <classpath refid="classpath"/>
                         <classpath>
                 <pathelement path="${tests.classesdir}"/>
