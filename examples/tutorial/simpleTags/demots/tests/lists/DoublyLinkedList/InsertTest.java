@@ -67,9 +67,9 @@ public class InsertTest implements Test
 
         boolean ok = true;
 
-        Integer one = new Integer(1);
-        Integer two = new Integer(2);
-        Integer three = new Integer(3);
+        Integer one = Integer.valueOf(1);
+        Integer two = Integer.valueOf(2);
+        Integer three = Integer.valueOf(3);
 
         ok = ok & test(new Object[] { "a", "b", "c", "d" });
         ok = ok & test(new Object[] { one, two, three });
@@ -148,4 +148,3 @@ public class InsertTest implements Test
      */
     private PrintWriter err;
 }
-
