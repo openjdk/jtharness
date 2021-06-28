@@ -50,7 +50,7 @@ class ID {
         ID create(String base) {
             Integer last = map.get(base);
             int index = (last == null ? 0 : last.intValue() + 1);
-            map.put(base, new Integer(index));
+            map.put(base, Integer.valueOf(index));
             return new ID(base, index);
         }
     }
