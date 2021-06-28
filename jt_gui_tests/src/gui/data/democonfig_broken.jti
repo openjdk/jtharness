@@ -1,0 +1,22 @@
+#JT Harness Configuration Interview
+#Fri Jul 17 15:31:14 BST 2009
+CHECKSUM=5f9cae841e494
+DESCRIPTION=some broken config
+LOCALE=ru_RU
+NAME=broken_democonfig
+QUESTIOdemoTS.epilog
+demoTS.cmdType=otherVM
+demoTS.desc=some broken config
+demoTS.excludeList.latestAutoCheck=No
+demoTS.excludeList.latestAutoCheckInterval=7
+demoTS.excludeList.latestAutoCheckMode=everyXDays
+demoTS.excludeList.needExcludeList=No
+demoTS.keywords.keywords.mode=expr
+demoTS.keywords.needKeywords=No
+demoTS.name=broken_democonfig
+demoTS.priorStatus.needStatus=No
+demoTS.priorStatus.status=
+demoTS.tests.needTests=No
+demoTS.tests.tests=
+demoTS.tests.treeOrFile=tree
+demoTS.timeout.timeout=1
