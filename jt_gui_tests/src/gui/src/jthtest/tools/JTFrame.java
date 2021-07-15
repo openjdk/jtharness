@@ -130,7 +130,6 @@ public class JTFrame {
                 public void run() {
                     JDialog d = JDialogOperator.findJDialog(mainFrame.getWindow(), new ComponentChooser() {
 
-                        @Override
                         public boolean checkComponent(Component cmpnt) {
                             if (cmpnt instanceof JDialog) {
                                 if (((JDialog) cmpnt).getTitle().equals(getExecResource("qsw.title"))) {
@@ -140,7 +139,6 @@ public class JTFrame {
                             return false;
                         }
 
-                        @Override
                         public String getDescription() {
                             return "searching QuickStartWizard";
                         }
@@ -222,13 +220,13 @@ public class JTFrame {
         getFile_CloseMenu().push();
     }
 
-    public void closeAllTools() {
+    public void closeAllTools() throws InterruptedException {
         if (mainFrame.isVisible()) {
             Tools.closeAll(mainFrame);
         }
     }
 
-    public void closeFrame() {
+    public void closeFrame() throws InterruptedException {
         Tools.closeJT(mainFrame);
     }
 
@@ -607,8 +605,13 @@ public class JTFrame {
         return "Agent Monitor...";
     }
 
+    /*There is no Test Results Auditor... menu item and it Test Manager...
+     * public static String getTools_TestResultsAuditorMenuName() { return
+     * "Test Results Auditor..."; }
+     */
+
     public static String getTools_TestResultsAuditorMenuName() {
-        return "Test Results Auditor...";
+        return "Test Manager...";
     }
 
     public void openDefaultTestSuite() {

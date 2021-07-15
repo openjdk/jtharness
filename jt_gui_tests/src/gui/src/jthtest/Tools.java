@@ -41,6 +41,7 @@ import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 
+import org.netbeans.jemmy.Action;
 import org.netbeans.jemmy.ClassReference;
 import org.netbeans.jemmy.ComponentChooser;
 import org.netbeans.jemmy.JemmyException;
@@ -49,7 +50,10 @@ import org.netbeans.jemmy.operators.JCheckBoxOperator;
 import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JLabelOperator;
+import org.netbeans.jemmy.operators.JMenuBarOperator;
+import org.netbeans.jemmy.operators.JMenuItemOperator;
 import org.netbeans.jemmy.operators.JMenuOperator;
+import org.netbeans.jemmy.operators.JPopupMenuOperator;
 import org.netbeans.jemmy.operators.JRadioButtonOperator;
 import org.netbeans.jemmy.operators.JTabbedPaneOperator;
 import org.netbeans.jemmy.operators.JTableOperator;
@@ -113,7 +117,8 @@ public class Tools {
         @Deprecated
     public static final String NEWDESKTOP_ARG = "-newdesktop";
         @Deprecated
-    public static final String WINDOWNAME = System.getProperty("jt_gui_test.name");
+    //public static final String WINDOWNAME = System.getProperty("jt_gui_test.name");
+    public static final String WINDOWNAME = "JT";
         @Deprecated
     public static final String TESTSUITENAME = "DemoTS 1.0 Test Suite (Tag Tests)";
     public static final int MAX_WAIT_TIME = 20000;
@@ -205,9 +210,17 @@ public class Tools {
     }
 
     // opens standard test suite
-    public static void openTestSuite(JFrameOperator frame) {
-        Menu.getFile_Open_TestSuiteMenu(frame).pushNoBlock();
+    public static void openTestSuite(JFrameOperator frame){
 
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+          JMenuBarOperator jmbo = new JMenuBarOperator(frame);
+          jmbo.pushMenuNoBlock("File");
+
+        Menu.getFile_Open_TestSuiteMenu(frame).pushNoBlock();
         //Wait for dialog box to appear
         JDialogOperator openDialog = new JDialogOperator(getToolResource("tsc.title"));
         //Find edit box for file name
@@ -625,6 +638,7 @@ public class Tools {
     }
 
     public static boolean copyDirectory(File from, File to) throws IOException {
+        System.out.println(from.getAbsolutePath());
         if (!from.exists()) {
             throw new IOException("Source file " + from.getAbsolutePath() + " doesn't exist");
         }
@@ -773,7 +787,7 @@ public class Tools {
     }
 
     // Prepares the JavaTest for the next test run
-    public static void closeAll(JFrameOperator frame) {
+    public static void closeAll(JFrameOperator frame) throws InterruptedException {
         // Close all dialog windows
         JDialog dialog;
         while ((dialog = JDialogOperator.findJDialog(new AnyComponentChooser())) != null) {
@@ -783,13 +797,20 @@ public class Tools {
         // Close all tabs
         JTabbedPaneOperator tabs = new JTabbedPaneOperator(frame);
         while (tabs.getTabCount() > 0) {
-            new JMenuOperator(frame).pushMenu(getExecResource("cb.file.menu") + "|Close", "|");   // Close from the File tab is in strange resource file
+            Thread.sleep(500);
+            JMenuBarOperator jmbo = new JMenuBarOperator(frame);
+            jmbo.pushMenuNoBlock("File|Close");
+            //new JMenuOperator(frame).pushMenuNoBlock(getExecResource("cb.file.menu") + "|Close", "|");   // Close from the File tab is in strange resource file
         }
     }
 
-    public static void closeJT(JFrameOperator frame) {
+    public static void closeJT(JFrameOperator frame) throws InterruptedException {
         closeAll(frame);
-        new JMenuOperator(frame).pushMenu(getExecResource("qlb.file.menu") + "|" + getToolResource("dt.file.exit.mit"), "|");
+        Thread.sleep(500);
+        JMenuBarOperator jmbo = new JMenuBarOperator(frame);
+        Thread.sleep(500);
+        jmbo.pushMenuNoBlock("File/Exit", "/");
+        //new JMenuOperator(frame).pushMenuNoBlock(getExecResource("qlb.file.menu") + "|" + getToolResource("dt.file.exit.mit"), "|");
     }
 
     // concat 2 string arrays
@@ -831,6 +852,8 @@ public class Tools {
 
     public static int findInStringArray(String[] in, String what) {
         for (int i = 0; i < in.length; i++) {
+            //String tmp=in[i].replaceAll("\\W"," ");
+            //String acin=tmp.replaceAll("\\d","");
             if (in[i].equals(what)) {
                 return i;
             }
@@ -918,3 +941,4 @@ public class Tools {
         }
     }
 }
+

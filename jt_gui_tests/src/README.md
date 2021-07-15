@@ -43,7 +43,7 @@ These instructions assume that your JT harness local working copy is named as "J
 
 ### How to Run JavaTest Automation:
 
-8.  Put into ```<jt_gui_test>/src/local.properties``` file paths for needed libraries (they are included in the directory src/lib)
+8.  Put into ```<jt_gui_test>/src/local.properties``` file paths for needed libraries
 
 9. Start Ant from ```<jt_gui_tests>/src/``` with task test-gui. e.g:- ```ant test-gui```
 

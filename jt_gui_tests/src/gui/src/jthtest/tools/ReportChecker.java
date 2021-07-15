@@ -43,8 +43,10 @@ public class ReportChecker {
     public static final String F2M = "ahref=kfl_fail2missing.html>";
     public static final String F2N = "<ahref=kfl_fail2notrun.html>";
     public static final String F2P = "<ahref=kfl_fail2pass.html>";
-    public static final String KFL_1 = "name=KnownFailureAnalysis";
-    public static final String KFL_2 = "name=KnownFailureAnalysis";
+    //public static final String KFL_1 = "name=KnownFailureAnalysis";
+    //public static final String KFL_2 = "name=KnownFailureAnalysis";
+    public static final String KFL_1 = "aid=#KnownFailureAnalysis";
+    public static final String KFL_2 = "ahref=#KnownFailureAnalysis";
     public static final String NF = "<ahref=kfl_newfailures.html>";
     public static final String TESTS_TEXT = "<thscope=row>Tests(";
     public static final String NOT_CALC = "<td>(notcalculated)</td>";
@@ -437,7 +439,7 @@ public class ReportChecker {
         KFLValues res = new KFLValues();
 
         String text = browser.getText().replaceAll("[\t\n\r\f \"']", "");
-        if (!text.contains(KFL_1) && !text.contains(KFL_2)) {
+        if (!text.replace("%20", "").contains(KFL_1) && !text.replace("%20", "").contains(KFL_2)) {
             error.append("report doesn't contain Known Failure Analysis block\n");
         }
 

@@ -77,7 +77,7 @@ public class Configuration {
     ConfigurationBrowser browser = openBrowser(block);
     browser.setPath(path + File.separator + name);
     browser.commit();
-        waitForConfigurationLoading(name);
+        //waitForConfigurationLoading(name);
     }
 
     public void load(File file, boolean block) {

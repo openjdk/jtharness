@@ -52,11 +52,6 @@
         </fileset>
     </path>
 
-    <path id="classpath1">
-            <fileset dir="../">
-            </fileset>
-        </path>
-
     <target name="build_demoapi_simpleTags">
                 <mkdir dir="${tests.tempdir}/temp/demoapi"/>
 
@@ -64,6 +59,7 @@
                         srcdir="./src/gui/testsuite_src/demoapi"
                         destdir="${tests.tempdir}/temp/demoapi">
                 </javac>
+
         <jar destfile="${tests.tempdir}/temp/demoapi.jar"
             basedir="${tests.tempdir}/temp/demoapi" index="false">
         </jar>
@@ -151,7 +147,7 @@
         <copy todir="${tests.tempdir}" file="${jemmylib}"/>
         <copy todir="${tests.tempdir}" file="${junitlib}"/>
         <copy todir="${tests.tempdir}" file="${hamcrestlib}"/>
-        <copy todir="${tests.tempdir}" file="${jhjar}"/>
+        <!-- <copy todir="${tests.tempdir}" file="${jhjar}"/> -->
         <copy todir="${tests.tempdir}">
             <fileset dir="${datapath}"/>
         </copy>
@@ -165,15 +161,11 @@
 
     <target name="init" depends="compile" unless="jt_gui_test.ignore_init">
          <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true" classname="jthtest.Init">
-
-             <!-- <jvmarg value="-Xdebug"/>
-             <jvmarg value="-Xnoagent"/>
-             <jvmarg value="-Xrunjdwp:transport=dt_socket,address=5555,server=y,suspend=y"/> -->
-
              <classpath refid="classpath"/>
                         <classpath>
-                <pathelement path="${tests.classesdir}"/>
+            <pathelement path="${tests.classesdir}"/>
             </classpath>
+
             <sysproperty key="jt_gui_test.name" value="${product.name}" />
             <sysproperty key="javatest.security.noSecurityManager" value="true" />
                         <sysproperty key="javatest.desktop.file" value="${javatest.desktop.file}"/>
@@ -184,9 +176,74 @@
         </java>
     </target>
 
-    <target name="jar" depends="init">
+    <target name="jar" depends="init,Create_demowd,Create_demowd_config,Create_demowd_run,Create_demowd_template">
         <jar destfile="${tests.tempdir}/${ant.project.name}.jar" basedir="${tests.classesdir}" />
     </target>
+
+    <target name="Create_demowd" unless="jt_gui_test.ignore_init">
+             <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true" classname="jthtest.Create_demowd">
+                 <classpath refid="classpath"/>
+                <classpath>
+                <pathelement path="${tests.classesdir}"/>
+                </classpath>
+                <sysproperty key="jt_gui_test.name" value="${product.name}" />
+                <sysproperty key="javatest.security.noSecurityManager" value="true" />
+                            <sysproperty key="javatest.desktop.file" value="${javatest.desktop.file}"/>
+                            <sysproperty key="javatest.preferences.file" value="${javatest.preferences.file}"/>
+
+                <arg value="democonfig.jti"/>
+                <arg value="demotemplate.jtm"/>
+            </java>
+        </target>
+
+    <target name="Create_demowd_config" unless="jt_gui_test.ignore_init">
+                     <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true" classname="jthtest.Create_demowd_config">
+                         <classpath refid="classpath"/>
+                        <classpath>
+                        <pathelement path="${tests.classesdir}"/>
+                        </classpath>
+                        <sysproperty key="jt_gui_test.name" value="${product.name}" />
+                        <sysproperty key="javatest.security.noSecurityManager" value="true" />
+                                    <sysproperty key="javatest.desktop.file" value="${javatest.desktop.file}"/>
+                                    <sysproperty key="javatest.preferences.file" value="${javatest.preferences.file}"/>
+
+                        <arg value="democonfig.jti"/>
+                        <arg value="demotemplate.jtm"/>
+                    </java>
+                </target>
+
+
+    <target name="Create_demowd_run" unless="jt_gui_test.ignore_init">
+                         <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true" classname="jthtest.Create_demowd_run">
+                             <classpath refid="classpath"/>
+                            <classpath>
+                            <pathelement path="${tests.classesdir}"/>
+                            </classpath>
+                            <sysproperty key="jt_gui_test.name" value="${product.name}" />
+                            <sysproperty key="javatest.security.noSecurityManager" value="true" />
+                                        <sysproperty key="javatest.desktop.file" value="${javatest.desktop.file}"/>
+                                        <sysproperty key="javatest.preferences.file" value="${javatest.preferences.file}"/>
+
+                            <arg value="democonfig.jti"/>
+                            <arg value="demotemplate.jtm"/>
+                        </java>
+                    </target>
+
+    <target name="Create_demowd_template" unless="jt_gui_test.ignore_init">
+                             <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true" classname="jthtest.Create_demowd_template">
+                                 <classpath refid="classpath"/>
+                                <classpath>
+                                <pathelement path="${tests.classesdir}"/>
+                                </classpath>
+                                <sysproperty key="jt_gui_test.name" value="${product.name}" />
+                                <sysproperty key="javatest.security.noSecurityManager" value="true" />
+                                            <sysproperty key="javatest.desktop.file" value="${javatest.desktop.file}"/>
+                                            <sysproperty key="javatest.preferences.file" value="${javatest.preferences.file}"/>
+
+                                <arg value="democonfig.jti"/>
+                                <arg value="demotemplate.jtm"/>
+                            </java>
+                        </target>
 
     <target name="run" depends="jar">
         <junit printsummary="yes" showoutput="true" dir="${tests.tempdir}">
@@ -229,6 +286,7 @@
 
         <antcall target="genHtmlReport"/>
     </target>
+
 
     <target name="genHtmlReport">
         <delete dir="${htmlreport.dir}"/>

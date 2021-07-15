@@ -30,9 +30,12 @@ import java.lang.reflect.InvocationTargetException;
 import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JTreeOperator;
 import java.io.File;
+import java.io.FileNotFoundException;
+
 import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
+import org.netbeans.jemmy.util.Dumper;
 import org.netbeans.jemmy.util.NameComponentChooser;
 import jthtest.tools.JTFrame;
 import org.netbeans.jemmy.operators.JCheckBoxOperator;
@@ -51,7 +54,7 @@ public class Init extends ConfigTools {
         public abstract void runTests(JFrameOperator mainFrame);
     }
 
-    public static void main(String args[]) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InterruptedException {
+    public static void main(String args[]) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InterruptedException, FileNotFoundException {
         if (args.length < 2) {
             System.out.println("please provide paths for config and template files: config_path template_path [javahome_path]");
             System.exit(1);
@@ -75,7 +78,7 @@ public class Init extends ConfigTools {
         System.setProperty("com.sun.javatest.exec.templateMode", "true");
                 JTFrame.closeQSOnOpen = false;
         mainFrame = JTFrame.startJTWithDefaultTestSuite();
-//        Tools.pause(500);
+        //Tools.pause(500);
 
         mainFrame.getFile_PreferencesMenu().pushNoBlock();
         JDialogOperator prefs = new JDialogOperator(WINDOWNAME + " Harness Preferences");
@@ -103,49 +106,9 @@ public class Init extends ConfigTools {
         new JButtonOperator(edit, "Last").push();
         new JButtonOperator(edit, "Done").push();
 
-        Thread.sleep(500);
-                mainFrame.closeAllTools();
-        Thread.sleep(500);
-        openTestSuite(mainFrame.getJFrameOperator());
-        createWD("demowd", null, null);
-        Thread.sleep(500);
-                mainFrame.closeAllTools();
-        Thread.sleep(500);
-        openTestSuite(mainFrame.getJFrameOperator());
-        createWD("demowd_config", args[0], null);
-        Thread.sleep(500);
-                mainFrame.closeAllTools();
-        Thread.sleep(500);
-        openTestSuite(mainFrame.getJFrameOperator());
-        createWD("demowd_run", args[0], new RunManager() {
-
-            public void runTests(JFrameOperator mainFrame) {
-                final JTreeOperator tree = findTree(mainFrame);
-                tree.selectRow(2);
-                                Init.mainFrame.runTests(2).startAndWaitForDone();
-            }
-        });
-        Thread.sleep(500);
-                mainFrame.closeAllTools();
-        Thread.sleep(500);
-        openTestSuite(mainFrame.getJFrameOperator());
-        createWD("demowd_template", args[0], null);
-        Thread.sleep(500);
-
         Tools.deleteDirectory(toDelete);
+        Thread.sleep(4000);
         closeJT(mainFrame.getJFrameOperator());
-    }
-
-    static void createWD(String name, String config, RunManager run) {
-//        CreateWorkdir.createWorkDir(CreateWorkdir.openWorkDirectoryCreation(mainFrame), targetDir, name, true);
-        mainFrame.getWorkDirectory().createWorkDirectory(targetDir, name, true);
-        if (config != null) {
-            mainFrame.getConfiguration().load(targetDir, config, true);
-//        openConfigFile(openLoadConfigDialogByMenu(mainFrame), targetDir, config);
-        }
-        if (run != null && config != null) {
-            run.runTests(mainFrame.getJFrameOperator());
-        }
     }
 
     public static void repairConfig(String name, String javaPath) {
