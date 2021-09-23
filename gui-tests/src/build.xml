@@ -36,8 +36,7 @@
     <property name="javatest.directory.file" value="build/jtdir"/>
     <property name="javatest.preferences.file" value="build/jtpref"/>
 
-    <property name="vmSystemProperties"
-              value="-Dos.name=linux -Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel"/>
+    <property name="vmSystemProperties" value="-Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel"/>
 
     <property name="tests.classesdir" value="${tests.tempdir}/classes"/>
     <property name="report.dir" value="${tests.tempdir}/report"/>

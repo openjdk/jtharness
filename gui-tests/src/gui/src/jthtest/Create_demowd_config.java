@@ -48,7 +48,9 @@ public class Create_demowd_config extends ConfigTools {
         //Tools.pause(500);
 
         targetDir = new File("").getAbsolutePath();
-        openTestSuite(mainFrame.getJFrameOperator());
+        // TODO doesn't work on mac with jemmy 2
+        // TODO why do we need to open test suite for the second time ??
+        //        openTestSuite(mainFrame.getJFrameOperator());
         createWD("demowd_config", args[0], null);
         closeJT(mainFrame.getJFrameOperator());
     }
