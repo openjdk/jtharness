@@ -1,7 +1,8 @@
 #
 # $Id$
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+#
+# Copyright (c) 2001, 2021, Oracle and/or its affiliates. All rights reserved.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
 # This code is free software; you can redistribute it and/or modify it
@@ -25,22 +26,28 @@
 # questions.
 #
 
-# location of jar with with implementation of java serial communications API
-jcommjar = comm.jar
+# Test Suite properties file for Demo test suite with tag-style tests
 
-# location of jar with servlet API implementation
-servletjar = servlet-api.jar
+# This file describes fixed properties of the test suite
+# and should not normally need to be edited.
 
-# bytecode library
-asmjar = asm6.jar
-asmcommonsjar = asm-commons6.jar
+# The presentation name of the test suite
+name=DemoTS 1.0 Test Suite (Tag Tests)
 
-# JUnit Library - Version 4 currently used to compile 3 and 4 support
-junitlib = junit.jar
+# The ID for the test suite
+id=DemoTS_tags_1.0
 
-# Jemmy Library - used only for UI testing
-jemmylib = jemmy.jar
+# The jar file containing the test suite's JavaTest plug in classes
+classpath=lib/jtdemots.jar
 
-# Please specify location where the build distribution (output) will be created
-BUILD_DIR = ../JTHarness-build
+# The test finder to use
+finder=com.sun.javatest.finder.TagTestFinder
 
+# The test script to use
+script=com.sun.javatest.lib.StdTestScript
+
+# The configuration interview to use
+interview=com.sun.demots.DemoTSInterview
+
+# No keywords
+keywords=

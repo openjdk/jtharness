@@ -1,7 +1,10 @@
+#!/bin/bash
+
 #
 # $Id$
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+#
+# Copyright (c) 2001, 2021, Oracle and/or its affiliates. All rights reserved.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
 # This code is free software; you can redistribute it and/or modify it
@@ -25,22 +28,10 @@
 # questions.
 #
 
-# location of jar with with implementation of java serial communications API
-jcommjar = comm.jar
+FILE=summary.txt
 
-# location of jar with servlet API implementation
-servletjar = servlet-api.jar
-
-# bytecode library
-asmjar = asm6.jar
-asmcommonsjar = asm-commons6.jar
-
-# JUnit Library - Version 4 currently used to compile 3 and 4 support
-junitlib = junit.jar
-
-# Jemmy Library - used only for UI testing
-jemmylib = jemmy.jar
-
-# Please specify location where the build distribution (output) will be created
-BUILD_DIR = ../JTHarness-build
+(
+    grep -l ERROR TEST-*.txt | sed 's/TEST-//; s/\.txt$/                ERROR/'
+    grep -L ERROR TEST-*.txt | sed 's/TEST-//; s/\.txt$/                PASSED/'
+) > $FILE
 

@@ -1,7 +1,8 @@
 #
 # $Id$
 #
-# Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+#
+# Copyright (c) 2001, 2021, Oracle and/or its affiliates. All rights reserved.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
 # This code is free software; you can redistribute it and/or modify it
@@ -25,22 +26,29 @@
 # questions.
 #
 
-# location of jar with with implementation of java serial communications API
-jcommjar = comm.jar
-
-# location of jar with servlet API implementation
-servletjar = servlet-api.jar
-
-# bytecode library
-asmjar = asm6.jar
-asmcommonsjar = asm-commons6.jar
-
-# JUnit Library - Version 4 currently used to compile 3 and 4 support
-junitlib = junit.jar
-
-# Jemmy Library - used only for UI testing
-jemmylib = jemmy.jar
-
-# Please specify location where the build distribution (output) will be created
-BUILD_DIR = ../JTHarness-build
-
+#JT Harness Configuration Interview
+#Mon Apr 12 18:56:17 MSD 2010
+DESCRIPTION=demo config
+INTERVIEW=com.sun.demots.DemoTSInterview
+LOCALE=ru_RU
+NAME=democonfig
+QUESTION=demoTS.jvm
+WORKDIR=/tmp/aaaa
+demoTS.cmdType=otherVM
+demoTS.concurrency.concurrency=1
+demoTS.desc=demo config
+demoTS.excludeList.latestAutoCheck=No
+demoTS.excludeList.latestAutoCheckInterval=7
+demoTS.excludeList.latestAutoCheckMode=everyXDays
+demoTS.excludeList.needExcludeList=No
+demoTS.jvm=
+demoTS.keywords.keywords.mode=expr
+demoTS.keywords.needKeywords=No
+demoTS.name=democonfig
+demoTS.priorStatus.needStatus=No
+demoTS.priorStatus.status=
+demoTS.testVerboseLevel=low
+demoTS.tests.needTests=No
+demoTS.tests.tests=
+demoTS.tests.treeOrFile=tree
+demoTS.timeout.timeout=1
