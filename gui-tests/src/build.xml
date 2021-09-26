@@ -53,7 +53,8 @@
     <target name="build_demoapi_simpleTags">
         <mkdir dir="${tests.tempdir}/temp/demoapi"/>
 
-        <javac debug="true" source="8"
+        <javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="./gui/testsuite_src/demoapi"
                destdir="${tests.tempdir}/temp/demoapi">
         </javac>
@@ -65,13 +66,15 @@
         <mkdir dir="${tests.tempdir}/temp/simpleTags"/>
         <mkdir dir="${tests.tempdir}/temp/simpleTags_tc"/>
 
-        <javac debug="true" source="8"
+        <javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="./gui/testsuite_src_clean"
                destdir="${tests.tempdir}/temp/simpleTags"
                classpath="${javatestjar_path}:${tests.tempdir}/temp/demoapi.jar:${jhalljar}">
         </javac>
 
-        <javac debug="true" source="8"
+        <javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="./gui/testsuite_src"
                destdir="${tests.tempdir}/temp/simpleTags_tc"
                classpath="${javatestjar_path}:${tests.tempdir}/temp/demoapi.jar:${jhalljar}">
@@ -149,13 +152,18 @@
     </target>
 
     <target name="compile" depends="create,build_testsuite,build_testsuite_tc">
-        <javac srcdir="${tests.gui.srcpath}" destdir="${tests.classesdir}" debug="true">
+        <javac encoding="iso-8859-1"
+               fork="true" executable="${jdk.builder.home}/bin/javac"
+               source="${javac.source.level}" target="${javac.target.level}"
+               srcdir="${tests.gui.srcpath}" destdir="${tests.classesdir}" debug="true">
             <classpath refid="classpath"/>
         </javac>
     </target>
 
     <target name="init" depends="compile" unless="jt_gui_test.ignore_init">
-        <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true" classname="jthtest.Init">
+        <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}"
+              failonerror="true" classname="jthtest.Init"
+              jvm="${jdk.builder.home}/bin/java">
             <jvmarg line="${vmSystemProperties}"/>
             <classpath refid="classpath"/>
             <classpath>
@@ -178,6 +186,7 @@
 
     <target name="Create_demowd" unless="jt_gui_test.ignore_init">
         <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true"
+              jvm="${jdk.builder.home}/bin/java"
               classname="jthtest.Create_demowd">
             <jvmarg line="${vmSystemProperties}"/>
             <classpath refid="classpath"/>
@@ -196,6 +205,7 @@
 
     <target name="Create_demowd_config" unless="jt_gui_test.ignore_init">
         <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true"
+              jvm="${jdk.builder.home}/bin/java"
               classname="jthtest.Create_demowd_config">
             <jvmarg line="${vmSystemProperties}"/>
             <classpath refid="classpath"/>
@@ -215,6 +225,7 @@
 
     <target name="Create_demowd_run" unless="jt_gui_test.ignore_init">
         <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true"
+              jvm="${jdk.builder.home}/bin/java"
               classname="jthtest.Create_demowd_run">
             <jvmarg line="${vmSystemProperties}"/>
             <classpath refid="classpath"/>
@@ -233,6 +244,7 @@
 
     <target name="Create_demowd_template" unless="jt_gui_test.ignore_init">
         <java timeout="${inittimeout}" fork="true" dir="${tests.tempdir}" failonerror="true"
+              jvm="${jdk.builder.home}/bin/java"
               classname="jthtest.Create_demowd_template">
             <jvmarg line="${vmSystemProperties}"/>
             <classpath refid="classpath"/>
