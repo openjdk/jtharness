@@ -81,11 +81,11 @@ public class RemoveTest implements Test {
             }
         };
 
-        Integer i0 = new Integer(0);
-        Integer i10 = new Integer(10);
-        Integer i100 = new Integer(100);
-        Integer i1000 = new Integer(1000);
-        Integer i10000 = new Integer(10000);
+        Integer i0 = Integer.valueOf(0);
+        Integer i10 = Integer.valueOf(10);
+        Integer i100 = Integer.valueOf(100);
+        Integer i1000 = Integer.valueOf(1000);
+        Integer i10000 = Integer.valueOf(10000);
 
         boolean ok = true;
 
