@@ -25,7 +25,6 @@
 # or visit www.oracle.com if you need additional information or have any
 # questions.
 #
-
 demoTS.excludeList.excludeListType=custom
 demoTS.keywords.needKeywords=No
 TESTSUITE=../JTHarness-build/binaries/examples/tutorial/demots
