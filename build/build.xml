@@ -568,6 +568,14 @@ harness-variety=Full Bundle
 
     </target>
 
+    <target name="test-gui" depends="jar" description="Runs Jemmy-based UI tests">
+        <property name="javatestjar_path" location="${BUILD_DIR}/binaries/lib/javatest.jar"/>
+        <property name="jemmyjar_path" location="${jemmylib}"/>
+        <property name="junitjar_path" location="${junitlib}"/>
+        <ant antfile="build.xml" target="clean" inheritall="true" dir="gui-tests/src"/>
+        <ant antfile="build.xml" target="run" inheritall="true" dir="gui-tests/src"/>
+    </target>
+
     <target name="compile-javatest.help.main" unless="javatest.help.ok" >
         <!-- copy across the help files -->
         <mkdir dir="${build.tmp}"/>
