@@ -66,9 +66,10 @@
         <mkdir dir="${tests.tempdir}/temp/simpleTags"/>
         <mkdir dir="${tests.tempdir}/temp/simpleTags_tc"/>
 
+<!--    srcdir="./gui/testsuite_src_clean"-->
         <javac encoding="iso-8859-1" debug="true" source="${javac.source.level}" target="${javac.target.level}"
                fork="true" executable="${jdk.builder.home}/bin/javac"
-               srcdir="./gui/testsuite_src_clean"
+               srcdir="./gui/testsuite_src"
                destdir="${tests.tempdir}/temp/simpleTags"
                classpath="${javatestjar_path}:${tests.tempdir}/temp/demoapi.jar:${jhalljar}">
         </javac>
@@ -111,7 +112,8 @@
         </copy>
 
         <copy todir="${tests.tempdir}/demots">
-            <fileset dir="./gui/testsuite_src_clean/demots"/>
+<!--        <fileset dir="./gui/testsuite_src_clean/demots"/>-->
+            <fileset dir="./gui/testsuite_src/demots"/>
         </copy>
     </target>
 
