@@ -513,7 +513,7 @@ public class TestEnvironment {
                                         }
                                         i--;
                                     } else {
-                                        throw new Fault(i18n, "env.badExprChar", new Character(c));
+                                        throw new Fault(i18n, "env.badExprChar", Character.valueOf(c));
                                     }
                                     name = buf.toString();
                             }
