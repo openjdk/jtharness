@@ -25,7 +25,6 @@
 # or visit www.oracle.com if you need additional information or have any
 # questions.
 #
-
 lists/DoublyLinkedList/AppendTest.java
 lists/DoublyLinkedList/InsertTest.java
 BigNum/AddTest.java
