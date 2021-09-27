@@ -53,6 +53,7 @@ public class BigNum {
     private int sign;
     private int[] data;
 
+
     /**
      * Create a BigNum for a standard long integer.
      *

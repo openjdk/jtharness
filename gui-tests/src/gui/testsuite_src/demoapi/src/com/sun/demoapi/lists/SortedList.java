@@ -43,10 +43,8 @@ package com.sun.demoapi.lists;
 public class SortedList {
     private Entry first;
 
-    ;
     private Comparator comp;
 
-    ;
     private boolean ignoreDuplicates;
 
     /**

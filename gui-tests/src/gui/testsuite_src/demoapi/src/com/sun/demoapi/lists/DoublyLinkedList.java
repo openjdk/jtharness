@@ -73,6 +73,7 @@ public class DoublyLinkedList {
         return false;
     }
 
+
     /**
      * Get the first entry in the list.
      *
