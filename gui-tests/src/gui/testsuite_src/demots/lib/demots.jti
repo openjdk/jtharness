@@ -50,3 +50,4 @@ demoTS.tests.treeOrFile=tree
 INTERVIEW=com.sun.demots.DemoTSInterview
 demoTS.excludeList.latestAutoCheckInterval=7
 demoTS.excludeList.latestAutoCheck=No
+

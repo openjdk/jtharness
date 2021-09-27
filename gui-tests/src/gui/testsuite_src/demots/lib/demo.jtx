@@ -26,6 +26,5 @@
 # questions.
 #
 # demo exclude list
-
 # test name                bugid(s)   keyword(s)  brief description
 lists/DoublyLinkedList/InsertTest.java  0         test        test contains error
