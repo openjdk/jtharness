@@ -47,9 +47,7 @@ public class Create_demowd_template extends ConfigTools {
         mainFrame = JTFrame.startJTWithDefaultTestSuite();
 
         targetDir = new File("").getAbsolutePath();
-        // TODO doesn't work on mac with jemmy 2
-        // TODO why do we need to open test suite for the second time ??
-        //        openTestSuite(mainFrame.getJFrameOperator());
+        // disabled excessive call:  openTestSuite(mainFrame.getJFrameOperator());
         createWD("demowd_template", args[0], null);
         closeJT(mainFrame.getJFrameOperator());
     }

@@ -152,13 +152,11 @@ public class Tools {
         return i18nToolResources.getString(key);
     }
 
-    // TODO
     // checks if panel is opened
     public static boolean checkPanel() {
         return true;
     }
 
-    // TODO
     // checks if configuration editor contains standard config file
     public static boolean checkStandardConfig(JDialogOperator configEditor) {
         return true;
