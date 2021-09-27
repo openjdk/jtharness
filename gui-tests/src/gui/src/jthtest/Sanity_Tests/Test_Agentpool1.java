@@ -69,7 +69,6 @@ public class Test_Agentpool1 extends Config_New {
 
         //getting expected error dialog box.
         JDialogOperator error = new JDialogOperator("JT Harness: Error");
-
         //If no dialog box appear failing the test.
         if (!error.isVisible()) {
             fail("Failure because no error message was prompted even when a value -1 was given as input to timeout.");

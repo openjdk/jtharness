@@ -43,7 +43,6 @@ public class Create_Work_Dir extends Tools {
     @Before
     public void setUp() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         startJavatest(NEWDESKTOP_ARG);
-
         mainFrame = findMainFrame();
     }
 }

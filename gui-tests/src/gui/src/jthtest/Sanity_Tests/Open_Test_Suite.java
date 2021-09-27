@@ -43,7 +43,6 @@ public class Open_Test_Suite extends Tools {
     @Before
     public void setUp() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         startJavatest(NEWDESKTOP_ARG);
-
         mainFrame = findMainFrame();
     }
 }

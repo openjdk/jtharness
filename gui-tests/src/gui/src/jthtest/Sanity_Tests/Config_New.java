@@ -44,7 +44,6 @@ public class Config_New extends ConfigTools {
     public void setUp() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
         startJavatest(NEWDESKTOP_ARG);
-
         mainFrame = findMainFrame();
     }
 }
