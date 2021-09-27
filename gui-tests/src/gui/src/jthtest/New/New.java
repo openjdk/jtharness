@@ -70,7 +70,7 @@ public class New extends Tools {
     }
 
     @Before
-    public void setUp() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+    public void setUp() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         startJavatest(NEWDESKTOP_ARG);
         mainFrame = findMainFrame();
         quickStartDialog = openQuickStart(mainFrame);

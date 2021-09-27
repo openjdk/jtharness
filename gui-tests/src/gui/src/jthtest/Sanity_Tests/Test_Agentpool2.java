@@ -50,7 +50,7 @@ public class Test_Agentpool2 extends Config_New {
     }
 
     @Test
-    public void test30() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, FileNotFoundException, InterruptedException, IOException {
+    public void test30() throws InterruptedException {
         //Selecting Tools->Agent Monitor.
         JMenuBarOperator jmbo = new JMenuBarOperator(mainFrame);
         jmbo.pushMenu(Menu.getToolsMenuName(), "/");
