@@ -304,7 +304,6 @@
         <antcall target="genHtmlReport"/>
     </target>
 
-
     <target name="genHtmlReport">
         <delete dir="${htmlreport.dir}"/>
         <mkdir dir="${htmlreport.dir}"/>
@@ -314,32 +313,6 @@
                 <include name="*.xml"/>
             </fileset>
             <report todir="${htmlreport.dir}"/>
-        </junitreport>
-    </target>
-
-    <target name="report" depends="run">
-        <exec executable="cp">
-            <arg value="${datapath}/failed.sh"/>
-            <arg value="${datapath}/summary.sh"/>
-            <arg value="${report.dir}"/>
-        </exec>
-        <exec executable="./summary.sh" dir="${report.dir}"/>
-        <exec executable="./failed.sh" dir="${report.dir}"/>
-
-        <junitreport todir="${report.dir}">
-            <fileset dir="${report.dir}">
-                <include name="*.xml"/>
-            </fileset>
-            <report todir="${report.dir}"/>
-        </junitreport>
-    </target>
-
-    <target name="genreport">
-        <junitreport todir="${report.dir}">
-            <fileset dir="${report.dir}">
-                <include name="*.xml"/>
-            </fileset>
-            <report todir="${report.dir}"/>
         </junitreport>
     </target>
 
