@@ -34,7 +34,6 @@
 
   <!-- title -->
   <title>DemoTS Configuration Interview - Help</title>
-
   <!-- maps -->
   <maps>
      <mapref location="default/map.xml"/>
