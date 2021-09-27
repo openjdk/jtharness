@@ -23,7 +23,6 @@
   or visit www.oracle.com if you need additional information or have any
   questions.
 -->
-
 <project name="jt_gui_test" default="init">
 
     <property name="TESTS_BUILD_DIR" value="./build/"/>
