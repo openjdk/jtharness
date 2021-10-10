@@ -50,7 +50,7 @@ public interface Values extends Iterable<Object[]> {
      * @param objs array of objects to multiply with
      * @return resulting set of values
      */
-    Values multiply(Object... objs);
+    <T> Values multiply(T... objs);
 
     /**
      * A shortcut method.
@@ -101,7 +101,7 @@ public interface Values extends Iterable<Object[]> {
      * @param objs array of objects to pseudoMultiply with
      * @return resulting set of values
      */
-    Values pseudoMultiply(Object... objs);
+    <T> Values pseudoMultiply(T... objs);
 
     /**
      * A shortcut method.
@@ -204,7 +204,7 @@ public interface Values extends Iterable<Object[]> {
      * @param objs objects to unite with
      * @return resulting set of values
      */
-    Values unite(Object... objs);
+    <T> Values unite(T... objs);
 
     /**
      * A shortcut method.
@@ -257,7 +257,7 @@ public interface Values extends Iterable<Object[]> {
      * @param objs set of values to intersect with
      * @return resulting set of values
      */
-    Values intersect(Object... objs);
+    <T> Values intersect(T... objs);
 
     /**
      * A shortcut method.
