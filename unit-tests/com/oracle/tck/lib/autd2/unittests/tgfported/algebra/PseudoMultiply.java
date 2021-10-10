@@ -92,7 +92,7 @@ public class PseudoMultiply {
     @Test
     public void testDiag_cachedTheSame_1() {
         Values values = createColumn(1, 2, 7, 8, 9);
-        values = values.pseudoMultiply("12", "a", "b", "c", "e", 4, 435);
+        values = values.<Object>pseudoMultiply("12", "a", "b", "c", "e", 4, 435);
         ValuesComparison.checkCachedReturnsTheSame(values);
     }
 
