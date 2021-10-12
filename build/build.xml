@@ -375,10 +375,7 @@ harness-variety=Full Bundle
     <!-- Using Apache Ivy to resolve and retrieve dependencies used by regression tests -->
     <target name="setup-test-deps">
         <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivylib}"/>
-        <ivy:resolve>
-            <dependency org="org.junit.vintage" name="junit-vintage-engine" rev="5.8.1"/>
-            <dependency org="org.mockito" name="mockito-core" rev="4.0.0"/>
-        </ivy:resolve>
+        <ivy:resolve file="build/ivy.xml"/>
         <ivy:retrieve/>
         <ivy:cachepath pathid="test-deps.classpath"/>
     </target>
