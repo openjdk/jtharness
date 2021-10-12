@@ -23,7 +23,10 @@
   or visit www.oracle.com if you need additional information or have any
   questions.
 -->
-<project name="jtharness" default="build" basedir=".." xmlns:if="ant:if" xmlns:unless="ant:unless">
+<project name="jtharness" default="build" basedir=".."
+         xmlns:if="ant:if"
+         xmlns:unless="ant:unless"
+         xmlns:ivy="antlib:org.apache.ivy.ant">
 
     <import file="build-i18ncheck.xml"/>
     <import file="check-dependencies.xml"/>
@@ -356,16 +359,28 @@ harness-variety=Full Bundle
 
     </target>
 
-    <target name="compile.unit-tests" depends="compile.classes">
+    <target name="compile.unit-tests" depends="compile.classes, setup-test-deps">
         <delete dir="${build.unit-tests}" quiet="true"/>
         <mkdir dir="${build.unit-tests}"/>
         <javac debug="true" source="${javac.source.level}" target="${javac.target.level}"
                fork="true" executable="${jdk.builder.home}/bin/javac"
                srcdir="${unit-tests.src.dir}:${unit-tests.src-support.dir}"
-               destdir="${build.unit-tests}"
-               classpath="${build.classes}:${junitlib}">
+               destdir="${build.unit-tests}">
+            <classpath location="${build.classes}"/>
+            <classpath refid="test-deps.classpath"/>
             <compilerarg value="-Xlint:all"/>
         </javac>
+    </target>
+
+    <!-- Using Apache Ivy to resolve and retrieve dependencies used by regression tests -->
+    <target name="setup-test-deps">
+        <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpath="${ivylib}"/>
+        <ivy:resolve>
+            <dependency org="org.junit.vintage" name="junit-vintage-engine" rev="5.8.1"/>
+            <dependency org="org.mockito" name="mockito-core" rev="4.0.0"/>
+        </ivy:resolve>
+        <ivy:retrieve/>
+        <ivy:cachepath pathid="test-deps.classpath"/>
     </target>
 
     <target name="compile.test.copyright.classes">
@@ -544,7 +559,7 @@ harness-variety=Full Bundle
                 </fail>
         </target>
 
-    <target name="run-regression-tests" depends="compile.unit-tests" description="Runs all unit tests">
+    <target name="run-regression-tests" depends="compile.unit-tests, setup-test-deps" description="Runs all unit tests">
         <delete dir="${build.unit-tests.reports}"/>
         <mkdir dir="${build.unit-tests.reports}"/>
         <echo>jdk.builder.home: ${jdk.builder.home}</echo>
@@ -552,9 +567,9 @@ harness-variety=Full Bundle
             <formatter type="plain"/>
             <classpath>
                 <path path="${build.classes}"/>
-                <pathelement location="${junitlib}"/>
                 <pathelement location="${build.unit-tests}"/>
             </classpath>
+            <classpath refid="test-deps.classpath"/>
             <jvmarg value="-Dunit-tests.data.dir=${unit-tests.data.dir}"/>
             <jvmarg value="-Dbuild.tmp=${build.tmp}"/>
             <jvmarg value="-Dbuild.classes=${build.classes}"/>
