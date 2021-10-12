@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2020, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2021, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -41,6 +41,9 @@ import com.oracle.tck.lib.autd2.processors.tg.TestCaseExcluding;
 import com.oracle.tck.lib.autd2.processors.tg.TestCaseSelecting;
 import com.sun.tck.lib.Assert;
 import com.sun.tck.lib.AssertionFailedException;
+import com.sun.tck.lib.tgf.TGFUtils;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
@@ -48,6 +51,8 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Random;
+
+import static org.mockito.Mockito.inOrder;
 
 
 /**
@@ -57,6 +62,11 @@ public class TU {
 
     public static final String[] EMPTY_ARGV = new String[]{};
 
+    public static final String EXCLUDE_WORD = TGFUtils.EXCLUDE;
+
+    public static PrintWriter createMockedPrintWriter() {
+        return Mockito.mock(PrintWriter.class);
+    }
     public static String generateRandomString() {
         return "random" + new Random().nextInt();
     }
@@ -64,58 +74,49 @@ public class TU {
     /**
      * Processors which are bound to @TestGroup annotation
      */
-    public static final Set<Class<? extends Processor.TestGroupProcessor>> TG_PROC =
-            new HashSet<Class<? extends Processor.TestGroupProcessor>>() {{
-                addAll(Arrays.asList(
-                        TestCaseSelecting.class,
-                        TestCaseExcluding.class,
-                        RunningTestCases.class,
-                        PublicNonTestCaseMethodsReporter.class,
-                        NonPublicTestCasesReporter.class));
-            }};
-
+    public static final Set<Class<? extends Processor.TestGroupProcessor>> TG_PROC = Set.of(
+            TestCaseSelecting.class,
+            TestCaseExcluding.class,
+            RunningTestCases.class,
+            PublicNonTestCaseMethodsReporter.class,
+            NonPublicTestCasesReporter.class);
 
     /**
      * Processors which are bound to @TestCase annotation
      */
-    public static final Set<Class<? extends Processor.TestCaseProcessor>> TC_PROC_STATUS_RECOGNIZED =
-            new HashSet<Class<? extends Processor.TestCaseProcessor>>() {{
-                addAll(Arrays.asList(
-                        DefaultThreadRunning.class,
-                        DefaultExecutionResult.class,
-                        DefaultNoArgTestCaseMethodSetting.class,
-                        TestCaseResultCanBeStatus.class
-                ));
-            }};
+    public static final Set<Class<? extends Processor.TestCaseProcessor>> TC_PROC_STATUS_RECOGNIZED = Set.of(
+            DefaultThreadRunning.class,
+            DefaultExecutionResult.class,
+            DefaultNoArgTestCaseMethodSetting.class,
+            TestCaseResultCanBeStatus.class
+    );
+
     /**
      * Processors which are bound to @TestCase annotation
      */
-    public static final Set<Class<? extends Processor.TestCaseProcessor>> TC_PROC_STATUS_NOT_EXPECTED =
-            new HashSet<Class<? extends Processor.TestCaseProcessor>>() {{
-                addAll(Arrays.asList(
-                        DefaultThreadRunning.class,
-                        DefaultExecutionResult.class,
-                        DefaultNoArgTestCaseMethodSetting.class
-                ));
-            }};
+    public static final Set<Class<? extends Processor.TestCaseProcessor>> TC_PROC_STATUS_NOT_EXPECTED = Set.of(
+            DefaultThreadRunning.class,
+            DefaultExecutionResult.class,
+            DefaultNoArgTestCaseMethodSetting.class
+    );
 
 
     public static TestResult runTestGroup(Object tg, String... args) {
-        PrintWriter log = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.err, StandardCharsets.UTF_8)), true);
-        PrintWriter ref = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8)), true);
+        PrintWriter log = new PrintWriter(System.err, true, StandardCharsets.UTF_8);
+        PrintWriter ref = new PrintWriter(System.out, true, StandardCharsets.UTF_8);
         return runTestGroup(tg, log, ref, args);
     }
 
     public static TestResult runTestGroup(Object tg) {
-        PrintWriter log = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.err, StandardCharsets.UTF_8)), true);
-        PrintWriter ref = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8)), true);
+        PrintWriter log = new PrintWriter(System.err, true, StandardCharsets.UTF_8);
+        PrintWriter ref = new PrintWriter(System.out, true, StandardCharsets.UTF_8);
         return runTestGroup(tg, log, ref, EMPTY_ARGV);
     }
 
     public static TestResult runTestGroup(Object tg,
                                           PrintWriter log, PrintWriter ref,
                                           Set<Class<? extends Processor.TestGroupProcessor>> additionalUserTGProcessors,
-                                          Set<Class<? extends Processor.TestCaseProcessor>> additionalUserTCProcessors,
+                                          Set<Class<? extends Processor.TestCaseProcessor>>  additionalUserTCProcessors,
                                           String... args) {
         Set<Class<? extends Processor.TestGroupProcessor>> finalTGProc = new HashSet<>(TG_PROC);
         Set<Class<? extends Processor.TestCaseProcessor>> finalTCProc = new HashSet<>(TC_PROC_STATUS_RECOGNIZED);
@@ -129,7 +130,32 @@ public class TU {
             PrintWriter log,
             PrintWriter ref,
             String... args) {
-        return runTestGroup(test, log, ref, new HashSet<>(), new HashSet<>(), args);
+        return runTestGroup(test, log, ref, Set.of(), Set.of(), args);
+    }
+
+    public static void methodThatCallsAssertFail_1() {
+        methodThatCallsAssertFail_2();
+    }
+    public static void methodThatCallsAssertFail_2() {
+        methodThatCallsAssertFail_3();
+    }
+    public static void methodThatCallsAssertFail_3() {
+        Assert.fail("Assertion failed");
+    }
+    public static void throwsAssertionFailedException() {
+        throw new AssertionFailedException("Failed!");
+    }
+
+
+    @FunctionalInterface
+    interface PrintVerifier {
+        void verify(PrintWriter log);
+    }
+
+    static void verify_(PrintWriter log, PrintVerifier pw) {
+        InOrder inOrder = inOrder(log);
+        pw.verify(inOrder.verify(log));
+        inOrder.verifyNoMoreInteractions();
     }
 
 }
