@@ -1230,7 +1230,7 @@ class TestTreePanel extends JPanel implements ET_TestTreeControl, HarnessAware, 
             try {
                 WorkDirectory wd1 = execModel.getWorkDirectory();
                 TestResultTable trt1 = getTestResultTable();
-                if (trt1 != null && !wd1.isTRTSet()) {
+                if (trt1 != null && wd1 != null && !wd1.isTRTSet()) {
                     wd1.setTestResultTable(trt1);
                 }
                 applyParameters(true);

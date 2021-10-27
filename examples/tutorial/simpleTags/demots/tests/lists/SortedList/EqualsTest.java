@@ -73,9 +73,9 @@ public class EqualsTest implements Test
                 }
             };
 
-        Integer one = new Integer(1);
-        Integer two = new Integer(2);
-        Integer three = new Integer(3);
+        Integer one = Integer.valueOf(1);
+        Integer two = Integer.valueOf(2);
+        Integer three = Integer.valueOf(3);
 
         boolean ok = true;
 
@@ -153,4 +153,3 @@ public class EqualsTest implements Test
      */
     private PrintWriter err;
 }
-

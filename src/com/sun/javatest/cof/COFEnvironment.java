@@ -116,9 +116,9 @@ import java.util.TimeZone;
         setTimezone(data.get("environment.timezone", TimeZone.getDefault()
                 .getID()));
         setBits(data.get("environment.bits", null) == null ? null
-                : new Integer(data.get("environment.bits")));
+                : Integer.valueOf(data.get("environment.bits")));
         setDisplaydepth(data.get("environment.displaydepth", null) == null ? null
-                : new Integer(data.get("environment.displaydepth")));
+                : Integer.valueOf(data.get("environment.displaydepth")));
         setDescription(data.get("environment.description"));
     }
 

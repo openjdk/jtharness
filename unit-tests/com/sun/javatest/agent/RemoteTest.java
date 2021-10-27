@@ -307,7 +307,7 @@ public class RemoteTest {
             return Math.abs(nextInt()) % upb;
         }
 
-        int nextInt(int lwb, int upb) {
+        private int privateNextInt(int lwb, int upb) {
             return lwb + Math.abs(nextInt()) % (upb - lwb);
         }
 
@@ -315,7 +315,7 @@ public class RemoteTest {
             int l = nextInt(RemoteTest.MAX_CHARS_PER_LINE);
             StringBuffer sb = new StringBuffer(l);
             for (int i = 0; i < l; i++) {
-                sb.append((char) nextInt(32, 128)); // cheat!!
+                sb.append((char) privateNextInt(32, 128)); // cheat!!
             }
             return new String(sb);
 

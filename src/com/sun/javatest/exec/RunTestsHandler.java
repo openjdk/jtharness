@@ -125,7 +125,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         for (String curr : requested) {
             for (String iTest : iTests) {
                 int slash = curr.lastIndexOf('/');
-                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
+                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf('#', slash);
 
                 if (curr.startsWith(iTest) &&
                         (curr.length() == iTest.length() || curr.charAt(iTest.length()) == '#' ||
@@ -140,7 +140,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
         for (String curr : iTests) {
             for (String aRequested : requested) {
                 int slash = curr.lastIndexOf('/');
-                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf(slash, '#');
+                int pound = slash == -1 ? curr.lastIndexOf('#') : curr.lastIndexOf('#', slash);
 
                 if (curr.startsWith(aRequested) &&
                         (curr.length() == aRequested.length() || curr.charAt(aRequested.length()) == '#' ||
