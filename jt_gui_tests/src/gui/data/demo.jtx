@@ -1,4 +1,0 @@
-# demo exclude list
-
-# test name                bugid(s)   keyword(s)  brief description
-lists/DoublyLinkedList/insertTest.html  0         test        test contains error
