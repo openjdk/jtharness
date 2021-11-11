@@ -28,6 +28,7 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.report.HTMLWriterEx;
 import com.sun.javatest.tool.UIFactory;
+import com.sun.javatest.util.Log;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -637,10 +638,30 @@ class TextPane extends JEditorPane implements MultiFormatPane.MediaPane {
 
     public static String getMIMEType(URL url) {
         String filename = url.getFile();
-        String ext = filename.substring(filename.lastIndexOf('.') + 1);
-        ext = ext.toLowerCase();
+        String extLowerCase = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
+        // setting content type by default as extension in lower case
+        String type = extLowerCase;
 
-        return extensionsToMIME.get(ext);
+        // Performing a special treatment of files that have .html/.htm extension
+        // yet contain XML contents inside, which is transformed to HTML
+        // with JavaScript on-the-fly in external web browser.
+        // In JavaTest we have to display such html files as XML files (in plain text),
+        // not trying to render them as HTML with Swing component.
+        if (extLowerCase.startsWith("htm")) {
+            // reading contents and checking first line
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+                String firstLine = reader.readLine();
+                if (firstLine != null && firstLine.toLowerCase().startsWith("<?xml ")) {
+                    // OK, assuming this file contains XML content inside
+                    type = "xml";
+                }
+            } catch (IOException e) {
+                // Failed to read file, staying with the original default type detection
+                Log.warning("Failed to read " + url + ", thrown " + e);
+            }
+        }
+
+        return extensionsToMIME.get(type);
     }
 
     @Override
