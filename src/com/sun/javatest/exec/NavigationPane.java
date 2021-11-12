@@ -48,12 +48,15 @@ import javax.swing.plaf.basic.ComboPopup;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.StringWriter;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.Vector;
 
@@ -64,6 +67,7 @@ public class NavigationPane extends JPanel {
     private String uiKey;
     private History history;
     private Action homeAction;
+    private Action browseAction;
     private Action backAction;
     private Action forwardAction;
     private JButton homeBtn;
@@ -182,7 +186,11 @@ public class NavigationPane extends JPanel {
 
         add(selectBox, c);
 
-        Action[] actions = {backAction, forwardAction, null, homeAction};
+        browseAction.setEnabled(
+            Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)
+        );
+
+        Action[] actions = {backAction, forwardAction, null, homeAction, null, browseAction};
 
         toolBar = uif.createToolBar("np.toolbar", actions);
         toolBar.setFloatable(false);
@@ -204,6 +212,17 @@ public class NavigationPane extends JPanel {
                 } else {
                     mediaPane.stopAudio();
                     mediaPane.loadPage(homeURL);
+                }
+            }
+        };
+
+        browseAction = new ToolAction(uif, "np.browse", true) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Desktop.getDesktop().browse(((URL) model.getSelectedItem()).toURI());
+                } catch (Exception ex) {
+                    uif.showError("np.browse", model.getSelectedItem());
                 }
             }
         };
