@@ -222,9 +222,7 @@ public class NavigationPane extends JPanel {
                 try {
                     Desktop.getDesktop().browse(((URL) model.getSelectedItem()).toURI());
                 } catch (Exception ex) {
-                    StringWriter stackTrace = new StringWriter();
-                    ex.printStackTrace(new PrintWriter(stackTrace));
-                    uif.showError("np.browse", model.getSelectedItem(), stackTrace.toString());
+                    uif.showError("np.browse", model.getSelectedItem());
                 }
             }
         };
