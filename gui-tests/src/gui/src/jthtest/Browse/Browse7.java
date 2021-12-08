@@ -32,30 +32,30 @@ import org.netbeans.jemmy.operators.JDialogOperator;
 
 public class Browse7 extends Browse {
 
-	public static void main(String[] args) {
-		JUnitCore.main("com.sun.javatest.tests.Browse.Browse7");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("com.sun.javatest.tests.Browse.Browse7");
+    }
 
-	@Test
-	public void testBrowse7() {
-		browseTestsuite(quickStartDialog);
+    @Test
+    public void testBrowse7() {
+        browseTestsuite(quickStartDialog);
 
-		next(quickStartDialog);
+        next(quickStartDialog);
 
-		pickDefaultTestsuite(quickStartDialog);
+        pickDefaultTestsuite(quickStartDialog);
 
-		next(quickStartDialog);
+        next(quickStartDialog);
 
-		useConfigTemplate(quickStartDialog);
+        useConfigTemplate(quickStartDialog);
 
-		next(quickStartDialog);
+        next(quickStartDialog);
 
-		startConfigEditor(quickStartDialog);
+        startConfigEditor(quickStartDialog);
 
-		finish(quickStartDialog, true);
+        finish(quickStartDialog, true);
 
-		pickWorkDir(mainFrame);
+        pickWorkDir(mainFrame);
 
-		new JDialogOperator(mainFrame, "Configuration Editor");
-	}
+        new JDialogOperator(mainFrame, "Configuration Editor");
+    }
 }

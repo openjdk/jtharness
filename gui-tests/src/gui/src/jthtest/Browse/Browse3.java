@@ -31,17 +31,17 @@ import org.junit.runner.JUnitCore;
 
 public class Browse3 extends Browse {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.Browse.Browse3");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.Browse.Browse3");
+    }
 
-	@Test
-	public void testBrowse3() {
+    @Test
+    public void testBrowse3() {
 
-		browseTestsuite(quickStartDialog);
+        browseTestsuite(quickStartDialog);
 
-		next(quickStartDialog);
+        next(quickStartDialog);
 
-		getTextField(quickStartDialog, "Test Suite");
-	}
+        getTextField(quickStartDialog, "Test Suite");
+    }
 }
