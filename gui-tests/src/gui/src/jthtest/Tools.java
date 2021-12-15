@@ -28,25 +28,59 @@
 
 package jthtest;
 
-import com.sun.javatest.TestResult;
-import jthtest.menu.Menu;
-import org.junit.After;
-import org.netbeans.jemmy.*;
-import org.netbeans.jemmy.operators.*;
-import org.netbeans.jemmy.operators.Operator.StringComparator;
-import org.netbeans.jemmy.util.NameComponentChooser;
-
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
+import java.awt.Component;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.*;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.junit.After;
+import org.netbeans.jemmy.ClassReference;
+import org.netbeans.jemmy.ComponentChooser;
+import org.netbeans.jemmy.JemmyException;
+import org.netbeans.jemmy.JemmyProperties;
+import org.netbeans.jemmy.TestOut;
+import org.netbeans.jemmy.TimeoutExpiredException;
+import org.netbeans.jemmy.operators.JButtonOperator;
+import org.netbeans.jemmy.operators.JCheckBoxOperator;
+import org.netbeans.jemmy.operators.JComboBoxOperator;
+import org.netbeans.jemmy.operators.JDialogOperator;
+import org.netbeans.jemmy.operators.JFrameOperator;
+import org.netbeans.jemmy.operators.JLabelOperator;
+import org.netbeans.jemmy.operators.JMenuBarOperator;
+import org.netbeans.jemmy.operators.JMenuOperator;
+import org.netbeans.jemmy.operators.JRadioButtonOperator;
+import org.netbeans.jemmy.operators.JTabbedPaneOperator;
+import org.netbeans.jemmy.operators.JTableOperator;
+import org.netbeans.jemmy.operators.JTextAreaOperator;
+import org.netbeans.jemmy.operators.JTextFieldOperator;
+import org.netbeans.jemmy.operators.JTreeOperator;
+import org.netbeans.jemmy.operators.Operator.StringComparator;
+import org.netbeans.jemmy.util.NameComponentChooser;
+
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JTextField;
+
+import com.sun.javatest.TestResult;
+
+import jthtest.menu.Menu;
 
 public class Tools {
 
@@ -60,6 +94,8 @@ public class Tools {
     public static final String TEST_SUITE_NAME = "demots";
     @Deprecated
     public static final String TEMPLATE_NAME = "demotemplate.jtm";
+    @Deprecated
+    public static final String INCOMPLETE_TEMPLATE_NAME = "demotemplate_incomplete.jtm";
     @Deprecated
     public static final String REPORT_NAME = "demoreport";
     @Deprecated
@@ -84,12 +120,14 @@ public class Tools {
     public static String USER_HOME_PATH;
     private static ResourceBundle i18nExecResources;    // reading resources exacly from the javatest.jar to not to do mistakes in element's names
     private static ResourceBundle i18nToolResources;  // reading resources of dialog boxes exacly from the javatest.jar to not to do mistakes in element's names
+    private static ResourceBundle i18nJckResources;
     private static LinkedList<File> usedFiles = new LinkedList<File>();
 
     static {
         JemmyProperties.getCurrentTimeouts().setTimeout("ComponentOperator.WaitComponentTimeout", MAX_WAIT_TIME);
         JemmyProperties.setCurrentOutput(new TestOut(null, (PrintWriter) null, null));
-
+        
+        i18nJckResources  = ResourceBundle.getBundle("com.sun.javatest.tool.i18n_jck");
         i18nExecResources = ResourceBundle.getBundle("com.sun.javatest.exec.i18n");
         i18nToolResources = ResourceBundle.getBundle("com.sun.javatest.tool.i18n");
 
@@ -151,7 +189,11 @@ public class Tools {
     public static String getToolResource(String key) {
         return i18nToolResources.getString(key);
     }
-
+    
+    public static String getJckResource(String key) {
+        return i18nJckResources.getString(key);
+    }
+    
     // checks if panel is opened
     public static boolean checkPanel() {
         return true;
@@ -242,6 +284,16 @@ public class Tools {
         JLabelOperator label = new JLabelOperator(dialog, caption);
         return new JTextFieldOperator((JTextField) label.getLabelFor());
     }
+    
+	// gets JTextField in dialog by it's dialog name
+	public static String getTextField(JDialogOperator dialog) {
+		return new JTextFieldOperator(dialog, "").getText();
+	}
+
+	// gets JTextArea in dialog by it's dialog name
+	public static String getTextArea(JDialogOperator dialog) {
+		return new JTextAreaOperator(dialog, "").getText();
+	}
 
     public static JComponent getComponent(final JDialogOperator dialog, final String captions[]) {
         ComponentFinder threads[] = new ComponentFinder[captions.length];
@@ -359,6 +411,14 @@ public class Tools {
         new JRadioButtonOperator(quickStartDialog, getExecResource("qsw.cfg.template.rb")).push();
 
         getTextField(quickStartDialog, getExecResource("qsw.cfg.jtm.field.lbl")).typeText(TEMPLATE_NAME);
+    }
+    
+ // uses incomplete template config in QS
+    static public void useIncompleteConfigTemplate(JDialogOperator quickStartDialog) {
+
+        new JRadioButtonOperator(quickStartDialog, getExecResource("qsw.cfg.template.rb")).push();
+
+        getTextField(quickStartDialog, getExecResource("qsw.cfg.jtm.field.lbl")).typeText(INCOMPLETE_TEMPLATE_NAME);
     }
 
     // uses bad template config in QS

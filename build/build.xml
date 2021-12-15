@@ -420,6 +420,7 @@ harness-variety=Full Bundle
     <target name="compile-javatest.help" depends="compile-javatest.help.main,compile-javatestAgent.help"/>
 
     <target name="compile.resources" depends="stamp, generate.release.file">
+    	<property name="gui-tests" value="gui-tests/src/gui/testsuite_src/src"/>
         <copy todir="${build.classes}">
             <fileset dir="${src.dir}">
                 <patternset refid="interview.resources"/>
@@ -430,6 +431,8 @@ harness-variety=Full Bundle
         <buildinfo/>
         <copy file="${src.dir}/com/sun/javatest/tool/i18n.properties"
               tofile="${build.classes}/com/sun/javatest/tool/i18n_fr.properties"/>
+    	<copy file="${gui-tests}/com/sun/demots/i18n.properties"
+    	      tofile="${build.classes}/com/sun/javatest/tool/i18n_jck.properties"/>
         <mkdir dir="${build.classes}/META-INF/services"/>
         <copy file="${build.dir}/JavaTest.cmdMgrs.lst" tofile="${build.classes}/META-INF/services/com.sun.javatest.tool.CommandManager.lst"/>
         <copy file="${build.dir}/JavaTest.toolMgrs.lst" tofile="${build.classes}/META-INF/services/com.sun.javatest.tool.ToolManager.lst"/>
