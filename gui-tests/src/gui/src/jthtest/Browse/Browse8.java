@@ -31,44 +31,44 @@ import org.junit.runner.JUnitCore;
 
 public class Browse8 extends Browse {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.Browse.Browse8");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.Browse.Browse8");
+    }
 
-	@Test
-	public void test_correct_numbers_shown_after_testsuite_loaded() {
+    @Test
+    public void test_correct_numbers_shown_after_testsuite_loaded() {
 
-		// click on Browse the Test Suite Radio button
-		browseTestsuite(quickStartDialog);
+        // click on Browse the Test Suite Radio button
+        browseTestsuite(quickStartDialog);
 
-		// click on next button
-		next(quickStartDialog);
+        // click on next button
+        next(quickStartDialog);
 
-		// Select the test suite
-		pickDefaultTestsuite(quickStartDialog);
+        // Select the test suite
+        pickDefaultTestsuite(quickStartDialog);
 
-		// click on next button
-		next(quickStartDialog);
+        // click on next button
+        next(quickStartDialog);
 
-		// Select the complete configuration template
-		useConfigTemplate(quickStartDialog);
+        // Select the complete configuration template
+        useConfigTemplate(quickStartDialog);
 
-		// click on next button
-		next(quickStartDialog);
+        // click on next button
+        next(quickStartDialog);
 
-		// start configuration editor
-		startConfigEditor(quickStartDialog);
+        // start configuration editor
+        startConfigEditor(quickStartDialog);
 
-		// click on finish button
-		finish(quickStartDialog, false);
+        // click on finish button
+        finish(quickStartDialog, false);
 
-		// verify that the correct numbers are shown in the right panel
-		checkCounters(mainFrame, new int[] { 0, 0, 0, 22, 22, 0, 22 });
+        // verify that the correct numbers are shown in the right panel
+        checkCounters(mainFrame, new int[] { 0, 0, 0, 22, 22, 0, 22 });
 
-	}
+    }
 
-	// TestCase Description
-	public String getDescription() {
-		return "This test case verifies that the correct numbers will be shown in the right panel after loading a test suite with complete configuration.";
-	}
+    // TestCase Description
+    public String getDescription() {
+        return "This test case verifies that the correct numbers will be shown in the right panel after loading a test suite with complete configuration.";
+    }
 }

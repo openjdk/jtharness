@@ -36,35 +36,35 @@ import jthtest.tools.JTFrame;
 
 public class Config_Edit3 extends Test {
 
-	@org.junit.Test
-	public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+    @org.junit.Test
+    public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		mainFrame = new JTFrame(true);
+        mainFrame = new JTFrame(true);
 
-		// Open default test suite, create workdirectory and load configuration
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		Configuration conf = mainFrame.getConfiguration();
-		conf.load(CONFIG_NAME, true);
+        // Open default test suite, create workdirectory and load configuration
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        Configuration conf = mainFrame.getConfiguration();
+        conf.load(CONFIG_NAME, true);
 
-		// push back button on configuration editor and verify back button is disabled
-		ConfigDialog cd = conf.openByKey();
-		cd.pushBackConfigEditor();
-		if (cd.getBackButton().isEnabled()) {
-			errors.add("Back button is enabled while unexpected");
-		}
+        // push back button on configuration editor and verify back button is disabled
+        ConfigDialog cd = conf.openByKey();
+        cd.pushBackConfigEditor();
+        if (cd.getBackButton().isEnabled()) {
+            errors.add("Back button is enabled while unexpected");
+        }
 
-		// push next and back buttons and verify that the configuration editor will go
-		// back to previous question
-		cd.pushNextConfigEditor();
-		cd.pushBackConfigEditor();
-		if (!cd.isSelectedIndex(0)) {
-			errors.add("After back button pushing list selection is not on first question");
-		}
-	}
+        // push next and back buttons and verify that the configuration editor will go
+        // back to previous question
+        cd.pushNextConfigEditor();
+        cd.pushBackConfigEditor();
+        if (!cd.isSelectedIndex(0)) {
+            errors.add("After back button pushing list selection is not on first question");
+        }
+    }
 
-	// TestCase Description
-	public String getDescription() {
-		return "This test case verifies that Back button in the configuration editor will go back to the previous question.";
-	}
+    // TestCase Description
+    public String getDescription() {
+        return "This test case verifies that Back button in the configuration editor will go back to the previous question.";
+    }
 }

@@ -37,38 +37,38 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JListOperator;
 
 public class Config_Edit4 extends Config_Edit {
-	public static void main(String args[]) {
-		JUnitCore.main("jthtest.gui.Config_Edit.Config_Edit4");
-	}
+    public static void main(String args[]) {
+        JUnitCore.main("jthtest.gui.Config_Edit.Config_Edit4");
+    }
 
-	@Test
-	public void test_next_button_config_editor_next_question()
-			throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+    @Test
+    public void test_next_button_config_editor_next_question()
+            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		// start javatest with -newDesktop option
-		startJavatestNewDesktop();
-		JFrameOperator mainFrame = findMainFrame();
+        // start javatest with -newDesktop option
+        startJavatestNewDesktop();
+        JFrameOperator mainFrame = findMainFrame();
 
-		// Open test suite and load configuration
-		openTestSuite(mainFrame);
-		createWorkDirInTemp(mainFrame);
-		openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-		waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+        // Open test suite and load configuration
+        openTestSuite(mainFrame);
+        createWorkDirInTemp(mainFrame);
+        openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+        waitForConfigurationLoading(mainFrame, CONFIG_NAME);
 
-		openConfigDialogByKey(mainFrame);
-		JDialogOperator config = findConfigEditor(mainFrame);
+        openConfigDialogByKey(mainFrame);
+        JDialogOperator config = findConfigEditor(mainFrame);
 
-		// push next button on configuration editor
-		pushNextConfigEditor(config);
+        // push next button on configuration editor
+        pushNextConfigEditor(config);
 
-		// verify that Next button in the configuration editor will go forward to the
-		// next question
-		if (!new JListOperator(config).isSelectedIndex(2))
-			throw new JemmyException("After next button pushing list selection is not on third page");
-	}
+        // verify that Next button in the configuration editor will go forward to the
+        // next question
+        if (!new JListOperator(config).isSelectedIndex(2))
+            throw new JemmyException("After next button pushing list selection is not on third page");
+    }
 
-	// TestCase Description
-	public String getDescription() {
-		return "This test case verifies that Next button in the configuration editor will go forward to the next question.";
-	}
+    // TestCase Description
+    public String getDescription() {
+        return "This test case verifies that Next button in the configuration editor will go forward to the next question.";
+    }
 }

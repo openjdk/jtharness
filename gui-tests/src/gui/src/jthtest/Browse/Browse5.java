@@ -33,40 +33,40 @@ import junit.framework.Assert;
 
 public class Browse5 extends Browse {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.Browse.Browse5");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.Browse.Browse5");
+    }
 
-	@Test
-	public void test_incomplete_configuration_template() {
+    @Test
+    public void test_incomplete_configuration_template() {
 
-		// click on Browse the Test Suite Radio button
-		browseTestsuite(quickStartDialog);
+        // click on Browse the Test Suite Radio button
+        browseTestsuite(quickStartDialog);
 
-		// click on next button
-		next(quickStartDialog);
+        // click on next button
+        next(quickStartDialog);
 
-		// Select the test suite
-		pickDefaultTestsuite(quickStartDialog);
+        // Select the test suite
+        pickDefaultTestsuite(quickStartDialog);
 
-		// Click on next button
-		next(quickStartDialog);
+        // Click on next button
+        next(quickStartDialog);
 
-		// Select the incomplete configuration template
-		useIncompleteConfigTemplate(quickStartDialog);
+        // Select the incomplete configuration template
+        useIncompleteConfigTemplate(quickStartDialog);
 
-		// Click on next button
-		next(quickStartDialog);
+        // Click on next button
+        next(quickStartDialog);
 
-		Assert.assertEquals("The text should specify that the configuration is incomplete",
-				getJckResource("qsw.end.needEditor"), getTextArea(quickStartDialog));
+        Assert.assertEquals("The text should specify that the configuration is incomplete",
+                getJckResource("qsw.end.needEditor"), getTextArea(quickStartDialog));
 
-		Assert.assertEquals("Almost done text should be clear and easy to understand", getJckResource("qsw.end.hd"),
-				getTextField(quickStartDialog));
-	}
+        Assert.assertEquals("Almost done text should be clear and easy to understand", getJckResource("qsw.end.hd"),
+                getTextField(quickStartDialog));
+    }
 
-	// TestCase Description
-	public String getDescription() {
-		return "This test case verifies that using an incomplete configuration template file an error will be generated.";
-	}
+    // TestCase Description
+    public String getDescription() {
+        return "This test case verifies that using an incomplete configuration template file an error will be generated.";
+    }
 }

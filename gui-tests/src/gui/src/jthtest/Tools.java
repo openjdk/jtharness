@@ -126,7 +126,7 @@ public class Tools {
     static {
         JemmyProperties.getCurrentTimeouts().setTimeout("ComponentOperator.WaitComponentTimeout", MAX_WAIT_TIME);
         JemmyProperties.setCurrentOutput(new TestOut(null, (PrintWriter) null, null));
-        
+
         i18nJckResources  = ResourceBundle.getBundle("com.sun.javatest.tool.i18n_jck");
         i18nExecResources = ResourceBundle.getBundle("com.sun.javatest.exec.i18n");
         i18nToolResources = ResourceBundle.getBundle("com.sun.javatest.tool.i18n");
@@ -189,11 +189,11 @@ public class Tools {
     public static String getToolResource(String key) {
         return i18nToolResources.getString(key);
     }
-    
+
     public static String getJckResource(String key) {
         return i18nJckResources.getString(key);
     }
-    
+
     // checks if panel is opened
     public static boolean checkPanel() {
         return true;
@@ -284,16 +284,16 @@ public class Tools {
         JLabelOperator label = new JLabelOperator(dialog, caption);
         return new JTextFieldOperator((JTextField) label.getLabelFor());
     }
-    
-	// gets JTextField in dialog by it's dialog name
-	public static String getTextField(JDialogOperator dialog) {
-		return new JTextFieldOperator(dialog, "").getText();
-	}
 
-	// gets JTextArea in dialog by it's dialog name
-	public static String getTextArea(JDialogOperator dialog) {
-		return new JTextAreaOperator(dialog, "").getText();
-	}
+    // gets JTextField in dialog by it's dialog name
+    public static String getTextField(JDialogOperator dialog) {
+        return new JTextFieldOperator(dialog, "").getText();
+    }
+
+    // gets JTextArea in dialog by it's dialog name
+    public static String getTextArea(JDialogOperator dialog) {
+        return new JTextAreaOperator(dialog, "").getText();
+    }
 
     public static JComponent getComponent(final JDialogOperator dialog, final String captions[]) {
         ComponentFinder threads[] = new ComponentFinder[captions.length];
@@ -412,7 +412,7 @@ public class Tools {
 
         getTextField(quickStartDialog, getExecResource("qsw.cfg.jtm.field.lbl")).typeText(TEMPLATE_NAME);
     }
-    
+
  // uses incomplete template config in QS
     static public void useIncompleteConfigTemplate(JDialogOperator quickStartDialog) {
 
