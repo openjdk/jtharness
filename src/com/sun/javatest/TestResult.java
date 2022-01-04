@@ -1432,7 +1432,8 @@ public class TestResult {
 
         String name = td.getRootRelativeURL();
         if (!testURL.equals(name)) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("testURL associated with this test result: '" + testURL + "' " +
+                    "is not equal to the given test description's rootRelativeURL: '" + name + "'");
         }
 
         if (desc != null) {             // compare if possible
