@@ -36,7 +36,7 @@ import jthtest.tools.JTFrame;
 
 public class Config_Edit3 extends Test {
 
-    public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+   public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
         mainFrame = new JTFrame(true);
 
