@@ -39,7 +39,7 @@ public class Config_Edit6 extends Test {
 
         // Open default test suite
         mainFrame.openDefaultTestSuite();
-        addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        mainFrame.createWorkDirectoryInTemp();
 
         // load configuration
         Configuration configuration = mainFrame.getConfiguration();
