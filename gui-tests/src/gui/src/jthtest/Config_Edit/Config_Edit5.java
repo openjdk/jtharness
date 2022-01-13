@@ -36,7 +36,6 @@ import jthtest.tools.JTFrame;
 
 public class Config_Edit5 extends Test {
 
-    @org.junit.Test
     public void testImpl() throws Exception {
         mainFrame = new JTFrame(true);
 
