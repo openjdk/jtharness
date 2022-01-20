@@ -63,7 +63,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     private int counter;                // nodes below this point and including self
     private int[] childStats;
     private String name;                // basically the directory name, null means root node
-    private long lastScanDate;
+    private long lastScanDate = -1;
     /**
      * List of files that makeup the on-disk contents of this node.
      * These are probably HTML files with test descriptions in them.  The string is a
@@ -277,7 +277,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     @Override
     public boolean isUpToDate() {
         // compare timestamp in the future
-        return lastScanDate != 0;
+        return lastScanDate >= 0;
     }
 
     /**
@@ -892,7 +892,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
      */
     public synchronized boolean refreshIfNeeded() {
         if (filesToScan != null ||
-                (table != null && table.isFinderScanSuppressed() && lastScanDate == 0)) {
+                (table != null && table.isFinderScanSuppressed() && !isUpToDate())) {
             //File thisDir = new File(getTestSuiteRootPathPrefix(),
             //              TestResultTable.getRootRelativePath(this));
             File thisDir = new File(TestResultTable.getRootRelativePath(this));

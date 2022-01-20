@@ -100,7 +100,7 @@ public abstract class InterviewParameters
     private File currFile;
     private boolean isTemplate;
     private String templatePath;
-    private long currFileLastModified;
+    private long currFileLastModified = -1;
     private boolean currFileLoaded;
     private CustomPropagationController pc = new CustomPropagationController();
 
@@ -1129,7 +1129,7 @@ public abstract class InterviewParameters
             currFileLastModified = f.lastModified();
         } else {
             // means: unknown; will likely a trigger a reload
-            currFileLastModified = 0;
+            currFileLastModified = -1;
         }
     }
 
@@ -1615,7 +1615,7 @@ public abstract class InterviewParameters
      */
     public boolean isFileNewer() {
         File f = getFile();
-        return f != null && f.exists() && ((currFileLastModified == 0)
+        return f != null && f.exists() && ((currFileLastModified == -1)
                 || (f.lastModified() > currFileLastModified));
     }
 

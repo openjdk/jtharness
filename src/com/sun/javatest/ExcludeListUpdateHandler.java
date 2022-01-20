@@ -41,9 +41,9 @@ import java.net.URLConnection;
  */
 public class ExcludeListUpdateHandler {
     private File localFile;
-    private long localFileLastModified;
+    private long localFileLastModified = -1;
     private URL remoteURL;
-    private long remoteURLLastModified;
+    private long remoteURLLastModified = -1;
 
     /**
      * Create a handler for downloading exclude lists from a server.
@@ -78,7 +78,7 @@ public class ExcludeListUpdateHandler {
      * a problem determining the required information
      */
     public long getLocalFileLastModified() {
-        if (localFileLastModified == 0) {
+        if (localFileLastModified == -1) {
             localFileLastModified = localFile.lastModified();
         }
         return localFileLastModified;
@@ -102,7 +102,7 @@ public class ExcludeListUpdateHandler {
      * @throws IOException if there is a problem determining the information.
      */
     public long getRemoteURLLastModified() throws IOException {
-        if (remoteURLLastModified == 0) {
+        if (remoteURLLastModified == -1) {
             URLConnection c = remoteURL.openConnection();
             c.connect();
             remoteURLLastModified = c.getLastModified();
