@@ -35,15 +35,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.OptionalLong;
 
 /**
  * A class to handle downloading exclude lists from a server.
  */
 public class ExcludeListUpdateHandler {
     private File localFile;
-    private long localFileLastModified = -1;
+    private OptionalLong localFileLastModified = OptionalLong.empty();
     private URL remoteURL;
-    private long remoteURLLastModified = -1;
+    private OptionalLong remoteURLLastModified = OptionalLong.empty();
 
     /**
      * Create a handler for downloading exclude lists from a server.
@@ -78,10 +79,10 @@ public class ExcludeListUpdateHandler {
      * a problem determining the required information
      */
     public long getLocalFileLastModified() {
-        if (localFileLastModified == -1) {
-            localFileLastModified = localFile.lastModified();
+        if (localFileLastModified.isEmpty()) {
+            localFileLastModified = OptionalLong.of(localFile.lastModified());
         }
-        return localFileLastModified;
+        return localFileLastModified.getAsLong();
     }
 
     /**
@@ -102,13 +103,13 @@ public class ExcludeListUpdateHandler {
      * @throws IOException if there is a problem determining the information.
      */
     public long getRemoteURLLastModified() throws IOException {
-        if (remoteURLLastModified == -1) {
+        if (remoteURLLastModified.isEmpty()) {
             URLConnection c = remoteURL.openConnection();
             c.connect();
-            remoteURLLastModified = c.getLastModified();
+            remoteURLLastModified = OptionalLong.of(c.getLastModified());
             c.getInputStream().close();
         }
-        return remoteURLLastModified;
+        return remoteURLLastModified.getAsLong();
     }
 
     /**
@@ -124,7 +125,7 @@ public class ExcludeListUpdateHandler {
     public boolean isUpdateAvailable() throws IOException {
         getLocalFileLastModified();
         getRemoteURLLastModified();
-        return remoteURLLastModified > localFileLastModified;
+        return remoteURLLastModified.getAsLong() > localFileLastModified.getAsLong();
     }
 
     /**
@@ -146,7 +147,8 @@ public class ExcludeListUpdateHandler {
         URLConnection c = remoteURL.openConnection();
         c.getContentLength();
         c.connect();
-        remoteURLLastModified = c.getLastModified();
+        long remoteURLLastModified = c.getLastModified();
+        this.remoteURLLastModified = OptionalLong.of(remoteURLLastModified);
         if (remoteURLLastModified > getLocalFileLastModified()) {
             update(c);
         } else {

@@ -39,6 +39,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.OptionalLong;
 
 /**
  * This is the implementation of a tree node structure for TestResultTable.
@@ -63,7 +64,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     private int counter;                // nodes below this point and including self
     private int[] childStats;
     private String name;                // basically the directory name, null means root node
-    private long lastScanDate = -1;
+    private OptionalLong lastScanDate = OptionalLong.empty();
     /**
      * List of files that makeup the on-disk contents of this node.
      * These are probably HTML files with test descriptions in them.  The string is a
@@ -277,7 +278,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
     @Override
     public boolean isUpToDate() {
         // compare timestamp in the future
-        return lastScanDate >= 0;
+        return lastScanDate.isPresent();
     }
 
     /**
@@ -775,7 +776,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
         // special case for root
         if (isRoot() && filesToScan == null /* && root timestamp change check */) {
             File thisDir = table.getTestSuiteRoot();
-            lastScanDate = table.getLastModifiedTime(thisDir);
+            lastScanDate = OptionalLong.of(table.getLastModifiedTime(thisDir));
             processFile(thisDir);
 
             // to prevent infinite recursion
@@ -790,7 +791,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         File thisDir = new File(TestResultTable.getRootRelativePath(this));
         long lmd = table.getLastModifiedTime(thisDir);
-        if (lmd <= lastScanDate) {
+        if (lastScanDate.isEmpty() || lmd <= lastScanDate.getAsLong()) {
             return;
         }
 
@@ -813,7 +814,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             refreshIfNeeded();
         }
 
-        lastScanDate = lmd;
+        lastScanDate = OptionalLong.of(lmd);
 
         // send observer msg?
         // delete unneeded objects from TestResultTable.TreeNode?
@@ -903,7 +904,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
             // may be less than if the custom finder starts to return a
             // bogus value - like zero or 1 for whatever reason
-            if (thisScanDate <= lastScanDate) {
+            if (lastScanDate.isEmpty() || thisScanDate <= lastScanDate.getAsLong()) {
                 return false;
             }
 
@@ -918,10 +919,10 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
             }   // sync
 
 
-            long cachedScanDate = lastScanDate;
+            OptionalLong cachedScanDate = lastScanDate;
             // need to update lastScanDate before the loop to avoid
             // excessive recursion
-            lastScanDate = thisScanDate;
+            lastScanDate = OptionalLong.of(thisScanDate);
             List<TreeNode> nodesUsed = new ArrayList<>();
             List<TestResult> usedTests = new ArrayList<>();
 
@@ -931,7 +932,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
                 } else {
                     // scan if file is newer than the last time this folder
                     // was scanned (cachedScanDate)
-                    if (table.getLastModifiedTime(file) > cachedScanDate) {
+                    if (cachedScanDate.isEmpty() || table.getLastModifiedTime(file) > cachedScanDate.getAsLong()) {
                         usedTests.addAll(updateFile(file));
                     } else {
                     }
@@ -1184,7 +1185,8 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         // do this if the file seems to need rescanning, or we
         // don't seem to have an "old" TD
-        if (table.getLastModifiedTime(fileToScan) > lastScanDate ||
+        if (lastScanDate.isEmpty() ||
+                table.getLastModifiedTime(fileToScan) > lastScanDate.getAsLong() ||
                 oldTd == null) {
             // run the finder on the correct file
             // find the matching TD
