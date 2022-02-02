@@ -791,7 +791,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         File thisDir = new File(TestResultTable.getRootRelativePath(this));
         long lmd = table.getLastModifiedTime(thisDir);
-        if (lastScanDate.isEmpty() || lmd <= lastScanDate.getAsLong()) {
+        if (lastScanDate.isPresent() && lmd <= lastScanDate.getAsLong()) {
             return;
         }
 
@@ -904,7 +904,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
             // may be less than if the custom finder starts to return a
             // bogus value - like zero or 1 for whatever reason
-            if (lastScanDate.isEmpty() || thisScanDate <= lastScanDate.getAsLong()) {
+            if (lastScanDate.isPresent() && thisScanDate <= lastScanDate.getAsLong()) {
                 return false;
             }
 
