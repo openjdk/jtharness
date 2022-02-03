@@ -79,7 +79,7 @@ public class ExcludeListUpdateHandler {
      * a problem determining the required information
      */
     public long getLocalFileLastModified() {
-        if (localFileLastModified.isEmpty()) {
+        if (!localFileLastModified.isPresent()) {
             localFileLastModified = OptionalLong.of(localFile.lastModified());
         }
         return localFileLastModified.getAsLong();
@@ -103,7 +103,7 @@ public class ExcludeListUpdateHandler {
      * @throws IOException if there is a problem determining the information.
      */
     public long getRemoteURLLastModified() throws IOException {
-        if (remoteURLLastModified.isEmpty()) {
+        if (!remoteURLLastModified.isPresent()) {
             URLConnection c = remoteURL.openConnection();
             c.connect();
             remoteURLLastModified = OptionalLong.of(c.getLastModified());

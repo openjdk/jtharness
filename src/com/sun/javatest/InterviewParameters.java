@@ -1616,7 +1616,7 @@ public abstract class InterviewParameters
      */
     public boolean isFileNewer() {
         File f = getFile();
-        return f != null && f.exists() && (currFileLastModified.isEmpty()
+        return f != null && f.exists() && (!currFileLastModified.isPresent()
                 || (f.lastModified() > currFileLastModified.getAsLong()));
     }
 

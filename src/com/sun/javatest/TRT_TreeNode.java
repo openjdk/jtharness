@@ -932,7 +932,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
                 } else {
                     // scan if file is newer than the last time this folder
                     // was scanned (cachedScanDate)
-                    if (cachedScanDate.isEmpty() || table.getLastModifiedTime(file) > cachedScanDate.getAsLong()) {
+                    if (!cachedScanDate.isPresent() || table.getLastModifiedTime(file) > cachedScanDate.getAsLong()) {
                         usedTests.addAll(updateFile(file));
                     } else {
                     }
@@ -1185,7 +1185,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
 
         // do this if the file seems to need rescanning, or we
         // don't seem to have an "old" TD
-        if (lastScanDate.isEmpty() ||
+        if (!lastScanDate.isPresent() ||
                 table.getLastModifiedTime(fileToScan) > lastScanDate.getAsLong() ||
                 oldTd == null) {
             // run the finder on the correct file
