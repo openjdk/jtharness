@@ -47,6 +47,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.OptionalLong;
 import java.util.ResourceBundle;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -100,7 +101,7 @@ public abstract class InterviewParameters
     private File currFile;
     private boolean isTemplate;
     private String templatePath;
-    private long currFileLastModified;
+    private OptionalLong currFileLastModified = OptionalLong.empty();
     private boolean currFileLoaded;
     private CustomPropagationController pc = new CustomPropagationController();
 
@@ -1126,10 +1127,10 @@ public abstract class InterviewParameters
         currFile = f;
         currFileLoaded = false;
         if (f != null) {
-            currFileLastModified = f.lastModified();
+            currFileLastModified = OptionalLong.of(f.lastModified());
         } else {
             // means: unknown; will likely a trigger a reload
-            currFileLastModified = 0;
+            currFileLastModified = OptionalLong.empty();
         }
     }
 
@@ -1209,7 +1210,7 @@ public abstract class InterviewParameters
 
         setEdited(false);
         currFile = file;
-        currFileLastModified = file.lastModified();
+        currFileLastModified = OptionalLong.of(file.lastModified());
         currFileLoaded = true;
         return checkForUpdates();
     }
@@ -1443,7 +1444,7 @@ public abstract class InterviewParameters
 
         setEdited(false);
         currFile = file;
-        currFileLastModified = file.lastModified();
+        currFileLastModified = OptionalLong.of(file.lastModified());
         currFileLoaded = true;
     }
 
@@ -1615,8 +1616,8 @@ public abstract class InterviewParameters
      */
     public boolean isFileNewer() {
         File f = getFile();
-        return f != null && f.exists() && ((currFileLastModified == 0)
-                || (f.lastModified() > currFileLastModified));
+        return f != null && f.exists() && (currFileLastModified.isEmpty()
+                || (f.lastModified() > currFileLastModified.getAsLong()));
     }
 
     /**
