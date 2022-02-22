@@ -30,6 +30,7 @@ import com.sun.javatest.Command;
 import com.sun.javatest.Status;
 import com.sun.javatest.Test;
 import com.sun.javatest.util.DynamicArray;
+import com.sun.javatest.util.Log;
 import com.sun.javatest.util.Timer;
 import com.sun.javatest.util.WriterStream;
 
@@ -128,6 +129,8 @@ public class Agent implements Runnable {
 
         this.connectionFactory = connectionFactory;
         maxThreads = concurrency;
+        Log.info("New JT Agent: handling " + maxThreads + " concurrent request" +
+                (maxThreads > 1 ? "s" : "")  + ", using " + connectionFactory);
     }
 
     /**
