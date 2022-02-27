@@ -39,25 +39,25 @@ import jthtest.OpenTestSuite.OpenTestSuite;
 
 public class Test_Open_Test_Suite1 extends OpenTestSuite {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.Sanity_Tests.Test_Open_Test_Suite1");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.Sanity_Tests.Test_Open_Test_Suite1");
+    }
 
-	@Test
-	public void testOpenTestSuite1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+    @Test
+    public void testOpenTestSuite1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		/** Open existing test suite */
-		openTestSuite(mainFrame);
-		waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
-		JTabbedPaneOperator tab = new JTabbedPaneOperator(mainFrame, TAB_CAPTION);
-		if (!tab.isVisible()) {
-			fail("Error while opening an existing test suite.");
-		}
-	}
+        /** Open existing test suite */
+        openTestSuite(mainFrame);
+        waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
+        JTabbedPaneOperator tab = new JTabbedPaneOperator(mainFrame, TAB_CAPTION);
+        if (!tab.isVisible()) {
+            fail("Error while opening an existing test suite.");
+        }
+    }
 
-	/** TestCase Description */
-	public String getDescription() {
-		return "This test case verifies that opening an existing test suite would correctly load tests.";
-	}
+    /** TestCase Description */
+    public String getDescription() {
+        return "This test case verifies that opening an existing test suite would correctly load tests.";
+    }
 
 }

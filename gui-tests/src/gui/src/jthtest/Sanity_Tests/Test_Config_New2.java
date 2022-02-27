@@ -31,21 +31,21 @@ import jthtest.tools.JTFrame;
 
 public class Test_Config_New2 extends Test {
 
-	public void testImpl() throws Exception {
-		JTFrame mainFrame = new JTFrame(true);
+    public void testImpl() throws Exception {
+        JTFrame mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-		if (mainFrame.getConfiguration().create(false).isFullConfiguration()) {
-			errors.add("Newly created configuration is full while unexpected");
-		}
+        if (mainFrame.getConfiguration().create(false).isFullConfiguration()) {
+            errors.add("Newly created configuration is full while unexpected");
+        }
 
-	}
+    }
 
-	/** TestCase Description */
-	public String getDescription() {
-		return "Verify that menu item \"Configure-> New configuration\" will bring up an empty configuration editor.";
-	}
+    /** TestCase Description */
+    public String getDescription() {
+        return "Verify that menu item \"Configure-> New configuration\" will bring up an empty configuration editor.";
+    }
 }
 
