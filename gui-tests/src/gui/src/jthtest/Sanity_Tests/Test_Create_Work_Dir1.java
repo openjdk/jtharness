@@ -34,21 +34,21 @@ import jthtest.tools.JTFrame;
 
 public class Test_Create_Work_Dir1 extends Test {
 
-	public void testImpl() throws Exception {
-		JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
-       
-		/**	Create a new work directory	 */
-		File created = mainFrame.createWorkDirectoryInTemp();
-		addUsedFile(created);
-		Thread.sleep(2000);
-		if (!created.exists()) {
-			errors.add(
-					"Error while creating a non-existing work directory." + created.getPath() + " " + created.exists());
-		}
-	}
+    public void testImpl() throws Exception {
+        JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
 
-	/** TestCase Description */
-	public String getDescription() {
-		return "This test case verifies that creating a non-existing work directory would create a directory.";
-	}
+        /**    Create a new work directory     */
+        File created = mainFrame.createWorkDirectoryInTemp();
+        addUsedFile(created);
+        Thread.sleep(2000);
+        if (!created.exists()) {
+            errors.add(
+                    "Error while creating a non-existing work directory." + created.getPath() + " " + created.exists());
+        }
+    }
+
+    /** TestCase Description */
+    public String getDescription() {
+        return "This test case verifies that creating a non-existing work directory would create a directory.";
+    }
 }
