@@ -37,7 +37,6 @@ import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.netbeans.jemmy.ComponentChooser;
 import org.netbeans.jemmy.operators.JDialogOperator;
-import org.netbeans.jemmy.operators.JMenuBarOperator;
 import org.netbeans.jemmy.operators.JTabbedPaneOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
 import org.netbeans.jemmy.util.NameComponentChooser;
@@ -46,39 +45,43 @@ import jthtest.menu.Menu;
 
 public class Test_Open_Work_Dir1 extends Open_Work_Dir {
 
-    public static void main(String[] args) {
-        JUnitCore.main("jthtest.gui.Sanity_Tests.Test_Open_Work_Dir1");
-    }
+	public static void main(String[] args) {
+		JUnitCore.main("jthtest.gui.Sanity_Tests.Test_Open_Work_Dir1");
+	}
 
-    @Test
-    public void testOpenTestSuite1()
-            throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, FileNotFoundException {
+	@Test
+	public void testOpenTestSuite1()
+			throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, FileNotFoundException {
 
-        // Opening work directory.
-        JMenuBarOperator jmbo = new JMenuBarOperator(mainFrame);
-        jmbo.pushMenuNoBlock("File", "/");
-        Menu.getFile_Open_WorkDirectoryMenu(mainFrame).pushNoBlock();
+		/** Opening work directory */
+		Menu.getFile_Open_WorkDirectoryMenu(mainFrame).pushNoBlock();
 
-        JDialogOperator openDialog = new JDialogOperator(getToolResource("wdc.open.title"));
-        // Find edit box for file name
-        String dirname = "demowd";
-        new JTextFieldOperator(openDialog, "").enterText(dirname);
+		JDialogOperator openDialog = new JDialogOperator(getToolResource("wdc.open.title"));
+		String dirname = "demowd";
+		new JTextFieldOperator(openDialog, "").enterText(dirname);
 
-        if (openDialog.isVisible()) {
-            fail("Failure because the open work directory dialog window didnt close.");
-        }
+		if (openDialog.isVisible()) {
+			fail("Failure because the open work directory dialog window did not close.");
+		}
 
-        // Finding the text field which displays the current work directory name.
-        ComponentChooser n = new NameComponentChooser("bcc.WorkDir");
-        JTextFieldOperator work_directory_dialog = new JTextFieldOperator(mainFrame, n);
+		/** Finding the text field which displays the current work directory name */
+		ComponentChooser ncc = new NameComponentChooser("bcc.WorkDir");
+		JTextFieldOperator work_directory_dialog = new JTextFieldOperator(mainFrame, ncc);
 
-        waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
-        new JTabbedPaneOperator(mainFrame, TAB_CAPTION);
+		waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
+		new JTabbedPaneOperator(mainFrame, TAB_CAPTION);
 
-        // verifying that name of our work directory matches with the one written in the
-        // text field.
-        assertEquals("Failure because current working directory is not same as " + dirname + ".",
-                work_directory_dialog.getText(), dirname);
-    }
+		/**
+		 * verifying that name of our work directory matches with the one written in the
+		 * text field
+		 */
+		assertEquals("opening an existing work directory should correctly load tests." + dirname + ".",
+				work_directory_dialog.getText(), dirname);
+	}
+
+	/** TestCase Description */
+	public String getDescription() {
+		return "This test case verifies that opening an existing work directory would correctly load tests.";
+	}
 
 }

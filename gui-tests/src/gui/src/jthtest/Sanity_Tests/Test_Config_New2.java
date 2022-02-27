@@ -24,68 +24,28 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-
 package jthtest.Sanity_Tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import jthtest.Test;
+import jthtest.tools.JTFrame;
 
-import java.lang.reflect.InvocationTargetException;
+public class Test_Config_New2 extends Test {
 
-import org.junit.Test;
-import org.junit.runner.JUnitCore;
-import org.netbeans.jemmy.operators.JDialogOperator;
-import org.netbeans.jemmy.operators.JListOperator;
-import org.netbeans.jemmy.operators.JMenuBarOperator;
-import org.netbeans.jemmy.operators.JTextFieldOperator;
+	public void testImpl() throws Exception {
+		JTFrame mainFrame = new JTFrame(true);
 
-import javax.swing.JLabel;
+		mainFrame.openDefaultTestSuite();
+		addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
-import jthtest.menu.Menu;
+		if (mainFrame.getConfiguration().create(false).isFullConfiguration()) {
+			errors.add("Newly created configuration is full while unexpected");
+		}
 
-public class Test_Config_New2 extends Open_Test_Suite {
-//This is the 6th Sanity Test. It checks that an empty configuration should appear when new configuration is pressed in a newly created work directory.
-    public static void main(String[] args) {
-        JUnitCore.main("jthtest.gui.Sanity_Tests.Test_Config_New2");
-    }
+	}
 
-    @Test
-    public void testOpenTestSuite1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-
-        // Opening a test suite and creating work directory.
-        openTestSuite(mainFrame);
-        waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
-        JMenuBarOperator jmbo = new JMenuBarOperator(mainFrame);
-        jmbo.pushMenuNoBlock("File", "/");
-        Menu.getFile_CreateWorkDirectoryMenu(mainFrame).pushNoBlock();
-        JDialogOperator openDialog = new JDialogOperator(getToolResource("wdc.new.title"));
-        new JTextFieldOperator(openDialog, "").enterText("temp_dir_for_config2");
-
-        // Checking if the dialog box closed properly or not.
-        if (openDialog.isVisible()) {
-            fail("Failed because Create Dialog is still open.");
-        }
-
-        waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
-
-        // clicking "new configuration and checking if an empty configuration opens or
-        // not.
-        jmbo.pushMenuNoBlock("Configure", "/");
-
-        Menu.getConfigure_NewConfigurationMenu(mainFrame).pushNoBlock();
-
-        // Selecting the dialog box and finding the names of two of the last list items.
-        JDialogOperator configEditorDialog = new JDialogOperator(getExecResource("ce.name"));
-        JListOperator list = new JListOperator(configEditorDialog);
-        // int last_index=list.getMaxSelectionIndex();
-        String lastlistitem = ((JLabel) list.getRenderedComponent(list.getModel().getSize() - 1)).getText();
-        String secondlastlistitem = ((JLabel) list.getRenderedComponent(list.getModel().getSize() - 2)).getText();
-
-        // Comparing the string fetched with expected strings.
-        assertEquals("Last item was Expected: 'More...' But was: " + lastlistitem, " More...", lastlistitem);
-        assertEquals("Second Last item was Expected: 'Configuration Name' But was: " + secondlastlistitem,
-                "   Configuration Name", secondlastlistitem);
-
-    }
-
+	/** TestCase Description */
+	public String getDescription() {
+		return "Verify that menu item \"Configure-> New configuration\" will bring up an empty configuration editor.";
+	}
 }
+

@@ -27,62 +27,28 @@
 
 package jthtest.Sanity_Tests;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.io.File;
 
-import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import jthtest.Test;
+import jthtest.tools.JTFrame;
 
-import org.junit.Test;
-import org.junit.runner.JUnitCore;
-import org.netbeans.jemmy.operators.JDialogOperator;
-import org.netbeans.jemmy.operators.JMenuBarOperator;
-import org.netbeans.jemmy.operators.JTabbedPaneOperator;
-import org.netbeans.jemmy.operators.JTextFieldOperator;
+public class Test_Create_Work_Dir1 extends Test {
 
-import jthtest.menu.Menu;
+	public void testImpl() throws Exception {
+		JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
+       
+		/**	Create a new work directory	 */
+		File created = mainFrame.createWorkDirectoryInTemp();
+		addUsedFile(created);
+		Thread.sleep(2000);
+		if (!created.exists()) {
+			errors.add(
+					"Error while creating a non-existing work directory." + created.getPath() + " " + created.exists());
+		}
+	}
 
-public class Test_Create_Work_Dir1 extends Create_Work_Dir {
-
-    public static void main(String[] args) {
-        JUnitCore.main("jthtest.gui.Sanity_Tests.Test_Create_Work_Dir1");
-    }
-
-    @Test
-    public void testCreate_Work_Dir1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-
-        // Opening a test suite using previous test.
-        openTestSuite(mainFrame);
-        // Find the "DemoTS" tab
-        waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
-
-        // Clicking on the File menu option and then selecting create work directory
-        // option.
-        JMenuBarOperator jmbo = new JMenuBarOperator(mainFrame);
-        jmbo.pushMenuNoBlock("File", "/");
-        Menu.getFile_CreateWorkDirectoryMenu(mainFrame).pushNoBlock();
-
-        // Selecting the "Create work directory" dialog box and then entering "temp_dir"
-        // in the text field.
-        JDialogOperator openDialog = new JDialogOperator(getToolResource("wdc.new.title"));
-        // Find edit box for file name
-        new JTextFieldOperator(openDialog, "").enterText("temp_dir");
-
-        // Check if dialog box closed properly.
-        if (openDialog.isVisible()) {
-            fail("Failed because Create Dialog is still open.");
-        }
-
-        // Wait for the Test suite to load properly.
-        waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
-        new JTabbedPaneOperator(mainFrame, TAB_CAPTION);
-
-        // verifying path of the newly created work directory.
-        Path path = Paths.get("./temp_dir");
-        String message = "Failure due to error in creation of work directory.";
-        assertTrue(message, Files.exists(path));
-    }
-
+	/** TestCase Description */
+	public String getDescription() {
+		return "This test case verifies that creating a non-existing work directory would create a directory.";
+	}
 }

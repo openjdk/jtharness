@@ -31,46 +31,42 @@ import static org.junit.Assert.fail;
 
 import java.lang.reflect.InvocationTargetException;
 
-//import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
-//import org.netbeans.jemmy.operators.JDialogOperator;
-//import org.netbeans.jemmy.operators.JMenuBarOperator;
-//import org.netbeans.jemmy.operators.JTabbedPaneOperator;
-//import org.netbeans.jemmy.operators.JTextFieldOperator;
 import org.netbeans.jemmy.operators.JDialogOperator;
-import org.netbeans.jemmy.operators.JMenuBarOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
 
-//import jthtest.Tools;
 import jthtest.menu.Menu;
 
 public class Test_Open_Work_Dir2 extends Open_Work_Dir {
 
-    public static void main(String[] args) {
-        JUnitCore.main("jthtest.gui.Sanity_Tests.Test_Open_Work_Dir2");
-    }
+	public static void main(String[] args) {
+		JUnitCore.main("jthtest.gui.Sanity_Tests.Test_Open_Work_Dir2");
+	}
 
-    @Test
-    public void testOpenTestSuite1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+	@Test
+	public void testOpenTestSuite1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-        // navigating to a non work directory.
-        JMenuBarOperator jmbo = new JMenuBarOperator(mainFrame);
-        jmbo.pushMenuNoBlock("File", "/");
-        Menu.getFile_Open_WorkDirectoryMenu(mainFrame).pushNoBlock();
+		/** navigating to a non work directory */
+		Menu.getFile_Open_WorkDirectoryMenu(mainFrame).pushNoBlock();
 
-        JDialogOperator openDialog = new JDialogOperator(getToolResource("wdc.open.title"));
+		JDialogOperator openDialog = new JDialogOperator(getToolResource("wdc.open.title"));
 
-        // Trying to open a non work directory.
-        new JTextFieldOperator(openDialog, "").enterText("classes");
+		/** Trying to open a non work directory */
+		new JTextFieldOperator(openDialog, "").enterText("classes");
 
-        // Checking if it opens or not.
-        if (!openDialog.isVisible()) {
-            fail("Failure because the dialog window didnt close.");
-        } else {
-            openDialog.close();
-        }
+		/** Checking if work directory opens or not */
+		if (!openDialog.isVisible()) {
+			fail("Failure... because the work directory dialog window closed after selecting non-work directory.");
+		} else {
+			openDialog.close();
+		}
 
-    }
+	}
+
+	/** TestCase Description */
+	public String getDescription() {
+		return "This test case verifies that opening a non-work directory should navigate through directory.";
+	}
 
 }
