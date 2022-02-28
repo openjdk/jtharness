@@ -49,7 +49,6 @@ public class Test_Open_Work_Dir2 extends Open_Work_Dir {
 
         /** navigating to a non work directory */
         Menu.getFile_Open_WorkDirectoryMenu(mainFrame).pushNoBlock();
-
         JDialogOperator openDialog = new JDialogOperator(getToolResource("wdc.open.title"));
 
         /** Trying to open a non work directory */

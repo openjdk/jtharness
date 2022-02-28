@@ -32,8 +32,8 @@ import jthtest.tools.JTFrame;
 public class Test_Config_New2 extends Test {
 
     public void testImpl() throws Exception {
-        JTFrame mainFrame = new JTFrame(true);
 
+        JTFrame mainFrame = new JTFrame(true);
         mainFrame.openDefaultTestSuite();
         addUsedFile(mainFrame.createWorkDirectoryInTemp());
 
