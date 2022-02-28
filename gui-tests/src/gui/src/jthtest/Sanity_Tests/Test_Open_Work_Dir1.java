@@ -28,7 +28,6 @@
 package jthtest.Sanity_Tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.InvocationTargetException;
@@ -53,30 +52,23 @@ public class Test_Open_Work_Dir1 extends Open_Work_Dir {
     public void testOpenTestSuite1()
             throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, FileNotFoundException {
 
-        /** Opening work directory */
+        /** Open existing work directory */
         Menu.getFile_Open_WorkDirectoryMenu(mainFrame).pushNoBlock();
-
         JDialogOperator openDialog = new JDialogOperator(getToolResource("wdc.open.title"));
-        String dirname = "demowd";
-        new JTextFieldOperator(openDialog, "").enterText(dirname);
-
-        if (openDialog.isVisible()) {
-            fail("Failure because the open work directory dialog window did not close.");
-        }
+        new JTextFieldOperator(openDialog, "").enterText(DEFAULT_WD_NAME);
 
         /** Finding the text field which displays the current work directory name */
         ComponentChooser ncc = new NameComponentChooser("bcc.WorkDir");
-        JTextFieldOperator work_directory_dialog = new JTextFieldOperator(mainFrame, ncc);
-
+        JTextFieldOperator work_directory_name = new JTextFieldOperator(mainFrame, ncc);
         waitForWDLoading(mainFrame, WDLoadingResult.SOME_NOTRUN);
         new JTabbedPaneOperator(mainFrame, TAB_CAPTION);
 
         /**
-         * verifying that name of our work directory matches with the one written in the
-         * text field
+         * verifying that the opening existing work directory would correctly load
+         * tests.
          */
-        assertEquals("opening an existing work directory should correctly load tests." + dirname + ".",
-                work_directory_dialog.getText(), dirname);
+        assertEquals("opening an existing work directory should correctly load tests" + DEFAULT_WD_NAME + ".",
+                work_directory_name.getText(), DEFAULT_WD_NAME);
     }
 
     /** TestCase Description */
