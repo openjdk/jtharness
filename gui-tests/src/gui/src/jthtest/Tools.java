@@ -212,8 +212,6 @@ public class Tools {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        JMenuBarOperator jmbo = new JMenuBarOperator(frame);
-        jmbo.pushMenuNoBlock("File");
 
         Menu.getFile_Open_TestSuiteMenu(frame).pushNoBlock();
         //Wait for dialog box to appear
