@@ -26,39 +26,25 @@
  */
 package com.oracle.tck.lib.autd2.unittests.tgfported.beforeafter;
 
-import com.oracle.tck.lib.autd2.*;
+import com.oracle.tck.lib.autd2.TestResult;
 import com.oracle.tck.lib.autd2.unittests.TU;
 import com.sun.tck.lib.tgf.DataFactory;
 import com.sun.tck.lib.tgf.TestData;
 import com.sun.tck.lib.tgf.Values;
 import com.sun.tck.test.TestCase;
 import com.sun.tck.test.TestGroup;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import javax.swing.*;
-import java.io.PrintWriter;
-
-import static com.oracle.tck.lib.autd2.unittests.tgfported.beforeafter.TestAfter.ExceptionThrownFromAfter.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
-
 import org.mockito.InOrder;
 
+import java.io.PrintWriter;
 
-
-
+import static com.oracle.tck.lib.autd2.unittests.tgfported.beforeafter.TestAfter.ExceptionThrownFromAfter.RANDOM;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public class TestAfter {
-
-
-
-
-
-
 
     @Test
     public void afterWasCalled() {
@@ -139,11 +125,11 @@ public class TestAfter {
 
         com.oracle.tck.lib.autd2.TestResult status = com.oracle.tck.lib.autd2.unittests.TU.runTestGroup(new TestAfter.Mytest() {
 
-            private JWindow myAfter() {
+            private IllegalArgumentException myAfter() {
                 org.junit.Assert.assertTrue(methodCalled[0]);
                 afterCalled[0] = true;
                 afterCounter[0]++;
-                return new JWindow();
+                return new IllegalArgumentException();
             }
 
             @TestCase
@@ -172,11 +158,11 @@ public class TestAfter {
 
         com.oracle.tck.lib.autd2.TestResult status = com.oracle.tck.lib.autd2.unittests.TU.runTestGroup(new TestAfter.Mytest() {
 
-            private JWindow myAfter() {
+            private Class myAfter() {
                 org.junit.Assert.assertTrue(methodCalled[0]);
                 afterCalled[0] = true;
                 afterCounter[0]++;
-                return new JWindow();
+                return Runtime.class;
             }
 
             @TestCase
