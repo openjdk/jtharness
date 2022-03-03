@@ -34,7 +34,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static com.sun.javatest.util.FormattingUtils.formattedDuration;
 
 
 class Trace implements Harness.Observer {
@@ -46,6 +49,8 @@ class Trace implements Harness.Observer {
     private File reportDir;
     private BackupPolicy backupPolicy;
     private boolean useTimestamp;
+    private Map<String, Long> testStartedMillis = new ConcurrentHashMap<>();
+    private Map<String, Long> runTimesSec = new ConcurrentHashMap<>();
 
     Trace(BackupPolicy backupPolicy) {
         this.backupPolicy = backupPolicy;
@@ -78,6 +83,7 @@ class Trace implements Harness.Observer {
 
             if (td != null) {
                 println(i18n, "trace.testStarting", td.getRootRelativeURL());
+                testStartedMillis.put(td.getRootRelativeURL(), System.currentTimeMillis());
             }
         }
     }
@@ -87,8 +93,16 @@ class Trace implements Harness.Observer {
         if (out != null) {
             try {
                 TestDescription td = tr.getDescription();
+                Long started = testStartedMillis.get(td.getRootRelativeURL());
+                String duration = "";
+                if (started != null) {
+                    long timeSec = Math.round((System.currentTimeMillis() - started) * 0.001);
+                    runTimesSec.put(td.getRootRelativeURL(), timeSec);
+                    testStartedMillis.remove(td.getRootRelativeURL());
+                    duration = "(" + formattedDuration(timeSec) + ") ";
+                }
                 println(i18n, "trace.testFinished",
-                        td.getRootRelativeURL(), tr.getStatus());
+                         duration + td.getRootRelativeURL(), tr.getStatus());
             } catch (TestResult.Fault e) {
                 e.printStackTrace();
             }
@@ -105,6 +119,11 @@ class Trace implements Harness.Observer {
     @Override
     public synchronized void finishedTesting() {
         if (out != null) {
+            long slowestN = Long.valueOf(System.getProperty("javatest.trace.execTimeStatsLimit", "20"));
+            println("Done. Below are the slowest " + slowestN + " tests: ");
+            runTimesSec.entrySet().stream()
+                    .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                    .limit(slowestN).forEach(e -> println(formattedDuration(e.getValue()) + ": " + e.getKey()));
             println(i18n, "trace.cleanup");
         }
     }
@@ -175,8 +194,12 @@ class Trace implements Harness.Observer {
     }
 
     private void printLocalizedLn(String msg) {
+        println(useTimestamp ? timeStamp() + " " + msg : msg);
+    }
+
+    private void println(String msg) {
         try {
-            out.println(useTimestamp ? timeStamp() + " " + msg : msg);
+            out.println(msg);
             out.flush();
         } catch (IOException e) {
             System.err.println("Exception occurred writing to trace file");
