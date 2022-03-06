@@ -119,11 +119,14 @@ class Trace implements Harness.Observer {
     @Override
     public synchronized void finishedTesting() {
         if (out != null) {
-            long slowestN = Long.valueOf(System.getProperty("javatest.trace.execTimeStatsLimit", "20"));
-            println("Done. Below are the slowest " + slowestN + " tests: ");
-            runTimesSec.entrySet().stream()
+            long statsLimit = Long.valueOf(System.getProperty("javatest.trace.execTimeStatsLimit", "20"));
+            List<Map.Entry<String, Long>> slowestTests = runTimesSec.entrySet().stream()
                     .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                    .limit(slowestN).forEach(e -> println(formattedDuration(e.getValue()) + ": " + e.getKey()));
+                    .limit(statsLimit).toList();
+            if (slowestTests.size() > 0) {
+                println("Done. Below are the " + slowestTests.size() + " slowest tests: ");
+                slowestTests.forEach(e -> println(formattedDuration(e.getValue()) + ": " + e.getKey()));
+            }
             println(i18n, "trace.cleanup");
         }
     }
