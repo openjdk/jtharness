@@ -36,6 +36,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static com.sun.javatest.util.FormattingUtils.formattedDuration;
 
@@ -122,7 +123,7 @@ class Trace implements Harness.Observer {
             long statsLimit = Long.valueOf(System.getProperty("javatest.trace.execTimeStatsLimit", "20"));
             List<Map.Entry<String, Long>> slowestTests = runTimesSec.entrySet().stream()
                     .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                    .limit(statsLimit).toList();
+                    .limit(statsLimit).collect(Collectors.toList());
             if (slowestTests.size() > 0) {
                 println("Done. Below are the " + slowestTests.size() + " slowest tests: ");
                 slowestTests.forEach(e -> println(formattedDuration(e.getValue()) + ": " + e.getKey()));
