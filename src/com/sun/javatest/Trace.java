@@ -127,6 +127,11 @@ class Trace implements Harness.Observer {
             if (statsLimitString != null) {
                 try {
                     statsLimit = Integer.valueOf(statsLimitString);
+                    if (statsLimit < 0) {
+                        println("The parsed value of '" + TEST_EXEC_TIME_STATS_LIMIT + "' system property is a negative integer. The value is '" + statsLimitString + "'");
+                        println("Using the default limit: " + DEFAULT_STATS_LIMIT);
+                        statsLimit = DEFAULT_STATS_LIMIT;
+                    }
                 } catch (NumberFormatException  e) {
                     println("Cannot parse the value of '" + TEST_EXEC_TIME_STATS_LIMIT + "' system property as an integer. The value is '" + statsLimitString + "'");
                     println("Using the default limit: " + DEFAULT_STATS_LIMIT);
