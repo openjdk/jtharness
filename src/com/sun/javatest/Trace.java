@@ -43,6 +43,8 @@ import static com.sun.javatest.util.FormattingUtils.formattedDuration;
 
 class Trace implements Harness.Observer {
     private static final Format TIMESTAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+    public static final String TEST_EXEC_TIME_STATS_LIMIT = "javatest.trace.execTimeStatsLimit";
+    public static final int DEFAULT_STATS_LIMIT = 20;
 
     //------methods from Harness.Observer----------------------------------------
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Trace.class);
@@ -120,7 +122,16 @@ class Trace implements Harness.Observer {
     @Override
     public synchronized void finishedTesting() {
         if (out != null) {
-            long statsLimit = Long.valueOf(System.getProperty("javatest.trace.execTimeStatsLimit", "20"));
+            int statsLimit = DEFAULT_STATS_LIMIT;
+            String statsLimitString = System.getProperty(TEST_EXEC_TIME_STATS_LIMIT);
+            if (statsLimitString != null) {
+                try {
+                    statsLimit = Integer.valueOf(statsLimitString);
+                } catch (NumberFormatException  e) {
+                    println("Cannot parse the value of '" + TEST_EXEC_TIME_STATS_LIMIT + "' system property as an integer. The value is '" + statsLimitString + "'.");
+                    println("Using default limit '" + DEFAULT_STATS_LIMIT);
+                }
+            }
             List<Map.Entry<String, Long>> slowestTests = runTimesSec.entrySet().stream()
                     .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                     .limit(statsLimit).collect(Collectors.toList());
