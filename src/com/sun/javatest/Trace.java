@@ -129,14 +129,14 @@ class Trace implements Harness.Observer {
                     statsLimit = Integer.valueOf(statsLimitString);
                 } catch (NumberFormatException  e) {
                     println("Cannot parse the value of '" + TEST_EXEC_TIME_STATS_LIMIT + "' system property as an integer. The value is '" + statsLimitString + "'.");
-                    println("Using default limit '" + DEFAULT_STATS_LIMIT);
+                    println("Using the default limit " + DEFAULT_STATS_LIMIT);
                 }
             }
             List<Map.Entry<String, Long>> slowestTests = runTimesSec.entrySet().stream()
                     .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                     .limit(statsLimit).collect(Collectors.toList());
             if (slowestTests.size() > 0) {
-                println("Done. Below are the " + slowestTests.size() + " slowest tests: ");
+                println("Below are the " + slowestTests.size() + " slowest tests: ");
                 slowestTests.forEach(e -> println(formattedDuration(e.getValue()) + ": " + e.getKey()));
             }
             println(i18n, "trace.cleanup");
