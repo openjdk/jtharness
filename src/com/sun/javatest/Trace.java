@@ -128,8 +128,8 @@ class Trace implements Harness.Observer {
                 try {
                     statsLimit = Integer.valueOf(statsLimitString);
                 } catch (NumberFormatException  e) {
-                    println("Cannot parse the value of '" + TEST_EXEC_TIME_STATS_LIMIT + "' system property as an integer. The value is '" + statsLimitString + "'.");
-                    println("Using the default limit " + DEFAULT_STATS_LIMIT);
+                    println("Cannot parse the value of '" + TEST_EXEC_TIME_STATS_LIMIT + "' system property as an integer. The value is '" + statsLimitString + "'");
+                    println("Using the default limit: " + DEFAULT_STATS_LIMIT);
                 }
             }
             List<Map.Entry<String, Long>> slowestTests = runTimesSec.entrySet().stream()
