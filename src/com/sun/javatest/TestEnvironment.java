@@ -718,7 +718,7 @@ public class TestEnvironment {
      * @throws NullPointerException           if {@link TestEnvironment#lookup(String) lookup} returns null
      *                                        or if the first element of the returned array is null.
      */
-    String lookupOneOrFail(String name) {
+    public String lookupOneOrFail(String name) {
         String s = lookupMultipleOrFail(name)[0];
 
         if (s == null) {
@@ -742,7 +742,7 @@ public class TestEnvironment {
      *                                        throws {@link Fault}.
      * @throws NullPointerException           if {@link TestEnvironment#lookup(String) lookup} returns null.
      */
-    String[] lookupMultipleOrFail(String name) {
+    public String[] lookupMultipleOrFail(String name) {
         String[] values;
 
         try {
@@ -768,7 +768,7 @@ public class TestEnvironment {
      *
      * @throws RuntimeException if {@link TestEnvironment#resolve(String) resolve} throws {@link Fault}.
      */
-    String resolveAndJoinOrFail(String s) {
+    public String resolveAndJoinOrFail(String s) {
         return String.join(" ", resolveMultipleOrFail(s));
     }
 
@@ -781,7 +781,7 @@ public class TestEnvironment {
      *
      * @throws RuntimeException if {@link TestEnvironment#resolve(String) resolve} throws {@link Fault}.
      */
-    String[] resolveMultipleOrFail(String s) {
+    public String[] resolveMultipleOrFail(String s) {
         try {
             return resolve(s);
         } catch (Fault e) {
@@ -798,7 +798,7 @@ public class TestEnvironment {
      *
      * @throws RuntimeException if {@link TestEnvironment#lookup(String) resolve} throws {@link Fault}.
      */
-    String lookupAndJoinOrFail(String s) {
+    public String lookupAndJoinOrFail(String s) {
         return String.join(" ", lookupMultipleOrFail(s));
     }
 
@@ -813,7 +813,7 @@ public class TestEnvironment {
      *
      * @return first of the values associated with the named parameter, if any; otherwise, null.
      */
-    String lookupOneOrNull(String name) {
+    public String lookupOneOrNull(String name) {
         try {
             String[] arr = lookup(name);
             return (arr == null || arr.length == 0)
@@ -834,7 +834,7 @@ public class TestEnvironment {
      *
      * @return first of the values associated with the named parameter, if any; otherwise, empty String.
      */
-    String lookupOneOrEmpty(String name) {
+    public String lookupOneOrEmpty(String name) {
         try {
             String[] arr = lookup(name);
             return (arr == null || arr.length == 0)
