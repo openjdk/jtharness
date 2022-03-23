@@ -703,7 +703,7 @@ public class TestEnvironment {
     //region Environment access
 
     /**
-     * Looks up a parameter in the {@link #env test environment} and extracts a single value.
+     * Looks up a parameter in the test environment and extracts a single value.
      * If a parameter is found, and it has a non-empty array of values, and the first of these values is not null
      * then that value is returned.
      * Otherwise, an exception is thrown.
@@ -730,7 +730,7 @@ public class TestEnvironment {
     }
 
     /**
-     * Looks up a parameter in the {@link #env test environment}.
+     * Looks up a parameter in the test environment.
      * If a parameter is found, returns array of values associated with it.
      * Otherwise, an exception is thrown.
      *
@@ -760,7 +760,7 @@ public class TestEnvironment {
     }
 
     /**
-     * Resolves a string using the {@link #env test environment} and joins the result into a single string.
+     * Resolves a string using the test environment and joins the result into a single string.
      *
      * @param s string to resolve.
      *
@@ -773,7 +773,7 @@ public class TestEnvironment {
     }
 
     /**
-     * Resolves a string using the {@link #env test environment}.
+     * Resolves a string using the test environment.
      *
      * @param s string to resolve.
      *
@@ -790,7 +790,7 @@ public class TestEnvironment {
     }
 
     /**
-     * Looks up a string using the {@link #env test environment} and joins the result into a single string.
+     * Looks up a string using the test environment and joins the result into a single string.
      *
      * @param s string to resolve.
      *
@@ -804,7 +804,7 @@ public class TestEnvironment {
 
 
     /**
-     * Safely looks up a parameter in the {@link #env test environment}.
+     * Safely Looks up a parameter in the test environment.
      * If a parameter is found and has non-empty value
      * then first of the values in the array returned by {@link TestEnvironment#lookup(String)} is returned.
      * Otherwise, null is returned.
@@ -825,7 +825,7 @@ public class TestEnvironment {
     }
 
     /**
-     * Safely looks up a parameter in the {@link #env test environment}.
+     * Safely Looks up a parameter in the test environment.
      * If a parameter is found and has non-empty value
      * then first of the values in the array returned by {@link TestEnvironment#lookup(String)} is returned.
      * Otherwise, empty String is returned.
