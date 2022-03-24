@@ -39,7 +39,7 @@ public class Test_Config_New1 extends Test {
      * existing directory and configuration will reset it to an empty state.
      *
      * @throws ClassNotFoundException
-     * 
+     *
      * @throws InvocationTargetException
      *
      * @throws NoSuchMethodException

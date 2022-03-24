@@ -47,7 +47,7 @@ public class Test_Config_Save2 extends ConfigTools {
      * current configuration in a new file if there is no file name.
      *
      * @throws ClassNotFoundException
-     *           
+     *
      * @throws InvocationTargetException
      *
      * @throws NoSuchMethodException
