@@ -38,26 +38,24 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 
 import jthtest.Config_SaveEdit.Config_SaveEdit;
 
-public class Test_Config_Save2 extends Config_SaveEdit {
+public class Test_Config_Save2 extends ConfigTools {
     public static void main(String args[]) {
         JUnitCore.main("jthtest.gui.Config_SaveEdit.Test_Config_SaveEdit2");
     }
-
-    /**
-     * Verify that "File->Save" menu item in Configuration Editor will save the
-     * current configuration in a new file if there is no file name.
-     *
-     * @throws ClassNotFoundException    If the class does not find it in the
-     *                                   classpath.
-     *
-     * @throws InvocationTargetException Holds an exception thrown by an invoked
-     *                                   method or constructor.
-     *
-     * @throws NoSuchMethodException     Occurs when a method is called that exists
-     *                                   at compile-time, but does not exist at
-     *                                   runtime.
-     */
-    @SuppressWarnings("deprecation")
+        /**
+	 * Verify that "File->Save" menu item in Configuration Editor will save the
+	 * current configuration in a new file if there is no file name.
+	 * 
+	 * @throws ClassNotFoundException    If the class does not find it in the
+	 *                                   classpath.
+	 * 
+	 * @throws InvocationTargetException Holds an exception thrown by an invoked
+	 *                                   method or constructor.
+	 * 
+	 * @throws NoSuchMethodException     Occurs when a method is called that exists
+	 *                                   at compile-time, but does not exist at
+	 *                                   runtime.
+	 */ 
     @Test
     public void testConfig_SaveEdit2()
             throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InterruptedException {

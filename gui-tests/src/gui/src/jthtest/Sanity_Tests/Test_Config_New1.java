@@ -34,21 +34,21 @@ import jthtest.tools.ConfigDialog;
 import jthtest.tools.JTFrame;
 
 public class Test_Config_New1 extends Test {
-    /**
-     * This test is to verify that menu item \"Configure-> New configuration\" in an
-     * existing directory and configuration will reset it to an empty state.
-     *
-     * @throws ClassNotFoundException    If the class does not find it in the
-     *                                   classpath.
-     *
-     * @throws InvocationTargetException Holds an exception thrown by an invoked
-     *                                   method or constructor.
-     *
-     * @throws NoSuchMethodException     Occurs when a method is called that exists
-     *                                   at compile-time, but does not exist at
-     *                                   runtime.
-     */
-    public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        /**
+	 * This test is to verify that menu item \"Configure-> New configuration\" in an
+	 * existing directory and configuration will reset it to an empty state.
+	 * 
+	 * @throws ClassNotFoundException    If the class does not find it in the
+	 *                                   classpath.
+	 * 
+	 * @throws InvocationTargetException Holds an exception thrown by an invoked
+	 *                                   method or constructor.
+	 * 
+	 * @throws NoSuchMethodException     Occurs when a method is called that exists
+	 *                                   at compile-time, but does not exist at
+	 *                                   runtime.
+	 */ 
+   public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
         JTFrame frame = JTFrame.startJTWithDefaultWorkDirectory();
         ConfigDialog cd = frame.getConfiguration().openByKey();

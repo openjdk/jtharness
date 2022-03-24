@@ -50,21 +50,20 @@ public class Test_Config_Edit3 extends Config_Edit {
         JUnitCore.main("jthtest.gui.Sanity_Tests.Test_Config_Edit3");
     }
 
-    /**
-     * This test case Verify that \"Done\" button in an empty Configuration Editor
-     * will bring up a Save Configuration file browser.
-     *
-     * @throws ClassNotFoundException    If the class does not find it in the
-     *                                   classpath.
-     *
-     * @throws InvocationTargetException Holds an exception thrown by an invoked
-     *                                   method or constructor.
-     *
-     * @throws NoSuchMethodException     Occurs when a method is called that exists
-     *                                   at compile-time, but does not exist at
-     *                                   runtime.
-     */
-    @SuppressWarnings("deprecation")
+        /**
+	 * This test case Verify that \"Done\" button in an empty Configuration Editor
+	 * will bring up a Save Configuration file browser.
+	 * 
+	 * @throws ClassNotFoundException    If the class does not find it in the
+	 *                                   classpath.
+	 * 
+	 * @throws InvocationTargetException Holds an exception thrown by an invoked
+	 *                                   method or constructor.
+	 * 
+	 * @throws NoSuchMethodException     Occurs when a method is called that exists
+	 *                                   at compile-time, but does not exist at
+	 *                                   runtime.
+	 */
     @Test
     public void testConfig_Edit7() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
@@ -98,8 +97,8 @@ public class Test_Config_Edit3 extends Config_Edit {
      * This method clicks on OK button on Save Configuration file browser and save
      * the configuration (.jti) file.
      *
-     * @throws IOException Input/Output exceptions (I/O), and they occur whenever an
-     *                     input or output operation is failed or interpreted.
+     * @throws IOException
+     *             
      */
     @SuppressWarnings("deprecation")
     private void saveConfig() {

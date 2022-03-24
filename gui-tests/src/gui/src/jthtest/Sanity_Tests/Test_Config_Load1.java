@@ -37,7 +37,7 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 
 import jthtest.Config_Load.Config_Load;
 
-public class Test_Config_Load1 extends Config_Load {
+public class Test_Config_Load1 extends ConfigTools {
     public static void main(String[] args) {
         JUnitCore.main("jthtest.gui.Config_Load.Config_Load1");
     }
@@ -45,18 +45,17 @@ public class Test_Config_Load1 extends Config_Load {
     /**
      * This test is to verify that Load button under configuration will bring up a
      * file browser to select a jti file to be used.
-     *
+     * 
      * @throws ClassNotFoundException    If the class does not find it in the
      *                                   classpath.
-     *
+     * 
      * @throws InvocationTargetException Holds an exception thrown by an invoked
      *                                   method or constructor.
-     *
+     * 
      * @throws NoSuchMethodException     Occurs when a method is called that exists
      *                                   at compile-time, but does not exist at
      *                                   runtime.
      */
-    @SuppressWarnings("deprecation")
     @Test
     public void testConfig_Load1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
