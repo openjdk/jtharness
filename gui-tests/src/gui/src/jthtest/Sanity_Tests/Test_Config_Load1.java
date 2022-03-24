@@ -42,19 +42,15 @@ public class Test_Config_Load1 extends ConfigTools {
         JUnitCore.main("jthtest.gui.Config_Load.Config_Load1");
     }
 
-    /**
+   /**
      * This test is to verify that Load button under configuration will bring up a
      * file browser to select a jti file to be used.
      *
-     * @throws ClassNotFoundException    If the class does not find it in the
-     *                                   classpath.
+     * @throws ClassNotFoundException
      *
-     * @throws InvocationTargetException Holds an exception thrown by an invoked
-     *                                   method or constructor.
+     * @throws InvocationTargetException
      *
-     * @throws NoSuchMethodException     Occurs when a method is called that exists
-     *                                   at compile-time, but does not exist at
-     *                                   runtime.
+     * @throws NoSuchMethodException
      */
     @Test
     public void testConfig_Load1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
