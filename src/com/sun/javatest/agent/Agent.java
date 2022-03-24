@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2022, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -30,7 +30,6 @@ import com.sun.javatest.Command;
 import com.sun.javatest.Status;
 import com.sun.javatest.Test;
 import com.sun.javatest.util.DynamicArray;
-import com.sun.javatest.util.Log;
 import com.sun.javatest.util.Timer;
 import com.sun.javatest.util.WriterStream;
 
@@ -129,7 +128,7 @@ public class Agent implements Runnable {
 
         this.connectionFactory = connectionFactory;
         maxThreads = concurrency;
-        Log.info("New JT Agent: handling " + maxThreads + " concurrent request" +
+        traceOut.println("New JT Agent: handling " + maxThreads + " concurrent request" +
                 (maxThreads > 1 ? "s" : "")  + ", using " + connectionFactory);
     }
 

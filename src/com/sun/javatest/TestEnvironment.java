@@ -700,6 +700,153 @@ public class TestEnvironment {
         return table.values();
     }
 
+    //region Environment access
+
+    /**
+     * Looks up a parameter in the test environment and extracts a single value.
+     * If a parameter is found, and it has a non-empty array of values, and the first of these values is not null
+     * then that value is returned.
+     * Otherwise, an exception is thrown.
+     *
+     * @param name parameter to look up.
+     *
+     * @return first of the values associated with the named parameter.
+     *
+     * @throws RuntimeException               if {@link TestEnvironment#lookup(String) lookup}
+     *                                        throws {@link Fault}.
+     * @throws ArrayIndexOutOfBoundsException if {@link TestEnvironment#lookup(String) lookup} returns an empty array.
+     * @throws NullPointerException           if {@link TestEnvironment#lookup(String) lookup} returns null
+     *                                        or if the first element of the returned array is null.
+     */
+    public String lookupOneOrFail(String name) {
+        String s = lookupMultipleOrFail(name)[0];
+
+        if (s == null) {
+            throw new NullPointerException("First value associated with parameter " + name
+                    + " is unexpectedly null");
+        }
+
+        return s;
+    }
+
+    /**
+     * Looks up a parameter in the test environment.
+     * If a parameter is found, returns array of values associated with it.
+     * Otherwise, an exception is thrown.
+     *
+     * @param name parameter to look up.
+     *
+     * @return array of values associated with the named parameter.
+     *
+     * @throws RuntimeException               if {@link TestEnvironment#lookup(String) lookup}
+     *                                        throws {@link Fault}.
+     * @throws NullPointerException           if {@link TestEnvironment#lookup(String) lookup} returns null.
+     */
+    public String[] lookupMultipleOrFail(String name) {
+        String[] values;
+
+        try {
+            values = lookup(name);
+        } catch (Fault e) {
+            throw new RuntimeException(e);
+        }
+
+        if (values == null) {
+            throw new NullPointerException("Array of values associated with parameter " + name
+                    + " is unexpectedly null");
+        }
+
+        return values;
+    }
+
+    /**
+     * Resolves a string using the test environment and joins the result into a single string.
+     *
+     * @param s string to resolve.
+     *
+     * @return string obtained by joining array of values produced by the string resolution with spaces.
+     *
+     * @throws RuntimeException if {@link TestEnvironment#resolve(String) resolve} throws {@link Fault}.
+     */
+    public String resolveAndJoinOrFail(String s) {
+        return String.join(" ", resolveMultipleOrFail(s));
+    }
+
+    /**
+     * Resolves a string using the test environment.
+     *
+     * @param s string to resolve.
+     *
+     * @return array of values produced by the string resolution.
+     *
+     * @throws RuntimeException if {@link TestEnvironment#resolve(String) resolve} throws {@link Fault}.
+     */
+    public String[] resolveMultipleOrFail(String s) {
+        try {
+            return resolve(s);
+        } catch (Fault e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Looks up a string using the test environment and joins the result into a single string.
+     *
+     * @param s string to resolve.
+     *
+     * @return string obtained by joining array of values produced by the string lookup with spaces.
+     *
+     * @throws RuntimeException if {@link TestEnvironment#lookup(String) resolve} throws {@link Fault}.
+     */
+    public String lookupAndJoinOrFail(String s) {
+        return String.join(" ", lookupMultipleOrFail(s));
+    }
+
+
+    /**
+     * Safely Looks up a parameter in the test environment.
+     * If a parameter is found and has non-empty value
+     * then first of the values in the array returned by {@link TestEnvironment#lookup(String)} is returned.
+     * Otherwise, null is returned.
+     *
+     * @param name parameter to look up.
+     *
+     * @return first of the values associated with the named parameter, if any; otherwise, null.
+     */
+    public String lookupOneOrNull(String name) {
+        try {
+            String[] arr = lookup(name);
+            return (arr == null || arr.length == 0)
+                    ? null
+                    : arr[0];
+        } catch (Fault ignored) {
+            return null;
+        }
+    }
+
+    /**
+     * Safely Looks up a parameter in the test environment.
+     * If a parameter is found and has non-empty value
+     * then first of the values in the array returned by {@link TestEnvironment#lookup(String)} is returned.
+     * Otherwise, empty String is returned.
+     *
+     * @param name parameter to look up.
+     *
+     * @return first of the values associated with the named parameter, if any; otherwise, empty String.
+     */
+    public String lookupOneOrEmpty(String name) {
+        try {
+            String[] arr = lookup(name);
+            return (arr == null || arr.length == 0)
+                    ? ""
+                    : arr[0];
+        } catch (Fault ignored) {
+            return null;
+        }
+    }
+
+    //endregion
+
     /**
      * This exception is used to report resolving values in an environment.
      */

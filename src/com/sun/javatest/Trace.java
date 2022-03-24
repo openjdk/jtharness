@@ -43,6 +43,8 @@ import static com.sun.javatest.util.FormattingUtils.formattedDuration;
 
 class Trace implements Harness.Observer {
     private static final Format TIMESTAMP_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+    public static final String TEST_EXEC_TIME_STATS_LIMIT = "javatest.trace.execTimeStatsLimit";
+    public static final int DEFAULT_STATS_LIMIT = 20;
 
     //------methods from Harness.Observer----------------------------------------
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(Trace.class);
@@ -51,7 +53,7 @@ class Trace implements Harness.Observer {
     private BackupPolicy backupPolicy;
     private boolean useTimestamp;
     private Map<String, Long> testStartedMillis = new ConcurrentHashMap<>();
-    private Map<String, Long> runTimesSec = new ConcurrentHashMap<>();
+    private Map<String, Long> runTimesMillis = new ConcurrentHashMap<>();
 
     Trace(BackupPolicy backupPolicy) {
         this.backupPolicy = backupPolicy;
@@ -97,10 +99,10 @@ class Trace implements Harness.Observer {
                 Long started = testStartedMillis.get(td.getRootRelativeURL());
                 String duration = "";
                 if (started != null) {
-                    long timeSec = Math.round((System.currentTimeMillis() - started) * 0.001);
-                    runTimesSec.put(td.getRootRelativeURL(), timeSec);
+                    long timeMillis = System.currentTimeMillis() - started;
+                    runTimesMillis.put(td.getRootRelativeURL(), timeMillis);
                     testStartedMillis.remove(td.getRootRelativeURL());
-                    duration = "(" + formattedDuration(timeSec) + ") ";
+                    duration = "(" + formattedDuration(Math.round(timeMillis * 0.001)) + ") ";
                 }
                 println(i18n, "trace.testFinished",
                          duration + td.getRootRelativeURL(), tr.getStatus());
@@ -120,13 +122,32 @@ class Trace implements Harness.Observer {
     @Override
     public synchronized void finishedTesting() {
         if (out != null) {
-            long statsLimit = Long.valueOf(System.getProperty("javatest.trace.execTimeStatsLimit", "20"));
-            List<Map.Entry<String, Long>> slowestTests = runTimesSec.entrySet().stream()
-                    .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
-                    .limit(statsLimit).collect(Collectors.toList());
-            if (slowestTests.size() > 0) {
-                println("Done. Below are the " + slowestTests.size() + " slowest tests: ");
-                slowestTests.forEach(e -> println(formattedDuration(e.getValue()) + ": " + e.getKey()));
+            int statsLimit = DEFAULT_STATS_LIMIT;
+            String statsLimitString = System.getProperty(TEST_EXEC_TIME_STATS_LIMIT);
+            if (statsLimitString != null) {
+                try {
+                    statsLimit = Integer.valueOf(statsLimitString);
+                    if (statsLimit <= 0) {
+                        println("The parsed value of '" + TEST_EXEC_TIME_STATS_LIMIT +
+                                "' system property is not a positive integer. The value is '" + statsLimitString + "'");
+                        println("Will skip stats printing.");
+                    }
+                } catch (NumberFormatException  e) {
+                    println("Cannot parse the value of '" + TEST_EXEC_TIME_STATS_LIMIT +
+                            "' system property as an integer. The value is '" + statsLimitString + "'");
+                    println("Using the default limit: " + DEFAULT_STATS_LIMIT);
+                    statsLimit = DEFAULT_STATS_LIMIT;
+                }
+            }
+            if (statsLimit > 0) {
+                List<Map.Entry<String, Long>> slowestTests = runTimesMillis.entrySet().stream()
+                        .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
+                        .limit(statsLimit).collect(Collectors.toList());
+                if (slowestTests.size() > 0) {
+                    println("Below are the " + slowestTests.size() + " slowest tests: ");
+                    slowestTests.forEach(
+                            e -> println(formattedDuration(Math.round(e.getValue() * 0.001)) + ": " + e.getKey()));
+                }
             }
             println(i18n, "trace.cleanup");
         }
