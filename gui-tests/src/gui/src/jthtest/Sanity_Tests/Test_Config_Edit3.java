@@ -51,19 +51,19 @@ public class Test_Config_Edit3 extends Config_Edit {
     }
 
         /**
-	 * This test case Verify that \"Done\" button in an empty Configuration Editor
-	 * will bring up a Save Configuration file browser.
-	 * 
-	 * @throws ClassNotFoundException    If the class does not find it in the
-	 *                                   classpath.
-	 * 
-	 * @throws InvocationTargetException Holds an exception thrown by an invoked
-	 *                                   method or constructor.
-	 * 
-	 * @throws NoSuchMethodException     Occurs when a method is called that exists
-	 *                                   at compile-time, but does not exist at
-	 *                                   runtime.
-	 */
+     * This test case Verify that \"Done\" button in an empty Configuration Editor
+     * will bring up a Save Configuration file browser.
+     *
+     * @throws ClassNotFoundException    If the class does not find it in the
+     *                                   classpath.
+     *
+     * @throws InvocationTargetException Holds an exception thrown by an invoked
+     *                                   method or constructor.
+     *
+     * @throws NoSuchMethodException     Occurs when a method is called that exists
+     *                                   at compile-time, but does not exist at
+     *                                   runtime.
+     */
     @Test
     public void testConfig_Edit7() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
@@ -98,7 +98,7 @@ public class Test_Config_Edit3 extends Config_Edit {
      * the configuration (.jti) file.
      *
      * @throws IOException
-     *             
+     *
      */
     @SuppressWarnings("deprecation")
     private void saveConfig() {

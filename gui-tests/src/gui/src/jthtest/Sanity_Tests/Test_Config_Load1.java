@@ -45,13 +45,13 @@ public class Test_Config_Load1 extends ConfigTools {
     /**
      * This test is to verify that Load button under configuration will bring up a
      * file browser to select a jti file to be used.
-     * 
+     *
      * @throws ClassNotFoundException    If the class does not find it in the
      *                                   classpath.
-     * 
+     *
      * @throws InvocationTargetException Holds an exception thrown by an invoked
      *                                   method or constructor.
-     * 
+     *
      * @throws NoSuchMethodException     Occurs when a method is called that exists
      *                                   at compile-time, but does not exist at
      *                                   runtime.
