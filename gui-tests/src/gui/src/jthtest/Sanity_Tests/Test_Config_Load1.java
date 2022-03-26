@@ -35,7 +35,7 @@ import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.netbeans.jemmy.operators.JFrameOperator;
 
-import jthtest.Config_Load.Config_Load;
+import jthtest.ConfigTools;
 
 public class Test_Config_Load1 extends ConfigTools {
     public static void main(String[] args) {

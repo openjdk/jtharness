@@ -36,7 +36,7 @@ import org.netbeans.jemmy.JemmyException;
 import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
 
-import jthtest.Config_SaveEdit.Config_SaveEdit;
+import jthtest.ConfigTools;
 
 public class Test_Config_Save2 extends ConfigTools {
     public static void main(String args[]) {
