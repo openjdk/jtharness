@@ -180,6 +180,7 @@ harness-variety=Full Bundle
         <copy todir="${target.legal.dir}">
             <fileset dir="${legal.dir}"/>
         </copy>
+        <copy file="LICENSE" todir="${BUILD_DIR}/binaries"/>
 
         <property name="target.doc.dir" value="${BUILD_DIR}/binaries/doc"/>
         <mkdir dir="${target.doc.dir}"/>
