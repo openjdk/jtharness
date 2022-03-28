@@ -841,7 +841,7 @@ public class TestEnvironment {
                     ? ""
                     : arr[0];
         } catch (Fault ignored) {
-            return null;
+            return "";
         }
     }
 
