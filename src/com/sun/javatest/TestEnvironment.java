@@ -804,7 +804,7 @@ public class TestEnvironment {
 
 
     /**
-     * Safely Looks up a parameter in the test environment.
+     * Safely looks up a parameter in the test environment.
      * If a parameter is found and has non-empty value
      * then first of the values in the array returned by {@link TestEnvironment#lookup(String)} is returned.
      * Otherwise, null is returned.
@@ -825,7 +825,7 @@ public class TestEnvironment {
     }
 
     /**
-     * Safely Looks up a parameter in the test environment.
+     * Safely looks up a parameter in the test environment.
      * If a parameter is found and has non-empty value
      * then first of the values in the array returned by {@link TestEnvironment#lookup(String)} is returned.
      * Otherwise, empty String is returned.
@@ -841,7 +841,7 @@ public class TestEnvironment {
                     ? ""
                     : arr[0];
         } catch (Fault ignored) {
-            return null;
+            return "";
         }
     }
 
