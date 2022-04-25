@@ -35,21 +35,29 @@ import static jthtest.ReportTools.startJavaTestWithDefaultWorkDirectory;
 import static jthtest.Tools.deleteDirectory;
 import static jthtest.Tools.deleteUserData;
 import static jthtest.Tools.findMainFrame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 import org.netbeans.jemmy.JemmyException;
+import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JDialogOperator;
+import org.netbeans.jemmy.operators.JEditorPaneOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
+import org.netbeans.jemmy.operators.JMenuBarOperator;
+import org.netbeans.jemmy.operators.JTextFieldOperator;
 
 import jthtest.Test;
+import jthtest.Tools;
+import jthtest.menu.Menu;
 
 public class Test_Report_Create1 extends Test {
 
     /**
      * This test case verifies that Create Report button under Report menu will
-     * create a report directory for a valid directory name for default values.
+     * create a report directory for a valid directory name for default values and
+     * Verify that opening a valid report file will open the report.
      *
      * @throws ClassNotFoundException
      *
@@ -62,17 +70,13 @@ public class Test_Report_Create1 extends Test {
             throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InterruptedException {
         deleteUserData();
         startJavaTestWithDefaultWorkDirectory();
-
         JFrameOperator mainFrame = findMainFrame();
-
         JDialogOperator rep = openReportCreation(mainFrame);
         String path = TEMP_PATH + REPORT_NAME + "_default" + File.separator;
         deleteDirectory(path);
         setPath(rep, path);
-
         pressCreate(rep);
         addUsedFile(path);
-
         findShowReportDialog();
 
         if (!new File(path + File.separator + "index.html").exists()) {
@@ -111,5 +115,25 @@ public class Test_Report_Create1 extends Test {
         if (!new File(path + "html" + File.separator + "excluded.html").exists()) {
             throw new JemmyException("excluded.html was not found");
         }
+
+        JDialogOperator jdo = new JDialogOperator("View Report?");
+        JButtonOperator jbo = new JButtonOperator(jdo, "No");
+        jbo.push();
+        JMenuBarOperator jmbo = new JMenuBarOperator(mainFrame);
+        jmbo.pushMenuNoBlock("Report", "/");
+        Menu.getReport_OpenReportMenu(mainFrame).pushNoBlock();
+        Thread.sleep(2000);
+        JDialogOperator reportDialog = new JDialogOperator(Tools.getExecResource("rh.open.title"));
+        JTextFieldOperator openreporttext = new JTextFieldOperator(reportDialog, "");
+        openreporttext.enterText(path + File.separator + "index.html");
+        Thread.sleep(2000);
+        JDialogOperator reportdialog = new JDialogOperator("Report Browser");
+        JEditorPaneOperator jep = new JEditorPaneOperator(reportdialog);
+        jep.clickMouse(jep.modelToView(jep.getPositionByText("HTML Report")).x,
+                jep.modelToView(jep.getPositionByText("HTML Report")).y, 1);
+        JEditorPaneOperator jep1 = new JEditorPaneOperator(reportdialog);
+        Thread.sleep(2000);
+        assertTrue("Failure Beacuse Wrong page or unexpected error dialog box appeared after clicking on report link.",
+                jep1.getText().contains("JT Harness : Report"));
     }
 }
