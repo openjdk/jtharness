@@ -385,9 +385,8 @@ public class MyTest {
 
             Assert.fail("Exception not thrown");
         } catch (RuntimeException e) {
-            Assert.assertEquals(
-                    "wrong number of arguments",
-                    e.getMessage());
+            Assert.assertTrue(
+                    e.getMessage().toLowerCase().contains("wrong number of arguments"));
         }
     }
 
