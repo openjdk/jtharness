@@ -2,7 +2,7 @@
 # $Id$
 #
 #
-# Copyright (c) 2001, 2021, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2001, 2022, Oracle and/or its affiliates. All rights reserved.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
 # This code is free software; you can redistribute it and/or modify it
@@ -25,8 +25,7 @@
 # or visit www.oracle.com if you need additional information or have any
 # questions.
 #
-# demo exclude list
-# demo exclude list
+# exclude test list for quick set mode
 
 # test name				bugid(s)   keyword(s)  brief description 
 lists/DoublyLinkedList/InsertTest.java#id0  0  	   test        test contains error
