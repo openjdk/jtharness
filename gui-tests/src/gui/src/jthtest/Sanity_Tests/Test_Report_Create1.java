@@ -120,15 +120,16 @@ public class Test_Report_Create1 extends Test {
         JButtonOperator jbo = new JButtonOperator(jdo, "No");
         jbo.push();
         JMenuBarOperator jmbo = new JMenuBarOperator(mainFrame);
-        jmbo.pushMenuNoBlock("Report", "/");
+        jmbo.pushMenu("Report", "/");
         Menu.getReport_OpenReportMenu(mainFrame).pushNoBlock();
         Thread.sleep(2000);
         JDialogOperator reportDialog = new JDialogOperator(Tools.getExecResource("rh.open.title"));
         JTextFieldOperator openreporttext = new JTextFieldOperator(reportDialog, "");
-        openreporttext.enterText(path + File.separator + "index.html");
         Thread.sleep(2000);
+        openreporttext.enterText(path + File.separator + "index.html");
         JDialogOperator reportdialog = new JDialogOperator("Report Browser");
         JEditorPaneOperator jep = new JEditorPaneOperator(reportdialog);
+        Thread.sleep(2000);
         jep.clickMouse(jep.modelToView(jep.getPositionByText("HTML Report")).x,
                 jep.modelToView(jep.getPositionByText("HTML Report")).y, 1);
         JEditorPaneOperator jep1 = new JEditorPaneOperator(reportdialog);

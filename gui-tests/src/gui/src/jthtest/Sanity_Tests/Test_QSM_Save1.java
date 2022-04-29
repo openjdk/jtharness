@@ -96,7 +96,7 @@ public class Test_QSM_Save1 extends Config_New {
             qsm_index++;
         }
         jmbo1.pushMenu("File", "/");
-        jmbo1.pushMenuNoBlock("File/Save", "/");
+        jmbo1.pushMenu("File/Save", "/");
         pushDoneConfigEditor(configEditorDialog);
 
         jmbo.pushMenuNoBlock("Configure", "/");
