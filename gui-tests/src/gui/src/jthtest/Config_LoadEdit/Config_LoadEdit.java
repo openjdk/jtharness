@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2022, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -30,8 +30,7 @@ package jthtest.Config_LoadEdit;
 import jthtest.ConfigTools;
 
 /**
- *
- * @author linfar
+ *This tests verifies the load button under configuration editor
  */
 public class Config_LoadEdit extends ConfigTools {
 
