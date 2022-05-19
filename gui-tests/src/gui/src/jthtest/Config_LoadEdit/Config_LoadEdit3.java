@@ -42,12 +42,6 @@ public class Config_LoadEdit3 extends Test {
     /**
      * This test case verifies that Load button under file menu in configuration
      * editor will generate an error for an invalid jti file.
-     *
-     * @throws ClassNotFoundException
-     *
-     * @throws InvocationTargetException
-     *
-     * @throws NoSuchMethodException
      */
 
     public Config_LoadEdit3() {
