@@ -40,12 +40,6 @@ public class Config_LoadEdit2 extends Test {
     /**
      * This test case verifies that Load button under file menu in configuration
      * editor will bring up a configuration with a valid jti file.
-     *
-     * @throws ClassNotFoundException
-     *
-     * @throws InvocationTargetException
-     *
-     * @throws NoSuchMethodException
      */
 
     public void testImpl() throws Exception {
