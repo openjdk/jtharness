@@ -33,11 +33,11 @@
     <!-- servlet-api -->
     <target name="verify-servlet-api">
         <available file="${servletjar}" type="file" property="servlet.present"/>
-        <antcall target="compile-sevlet-warning"/>
+        <antcall target="compile-servlet-warning"/>
         <antcall target="checksum-servlet-warning"/>
     </target>
 
-    <target name="compile-sevlet-warning" unless="servlet.present">
+    <target name="compile-servlet-warning" unless="servlet.present">
         <echo message="${servlet.missing}"/>
     </target>
 
@@ -60,7 +60,7 @@
         <available file="${asmcommonsjar}" type="file" property="asm.commons.present"/>
         <available file="${junitlib}" type="file" property="junitlib.present"/>
 
-        <condition property="jar.junit.dependecies.present">
+        <condition property="jar.junit.dependencies.present">
             <and>
                 <available file="${asmjar}" type="file"/>
                 <available file="${asmcommonsjar}" type="file"/>
@@ -73,7 +73,7 @@
         <antcall target="checksum-junitlib-warning"/>
     </target>
 
-    <target name="compile-junit-warning" unless="jar.junit.dependecies.present">
+    <target name="compile-junit-warning" unless="jar.junit.dependencies.present">
         <echo message="${junit.libs.missing}"/>
     </target>
 
