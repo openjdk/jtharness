@@ -29,6 +29,7 @@ package com.sun.javatest;
 import com.sun.javatest.util.I18NResourceBundle;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * Filters tests based on a set of initial files or URLs.
@@ -119,6 +120,10 @@ public class InitialUrlFilter extends TestFilter {
      * URL.
      */
     public static boolean isInitialUrlMatch(String toCheck, String compareTo) {
+        Objects.requireNonNull(compareTo, "Known initial URL to compare should not be `null`");
+        if (compareTo.isEmpty()) {
+            throw new IllegalArgumentException("Known initial URL to compare should not be empty");
+        }
         if (toCheck.equals(compareTo))  // direct match of test
         {
             return true;
