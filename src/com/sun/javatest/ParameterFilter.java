@@ -234,6 +234,14 @@ public class ParameterFilter extends ObservableTestFilter {
 
             String[] initStrings = p.getTests();
             File[] initFiles = stringsToFiles(initStrings);
+            if (initFiles != null) {
+                for (File file : initFiles) {
+                    if (file.getPath().isEmpty()) {
+                        throw new IllegalArgumentException("The passed configuration parameters contain an empty path " +
+                                "identifying a test or a folder of tests within the test suite to be run");
+                    }
+                }
+            }
 
             // could optimize out this code if rmInitFiles is false
             iurlFilter = new InitialUrlFilter(initFiles);
