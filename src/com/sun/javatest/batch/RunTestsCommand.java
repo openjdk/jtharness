@@ -135,12 +135,15 @@ class RunTestsCommand extends Command {
             h.notifyOfTheFinalStats(stats != null ? Collections.unmodifiableMap(stats) : Collections.emptyMap(), boStats);
 
             if (!ctx.isVerboseQuiet()) {
-                long tt = h.getElapsedTime();
-                long setupT = h.getTotalSetupTime();
-                long cleanupT = h.getTotalCleanupTime();
-                ctx.printMessage(i18n, "runTests.totalTime", formattedDuration(tt / 1000L));
-                ctx.printMessage(i18n, "runTests.setupTime", formattedDuration(setupT / 1000L));
-                ctx.printMessage(i18n, "runTests.cleanupTime", formattedDuration(cleanupT / 1000L));
+                long totalTimeSec = h.getElapsedTime() / 1000L;
+                long setupTimeSec = h.getTotalSetupTime() / 1000L;
+                long cleanupTimeSec = h.getTotalCleanupTime() / 1000L;
+                ctx.printMessage(i18n, "runTests.totalTime", formattedDuration(totalTimeSec),
+                        totalTimeSec <= 60 ? "" : " (or " + totalTimeSec + " seconds)");
+                ctx.printMessage(i18n, "runTests.setupTime", formattedDuration(setupTimeSec),
+                        setupTimeSec <= 60 ? "" : " (or " + setupTimeSec + " seconds)");
+                ctx.printMessage(i18n, "runTests.cleanupTime", formattedDuration(cleanupTimeSec),
+                        cleanupTimeSec <= 60 ? "" : " (or " + cleanupTimeSec + " seconds)");
 
                 showResultStats(skipped, boStats);
             }
