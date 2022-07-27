@@ -139,11 +139,11 @@ class RunTestsCommand extends Command {
                 long setupTimeSec = h.getTotalSetupTime() / 1000L;
                 long cleanupTimeSec = h.getTotalCleanupTime() / 1000L;
                 ctx.printMessage(i18n, "runTests.totalTime", formattedDuration(totalTimeSec),
-                        totalTimeSec <= 60 ? "" : " (or " + totalTimeSec + " seconds)");
+                        totalTimeSec <= 60 ? "" : " (" + totalTimeSec + " seconds)");
                 ctx.printMessage(i18n, "runTests.setupTime", formattedDuration(setupTimeSec),
-                        setupTimeSec <= 60 ? "" : " (or " + setupTimeSec + " seconds)");
+                        setupTimeSec <= 60 ? "" : " (" + setupTimeSec + " seconds)");
                 ctx.printMessage(i18n, "runTests.cleanupTime", formattedDuration(cleanupTimeSec),
-                        cleanupTimeSec <= 60 ? "" : " (or " + cleanupTimeSec + " seconds)");
+                        cleanupTimeSec <= 60 ? "" : " (" + cleanupTimeSec + " seconds)");
 
                 showResultStats(skipped, boStats);
             }
