@@ -135,16 +135,9 @@ class RunTestsCommand extends Command {
             h.notifyOfTheFinalStats(stats != null ? Collections.unmodifiableMap(stats) : Collections.emptyMap(), boStats);
 
             if (!ctx.isVerboseQuiet()) {
-                long totalTimeSec = h.getElapsedTime() / 1000L;
-                long setupTimeSec = h.getTotalSetupTime() / 1000L;
-                long cleanupTimeSec = h.getTotalCleanupTime() / 1000L;
-                ctx.printMessage(i18n, "runTests.totalTime", formattedDuration(totalTimeSec),
-                        totalTimeSec <= 60 ? "" : " (" + totalTimeSec + " seconds)");
-                ctx.printMessage(i18n, "runTests.setupTime", formattedDuration(setupTimeSec),
-                        setupTimeSec <= 60 ? "" : " (" + setupTimeSec + " seconds)");
-                ctx.printMessage(i18n, "runTests.cleanupTime", formattedDuration(cleanupTimeSec),
-                        cleanupTimeSec <= 60 ? "" : " (" + cleanupTimeSec + " seconds)");
-
+                printTime("runTests.totalTime", h.getElapsedTime() / 1000L);
+                printTime("runTests.setupTime", h.getTotalSetupTime() / 1000L);
+                printTime("runTests.cleanupTime", h.getTotalCleanupTime() / 1000L);
                 showResultStats(skipped, boStats);
             }
 
@@ -167,6 +160,25 @@ class RunTestsCommand extends Command {
             ctx.addTestStats(boStats);
         } catch (Harness.Fault e) {
             throw new Fault(i18n, "runTests.harnessError", e.getMessage());
+        }
+    }
+
+    /**
+     * Writes a message to the log stream printing given time in seconds
+     * using message template with the given key,
+     * or printing additionally the absolute time as-is in seconds
+     * using a different template name
+     * constructed as the given message key plus ".withSecondsTotal" suffix
+     *
+     * @param messageKey the key for the required message template
+     * @param timeSeconds time value in seconds to be printed
+     */
+    private void printTime(String messageKey, long timeSeconds) {
+        if (timeSeconds <= 60) {
+            ctx.printMessage(i18n, messageKey, formattedDuration(timeSeconds));
+        } else {
+            ctx.printMessage(i18n, messageKey + ".withSecondsTotal",
+                    formattedDuration(timeSeconds), timeSeconds);
         }
     }
 
