@@ -272,8 +272,8 @@ harness-variety=Full Bundle
         </tstamp>
         <available file="git" type="file" filepath="${env.PATH}" property="GIT_FOUND"/>
         <exec if:set="GIT_FOUND" executable="git"
-              failonerror="true"
-              failifexecutionfails="true"
+              failonerror="false"
+              failifexecutionfails="false"
               outputproperty="BUILT_FROM_COMMIT">
             <arg line="--git-dir=${basedir}/.git log -1 --format=%h"/>
         </exec>
