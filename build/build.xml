@@ -270,14 +270,19 @@ harness-variety=Full Bundle
         <tstamp>
             <format property="BUILD_DATE" pattern="MMM dd, YYYY" locale="en,GB"/>
         </tstamp>
-        <available file="git" type="file" filepath="${env.PATH}" property="GIT_FOUND"/>
-        <exec if:set="GIT_FOUND" executable="git"
+        <condition property="GIT_INFO_AVAILABLE">
+            <and>
+                <available file="git" type="file" filepath="${env.PATH}"/>
+                <available file=".git" type="dir" filepath="${basedir}"/>
+            </and>
+          </condition>
+        <exec if:set="GIT_INFO_AVAILABLE" executable="git"
               failonerror="true"
               failifexecutionfails="true"
               outputproperty="BUILT_FROM_COMMIT">
             <arg line="--git-dir=${basedir}/.git log -1 --format=%h"/>
         </exec>
-        <echo unless:set="GIT_FOUND">'git' command not found on the system path, unable to identify latest commit ID</echo>
+        <echo unless:set="GIT_INFO_AVAILABLE">Warning: the latest git commit ID could not be determined</echo>
         <echo file="${BUILD_DIR}/binaries/release">JTHARNESS_VERSION=${build.version} ${build.number}${line.separator}</echo>
         <echo append="true" file="${BUILD_DIR}/binaries/release">BUILD_DATE=${BUILD_DATE}${line.separator}</echo>
         <echo if:set="BUILT_FROM_COMMIT" append="true" file="${BUILD_DIR}/binaries/release">SOURCE=jtharness:${BUILT_FROM_COMMIT}${line.separator}</echo>
