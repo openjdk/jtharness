@@ -39,19 +39,19 @@ import static jthtest.workdir.Workdir.*;
 
 public class CreateWorkdir14 extends Test {
 
-	/**
-	 * This test case verifies that Cancel button in the Create Work Directory will
-	 * remove the dialog box.
-	 */
+    /**
+     * This test case verifies that Cancel button in the Create Work Directory will
+     * remove the dialog box.
+     */
 
-	public void testImpl() throws Exception {
-		startJavaTestWithDefaultTestSuite();
+    public void testImpl() throws Exception {
+        startJavaTestWithDefaultTestSuite();
 
-		JFrameOperator mainFrame = findMainFrame();
-		JDialogOperator wdCreate = openOpenWorkDirectoryDialog(mainFrame);
-		new JButtonOperator(wdCreate, "Cancel").push();
+        JFrameOperator mainFrame = findMainFrame();
+        JDialogOperator wdCreate = openOpenWorkDirectoryDialog(mainFrame);
+        new JButtonOperator(wdCreate, "Cancel").push();
 
-		if (wdCreate.isVisible())
-			throw new JemmyException("Dialog box is visible after pressing Cancel button");
-	}
+        if (wdCreate.isVisible())
+            throw new JemmyException("Dialog box is visible after pressing Cancel button");
+    }
 }

@@ -38,26 +38,26 @@ import static jthtest.workdir.Workdir.*;
 
 public class CreateWorkdir03 extends Test {
 
-	/**
-	 * This test case verifies that creating an existing workdirectory will generate
-	 * an error message.
-	 */
+    /**
+     * This test case verifies that creating an existing workdirectory will generate
+     * an error message.
+     */
 
-	public void testImpl() throws Exception {
-		startJavaTestWithDefaultTestSuite();
-		JFrameOperator mainFrame = findMainFrame();
+    public void testImpl() throws Exception {
+        startJavaTestWithDefaultTestSuite();
+        JFrameOperator mainFrame = findMainFrame();
 
-		String path = DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME;
-		deleteDirectory(path);
-		createWorkDirectory(path, true, mainFrame);
-		createWorkDirectory(path, false, mainFrame);
-		addUsedFile(path);
+        String path = DEFAULT_PATH + TO_DELETE_TEMP_WD_NAME;
+        deleteDirectory(path);
+        createWorkDirectory(path, true, mainFrame);
+        createWorkDirectory(path, false, mainFrame);
+        addUsedFile(path);
 
-		try {
-			new JDialogOperator(getToolResource("wdc.exists_openIt.title"));
-		} catch (JemmyException e) {
-			errors.add(
-					"Error message offering user to open existing work directory insted of creation it was not found");
-		}
-	}
+        try {
+            new JDialogOperator(getToolResource("wdc.exists_openIt.title"));
+        } catch (JemmyException e) {
+            errors.add(
+                    "Error message offering user to open existing work directory insted of creation it was not found");
+        }
+    }
 }

@@ -38,22 +38,22 @@ import jthtest.tools.JTFrame;
 
 public class CreateWorkdir21 extends Test {
 
-	/**
-	 * This test case verifies that creating a work directory with spaces in the
-	 * filename should work properly.
-	 */
+    /**
+     * This test case verifies that creating a work directory with spaces in the
+     * filename should work properly.
+     */
 
-	public void testImpl() throws Exception {
-		JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
+    public void testImpl() throws Exception {
+        JTFrame mainFrame = JTFrame.startJTWithDefaultTestSuite();
 
-		File wd = mainFrame.getWorkDirectory().createWorkDirectory(Tools.TEMP_PATH, "path with spaces", true);
-		addUsedFile(wd);
+        File wd = mainFrame.getWorkDirectory().createWorkDirectory(Tools.TEMP_PATH, "path with spaces", true);
+        addUsedFile(wd);
 
-		if (!wd.exists()) {
-			errors.add(("Workdir with spaces ('path with spaces') was not created in temp directory. Tried to create "
-					+ wd.getAbsolutePath()));
-		}
+        if (!wd.exists()) {
+            errors.add(("Workdir with spaces ('path with spaces') was not created in temp directory. Tried to create "
+                    + wd.getAbsolutePath()));
+        }
 
-	}
+    }
 
 }
