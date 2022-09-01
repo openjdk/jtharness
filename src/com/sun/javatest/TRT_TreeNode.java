@@ -804,7 +804,7 @@ public class TRT_TreeNode implements TestResultTable.TreeNode {
                     processFile(thisDir);
                 } else {
                     String path = TestResultTable.getRootRelativePath(this);
-                    processFile("".equals(path) // Zero length string if the node is a root
+                    processFile(path == null || path.isEmpty() // Zero length string if the node is a root
                         ? new File(filesToScan[i])
                         : new File(path + File.separator + filesToScan[i]));
                 }
