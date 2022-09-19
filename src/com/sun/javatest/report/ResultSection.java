@@ -57,8 +57,6 @@ class ResultSection extends HTMLSection {
     private final I18NResourceBundle i18n;
     private final String[] headings;
     List<TreeSet<TestResult>> testResults;
-    private TestResultTable resultTable;
-    private File[] initFiles;
     private int totalFound;
 
     ResultSection(HTMLReport parent, ReportSettings settings, File dir, I18NResourceBundle i18n,
@@ -73,14 +71,15 @@ class ResultSection extends HTMLSection {
                 i18n.getString("result.heading.notRun")
         };
 
-        resultTable = settings.getInterview().getWorkDirectory().getTestResultTable();
-        initFiles = settings.getInitialFiles();
         testResults = sortedResults;
 
         for (TreeSet<TestResult> s : sortedResults) {
             totalFound += s.size();
         }
         /*
+        TestResultTable resultTable = settings.getInterview().getWorkDirectory().getTestResultTable();
+        File[] initFiles = settings.getInitialFiles();
+
         lists = new TreeSet[Status.NUM_STATES];
         for (int i = 0; i < lists.length; i++ )
             lists[i] = new TreeSet(new TestResultsByNameComparator());

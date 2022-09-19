@@ -148,16 +148,10 @@ public class XMLReport implements ReportFormat {
     private void writeResults(XMLReportMaker maker, ReportSettings sett) throws SAXException, JavaTestError, IOException {
         maker.sTestResults();
 
-        File[] initFiles = sett.getInitialFiles();
         Iterator<TestResult> iter = null;
-        TestResultTable resultTable = sett.getInterview().getWorkDirectory().getTestResultTable();
 
         try {
-            if (initFiles == null) {
-                iter = resultTable.getIterator(sett.getTestFilter());
-            } else {
-                iter = resultTable.getIterator(initFiles, sett.getTestFilter());
-            }
+            iter = sett.getIterator(sett.getTestFilter());
             for (; iter.hasNext(); ) {
                 TestResult tr = iter.next();
                 writeResult(maker, tr);

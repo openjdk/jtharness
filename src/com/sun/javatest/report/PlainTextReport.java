@@ -61,20 +61,12 @@ public class PlainTextReport implements ReportFormat {
 
     @Override
     public ReportLink write(ReportSettings s, File dir) throws IOException {
-        TestResultTable resultTable = s.getInterview().getWorkDirectory().getTestResultTable();
-
-        File[] initFiles = s.getInitialFiles();
-
         SortedSet<TestResult> tests = new TreeSet<>(new TestResultsByFileComparator());
         int width = 0;
 
         Iterator<TestResult> iter = null;
         try {
-            if (initFiles == null) {
-                iter = resultTable.getIterator(s.filter);
-            } else {
-                iter = resultTable.getIterator(initFiles, s.filter);
-            }
+            iter = s.getIterator(s.filter);
         } catch (TestResultTable.Fault f) {
             throw new JavaTestError(i18n.getString("report.testResult.err"));
         }   // catch

@@ -47,8 +47,6 @@ import java.util.Vector;
 class StatisticsSection extends HTMLSection {
     private final I18NResourceBundle i18n;
     private final String[] headings;
-    private TestResultTable resultTable;
-    private File[] initFiles;
 
     //-----------------------------------------------------------------------
     private Map<String, int[]> keywordTable = new HashMap<>();
@@ -63,14 +61,9 @@ class StatisticsSection extends HTMLSection {
                 i18n.getString("stats.heading.error"),
                 i18n.getString("stats.heading.notRun")};
 
-        initFiles = settings.getInitialFiles();
-
-        resultTable = settings.getInterview().getWorkDirectory().getTestResultTable();
         Iterator<TestResult> iter = null;
         try {
-            iter = (initFiles == null) ?
-                    resultTable.getIterator(settings.filter) :
-                    resultTable.getIterator(initFiles, settings.filter);
+            iter = settings.getIterator(settings.filter);
         } catch (TestResultTable.Fault f) {
             throw new JavaTestError(i18n.getString("stats.testResult.err"));
         }       // catch

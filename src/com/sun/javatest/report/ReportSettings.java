@@ -447,6 +447,22 @@ public class ReportSettings {
         return null;
     }
 
+    public TestResultTable.TreeIterator getIterator(TestFilter... testFilters)
+            throws TestResultTable.Fault {
+        TestResultTable resultTable = interviewParameters.getWorkDirectory().getTestResultTable();
+        File[] initFiles = getInitialFiles();
+        if (initFiles != null) {
+            return resultTable.getIterator(initFiles, testFilters);
+        }
+        if (interviewParameters != null) {
+            String[] tests = interviewParameters.getTests();
+            if (tests != null) {
+                return resultTable.getIterator(tests, testFilters);
+            }
+        }
+        return resultTable.getIterator(testFilters);
+    }
+
     public TestFilter getTestFilter() {
         return filter;
     }
@@ -504,8 +520,6 @@ public class ReportSettings {
         if (sortedTestResults != null) {
             return;
         }
-        TestResultTable resultTable = interviewParameters.getWorkDirectory().getTestResultTable();
-        File[] initFiles = getInitialFiles();
         sortedTestResults = new ArrayList<>();
         for (int i = 0; i < Status.NUM_STATES; i++) {
             sortedTestResults.add(new TreeSet<>(new TestResultsByNameComparator()));
@@ -520,7 +534,7 @@ public class ReportSettings {
             } else {
                 testFilters = new TestFilter[]{filter};
             }
-            testResultIterator = (initFiles == null) ? resultTable.getIterator(testFilters) : resultTable.getIterator(initFiles, testFilters);
+            testResultIterator = getIterator(testFilters);
         } catch (TestResultTable.Fault f) {
             throw new JavaTestError(ReportSettings.i18n.getString("result.testResult.err"));
         }
