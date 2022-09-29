@@ -58,6 +58,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -94,7 +95,6 @@ public class TestSuite {
     private static final String TESTSUITE_HTML = "testsuite.html";
     private static final String TESTSUITE_JTT = "testsuite.jtt";
     private static final String FIND_LEGACY_CONSTRUCTOR = "com.sun.javatest.ts.findLegacyCtor";
-    static Map<String, WorkDirLogHandler> handlersMap = new HashMap<>();
 
     /**
      * Disposed of the shared TestSuite object for this test suite.  Use
@@ -1479,6 +1479,7 @@ public class TestSuite {
     }
 
     private static class GeneralPurposeLogger extends Logger {
+        private static final Map<String, WorkDirLogHandler> handlersMap = new ConcurrentHashMap<>();
         private String logFileName;
 
         private GeneralPurposeLogger(String name, WorkDirectory wd, String resourceBundleName, TestSuite ts) {
@@ -1486,12 +1487,11 @@ public class TestSuite {
             this.logFileName = wd.getLogFileName();
 
             if (wd != null) {
-                if (!handlersMap.containsKey(wd.getLogFileName())) {
-                    WorkDirLogHandler wdlh = new WorkDirLogHandler(ts.getObservedFile(wd));
-                    handlersMap.put(wd.getLogFileName(), wdlh);
-                }
-
-                addHandler(handlersMap.get(wd.getLogFileName()));
+                addHandler(
+                        handlersMap.computeIfAbsent(
+                                wd.getLogFileName(), fileName -> new WorkDirLogHandler(ts.getObservedFile(wd))
+                        )
+                );
             }
             setLevel(Level.ALL);
         }
