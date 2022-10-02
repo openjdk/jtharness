@@ -58,6 +58,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -1480,19 +1481,22 @@ public class TestSuite {
 
     private static class GeneralPurposeLogger extends Logger {
         private static final Map<String, WorkDirLogHandler> handlersMap = new ConcurrentHashMap<>();
-        private String logFileName;
+        private final String logFileName;
 
         private GeneralPurposeLogger(String name, WorkDirectory wd, String resourceBundleName, TestSuite ts) {
             super(name, resourceBundleName);
             this.logFileName = wd.getLogFileName();
 
-            if (wd != null) {
-                addHandler(
-                        handlersMap.computeIfAbsent(
-                                wd.getLogFileName(), fileName -> new WorkDirLogHandler(ts.getObservedFile(wd))
-                        )
-                );
-            }
+            addHandler(
+                    handlersMap.computeIfAbsent(logFileName, fileName -> {
+                                ObservedFile observedFile = ts.getObservedFile(wd);
+                                Objects.requireNonNull(observedFile,
+                                        "Method TestSuite.getObservedFile(WorkDirectory) returned 'null' "
+                                                + "when called on test suite " + ts + ", passing work directory " + wd);
+                                return new WorkDirLogHandler(observedFile);
+                            }
+                    )
+            );
             setLevel(Level.ALL);
         }
 
