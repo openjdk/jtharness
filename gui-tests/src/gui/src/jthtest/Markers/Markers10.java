@@ -64,3 +64,4 @@ public class Markers10 extends Test {
                 "Pre-defined warning: Mark sometimes desapperas while clearing by menu - bookmark saves current state of answer; First question is 'Configuratoin name' and it can't be cleared; a new question is generated while clearing up");
     }
 }
+

@@ -60,3 +60,4 @@ public class Markers13 extends Test {
         config.checkHiddenGroups(indexes, names);
     }
 }
+
