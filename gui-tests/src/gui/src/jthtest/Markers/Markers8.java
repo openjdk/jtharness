@@ -59,3 +59,4 @@ public class Markers8 extends Test {
             errors.add("Empty Icon was not found after unmarking");
     }
 }
+
