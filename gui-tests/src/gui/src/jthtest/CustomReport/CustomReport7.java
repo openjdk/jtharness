@@ -37,3 +37,4 @@ public class CustomReport7 extends CReport {
         super(true, true, true);
     }
 }
+

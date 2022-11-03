@@ -59,3 +59,4 @@ public class ReportCreate2 extends Test {
     }
 
 }
+

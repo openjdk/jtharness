@@ -55,3 +55,4 @@ public class ReportCreate3 extends ReportCreate {
         new JDialogOperator(WINDOWNAME + " Harness: Error");
     }
 }
+

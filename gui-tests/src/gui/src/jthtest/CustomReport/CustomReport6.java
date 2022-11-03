@@ -38,3 +38,4 @@ public class CustomReport6 extends CReport {
     }
 
 }
+
