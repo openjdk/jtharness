@@ -37,7 +37,6 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 /**
  * This test case verifies that if marker is enabled, the questions in the index pane will shift to the right.
  */
-
 public class Markers2 extends Markers {
     public static void main(String args[]) {
         JUnitCore.main("jthtest.gui.Markers.Markers2");

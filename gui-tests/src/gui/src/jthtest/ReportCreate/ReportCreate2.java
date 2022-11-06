@@ -37,7 +37,6 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 /**
  * This test case verifies that Create Report button under Report menu will create a report directory for a valid name.
  */
-
 public class ReportCreate2 extends Test {
 
     public void testImpl() throws Exception {

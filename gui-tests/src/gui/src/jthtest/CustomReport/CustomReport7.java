@@ -30,10 +30,10 @@ package jthtest.CustomReport;
  * This test case verifies that report can be generated in html,xml and plain
  * text format.
  */
-
 public class CustomReport7 extends CReport {
 
     public CustomReport7() {
         super(true, true, true);
     }
 }
+

@@ -30,7 +30,6 @@ package jthtest.CustomReport;
  * This test case verifies that report can be generated in html and plain text
  * format.
  */
-
 public class CustomReport6 extends CReport {
 
     public CustomReport6() {
@@ -38,3 +37,4 @@ public class CustomReport6 extends CReport {
     }
 
 }
+

@@ -44,7 +44,6 @@ import org.netbeans.jemmy.operators.JPopupMenuOperator;
 /**
  * This class contains the methods to perform certain actions on Bookmarks Menu options in the JavaTest configuration editor
  */
-
 public class Markers extends ConfigTools {
 
     public static Icon getIcon(JDialogOperator config, int index) {

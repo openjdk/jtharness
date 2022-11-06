@@ -35,7 +35,6 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 /**
  * This test case verifies that Create Report button under Report menu will produce an error message if a report directory name is not specified.
  */
-
 public class ReportCreate3 extends ReportCreate {
 
     public static void main(String[] args) {
