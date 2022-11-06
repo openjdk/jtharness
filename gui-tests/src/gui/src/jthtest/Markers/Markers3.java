@@ -26,16 +26,16 @@
  */
 package jthtest.Markers;
 
-/**
- * This test case verifies that a marked question has a small icon to indicate that it has been marked.
- */
-
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.Icon;
 import jthtest.Test;
 import jthtest.tools.ConfigDialog;
 import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
+
+/**
+ * This test case verifies that a marked question has a small icon to indicate that it has been marked.
+ */
 
 public class Markers3 extends Test {
 

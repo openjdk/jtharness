@@ -26,10 +26,6 @@
  */
 package jthtest.Markers;
 
-/**
- * This test case verifies that if marker is enabled, the questions in the index pane will shift to the right.
- */
-
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Config_Edit.Config_Edit;
 import org.junit.Test;
@@ -37,6 +33,10 @@ import org.junit.runner.JUnitCore;
 import org.netbeans.jemmy.JemmyException;
 import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
+
+/**
+ * This test case verifies that if marker is enabled, the questions in the index pane will shift to the right.
+ */
 
 public class Markers2 extends Markers {
     public static void main(String args[]) {

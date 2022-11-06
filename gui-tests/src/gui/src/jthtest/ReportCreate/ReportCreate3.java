@@ -26,15 +26,15 @@
  */
 package jthtest.ReportCreate;
 
-/**
- * This test case verifies that Create Report button under Report menu will produce an error message if a report directory name is not specified.
- */
-
 import java.lang.reflect.InvocationTargetException;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
+
+/**
+ * This test case verifies that Create Report button under Report menu will produce an error message if a report directory name is not specified.
+ */
 
 public class ReportCreate3 extends ReportCreate {
 

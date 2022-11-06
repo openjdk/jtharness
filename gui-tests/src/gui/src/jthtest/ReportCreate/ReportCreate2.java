@@ -26,10 +26,6 @@
  */
 package jthtest.ReportCreate;
 
-/**
- * This test case verifies that Create Report button under Report menu will create a report directory for a valid name.
- */
-
 import java.io.File;
 import static jthtest.ReportCreate.ReportCreate.*;
 import jthtest.Test;
@@ -37,6 +33,10 @@ import jthtest.tools.JTFrame;
 import org.netbeans.jemmy.JemmyException;
 import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
+
+/**
+ * This test case verifies that Create Report button under Report menu will create a report directory for a valid name.
+ */
 
 public class ReportCreate2 extends Test {
 
@@ -57,6 +57,5 @@ public class ReportCreate2 extends Test {
             throw new JemmyException("Directory was not created");
         }
     }
-
 }
 
