@@ -26,6 +26,10 @@
  */
 package jthtest.Markers;
 
+/**
+ * This test case verifies that if marker is enabled, the questions in the index pane will shift to the right.
+ */
+
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Config_Edit.Config_Edit;
 import org.junit.Test;
@@ -33,37 +37,34 @@ import org.junit.runner.JUnitCore;
 import org.netbeans.jemmy.JemmyException;
 import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
+import static jthtest.Markers.Markers.*;
 
-/**
- * This test case verifies that if marker is enabled, the questions in the index pane will shift to the right.
- */
-public class Markers2 extends Markers {
-    public static void main(String args[]) {
-        JUnitCore.main("jthtest.gui.Markers.Markers2");
-    }
+public class Markers2 {
+	public static void main(String args[]) {
+		JUnitCore.main("jthtest.gui.Markers.Markers2");
+	}
 
-    @Test
-    public void testMarkers2() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-        startJavatestNewDesktop();
+	@Test
+	public void testMarkers2() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+		startJavatestNewDesktop();
 
-        JFrameOperator mainFrame = findMainFrame();
+		JFrameOperator mainFrame = findMainFrame();
 
-        closeQS(mainFrame);
-        openTestSuite(mainFrame);
-        createWorkDirInTemp(mainFrame);
-        openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-        Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+		closeQS(mainFrame);
+		openTestSuite(mainFrame);
+		createWorkDirInTemp(mainFrame);
+		openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+		Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
 
-        openConfigDialogByKey(mainFrame);
-        JDialogOperator config = findConfigEditor(mainFrame);
+		openConfigDialogByKey(mainFrame);
+		JDialogOperator config = findConfigEditor(mainFrame);
 
-        if (getIcon(config, 1) != null) {
-            throw new JemmyException("Icon was found before enabling bookmark");
-        }
-        pushEnableBookmarks(config);
-        if (getIcon(config, 1) == null) {
-            throw new JemmyException("Icon wasn't found after enabling bookmark (list isn't shifted)");
-        }
-    }
+		if (getIcon(config, 1) != null) {
+			throw new JemmyException("Icon was found before enabling bookmark");
+		}
+		pushEnableBookmarks(config);
+		if (getIcon(config, 1) == null) {
+			throw new JemmyException("Icon wasn't found after enabling bookmark (list isn't shifted)");
+		}
+	}
 }
-
