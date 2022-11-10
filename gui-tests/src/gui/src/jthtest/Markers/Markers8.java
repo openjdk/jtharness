@@ -29,7 +29,6 @@ package jthtest.Markers;
 /**
  * This test case verifies that unmark current question will remove the markers from the marked question.
  */
-
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.Icon;
 import jthtest.Test;

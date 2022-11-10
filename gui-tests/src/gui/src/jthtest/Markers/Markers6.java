@@ -39,7 +39,6 @@ import org.netbeans.jemmy.operators.JFrameOperator;
  * This test case verifies that selecting show marked questions will only
  * display the list of marked questions in the interview.
  */
-
 public class Markers6 extends Test {
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         mainFrame = new JTFrame(true);

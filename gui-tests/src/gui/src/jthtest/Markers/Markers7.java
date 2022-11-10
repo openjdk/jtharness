@@ -29,7 +29,6 @@ package jthtest.Markers;
 /**
  * This test case verifies unselecting show marked questions will display the whole list of questions in the interview.
  */
-
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Test;
 import jthtest.tools.ConfigDialog;

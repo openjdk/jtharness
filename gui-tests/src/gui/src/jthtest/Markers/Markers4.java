@@ -29,7 +29,6 @@ package jthtest.Markers;
 /**
  * This test case verifies that a question could be marked from a popup menu.
  */
-
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.Icon;
 import jthtest.Test;
