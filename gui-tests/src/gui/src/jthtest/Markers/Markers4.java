@@ -26,9 +26,6 @@
  */
 package jthtest.Markers;
 
-/**
- * This test case verifies that a question could be marked from a popup menu.
- */
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.Icon;
 import jthtest.Test;
@@ -36,6 +33,9 @@ import jthtest.tools.ConfigDialog;
 import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
+/**
+ * This test case verifies that a question could be marked from a popup menu.
+ */
 public class Markers4 extends Test {
 
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {

@@ -26,15 +26,15 @@
  */
 package jthtest.Markers;
 
-/**
- * This test case verifies unselecting show marked questions will display the whole list of questions in the interview.
- */
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Test;
 import jthtest.tools.ConfigDialog;
 import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
+/**
+ * This test case verifies unselecting show marked questions will display the whole list of questions in the interview.
+ */
 public class Markers7 extends Test {
 
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {

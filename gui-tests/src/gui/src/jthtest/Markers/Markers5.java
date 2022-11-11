@@ -26,12 +26,8 @@
  */
 package jthtest.Markers;
 
-/**
- * This test case verifies that a question could be unmarked from a popup menu.
- */
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.Icon;
-
 import jthtest.Config_Edit.Config_Edit;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
@@ -40,6 +36,9 @@ import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
 import static jthtest.Markers.Markers.*;
 
+/**
+ * This test case verifies that a question could be unmarked from a popup menu.
+ */
 public class Markers5 {
     public static void main(String args[]) {
         JUnitCore.main("jthtest.gui.Markers.Markers5");
