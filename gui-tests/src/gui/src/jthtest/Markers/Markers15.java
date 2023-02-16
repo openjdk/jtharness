@@ -27,6 +27,10 @@
 
 package jthtest.Markers;
 
+/**
+ * This test case verifies that open "..." group could be selected from the popup menu.
+ */
+
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Test;
 import jthtest.tools.ConfigDialog;

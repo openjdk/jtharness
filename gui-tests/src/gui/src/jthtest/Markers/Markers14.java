@@ -27,6 +27,10 @@
 
 package jthtest.Markers;
 
+/**
+ * This test case verifies that open "..." group under the Markers menu will display the marked question.
+ */
+
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Test;
 import jthtest.tools.ConfigDialog;

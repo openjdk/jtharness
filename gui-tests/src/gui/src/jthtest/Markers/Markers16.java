@@ -27,16 +27,16 @@
 
 package jthtest.Markers;
 
+/**
+ * This test case verifies that close "..." group under the Bookmarks menu will close the already open group.
+ */
+
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Test;
 import jthtest.tools.ConfigDialog;
 import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
-/**
- *
- * @author linfar
- */
 public class Markers16 extends Test {
 
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {

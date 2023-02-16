@@ -27,6 +27,10 @@
 
 package jthtest.Markers;
 
+/**
+ * This test case verifies that single clicking on the left side of a question will toggle the state of weather a question is marked or not.
+ */
+
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.Icon;
 import jthtest.Test;
