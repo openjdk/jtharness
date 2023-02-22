@@ -35,24 +35,24 @@ import org.netbeans.jemmy.operators.JTextFieldOperator;
 
 public class ViewFilter3 extends ViewFilter {
 
-	public static void main(String[] args) {
-		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter3");
-	}
+    public static void main(String[] args) {
+        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter3");
+    }
 
-	/**
-	 * This test case verifies that All Tests filter can not be modified.
-	 */
-	@Test
-	public void testViewFilter3() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+    /**
+     * This test case verifies that All Tests filter can not be modified.
+     */
+    @Test
+    public void testViewFilter3() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-		startWithDefaultWorkdir();
+        startWithDefaultWorkdir();
 
-		JDialogOperator filterEditor = openFilterEditor(mainFrame);
+        JDialogOperator filterEditor = openFilterEditor(mainFrame);
 
-		selectFilter(filterEditor, 2);
+        selectFilter(filterEditor, 2);
 
-		new JTextFieldOperator(filterEditor, "Does not apply to this filter.");
+        new JTextFieldOperator(filterEditor, "Does not apply to this filter.");
 
-	}
+    }
 
 }

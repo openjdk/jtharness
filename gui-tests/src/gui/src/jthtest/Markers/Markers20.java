@@ -35,39 +35,39 @@ import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
 
 public class Markers20 extends Markers {
-	public static void main(String args[]) {
-		JUnitCore.main("jthtest.gui.Markers.Markers20");
-	}
+    public static void main(String args[]) {
+        JUnitCore.main("jthtest.gui.Markers.Markers20");
+    }
 
-	/**
-	 * This test case verifies that double clicking on a question that is displayed
-	 * because it is part of ".." group will close the group so that is again show
-	 * as "...".
-	 */
-	@Test
-	public void testMarkers20() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		startJavatestNewDesktop();
+    /**
+     * This test case verifies that double clicking on a question that is displayed
+     * because it is part of ".." group will close the group so that is again show
+     * as "...".
+     */
+    @Test
+    public void testMarkers20() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        startJavatestNewDesktop();
 
-		JFrameOperator mainFrame = findMainFrame();
+        JFrameOperator mainFrame = findMainFrame();
 
-		closeQS(mainFrame);
-		openTestSuite(mainFrame);
-		createWorkDirInTemp(mainFrame);
-		openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-		Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+        closeQS(mainFrame);
+        openTestSuite(mainFrame);
+        createWorkDirInTemp(mainFrame);
+        openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+        Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
 
-		openConfigDialogByKey(mainFrame);
-		JDialogOperator config = findConfigEditor(mainFrame);
+        openConfigDialogByKey(mainFrame);
+        JDialogOperator config = findConfigEditor(mainFrame);
 
-		int[] indexes = new int[] { 4, 5, 6, 8, 9 };
+        int[] indexes = new int[] { 4, 5, 6, 8, 9 };
 
-		pushEnableBookmarks(config);
-		setBookmarkedByMenu(config, indexes);
-		String[] namesAll = getElementsNames(config);
-		pushShowOnlyBookmarked(config);
-		String[] namesHidden = getElementsNames(config);
+        pushEnableBookmarks(config);
+        setBookmarkedByMenu(config, indexes);
+        String[] namesAll = getElementsNames(config);
+        pushShowOnlyBookmarked(config);
+        String[] namesHidden = getElementsNames(config);
 
-		openGroupByMouse(config, namesAll, namesHidden);
-		closeGroupByMouse(config, namesAll, namesHidden);
-	}
+        openGroupByMouse(config, namesAll, namesHidden);
+        closeGroupByMouse(config, namesAll, namesHidden);
+    }
 }

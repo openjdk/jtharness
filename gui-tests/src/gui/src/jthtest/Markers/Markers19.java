@@ -33,30 +33,30 @@ import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
 public class Markers19 extends Test {
-	/**
-	 * This test case verifies that double clicking on a "..." entry will open the
-	 * group of questions that it represents.
-	 */
-	public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		mainFrame = new JTFrame(true);
+    /**
+     * This test case verifies that double clicking on a "..." entry will open the
+     * group of questions that it represents.
+     */
+    public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		Configuration configuration = mainFrame.getConfiguration();
-		configuration.load(CONFIG_NAME, true);
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        Configuration configuration = mainFrame.getConfiguration();
+        configuration.load(CONFIG_NAME, true);
 
-		ConfigDialog config = configuration.openByKey();
+        ConfigDialog config = configuration.openByKey();
 
-		int[] indexes = new int[] { 4, 5, 6, 8, 9 };
-		config.getBookmarks_EnableBookmarks().push();
+        int[] indexes = new int[] { 4, 5, 6, 8, 9 };
+        config.getBookmarks_EnableBookmarks().push();
 
-		config.setBookmarkedByMenu(indexes);
-		String[] namesAll = config.getElementsNames();
-		config.getBookmarks_ShowOnlyBookmarkedMenu().push();
-		String namesHidden[] = config.getElementsNames();
+        config.setBookmarkedByMenu(indexes);
+        String[] namesAll = config.getElementsNames();
+        config.getBookmarks_ShowOnlyBookmarkedMenu().push();
+        String namesHidden[] = config.getElementsNames();
 
-		config.openGroupByMouse(namesAll, namesHidden);
+        config.openGroupByMouse(namesAll, namesHidden);
 
-	}
+    }
 
 }
