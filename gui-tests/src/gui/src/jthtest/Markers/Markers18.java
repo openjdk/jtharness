@@ -35,25 +35,25 @@ import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
 public class Markers18 extends Test {
-	/**
-	 * This test case verifies that single clicking on the left side of a question
-	 * will toggle the state of weather a question is marked or not.
-	 */
-	public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		mainFrame = new JTFrame(true);
+    /**
+     * This test case verifies that single clicking on the left side of a question
+     * will toggle the state of weather a question is marked or not.
+     */
+    public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		Configuration configuration = mainFrame.getConfiguration();
-		configuration.load(CONFIG_NAME, true);
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        Configuration configuration = mainFrame.getConfiguration();
+        configuration.load(CONFIG_NAME, true);
 
-		ConfigDialog config = configuration.openByKey();
-		config.getBookmarks_EnableBookmarks().push();
+        ConfigDialog config = configuration.openByKey();
+        config.getBookmarks_EnableBookmarks().push();
 
-		Icon emptyIcon = config.getIcon(1);
-		config.setBookmarkedByMouse(1);
-		if (config.getIcon(1) == emptyIcon) {
-			errors.add("Icon wasn't found");
-		}
-	}
+        Icon emptyIcon = config.getIcon(1);
+        config.setBookmarkedByMouse(1);
+        if (config.getIcon(1) == emptyIcon) {
+            errors.add("Icon wasn't found");
+        }
+    }
 }

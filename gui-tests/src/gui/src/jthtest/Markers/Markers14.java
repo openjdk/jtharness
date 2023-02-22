@@ -34,26 +34,26 @@ import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
 public class Markers14 extends Test {
-	/**
-	 * This test case verifies that open "..." group under the Markers menu will
-	 * display the marked question.
-	 */
-	public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		mainFrame = new JTFrame(true);
+    /**
+     * This test case verifies that open "..." group under the Markers menu will
+     * display the marked question.
+     */
+    public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		Configuration configuration = mainFrame.getConfiguration();
-		configuration.load(CONFIG_NAME, true);
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        Configuration configuration = mainFrame.getConfiguration();
+        configuration.load(CONFIG_NAME, true);
 
-		ConfigDialog config = configuration.openByKey();
+        ConfigDialog config = configuration.openByKey();
 
-		config.getBookmarks_EnableBookmarks().push();
-		String[] namesAll = config.getElementsNames();
-		config.getBookmarks_ShowOnlyBookmarkedMenu().push();
-		String namesHidden[] = config.getElementsNames();
+        config.getBookmarks_EnableBookmarks().push();
+        String[] namesAll = config.getElementsNames();
+        config.getBookmarks_ShowOnlyBookmarkedMenu().push();
+        String namesHidden[] = config.getElementsNames();
 
-		config.openGroupByMenu(namesAll, namesHidden);
+        config.openGroupByMenu(namesAll, namesHidden);
 
-	}
+    }
 }
