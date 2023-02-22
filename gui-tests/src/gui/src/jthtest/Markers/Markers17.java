@@ -27,10 +27,6 @@
 
 package jthtest.Markers;
 
-/**
- * This test case verifies that open "..." group could be selected from the popup menu.
- */
-
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Test;
 import jthtest.tools.ConfigDialog;
@@ -43,7 +39,9 @@ public class Markers17 extends Test {
         super();
         knownFail = true;
     }
-
+    /**
+     * This test case verifies that open "..." group could be selected from the popup menu.
+     */
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         mainFrame = new JTFrame(true);
 
