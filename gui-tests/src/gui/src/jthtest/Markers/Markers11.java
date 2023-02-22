@@ -26,12 +26,8 @@
  */
 package jthtest.Markers;
 
-/**
- * This test case verifies that answer for current question could be cleared from a popup menu.
- */
-
 import java.lang.reflect.InvocationTargetException;
-import jthtest.Config_Edit.Config_Edit;
+import static jthtest.Config_Edit.Config_Edit.*;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.netbeans.jemmy.JemmyException;
@@ -41,10 +37,15 @@ import org.netbeans.jemmy.operators.JTextFieldOperator;
 import org.netbeans.jemmy.util.NameComponentChooser;
 
 public class Markers11 extends Markers {
+    /**
+     * This test case verifies that answer for current question could be cleared
+     * from a popup menu.
+     */
     public static void main(String args[]) {
         JUnitCore.main("jthtest.gui.Markers.Markers11");
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void testMarkers11() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         startJavatestNewDesktop();
@@ -55,7 +56,7 @@ public class Markers11 extends Markers {
         openTestSuite(mainFrame);
         createWorkDirInTemp(mainFrame);
         openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-        Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+        waitForConfigurationLoading(mainFrame, CONFIG_NAME);
 
         openConfigDialogByKey(mainFrame);
         JDialogOperator config = findConfigEditor(mainFrame);
@@ -76,4 +77,3 @@ public class Markers11 extends Markers {
                 "Pre-defined warning: Mark sometimes desapperas while clearing by menu - bookmark saves current state of answer; First question is 'Configuratoin name' and it can't be cleared; a new question is generated while clearing up");
     }
 }
-

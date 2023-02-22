@@ -26,22 +26,19 @@
  */
 package jthtest.Markers;
 
-/**
- * This test case verifies that not responding to the cleared response of the current question will display an invalid answer.
- */
-
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Test;
-import jthtest.Tools;
 import jthtest.tools.ConfigDialog;
 import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
-import org.netbeans.jemmy.JemmyException;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
 import org.netbeans.jemmy.util.NameComponentChooser;
 
 public class Markers12 extends Test {
-
+    /**
+     * This test case verifies that not responding to the cleared response of the
+     * current question will display an invalid answer.
+     */
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         mainFrame = new JTFrame(true);
 
@@ -67,4 +64,3 @@ public class Markers12 extends Test {
         warnings.add("Pre-defined warning: Some questions can be optional and some can have default value");
     }
 }
-

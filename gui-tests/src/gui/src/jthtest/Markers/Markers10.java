@@ -26,10 +26,6 @@
  */
 package jthtest.Markers;
 
-/**
- * This test case verifies that selecting clear the response to the current question button will clear the answer to that question.
- */
-
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Test;
 import jthtest.tools.ConfigDialog;
@@ -39,7 +35,10 @@ import org.netbeans.jemmy.operators.JTextFieldOperator;
 import org.netbeans.jemmy.util.NameComponentChooser;
 
 public class Markers10 extends Test {
-
+    /**
+     * This test case verifies that selecting clear the response to the current
+     * question button will clear the answer to that question.
+     */
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         mainFrame = new JTFrame(true);
 
@@ -64,4 +63,3 @@ public class Markers10 extends Test {
                 "Pre-defined warning: Mark sometimes desapperas while clearing by menu - bookmark saves current state of answer; First question is 'Configuratoin name' and it can't be cleared; a new question is generated while clearing up");
     }
 }
-

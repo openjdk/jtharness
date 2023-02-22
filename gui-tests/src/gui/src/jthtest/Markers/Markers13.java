@@ -26,19 +26,17 @@
  */
 package jthtest.Markers;
 
-/**
- * This test case verifies that the Show only Marked Questions will create a sequences of "..." for marked questions.
- */
-
 import java.lang.reflect.InvocationTargetException;
 import jthtest.Test;
-import jthtest.Tools;
 import jthtest.tools.ConfigDialog;
 import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
 public class Markers13 extends Test {
-
+    /**
+     * This test case verifies that the Show only Marked Questions will create a
+     * sequences of "..." for marked questions.
+     */
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         mainFrame = new JTFrame(true);
 
@@ -60,4 +58,3 @@ public class Markers13 extends Test {
         config.checkHiddenGroups(indexes, names);
     }
 }
-

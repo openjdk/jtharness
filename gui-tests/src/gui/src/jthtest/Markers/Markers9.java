@@ -26,10 +26,6 @@
  */
 package jthtest.Markers;
 
-/**
- * This test case verifies that marked question could be unmarked from a popup menu.
- */
-
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.Icon;
 import jthtest.Test;
@@ -38,6 +34,10 @@ import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
 public class Markers9 extends Test {
+    /**
+     * This test case verifies that marked question could be unmarked from a popup
+     * menu.
+     */
     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
         mainFrame = new JTFrame(true);
 
@@ -58,4 +58,3 @@ public class Markers9 extends Test {
             errors.add("Empty Icon was not found after unmarking");
     }
 }
-
