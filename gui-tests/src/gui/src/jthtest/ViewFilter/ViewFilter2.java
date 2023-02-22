@@ -27,12 +27,7 @@
 
 package jthtest.ViewFilter;
 
-/**
- * This test case verifies that current configuration filter can not be modified.
- */
-
 import java.lang.reflect.InvocationTargetException;
-
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.netbeans.jemmy.operators.JDialogOperator;
@@ -40,21 +35,25 @@ import org.netbeans.jemmy.operators.JTextFieldOperator;
 
 public class ViewFilter2 extends ViewFilter {
 
-    public static void main(String[] args) {
-        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter2");
-    }
+	public static void main(String[] args) {
+		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter2");
+	}
 
-    @Test
-    public void testViewFilter2() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+	/**
+	 * This test case verifies that current configuration filter can not be
+	 * modified.
+	 */
+	@Test
+	public void testViewFilter2() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-        startWithDefaultWorkdir();
+		startWithDefaultWorkdir();
 
-        JDialogOperator filterEditor = openFilterEditor(mainFrame);
+		JDialogOperator filterEditor = openFilterEditor(mainFrame);
 
-        selectFilter(filterEditor, 1);
+		selectFilter(filterEditor, 1);
 
-        new JTextFieldOperator(filterEditor, "Does not apply to this filter.");
+		new JTextFieldOperator(filterEditor, "Does not apply to this filter.");
 
-    }
+	}
 
 }

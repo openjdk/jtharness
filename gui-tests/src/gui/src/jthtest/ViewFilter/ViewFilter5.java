@@ -27,12 +27,7 @@
 
 package jthtest.ViewFilter;
 
-/**
- *This test case verifies that Custom filter can be modified.
- */
-
 import java.lang.reflect.InvocationTargetException;
-
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.netbeans.jemmy.operators.JDialogOperator;
@@ -40,24 +35,27 @@ import org.netbeans.jemmy.operators.JMenuOperator;
 
 public class ViewFilter5 extends ViewFilter {
 
-    public static void main(String[] args) {
-        JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter5");
-    }
+	public static void main(String[] args) {
+		JUnitCore.main("jthtest.gui.ViewFilter.ViewFilter5");
+	}
 
-    @Test
-    public void testViewFilter5()
-            throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+	/**
+	 * This test case verifies that enabling test suite filter in the configure
+	 * filter will update the custom filter.
+	 */
+	@Test
+	public void testViewFilter5() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
 
-        startWithDefaultWorkdir();
+		startWithDefaultWorkdir();
 
-        JDialogOperator filterEditor = openFilterEditor(mainFrame);
+		JDialogOperator filterEditor = openFilterEditor(mainFrame);
 
-        selectFilter(filterEditor, 3);
+		selectFilter(filterEditor, 3);
 
-        getTextField(filterEditor, "Custom Label:").enterText("NewFilter");
+		getTextField(filterEditor, "Custom Label:").enterText("NewFilter");
 
-        new JMenuOperator(mainFrame, "View").pushMenu("View|Filter|NewFilter", "|");
+		new JMenuOperator(mainFrame, "View").pushMenu("View|Filter|NewFilter", "|");
 
-    }
+	}
 
 }
