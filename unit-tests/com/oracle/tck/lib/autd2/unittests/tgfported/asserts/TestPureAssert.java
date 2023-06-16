@@ -1716,44 +1716,64 @@ public class TestPureAssert {
                 new TestObject("second"), "23421412sfsaf234234234sdf234234");
     }
 
-    @Test
-    public void testAssertNotEqual_PositiveArrays() {
-        com.sun.tck.lib.Assert.assertNotEquals(
-                new TestObject[]{new TestObject("first"), new TestObject("second")},
-                new TestObject[]{new TestObject("second")});
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_null() {
+        com.sun.tck.lib.Assert.assertNotEquals((Object)null, (Object)null);
+    }
+
+        @Test
+    public void testAssertNotEquals_Negative_Message() {
+        TestObject testObject_1 = new TestObject("theFirst") {
+            public boolean equals(Object o) {
+                return true;
+            }
+        };
+        TestObject testObject_2 = new TestObject("theSecond") {
+            public boolean equals(Object o) {
+                return true;
+            }
+        };
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(testObject_1, testObject_2);
+            fail("Exception not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals(
+                    "Expected unequal objects, were equal: \"TestObject:theFirst\", \"TestObject:theSecond\"",
+                    e.getMessage());
+        }
     }
 
     @Test
-    public void testAssertNotEqual_PositiveArrays_2dim() {
+    public void testAssertNotEquals_Negative_exception() {
+        TestObject testObject_1 = new TestObject("theFirst") {
+            public boolean equals(Object o) {
+                return true;
+            }
+        };
+        TestObject testObject_2 = new TestObject("theSecond") {
+            public boolean equals(Object o) {
+                return true;
+            }
+        };
+        RuntimeException cause = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(testObject_1, testObject_2, cause);
+            fail("Exception not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals(
+                    "Expected unequal objects, were equal: \"TestObject:theFirst\", \"TestObject:theSecond\"",
+                    e.getMessage());
+            assertSame(cause, e.getCause());
+        }
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_same() {
+        TestObject testObject = new TestObject(RANDOM_STRING);
         com.sun.tck.lib.Assert.assertNotEquals(
-                new TestObject[][]{{new TestObject("first"), new TestObject("second")}},
-                new TestObject[][]{{new TestObject("second")}, {new TestObject("third")}}
+                testObject,
+                testObject
         );
-    }
-
-    @Test
-    public void testAssertNotEqual_PositiveArrays_2dim_message() {
-        com.sun.tck.lib.Assert.assertNotEquals(
-                new TestObject[][]{{new TestObject("first"), new TestObject("second")}},
-                new TestObject[][]{{new TestObject("second")}, {new TestObject("third")}},
-                "kerhwtklwehtlkrhtwelkrhtsblgd kjlshgdgh"
-        );
-    }
-
-    @Test
-    public void testAssertNotEqual_PositiveArrays_message() {
-        com.sun.tck.lib.Assert.assertNotEquals(
-                new TestObject[]{new TestObject("first"), new TestObject("second")},
-                new TestObject[]{new TestObject("second")},
-                "234241wrwrqwer23423421342134");
-    }
-
-    @Test
-    public void testAssertNotEqual_PositiveArrays_exception() {
-        com.sun.tck.lib.Assert.assertNotEquals(
-                new TestObject[]{new TestObject("first"), new TestObject("second")},
-                new TestObject[]{new TestObject("second")},
-                new RuntimeException());
     }
 
     @Test(expected = AssertionFailedException.class)
@@ -1796,6 +1816,49 @@ public class TestPureAssert {
             assertSame(exception, e.getCause());
         }
     }
+
+    //    =========== assertNotEquals(Object[], Object[]) ==============================     //
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new TestObject[]{new TestObject("first"), new TestObject("second")},
+                new TestObject[]{new TestObject("second")});
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new TestObject[][]{{new TestObject("first"), new TestObject("second")}},
+                new TestObject[][]{{new TestObject("second")}, {new TestObject("third")}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_message() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new TestObject[][]{{new TestObject("first"), new TestObject("second")}},
+                new TestObject[][]{{new TestObject("second")}, {new TestObject("third")}},
+                "kerhwtklwehtlkrhtwelkrhtsblgd kjlshgdgh"
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_message() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new TestObject[]{new TestObject("first"), new TestObject("second")},
+                new TestObject[]{new TestObject("second")},
+                "234241wrwrqwer23423421342134");
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_exception() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new TestObject[]{new TestObject("first"), new TestObject("second")},
+                new TestObject[]{new TestObject("second")},
+                new RuntimeException());
+    }
+
 
     @Test(expected = AssertionFailedException.class)
     public void testAssertNotEquals_Negative_equal_arrays() {
@@ -1898,15 +1961,6 @@ public class TestPureAssert {
     }
 
     @Test(expected = AssertionFailedException.class)
-    public void testAssertNotEquals_Negative_same() {
-        TestObject testObject = new TestObject(RANDOM_STRING);
-        com.sun.tck.lib.Assert.assertNotEquals(
-                testObject,
-                testObject
-        );
-    }
-
-    @Test(expected = AssertionFailedException.class)
     public void testAssertNotEquals_Negative_same_arrays() {
         TestObject[] testObject = new TestObject[]{new TestObject(RANDOM_STRING), new TestObject(RANDOM_STRING + "123")};
         com.sun.tck.lib.Assert.assertNotEquals(
@@ -1916,59 +1970,8 @@ public class TestPureAssert {
     }
 
     @Test(expected = AssertionFailedException.class)
-    public void testAssertNotEquals_Negative_null() {
-        com.sun.tck.lib.Assert.assertNotEquals(null, null);
-    }
-
-    @Test(expected = AssertionFailedException.class)
     public void testAssertNotEquals_Negative_nullArrays() {
         com.sun.tck.lib.Assert.assertNotEquals((Object[]) null, (Object[]) null);
-    }
-
-    @Test
-    public void testAssertNotEquals_Negative_Message() {
-        TestObject testObject_1 = new TestObject("theFirst") {
-            public boolean equals(Object o) {
-                return true;
-            }
-        };
-        TestObject testObject_2 = new TestObject("theSecond") {
-            public boolean equals(Object o) {
-                return true;
-            }
-        };
-        try {
-            com.sun.tck.lib.Assert.assertNotEquals(testObject_1, testObject_2);
-            fail("Exception not thrown");
-        } catch (AssertionFailedException e) {
-            assertEquals(
-                    "Expected unequal objects, were equal: \"TestObject:theFirst\", \"TestObject:theSecond\"",
-                    e.getMessage());
-        }
-    }
-
-    @Test
-    public void testAssertNotEquals_Negative_exception() {
-        TestObject testObject_1 = new TestObject("theFirst") {
-            public boolean equals(Object o) {
-                return true;
-            }
-        };
-        TestObject testObject_2 = new TestObject("theSecond") {
-            public boolean equals(Object o) {
-                return true;
-            }
-        };
-        RuntimeException cause = new RuntimeException();
-        try {
-            com.sun.tck.lib.Assert.assertNotEquals(testObject_1, testObject_2, cause);
-            fail("Exception not thrown");
-        } catch (AssertionFailedException e) {
-            assertEquals(
-                    "Expected unequal objects, were equal: \"TestObject:theFirst\", \"TestObject:theSecond\"",
-                    e.getMessage());
-            assertSame(cause, e.getCause());
-        }
     }
 
     @Test
@@ -1990,6 +1993,1365 @@ public class TestPureAssert {
         } catch (AssertionFailedException e) {
             assertEquals(
                     "Expected unequal objects, were equal: \"[TestObject:theFirst]\", \"[TestObject:theSecond]\"",
+                    e.getMessage());
+        }
+    }
+
+    //    =========== assertNotEquals(long[], long[]) ==============================     //
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_long() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new long[]{1L, 2L},
+                new long[]{2L});
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_long() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new long[][]{{1L, 2L}},
+                new long[][]{{2L}, {3L}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_message_long() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new long[][]{{1L, 2L}},
+                new long[][]{{2L}, {3L}},
+                "kerhwtklwehtlkrhtwelkrhtsblgd kjlshgdgh"
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_message_long() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new long[]{190192309123L, 42L},
+                new long[]{42L},
+                "234241wrwrqwer23423421342134");
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_exception_long() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new long[]{1L, 2L},
+                new long[]{2L},
+                new RuntimeException());
+    }
+
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_long() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new long[]{123412412L},
+                new long[]{123412412L}
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_2dim_long() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new long[][]{{3452345L}, {345342345L}},
+                new long[][]{{3452345L}, {345342345L}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays_equal_message_long() {
+        long[] tos = {14523457913467591L};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos, "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.toString(tos) + "\", \"" + Arrays.toString(tos) + "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays2dim_equal_message_long() {
+        long[][] tos = {{487590237845L}, {90324850291347525L}};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos,
+                    "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.deepToString(tos) +
+                    "\", \"" +
+                    Arrays.deepToString(tos) +
+                    "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays_exception_long() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new long[]{1234701927834L},
+                    new long[]{1234701927834L}, exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[1234701927834]\", \"[1234701927834]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays2dim_exception_long() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new long[][]{{90L}, {90L}},
+                    new long[][]{{90L}, {90L}},
+                    exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[[90], [90]]\", \"[[90], [90]]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_equal_message_exception_long() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new long[]{34124L},
+                    new long[]{34124L}, "234234234", exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_same_arrays_long() {
+        long[] testObject = new long[]{12341251234L, 98989234L};
+        com.sun.tck.lib.Assert.assertNotEquals(
+                testObject,
+                testObject
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_nullArrays_long() {
+        com.sun.tck.lib.Assert.assertNotEquals((long[]) null, (long[]) null);
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_Message_arrays_long() {
+        long testObject_1 = 34985L;
+        long testObject_2 = 34985L;
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new long[]{testObject_1}, new long[]{testObject_2});
+            fail("Exception not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals(
+                    "Expected unequal objects, were equal: \"[34985]\", \"[34985]\"",
+                    e.getMessage());
+        }
+    }
+
+    //    =========== assertNotEquals(int[], int[]) ==============================     //
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_int() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new int[]{1, 2},
+                new int[]{2});
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_int() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new int[][]{{1, 2}},
+                new int[][]{{2}, {3}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_message_int() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new int[][]{{1, 2}},
+                new int[][]{{2}, {3}},
+                "kerhwtklwehtlkrhtwelkrhtsblgd kjlshgdgh"
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_message_int() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new int[]{1, 2},
+                new int[]{2},
+                "234241wrwrqwer23423421342134");
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_exception_int() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new int[]{1, 2},
+                new int[]{2},
+                new RuntimeException());
+    }
+
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_int() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new int[]{3412412},
+                new int[]{3412412}
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_2dim_int() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new int[][]{{3452345}, {345342345}},
+                new int[][]{{3452345}, {345342345}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays_equal_message_int() {
+        int[] tos = {1452345793};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos, "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.toString(tos) + "\", \"" + Arrays.toString(tos) + "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays2dim_equal_message_int() {
+        int[][] tos = {{487590237}, {903248502}};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos,
+                    "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.deepToString(tos) +
+                    "\", \"" +
+                    Arrays.deepToString(tos) +
+                    "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays_exception_int() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new int[]{12347019},
+                    new int[]{12347019}, exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[12347019]\", \"[12347019]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays2dim_exception_int() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new int[][]{{90}, {90}},
+                    new int[][]{{90}, {90}},
+                    exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[[90], [90]]\", \"[[90], [90]]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_equal_message_exception_int() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new int[]{34124},
+                    new int[]{34124}, "234234234", exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_same_arrays_int() {
+        int[] testObject = {1234125123, 98989};
+        com.sun.tck.lib.Assert.assertNotEquals(
+                testObject,
+                testObject
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_nullArrays_int() {
+        com.sun.tck.lib.Assert.assertNotEquals((int[]) null, (int[]) null);
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_Message_arrays_int() {
+        int testObject_1 = 34985;
+        int testObject_2 = 34985;
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new int[]{testObject_1}, new int[]{testObject_2});
+            fail("Exception not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals(
+                    "Expected unequal objects, were equal: \"[34985]\", \"[34985]\"",
+                    e.getMessage());
+        }
+    }
+
+    //    =========== assertNotEquals(short[], short[]) ==============================     //
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_short() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new short[]{1, 2},
+                new short[]{2});
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_short() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new short[][]{{1, 2}},
+                new short[][]{{2}, {3}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_message_short() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new short[][]{{1, 2}},
+                new short[][]{{2}, {3}},
+                "kerhwtklwehtlkrhtwelkrhtsblgd kjlshgdgh"
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_message_short() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new short[]{1, 2},
+                new short[]{2},
+                "234241wrwrqwer23423421342134");
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_exception_short() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new short[]{1, 2},
+                new short[]{2},
+                new RuntimeException());
+    }
+
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_short() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new short[]{(short)34112},
+                new short[]{(short)34112}
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_2dim_short() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new short[][]{{(short)3452345}, {(short)345342345}},
+                new short[][]{{(short)3452345}, {(short)345342345}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays_equal_message_short() {
+        short[] tos = {(short)1452345793};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos, "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.toString(tos) + "\", \"" + Arrays.toString(tos) + "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays2dim_equal_message_short() {
+        short[][] tos = {{(short)487590237}, {(short)903248502}};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos,
+                    "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.deepToString(tos) +
+                    "\", \"" +
+                    Arrays.deepToString(tos) +
+                    "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays_exception_short() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new short[]{244},
+                    new short[]{244}, exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[244]\", \"[244]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays2dim_exception_short() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new short[][]{{(short)90}, {(short)90}},
+                    new short[][]{{(short)90}, {(short)90}},
+                    exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[[90], [90]]\", \"[[90], [90]]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_equal_message_exception_short() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new short[]{(short)34124},
+                    new short[]{(short)34124}, "234234234", exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_same_arrays_short() {
+        short[] testObject = {(short)1234125123, (short)98989};
+        com.sun.tck.lib.Assert.assertNotEquals(
+                testObject,
+                testObject
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_nullArrays_short() {
+        com.sun.tck.lib.Assert.assertNotEquals((short[]) null, (short[]) null);
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_Message_arrays_short() {
+        short testObject_1 = 4985;
+        short testObject_2 = 4985;
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new short[]{testObject_1}, new short[]{testObject_2});
+            fail("Exception not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals(
+                    "Expected unequal objects, were equal: \"[4985]\", \"[4985]\"",
+                    e.getMessage());
+        }
+    }
+
+    //    =========== assertNotEquals(char[], char[]) ==============================     //
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_char() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new char[]{1, 2},
+                new char[]{2});
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_char() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new char[][]{{1, 2}},
+                new char[][]{{2}, {3}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_message_char() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new char[][]{{1, 2}},
+                new char[][]{{2}, {3}},
+                "kerhwtklwehtlkrhtwelkrhtsblgd kjlshgdgh"
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_message_char() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new char[]{1, 2},
+                new char[]{2},
+                "234241wrwrqwer23423421342134");
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_exception_char() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new char[]{1, 2},
+                new char[]{2},
+                new RuntimeException());
+    }
+
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_char() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new char[]{(char)34112},
+                new char[]{(char)34112}
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_2dim_char() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new char[][]{{(char)3452345}, {(char)345342345}},
+                new char[][]{{(char)3452345}, {(char)345342345}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays_equal_message_char() {
+        char[] tos = {(char)1452345793};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos, "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.toString(tos) + "\", \"" + Arrays.toString(tos) + "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays2dim_equal_message_char() {
+        char[][] tos = {{(char)487590237}, {(char)903248502}};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos,
+                    "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.deepToString(tos) +
+                    "\", \"" +
+                    Arrays.deepToString(tos) +
+                    "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays_exception_char() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new char[]{'e'},
+                    new char[]{'e'}, exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[e]\", \"[e]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays2dim_exception_char() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new char[][]{{(char)90}, {(char)90}},
+                    new char[][]{{(char)90}, {(char)90}},
+                    exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[[Z], [Z]]\", \"[[Z], [Z]]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_equal_message_exception_char() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new char[]{(char)34124},
+                    new char[]{(char)34124}, "234234234", exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_same_arrays_char() {
+        char[] testObject = {(char)1234125123, (char)98989};
+        com.sun.tck.lib.Assert.assertNotEquals(
+                testObject,
+                testObject
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_nullArrays_char() {
+        com.sun.tck.lib.Assert.assertNotEquals((char[]) null, (char[]) null);
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_Message_arrays_char() {
+        char testObject_1 = 85;
+        char testObject_2 = 85;
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new char[]{testObject_1}, new char[]{testObject_2});
+            fail("Exception not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals(
+                    "Expected unequal objects, were equal: \"[U]\", \"[U]\"",
+                    e.getMessage());
+        }
+    }
+
+    //    =========== assertNotEquals(byte[], byte[]) ==============================     //
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_byte() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new byte[]{1, 2},
+                new byte[]{2});
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_byte() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new byte[][]{{1, 2}},
+                new byte[][]{{2}, {3}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_message_byte() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new byte[][]{{1, 2}},
+                new byte[][]{{2}, {3}},
+                "kerhwtklwehtlkrhtwelkrhtsblgd kjlshgdgh"
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_message_byte() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new byte[]{1, 2},
+                new byte[]{2},
+                "234241wrwrqwer23423421342134");
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_exception_byte() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new byte[]{1, 2},
+                new byte[]{2},
+                new RuntimeException());
+    }
+
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_byte() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new byte[]{(byte)34112},
+                new byte[]{(byte)34112}
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_2dim_byte() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new byte[][]{{(byte)3452345}, {(byte)345342345}},
+                new byte[][]{{(byte)3452345}, {(byte)345342345}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays_equal_message_byte() {
+        byte[] tos = {(byte)93};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos, "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.toString(tos) + "\", \"" + Arrays.toString(tos) + "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays2dim_equal_message_byte() {
+        byte[][] tos = {{(byte)487590237}, {(byte)903248502}};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos,
+                    "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.deepToString(tos) +
+                    "\", \"" +
+                    Arrays.deepToString(tos) +
+                    "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays_exception_byte() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new byte[]{123},
+                    new byte[]{123}, exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[123]\", \"[123]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays2dim_exception_byte() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new byte[][]{{(byte)90}, {(byte)90}},
+                    new byte[][]{{(byte)90}, {(byte)90}},
+                    exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[[90], [90]]\", \"[[90], [90]]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_equal_message_exception_byte() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new byte[]{(byte)34124},
+                    new byte[]{(byte)34124}, "234234234", exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_same_arrays_byte() {
+        byte[] testObject = {(byte)51, (byte)89};
+        com.sun.tck.lib.Assert.assertNotEquals(
+                testObject,
+                testObject
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_nullArrays_byte() {
+        com.sun.tck.lib.Assert.assertNotEquals((byte[]) null, (byte[]) null);
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_Message_arrays_byte() {
+        byte testObject_1 = 85;
+        byte testObject_2 = 85;
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new byte[]{testObject_1}, new byte[]{testObject_2});
+            fail("Exception not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals(
+                    "Expected unequal objects, were equal: \"[85]\", \"[85]\"",
+                    e.getMessage());
+        }
+    }
+
+    //    =========== assertNotEquals(boolean[], boolean[]) ==============================     //
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_boolean() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new boolean[]{false, true},
+                new boolean[]{true});
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_boolean() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new boolean[][]{{false, true}},
+                new boolean[][]{{true}, {false}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_message_boolean() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new boolean[][]{{false, true}},
+                new boolean[][]{{true}, {true}},
+                "kerhwtklwehtlkrhtwelkrhtsblgd kjlshgdgh"
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_message_boolean() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new boolean[]{false, true},
+                new boolean[]{true},
+                "234241wrwrqwer23423421342134");
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_exception_boolean() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new boolean[]{false, true},
+                new boolean[]{true},
+                new RuntimeException());
+    }
+
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_boolean() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new boolean[]{(boolean)false},
+                new boolean[]{(boolean)false}
+        );
+    }
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_boolean_1() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new boolean[]{(boolean)false, false},
+                new boolean[]{(boolean)false, false}
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_2dim_boolean() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new boolean[][]{{(boolean)false}, {(boolean)true}},
+                new boolean[][]{{(boolean)false}, {(boolean)true}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays_equal_message_boolean() {
+        boolean[] tos = {(boolean)true};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos, "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.toString(tos) + "\", \"" + Arrays.toString(tos) + "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays2dim_equal_message_boolean() {
+        boolean[][] tos = {{(boolean)false}, {(boolean)true}};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos,
+                    "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.deepToString(tos) +
+                    "\", \"" +
+                    Arrays.deepToString(tos) +
+                    "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays_exception_boolean() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new boolean[]{false},
+                    new boolean[]{false}, exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[false]\", \"[false]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays2dim_exception_boolean() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new boolean[][]{{(boolean)false}, {(boolean)false}},
+                    new boolean[][]{{(boolean)false}, {(boolean)false}},
+                    exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[[false], [false]]\", \"[[false], [false]]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_equal_message_exception_boolean() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new boolean[]{(boolean)false},
+                    new boolean[]{(boolean)false}, "234234234", exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_same_arrays_boolean() {
+        boolean[] testObject = {(boolean)false, (boolean)true};
+        com.sun.tck.lib.Assert.assertNotEquals(
+                testObject,
+                testObject
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_nullArrays_boolean() {
+        com.sun.tck.lib.Assert.assertNotEquals((boolean[]) null, (boolean[]) null);
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_Message_arrays_boolean() {
+        boolean testObject_1 = false;
+        boolean testObject_2 = false;
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new boolean[]{testObject_1}, new boolean[]{testObject_2});
+            fail("Exception not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals(
+                    "Expected unequal objects, were equal: \"[false]\", \"[false]\"",
+                    e.getMessage());
+        }
+    }
+
+    //    =========== assertNotEquals(float[], float[]) ==============================     //
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_float() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new float[]{1.034f, 2.3f},
+                new float[]{2.45f});
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_float() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new float[][]{{1.23f, 2.2f}},
+                new float[][]{{2.33f}, {3.1f}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_message_float() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new float[][]{{1f, 2.444f}},
+                new float[][]{{2.f}, {3.3f}},
+                "kerhwtklwehtlkrhtwelkrhtsblgd kjlshgdgh"
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_message_float() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new float[]{1.3f, 2.2f},
+                new float[]{2.2f},
+                "234241wrwrqwer23423421342134");
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_exception_float() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new float[]{1.1f, 2.1f},
+                new float[]{2.1f},
+                new RuntimeException());
+    }
+
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_float() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new float[]{34112.4f},
+                new float[]{34112.4f}
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_2dim_float() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new float[][]{{(float)3452345}, {(float)345342345}},
+                new float[][]{{(float)3452345}, {(float)345342345}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays_equal_message_float() {
+        float[] tos = {(float)93.23423f};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos, "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.toString(tos) + "\", \"" + Arrays.toString(tos) + "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays2dim_equal_message_float() {
+        float[][] tos = {{(float)487590237.2f}, {(float)903248502.f}};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos,
+                    "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.deepToString(tos) +
+                    "\", \"" +
+                    Arrays.deepToString(tos) +
+                    "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays_exception_float() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new float[]{123.123f},
+                    new float[]{123.123f}, exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[123.123]\", \"[123.123]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays2dim_exception_float() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new float[][]{{(float)90.234f}, {(float)90.234f}},
+                    new float[][]{{(float)90.234f}, {(float)90.234f}},
+                    exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[[90.234], [90.234]]\", \"[[90.234], [90.234]]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_equal_message_exception_float() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new float[]{(float)34124.34f},
+                    new float[]{(float)34124.34f}, "234234234", exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_same_arrays_float() {
+        float[] testObject = {(float)51.1f, (float)89.1f};
+        com.sun.tck.lib.Assert.assertNotEquals(
+                testObject,
+                testObject
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_nullArrays_float() {
+        com.sun.tck.lib.Assert.assertNotEquals((float[]) null, (float[]) null);
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_Message_arrays_float() {
+        float testObject_1 = 85.1f;
+        float testObject_2 = 85.1f;
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new float[]{testObject_1}, new float[]{testObject_2});
+            fail("Exception not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals(
+                    "Expected unequal objects, were equal: \"[85.1]\", \"[85.1]\"",
+                    e.getMessage());
+        }
+    }
+
+    //    =========== assertNotEquals(double[], double[]) ==============================     //
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_double() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new double[]{1.034d, 2.3d},
+                new double[]{2.45d});
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_double() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new double[][]{{1.23d, 2.2d}},
+                new double[][]{{2.33d}, {3.1d}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_2dim_message_double() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new double[][]{{1d, 2.444d}},
+                new double[][]{{2.d}, {3.3d}},
+                "kerhwtklwehtlkrhtwelkrhtsblgd kjlshgdgh"
+        );
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_message_double() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new double[]{1.3d, 2.2d},
+                new double[]{2.2d},
+                "234241wrwrqwer23423421342134");
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_exception_double() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new double[]{1.1d, 2.1d},
+                new double[]{2.1d},
+                new RuntimeException());
+    }
+
+    @Test
+    public void testAssertNotEqual_PositiveArrays_exception_double_1() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new double[][]{{(double)3452345.12}, {(double)345342345.1}},
+                new double[][]{{(double)3452345.1}, {(double)345342345.1}},
+                new RuntimeException());
+    }
+
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_double() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new double[]{34112.4d},
+                new double[]{34112.4d}
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_equal_arrays_2dim_double() {
+        com.sun.tck.lib.Assert.assertNotEquals(
+                new double[][]{{(double)3452345.1}, {(double)345342345.1}},
+                new double[][]{{(double)3452345.1}, {(double)345342345.1}}
+        );
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays_equal_message_double() {
+        double[] tos = {93.23423d};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos, "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.toString(tos) + "\", \"" + Arrays.toString(tos) + "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_arrays2dim_equal_message_double() {
+        double[][] tos = {{487590237.2}, {903248502.233}};
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    tos,
+                    tos,
+                    "234234234"
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234\nExpected unequal objects, were equal: \"" +
+                    Arrays.deepToString(tos) +
+                    "\", \"" +
+                    Arrays.deepToString(tos) +
+                    "\"", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays_exception_double() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new double[]{123.123},
+                    new double[]{123.123}, exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[123.123]\", \"[123.123]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_arrays2dim_exception_double() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new double[][]{{90.234}, {90.234}},
+                    new double[][]{{90.234}, {90.234}},
+                    exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("Expected unequal objects, were equal: \"[[90.234], [90.234]]\", \"[[90.234], [90.234]]\"", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_equal_message_exception_double() {
+        RuntimeException exception = new RuntimeException();
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new double[]{34124.34},
+                    new double[]{34124.34}, "234234234", exception
+            );
+            fail("AssertionFailedException was not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals("234234234", e.getMessage());
+            assertSame(exception, e.getCause());
+        }
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_same_arrays_double() {
+        double[] testObject = {51.1, 89.1};
+        com.sun.tck.lib.Assert.assertNotEquals(
+                testObject,
+                testObject
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void testAssertNotEquals_Negative_nullArrays_double() {
+        com.sun.tck.lib.Assert.assertNotEquals((double[]) null, (double[]) null);
+    }
+
+    @Test
+    public void testAssertNotEquals_Negative_Message_arrays_double() {
+        double testObject_1 = 85.1;
+        double testObject_2 = 85.1;
+        try {
+            com.sun.tck.lib.Assert.assertNotEquals(
+                    new double[]{testObject_1}, new double[]{testObject_2});
+            fail("Exception not thrown");
+        } catch (AssertionFailedException e) {
+            assertEquals(
+                    "Expected unequal objects, were equal: \"[85.1]\", \"[85.1]\"",
                     e.getMessage());
         }
     }

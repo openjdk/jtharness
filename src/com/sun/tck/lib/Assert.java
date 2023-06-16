@@ -437,6 +437,150 @@ public class Assert {
         }
     }
 
+    public static void assertNotEquals(long[] expected, long[] actual) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(long[] expected, long[] actual, String message) {
+        assertNotEquals(expected, actual, message + "\n" + createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(long[] expected, long[] actual, Throwable cause) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), cause);
+    }
+
+    public static void assertNotEquals(long[] expected, long[] actual, String message, Throwable cause) {
+        if (expected == null ? actual == null : Arrays.equals(expected, actual)) {
+            fail(message, cause);
+        }
+    }
+
+    public static void assertNotEquals(int[] expected, int[] actual) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(int[] expected, int[] actual, String message) {
+        assertNotEquals(expected, actual, message + "\n" + createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(int[] expected, int[] actual, Throwable cause) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), cause);
+    }
+
+    public static void assertNotEquals(int[] expected, int[] actual, String message, Throwable cause) {
+        if (expected == null ? actual == null : Arrays.equals(expected, actual)) {
+            fail(message, cause);
+        }
+    }
+
+    public static void assertNotEquals(short[] expected, short[] actual) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(short[] expected, short[] actual, String message) {
+        assertNotEquals(expected, actual, message + "\n" + createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(short[] expected, short[] actual, Throwable cause) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), cause);
+    }
+
+    public static void assertNotEquals(short[] expected, short[] actual, String message, Throwable cause) {
+        if (expected == null ? actual == null : Arrays.equals(expected, actual)) {
+            fail(message, cause);
+        }
+    }
+
+    public static void assertNotEquals(char[] expected, char[] actual) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(char[] expected, char[] actual, String message) {
+        assertNotEquals(expected, actual, message + "\n" + createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(char[] expected, char[] actual, Throwable cause) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), cause);
+    }
+
+    public static void assertNotEquals(char[] expected, char[] actual, String message, Throwable cause) {
+        if (expected == null ? actual == null : Arrays.equals(expected, actual)) {
+            fail(message, cause);
+        }
+    }
+
+    public static void assertNotEquals(byte[] expected, byte[] actual) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(byte[] expected, byte[] actual, String message) {
+        assertNotEquals(expected, actual, message + "\n" + createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(byte[] expected, byte[] actual, Throwable cause) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), cause);
+    }
+
+    public static void assertNotEquals(byte[] expected, byte[] actual, String message, Throwable cause) {
+        if (expected == null ? actual == null : Arrays.equals(expected, actual)) {
+            fail(message, cause);
+        }
+    }
+
+    public static void assertNotEquals(boolean[] expected, boolean[] actual) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(boolean[] expected, boolean[] actual, String message) {
+        assertNotEquals(expected, actual, message + "\n" + createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(boolean[] expected, boolean[] actual, Throwable cause) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), cause);
+    }
+
+    public static void assertNotEquals(boolean[] expected, boolean[] actual, String message, Throwable cause) {
+        if (expected == null ? actual == null : Arrays.equals(expected, actual)) {
+            fail(message, cause);
+        }
+    }
+
+    public static void assertNotEquals(float[] expected, float[] actual) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(float[] expected, float[] actual, String message) {
+        assertNotEquals(expected, actual, message + "\n" + createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(float[] expected, float[] actual, Throwable cause) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), cause);
+    }
+
+    public static void assertNotEquals(float[] expected, float[] actual, String message, Throwable cause) {
+        if (expected == null ? actual == null : Arrays.equals(expected, actual)) {
+            fail(message, cause);
+        }
+    }
+
+    public static void assertNotEquals(double[] expected, double[] actual) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(double[] expected, double[] actual, String message) {
+        assertNotEquals(expected, actual, message + "\n" + createUnequalsFailedMessage(expected, actual), null);
+    }
+
+    public static void assertNotEquals(double[] expected, double[] actual, Throwable cause) {
+        assertNotEquals(expected, actual, createUnequalsFailedMessage(expected, actual), cause);
+    }
+
+    public static void assertNotEquals(double[] expected, double[] actual, String message, Throwable cause) {
+        if (expected == null ? actual == null : Arrays.equals(expected, actual)) {
+            fail(message, cause);
+        }
+    }
+
     /**
      * Asserts that two objects refer to the same object.
      * Two null arguments are considered same.
