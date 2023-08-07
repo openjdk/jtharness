@@ -30,9 +30,11 @@ import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.I18NResourceBundle;
 
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Traditional implementation of the test execution engine which has been
@@ -200,6 +202,12 @@ public class DefaultTestRunner extends TestRunner {
                 result = createErrorResult(td, i18n.getString("dtr.noResult", url), null);
             }
 
+            if(this.crashOnly && result.getStatus().getType() == Status.FAILED && ! this.didCrash(td)){ // add a boolean about the fastdebug argument
+                result = new TestResult(td, new Status(Status.PASSED, "only a regular fail"));
+                if(result.getStatus().getType() == Status.PASSED){
+                }
+            }
+
             if (!scriptUsesNotifier) {
                 try {
                     notifyFinishedTest(result);
@@ -215,6 +223,14 @@ public class DefaultTestRunner extends TestRunner {
         }
 
         return result.getStatus().getType() == Status.PASSED;
+    }
+
+    /**
+     * checks for the occurrence of hs_err_pid file that suggest that crash happened during execution
+     **/
+    private boolean didCrash(TestDescription td){
+        Pattern pattern = Pattern.compile("^hs_err_.*");
+        return Arrays.stream(td.getDir().list()).anyMatch(pattern.asPredicate());
     }
 
     private TestResult createErrorResult(TestDescription td, String reason, Throwable t) { // make more i18n

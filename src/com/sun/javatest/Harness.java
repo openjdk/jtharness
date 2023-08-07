@@ -29,6 +29,7 @@ package com.sun.javatest;
 import com.sun.javatest.TestResultTable.TreeIterator;
 import com.sun.javatest.httpd.HttpdServer;
 import com.sun.javatest.httpd.RootRegistry;
+import com.sun.javatest.interview.BasicInterviewParameters;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
@@ -765,6 +766,10 @@ public class Harness {
         r.setBackupPolicy(backupPolicy);
         r.setEnvironment(env);
         r.setExcludeList(excludeList);
+        if (params instanceof BasicInterviewParameters){
+            BasicInterviewParameters basicInterviewParameters = (BasicInterviewParameters) params;
+            r.setTestWideParameters(basicInterviewParameters.getTestWideParameters());
+        }
 
         int concurrency = params.getConcurrency();
         concurrency = Math.max(1, Math.min(concurrency,

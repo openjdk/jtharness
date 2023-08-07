@@ -28,6 +28,7 @@ package com.sun.javatest;
 
 import com.sun.javatest.util.BackupPolicy;
 
+import java.lang.reflect.Parameter;
 import java.util.Iterator;
 
 /**
@@ -46,6 +47,10 @@ public abstract class TestRunner {
     private int concurrency;
     private Harness.Observer notifier;
 
+    /**
+     * TestWideParameters
+     */
+    protected boolean crashOnly = false;
     /**
      * Get the work directory to be used to store the test results generated
      * by this test runner.
@@ -246,5 +251,9 @@ public abstract class TestRunner {
         // resultTable.update(result);
         // notify observers
         notifier.finishedTest(tr);
+    }
+
+    void setTestWideParameters(Parameters.TestWideParameters twp){
+        this.crashOnly = twp.getCrashOnly();
     }
 }

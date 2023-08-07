@@ -1000,4 +1000,15 @@ public interface Parameters {
          */
         void setTimeoutFactor(float factor);
     }
+
+    /**
+     * An interface providing abstract access to a boolean
+     * specifying whether the individual test runs should ignore non-crashing failures or not.
+     * This is useful for testing fastdebug JVM builds. Could possibly accomodate other parameters
+     * that should be applied to individual testruns.
+     */
+    interface TestWideParameters {
+        boolean getCrashOnly();
+        void setCrashOnly(boolean crashOnly);
+    }
 }
