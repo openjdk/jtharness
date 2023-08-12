@@ -1257,4 +1257,16 @@ public class Assert {
         fail("None of the expected " + names + " was thrown");
     }
 
+    /**
+     * Invokes the specified function and checks that it throws the expected exception instance
+     */
+    public static void assertThrows(Thrower thrower, Throwable expectedExceptionInstance) {
+        try {
+            thrower.throwThrowable();
+            fail("The expected throwable " + expectedExceptionInstance + " was not thrown");
+        } catch (Throwable t) {
+            assertSame(expectedExceptionInstance, t);
+        }
+    }
+
 }

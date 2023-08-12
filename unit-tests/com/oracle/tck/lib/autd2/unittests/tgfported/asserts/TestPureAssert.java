@@ -4798,6 +4798,14 @@ public class TestPureAssert {
     }
 
     @Test(expected = AssertionFailedException.class)
+    public void test_assertThrowsInstance_not_throws_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                }, new Throwable()
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
     public void test_assertThrows_not_throws_01_1() {
         com.sun.tck.lib.Assert.assertThrows(
                 () -> {
@@ -4848,6 +4856,86 @@ public class TestPureAssert {
                     throw new Throwable();
                 }, RuntimeException.class
         );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrowsInstance_wrongType_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new Throwable();
+                }, new RuntimeException()
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrowsInstance_wrongType_01_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new RuntimeException();
+                }, new Throwable()
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrowsInstance_wrongType_02() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new RuntimeException();
+                }, new IllegalArgumentException()
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrowsInstance_wrongType_03() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new IllegalBlockingModeException();
+                }, new Error()
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrowsInstance_sameType_notSameInstances() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new IllegalBlockingModeException();
+                }, new IllegalBlockingModeException()
+        );
+    }
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrowsInstance_sameType_notEqInstances_01() {
+        com.sun.tck.lib.Assert.assertThrows(
+                () -> {
+                    throw new MyThrowable(123);
+                }, new MyThrowable(456)
+        );
+    }
+
+    class MyThrowable extends Throwable {
+        int code;
+        public MyThrowable(int code) {
+            this.code = code;
+        }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (null == o || this.getClass() != o.getClass()) return false;
+            final MyThrowable that = (MyThrowable) o;
+            return this.code == that.code;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.code);
+        }
+    };
+
+    @Test(expected = AssertionFailedException.class)
+    public void test_assertThrowsInstance_sameType_eqButNotSameInstances() {
+        MyThrowable t1 = new MyThrowable(123);
+        MyThrowable t2 = new MyThrowable(123);
+        com.sun.tck.lib.Assert.assertThrows(() -> {throw t1;}, t2);
     }
 
     @Test(expected = AssertionFailedException.class)
@@ -4933,6 +5021,18 @@ public class TestPureAssert {
                     throw new Throwable();
                 }, Throwable.class
         );
+    }
+
+    @Test
+    public void test_assertThrowsInstance_OK_01() {
+        Throwable throwable = new Throwable();
+        com.sun.tck.lib.Assert.assertThrows(() -> {throw throwable;}, throwable);
+    }
+
+    @Test
+    public void test_assertThrowsInstance_OK_02() {
+        MyThrowable myThrowable = new MyThrowable(23);
+        com.sun.tck.lib.Assert.assertThrows(() -> {throw myThrowable;}, myThrowable);
     }
 
     @Test
