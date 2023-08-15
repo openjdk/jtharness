@@ -202,7 +202,7 @@ public class DefaultTestRunner extends TestRunner {
                 result = createErrorResult(td, i18n.getString("dtr.noResult", url), null);
             }
 
-            if(this.crashOnly && result.getStatus().getType() == Status.FAILED && ! this.didCrash(td)){ // add a boolean about the fastdebug argument
+            if(this.crashOnly && result.getStatus().getType() == Status.FAILED && ! this.didCrash(td)){
                 result = new TestResult(td, new Status(Status.PASSED, "only a regular fail"));
                 if(result.getStatus().getType() == Status.PASSED){
                 }
