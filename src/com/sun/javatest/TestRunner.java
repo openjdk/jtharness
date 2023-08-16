@@ -28,7 +28,6 @@ package com.sun.javatest;
 
 import com.sun.javatest.util.BackupPolicy;
 
-import java.lang.reflect.Parameter;
 import java.util.Iterator;
 
 /**
