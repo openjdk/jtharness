@@ -375,8 +375,7 @@ public class HTMLWriter {
     /**
      * Write an attribute for a tag. A tag must previously have been started.
      * All tag attributes must be written before any body text is written.
-     * The value will be quoted if necessary when writing it to the underlying
-     * stream. No check is made that the attribute is valid for the current tag.
+     * The value will be quoted. No check is made that the attribute is valid for the current tag.
      *
      * @param name  the name of the attribute to be written
      * @param value the value of the attribute to be written
@@ -393,17 +392,9 @@ public class HTMLWriter {
         out.write(" ");
         out.write(name);
         out.write("=");
-        boolean alpha = true;
-        for (int i = 0; i < value.length() && alpha; i++) {
-            alpha = Character.isLetter(value.charAt(i));
-        }
-        if (!alpha) {
-            out.write("\"");
-        }
+        out.write("\"");
         out.write(value);
-        if (!alpha) {
-            out.write("\"");
-        }
+        out.write("\"");
     }
 
     /**
