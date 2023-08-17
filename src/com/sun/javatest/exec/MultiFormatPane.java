@@ -335,6 +335,7 @@ public class MultiFormatPane extends JPanel implements Printable {
             HTMLWriterEx out = new HTMLWriterEx(sw, uif.getI18NResourceBundle());
 
             out.startTag(HTMLWriterEx.HTML);
+            out.writeLangAttr();
             out.startTag(HTMLWriterEx.HEAD);
             out.writeContentMeta();
             out.startTag(HTMLWriterEx.TITLE);

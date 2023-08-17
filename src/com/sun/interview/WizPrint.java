@@ -334,6 +334,7 @@ public class WizPrint {
             startTag(DOCTYPE);
             newLine();
             startTag(HTML);
+            writeAttr("lang", i18n.getString("wp.html.lang"));
             newLine();
             startTag(HEAD);
             writeTag(TITLE, interview.getTitle());

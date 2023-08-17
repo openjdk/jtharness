@@ -206,6 +206,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         try {
             HTMLWriterEx out = new HTMLWriterEx(sw, uif.getI18NResourceBundle());
             out.startTag(HTMLWriterEx.HTML);
+            out.writeLangAttr();
             out.startTag(HTMLWriterEx.HEAD);
             out.writeContentMeta();
             out.endTag(HTMLWriterEx.HEAD);
@@ -226,6 +227,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         try {
             HTMLWriterEx out = new HTMLWriterEx(sw, uif.getI18NResourceBundle());
             out.startTag(HTMLWriterEx.HTML);
+            out.writeLangAttr();
             out.startTag(HTMLWriterEx.HEAD);
             out.writeContentMeta();
             out.endTag(HTMLWriterEx.HEAD);
@@ -368,6 +370,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         try {
             HTMLWriterEx out = new HTMLWriterEx(sw, uif.getI18NResourceBundle());
             out.startTag(HTMLWriterEx.HTML);
+            out.writeLangAttr();
             out.startTag(HTMLWriterEx.HEAD);
             out.writeContentMeta();
             out.endTag(HTMLWriterEx.HEAD);
@@ -450,6 +453,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
         try {
             HTMLWriterEx out = new HTMLWriterEx(sw, uif.getI18NResourceBundle());
             out.startTag(HTMLWriterEx.HTML);
+            out.writeLangAttr();
             out.startTag(HTMLWriterEx.HEAD);
             out.writeContentMeta();
             out.endTag(HTMLWriterEx.HEAD);
