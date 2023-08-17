@@ -853,17 +853,9 @@ public class WizPrint {
         out.write(" ");
         out.write(name);
         out.write("=");
-        boolean alpha = true;
-        for (int i = 0; i < value.length() && alpha; i++) {
-            alpha = Character.isLetter(value.charAt(i));
-        }
-        if (!alpha) {
-            out.write("\"");
-        }
+        out.write("\"");
         out.write(value);
-        if (!alpha) {
-            out.write("\"");
-        }
+        out.write("\"");
     }
 
     /**
