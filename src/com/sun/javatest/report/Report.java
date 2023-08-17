@@ -445,6 +445,7 @@ public class Report implements ReportModel {
             out.setI18NResourceBundle(i18n);
 
             out.startTag(HTMLWriterEx.HTML);
+            out.writeLangAttr();
             out.startTag(HTMLWriterEx.HEAD);
             out.writeContentMeta();
             out.startTag(HTMLWriterEx.TITLE);

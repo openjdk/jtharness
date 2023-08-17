@@ -76,6 +76,7 @@ class ReportWriter extends HTMLWriterEx {
         this.i18n = i18n;
 
         startTag(HTMLWriterEx.HTML);
+        writeAttr("lang", i18n.getString("html.lang"));
         startTag(HTMLWriterEx.HEAD);
         writeContentMeta(cs);
         startTag(HTMLWriterEx.TITLE);
