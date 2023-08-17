@@ -617,6 +617,7 @@ public class InterviewPropagator {
             try {
                 HTMLWriterEx writer = new HTMLWriterEx(new PrintWriter(sw), i18n);
                 writer.startTag(HTMLWriterEx.HTML);
+                writer.writeLangAttr();
                 writer.startTag(HTMLWriterEx.HEAD);
                 writer.writeContentMeta();
                 writer.writeEntity(getCSS());

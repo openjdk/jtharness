@@ -89,6 +89,7 @@ class SummaryPane extends AuditPane {
 
     private void writeReport() throws IOException {
         out.startTag(HTMLWriterEx.HTML);
+        out.writeLangAttr();
         out.startTag(HTMLWriterEx.HEAD);
         out.writeContentMeta();
         //write("<title>" + ProductInfo.getName() + ": " + title + "</title>\n");

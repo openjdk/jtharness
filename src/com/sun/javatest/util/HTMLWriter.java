@@ -407,6 +407,16 @@ public class HTMLWriter {
     }
 
     /**
+     * Writes value of 'lang' attribute that is defined in resource bundle.
+     * This method is expected to be called after opening (starting) the root HTML tag.
+     *
+     * @throws IOException if there is a problem writing to the underlying stream
+     */
+    public void writeLangAttr() throws IOException {
+        writeAttr("lang", i18n.getString("html.lang"));
+    }
+
+    /**
      * Write an attribute for a tag. A tag must previously have been started.
      * All tag attributes must be written before any body text is written.
      * The value will be quoted if necessary when writing it to the underlying
