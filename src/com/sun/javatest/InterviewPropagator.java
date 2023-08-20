@@ -625,6 +625,7 @@ public class InterviewPropagator {
                 writer.startTag(HTMLWriterEx.BODY);
                 writer.startTag(HTMLWriterEx.TABLE);
                 writer.writeAttr("border", 0);
+                writer.writeAttr(HTMLWriterEx.SUMMARY, i18n.getString("tmpltProp.Configuration"));
                 writer.startTag(HTMLWriterEx.TR);
                 writer.startTag(HTMLWriterEx.TD);
                 writer.writeAttr("colspan", 3);
@@ -723,6 +724,7 @@ public class InterviewPropagator {
                     writers[i] = new HTMLWriterEx(stringWriters[i], i18n);
                     writers[i].startTag(HTMLWriterEx.TABLE);
                     writers[i].writeAttr("border", 1);
+                    writers[i].writeAttr(HTMLWriterEx.SUMMARY, i18n.getString("tmpltProp.Configuration"));
                 }
 
                 for (Object o : conf.keySet()) {

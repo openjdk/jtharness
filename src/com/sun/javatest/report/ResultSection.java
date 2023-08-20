@@ -123,6 +123,7 @@ class ResultSection extends HTMLSection {
 
         repWriter.startTag(HTMLWriterEx.TABLE);
         repWriter.writeAttr(HTMLWriterEx.BORDER, 1);
+        repWriter.writeAttr(HTMLWriterEx.SUMMARY, getName());
 
 
         boolean thirdColumn = false;

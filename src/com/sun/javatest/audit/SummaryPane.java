@@ -98,6 +98,7 @@ class SummaryPane extends AuditPane {
         out.writeStyleAttr("font-family: SansSerif; font-size: 12pt");
         //write("<h1>" + ProductInfo.getName() + ": " + title + "</h1>");
         out.startTag(HTMLWriterEx.TABLE);
+        out.writeAttr(HTMLWriterEx.SUMMARY, uif.getI18NString("smry.html.desc"));
         out.startTag(HTMLWriterEx.TR);
         out.startTag(HTMLWriterEx.TH);
         out.writeAttr(HTMLWriterEx.STYLE, HTMLWriterEx.TEXT_RIGHT);

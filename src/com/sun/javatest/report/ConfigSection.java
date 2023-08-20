@@ -98,6 +98,7 @@ class ConfigSection extends HTMLSection {
         // info about test suite
         repWriter.startTag(HTMLWriterEx.TABLE);
         repWriter.writeAttr(HTMLWriterEx.BORDER, 1);
+        repWriter.writeAttr(HTMLWriterEx.SUMMARY, i18n.getString("config.testSuite"));
         repWriter.startTag(HTMLWriterEx.TR);
         repWriter.writeTH(i18n.getString("config.testSuite"), HTMLWriterEx.ROW);
         repWriter.startTag(HTMLWriterEx.TD);
@@ -156,6 +157,7 @@ class ConfigSection extends HTMLSection {
 
         out.startTag(HTMLWriterEx.TABLE);
         out.writeAttr(HTMLWriterEx.BORDER, 1);
+        out.writeAttr(HTMLWriterEx.SUMMARY, i18n.getString("config.selectValue"));
 
         TestSuite ts = settings.getInterview().getTestSuite();
 
@@ -289,6 +291,7 @@ class ConfigSection extends HTMLSection {
 
         out.startTag(HTMLWriterEx.TABLE);
         out.writeAttr(HTMLWriterEx.BORDER, 1);
+        out.writeAttr(HTMLWriterEx.SUMMARY, i18n.getString("config.execValue"));
 
         File[] envFiles = null;
 
@@ -354,6 +357,7 @@ class ConfigSection extends HTMLSection {
 
         out.startTag(HTMLWriterEx.TABLE);
         out.writeAttr(HTMLWriterEx.BORDER, 1);
+        out.writeAttr(HTMLWriterEx.SUMMARY, i18n.getString("config.locValue"));
 
         out.startTag(HTMLWriterEx.TR);
         out.writeTH(i18n.getString("config.wd"), HTMLWriterEx.ROW);
@@ -409,6 +413,7 @@ class ConfigSection extends HTMLSection {
 
         out.startTag(HTMLWriterEx.TABLE);
         out.writeAttr(HTMLWriterEx.BORDER, 1);
+        out.writeAttr(HTMLWriterEx.SUMMARY, i18n.getString("config.env.title", envName));
         for (String[] envEntry : envTable) {
             out.startTag(HTMLWriterEx.TR);
 
@@ -440,6 +445,7 @@ class ConfigSection extends HTMLSection {
 
             out.startTag(HTMLWriterEx.TABLE);
             out.writeAttr(HTMLWriterEx.BORDER, 1);
+            out.writeAttr(HTMLWriterEx.SUMMARY, i18n.getString("config.excludedTests"));
             out.startTag(HTMLWriterEx.TR);
             out.startTag(HTMLWriterEx.TH);
             out.writeI18N("config.excl.name");
