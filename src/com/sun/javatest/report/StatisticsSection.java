@@ -217,6 +217,7 @@ class StatisticsSection extends HTMLSection {
 
         out.startTag(HTMLWriterEx.TABLE);
         out.writeAttr(HTMLWriterEx.BORDER, 1);
+        out.writeAttr(HTMLWriterEx.SUMMARY, i18n.getString("stats.keywordValue"));
 
         // headers
         out.startTag(HTMLWriterEx.TR);

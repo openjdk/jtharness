@@ -281,6 +281,7 @@ class KflSection extends HTMLSection {
 
         repWriter.startTag(HTMLWriterEx.TABLE);
         repWriter.writeAttr(HTMLWriterEx.BORDER, 1);
+        repWriter.writeAttr(HTMLWriterEx.SUMMARY, i18n.getString("kfl.files.list"));
 
         repWriter.startTag(HTMLWriterEx.TR);
         repWriter.writeTH(i18n.getString("kfl.changes.hdr"), HTMLWriterEx.ROW);
@@ -434,6 +435,7 @@ class KflSection extends HTMLSection {
 
         out.startTag(HTMLWriterEx.TABLE);
         out.writeAttr("border", "1");
+        out.writeAttr(HTMLWriterEx.SUMMARY, i18n.getString(prefix + ".title"));
         out.startTag(HTMLWriterEx.TR);
         out.startTag(HTMLWriterEx.TH);
         out.write(i18n.getString("kfl.table.bugs.txt"));

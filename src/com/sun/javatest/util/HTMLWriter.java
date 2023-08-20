@@ -184,6 +184,10 @@ public class HTMLWriter {
      */
     public static final String STYLE = "style";
     /**
+     * The HTML "summary" attribute.
+     */
+    public static final String SUMMARY = "summary";
+    /**
      * The HTML "table" tag.
      */
     public static final String TABLE = "table";

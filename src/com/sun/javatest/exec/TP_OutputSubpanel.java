@@ -247,6 +247,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             out.writeI18N("test.out.script");
             out.startTag(HTMLWriterEx.TABLE);
             out.writeAttr(HTMLWriterEx.BORDER, "0");
+            out.writeAttr(HTMLWriterEx.SUMMARY, uif.getI18NString("test.out.script"));
             //out.writeStyleAttr(tableStyle);
             out.startTag(HTMLWriterEx.TR);
             out.startTag(HTMLWriterEx.TD);
@@ -260,6 +261,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                 out.writeI18N("test.out.scriptArgs");
                 out.startTag(HTMLWriterEx.TABLE);
                 out.writeAttr(HTMLWriterEx.BORDER, "0");
+                out.writeAttr(HTMLWriterEx.SUMMARY, uif.getI18NString("test.out.scriptArgs"));
                 //out.writeStyleAttr(tableStyle);
                 for (int i = 1; i < scriptAndArgs.length; i++) {
                     out.startTag(HTMLWriterEx.TR);
@@ -279,6 +281,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                     out.writeI18N("test.out.smry.scriptLog.txt");
                     out.startTag(HTMLWriterEx.TABLE);
                     out.writeAttr(HTMLWriterEx.BORDER, "0");
+                    out.writeAttr(HTMLWriterEx.SUMMARY, uif.getI18NString("test.out.smry.scriptLog.txt"));
                     //out.writeStyleAttr(tableStyle);
                     String[] names = s.getOutputNames();
                     for (String name : names) {
@@ -302,6 +305,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
                 out.writeI18N("test.out.smry.sections.txt");
                 out.startTag(HTMLWriterEx.TABLE);
                 out.writeAttr(HTMLWriterEx.BORDER, "0");
+                out.writeAttr(HTMLWriterEx.SUMMARY, uif.getI18NString("test.out.smry.sections.txt"));
                 //out.writeStyleAttr(tableStyle);
                 for (int i = 0; i < subpanelTest.getSectionCount(); i++) {
                     TestResult.Section s = subpanelTest.getSection(i);
@@ -337,6 +341,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             Status s = subpanelTest.getStatus();
             out.startTag(HTMLWriterEx.TABLE);
             out.writeAttr(HTMLWriterEx.BORDER, "0");
+            out.writeAttr(HTMLWriterEx.SUMMARY, uif.getI18NString("test.out.outcome.head"));
             //out.writeStyleAttr(tableStyle);
             out.startTag(HTMLWriterEx.TR);
             out.startTag(HTMLWriterEx.TD);
@@ -385,6 +390,7 @@ class TP_OutputSubpanel extends TP_Subpanel {
             out.writeI18N("test.out.outputSummary.txt");
             out.startTag(HTMLWriterEx.TABLE);
             out.writeAttr(HTMLWriterEx.BORDER, "0");
+            out.writeAttr(HTMLWriterEx.SUMMARY, uif.getI18NString("test.out.outputSummary.txt"));
             //out.writeStyleAttr(tableStyle);
             out.startTag(HTMLWriterEx.TR);
             out.startTag(HTMLWriterEx.TH);
@@ -469,6 +475,11 @@ class TP_OutputSubpanel extends TP_Subpanel {
             Status s = subpanelTest.getStatus();
             out.startTag(HTMLWriterEx.TABLE);
             out.writeAttr(HTMLWriterEx.BORDER, "0");
+            if (subpanelTest.getSectionCount() > 0) {
+                out.writeAttr(HTMLWriterEx.SUMMARY, uif.getI18NString("test.out.testResultForOutput.txt"));
+            } else {
+                out.writeAttr(HTMLWriterEx.SUMMARY, uif.getI18NString("test.out.testResultNoOutput.txt"));
+            }
             //out.writeStyleAttr(tableStyle);
             out.startTag(HTMLWriterEx.TR);
             out.startTag(HTMLWriterEx.TD);
