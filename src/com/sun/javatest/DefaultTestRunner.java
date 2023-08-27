@@ -37,6 +37,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -240,7 +241,9 @@ public class DefaultTestRunner extends TestRunner {
         List<String> hs_errs = Arrays.stream(td.getDir().list()).filter(pattern.asPredicate()).toList();
         List<Crash> crashes = new ArrayList<>();
         for(String hs_err : hs_errs){
-            String pid = pattern.matcher(hs_err).group(1);
+            Matcher m = pattern.matcher(hs_err);
+            m.find();
+            String pid = m.group(1);
             crashes.add(new Crash(td, hs_err, pid));
         }
         return crashes;
