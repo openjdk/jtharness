@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -28,12 +28,15 @@ package com.sun.javatest.agent;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.nio.channels.ServerSocketChannel;
+import java.util.Optional;
 
 /**
  * A factory for creating connections to be used by agents running in "passive" mode.
  */
 public class PassiveConnectionFactory implements ConnectionFactory {
-    private ServerSocket serverSocket;
+    private final ServerSocket serverSocket;
+    private final Optional<ServerSocketChannel> serverSocketChannel;
 
     /**
      * Create a factory for creating connections to be used by agents running
@@ -51,8 +54,8 @@ public class PassiveConnectionFactory implements ConnectionFactory {
         } else if (backlog < 0) {
             throw new IllegalArgumentException("Cannot start passive agent connection - backlog value must be zero or greater.");
         }
-
-        serverSocket = SocketConnection.createServerSocket(port, backlog);
+        this.serverSocketChannel = Optional.of(SocketConnection.createServerSocketChannel(port, backlog));
+        this.serverSocket = serverSocketChannel.get().socket();
     }
 
     /**
@@ -64,6 +67,19 @@ public class PassiveConnectionFactory implements ConnectionFactory {
      */
     public PassiveConnectionFactory(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
+        this.serverSocketChannel = Optional.empty();
+    }
+
+    /**
+     * Create a factory for creating connections to be used by agents running
+     * in "passive" mode.
+     *
+     * @param serverSocketChannel The server socket used to accept incoming
+     *                     connection requests.
+     */
+    public PassiveConnectionFactory(ServerSocketChannel serverSocketChannel) {
+        this.serverSocketChannel = Optional.of(serverSocketChannel);
+        this.serverSocket = serverSocketChannel.socket();
     }
 
     /**
@@ -79,7 +95,11 @@ public class PassiveConnectionFactory implements ConnectionFactory {
     public Connection nextConnection() throws ConnectionFactory.Fault {
         try {
 //          return new SocketConnection(serverSocket.accept());
-            return new InterruptableSocketConnection(serverSocket.accept());
+            if (serverSocketChannel.isPresent()) {
+                return new InterruptableSocketConnection(serverSocketChannel.get().accept());
+            } else {
+                return new InterruptableSocketConnection(serverSocket.accept());
+            }
         } catch (IOException e) {
             throw new ConnectionFactory.Fault(e, false);
         }
@@ -89,6 +109,9 @@ public class PassiveConnectionFactory implements ConnectionFactory {
     public void close() throws ConnectionFactory.Fault {
         try {
             serverSocket.close();
+            if (serverSocketChannel.isPresent()) {
+                serverSocketChannel.get().close();
+            }
         } catch (IOException e) {
             throw new ConnectionFactory.Fault(e, true);
         }

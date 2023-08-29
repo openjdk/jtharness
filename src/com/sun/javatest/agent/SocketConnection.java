@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -34,9 +34,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
+import java.nio.channels.Channels;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.net.Socket;
+import java.net.StandardSocketOptions;
 import java.util.Hashtable;
+import java.util.Optional;
 
 /**
  * A connection via a TCP/IP socket.
@@ -46,6 +50,7 @@ public class SocketConnection implements Connection {
     private static Timer timer = new Timer();
     private static Hashtable<InetAddress, String> addressCache = new Hashtable<>();
     protected final InputStream socketInput;
+    private final Optional<SocketChannel> socketChannel;
     private final Socket socket;
     private final OutputStream socketOutput;
     private String name;
@@ -64,8 +69,22 @@ public class SocketConnection implements Connection {
             throw new NullPointerException();
         }
         this.socket = socket;
+        this.socketChannel = Optional.empty();
         socketInput = socket.getInputStream();
         socketOutput = socket.getOutputStream();
+    }
+
+    /**
+     * Create a connection via a TCP/IP socketChannel.
+     *
+     * @param socketChannel The socketChannel to use for the connection.
+     * @throws NullPointerException if socketChannel is null
+     */
+    public SocketConnection(SocketChannel socketChannel) {
+        this.socket = socketChannel.socket();
+        this.socketChannel = Optional.of(socketChannel);
+        socketInput = Channels.newInputStream(socketChannel);
+        socketOutput = Channels.newOutputStream(socketChannel);
     }
 
     /**
@@ -100,15 +119,16 @@ public class SocketConnection implements Connection {
             prev = jtSm.setAllowPropertiesAccess(true);
         }
         try {
-            socket = new Socket(host, port);
+            socketChannel = Optional.of(SocketChannel.open(new InetSocketAddress(host, port)));
+            socket = socketChannel.get().socket();
         } finally {
             if (jtSm != null) {
                 jtSm.setAllowPropertiesAccess(prev);
             }
         }
 
-        socketInput = socket.getInputStream();
-        socketOutput = socket.getOutputStream();
+        socketInput = Channels.newInputStream(socketChannel.get());
+        socketOutput = Channels.newOutputStream(socketChannel.get());
     }
 
     private static String getHostName(InetAddress addr) {
@@ -128,8 +148,8 @@ public class SocketConnection implements Connection {
      * @return new created ServerSocket
      * @throws java.io.IOException - if ServerSocket is not created
      */
-    public static ServerSocket createServerSocket(int port) throws IOException {
-        return createServerSocket(port, 50);
+    public static ServerSocketChannel createServerSocketChannel(int port) throws IOException {
+        return createServerSocketChannel(port, 50);
     }
 
     /**
@@ -141,7 +161,7 @@ public class SocketConnection implements Connection {
      * @return new created ServerSocket
      * @throws java.io.IOException - if ServerSocket is not created
      */
-    public static synchronized ServerSocket createServerSocket(int port, int backlog)
+    public static synchronized ServerSocketChannel createServerSocketChannel(int port, int backlog)
             throws IOException {
         SecurityManager sm = System.getSecurityManager();
         JavaTestSecurityManager jtSm = null;
@@ -151,13 +171,13 @@ public class SocketConnection implements Connection {
             prev = jtSm.setAllowPropertiesAccess(true);
         }
         try {
-            ServerSocket serverSocket = new ServerSocket();
+            ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
             // Ensure SO_REUSEADDR is false. (It is only needed if we're
             // using a fixed port.) The default setting for SO_REUSEADDR
             // is platform-specific, and Solaris has it on by default.
-            serverSocket.setReuseAddress(false);
-            serverSocket.bind(new InetSocketAddress(port), backlog);
-            return serverSocket;
+            serverSocketChannel.setOption(StandardSocketOptions.SO_REUSEADDR, Boolean.FALSE);
+            serverSocketChannel.bind(new InetSocketAddress(port), backlog);
+            return serverSocketChannel;
         } finally {
             if (jtSm != null) {
                 jtSm.setAllowPropertiesAccess(prev);
@@ -192,6 +212,9 @@ public class SocketConnection implements Connection {
     @Override
     public synchronized void close() throws IOException {
         socket.close();
+        if (socketChannel.isPresent()) {
+            socketChannel.get().close();
+        }
         socketInput.close();
         socketOutput.close();
         closed = true;

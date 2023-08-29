@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -36,6 +36,8 @@ import java.io.LineNumberReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.channels.Channels;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -51,7 +53,7 @@ class RequestHandler implements Runnable {
     private static final String HTTP_CONTENT_HTML = HTTP_CONTENT_TYPE + "text/html";
     protected static boolean debug = Boolean.getBoolean("debug." + RequestHandler.class.getName());
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(RequestHandler.class);
-    private Socket soc;
+    private SocketChannel socketChannel;
     private PrintWriter out;
     private LineNumberReader in;
     /**
@@ -60,8 +62,8 @@ class RequestHandler implements Runnable {
      * notified.  For special URLs, this class will delegate responsibility to
      * them.
      */
-    public RequestHandler(Socket soc) {
-        this.soc = soc;
+    public RequestHandler(SocketChannel socketChannel) {
+        this.socketChannel = socketChannel;
     }
 
     @Override
@@ -73,16 +75,16 @@ class RequestHandler implements Runnable {
             if (debug) {
                 StringBuilder buf = new StringBuilder();
                 buf.append("Handling request from ");
-                buf.append(soc.getInetAddress().getHostName());
+                buf.append(socketChannel.socket().getInetAddress().getHostName());
                 buf.append(" (");
-                buf.append(soc.getInetAddress().getHostAddress());
+                buf.append(socketChannel.socket().getInetAddress().getHostAddress());
                 buf.append(")");
                 System.out.println(buf.toString());
                 buf.setLength(0);
             }
 
-            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(soc.getOutputStream(), StandardCharsets.UTF_8)));
-            in = new LineNumberReader(new InputStreamReader(soc.getInputStream(), StandardCharsets.UTF_8));
+            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(Channels.newOutputStream(socketChannel), StandardCharsets.UTF_8)));
+            in = new LineNumberReader(new InputStreamReader(Channels.newInputStream(socketChannel), StandardCharsets.UTF_8));
 
 
             request = in.readLine();

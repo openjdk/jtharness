@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2018, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -33,8 +33,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.nio.channels.Channels;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -51,7 +52,7 @@ public class ActiveAgentPool {
     private Thread worker;
     private int counter;
     private Entries entries = new Entries();
-    private ServerSocket serverSocket;
+    private ServerSocketChannel serverSocketChannel;
     private int timeout = 3 * 60 * 1000;  // 3 minutes
     private int port = Agent.defaultActivePort;
 
@@ -83,8 +84,8 @@ public class ActiveAgentPool {
      * @see #setPort
      */
     public synchronized int getPort() {
-        return port == 0 && serverSocket != null ?
-                serverSocket.getLocalPort() : port;
+        return port == 0 && serverSocketChannel != null ?
+                serverSocketChannel.socket().getLocalPort() : port;
     }
 
     /**
@@ -125,7 +126,7 @@ public class ActiveAgentPool {
      * @see #setListening
      */
     public synchronized boolean isListening() {
-        return serverSocket != null;
+        return serverSocketChannel != null;
     }
 
     /**
@@ -145,15 +146,15 @@ public class ActiveAgentPool {
         }
 
         if (listen) {
-            if (serverSocket != null) {
-                if (port == 0 || serverSocket.getLocalPort() == port) {
+            if (serverSocketChannel != null) {
+                if (port == 0 || serverSocketChannel.socket().getLocalPort() == port) {
                     return;
                 } else {
-                    closeNoExceptions(serverSocket);
+                    closeNoExceptions(serverSocketChannel);
                 }
             }
 
-            serverSocket = SocketConnection.createServerSocket(port);
+            serverSocketChannel = SocketConnection.createServerSocketChannel(port);
 
             Runnable r = this::acceptRequests;
             Thread worker = new Thread(r, "ActiveAgentPool" + counter++);
@@ -161,10 +162,10 @@ public class ActiveAgentPool {
             // could synchronize (wait()) with run() here
             // if it should be really necessary
         } else {
-            if (serverSocket != null) {
-                serverSocket.close();
+            if (serverSocketChannel != null) {
+                serverSocketChannel.close();
             }
-            serverSocket = null;
+            serverSocketChannel = null;
             // flush the agents that have already registered
             Entry e;
             while ((e = entries.next()) != null) {
@@ -186,14 +187,14 @@ public class ActiveAgentPool {
     }
 
     private void acceptRequests() {
-        ServerSocket ss;
+        ServerSocketChannel ssc;
         // warning: serverSocket can be mutated by other methods, but we
         // don't want to do the accept call in a synchronized block;
         // after the accept call, we make sure that serverSocket is still
         // what we think it is--if not, this specific thread instance is
         // not longer current or required
         synchronized (this) {
-            ss = serverSocket;
+            ssc = serverSocketChannel;
             // could synchronize (notify()) with setListening() here
             // if it should be really necessary
         }
@@ -205,15 +206,15 @@ public class ActiveAgentPool {
                 try {
 
                     // wait for connection or exception, whichever comes first
-                    Socket s = ss.accept();
+                    SocketChannel sc = ssc.accept();
 
                     // got connection: make sure we still want it,
                     // and if so, add it to pool and notify interested parties
                     synchronized (this) {
-                        if (ss == serverSocket) {
-                            entries.add(new Entry(s));
+                        if (ssc == serverSocketChannel) {
+                            entries.add(new Entry(sc));
                         } else {
-                            closeNoExceptions(s);
+                            closeNoExceptions(sc);
                             return;
                         }
 
@@ -224,7 +225,7 @@ public class ActiveAgentPool {
                     }
                 } catch (IOException e) {
                     synchronized (this) {
-                        if (ss != serverSocket) {
+                        if (ssc != serverSocketChannel) {
                             return;
                         }
                     }
@@ -240,12 +241,12 @@ public class ActiveAgentPool {
             System.err.println("server thread exiting");
 
             synchronized (this) {
-                if (serverSocket == ss) {
-                    serverSocket = null;
+                if (serverSocketChannel == ssc) {
+                    serverSocketChannel = null;
                 }
             }
         } finally {
-            closeNoExceptions(ss);
+            closeNoExceptions(ssc);
         }
 
     }
@@ -282,16 +283,16 @@ public class ActiveAgentPool {
         }
     }
 
-    private void closeNoExceptions(Socket s) {
+    private void closeNoExceptions(SocketChannel sc) {
         try {
-            s.close();
+            sc.close();
         } catch (IOException ignore) {
         }
     }
 
-    private void closeNoExceptions(ServerSocket ss) {
+    private void closeNoExceptions(ServerSocketChannel ssc) {
         try {
-            ss.close();
+            ssc.close();
         } catch (IOException ignore) {
         }
     }
@@ -334,7 +335,7 @@ public class ActiveAgentPool {
      * use.
      */
     class Entry implements Connection {
-        private final Socket socket;
+        private final SocketChannel socketChannel;
         private InputStream socketInput;
         private OutputStream socketOutput;
         private String name;
@@ -342,21 +343,21 @@ public class ActiveAgentPool {
         private Object data;
         private boolean closed;
 
-        Entry(Socket socket) throws IOException {
-            this.socket = socket;
-            socketInput = socket.getInputStream();
-            socketOutput = socket.getOutputStream();
+        Entry(SocketChannel socketChannel) throws IOException {
+            this.socketChannel = socketChannel;
+            socketInput = Channels.newInputStream(socketChannel);
+            socketOutput = Channels.newOutputStream(socketChannel);
         }
 
         @Override
         public String getName() {
             if (name == null) {
                 StringBuilder sb = new StringBuilder(32);
-                sb.append(socket.getInetAddress().getHostName());
+                sb.append(socketChannel.socket().getInetAddress().getHostName());
                 sb.append(",port=");
-                sb.append(socket.getPort());
+                sb.append(socketChannel.socket().getPort());
                 sb.append(",localport=");
-                sb.append(socket.getLocalPort());
+                sb.append(socketChannel.socket().getLocalPort());
                 name = sb.toString();
             }
             return name;

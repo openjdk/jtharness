@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -33,8 +33,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.BindException;
 import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 
 /**
  * HTTP services for JT Harness.
@@ -49,7 +49,7 @@ public class HttpdServer implements Runnable {
      */
     private static final int MAX_PORT_SEARCH = 10;
     static protected boolean debug = Boolean.getBoolean("debug." + HttpdServer.class.getName());
-    private static ServerSocket socket;
+    private static ServerSocketChannel serverSocketChannel;
     private static String baseURL;
     /**
      * Is the web server running in this instance of JT Harness?
@@ -71,11 +71,11 @@ public class HttpdServer implements Runnable {
      * Get the local port on which the server is listening
      */
     public static int getLocalPort() {
-        if (socket == null) {
+        if (serverSocketChannel == null) {
             throw new IllegalStateException();
         }
 
-        return socket.getLocalPort();
+        return serverSocketChannel.socket().getLocalPort();
     }
 
     /**
@@ -129,12 +129,12 @@ public class HttpdServer implements Runnable {
     public void run() {
         while (true) {
             try {
-                Socket ns = socket.accept();
+                SocketChannel socketChannel = serverSocketChannel.accept();
                 if (debug) {
-                    System.out.println("httpd-New connection " + ns);
+                    System.out.println("httpd-New connection " + socketChannel);
                 }
 
-                RequestHandler handler = new RequestHandler(ns);
+                RequestHandler handler = new RequestHandler(socketChannel);
                 Thread thr = new Thread(handler);
 
                 if (debug) {
@@ -165,16 +165,16 @@ public class HttpdServer implements Runnable {
         for (int i = soc_num; i < soc_num + MAX_PORT_SEARCH; i++) {
 
             try {
-                socket = SocketConnection.createServerSocket(i, 25);
+                serverSocketChannel = SocketConnection.createServerSocketChannel(i, 25);
 
                 // success!
                 System.out.println(i18n.getString("server.port",
-                        String.valueOf(socket.getLocalPort())));
+                        String.valueOf(serverSocketChannel.socket().getLocalPort())));
 
                 StringBuffer buf = new StringBuffer("http://");
                 buf.append(InetAddress.getLocalHost().getHostAddress());
                 buf.append(":");
-                buf.append(socket.getLocalPort());
+                buf.append(serverSocketChannel.socket().getLocalPort());
                 buf.append("/");
                 baseURL = buf.toString();
                 buf = null;

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2008, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -30,11 +30,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 
 public class InterruptableSocketConnection extends SocketConnection {
 
     public InterruptableSocketConnection(Socket socket) throws IOException {
         super(socket);
+    }
+
+    public InterruptableSocketConnection(SocketChannel socketChannel) throws IOException {
+        super(socketChannel);
     }
 
     public InterruptableSocketConnection(String host, int port) throws IOException {
