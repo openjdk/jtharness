@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1996, 2022, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2023, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -149,10 +149,6 @@ public class Agent implements Runnable {
             c.close();
         } catch (IOException e) {
         }
-    }
-
-    private static int min(int a, int b) {
-        return a < b ? a : b;
     }
 
     private static synchronized int nextThreadNum() {
@@ -425,7 +421,7 @@ public class Agent implements Runnable {
                     close();
                     return;
                 } else {
-                    int millis = MILLIS_PER_SECOND * min(5, getRetryDelay());
+                    int millis = MILLIS_PER_SECOND * Math.min(5, getRetryDelay());
                     Thread.sleep(millis);
                     continue;
                 }
@@ -1144,8 +1140,9 @@ public class Agent implements Runnable {
             }
 
         }
+    }
 
-        private class CommandExecutor {
+        private static class CommandExecutor {
 
             private final Object LOCK = new Object();
             private String[] args;
@@ -1217,7 +1214,6 @@ public class Agent implements Runnable {
             }
 
         }
-    }
 }
 
 
