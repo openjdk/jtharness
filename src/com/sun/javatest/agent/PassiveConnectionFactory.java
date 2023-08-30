@@ -74,8 +74,8 @@ public class PassiveConnectionFactory implements ConnectionFactory {
      * Create a factory for creating connections to be used by agents running
      * in "passive" mode.
      *
-     * @param serverSocketChannel The server socket used to accept incoming
-     *                     connection requests.
+     * @param serverSocketChannel The server socket channel used to accept incoming
+     *                            connection requests.
      */
     public PassiveConnectionFactory(ServerSocketChannel serverSocketChannel) {
         this.serverSocketChannel = Optional.of(serverSocketChannel);

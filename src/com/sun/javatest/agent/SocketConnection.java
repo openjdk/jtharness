@@ -40,6 +40,7 @@ import java.nio.channels.SocketChannel;
 import java.net.Socket;
 import java.net.StandardSocketOptions;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -77,7 +78,7 @@ public class SocketConnection implements Connection {
     /**
      * Create a connection via a TCP/IP socketChannel.
      *
-     * @param socketChannel The socketChannel to use for the connection.
+     * @param socketChannel The socket сhannel to use for the connection.
      * @throws NullPointerException if socketChannel is null
      */
     public SocketConnection(SocketChannel socketChannel) {
@@ -141,11 +142,11 @@ public class SocketConnection implements Connection {
     }
 
     /**
-     * Creates a ServerSocket instance in the environment where reading
+     * Creates a ServerSocketChannel instance in the environment where reading
      * of system properties is allowed.
      *
      * @param port - port to bind
-     * @return new created ServerSocket
+     * @return new created ServerSocketChannel
      * @throws java.io.IOException - if ServerSocket is not created
      */
     public static ServerSocketChannel createServerSocketChannel(int port) throws IOException {
@@ -153,12 +154,12 @@ public class SocketConnection implements Connection {
     }
 
     /**
-     * Creates a ServerSocket instance in the environment where reading
+     * Creates a ServerSocketChannel instance in the environment where reading
      * of system properties is allowed.
      *
      * @param port    - port to bind
      * @param backlog - backlog
-     * @return new created ServerSocket
+     * @return new created ServerSocketChannel
      * @throws java.io.IOException - if ServerSocket is not created
      */
     public static synchronized ServerSocketChannel createServerSocketChannel(int port, int backlog)
