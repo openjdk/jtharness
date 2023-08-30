@@ -78,7 +78,7 @@ public class SocketConnection implements Connection {
     /**
      * Create a connection via a TCP/IP socketChannel.
      *
-     * @param socketChannel The socket сhannel to use for the connection.
+     * @param socketChannel The socket channel to use for the connection.
      * @throws NullPointerException if socketChannel is null
      */
     public SocketConnection(SocketChannel socketChannel) {
