@@ -1098,7 +1098,7 @@ public class Agent implements Runnable {
             try {
                 String s = getClass().getName();
                 String pkg = s.substring(0, s.lastIndexOf('.'));
-                classLoaderClass = (Class<? extends ClassLoader>) Class.forName(pkg + ".AgentClassLoader2");
+                classLoaderClass = Class.forName(pkg + ".AgentClassLoader2").asSubclass(ClassLoader.class);
             } catch (Throwable t) {
                 classLoaderClass = AgentClassLoader.class;
             }
