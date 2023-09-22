@@ -47,10 +47,6 @@ public abstract class TestRunner {
     private Harness.Observer notifier;
 
     /**
-     * TestWideParameters
-     */
-    protected boolean crashOnly = false;
-    /**
      * Get the work directory to be used to store the test results generated
      * by this test runner.
      *
@@ -250,9 +246,5 @@ public abstract class TestRunner {
         // resultTable.update(result);
         // notify observers
         notifier.finishedTest(tr);
-    }
-
-    void setTestWideParameters(Parameters.TestWideParameters twp){
-        this.crashOnly = twp.getCrashOnly();
     }
 }

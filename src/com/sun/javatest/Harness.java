@@ -29,7 +29,6 @@ package com.sun.javatest;
 import com.sun.javatest.TestResultTable.TreeIterator;
 import com.sun.javatest.httpd.HttpdServer;
 import com.sun.javatest.httpd.RootRegistry;
-import com.sun.javatest.interview.BasicInterviewParameters;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.DynamicArray;
 import com.sun.javatest.util.I18NResourceBundle;
@@ -686,10 +685,7 @@ public class Harness {
     // This methods notifies observers for startingTestRun and stoppingTestRun.
     // The caller should notify finishedTestRun when it is OK to run start again
     // (i.e. when worker has been reset to null.
-    private boolean runTests(Parameters p, boolean zeroTestsOK)
-            throws Fault, TestSuite.Fault {
-
-        boolean ok = true; // default return/finished notification value
+    protected TestRunner prepareTestRunner(Parameters p) throws Fault, TestSuite.Fault{
         stopping = false;
         startTime = System.currentTimeMillis();
         testsStartTime = -1L;
@@ -766,10 +762,6 @@ public class Harness {
         r.setBackupPolicy(backupPolicy);
         r.setEnvironment(env);
         r.setExcludeList(excludeList);
-        if (params instanceof BasicInterviewParameters){
-            BasicInterviewParameters basicInterviewParameters = (BasicInterviewParameters) params;
-            r.setTestWideParameters(basicInterviewParameters.getTestWideParameters());
-        }
 
         int concurrency = params.getConcurrency();
         concurrency = Math.max(1, Math.min(concurrency,
@@ -777,10 +769,25 @@ public class Harness {
         r.setConcurrency(concurrency);
 
         r.setNotifier(notifier);
+        return r;
+    }
 
+    /**
+     * This method is the one that does the work and runs the tests. Any parameters
+     * should have been set up in the constructor.
+     *
+     * @return The result is `true' if and only if all tests passed.
+     */
+    // This methods notifies observers for startingTestRun and stoppingTestRun.
+    // The caller should notify finishedTestRun when it is OK to run start again
+    // (i.e. when worker has been reset to null.
+    private boolean runTests(Parameters p, boolean zeroTestsOK)
+            throws Fault, TestSuite.Fault {
+        TestRunner r = prepareTestRunner(p);
         TestURLCollector testURLCollector = new TestURLCollector();
         notifier.addObserver(testURLCollector);
         testsStartTime = System.currentTimeMillis();
+        boolean ok = true; // default return/finished notification value
         try {
             ok = r.runTests(new Iterator<TestDescription>() {
                 @Override

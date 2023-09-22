@@ -46,7 +46,7 @@ import java.util.MissingResourceException;
  * interviews for all the various interview sections, except the environment
  * section, which remains to be implemented by subtypes.
  */
-public abstract class BasicInterviewParameters extends InterviewParameters implements Parameters.TestWideParameters {
+public abstract class BasicInterviewParameters extends InterviewParameters {
     private static I18NResourceBundle i18n = I18NResourceBundle.getBundleForClass(BasicInterviewParameters.class);
     protected TestsInterview iTests;
     private TestSuite testSuite;
@@ -498,17 +498,6 @@ public abstract class BasicInterviewParameters extends InterviewParameters imple
         return iTimeoutFactor;
     }
 
-    /**
-     * Get an object which provides access to the parameters
-     * that need to be applied to all the tests in the current run
-     *
-     * @return object which provides access to the parameters
-     * that need to be applied to all the tests in the current run
-     */
-    public TestWideParameters getTestWideParameters(){
-        return this;
-    };
-
     @Override
     protected Question getTimeoutFactorFirstQuestion() {
         return callInterview(iTimeoutFactor, getTimeoutFactorSuccessorQuestion());
@@ -637,16 +626,4 @@ public abstract class BasicInterviewParameters extends InterviewParameters imple
             }
         };
     }
-
-    @Override
-    public void setCrashOnly(boolean crashOnly) {
-        this.crashOnly = crashOnly;
-    }
-
-    @Override
-    public boolean getCrashOnly() {
-        return this.crashOnly;
-    }
-
-    private boolean crashOnly;
 }
