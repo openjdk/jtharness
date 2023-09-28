@@ -40,32 +40,32 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 
 public class ReportCreate18 extends Test {
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+     public void testImpl() throws Exception {
+          deleteUserData();
+          startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+          JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+          JDialogOperator rep = openReportCreation(mainFrame);
 
-		setXmlChecked(rep, false);
-		setPlainChecked(rep, false);
-		HtmlReport report = new HtmlReport(rep);
-		report.setFilesAll(false);
-		report.setFilesPutInIndex(true);
-		report.setFilesPutInReport(true);
-		report.setOptionsResults(true);
-		report.setOptionsKeyword(true);
-		report.setOptionsConfiguration(true, true, false, false);
+          setXmlChecked(rep, false);
+          setPlainChecked(rep, false);
+          HtmlReport report = new HtmlReport(rep);
+          report.setFilesAll(false);
+          report.setFilesPutInIndex(true);
+          report.setFilesPutInReport(true);
+          report.setOptionsResults(true);
+          report.setOptionsKeyword(true);
+          report.setOptionsConfiguration(true, true, false, false);
 
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
-		deleteDirectory(path);
-		setPath(rep, path);
-		pressCreate(rep);
-		addUsedFile(path);
-		pressYes(findShowReportDialog());
+          final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
+          deleteDirectory(path);
+          setPath(rep, path);
+          pressCreate(rep);
+          addUsedFile(path);
+          pressYes(findShowReportDialog());
 
-		HtmlReportChecker check = new HtmlReportChecker(path, report);
-		check.commitMainCheck();
-	}
+          HtmlReportChecker check = new HtmlReportChecker(path, report);
+          check.commitMainCheck();
+     }
 }
