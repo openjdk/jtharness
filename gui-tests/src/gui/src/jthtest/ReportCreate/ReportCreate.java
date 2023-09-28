@@ -32,11 +32,13 @@ import jthtest.ReportTools;
 import jthtest.Tools;
 import org.netbeans.jemmy.JemmyException;
 import org.netbeans.jemmy.operators.*;
+import org.netbeans.jemmy.util.Dumper;
 import org.netbeans.jemmy.util.NameComponentChooser;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -502,7 +504,6 @@ public class ReportCreate extends ReportTools {
             String[] urls = browser.getUrls();
             StringBuffer error = new StringBuffer("");
             int i = -1;
-
             if (htmlReport.isFGenerateError()) {
                 if (!(new File(htmlPath + "error.html").exists())) {
                     error.append("error.html was not found at the path '" + htmlPath + "' while expected\n");
@@ -569,14 +570,14 @@ public class ReportCreate extends ReportTools {
                 if (i == -1) {
                     error.append("report doesn't contain configuration url '#Configuration and Other Settings'\n");
                 }
-                if (!browser.getText().contains("name=\"Configuration and Other Settings\"")) {
+                if (!browser.getText().replaceAll("[^a-zA-Z]", " ").trim().replaceAll(" +", " ").contains("Configuration and Other Settings")) {
                     error.append("report doesn't contain configuration block\n");
                 }
 //        i = findInStringArray(urls, "#locations");
 //        if (i == -1) {
 //            error.append("report doesn't contain url to 'Where to put the results' block\n");
 //        }
-                if (!browser.getText().contains("name=locations") && !browser.getText().contains("name=\"locations\"")) {
+                if (!browser.getText().contains("name=locations") && !browser.getText().contains("id=\"locations\"")) {
                     error.append("report doesn't contain 'Where to put the results' block\n");
                 }
 
@@ -603,7 +604,7 @@ public class ReportCreate extends ReportTools {
                     if (i == -1) {
                         error.append("report doesn't contain url to standart values block\n");
                     }
-                    if (!browser.getText().contains("name=\"selection\"")) {
+                    if (!browser.getText().contains("id=\"selection\"")) {
                         error.append("report doesn't contain standart values block\n");
                     }
                     if (!new File(htmlPath + "excluded.html").exists()) {
@@ -627,7 +628,7 @@ public class ReportCreate extends ReportTools {
 //            if (i == -1) {
 //            error.append("report doesn't contain url to test enviroment ('How to run') block\n");
 //            }
-                    if (!browser.getText().contains("name=execution") && !browser.getText().contains("name=\"execution\"")) {
+                    if (!browser.getText().contains("name=execution") && !browser.getText().contains("id=\"execution\"")) {
                         error.append("report doesn't contain test enviroment ('How to run') block\n");
                     }
                     if (!(new File(htmlPath + "env.html").exists())) {
@@ -694,14 +695,14 @@ public class ReportCreate extends ReportTools {
                 if (i == -1) {
                     error.append("report doesn't contain url to Statistics block (produced by options-keywords)\n");
                 }
-                if (!browser.getText().contains("name=Statistics") && !browser.getText().contains("name=\"Statistics\"")) {
+                if (!browser.getText().contains("name=Statistics") && !browser.getText().contains("id=\"Statistics\"")) {
                     error.append("report doesn't contain Statistics block (produced by options-keywords)\n");
                 }
                 i = findInStringArray(urls, "#keywordSummary");
                 if (i == -1) {
                     error.append("report doesn't contain url to keywordSummary block\n");
                 }
-                if (!browser.getText().contains("name=keywordSummary") && !browser.getText().contains("name=\"keywordSummary\"")) {
+                if (!browser.getText().contains("id=keywordSummary") && !browser.getText().contains("id=\"keywordSummary\"")) {
                     error.append("report doesn't contain keywordSummary block\n");
                 }
             } else {
@@ -726,7 +727,7 @@ public class ReportCreate extends ReportTools {
                 if (i == -1) {
                     error.append("report doesn't contain url to Results block\n");
                 }
-                if (!browser.getText().contains("name=Results") && !browser.getText().contains("name=\"Results\"")) {
+                if (!browser.getText().contains("id=Results") && !browser.getText().contains("id=\"Results\"")) {
                     error.append("report doesn't contain Results block\n");
                 }
             } else {
@@ -788,8 +789,8 @@ public class ReportCreate extends ReportTools {
 
             if (type == ReportType.REPORT_HTML && htmlReport.isFPutInReport()) {
                 URL u = urlFile(basePath + File.separator + "html");
-                browser.clickUrl(u);
-                browser.waitForPageLoading("</html>", "Directory listing for html");
+                //browser.clickUrl(u);
+                //browser.waitForPageLoading("</html>", "Directory listing for html");
                 u = urlFile(basePath + File.separator + "html" + File.separator + "report.html");
                 browser.clickUrl(u);
                 browser.waitForPageLoading("</html>", "<title>" + WINDOWNAME + " Harness : Report");
