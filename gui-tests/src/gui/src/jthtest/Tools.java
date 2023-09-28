@@ -789,8 +789,8 @@ public class Tools {
           JTabbedPaneOperator tabs = new JTabbedPaneOperator(frame);
           while (tabs.getTabCount() > 0) {
                Thread.sleep(500);
-               JMenuBarOperator jmo = new JMenuBarOperator(frame);
-               jmo.pushMenuNoBlock("File|Close");
+               JMenuBarOperator jmbo = new JMenuBarOperator(frame);
+               jmbo.pushMenuNoBlock("File|Close");
                // new JMenuOperator(frame).pushMenuNoBlock(getExecResource("cb.file.menu") +
                // "|Close", "|"); // Close from the File tab is in strange resource file
           }
