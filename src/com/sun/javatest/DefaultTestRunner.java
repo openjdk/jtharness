@@ -157,7 +157,7 @@ public class DefaultTestRunner extends TestRunner {
         }
     }
 
-    protected boolean runTest(TestDescription td) {
+    protected TestResult runTestGiveResult(TestDescription td){
         WorkDirectory workDir = getWorkDirectory();
         TestResult result = null;
 
@@ -214,7 +214,11 @@ public class DefaultTestRunner extends TestRunner {
             }
         }
 
-        return result.getStatus().getType() == Status.PASSED;
+        return result;
+    }
+
+    protected boolean runTest(TestDescription td) {
+        return runTestGiveResult(td).getStatus().getType() == Status.PASSED;
     }
 
     private TestResult createErrorResult(TestDescription td, String reason, Throwable t) { // make more i18n

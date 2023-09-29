@@ -685,10 +685,7 @@ public class Harness {
     // This methods notifies observers for startingTestRun and stoppingTestRun.
     // The caller should notify finishedTestRun when it is OK to run start again
     // (i.e. when worker has been reset to null.
-    private boolean runTests(Parameters p, boolean zeroTestsOK)
-            throws Fault, TestSuite.Fault {
-
-        boolean ok = true; // default return/finished notification value
+    protected TestRunner prepareTestRunner(Parameters p) throws Fault, TestSuite.Fault{
         stopping = false;
         startTime = System.currentTimeMillis();
         testsStartTime = -1L;
@@ -772,10 +769,13 @@ public class Harness {
         r.setConcurrency(concurrency);
 
         r.setNotifier(notifier);
+        return r;
+    }
 
         TestURLCollector testURLCollector = new TestURLCollector();
         notifier.addObserver(testURLCollector);
         testsStartTime = System.currentTimeMillis();
+        boolean ok = true; // default return/finished notification value
         try {
             ok = r.runTests(new Iterator<TestDescription>() {
                 @Override
