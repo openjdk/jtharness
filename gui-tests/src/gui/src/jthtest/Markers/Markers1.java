@@ -37,34 +37,34 @@ import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JMenuOperator;
 
 public class Markers1 extends Markers {
-	/**
-	 * Start JavaTest with the -newDesktop option. Create a workdirectory. Load an
-	 * existing JTI file. Bring up configuration editor by doing Ctrl-E. Click on
-	 * Bookmarks menu. Verify that Enable bookmarks is checked off and all the other
-	 * entries are disabled.
-	 */
-	public static void main(String args[]) {
-		JUnitCore.main("jthtest.gui.Markers.Markers1");
-	}
+     /**
+      * Start JavaTest with the -newDesktop option. Create a workdirectory. Load an
+      * existing JTI file. Bring up configuration editor by doing Ctrl-E. Click on
+      * Bookmarks menu. Verify that Enable bookmarks is checked off and all the other
+      * entries are disabled.
+      */
+     public static void main(String args[]) {
+          JUnitCore.main("jthtest.gui.Markers.Markers1");
+     }
 
-	@Test
-	public void testMarkers1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		startJavatestNewDesktop();
+     @Test
+     public void testMarkers1() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+          startJavatestNewDesktop();
 
-		JFrameOperator mainFrame = findMainFrame();
+          JFrameOperator mainFrame = findMainFrame();
 
-		closeQS(mainFrame);
-		openTestSuite(mainFrame);
-		createWorkDirInTemp(mainFrame);
-		openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
-		Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
+          closeQS(mainFrame);
+          openTestSuite(mainFrame);
+          createWorkDirInTemp(mainFrame);
+          openConfigFile(openLoadConfigDialogByMenu(mainFrame), CONFIG_NAME);
+          Config_Edit.waitForConfigurationLoading(mainFrame, CONFIG_NAME);
 
-		openConfigDialogByKey(mainFrame);
-		JDialogOperator config = findConfigEditor(mainFrame);
+          openConfigDialogByKey(mainFrame);
+          JDialogOperator config = findConfigEditor(mainFrame);
 
-		JMenuOperator bmMenu = new JMenuOperator(config, "Bookmarks");
-		for (int i = 1; i < bmMenu.getComponentCount(); i++)
-			if (bmMenu.getMenuComponent(i).isEnabled())
-				throw new JemmyException("Menu subelement " + i + " is enabled while unexpected");
-	}
+          JMenuOperator bmMenu = new JMenuOperator(config, "Bookmarks");
+          for (int i = 1; i < bmMenu.getComponentCount(); i++)
+               if (bmMenu.getMenuComponent(i).isEnabled())
+                    throw new JemmyException("Menu subelement " + i + " is enabled while unexpected");
+     }
 }
