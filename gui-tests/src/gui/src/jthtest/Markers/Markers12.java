@@ -37,44 +37,44 @@ import org.netbeans.jemmy.operators.JTextFieldOperator;
 import org.netbeans.jemmy.util.NameComponentChooser;
 
 public class Markers12 extends Test {
-     /**
-      * Start JavaTest with the -newDesktop option. Create a workdirectory. Load an
-      * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
-      * Enable Bookmarks from the Bookmarks menu. Select the first question from the
-      * index pane. Mark the question by selecting Mark Current Question from the
-      * Bookmarks menu. Select Clear the Answer for the Current Question from the
-      * Bookmarks menu. The answer will be clear. Click on Next button. Verify that
-      * the an invalid answer will be displayed if the question has not been
-      * answered.
-      */
-     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-          mainFrame = new JTFrame(true);
+	/**
+	 * Start JavaTest with the -newDesktop option. Create a workdirectory. Load an
+	 * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+	 * Enable Bookmarks from the Bookmarks menu. Select the first question from the
+	 * index pane. Mark the question by selecting Mark Current Question from the
+	 * Bookmarks menu. Select Clear the Answer for the Current Question from the
+	 * Bookmarks menu. The answer will be clear. Click on Next button. Verify that
+	 * the an invalid answer will be displayed if the question has not been
+	 * answered.
+	 */
+	public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+		mainFrame = new JTFrame(true);
 
-          mainFrame.openDefaultTestSuite();
-          addUsedFile(mainFrame.createWorkDirectoryInTemp());
-          Configuration configuration = mainFrame.getConfiguration();
-          configuration.load(CONFIG_NAME, true);
+		mainFrame.openDefaultTestSuite();
+		addUsedFile(mainFrame.createWorkDirectoryInTemp());
+		Configuration configuration = mainFrame.getConfiguration();
+		configuration.load(CONFIG_NAME, true);
 
-          ConfigDialog config = configuration.openByKey();
+		ConfigDialog config = configuration.openByKey();
 
-          config.getBookmarks_EnableBookmarks().push();
-          config.setBookmarkedByMenu(4);
-          config.clearByMenu(4);
-          config.pushNextConfigEditor();
+		config.getBookmarks_EnableBookmarks().push();
+		config.setBookmarkedByMenu(4);
+		config.clearByMenu(4);
+		config.pushNextConfigEditor();
 
-          if (!new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("qu.vmsg")).getText()
-                    .equals("Invalid response")) {
-               errors.add("Error message wasn't found: '"
-                         + new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("qu.vmsg")).getText()
-                         + "' while expected 'Invalud response'");
-          }
+		if (!new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("qu.vmsg")).getText()
+				.equals("Invalid response")) {
+			errors.add("Error message wasn't found: '"
+					+ new JTextFieldOperator(config.getConfigDialog(), new NameComponentChooser("qu.vmsg")).getText()
+					+ "' while expected 'Invalud response'");
+		}
 
-          warnings.add("Pre-defined warning: Some questions can be optional and some can have default value");
+		warnings.add("Pre-defined warning: Some questions can be optional and some can have default value");
 
-     }
+	}
 
-     @Override
-     public String getDescription() {
-          return "Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the Enable Bookmarks from the Bookmarks menu. Select the first question from the history list. Mark the question by selecting Mark Current Question from the Bookmarks menu. Select Clear the Answer for the Current Question from the Bookmarks menu. The answer will be clear. Click on Next button. Verify that the an invalid answer will be displayed if the question has not been answered.";
-     }
+	@Override
+	public String getDescription() {
+		return "Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the Enable Bookmarks from the Bookmarks menu. Select the first question from the history list. Mark the question by selecting Mark Current Question from the Bookmarks menu. Select Clear the Answer for the Current Question from the Bookmarks menu. The answer will be clear. Click on Next button. Verify that the an invalid answer will be displayed if the question has not been answered.";
+	}
 }
