@@ -35,38 +35,38 @@ import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
 public class Markers9 extends Test {
-	/**
-	 * Start JavaTest with the -newDesktop option. Create a workdirectory. Load an
-	 * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
-	 * Enable Bookmarks from the Bookmarks menu. Select the first question from the
-	 * index pane. Mark the question by selecting Mark Current Question from the
-	 * Bookmarks menu. Select unmark the Current Question from the popup menu.
-	 * Verify that the marked question will be unmarked and the icon will disappear.
-	 */
-	public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		mainFrame = new JTFrame(true);
+     /**
+      * Start JavaTest with the -newDesktop option. Create a workdirectory. Load an
+      * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+      * Enable Bookmarks from the Bookmarks menu. Select the first question from the
+      * index pane. Mark the question by selecting Mark Current Question from the
+      * Bookmarks menu. Select unmark the Current Question from the popup menu.
+      * Verify that the marked question will be unmarked and the icon will disappear.
+      */
+     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+          mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		Configuration configuration = mainFrame.getConfiguration();
-		configuration.load(CONFIG_NAME, true);
-		ConfigDialog cd = configuration.openByKey();
+          mainFrame.openDefaultTestSuite();
+          addUsedFile(mainFrame.createWorkDirectoryInTemp());
+          Configuration configuration = mainFrame.getConfiguration();
+          configuration.load(CONFIG_NAME, true);
+          ConfigDialog cd = configuration.openByKey();
 
-		// test body
-		cd.getBookmarks_EnableBookmarks().push();
-		Icon emptyIcon = cd.getIcon(1);
-		cd.setBookmarkedByMenu(1);
-		if (cd.getIcon(1) == emptyIcon)
-			errors.add("Bookmark Icon was not found after marking");
+          // test body
+          cd.getBookmarks_EnableBookmarks().push();
+          Icon emptyIcon = cd.getIcon(1);
+          cd.setBookmarkedByMenu(1);
+          if (cd.getIcon(1) == emptyIcon)
+               errors.add("Bookmark Icon was not found after marking");
 
-		cd.unsetBookmarkedByPopup(1);
-		if (cd.getIcon(1) != emptyIcon)
-			errors.add("Empty Icon was not found after unmarking");
+          cd.unsetBookmarkedByPopup(1);
+          if (cd.getIcon(1) != emptyIcon)
+               errors.add("Empty Icon was not found after unmarking");
 
-	}
+     }
 
-	@Override
-	public String getDescription() {
-		return "Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the Enable Bookmarks from the Bookmarks menu. Select the first question from the history list. Mark the question by selecting Mark Current Question from the Bookmarks menu. Select unmark the Current Question from the popup menu. Verify that the marked question will be unmarked and the icon will disappear.";
-	}
+     @Override
+     public String getDescription() {
+          return "Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the Enable Bookmarks from the Bookmarks menu. Select the first question from the history list. Mark the question by selecting Mark Current Question from the Bookmarks menu. Select unmark the Current Question from the popup menu. Verify that the marked question will be unmarked and the icon will disappear.";
+     }
 }
