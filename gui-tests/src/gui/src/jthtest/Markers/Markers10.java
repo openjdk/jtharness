@@ -1,76 +1,76 @@
 /*
-*$Id$
+* $Id$
 *
-*Copyright(c)2009,2023,Oracleand/oritsaffiliates.Allrightsreserved.
-*DONOTALTERORREMOVECOPYRIGHTNOTICESORTHISFILEHEADER.
+* Copyright (c) 2009, 2023, Oracle and/or its affiliates. All rights reserved.
+* DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 *
-*Thiscodeisfreesoftware;youcanredistributeitand/ormodifyit
-*underthetermsoftheGNUGeneralPublicLicenseversion2only,as
-*publishedbytheFreeSoftwareFoundation.Oracledesignatesthis
-*particularfileassubjecttothe"Classpath"exceptionasprovided
-*byOracleintheLICENSEfilethataccompaniedthiscode.
+* This code is free software; you can redistribute it and/or modify it
+* under the terms of the GNU General Public License version 2 only, as
+* published by the Free Software Foundation.  Oracle designates this
+* particular file as subject to the "Classpath" exception as provided
+* by Oracle in the LICENSE file that accompanied this code.
 *
-*Thiscodeisdistributedinthehopethatitwillbeuseful,butWITHOUT
-*ANYWARRANTY;withouteventheimpliedwarrantyofMERCHANTABILITYor
-*FITNESSFORAPARTICULARPURPOSE.SeetheGNUGeneralPublicLicense
-*version2formoredetails(acopyisincludedintheLICENSEfilethat
-*accompaniedthiscode).
+* This code is distributed in the hope that it will be useful, but WITHOUT
+* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+* FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+* version 2 for more details (a copy is included in the LICENSE file that
+* accompanied this code).
 *
-*YoushouldhavereceivedacopyoftheGNUGeneralPublicLicenseversion
-*2alongwiththiswork;ifnot,writetotheFreeSoftwareFoundation,
-*Inc.,51FranklinSt,FifthFloor,Boston,MA02110-1301USA.
+* You should have received a copy of the GNU General Public License version
+* 2 along with this work; if not, write to the Free Software Foundation,
+* Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
 *
-*PleasecontactOracle,500OracleParkway,RedwoodShores,CA94065USA
-*orvisitwww.oracle.comifyouneedadditionalinformationorhaveany
-*questions.
+* Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
+* or visit www.oracle.com if you need additional information or have any
+* questions.
 */
-packagejthtest.Markers;
+package jthtest.Markers;
 
-importjava.lang.reflect.InvocationTargetException;
-importjthtest.Test;
-importjthtest.tools.ConfigDialog;
-importjthtest.tools.Configuration;
-importjthtest.tools.JTFrame;
-importorg.netbeans.jemmy.operators.JTextFieldOperator;
-importorg.netbeans.jemmy.util.NameComponentChooser;
+import java.lang.reflect.InvocationTargetException;
+import jthtest.Test;
+import jthtest.tools.ConfigDialog;
+import jthtest.tools.Configuration;
+import jthtest.tools.JTFrame;
+import org.netbeans.jemmy.operators.JTextFieldOperator;
+import org.netbeans.jemmy.util.NameComponentChooser;
 
-publicclassMarkers10extendsTest{
-	/**
-	*StartJavaTestwiththe-newDesktopoption.Createaworkdirectory.Loadan
-	*existingJTIfile.BringupconfigurationeditorbydoingCtrl-E.Selectthe
-	*EnableBookmarksfromtheBookmarksmenu.Selectthefirstquestionfromthe
-	*indexpane.MarkthequestionbyselectingMarkCurrentQuestionfromthe
-	*Bookmarksmenu.SelectCleartheAnswerfortheCurrentQuestionfromthe
-	*Bookmarksmenu.Verifythattheanswerforselectedquestionwillbesetto
-	*empty.
-	*/
-	publicvoidtestImpl()throwsClassNotFoundException,InvocationTargetException,NoSuchMethodException{
-		mainFrame=newJTFrame(true);
+public class Markers10 extends Test {
+/**
+* Start JavaTest with the -newDesktop option. Create a workdirectory. Load an
+* existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
+* Enable Bookmarks from the Bookmarks menu. Select the first question from the
+* index pane. Mark the question by selecting Mark Current Question from the
+* Bookmarks menu. Select Clear the Answer for the Current Question from the
+* Bookmarks menu. Verify that the answer for selected question will be set to
+* empty.
+*/
+public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		Configurationconfiguration=mainFrame.getConfiguration();
-		configuration.load(CONFIG_NAME,true);
-		ConfigDialogcd=configuration.openByKey();
+mainFrame.openDefaultTestSuite();
+addUsedFile(mainFrame.createWorkDirectoryInTemp());
+Configuration configuration = mainFrame.getConfiguration();
+configuration.load(CONFIG_NAME, true);
+ConfigDialog cd = configuration.openByKey();
 
-		cd.getBookmarks_EnableBookmarks().push();
-		cd.selectQuestion(2);
-		JTextFieldOperatorop=newJTextFieldOperator(cd.getConfigDialog(),newNameComponentChooser("str.txt"));
-		op.typeText("somedescriptionthatmustbecleared");
-		cd.setBookmarkedByMenu(2);
-		cd.clearByMenu(2);
+cd.getBookmarks_EnableBookmarks().push();
+cd.selectQuestion(2);
+JTextFieldOperator op = new JTextFieldOperator(cd.getConfigDialog(), new NameComponentChooser("str.txt"));
+op.typeText("some description that must be cleared");
+cd.setBookmarkedByMenu(2);
+cd.clearByMenu(2);
 
-		op=newJTextFieldOperator(cd.getConfigDialog(),newNameComponentChooser("str.txt"));
-		if(!op.getText().equals("")){
-			errors.add("Textwasn'tclearedup:'"+op.getText()+"'whileexpected''");
-		}
-		warnings.add(
-				"Pre-definedwarning:Marksometimesdesapperaswhileclearingbymenu-bookmarksavescurrentstateofanswer;Firstquestionis'Configuratoinname'anditcan'tbecleared;anewquestionisgeneratedwhileclearingup");
+op = new JTextFieldOperator(cd.getConfigDialog(), new NameComponentChooser("str.txt"));
+if (!op.getText().equals("")) {
+errors.add("Text wasn't cleared up: '" + op.getText() + "' while expected ''");
+}
+warnings.add(
+"Pre-defined warning: Mark sometimes desapperas while clearing by menu - bookmark saves current state of answer; First question is 'Configuratoin name' and it can't be cleared; a new question is generated while clearing up");
 
-	}
+}
 
-	@Override
-	publicStringgetDescription(){
-		return"StartJavaTestwiththe-NewDesktopoption.Createaworkdirectory.LoadanexistingJTIfile.BringupconfigurationeditorbydoingCtrl-E.SelecttheEnableBookmarksfromtheBookmarksmenu.Selectthefirstquestionfromthehistorylist.MarkthequestionbyselectingMarkCurrentQuestionfromtheBookmarksmenu.SelectCleartheAnswerfortheCurrentQuestionfromtheBookmarksmenu.Verifythattheanswerforselectedquestionwillbesettoempty.";
-	}
+@Override
+public String getDescription() {
+return "Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the Enable Bookmarks from the Bookmarks menu. Select the first question from the history list. Mark the question by selecting Mark Current Question from the Bookmarks menu. Select Clear the Answer for the Current Question from the Bookmarks menu. Verify that the answer for selected question will be set to empty.";
+}
 }
