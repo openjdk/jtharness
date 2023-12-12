@@ -26,6 +26,7 @@
  */
 package com.sun.javatest;
 
+import com.sun.javatest.exec.ResultModifierInterface;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
@@ -39,6 +40,8 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StreamTokenizer;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.ServiceLoader;
 import java.util.Vector;
 
 /**
@@ -208,6 +211,7 @@ public abstract class Script {
     private boolean jtrIfPassed =
             System.getProperty("javatest.script.jtrIfPassed", "true").equals("true");
 
+    private ResultModifierInterface resultModifier = null;
     /**
      * Utility routine to convert an array of filenames to a corresponding
      * array of strings.
@@ -465,7 +469,7 @@ public abstract class Script {
 
         testResult.setEnvironment(env);
         testResult.putProperty("totalTime", Long.toString(System.currentTimeMillis() - startMs));
-        testResult.setStatus(execStatus);
+        testResult.setStatus(tryModifyResult(execStatus, td));
 
         try {
             if (execStatus.getType() != Status.PASSED || jtrIfPassed) {
@@ -475,6 +479,57 @@ public abstract class Script {
             // ignore it; the test will have an error status already
             //throw new JavaTestError("Unable to write result file! " + e);
         }
+    }
+
+
+    /**
+     * This method runs the resultModifier stored in the private variable. In case the resultModifier is null
+     * it calls the method to search a resultModifierInterface implementation.
+     * @param proposedStatus - original status of the testrun
+     * @param td - description of the test
+     * @return status after modification (the proposedStatus by default)
+     */
+    private Status tryModifyResult(Status proposedStatus, TestDescription td){
+        if (resultModifier == null) {
+            searchResultModifier();
+        }
+        return resultModifier.modifyStatus(proposedStatus, td);
+    }
+
+
+    /**
+     * This method tries to search for alternative implementations of resultModifierInterface. Currently
+     * only one implementation is allowed to be present at any given time. If no implementation is found
+     * the method provides a default implementation which returns the result that has been given to it.
+     */
+    private void searchResultModifier(){
+        ServiceLoader<ResultModifierInterface> loader = ServiceLoader.load(ResultModifierInterface.class);
+
+        Iterator<ResultModifierInterface> iterator = loader.iterator();
+        ResultModifierInterface service = null;
+
+        while (iterator.hasNext()) {
+            if (service != null) {
+                // Found more than one implementation, throw an exception
+                throw new IllegalStateException("Multiple implementations found!");
+            }
+
+            service = iterator.next();
+        }
+
+        if (service == null) {
+            class DefaultModifier implements ResultModifierInterface{
+
+
+                @Override
+                public Status modifyStatus(Status originalStatus, TestDescription td) {
+                    return originalStatus;
+                }
+            }
+            service = new DefaultModifier();
+        }
+
+        resultModifier = service;
     }
 
     /**
