@@ -34,6 +34,6 @@ import com.sun.javatest.TestDescription;
  * This allows user to omit certain kinds of failures or pinpoint tests that passed even though the jvm
  * crashed in the process without being intended to.
  */
-public interface ResultModifierInterface {
-    Status modifyStatus(Status originalStatus, TestDescription td);
+public interface StatusModifierInterface {
+    Status modify(Status originalStatus, TestDescription td);
 }

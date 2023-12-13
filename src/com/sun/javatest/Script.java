@@ -26,7 +26,7 @@
  */
 package com.sun.javatest;
 
-import com.sun.javatest.exec.ResultModifierInterface;
+import com.sun.javatest.exec.StatusModifierInterface;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
@@ -211,7 +211,7 @@ public abstract class Script {
     private boolean jtrIfPassed =
             System.getProperty("javatest.script.jtrIfPassed", "true").equals("true");
 
-    private static ResultModifierInterface resultModifier;
+    private static StatusModifierInterface statusModifier;
     /**
      * Utility routine to convert an array of filenames to a corresponding
      * array of strings.
@@ -469,7 +469,7 @@ public abstract class Script {
 
         testResult.setEnvironment(env);
         testResult.putProperty("totalTime", Long.toString(System.currentTimeMillis() - startMs));
-        testResult.setStatus(tryModifyResult(execStatus, td));
+        testResult.setStatus(tryModifyStatus(execStatus, td));
 
         try {
             if (execStatus.getType() != Status.PASSED || jtrIfPassed) {
@@ -483,19 +483,19 @@ public abstract class Script {
 
 
     /**
-     * This method runs the resultModifier stored in the private variable. In case the resultModifier is null
-     * it calls the method to search a resultModifierInterface implementation.
-     * @param proposedStatus - original status of the testrun
+     * This method runs the statusModifier stored in the private variable. In case the statusModifier is null
+     * it calls the method to search a statusModifierInterface implementation.
+     * @param originalStatus - original status of the testrun
      * @param td - description of the test
      * @return status after modification (the proposedStatus by default)
      */
-    private Status tryModifyResult(Status proposedStatus, TestDescription td){
-        if (resultModifier == null) {
-            searchResultModifier();
+    private Status tryModifyStatus(Status originalStatus, TestDescription td){
+        if (statusModifier == null) {
+            searchStatusModifier();
         }
         //in case the status has been modified by this function we want to log it for any user controlling the results.
-        Status newStatus = resultModifier.modifyStatus(proposedStatus, td);
-        if(newStatus != proposedStatus){
+        Status newStatus = statusModifier.modify(originalStatus, td);
+        if(newStatus != originalStatus){
             newStatus = new Status(newStatus.getType(), newStatus.getReason() +
                     " - The status of this test result has been modified by external code.");
         }
@@ -504,38 +504,38 @@ public abstract class Script {
 
 
     /**
-     * This method tries to search for alternative implementations of resultModifierInterface. Currently
+     * This method tries to search for alternative implementations of statusModifierInterface. Currently
      * only one implementation is allowed to be present at any given time. If no implementation is found
      * the method provides a default implementation which returns the result that has been given to it.
      */
-    private synchronized void searchResultModifier(){
-        ServiceLoader<ResultModifierInterface> loader = ServiceLoader.load(ResultModifierInterface.class);
+    private synchronized void searchStatusModifier(){
+        ServiceLoader<StatusModifierInterface> loader = ServiceLoader.load(StatusModifierInterface.class);
 
-        Iterator<ResultModifierInterface> iterator = loader.iterator();
-        ResultModifierInterface service = null;
+        Iterator<StatusModifierInterface> iterator = loader.iterator();
+        StatusModifierInterface service = null;
 
         while (iterator.hasNext()) {
             if (service != null) {
                 // Found more than one implementation, throw an exception
-                throw new IllegalStateException("Multiple implementations of the ResultModifierInterface found!");
+                throw new IllegalStateException("Multiple implementations of the StatusModifierInterface found!");
             }
 
             service = iterator.next();
         }
 
         if (service == null) {
-            class DefaultModifier implements ResultModifierInterface{
+            class DefaultModifier implements StatusModifierInterface {
 
 
                 @Override
-                public Status modifyStatus(Status originalStatus, TestDescription td) {
+                public Status modify(Status originalStatus, TestDescription td) {
                     return originalStatus;
                 }
             }
             service = new DefaultModifier();
         }
 
-        resultModifier = service;
+        statusModifier = service;
     }
 
     /**
