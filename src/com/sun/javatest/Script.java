@@ -211,7 +211,7 @@ public abstract class Script {
     private boolean jtrIfPassed =
             System.getProperty("javatest.script.jtrIfPassed", "true").equals("true");
 
-    private ResultModifierInterface resultModifier = null;
+    private static ResultModifierInterface resultModifier;
     /**
      * Utility routine to convert an array of filenames to a corresponding
      * array of strings.
@@ -493,7 +493,13 @@ public abstract class Script {
         if (resultModifier == null) {
             searchResultModifier();
         }
-        return resultModifier.modifyStatus(proposedStatus, td);
+        //in case the status has been modified by this function we want to log it for any user controlling the results.
+        Status newStatus = resultModifier.modifyStatus(proposedStatus, td);
+        if(newStatus != proposedStatus){
+            newStatus = new Status(newStatus.getType(), newStatus.getReason() +
+                    " - The status of this test result has been modified by external code.");
+        }
+        return newStatus;
     }
 
 
@@ -502,7 +508,7 @@ public abstract class Script {
      * only one implementation is allowed to be present at any given time. If no implementation is found
      * the method provides a default implementation which returns the result that has been given to it.
      */
-    private void searchResultModifier(){
+    private synchronized void searchResultModifier(){
         ServiceLoader<ResultModifierInterface> loader = ServiceLoader.load(ResultModifierInterface.class);
 
         Iterator<ResultModifierInterface> iterator = loader.iterator();
@@ -511,7 +517,7 @@ public abstract class Script {
         while (iterator.hasNext()) {
             if (service != null) {
                 // Found more than one implementation, throw an exception
-                throw new IllegalStateException("Multiple implementations found!");
+                throw new IllegalStateException("Multiple implementations of the ResultModifierInterface found!");
             }
 
             service = iterator.next();
