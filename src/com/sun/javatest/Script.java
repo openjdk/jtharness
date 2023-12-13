@@ -506,7 +506,7 @@ public abstract class Script {
     /**
      * This method tries to search for alternative implementations of statusModifierInterface. Currently
      * only one implementation is allowed to be present at any given time. If no implementation is found
-     * the method provides a default implementation which returns the result that has been given to it.
+     * the method provides a default implementation which returns the status that has been given to it.
      */
     private synchronized void searchStatusModifier(){
         ServiceLoader<StatusModifierInterface> loader = ServiceLoader.load(StatusModifierInterface.class);

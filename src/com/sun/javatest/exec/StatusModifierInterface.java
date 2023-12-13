@@ -30,7 +30,7 @@ import com.sun.javatest.Status;
 import com.sun.javatest.TestDescription;
 
 /**
- * Enables users to create their own result modifications for purposes of different testing strategies.
+ * Enables users to create their own status modifications for purposes of different testing strategies.
  * This allows user to omit certain kinds of failures or pinpoint tests that passed even though the jvm
  * crashed in the process without being intended to.
  */
