@@ -26,7 +26,7 @@
  */
 package com.sun.javatest;
 
-import com.sun.javatest.exec.StatusModifierInterface;
+import com.sun.javatest.exec.StatusTransformer;
 import com.sun.javatest.util.BackupPolicy;
 import com.sun.javatest.util.I18NResourceBundle;
 import com.sun.javatest.util.StringArray;
@@ -211,7 +211,10 @@ public abstract class Script {
     private boolean jtrIfPassed =
             System.getProperty("javatest.script.jtrIfPassed", "true").equals("true");
 
-    private static StatusModifierInterface statusModifier;
+    /**
+     * tries to search for a statusTransformer, no status transformations will be done if the
+     */
+    private static final StatusTransformer statusTransformer = searchStatusTransformer();
     /**
      * Utility routine to convert an array of filenames to a corresponding
      * array of strings.
@@ -483,59 +486,45 @@ public abstract class Script {
 
 
     /**
-     * This method runs the statusModifier stored in the private variable. In case the statusModifier is null
-     * it calls the method to search a statusModifierInterface implementation.
+     * This method runs the statusTransformer stored in the private variable. In case the statusTransformer is null
+     * it returns the original status.
      * @param originalStatus - original status of the testrun
      * @param td - description of the test
-     * @return status after modification (the proposedStatus by default)
+     * @return status after modification (the originalStatus by default)
      */
     private Status tryModifyStatus(Status originalStatus, TestDescription td){
-        if (statusModifier == null) {
-            searchStatusModifier();
+        if (statusTransformer == null) {
+            return originalStatus;
         }
         //in case the status has been modified by this function we want to log it for any user controlling the results.
-        Status newStatus = statusModifier.modify(originalStatus, td);
-        if(newStatus != originalStatus){
-            newStatus = new Status(newStatus.getType(), newStatus.getReason() +
+        Status newStatus = statusTransformer.transform(originalStatus, td);
+        newStatus = new Status(newStatus.getType(), newStatus.getReason() +
                     " - The status of this test result has been modified by external code.");
-        }
         return newStatus;
     }
 
 
     /**
-     * This method tries to search for alternative implementations of statusModifierInterface. Currently
+     * This method tries to search for alternative implementations of StatusTransformer. Currently
      * only one implementation is allowed to be present at any given time. If no implementation is found
      * the method provides a default implementation which returns the status that has been given to it.
      */
-    private synchronized void searchStatusModifier(){
-        ServiceLoader<StatusModifierInterface> loader = ServiceLoader.load(StatusModifierInterface.class);
+    private static synchronized StatusTransformer searchStatusTransformer(){
+        ServiceLoader<StatusTransformer> loader = ServiceLoader.load(StatusTransformer.class);
 
-        Iterator<StatusModifierInterface> iterator = loader.iterator();
-        StatusModifierInterface service = null;
+        Iterator<StatusTransformer> iterator = loader.iterator();
+        StatusTransformer service = null;
 
         while (iterator.hasNext()) {
             if (service != null) {
                 // Found more than one implementation, throw an exception
-                throw new IllegalStateException("Multiple implementations of the StatusModifierInterface found!");
+                throw new IllegalStateException("Multiple implementations of the StatusTransformer found!");
             }
 
             service = iterator.next();
         }
 
-        if (service == null) {
-            class DefaultModifier implements StatusModifierInterface {
-
-
-                @Override
-                public Status modify(Status originalStatus, TestDescription td) {
-                    return originalStatus;
-                }
-            }
-            service = new DefaultModifier();
-        }
-
-        statusModifier = service;
+        return service;
     }
 
     /**
