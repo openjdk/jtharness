@@ -212,9 +212,10 @@ public abstract class Script {
             System.getProperty("javatest.script.jtrIfPassed", "true").equals("true");
 
     /**
-     * tries to search for a statusTransformer, no status transformations will be done if the value is null
+     * Contains {@link StatusTransformer} that transforms the test result status, or {@code null}
+     * if no transformer service was found.
      */
-    private static final StatusTransformer statusTransformer = searchStatusTransformer();
+    private static final StatusTransformer STATUS_TRANSFORMER = loadStatusTransformer();
     /**
      * Utility routine to convert an array of filenames to a corresponding
      * array of strings.
@@ -493,13 +494,14 @@ public abstract class Script {
      * @return status after modification (the originalStatus by default)
      */
     private Status tryModifyStatus(Status originalStatus, TestDescription td){
-        if (statusTransformer == null) {
+        if (STATUS_TRANSFORMER == null) {
             return originalStatus;
         }
         //in case the status has been modified by this function we want to log it for any user controlling the results.
-        Status newStatus = statusTransformer.transform(originalStatus, td);
+        Status newStatus = STATUS_TRANSFORMER.transform(originalStatus, td);
         newStatus = new Status(newStatus.getType(), newStatus.getReason() +
-                    " - The status of this test result has been modified by external code.");
+                    " - The status of this test result has been modified by external code" +
+                STATUS_TRANSFORMER.getClass().getName());
         return newStatus;
     }
 
@@ -511,7 +513,7 @@ public abstract class Script {
      * @return StatusTransformer if only one implementation is found, null if no implementation has been found
      * and throws an exception of multiple implementations has been found.
      */
-    private static synchronized StatusTransformer searchStatusTransformer(){
+    private static synchronized StatusTransformer loadStatusTransformer(){
         ServiceLoader<StatusTransformer> loader = ServiceLoader.load(StatusTransformer.class);
 
         Iterator<StatusTransformer> iterator = loader.iterator();
