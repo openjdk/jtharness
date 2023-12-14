@@ -507,7 +507,9 @@ public abstract class Script {
     /**
      * This method tries to search for alternative implementations of StatusTransformer. Currently
      * only one implementation is allowed to be present at any given time. If no implementation is found
-     * the method provides a default implementation which returns the status that has been given to it.
+     * returns null.
+     * @return StatusTransformer if only one implementation is found, null if no implementation has been found
+     * and throws an exception of multiple implementations has been found.
      */
     private static synchronized StatusTransformer searchStatusTransformer(){
         ServiceLoader<StatusTransformer> loader = ServiceLoader.load(StatusTransformer.class);
