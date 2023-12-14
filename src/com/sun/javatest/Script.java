@@ -212,7 +212,7 @@ public abstract class Script {
             System.getProperty("javatest.script.jtrIfPassed", "true").equals("true");
 
     /**
-     * tries to search for a statusTransformer, no status transformations will be done if the
+     * tries to search for a statusTransformer, no status transformations will be done if the value is null
      */
     private static final StatusTransformer statusTransformer = searchStatusTransformer();
     /**
