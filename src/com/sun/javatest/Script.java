@@ -493,14 +493,14 @@ public abstract class Script {
      * @param td - description of the test
      * @return status after modification (the originalStatus by default)
      */
-    private Status tryModifyStatus(Status originalStatus, TestDescription td){
+    protected Status tryModifyStatus(Status originalStatus, TestDescription td){
         if (STATUS_TRANSFORMER == null) {
             return originalStatus;
         }
         //in case the status has been modified by this function we want to log it for any user controlling the results.
         Status newStatus = STATUS_TRANSFORMER.transform(originalStatus, td);
         newStatus = new Status(newStatus.getType(), newStatus.getReason() +
-                    " - The status of this test result has been modified by external code" +
+                    " - The status of this test result has been modified by external code - " +
                 STATUS_TRANSFORMER.getClass().getName());
         return newStatus;
     }
