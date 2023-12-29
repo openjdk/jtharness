@@ -33,12 +33,27 @@ import java.net.Socket;
 
 public class InterruptableSocketConnection extends SocketConnection {
 
+    /**
+     * New threads used for reading use this {@link ThreadGroup}.
+     */
+    private ThreadGroup ioThreadGroup;
+
     public InterruptableSocketConnection(Socket socket) throws IOException {
-        super(socket);
+        this(Thread.currentThread().getThreadGroup(), socket);
     }
 
     public InterruptableSocketConnection(String host, int port) throws IOException {
+        this(Thread.currentThread().getThreadGroup(), host, port);
+    }
+
+    public InterruptableSocketConnection(ThreadGroup ioThreadGroup, Socket socket) throws IOException {
+        super(socket);
+        this.ioThreadGroup = ioThreadGroup;
+    }
+
+    public InterruptableSocketConnection(ThreadGroup ioThreadGroup, String host, int port) throws IOException {
         super(host, port);
+        this.ioThreadGroup = ioThreadGroup;
     }
 
     @Override
@@ -117,7 +132,7 @@ public class InterruptableSocketConnection extends SocketConnection {
                 final int o = offset;
                 final int c = count;
 
-                Thread reader = new Thread() {
+                Thread reader = new Thread(ioThreadGroup, new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -131,7 +146,7 @@ public class InterruptableSocketConnection extends SocketConnection {
                             }
                         }
                     }
-                };
+                });
                 reading = true;
                 reader.start();
             }

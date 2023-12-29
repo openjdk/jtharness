@@ -36,6 +36,11 @@ public class PassiveConnectionFactory implements ConnectionFactory {
     private ServerSocket serverSocket;
 
     /**
+     * The {@link ThreadGroup} used for reading during class loading.
+     */
+    private ThreadGroup ioThreadGroup = new ThreadGroup("Passive Class Loading IO");
+
+    /**
      * Create a factory for creating connections to be used by agents running
      * in "passive" mode.
      *
@@ -79,7 +84,7 @@ public class PassiveConnectionFactory implements ConnectionFactory {
     public Connection nextConnection() throws ConnectionFactory.Fault {
         try {
 //          return new SocketConnection(serverSocket.accept());
-            return new InterruptableSocketConnection(serverSocket.accept());
+            return new InterruptableSocketConnection(ioThreadGroup, serverSocket.accept());
         } catch (IOException e) {
             throw new ConnectionFactory.Fault(e, false);
         }
