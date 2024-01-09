@@ -465,7 +465,8 @@ public abstract class Script {
 
         testResult.setEnvironment(env);
         testResult.putProperty("totalTime", Long.toString(System.currentTimeMillis() - startMs));
-        testResult.setStatus(execStatus);
+        //allows for potential aditional status modification in Script subclasses
+        fillTestExecutionStatus(testResult, execStatus);
 
         try {
             if (execStatus.getType() != Status.PASSED || jtrIfPassed) {
@@ -475,6 +476,16 @@ public abstract class Script {
             // ignore it; the test will have an error status already
             //throw new JavaTestError("Unable to write result file! " + e);
         }
+    }
+
+    /**
+     * Following method allows for overriding in the subclasses of Script class, ultimately allowing
+     * implementations of custom treatment in specific cases without reimplementing the whole run method.
+     * @param testResultToFill TestResult object to be filled with Status
+     * @param execStatus Status object to fill into the testResultToFill
+     */
+    protected void fillTestExecutionStatus(TestResult testResultToFill, Status execStatus) {
+        testResultToFill.setStatus(execStatus);
     }
 
     /**
