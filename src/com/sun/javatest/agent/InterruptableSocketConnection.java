@@ -39,11 +39,11 @@ public class InterruptableSocketConnection extends SocketConnection {
     private ThreadGroup ioThreadGroup;
 
     public InterruptableSocketConnection(Socket socket) throws IOException {
-        this(Thread.currentThread().getThreadGroup(), socket);
+        this(null, socket);
     }
 
     public InterruptableSocketConnection(String host, int port) throws IOException {
-        this(Thread.currentThread().getThreadGroup(), host, port);
+        this(null, host, port);
     }
 
     public InterruptableSocketConnection(ThreadGroup ioThreadGroup, Socket socket) throws IOException {
