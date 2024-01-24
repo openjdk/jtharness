@@ -35,10 +35,20 @@ import java.net.ServerSocket;
 public class PassiveConnectionFactory implements ConnectionFactory {
     private ServerSocket serverSocket;
 
+    private static ThreadGroup getRootThreadGroup()
+    {
+        ThreadGroup root = Thread.currentThread().getThreadGroup();
+        while (root.getParent() != null) {
+            root = root.getParent();
+        }
+        return root;
+    }
+
+
     /**
      * The {@link ThreadGroup} used for reading during class loading.
      */
-    private ThreadGroup ioThreadGroup = new ThreadGroup("Passive Class Loading IO");
+    private ThreadGroup ioThreadGroup = new ThreadGroup(getRootThreadGroup(), "Passive Class Loading IO");
 
     /**
      * Create a factory for creating connections to be used by agents running
