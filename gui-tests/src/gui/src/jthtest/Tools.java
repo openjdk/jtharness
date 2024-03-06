@@ -810,9 +810,7 @@ public class Tools {
 
     public static int findInStringArray(String[] in, String what) {
         for (int i = 0; i < in.length; i++) {
-            //String tmp=in[i].replaceAll("\\W"," ");
-            //String acin=tmp.replaceAll("\\d","");
-            if (in[i].equals(what)) {
+            if (in[i].replaceAll("[^#/.^a-zA-Z ]+"," ").trim().equals(what)) {
                 return i;
             }
         }
@@ -966,4 +964,3 @@ public class Tools {
         }
     }
 }
-
