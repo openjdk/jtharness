@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2009, 2023, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2024, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -42,30 +42,30 @@ import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
 public class Markers13 extends Test {
-     /**
-      * This test case verifies that the Show only Marked Questions will create a
-      * sequences of "..." for marked questions.
-      */
-     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-          mainFrame = new JTFrame(true);
+    /**
+     * This test case verifies that the Show only Marked Questions will create a
+     * sequences of "..." for marked questions.
+     */
+    public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+        mainFrame = new JTFrame(true);
 
-          mainFrame.openDefaultTestSuite();
-          addUsedFile(mainFrame.createWorkDirectoryInTemp());
-          Configuration configuration = mainFrame.getConfiguration();
-          configuration.load(CONFIG_NAME, true);
+        mainFrame.openDefaultTestSuite();
+        addUsedFile(mainFrame.createWorkDirectoryInTemp());
+        Configuration configuration = mainFrame.getConfiguration();
+        configuration.load(CONFIG_NAME, true);
 
-          ConfigDialog config = configuration.openByKey();
+        ConfigDialog config = configuration.openByKey();
 
-          int[] indexes = new int[] { 2, 3, 4, 7, 8, 10 };
-          String[] names = config.getElementsNames(indexes);
+        int[] indexes = new int[] { 2, 3, 4, 7, 8, 10 };
+        String[] names = config.getElementsNames(indexes);
 
-          config.getBookmarks_EnableBookmarks().push();
-          config.setBookmarkedByMenu(indexes);
-          config.getBookmarks_ShowOnlyBookmarkedMenu().push();
+        config.getBookmarks_EnableBookmarks().push();
+        config.setBookmarkedByMenu(indexes);
+        config.getBookmarks_ShowOnlyBookmarkedMenu().push();
 
-          indexes = config.checkVisibility(names);
-          config.checkHiddenGroups(indexes, names);
+        indexes = config.checkVisibility(names);
+        config.checkHiddenGroups(indexes, names);
 
-     }
+    }
 
 }
