@@ -33,25 +33,25 @@ import jthtest.tools.Configuration;
 import jthtest.tools.JTFrame;
 
 public class Markers21 extends Test {
-	/**
-	 * This test case verifies that selecting the remove all marked questions button
-	 * will remove the marked question.
-	 */
-	public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
-		mainFrame = new JTFrame(true);
+     /**
+      * This test case verifies that selecting the remove all marked questions button
+      * will remove the marked question.
+      */
+     public void testImpl() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
+          mainFrame = new JTFrame(true);
 
-		mainFrame.openDefaultTestSuite();
-		addUsedFile(mainFrame.createWorkDirectoryInTemp());
-		Configuration configuration = mainFrame.getConfiguration();
-		configuration.load(CONFIG_NAME, true);
+          mainFrame.openDefaultTestSuite();
+          addUsedFile(mainFrame.createWorkDirectoryInTemp());
+          Configuration configuration = mainFrame.getConfiguration();
+          configuration.load(CONFIG_NAME, true);
 
-		ConfigDialog config = configuration.openByKey();
-		config.getBookmarks_EnableBookmarks().push();
-		config.setBookmarkedByMenu(1);
-		config.getBookmarks_EnableBookmarks().push();
+          ConfigDialog config = configuration.openByKey();
+          config.getBookmarks_EnableBookmarks().push();
+          config.setBookmarkedByMenu(1);
+          config.getBookmarks_EnableBookmarks().push();
 
-		if (config.checkBookmarked(1))
-			errors.add("Question is bookmarked after disabling bookmarks while should not");
+          if (config.checkBookmarked(1))
+               errors.add("Question is bookmarked after disabling bookmarks while should not");
 
-	}
+     }
 }
