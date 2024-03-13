@@ -33,34 +33,34 @@ import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
 
 public class ReportCreate14 extends Test {
-	/**
-	 * This test case verifies that selecting the Results Summary box will display
-	 * the result of the test run in the report.html.
-	 */
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+     /**
+      * This test case verifies that selecting the Results Summary box will display
+      * the result of the test run in the report.html.
+      */
+     public void testImpl() throws Exception {
+          deleteUserData();
+          startJavaTestWithDefaultWorkDirectory();
 
-		JFrameOperator mainFrame = findMainFrame();
+          JFrameOperator mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+          JDialogOperator rep = openReportCreation(mainFrame);
 
-		setXmlChecked(rep, false);
-		setPlainChecked(rep, false);
-		HtmlReport report = new HtmlReport(rep);
-		report.setFilesAll(false);
-		report.setFilesPutInReport(true);
-		report.setOptionsAll(false);
-		report.setOptionsResults(true);
+          setXmlChecked(rep, false);
+          setPlainChecked(rep, false);
+          HtmlReport report = new HtmlReport(rep);
+          report.setFilesAll(false);
+          report.setFilesPutInReport(true);
+          report.setOptionsAll(false);
+          report.setOptionsResults(true);
 
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
-		setPath(rep, path);
-		File f = new File(path);
-		deleteDirectory(f);
-		pressCreate(rep);
-		addUsedFile(f);
-		pressYes(findShowReportDialog());
+          final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
+          setPath(rep, path);
+          File f = new File(path);
+          deleteDirectory(f);
+          pressCreate(rep);
+          addUsedFile(f);
+          pressYes(findShowReportDialog());
 
-		new HtmlReportChecker(path, report).commitMainCheck();
-	}
+          new HtmlReportChecker(path, report).commitMainCheck();
+     }
 }
