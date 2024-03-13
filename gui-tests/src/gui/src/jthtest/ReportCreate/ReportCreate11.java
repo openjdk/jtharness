@@ -35,39 +35,39 @@ import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JFrameOperator;
 
 public class ReportCreate11 extends Test {
-	/**
-	 * This test case verifies that selecting the Standard Values box will display a
-	 * link to the current configuration for the test in the report.html.
-	 */
-	JFrameOperator mainFrame;
+     /**
+      * This test case verifies that selecting the Standard Values box will display a
+      * link to the current configuration for the test in the report.html.
+      */
+     JFrameOperator mainFrame;
 
-	public void testImpl() throws Exception {
-		deleteUserData();
-		startJavaTestWithDefaultWorkDirectory();
+     public void testImpl() throws Exception {
+          deleteUserData();
+          startJavaTestWithDefaultWorkDirectory();
 
-		mainFrame = findMainFrame();
+          mainFrame = findMainFrame();
 
-		JDialogOperator rep = openReportCreation(mainFrame);
+          JDialogOperator rep = openReportCreation(mainFrame);
 
-		final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
-		File f = new File(path);
-		deleteDirectory(f);
-		setPath(rep, path);
+          final String path = TEMP_PATH + REPORT_NAME + REPORT_POSTFIX_HTML + File.separator;
+          File f = new File(path);
+          deleteDirectory(f);
+          setPath(rep, path);
 
-		setPlainChecked(rep, false);
-		setXmlChecked(rep, false);
-		HtmlReport html = new HtmlReport(rep);
-		html.setOptionsAll(false);
-		html.setOptionsConfiguration(true, false, true, false);
-		html.setFilesAll(false);
-		html.setFilesPutInReport(true);
+          setPlainChecked(rep, false);
+          setXmlChecked(rep, false);
+          HtmlReport html = new HtmlReport(rep);
+          html.setOptionsAll(false);
+          html.setOptionsConfiguration(true, false, true, false);
+          html.setFilesAll(false);
+          html.setFilesPutInReport(true);
 
-		pressCreate(rep);
-		addUsedFile(f);
+          pressCreate(rep);
+          addUsedFile(f);
 
-		pressYes(findShowReportDialog());
+          pressYes(findShowReportDialog());
 
-		new HtmlReportChecker(path, html).commitMainCheck();
-	}
+          new HtmlReportChecker(path, html).commitMainCheck();
+     }
 
 }
