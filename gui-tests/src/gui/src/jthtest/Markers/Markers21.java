@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2009, 2023, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2009, 2024, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -23,14 +23,6 @@
  * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
  * or visit www.oracle.com if you need additional information or have any
  * questions.
- */
-/*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an 
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the 
- * Enable Bookmarks from the Bookmarks menu. Select the first question from the 
- * history list. Click on Mark Current Question. The question will be marked. 
- * Select the Remove Bookmarks from the Bookmarks menu. Verify that the marker 
- * for the selected question will be removed. 
  */
 package jthtest.Markers;
 

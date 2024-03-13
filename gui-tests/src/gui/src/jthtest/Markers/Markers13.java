@@ -24,14 +24,6 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-/*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
- * Enable Bookmarks from the Bookmarks menu. Select the couple of questions
- * from the history list. Mark the questions by selecting Mark Current Question
- * from the Bookmarks menu. Click on Show Only Marked Questions. Verify that
- * the abbreviated list, some sequences of questions will be replaces by "...".
- */
 package jthtest.Markers;
 
 import java.lang.reflect.InvocationTargetException;
