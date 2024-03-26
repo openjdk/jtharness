@@ -603,7 +603,7 @@ public class ReportCreate extends ReportTools {
                     if (i == -1) {
                         error.append("report doesn't contain url to standart values block\n");
                     }
-                    if (!browser.getText().contains("name=\"selection\"")) {
+                    if (!browser.getText().contains("id=\"selection\"")) {
                         error.append("report doesn't contain standart values block\n");
                     }
                     if (!new File(htmlPath + "excluded.html").exists()) {
@@ -614,7 +614,7 @@ public class ReportCreate extends ReportTools {
                     if (i != -1) {
                         error.append("report contains url to standart values block while unexpected\n");
                     }
-                    if (browser.getText().contains("name=\"selection\"")) {
+                    if (browser.getText().contains("id=\"selection\"")) {
                         error.append("report contains standart values block while unexpected\n");
                     }
                     if (new File(htmlPath + "excluded.html").exists()) {
