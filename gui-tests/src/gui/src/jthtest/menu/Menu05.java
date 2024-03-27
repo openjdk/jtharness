@@ -39,50 +39,50 @@ public class Menu05 extends Test {
 
     @Override
     public void testImpl() throws Exception {
-	mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
+     mainFrame = JTFrame.startJTWithDefaultWorkDirectory();
 
-	if(!mainFrame.getConfigure_EditConfigurationMenu().isEnabled())
-	    errors.add("Configure->Edit Configuration menu is disabled before Configuration Editor is opened while unexpected");
-	if(!mainFrame.getConfigure_EditQuickSetMenu().isEnabled())
-	    errors.add("Configure->Edit Quick Set menu is disabled before Configuration Editor is opened while unexpected");
-	if(!mainFrame.getConfigure_LoadConfigurationMenu().isEnabled())
-	    errors.add("Configure->Load Configuration menu is disabled before Configuration Editor is opened while unexpected");
-	if(!mainFrame.getConfigure_LoadRecentConfigurationMenu().isEnabled())
-	    errors.add("Configure->Load Recent Configuration menu is disabled before Configuration Editor is opened while unexpected");
-	if(!mainFrame.getConfigure_NewConfigurationMenu().isEnabled())
-	    errors.add("Configure->New Configuration menu is disabled before Configuration Editor is opened while unexpected");
+     if(!mainFrame.getConfigure_EditConfigurationMenu().isEnabled())
+         errors.add("Configure->Edit Configuration menu is disabled before Configuration Editor is opened while unexpected");
+     if(!mainFrame.getConfigure_EditQuickSetMenu().isEnabled())
+         errors.add("Configure->Edit Quick Set menu is disabled before Configuration Editor is opened while unexpected");
+     if(!mainFrame.getConfigure_LoadConfigurationMenu().isEnabled())
+         errors.add("Configure->Load Configuration menu is disabled before Configuration Editor is opened while unexpected");
+     if(!mainFrame.getConfigure_LoadRecentConfigurationMenu().isEnabled())
+         errors.add("Configure->Load Recent Configuration menu is disabled before Configuration Editor is opened while unexpected");
+     if(!mainFrame.getConfigure_NewConfigurationMenu().isEnabled())
+         errors.add("Configure->New Configuration menu is disabled before Configuration Editor is opened while unexpected");
 
-	ConfigDialog cd = mainFrame.getConfiguration().openByMenu(true);
+     ConfigDialog cd = mainFrame.getConfiguration().openByMenu(true);
 
-	if(mainFrame.getConfigure_EditConfigurationMenu().isEnabled())
-	    errors.add("Configure->Edit Configuration menu is enabled while Configuration Editor is opened while unexpected");
-	if(mainFrame.getConfigure_EditQuickSetMenu().isEnabled())
-	    errors.add("Configure->Edit Quick Set menu is enabled while Configuration Editor is opened while unexpected");
-	if(mainFrame.getConfigure_LoadConfigurationMenu().isEnabled())
-	    errors.add("Configure->Load Configuration menu is enabled while Configuration Editor is opened while unexpected");
-	if(mainFrame.getConfigure_LoadRecentConfigurationMenu().isEnabled())
-	    errors.add("Configure->Load Recent Configuration menu is enabled while Configuration Editor is opened while unexpected");
-	if(mainFrame.getConfigure_NewConfigurationMenu().isEnabled())
-	    errors.add("Configure->New Configuration menu is enabled while Configuration Editor is opened while unexpected");
+     if(mainFrame.getConfigure_EditConfigurationMenu().isEnabled())
+         errors.add("Configure->Edit Configuration menu is enabled while Configuration Editor is opened while unexpected");
+     if(mainFrame.getConfigure_EditQuickSetMenu().isEnabled())
+         errors.add("Configure->Edit Quick Set menu is enabled while Configuration Editor is opened while unexpected");
+     if(mainFrame.getConfigure_LoadConfigurationMenu().isEnabled())
+         errors.add("Configure->Load Configuration menu is enabled while Configuration Editor is opened while unexpected");
+     if(mainFrame.getConfigure_LoadRecentConfigurationMenu().isEnabled())
+         errors.add("Configure->Load Recent Configuration menu is enabled while Configuration Editor is opened while unexpected");
+     if(mainFrame.getConfigure_NewConfigurationMenu().isEnabled())
+         errors.add("Configure->New Configuration menu is enabled while Configuration Editor is opened while unexpected");
 
-	cd.closeByMenu();
+     cd.closeByMenu();
 
-	if(!mainFrame.getConfigure_EditConfigurationMenu().isEnabled())
-	    errors.add("Configure->Edit Configuration menu is disabled after Configuration Editor is opened while unexpected");
-	if(!mainFrame.getConfigure_EditQuickSetMenu().isEnabled())
-	    errors.add("Configure->Edit Quick Set menu is disabled after Configuration Editor is opened while unexpected");
-	if(!mainFrame.getConfigure_LoadConfigurationMenu().isEnabled())
-	    errors.add("Configure->Load Configuration menu is disabled after Configuration Editor is opened while unexpected");
-	if(!mainFrame.getConfigure_LoadRecentConfigurationMenu().isEnabled())
-	    errors.add("Configure->Load Recent Configuration menu is disabled after Configuration Editor is opened while unexpected");
-	if(!mainFrame.getConfigure_NewConfigurationMenu().isEnabled())
-	    errors.add("Configure->New Configuration menu is disabled after Configuration Editor is opened while unexpected");
-	
+     if(!mainFrame.getConfigure_EditConfigurationMenu().isEnabled())
+         errors.add("Configure->Edit Configuration menu is disabled after Configuration Editor is opened while unexpected");
+     if(!mainFrame.getConfigure_EditQuickSetMenu().isEnabled())
+         errors.add("Configure->Edit Quick Set menu is disabled after Configuration Editor is opened while unexpected");
+     if(!mainFrame.getConfigure_LoadConfigurationMenu().isEnabled())
+         errors.add("Configure->Load Configuration menu is disabled after Configuration Editor is opened while unexpected");
+     if(!mainFrame.getConfigure_LoadRecentConfigurationMenu().isEnabled())
+         errors.add("Configure->Load Recent Configuration menu is disabled after Configuration Editor is opened while unexpected");
+     if(!mainFrame.getConfigure_NewConfigurationMenu().isEnabled())
+         errors.add("Configure->New Configuration menu is disabled after Configuration Editor is opened while unexpected");
+
     }
 
     @Override
     public String getDescription() {
-	return "This test checks that all Configure menu subelements are disabled when Configuration Editor is opened and are enabled after it's closing";
+     return "This test checks that all Configure menu subelements are disabled when Configuration Editor is opened and are enabled after it's closing";
     }
 
 }

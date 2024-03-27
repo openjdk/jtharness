@@ -37,24 +37,24 @@ public class Menu02 extends Test {
 
     @Override
     public void testImpl() throws Exception {
-	Tools.startJavatestNewDesktop();
+     Tools.startJavatestNewDesktop();
 
-	JFrameOperator op = Tools.findMainFrame();
+     JFrameOperator op = Tools.findMainFrame();
 
-	getFileMenu(op);
-	getFile_CloseMenu(op);
-	getFile_ExitMenu(op);
-	getFile_OpenMenu(op);
-	getFile_OpenQuickStartMenu(op);
-	getFile_Open_TestSuiteMenu(op);
-	getFile_Open_WorkDirectoryMenu(op);
-	getFile_PreferencesMenu(op);
-	getFile_RecentWorkDirectoryMenu(op);
+     getFileMenu(op);
+     getFile_CloseMenu(op);
+     getFile_ExitMenu(op);
+     getFile_OpenMenu(op);
+     getFile_OpenQuickStartMenu(op);
+     getFile_Open_TestSuiteMenu(op);
+     getFile_Open_WorkDirectoryMenu(op);
+     getFile_PreferencesMenu(op);
+     getFile_RecentWorkDirectoryMenu(op);
     }
 
     @Override
     public String getDescription() {
-	return "This test checks internal methods are working. NewDesktop JavaTest is used";
+     return "This test checks internal methods are working. NewDesktop JavaTest is used";
     }
 
 }
