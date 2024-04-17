@@ -38,10 +38,6 @@ import static jthtest.workdir.Workdir.*;
 
 public class CreateWorkdir02 extends Test {
 
-     public CreateWorkdir02() {
-          depricated = true;
-     }
-
      public void testImpl() throws Exception {
 
           /**

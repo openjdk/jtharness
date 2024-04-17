@@ -39,10 +39,6 @@ import static jthtest.workdir.Workdir.*;
 
 public class CreateWorkdir07 extends Test {
 
-     public CreateWorkdir07() {
-          depricated = true;
-     }
-
      public void testImpl() throws Exception {
 
           startJavaTestWithDefaultTestSuite();

@@ -41,10 +41,6 @@ public class CreateWorkdir06 extends Test {
 
      JFrameOperator mainFrame;
 
-     public CreateWorkdir06() {
-          depricated = true;
-     }
-
      public void testImpl() throws Exception {
           startJavaTestWithDefaultTestSuite();
           mainFrame = findMainFrame();
