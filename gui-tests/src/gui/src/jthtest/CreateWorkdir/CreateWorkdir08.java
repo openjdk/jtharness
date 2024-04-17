@@ -41,10 +41,6 @@ import jthtest.Test;
 import static jthtest.Tools.*;
 import static jthtest.workdir.Workdir.*;
 
-/**
- *
- * @author linfar
- */
 public class CreateWorkdir08 extends Test {
 
      public CreateWorkdir08() {
