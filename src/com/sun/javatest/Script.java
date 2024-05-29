@@ -466,7 +466,7 @@ public abstract class Script {
         testResult.setEnvironment(env);
         testResult.putProperty("totalTime", Long.toString(System.currentTimeMillis() - startMs));
         //allows for potential aditional status modification in Script subclasses
-        fillTestExecutionStatus(testResult, execStatus);
+        setTestResultStatus(testResult, execStatus);
 
         try {
             if (execStatus.getType() != Status.PASSED || jtrIfPassed) {
@@ -484,7 +484,7 @@ public abstract class Script {
      * @param testResultToFill TestResult object to be filled with Status
      * @param execStatus Status object to fill into the testResultToFill
      */
-    protected void fillTestExecutionStatus(TestResult testResultToFill, Status execStatus) {
+    protected void setTestResultStatus(TestResult testResultToFill, Status execStatus) {
         testResultToFill.setStatus(execStatus);
     }
 
