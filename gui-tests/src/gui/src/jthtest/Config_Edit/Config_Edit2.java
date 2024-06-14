@@ -27,23 +27,28 @@
 
 package jthtest.Config_Edit;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import jthtest.Test;
+import jthtest.CreateWorkdir.CreateWorkdir;
+
 import org.netbeans.jemmy.JemmyException;
 import org.netbeans.jemmy.operators.JDialogOperator;
+import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.operators.JListOperator;
 import org.netbeans.jemmy.operators.JTableOperator;
+import org.netbeans.jemmy.operators.JTextFieldOperator;
 
 public class Config_Edit2 extends Test {
-     private final static Hashtable standartTable;
+     private final static HashMap<String, String> standartTable;
 
      public Config_Edit2() {
           depricated = true;
      }
 
      static {
-          standartTable = new Hashtable();
+          standartTable = new HashMap<String, String>();
           standartTable.put("Cell_5_1", "false");
           standartTable.put("Cell_5_0", "val6");
           standartTable.put("Cell_7_1", "drinkme");
@@ -63,17 +68,17 @@ public class Config_Edit2 extends Test {
      }
 
      public void testImpl() throws Exception {
-//     startJavatestNewDesktop();
-//
-//     JFrameOperator mainFrame = findMainFrame();
-//
-//     closeQS(mainFrame);
-//
-//     CreateWorkdir.createWorkDir(CreateWorkdir.openWorkDirectoryOpening(mainFrame), LOCAL_PATH, WD_RUN, false);
-//
-//     new JTextFieldOperator(mainFrame, getExecResource("br.worst.1"));
-//     openConfigDialogByKey(mainFrame);
-//     checkAnswers(findConfigEditor(mainFrame));
+          Config_Edit.startJavatestNewDesktop();
+
+          JFrameOperator mainFrame = Config_Edit.findMainFrame();
+
+          Config_Edit.closeQS(mainFrame);
+
+          CreateWorkdir.createWorkDir(CreateWorkdir.openWorkDirectoryOpening(mainFrame), LOCAL_PATH, null, false);
+
+          new JTextFieldOperator(mainFrame, Config_Edit.getExecResource("br.worst.1"));
+          Config_Edit.openConfigDialogByKey(mainFrame);
+          checkAnswers(Config_Edit.findConfigEditor(mainFrame));
      }
 
      private void checkAnswers(JDialogOperator config) {
@@ -90,3 +95,4 @@ public class Config_Edit2 extends Test {
           }
      }
 }
+
