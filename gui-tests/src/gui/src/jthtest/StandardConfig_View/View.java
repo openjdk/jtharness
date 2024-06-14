@@ -40,7 +40,7 @@ public class View extends Tools {
         public JDialogOperator callNewConfigurationEditor() {
             new JMenuOperator(mainFrame, "Configure").pushMenuNoBlock("Configure|New Configuration", "|");
             return findConfigEditor(mainFrame);
-        }/**/
+        }
 
         @Before
         public void setUp() throws InterruptedException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException {
