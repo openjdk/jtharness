@@ -62,10 +62,11 @@ public class CreateWorkdir08 extends Test {
 
           JTextField templatePath = (JTextField) (new JLabelOperator(wrkDir, getExecResource("wdc.template.path.lbl"))
                     .getLabelFor());
-          if (templatePath.getText().equals(""))
+	  if (templatePath.getText().equals("")) {
                throw new JemmyException("Default template path is empty!");
-          if (!((templatePath.getText() + File.separator).equals(DEFAULT_PATH)))
+          }else if (!((templatePath.getText() + File.separator).equals(DEFAULT_PATH))) {
                throw new JemmyException("Default template path doesn't match default path: " + templatePath.getText()
                          + File.separator + " != " + DEFAULT_PATH);
+          }
      }
 }
