@@ -106,9 +106,4 @@ public class Markers22 extends Test {
           new JTextFieldOperator(config, new NameComponentChooser("flt.field.txt")).setText("");
           new JTextFieldOperator(config, new NameComponentChooser("flt.field.txt")).typeText("22");
      }
-
-     @Override
-     public String getDescription() {
-          return "Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the Enable Bookmarks from the Bookmarks menu. Select couple of questions from the history list. Bring up the popup menu and mark the all the questions. Bring up the Clear Answers to Marked Questions from the Bookmarks menu. Verify that all the selected questions should be have empty answers.";
-     }
 }
