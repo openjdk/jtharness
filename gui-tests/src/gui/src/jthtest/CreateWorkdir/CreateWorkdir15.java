@@ -54,7 +54,7 @@ public class CreateWorkdir15 extends Test {
 
      JComboBoxOperator cbOperator = new JComboBoxOperator(wdCreate);
 
-     if (!(new JComboBoxOperator(wdCreate).getSelectedItem() + File.separator).equals(LOCAL_PATH)) { 
+     if (!(new JComboBoxOperator(wdCreate).getSelectedItem() + File.separator).equals(LOCAL_PATH)) {
         throw new JemmyException("Default work directory doesn't match directory from which JavaTest was opened");
      }
     }
