@@ -24,13 +24,9 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
+
 /*
- * Start JavaTest with the -NewDesktop option. Create a workdirectory. Load an
- * existing JTI file. Bring up configuration editor by doing Ctrl-E. Select the
- * Enable Bookmarks from the Bookmarks menu. Select couple of questions from
- * the history list. Bring up the popup menu and mark the all the questions.
- * Bring up the Clear Answers to Marked Questions from the Bookmarks menu.
- * Verify that all the selected questions should be have empty answers.
+ * This test case verifies that selecting the remove all marked questions button will remove the marked question.
  */
 package jthtest.Markers;
 
