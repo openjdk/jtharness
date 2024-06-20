@@ -41,7 +41,7 @@ public class CreateWorkdir06 extends Test {
 
      JFrameOperator mainFrame;
 
-     public CreateWorkdir02() {
+     public CreateWorkdir06() {
      depricated = true;
      }
 
