@@ -281,6 +281,10 @@
             <formatter type="xml"/>
             <formatter type="plain"/>
 
+            <batchtest fork="true" todir="${report.dir}">
+                <fileset dir="${tests.gui.srcpath}" includes="*/TestTree/*.java" />
+            </batchtest>
+
             <batchtest fork="true" todir="${report.dir}" unless="testfile">
                 <fileset dir="${tests.gui.srcpath}">
                     <include name="**/*0.java"/>
@@ -293,6 +297,7 @@
                     <include name="**/*7.java"/>
                     <include name="**/*8.java"/>
                     <include name="**/*9.java"/>
+                    <exclude name="*/TestTree/*.java" />
                 </fileset>
             </batchtest>
             <batchtest fork="true" todir="${report.dir}" if="testfile">
