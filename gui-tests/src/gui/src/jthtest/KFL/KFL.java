@@ -41,6 +41,11 @@ import org.netbeans.jemmy.operators.JRadioButtonOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
 
 public abstract class KFL extends Test {
+    /**
+      * This is KFL base class, used by all the test scripts under KFL directory.
+      * and it has the methods that verifies enabling/disabling interview questions,
+      * filters and reports etc...
+      */
 
     public KFL(String kfllist, KFLValues golden, String testsuite, String excludelist) {
         this(kfllist, golden);
