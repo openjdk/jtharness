@@ -237,14 +237,24 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
 
     MessageStrip getMessageStrip() {
         if (messageStrip == null) {
-            Monitor[] monitors = new Monitor[2];
-            monitors[0] = new ElapsedTimeMonitor(mState, uif);
-            monitors[1] = new RunProgressMonitor(mState, uif);
 
             ActionListener zoom = e -> setProgressMonitorVisible(!isProgressMonitorVisible());
-            messageStrip = new MessageStrip(uif, monitors, mState, zoom);
-            messageStrip.setRunningMonitor(monitors[1]);
-            messageStrip.setIdleMonitor(monitors[0]);
+
+            ElapsedTimeMonitor elapsedTime = new ElapsedTimeMonitor(mState, uif);
+
+            boolean showTestRunProgressMonitor =
+                    !Boolean.valueOf(System.getProperty("javatest.desktop.testrunprogressmonitor.hidden"));
+
+            if (showTestRunProgressMonitor) {
+                RunProgressMonitor runProgress = new RunProgressMonitor(mState, uif);
+                messageStrip = new MessageStrip(uif, new Monitor[] { elapsedTime, runProgress }, mState, zoom);
+                messageStrip.setRunningMonitor(runProgress);
+                messageStrip.setIdleMonitor(elapsedTime);
+            } else {
+                messageStrip = new MessageStrip(uif, new Monitor[] { elapsedTime }, mState, zoom);
+                messageStrip.setRunningMonitor(elapsedTime);
+            }
+
             harness.addObserver(messageStrip);
         }
 
