@@ -373,11 +373,18 @@ class ProgressMonitor extends ToolDialog {
             actions[actions.length - 1] = "-1";
             */
 
+            meter = new ProgressMeter(colors, state);
             tf = uif.createHeading("pm.tests.mtr");
             uif.setAccessibleInfo(tf, "pm.tests.mtr");
-            add(tf, lnc);
-            add(meter = new ProgressMeter(colors, state), rc);
             uif.setAccessibleInfo(meter, "pm.tests.bar");
+
+            boolean showTestRunProgressMonitor =
+                    !Boolean.valueOf(System.getProperty("javatest.desktop.testrunprogressmonitor.hidden"));
+
+            if (showTestRunProgressMonitor) {
+                add(tf, lnc);
+                add(meter, rc);
+            }
             /*
             meter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
