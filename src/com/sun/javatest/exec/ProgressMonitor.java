@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2024, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -28,6 +28,7 @@ package com.sun.javatest.exec;
 
 import com.sun.javatest.Status;
 import com.sun.javatest.TestResult;
+import com.sun.javatest.tool.Desktop;
 import com.sun.javatest.tool.I18NUtils;
 import com.sun.javatest.tool.ToolDialog;
 import com.sun.javatest.tool.UIFactory;
@@ -379,7 +380,7 @@ class ProgressMonitor extends ToolDialog {
             uif.setAccessibleInfo(meter, "pm.tests.bar");
 
             boolean showTestRunProgressMonitor =
-                    !Boolean.valueOf(System.getProperty("javatest.desktop.testrunprogressmonitor.hidden"));
+                    !Boolean.valueOf(System.getProperty(Desktop.TESTRUN_PROGRESSMONITOR_HIDDEN));
 
             if (showTestRunProgressMonitor) {
                 add(tf, lnc);

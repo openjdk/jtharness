@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2001, 2024, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -125,6 +125,14 @@ public class Desktop {
      * multiple top-level windows, one per tool.
      */
     public static final int SDI_STYLE = 2;
+
+    /**
+     * JT Harness allows you to hide the auto-updated progress bars that reflect
+     * the progress of a test run in the GUI. To do this, start JT Harness with
+     * this system property set to 'true'.
+     */
+    public static final String TESTRUN_PROGRESSMONITOR_HIDDEN = "javatest.desktop.testrunprogressmonitor.hidden";
+
     static final int NUM_STYLES = 3;
     static final String[] styleNames = {"tab", "mdi", "sdi"};
     static final String STYLE_PREF = "tool.appearance.style";
