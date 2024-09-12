@@ -282,7 +282,7 @@
             <formatter type="xml"/>
             <formatter type="plain"/>
 
-            <batchtest fork="true" todir="${report.dir}" unless="testfile">
+            <batchtest fork="true" todir="${report.dir}">
                <fileset dir="${tests.gui.srcpath}" includes="*/TestTree/*.java" />
             </batchtest>
 
