@@ -42,6 +42,7 @@
     <property name="htmlreport.dir" value="${tests.tempdir}/htmlreport"/>
 
     <property name="inittimeout" value="300000"/>
+    <property name="product.name" value="JT" />
 
     <path id="classpath">
         <fileset dir="${tests.tempdir}">
@@ -281,7 +282,7 @@
             <formatter type="xml"/>
             <formatter type="plain"/>
 
-            <batchtest fork="true" todir="${report.dir}">
+            <batchtest fork="true" todir="${report.dir}" unless="testfile">
                <fileset dir="${tests.gui.srcpath}" includes="*/TestTree/*.java" />
             </batchtest>
 
