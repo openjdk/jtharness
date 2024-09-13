@@ -42,6 +42,7 @@
     <property name="htmlreport.dir" value="${tests.tempdir}/htmlreport"/>
 
     <property name="inittimeout" value="300000"/>
+    <property name="product.name" value="JT" />
 
     <path id="classpath">
         <fileset dir="${tests.tempdir}">
