@@ -209,9 +209,22 @@ harness-variety=Full Bundle
             <fileset dir="${javadoc.dir}"/>
         </copy>
 
+        <!-- build ReleaseNotes-jtharness.html from markdown source file -->
+        <exec executable="${pandoc.path}">
+            <arg value="--from=markdown"/>
+            <arg value="--to=html"/>
+            <arg value="${doc.dir}/deliverables/ReleaseNotes-jtharness.md"/>
+            <arg value="--output=${build.tmp}/ReleaseNotes-jtharness.html"/>
+            <arg value="--standalone"/>
+            <arg value="--ascii"/>
+            <arg value="--verbose"/>
+            <arg value="--css=doc/shared/document.css"/>
+            <arg value="--columns=100"/>
+        </exec>
+        
         <!-- copy to top of binary -->
         <copy todir="${BUILD_DIR}/binaries/">
-            <fileset dir="${doc.dir}/deliverables">
+            <fileset dir="${build.tmp}">
                 <include name="ReleaseNotes-jtharness.html"/>
             </fileset>
         </copy>
