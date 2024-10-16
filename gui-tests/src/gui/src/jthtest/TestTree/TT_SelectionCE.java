@@ -66,7 +66,6 @@ public abstract class TT_SelectionCE extends Test {
           tree.selectRows(rows);
           make();
 
-          // waiter 10 sec
           Waiter waiter = new Waiter() {
 
                @Override
