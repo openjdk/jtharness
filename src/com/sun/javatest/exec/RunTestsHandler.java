@@ -32,6 +32,7 @@ import com.sun.javatest.Parameters;
 import com.sun.javatest.TestSuite;
 import com.sun.javatest.WorkDirectory;
 import com.sun.javatest.exec.Session.Event;
+import com.sun.javatest.tool.Desktop;
 import com.sun.javatest.tool.Preferences;
 import com.sun.javatest.tool.ToolAction;
 import com.sun.javatest.tool.UIFactory;
@@ -243,7 +244,7 @@ class RunTestsHandler implements ET_RunTestControl, Session.Observer {
             ElapsedTimeMonitor elapsedTime = new ElapsedTimeMonitor(mState, uif);
 
             boolean showTestRunProgressMonitor =
-                    !Boolean.valueOf(System.getProperty("javatest.desktop.testrunprogressmonitor.hidden"));
+                    !Boolean.valueOf(System.getProperty(Desktop.TESTRUN_PROGRESSMONITOR_HIDDEN));
 
             if (showTestRunProgressMonitor) {
                 RunProgressMonitor runProgress = new RunProgressMonitor(mState, uif);
