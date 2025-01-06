@@ -34,6 +34,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JCheckBox;
+import javax.swing.BoxLayout;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -49,11 +51,11 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.ItemEvent;
 
 public class ChoiceArrayQuestionRenderer
         implements QuestionRenderer {
 
-    protected static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
     private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
     protected String[] displayChoices;
     protected boolean[] values;
@@ -76,40 +78,30 @@ public class ChoiceArrayQuestionRenderer
     }
 
     protected JComponent createChoiceTable() {
-        AbstractTableModel tm = createTableModel();
-        JTable tbl = new JTable(tm);
+        JPanel itemsPanel = new JPanel();
+        itemsPanel.setToolTipText(i18n.getString("chcArr.tbl.tip"));
+        BoxLayout layout = new BoxLayout(itemsPanel, BoxLayout.Y_AXIS);
+        itemsPanel.setLayout(layout);
+        for (int i = 0; i < displayChoices.length; i++) {
+            JCheckBox jCheckBox = new JCheckBox(displayChoices[i], values[i]);
+            jCheckBox.setFocusPainted(true);
+            int index = i;
+            jCheckBox.addItemListener(event -> {
+                values[index] = event.getStateChange() == ItemEvent.SELECTED ;
+                q.setValue(values);
+                fireEditedEvent(jCheckBox, editedListener);
+            });
+            itemsPanel.add(jCheckBox);
+        }
 
-        tbl.setPreferredScrollableViewportSize(new Dimension(DOTS_PER_INCH, DOTS_PER_INCH));
-        tbl.setShowHorizontalLines(false);
-        tbl.setShowVerticalLines(false);
-        tbl.setTableHeader(null);
-        tbl.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        tbl.setRowSelectionAllowed(false);
-        tbl.setColumnSelectionAllowed(false);
-        tbl.setToolTipText(i18n.getString("chcArr.tbl.tip"));
-
-        tbl.addKeyListener(createKeyListener(tm));
-
-        TableColumn col0 = tbl.getColumnModel().getColumn(0);
-        col0.setPreferredWidth(24);
-        col0.setMaxWidth(24);
-        col0.setResizable(false);
-
-        TableColumn col1 = tbl.getColumnModel().getColumn(1);
-        col1.setPreferredWidth(getColumnWidth(tbl, 1) + 20);
-
-        JScrollPane sp = new JScrollPane(tbl);
+        JScrollPane sp = new JScrollPane(itemsPanel);
         sp.setName("chcArr.sp");
-        sp.getViewport().setBackground(tbl.getBackground());
-
 
         JLabel lbl = new JLabel(i18n.getString("chcArr.tbl.lbl"));
         lbl.setName("chcArr.tbl.lbl");
         lbl.setDisplayedMnemonic(i18n.getString("chcArr.tbl.mne").charAt(0));
         lbl.setToolTipText(i18n.getString("chcArr.tbl.tip"));
         lbl.setLabelFor(sp);
-
-        tbl.setRowHeight(getRowHeight());
 
         JPanel result = new JPanel(new BorderLayout());
         result.add(lbl, BorderLayout.NORTH);
@@ -118,105 +110,10 @@ public class ChoiceArrayQuestionRenderer
         return result;
     }
 
-    protected int getColumnWidth(JTable table, int colIndex) {
-        int width = -1;
-
-        TableModel model = table.getModel();
-
-        for (int i = 0; i < model.getRowCount(); i++) {
-            TableCellRenderer r = table.getCellRenderer(i, colIndex);
-            Component c = r.getTableCellRendererComponent(table,
-                    model.getValueAt(i, colIndex),
-                    false, false, i, colIndex);
-            width = Math.max(width, c.getPreferredSize().width);
-        }
-
-        return width;
-    }
-
-    protected int getRowHeight() {
-        return 22;
-    }
-
-    protected AbstractTableModel createTableModel() {
-        return new TestTableModel();
-    }
-
-    protected KeyListener createKeyListener(AbstractTableModel tm) {
-        return new TestKeyListener(tm);
-    }
-
     protected void fireEditedEvent(Object src, ActionListener l) {
         ActionEvent e = new ActionEvent(src,
                 ActionEvent.ACTION_PERFORMED,
                 EDITED);
         l.actionPerformed(e);
     }
-
-    protected static class TestKeyListener extends KeyAdapter {
-        protected AbstractTableModel tm;
-
-        public TestKeyListener(AbstractTableModel tm) {
-            this.tm = tm;
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0 && e.getKeyCode() == KeyEvent.VK_A) {
-                boolean allSelected = true;
-                for (int i = 0; i < tm.getRowCount(); i++) {
-                    if (tm.getValueAt(i, 0).equals(Boolean.FALSE)) {
-                        allSelected = false;
-                        break;
-                    }
-
-                }
-                for (int i = 0; i < tm.getRowCount(); i++) {
-                    tm.setValueAt(Boolean.valueOf(!allSelected), i, 0);
-                    TableModelEvent ev = new TableModelEvent(tm, i, i,
-                            TableModelEvent.ALL_COLUMNS,
-                            TableModelEvent.UPDATE);
-                    tm.fireTableChanged(ev);
-                }
-            }
-
-        }
-    }
-
-    protected class TestTableModel extends AbstractTableModel {
-        @Override
-        public Class<?> getColumnClass(int c) {
-            return c == 0 ? Boolean.class : String.class;
-        }
-
-        @Override
-        public int getColumnCount() {
-            return 2;
-        }
-
-        @Override
-        public int getRowCount() {
-            return displayChoices.length;
-        }
-
-        @Override
-        public Object getValueAt(int r, int c) {
-            return c == 0 ? Boolean.valueOf(values[r]) : displayChoices[r];
-        }
-
-        @Override
-        public void setValueAt(Object o, int r, int c) {
-            if (c == 0) {
-                values[r] = ((Boolean) o).booleanValue();
-                q.setValue(values);
-                fireEditedEvent(this, editedListener);
-            }
-        }
-
-        @Override
-        public boolean isCellEditable(int r, int c) {
-            return c == 0;
-        }
-    }
-
 }
