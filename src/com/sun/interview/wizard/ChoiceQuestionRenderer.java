@@ -30,6 +30,7 @@ import com.sun.interview.ChoiceQuestion;
 import com.sun.interview.Question;
 
 import javax.swing.AbstractCellEditor;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.CellEditor;
 import javax.swing.JComponent;
@@ -49,12 +50,12 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
 import java.util.Objects;
 
 public class ChoiceQuestionRenderer
         implements QuestionRenderer {
 
-    protected static final int DOTS_PER_INCH = Toolkit.getDefaultToolkit().getScreenResolution();
     private static final I18NResourceBundle i18n = I18NResourceBundle.getDefaultBundle();
     protected ChoiceQuestion q;
     protected String[] displayChoices;
@@ -81,12 +82,10 @@ public class ChoiceQuestionRenderer
 
     protected JComponent createChoiceTable() {
 
-        TableModel tm = createTableModel();
-        final JTable tbl = new JTable(tm);
-        tbl.setOpaque(false);
-
-
         rb = new JRadioButton[displayChoices.length - starts_from];
+        JPanel itemsPanel = new JPanel();
+        BoxLayout layout = new BoxLayout(itemsPanel, BoxLayout.Y_AXIS);
+        itemsPanel.setLayout(layout);
         ButtonGroup bg = new ButtonGroup();
 
         String v = q.getValue();
@@ -105,49 +104,28 @@ public class ChoiceQuestionRenderer
             rb[i].getAccessibleContext().setAccessibleName(rb[i].getName());
             rb[i].getAccessibleContext().setAccessibleDescription(rb[i].getToolTipText());
 
-            rb[i].setBackground(tbl.getBackground());
             rb[i].setOpaque(false);
 
-            rb[i].setFocusPainted(false);
+            rb[i].setFocusPainted(true);
             bg.add(rb[i]);
 
+            final int index = i;
             rb[i].addActionListener(e -> {
-                CellEditor editor = tbl.getCellEditor();
-                if (editor != null) {
-                    editor.stopCellEditing();
-                }
+                q.setValue(values[index + starts_from]);
+                fireEditedEvent(rb[index], editedListener);
             });
+            itemsPanel.add(rb[i]);
         }
 
-        tbl.setPreferredScrollableViewportSize(new Dimension(DOTS_PER_INCH, DOTS_PER_INCH));
-        tbl.setShowHorizontalLines(false);
-        tbl.setShowVerticalLines(false);
-        tbl.setTableHeader(null);
 
-        tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        tbl.setRowSelectionAllowed(false);
-        tbl.setColumnSelectionAllowed(false);
-        tbl.setToolTipText(i18n.getString("chcArr.tbl.tip"));
-
-        TableColumn col0 = tbl.getColumnModel().getColumn(0);
-        TableCellRenderer r = createCellRenderer();
-        col0.setCellRenderer(r);
-        TableCellEditor e = createCellEditor();
-        col0.setCellEditor(e);
-
-        col0.setPreferredWidth(getColumnWidth(tbl, 0) + 20);
-
-        JScrollPane sp = new JScrollPane(tbl);
+        JScrollPane sp = new JScrollPane(itemsPanel);
         sp.setName("chcArr.sp");
-        sp.getViewport().setBackground(tbl.getBackground());
 
         JLabel lbl = new JLabel(i18n.getString("chcArr.tbl.lbl"));
         lbl.setName("chcArr.tbl.lbl");
         lbl.setDisplayedMnemonic(i18n.getString("chcArr.tbl.mne").charAt(0));
         lbl.setToolTipText(i18n.getString("chcArr.tbl.tip"));
         lbl.setLabelFor(sp);
-
-        tbl.setRowHeight(getRowHeight());
 
         JPanel result = new JPanel(new BorderLayout());
         result.add(lbl, BorderLayout.NORTH);
@@ -156,107 +134,10 @@ public class ChoiceQuestionRenderer
         return result;
     }
 
-    protected int getColumnWidth(JTable table, int colIndex) {
-        int width = -1;
-
-        TableModel model = table.getModel();
-        int rowCount = model.getRowCount();
-
-        for (int i = 0; i < rowCount; i++) {
-            TableCellRenderer r = table.getCellRenderer(i, colIndex);
-            Component c = r.getTableCellRendererComponent(table,
-                    model.getValueAt(i, colIndex),
-                    false, false, i, colIndex);
-            width = Math.max(width, c.getPreferredSize().width);
-        }
-
-        return width;
-    }
-
-    protected int getRowHeight() {
-        return 22;
-    }
-
     protected void fireEditedEvent(Object src, ActionListener l) {
         ActionEvent e = new ActionEvent(src,
                 ActionEvent.ACTION_PERFORMED,
                 EDITED);
         l.actionPerformed(e);
     }
-
-    protected TableModel createTableModel() {
-        return new TestTableModel();
-    }
-
-    protected TableCellRenderer createCellRenderer() {
-        return new TestTableRenderer();
-    }
-
-    protected TableCellEditor createCellEditor() {
-        return new TestTableEditor();
-    }
-
-    protected class TestTableModel extends AbstractTableModel {
-
-        @Override
-        public Class<?> getColumnClass(int c) {
-            return String.class;
-        }
-
-        @Override
-        public int getColumnCount() {
-            return 1;
-        }
-
-        @Override
-        public int getRowCount() {
-            return displayChoices.length - starts_from;
-        }
-
-        @Override
-        public Object getValueAt(int r, int c) {
-            return values[r + starts_from];
-        }
-
-        @Override
-        public void setValueAt(Object o, int r, int c) {
-            if (c == 0) {
-                q.setValue(values[r + starts_from]);
-                fireEditedEvent(this, editedListener);
-            }
-        }
-
-        @Override
-        public boolean isCellEditable(int r, int c) {
-            return true;
-        }
-
-    }
-
-    protected class TestTableRenderer implements TableCellRenderer {
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value,
-                                                       boolean isSelected, boolean hasFocus, int row, int column) {
-
-            return rb[row];
-        }
-    }
-
-    protected class TestTableEditor extends AbstractCellEditor
-            implements TableCellEditor {
-        @Override
-        public Object getCellEditorValue() {
-            return null;
-        }
-
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value,
-                                                     boolean isSelected, int row, int column) {
-
-            rb[row].setSelected(true);
-            return rb[row];
-        }
-    }
-
 }
