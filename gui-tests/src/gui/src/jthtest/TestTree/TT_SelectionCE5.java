@@ -26,6 +26,7 @@
  */
 package jthtest.TestTree;
 
+import jthtest.TT_SelectionCE;
 import jthtest.tools.ConfigDialog;
 import jthtest.tools.Configuration;
 import org.netbeans.jemmy.operators.JButtonOperator;
