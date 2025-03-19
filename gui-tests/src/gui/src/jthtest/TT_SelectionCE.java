@@ -24,7 +24,7 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
-package jthtest.TestTree;
+package jthtest;
 
 import java.util.Arrays;
 import jthtest.Test;
