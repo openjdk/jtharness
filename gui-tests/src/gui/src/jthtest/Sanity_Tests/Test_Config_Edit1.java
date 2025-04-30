@@ -41,6 +41,7 @@ import org.netbeans.jemmy.operators.JListOperator;
 import org.netbeans.jemmy.operators.JMenuBarOperator;
 import org.netbeans.jemmy.operators.JTableOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
+import org.netbeans.jemmy.operators.JRadioButtonOperator;
 import org.netbeans.jemmy.util.NameComponentChooser;
 
 import jthtest.Config_Edit.Config_Edit;
@@ -104,8 +105,8 @@ public class Test_Config_Edit1 extends Config_Edit {
             description.typeText("test_desc");
             break;
         case 4:
-            JTableOperator testTable = new JTableOperator(config);
-            testTable.clickOnCell(0, 0);
+            JRadioButtonOperator testTable = new JRadioButtonOperator(config);
+            testTable.doClick();
             break;
         case 5:
             boolean isWindows = false;

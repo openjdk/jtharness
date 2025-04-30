@@ -31,6 +31,7 @@ import java.io.File;
 import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JTableOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
+import org.netbeans.jemmy.operators.JRadioButtonOperator;
 import org.netbeans.jemmy.util.NameComponentChooser;
 
 import jthtest.Test;
@@ -69,8 +70,10 @@ public class Config_New3 extends Test {
         cd.pushLastConfigEditor();
         new JTextFieldOperator(config, 1).typeText("some description");
         cd.pushLastConfigEditor();
-        JTableOperator table = new JTableOperator(config);
-        table.clickOnCell(0, 0);
+        JRadioButtonOperator table=new JRadioButtonOperator(config);
+        table.doClick();
+        //JTableOperator table = new JTableOperator(config);
+        //table.clickOnCell(0, 0);
         cd.pushLastConfigEditor();
         String text;
         if (File.separatorChar == '/') {
